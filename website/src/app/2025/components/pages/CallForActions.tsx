@@ -1,10 +1,8 @@
-import React from 'react';
-import { HiOutlineLightBulb } from 'react-icons/hi';
-import { BsArrowRight } from 'react-icons/bs';
-import { MdCheck } from 'react-icons/md';
-import { HiOutlineCurrencyDollar } from 'react-icons/hi';
-import ActionCard from '../utils/ActionCards';
 import Link from 'next/link';
+import { BsArrowRight } from 'react-icons/bs';
+import { HiOutlineCurrencyDollar, HiOutlineLightBulb } from 'react-icons/hi';
+import { MdCheck } from 'react-icons/md';
+import ActionCard from '../utils/ActionCards';
 
 interface ImportantDates {
   title: string;
@@ -73,7 +71,7 @@ export default async function CallForActions() {
           Be Part of PyCon HK 2025
         </h1>
         <p className='text-base sm:text-lg md:text-xl text-slate-500 max-w-3xl mx-auto'>
-          Join the Python community 5nd contribute to making PyCon HK 2025 an
+          Join the Python community and contribute to making PyCon HK 2025 an
           exceptional, fun and amazing experience for everyone.
         </p>
       </div>
