@@ -1,0 +1,53 @@
+# Build outputs
+.next
+out
+dist
+build
+_site
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Generated files
+next-env.d.ts
+*.d.ts
+
+# Environment files
+.env
+.env.*
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Wrangler
+.wrangler
+
+# Config files
+*.config.js
+*.config.mjs
+*.config.ts
+
+# Markdown files (optional)
+*.md
