@@ -150,7 +150,7 @@ export default async function CallForActions() {
               target='_blank'
               className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200'
             >
-              Become a Sponsor
+              Be our Sponsor
               <span>
                 <BsArrowRight className='text-xl' />
               </span>
