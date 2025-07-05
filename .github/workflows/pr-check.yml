@@ -3,6 +3,8 @@ name: Pull Request Check
 on:
   pull_request:
     branches: [main, test]
+  push:
+    branches: [main, test]
 
 jobs:
   pull_request_check:
