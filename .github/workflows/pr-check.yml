@@ -1,0 +1,32 @@
+name: Pull Request Check
+
+on:
+  pull_request:
+    branches: [main, test]
+
+jobs:
+  enforce-branch-rules:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check if PR to main is from test branch only
+        if: github.base_ref == 'main'
+        run: |
+          if [ "${{ github.head_ref }}" != "test" ]; then
+            echo "❌ Error: Only the 'test' branch can merge to 'main'"
+            echo "Current source branch: ${{ github.head_ref }}"
+            echo "Target branch: ${{ github.base_ref }}"
+            echo ""
+            echo "Please:"
+            echo "1. Change your pull request target to 'test' branch, OR"
+            echo "2. Merge your changes to 'test' first, then create a PR from 'test' to 'main'"
+            exit 1
+          else
+            echo "✅ Valid: test branch merging to main"
+          fi
+      
+      - name: Validate branch targeting
+        if: github.base_ref != 'main'
+        run: |
+          echo "✅ Pull request targeting '${{ github.base_ref }}' from '${{ github.head_ref }}'"
+          echo "This follows the correct branching strategy"
