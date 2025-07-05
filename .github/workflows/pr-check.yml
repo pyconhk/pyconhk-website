@@ -5,9 +5,9 @@ on:
     branches: [main, test]
 
 jobs:
-  enforce-branch-rules:
+  pull_request_check:
+    name: Pull Request Check
     runs-on: ubuntu-latest
-    
     steps:
       - name: Check if PR to main is from test branch only
         if: github.base_ref == 'main'
@@ -24,7 +24,7 @@ jobs:
           else
             echo "✅ Valid: test branch merging to main"
           fi
-      
+
       - name: Validate branch targeting
         if: github.base_ref != 'main'
         run: |
