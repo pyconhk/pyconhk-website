@@ -2,9 +2,11 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       // General Configuration
-      NODE_ENV: "development" | "production" | "test";
+      NODE_ENV: 'development' | 'production' | 'test';
       NEXT_PUBLIC_SITE_URL: string;
       NEXT_PUBLIC_CURRENT_YEAR: string;
+
+      NEXT_PUBLIC_TEST_DOMAIN: string;
 
       // Conference Links
       NEXT_PUBLIC_CALL_FOR_PROPOSALS_URL: string;
