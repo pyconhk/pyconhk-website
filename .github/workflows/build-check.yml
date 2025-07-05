@@ -1,0 +1,60 @@
+name: Build Check
+
+on:
+  pull_request:
+    branches: [main, test]
+  push:
+    branches: [main, test]
+
+env:
+  WORKDIR: website
+  NODE_VERSION: '20'
+
+jobs:
+  build_check:
+    name: Build Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKDIR }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKDIR }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Run build
+        run: npm run build
+
+      - name: Check build artifacts
+        run: |
+          if [ ! -d ".next" ] && [ ! -d "out" ] && [ ! -d "dist" ]; then
+            echo "Warning: No Next.js build output found"
+          else
+            echo "✅ Build artifacts found"
+          fi
+
+      - name: Run tests (if available)
+        run: |
+          if npm run | grep -q "test"; then
+            npm run test
+          else
+            echo "No test script found, skipping tests"
+          fi
