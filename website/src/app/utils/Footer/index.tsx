@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import SocialMediaIcons from '../SocialMediaIcons';
 import ToC from './ToC';
@@ -39,13 +38,13 @@ export default function Footer() {
             <h3 className='text-xl font-bold mb-4'>History</h3>
             <div className='flex flex-wrap gap-4'>
               {historyYears.map((year, index) => (
-                <Link
+                <a
                   key={index}
                   href={`/${replaceYearWithLink(year)}`}
                   className='hover:text-gray-400 transition-colors duration-300 whitespace-nowrap'
                 >
                   {year}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
