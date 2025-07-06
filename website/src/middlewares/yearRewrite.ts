@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const prefixProxyLists = ['wp-admin', 'conference-highlights'];
+const prefixProxyLists = ['wp', 'conference-highlights'];
 
 const fetchProxy = async (url: string, request: NextRequest) => {
   try {
