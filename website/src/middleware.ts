@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import testHostnameMiddleware from './middlewares/testHostnameMiddleware';
 import yearRewriteMiddleware from './middlewares/yearRewrite';
 
 export async function middleware(request: NextRequest) {
-  const middlewares = [yearRewriteMiddleware];
+  const middlewares = [testHostnameMiddleware, yearRewriteMiddleware];
 
   for (const middleware of middlewares) {
     const response = await middleware(request);
