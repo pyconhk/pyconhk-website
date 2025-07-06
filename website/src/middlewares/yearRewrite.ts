@@ -1,7 +1,18 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const prefixProxyLists = ['wp', 'conference-highlights'];
+const prefixProxyLists = ['/conference-highlights'];
+
+// WordPress paths to proxy
+const wordPressProxyPaths = [
+  '/wp-content/',
+  '/wp-includes/',
+  '/wp-admin/',
+  '/wp-json/',
+  '/xmlrpc.php',
+  '/wp-login.php',
+  '/wp-cron.php',
+];
 
 const getMimeType = (pathname: string): string | null => {
   const ext = pathname.split('.').pop()?.toLowerCase();
@@ -81,6 +92,15 @@ const fetchProxy = async (url: string) => {
 export default async function yearRewriteMiddleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const currentYear = new Date().getFullYear();
+
+  const isWordPressPath = wordPressProxyPaths.some(path =>
+    pathname.startsWith(path)
+  );
+
+  if (isWordPressPath) {
+    const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
+    return fetchProxy(externalUrl);
+  }
 
   // Check for year pattern (20XX)
   const yearMatch = pathname.match(/^\/20(\d{2})/);
