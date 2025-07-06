@@ -80,44 +80,6 @@ export default async function CallForActions() {
       <div className='max-w-7xl mx-auto pb-20 px-4 sm:px-6 lg:px-8'>
         <div className='grid lg:grid-cols-2 gap-8 lg:gap-16 text-sm md:text-base max-w-144 lg:max-w-screen mx-auto'>
           <ActionCard
-            topColorClassName='bg-sky-400'
-            Icon={
-              <div className='h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mb-6'>
-                <HiOutlineLightBulb className='w-8 h-8 text-sky-400' />
-              </div>
-            }
-          >
-            <h2 className='text-xl md:text-2xl font-bold text-slate-600 mb-4'>
-              Call for Proposals
-            </h2>
-            <p className='text-slate-500  mb-8'>
-              Share your Python knowledge with the community. We&apos;re looking
-              for talks, tutorials, and workshops on a wide range of
-              Python-related topics, from beginner to advanced.
-            </p>
-            <ul className='space-y-3 text-slate-500 mb-8'>
-              {callForProposalsTypes.map((item, index) => (
-                <li key={index} className='flex items-start gap-4'>
-                  <div className='flex-shrink-0 w-4 h-4 relative top-0.5'>
-                    <MdCheck className='text-sky-400 w-full h-full' />
-                  </div>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={process.env.NEXT_PUBLIC_CALL_FOR_PROPOSALS_URL}
-              rel='noopener noreferrer'
-              target='_blank'
-              className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-sky-400 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors duration-200'
-            >
-              <span className='text-center'>Request Special Access</span>
-              <span>
-                <BsArrowRight className='text-xl' />
-              </span>
-            </Link>
-          </ActionCard>
-          <ActionCard
             topColorClassName='bg-yellow-300'
             Icon={
               <div className='h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center mb-6'>
@@ -150,6 +112,44 @@ export default async function CallForActions() {
               className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200'
             >
               <span className='text-center'>Become a Sponsor</span>
+              <span>
+                <BsArrowRight className='text-xl' />
+              </span>
+            </Link>
+          </ActionCard>
+          <ActionCard
+            topColorClassName='bg-sky-400'
+            Icon={
+              <div className='h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mb-6'>
+                <HiOutlineLightBulb className='w-8 h-8 text-sky-400' />
+              </div>
+            }
+          >
+            <h2 className='text-xl md:text-2xl font-bold text-slate-600 mb-4'>
+              Call for Proposals
+            </h2>
+            <p className='text-slate-500  mb-8'>
+              Share your Python knowledge with the community. We&apos;re looking
+              for talks, tutorials, and workshops on a wide range of
+              Python-related topics, from beginner to advanced.
+            </p>
+            <ul className='space-y-3 text-slate-500 mb-8'>
+              {callForProposalsTypes.map((item, index) => (
+                <li key={index} className='flex items-start gap-4'>
+                  <div className='flex-shrink-0 w-4 h-4 relative top-0.5'>
+                    <MdCheck className='text-sky-400 w-full h-full' />
+                  </div>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href={process.env.NEXT_PUBLIC_CALL_FOR_PROPOSALS_URL}
+              rel='noopener noreferrer'
+              target='_blank'
+              className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-sky-400 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors duration-200'
+            >
+              <span className='text-center'>Request Special Access</span>
               <span>
                 <BsArrowRight className='text-xl' />
               </span>
