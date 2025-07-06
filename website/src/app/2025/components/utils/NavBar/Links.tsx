@@ -1,6 +1,6 @@
-import NavigationDropdown from './Dropdown';
-import ClickableLink from './ClickableLink';
 import React from 'react';
+import ClickableLink from './ClickableLink';
+import NavigationDropdown from './Dropdown';
 interface NavBarLink {
   label: string;
   href?: string;
