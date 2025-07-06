@@ -58,7 +58,7 @@ const getMimeType = (pathname: string): string | null => {
   return ext ? mimeTypes[ext] || null : null;
 };
 
-const fetchProxy = async (url: string, request: NextRequest) => {
+const fetchProxy = async (url: string) => {
   try {
     const response = await fetch(url);
 
@@ -94,14 +94,14 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     // Proxy content from pycon.hk for years before 2025
     if (year < 2025) {
       const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
-      return fetchProxy(externalUrl, request);
+      return fetchProxy(externalUrl);
     }
   }
 
   if (prefixProxyListMatch) {
     // Proxy content for specific paths
     const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
-    return fetch(externalUrl, request);
+    return fetch(externalUrl);
   }
 
   // Handle root and non-year paths
