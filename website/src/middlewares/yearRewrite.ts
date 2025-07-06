@@ -13,7 +13,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
 
     // Proxy content from pycon.hk for years before 2025
     if (year < 2025) {
-      const externalUrl = `https://pycon.hk${pathname}${search}`;
+      const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
 
       try {
         const response = await fetch(externalUrl, {
