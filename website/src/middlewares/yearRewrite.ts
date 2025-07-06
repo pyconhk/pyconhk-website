@@ -60,11 +60,7 @@ const getMimeType = (pathname: string): string | null => {
 
 const fetchProxy = async (url: string, request: NextRequest) => {
   try {
-    const response = await fetch(url, {
-      headers: {
-        'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
-      },
-    });
+    const response = await fetch(url);
 
     const pathname = new URL(url).pathname;
     const contentType =
@@ -105,7 +101,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
   if (prefixProxyListMatch) {
     // Proxy content for specific paths
     const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
-    return fetchProxy(externalUrl, request);
+    return fetch(externalUrl, request);
   }
 
   // Handle root and non-year paths
