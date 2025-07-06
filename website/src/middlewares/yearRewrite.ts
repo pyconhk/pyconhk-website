@@ -56,7 +56,9 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
           },
         });
       } catch (error) {
-        return new NextResponse('Content unavailable', { status: 503 });
+        return new NextResponse(`Content unavailable: ${error}`, {
+          status: 503,
+        });
       }
     }
   }
