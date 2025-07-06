@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 
@@ -8,14 +9,17 @@ interface NavigationDropdownProps {
   children: React.ReactNode;
 }
 
-export default async function NavigationDropdown({
+export default function NavigationDropdown({
   title,
   titleHref,
   titleClassName,
   children,
 }: NavigationDropdownProps) {
   return (
-    <div className='dropdown dropdown-hover group relative'>
+    <div
+      className='dropdown dropdown-hover group relative'
+      onClick={() => (document.activeElement as HTMLInputElement).blur()}
+    >
       <div className='flex items-center gap-1'>
         <span className='text-gray-800 font-bold'>
           {titleHref ? (
