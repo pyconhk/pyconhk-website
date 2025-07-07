@@ -5,10 +5,10 @@ const prefixProxyLists = ['/conference-highlights'];
 
 // WordPress paths to proxy
 const wordPressProxyPaths = [
-  '/wp-content/',
-  '/wp-includes/',
-  '/wp-admin/',
-  '/wp-json/',
+  '/wp-content',
+  '/wp-includes',
+  '/wp-admin',
+  '/wp-json',
   '/xmlrpc.php',
   '/wp-login.php',
   '/wp-cron.php',
@@ -91,11 +91,13 @@ const fetchProxy = async (url: string) => {
 
 export default async function yearRewriteMiddleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  console.log(`Request URL: ${request.url}`);
   const currentYear = new Date().getFullYear();
 
   const isWordPressPath = wordPressProxyPaths.some(path =>
     pathname.startsWith(path)
   );
+  console.log(`Is wordpress path: ${isWordPressPath}`);
 
   if (isWordPressPath) {
     const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
