@@ -69,20 +69,69 @@ const getMimeType = (pathname: string): string | null => {
   return ext ? mimeTypes[ext] || null : null;
 };
 
-const fetchProxy = async (url: string) => {
+const fetchProxy = async (url: string, request: NextRequest) => {
   try {
-    const response = await fetch(url);
+    // Build headers from original request
+    const headers: Record<string, string> = {
+      'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
+      accept: request.headers.get('accept') || '*/*',
+      'accept-language':
+        request.headers.get('accept-language') || 'en-US,en;q=0.9',
+    };
+
+    // Forward cookies if present
+    const cookieHeader = request.headers.get('cookie');
+    if (cookieHeader) {
+      headers['cookie'] = cookieHeader;
+    }
+
+    // Forward referer to maintain WordPress context
+    const referer = request.headers.get('referer');
+    if (referer) {
+      headers['referer'] = referer.replace(
+        request.nextUrl.origin,
+        'https://legacy.pycon.hk'
+      );
+    }
+
+    const response = await fetch(url, {
+      method: request.method,
+      headers,
+      body:
+        request.method !== 'GET' && request.method !== 'HEAD'
+          ? await request.arrayBuffer()
+          : undefined,
+    });
 
     const pathname = new URL(url).pathname;
     const contentType =
       getMimeType(pathname) ||
       response.headers.get('content-type') ||
       'text/html';
+
+    // Create response headers
+    const responseHeaders = new Headers();
+    responseHeaders.set('content-type', contentType);
+
+    // CORS headers
+    responseHeaders.set('access-control-allow-origin', request.nextUrl.origin);
+    responseHeaders.set('access-control-allow-credentials', 'true');
+    responseHeaders.set('access-control-allow-methods', 'GET, POST, OPTIONS');
+    responseHeaders.set(
+      'access-control-allow-headers',
+      'Content-Type, Authorization, Cookie'
+    );
+
+    // Forward all cookies from WordPress
+    response.headers.forEach((value, key) => {
+      if (key.toLowerCase() === 'set-cookie') {
+        responseHeaders.append('set-cookie', value);
+      }
+    });
+
     return new NextResponse(response.body, {
       status: response.status,
-      headers: {
-        'content-type': contentType,
-      },
+      headers: responseHeaders,
     });
   } catch (error) {
     return new NextResponse(`Content unavailable: ${error}`, { status: 503 });
@@ -99,7 +148,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
 
   if (isWordPressPath) {
     const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
-    return fetchProxy(externalUrl);
+    return fetchProxy(externalUrl, request);
   }
 
   // Check for year pattern (20XX)
@@ -114,14 +163,14 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     // Proxy content from pycon.hk for years before 2025
     if (year < 2025) {
       const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
-      return fetchProxy(externalUrl);
+      return fetchProxy(externalUrl, request);
     }
   }
 
   if (prefixProxyListMatch) {
     // Proxy content for specific paths
     const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
-    return fetch(externalUrl);
+    return fetchProxy(externalUrl, request);
   }
 
   // Handle root and non-year paths
