@@ -5,10 +5,10 @@ const prefixProxyLists = ['/conference-highlights'];
 
 // WordPress paths to proxy
 const wordPressProxyPaths = [
-  '/wp-content/',
-  '/wp-includes/',
-  '/wp-admin/',
-  '/wp-json/',
+  '/wp-content',
+  '/wp-includes',
+  '/wp-admin',
+  '/wp-json',
   '/xmlrpc.php',
   '/wp-login.php',
   '/wp-cron.php',
