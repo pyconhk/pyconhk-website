@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import aboutUsImg from '../../../../public/about-us.jpeg';
+import aboutUsImg from '../../../../public/Event_1.webp';
 
 export default async function About() {
   return (
