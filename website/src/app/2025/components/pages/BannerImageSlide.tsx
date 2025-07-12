@@ -22,7 +22,6 @@ export default function BannerImageSlide() {
   return (
     <div className='  flex items-center justify-center w-full h-full p-8 md:p-0'>
       <div className='relative w-full md:max-w-144 2xl:max-w-192 h-64 sm:h-74 md:h-80 2xl:h-106 flex items-center justify-center opacity-75 border-4 rounded-3xl border-gray-700 2xl:ml-0 lg:ml-8 group'>
-
         {/* Stacking border effect */}
         <div className='absolute inset-0 pointer-events-none z-10'>
           <div className='absolute inset-0 rounded-2xl border-2 border-slate-800 opacity-80 translate-x-3 translate-y-3 shadow-2xl'></div>
