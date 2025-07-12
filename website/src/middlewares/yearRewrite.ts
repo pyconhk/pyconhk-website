@@ -71,36 +71,11 @@ const getMimeType = (pathname: string): string | null => {
 
 const fetchProxy = async (url: string, request: NextRequest) => {
   try {
-    // Build headers from original request
-    const headers: Record<string, string> = {
-      'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
-      accept: request.headers.get('accept') || '*/*',
-      'accept-language':
-        request.headers.get('accept-language') || 'en-US,en;q=0.9',
-    };
-
-    // Forward cookies if present
-    const cookieHeader = request.headers.get('cookie');
-    if (cookieHeader) {
-      headers['cookie'] = cookieHeader;
-    }
-
-    // Forward referer to maintain WordPress context
-    const referer = request.headers.get('referer');
-    if (referer) {
-      headers['referer'] = referer.replace(
-        request.nextUrl.origin,
-        'https://legacy.pycon.hk'
-      );
-    }
-
     const response = await fetch(url, {
-      method: request.method,
-      headers,
-      body:
-        request.method !== 'GET' && request.method !== 'HEAD'
-          ? await request.arrayBuffer()
-          : undefined,
+      headers: {
+        'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
+        accept: request.headers.get('accept') || '*/*',
+      },
     });
 
     const pathname = new URL(url).pathname;
@@ -109,25 +84,27 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       response.headers.get('content-type') ||
       'text/html';
 
-    // Create response headers
+    // Create response headers to prevent CORB
     const responseHeaders = new Headers();
     responseHeaders.set('content-type', contentType);
 
     // CORS headers
-    responseHeaders.set('access-control-allow-origin', request.nextUrl.origin);
-    responseHeaders.set('access-control-allow-credentials', 'true');
+    responseHeaders.set('access-control-allow-origin', '*');
     responseHeaders.set('access-control-allow-methods', 'GET, POST, OPTIONS');
-    responseHeaders.set(
-      'access-control-allow-headers',
-      'Content-Type, Authorization, Cookie'
-    );
+    responseHeaders.set('access-control-allow-headers', 'Content-Type');
 
-    // Forward all cookies from WordPress
-    response.headers.forEach((value, key) => {
-      if (key.toLowerCase() === 'set-cookie') {
-        responseHeaders.append('set-cookie', value);
-      }
-    });
+    // CORB prevention headers
+    responseHeaders.set('x-content-type-options', 'nosniff');
+
+    // For JSON/XML responses that might trigger CORB
+    if (contentType.includes('json') || contentType.includes('xml')) {
+      responseHeaders.set('access-control-allow-credentials', 'true');
+    }
+
+    // For script files
+    if (contentType.includes('javascript')) {
+      responseHeaders.set('cross-origin-resource-policy', 'cross-origin');
+    }
 
     return new NextResponse(response.body, {
       status: response.status,
