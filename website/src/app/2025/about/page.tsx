@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import aboutUsImg from '../../../../public/about-us.jpeg';
+import aboutUsImg from '../../../../public/Event_1.webp';
 
 export default async function About() {
   return (
@@ -11,7 +11,7 @@ export default async function About() {
 
       <div className='relative w-full h-full mb-8 rounded-lg overflow-hidden flex items-center justify-center'>
         <Image
-          src='/about-us.jpeg'
+          src={aboutUsImg}
           width={1080}
           height={aboutUsImg.height * (1080 / aboutUsImg.width)}
           alt='PyCon Hong Kong Event'

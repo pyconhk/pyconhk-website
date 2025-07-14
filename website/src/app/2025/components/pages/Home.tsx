@@ -1,7 +1,7 @@
 import { Itim } from 'next/font/google';
-import CountdownTimer from './CountdownTimer';
-import BannerImageSlide from './BannerImageSlide';
 import Image from 'next/image';
+import BannerImageSlide from './BannerImageSlide';
+import CountdownTimer from './CountdownTimer';
 
 const itim = Itim({ weight: ['400'], subsets: ['latin'] });
 
@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <section id='home' className='w-full min-h-screen lg:min-h-0 lg:h-screen'>
       <HomeBackground className='w-full min-h-screen lg:min-h-0 lg:h-screen'>
-        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center container mx-auto'>
+        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center container mx-auto lg:p-6 lg:mt-8'>
           <div className='col-span-1 lg:hidden mt-30'>
             <h1 className='text-5xl lg:text-6xl mb-5 text-gray-600 w-full text-center'>
               <small className='text-4xl lg:text-5xl font-bold text-gray-800 opacity-90 transition-all duration-200'>
