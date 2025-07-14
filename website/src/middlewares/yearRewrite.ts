@@ -131,7 +131,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
   // Check for year pattern (20XX)
   const yearMatch = pathname.match(/^\/20(\d{2})/);
   const prefixProxyListMatch = prefixProxyLists.some(prefix =>
-    pathname.startsWith(`/${prefix}`)
+    pathname.startsWith(prefix)
   );
 
   if (yearMatch) {
