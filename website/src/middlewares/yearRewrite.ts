@@ -71,6 +71,24 @@ const getMimeType = (pathname: string): string | null => {
 
 const fetchProxy = async (url: string, request: NextRequest) => {
   try {
+    if (request.method === 'OPTIONS') {
+      const responseHeaders = new Headers();
+      responseHeaders.set('access-control-allow-origin', '*');
+      responseHeaders.set(
+        'access-control-allow-methods',
+        'GET, POST, PUT, DELETE, OPTIONS'
+      );
+      responseHeaders.set(
+        'access-control-allow-headers',
+        'Content-Type, Authorization, X-Requested-With'
+      );
+      responseHeaders.set('access-control-max-age', '86400'); // 24 hours
+
+      return new NextResponse(null, {
+        status: 204, // No content
+        headers: responseHeaders,
+      });
+    }
     const response = await fetch(url, {
       headers: {
         'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
