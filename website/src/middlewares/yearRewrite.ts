@@ -106,6 +106,26 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       responseHeaders.set('cross-origin-resource-policy', 'cross-origin');
     }
 
+    if (contentType.includes('text/html')) {
+      // Get the HTML content
+      const html = await response.text();
+
+      // Extract year path from URL
+      const yearMatch = pathname.match(/^\/20\d{2}/);
+      const yearPath = yearMatch ? yearMatch[0] + '/' : '/';
+
+      // Add base tag to the head section
+      const modifiedHtml = html.replace(
+        /<head>/i,
+        `<head>\n<base href="${request.nextUrl.origin}${yearPath}">`
+      );
+
+      return new NextResponse(modifiedHtml, {
+        status: response.status,
+        headers: responseHeaders,
+      });
+    }
+
     return new NextResponse(response.body, {
       status: response.status,
       headers: responseHeaders,
