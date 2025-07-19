@@ -3,7 +3,7 @@ import Link from 'next/link';
 export function Introduction() {
   return (
     <section id='introduction'>
-      <p className='mt-4'>
+      <p className='mt-4 '>
         The PyCon Hong Kong (referred to as &quot;PyCon HK&quot;,
         &quot;we&quot;, &quot;us&quot; and &quot;our&quot;) takes
         individuals&apos; privacy seriously. This Statement explains our
