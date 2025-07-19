@@ -169,7 +169,7 @@ function FeatureItem({ label, value, isHighlight = false }: FeatureItemProps) {
 
   return (
     <div
-      className={`flex justify-between items-center py-0.5 px-1 rounded text-xs transition-colors duration-300 ${isHighlight ? 'bg-blue-50 group-hover:bg-blue-900 border-l-2 border-blue' : ''}`}
+      className={`flex justify-between items-center py-0.5 px-1 rounded text-xs transition-colors duration-300 ${isHighlight ? 'bg-blue-50 group-hover:bg-sky-900 border-l-2 border-blue' : ''}`}
     >
       <span className='text-gray-700 group-hover:text-white font-medium text-xs transition-colors duration-300'>
         {label}
@@ -339,7 +339,7 @@ export default function SponsorChoice() {
                   '.flex.gap-6.overflow-x-auto'
                 ) as HTMLElement;
                 if (container) {
-                  const scrollAmount = container.clientWidth;
+                  const scrollAmount = container.clientWidth * 0.25;
                   container.scrollBy({
                     left: -scrollAmount,
                     behavior: 'smooth',
@@ -369,7 +369,7 @@ export default function SponsorChoice() {
                   '.flex.gap-6.overflow-x-auto'
                 ) as HTMLElement;
                 if (container) {
-                  const scrollAmount = container.clientWidth;
+                  const scrollAmount = container.clientWidth * 0.4;
                   container.scrollBy({
                     left: scrollAmount,
                     behavior: 'smooth',
