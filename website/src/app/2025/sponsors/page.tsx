@@ -1,4 +1,5 @@
 import { HiOutlineEye, HiOutlineHeart, HiOutlineUsers } from 'react-icons/hi';
+import PastSponsor from './component/PastSponsor';
 import SponsorChoice from './component/SponsorChoice';
 
 export default async function Sponsors() {
@@ -52,6 +53,8 @@ export default async function Sponsors() {
           </p>
         </div>
       </div>
+
+      <PastSponsor />
 
       <SponsorChoice />
     </div>
