@@ -112,11 +112,11 @@ const sponsorshipPlans: SponsorshipPlan[] = [
 ];
 
 const tierColors = {
-  diamond: 'from-purple-500 to-indigo-600',
-  platinum: 'from-gray-400 to-gray-600',
-  gold: 'from-yellow-400 to-yellow-600',
-  silver: 'from-gray-300 to-gray-500',
-  bronze: 'from-orange-400 to-orange-600',
+  diamond: 'from-sky-300 to-sky-600',
+  platinum: 'from-slate-300 to-slate-600',
+  gold: 'from-yellow-300 to-amber-600',
+  silver: 'from-zinc-300 to-teal-600',
+  bronze: 'from-cyan-300 to-yellow-600',
 };
 
 const tierAccents = {
@@ -320,7 +320,7 @@ export default function SponsorChoice() {
             {sponsorshipPlans.map(plan => (
               <div
                 key={plan.name}
-                className='flex-none w-4/5 sm:w-2/5 lg:w-1/3 snap-start'
+                className='flex-none w-full sm:w-2/5 lg:w-1/3 snap-start'
               >
                 <SponsorCard
                   plan={plan}

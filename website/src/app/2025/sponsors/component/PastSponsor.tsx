@@ -65,12 +65,12 @@ const PastSponsor = () => {
       </p>
 
       {/* Scrolling container */}
-      <div className='relative overflow-hidden bg-white py-8'>
+      <div className='relative overflow-hidden bg-white rounded-3xl py-8'>
         <div className='flex animate-scroll space-x-16'>
           {duplicatedSponsors.map((sponsor, index) => (
             <div
               key={`${sponsor.name}-${index}`}
-              className='flex-shrink-0 flex items-center justify-center p-6 transition-transform duration-300 hover:scale-105 w-[220px] h-[120px]'
+              className='flex-shrink-0 flex items-center justify-center p-6 transition-transform duration-300 hover:scale-110 w-[220px] h-[120px]'
             >
               <Image
                 src={sponsor.logo}
@@ -95,7 +95,13 @@ const PastSponsor = () => {
         }
 
         .animate-scroll {
-          animation: scroll 30s linear infinite;
+          animation: scroll 15s linear infinite;
+        }
+
+        @media (max-width: 768px) {
+          .animate-scroll {
+            animation: scroll 8s linear infinite;
+          }
         }
 
         .animate-scroll:hover {
