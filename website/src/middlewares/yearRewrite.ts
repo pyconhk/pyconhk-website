@@ -14,6 +14,12 @@ const wordPressProxyPaths = [
   '/wp-cron.php',
 ];
 
+const ALLOWED_ORIGINS = [
+  'https://legacy.pycon.hk',
+  'https://pycon.hk', // If pycon.hk itself makes credentialed calls to pycon.hk/wp-json
+  // Add any other specific origins if needed that will access the API with credentials
+];
+
 const getMimeType = (pathname: string): string | null => {
   const ext = pathname.split('.').pop()?.toLowerCase();
 
@@ -71,36 +77,69 @@ const getMimeType = (pathname: string): string | null => {
 
 const fetchProxy = async (url: string, request: NextRequest) => {
   try {
-    // Build headers from original request
-    const headers: Record<string, string> = {
-      'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
-      accept: request.headers.get('accept') || '*/*',
-      'accept-language':
-        request.headers.get('accept-language') || 'en-US,en;q=0.9',
-    };
+    const requestOrigin = request.headers.get('Origin');
+    let allowedOriginForResponse = null;
 
-    // Forward cookies if present
-    const cookieHeader = request.headers.get('cookie');
-    if (cookieHeader) {
-      headers['cookie'] = cookieHeader;
+    if (requestOrigin && ALLOWED_ORIGINS.includes(requestOrigin)) {
+      allowedOriginForResponse = requestOrigin;
     }
+    if (request.method === 'OPTIONS') {
+      const headers = new Headers();
 
-    // Forward referer to maintain WordPress context
-    const referer = request.headers.get('referer');
-    if (referer) {
-      headers['referer'] = referer.replace(
-        request.nextUrl.origin,
-        'https://legacy.pycon.hk'
+      if (!allowedOriginForResponse) {
+        // If the origin is not allowed, don't set CORS headers and return 403
+        return new NextResponse(null, {
+          status: 403,
+          statusText: 'Forbidden Origin',
+        });
+      }
+
+      headers.set('Access-Control-Allow-Origin', allowedOriginForResponse);
+      headers.set(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE, OPTIONS'
       );
+      headers.set(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization, X-Requested-With, X-WP-Nonce'
+      ); // Ensure all required headers are here
+      headers.set('Access-Control-Max-Age', '86400'); // Cache preflight for 24 hours
+      headers.set('Access-Control-Allow-Credentials', 'true'); // REQUIRED for credentialed requests
+
+      return new NextResponse(null, {
+        status: 204, // No content, successful preflight
+        headers: headers,
+      });
     }
 
+    // --- Prepare headers for the actual proxy fetch to legacy.pycon.hk ---
+    const proxyHeaders = new Headers();
+    // Pass essential client headers to the backend
+    request.headers.forEach((value, key) => {
+      // Filter out CORS-related headers from the incoming request,
+      // as the legacy WP server doesn't need to know about this CORS negotiation
+      if (!key.toLowerCase().startsWith('access-control-')) {
+        proxyHeaders.set(key, value);
+      }
+    });
+    // Set Host header explicitly for the backend if needed (often defaults correctly)
+    proxyHeaders.set('Host', new URL(url).host);
+
+    // Always set a custom User-Agent to identify proxy requests in backend logs
+    proxyHeaders.set('User-Agent', 'Next.js PyCon Proxy');
+
+    // Ensure body is included only for methods that support it
+    let requestBody = undefined;
+    if (!['GET', 'HEAD'].includes(request.method)) {
+      requestBody = request.body; // Pass the original request body
+    }
+
+    // Fetch from the legacy WordPress site
     const response = await fetch(url, {
       method: request.method,
-      headers,
-      body:
-        request.method !== 'GET' && request.method !== 'HEAD'
-          ? await request.arrayBuffer()
-          : undefined,
+      headers: proxyHeaders,
+      body: requestBody,
+      redirect: 'follow', // Allow Next.js's fetch to follow redirects from legacy.pycon.hk
     });
 
     const pathname = new URL(url).pathname;
@@ -109,34 +148,164 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       response.headers.get('content-type') ||
       'text/html';
 
-    // Create response headers
+    // --- Prepare headers for the response back to the browser ---
     const responseHeaders = new Headers();
-    responseHeaders.set('content-type', contentType);
-
-    // CORS headers
-    responseHeaders.set('access-control-allow-origin', request.nextUrl.origin);
-    responseHeaders.set('access-control-allow-credentials', 'true');
-    responseHeaders.set('access-control-allow-methods', 'GET, POST, OPTIONS');
-    responseHeaders.set(
-      'access-control-allow-headers',
-      'Content-Type, Authorization, Cookie'
-    );
-
-    // Forward all cookies from WordPress
+    // Copy all headers from the legacy.pycon.hk response
     response.headers.forEach((value, key) => {
-      if (key.toLowerCase() === 'set-cookie') {
-        responseHeaders.append('set-cookie', value);
-      }
+      responseHeaders.set(key, value);
     });
 
+    // Crucial: Set CORS headers for the response going BACK to the browser
+    // Remove any existing CORS headers from the legacy.pycon.hk response first to be authoritative
+    responseHeaders.delete('Access-Control-Allow-Origin');
+    responseHeaders.delete('Access-Control-Allow-Methods');
+    responseHeaders.delete('Access-Control-Allow-Headers');
+    responseHeaders.delete('Access-Control-Allow-Credentials');
+    responseHeaders.delete('Access-Control-Max-Age');
+
+    if (allowedOriginForResponse) {
+      responseHeaders.set(
+        'Access-Control-Allow-Origin',
+        allowedOriginForResponse
+      );
+      responseHeaders.set('Access-Control-Allow-Credentials', 'true'); // REQUIRED
+    } else {
+      // If the origin is not allowed, do not return ACAO. Browser will block.
+      // This case should be caught by the OPTIONS preflight, but as a fallback.
+    }
+
+    // Add standard CORS headers (even though ACAO is conditional)
+    responseHeaders.set(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, OPTIONS'
+    );
+    responseHeaders.set(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization, X-Requested-With, X-WP-Nonce'
+    );
+
+    // Set other necessary headers
+    responseHeaders.set('content-type', contentType);
+    responseHeaders.set('x-content-type-options', 'nosniff'); // CORB prevention
+    if (contentType.includes('javascript')) {
+      responseHeaders.set('cross-origin-resource-policy', 'cross-origin');
+    }
+
+    // Handle HTML modifications
+    if (contentType.includes('text/html')) {
+      const html = await response.text();
+      // Extract year path from URL
+      const yearMatch = pathname.match(/^\/20\d{2}/);
+      const yearPath = yearMatch ? yearMatch[0] + '/' : '/';
+      // Add base tag to the head section
+      const modifiedHtml = html.replace(
+        /<head>/i,
+        `<head>\n<base href="${request.nextUrl.origin}${yearPath}">`
+      );
+      return new NextResponse(modifiedHtml, {
+        status: response.status,
+        headers: responseHeaders,
+      });
+    }
+
+    // For non-HTML responses
     return new NextResponse(response.body, {
       status: response.status,
       headers: responseHeaders,
     });
-  } catch (error) {
-    return new NextResponse(`Content unavailable: ${error}`, { status: 503 });
+  } catch (error: any) {
+    // Use 'any' for unknown error types
+    console.error('Proxy Error:', error);
+    return new NextResponse(
+      `Content unavailable due to proxy error: ${error.message}`,
+      { status: 502 }
+    );
   }
 };
+
+// const fetchProxy = async (url: string, request: NextRequest) => {
+//   try {
+//     if (request.method === 'OPTIONS') {
+//       const responseHeaders = new Headers();
+//       responseHeaders.set('access-control-allow-origin', '*');
+//       responseHeaders.set(
+//         'access-control-allow-methods',
+//         'GET, POST, PUT, DELETE, OPTIONS'
+//       );
+//       responseHeaders.set(
+//         'access-control-allow-headers',
+//         'Content-Type, Authorization, X-Requested-With'
+//       );
+//       responseHeaders.set('access-control-max-age', '86400'); // 24 hours
+
+//       return new NextResponse(null, {
+//         status: 204, // No content
+//         headers: responseHeaders,
+//       });
+//     }
+//     const response = await fetch(url, {
+//       headers: {
+//         'user-agent': request.headers.get('user-agent') || 'Next.js Proxy',
+//         accept: request.headers.get('accept') || '*/*',
+//       },
+//     });
+
+//     const pathname = new URL(url).pathname;
+//     const contentType =
+//       getMimeType(pathname) ||
+//       response.headers.get('content-type') ||
+//       'text/html';
+
+//     // Create response headers to prevent CORB
+//     const responseHeaders = new Headers();
+//     responseHeaders.set('content-type', contentType);
+
+//     // CORS headers
+//     responseHeaders.set('access-control-allow-origin', '*');
+//     responseHeaders.set('access-control-allow-methods', 'GET, POST, OPTIONS');
+//     responseHeaders.set('access-control-allow-headers', 'Content-Type');
+
+//     // CORB prevention headers
+//     responseHeaders.set('x-content-type-options', 'nosniff');
+
+//     // For JSON/XML responses that might trigger CORB
+//     if (contentType.includes('json') || contentType.includes('xml')) {
+//       responseHeaders.set('access-control-allow-credentials', 'true');
+//     }
+
+//     // For script files
+//     if (contentType.includes('javascript')) {
+//       responseHeaders.set('cross-origin-resource-policy', 'cross-origin');
+//     }
+
+//     if (contentType.includes('text/html')) {
+//       // Get the HTML content
+//       const html = await response.text();
+
+//       // Extract year path from URL
+//       const yearMatch = pathname.match(/^\/20\d{2}/);
+//       const yearPath = yearMatch ? yearMatch[0] + '/' : '/';
+
+//       // Add base tag to the head section
+//       const modifiedHtml = html.replace(
+//         /<head>/i,
+//         `<head>\n<base href="${request.nextUrl.origin}${yearPath}">`
+//       );
+
+//       return new NextResponse(modifiedHtml, {
+//         status: response.status,
+//         headers: responseHeaders,
+//       });
+//     }
+
+//     return new NextResponse(response.body, {
+//       status: response.status,
+//       headers: responseHeaders,
+//     });
+//   } catch (error) {
+//     return new NextResponse(`Content unavailable: ${error}`, { status: 503 });
+//   }
+// };
 
 export default async function yearRewriteMiddleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
@@ -154,7 +323,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
   // Check for year pattern (20XX)
   const yearMatch = pathname.match(/^\/20(\d{2})/);
   const prefixProxyListMatch = prefixProxyLists.some(prefix =>
-    pathname.startsWith(`/${prefix}`)
+    pathname.startsWith(prefix)
   );
 
   if (yearMatch) {
