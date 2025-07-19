@@ -403,9 +403,12 @@ export default function SponsorChoice() {
               Contact us to discuss your sponsorship package and customization
               options.
             </p>
-            <button className='bg-white text-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors'>
+            <a
+              href='mailto:pycon@pycon.hk?subject=Sponsorship Inquiry - PyCon HK 2025&body=Hello PyCon HK Team,%0A%0AI am interested in sponsoring PyCon HK 2025. Please provide more information about the sponsorship packages and customization options.%0A%0AThank you!'
+              className='inline-block bg-white text-blue px-8 py-3 rounded-lg font-semibold hover:bg-slate-200 transition-colors'
+            >
               Contact Us
-            </button>
+            </a>
           </div>
         </div>
       </div>
