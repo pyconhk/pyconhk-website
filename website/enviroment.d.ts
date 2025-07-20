@@ -28,6 +28,9 @@ declare global {
       NEXT_PUBLIC_TERMS_URL: string;
       NEXT_PUBLIC_FAQ_URL: string;
       NEXT_PUBLIC_PREVIOUS_YEARS_URL: string;
+
+      // Google Analytics
+      NEXT_PUBLIC_GA_ID: string;
     }
   }
 }
