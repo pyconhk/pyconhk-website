@@ -5,7 +5,7 @@ import aboutUsImg from '../../../../public/Event_1.webp';
 export default async function About() {
   return (
     <>
-      <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-slate-600 text-center'>
+      <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-gray-700 text-center'>
         About PyCon Hong Kong
       </h1>
 
@@ -20,7 +20,7 @@ export default async function About() {
         />
       </div>
 
-      <div className='space-y-6 text-slate-500 text-base/7 lg:text-lg/8 text-justify'>
+      <div className='space-y-6 text-gray-700'>
         <p>
           PyCon Hong Kong (PyCon HK) is the leading Python conference in Hong
           Kong, bringing together Python enthusiasts to share their insights and
