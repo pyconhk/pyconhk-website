@@ -1,8 +1,9 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 
+import { Montserrat } from 'next/font/google';
 import '../styles/globals.css';
 import Footer from './utils/Footer';
-import { Montserrat } from 'next/font/google';
 
 const montserrat = Montserrat({ weight: ['500', '600'], subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
     </html>
   );
 }

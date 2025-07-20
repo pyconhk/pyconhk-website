@@ -112,7 +112,7 @@ export default function SponsorChoice() {
 
         {/* Scrollable cards container */}
         <div className='relative'>
-          <div className='flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory scroll-smooth scroll-px-8'>
+          <div className='flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory scroll-px-8 overscroll-none'>
             {sponsorshipPlans.map(plan => (
               <div
                 key={plan.name}
