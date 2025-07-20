@@ -149,22 +149,6 @@ export default function SponsorCard({ plan }: SponsorCardProps) {
           />
           <FeatureItem label='Booth Tables' value={plan.features.boothTables} />
           <FeatureItem
-            label='Logo on Speaker Podium'
-            value={plan.features.logoSpeakerPodium}
-          />
-          <FeatureItem
-            label='Logo on Conference Rollup'
-            value={plan.features.logoConferenceRollup}
-          />
-          <FeatureItem
-            label='Logo on YouTube Frame'
-            value={plan.features.logoYouTubeFrame}
-          />
-          <FeatureItem
-            label='Logo on Website'
-            value={plan.features.logoWebsite}
-          />
-          <FeatureItem
             label='Rollup by Sponsor'
             value={plan.features.rollupBysponsor}
           />
@@ -172,6 +156,22 @@ export default function SponsorCard({ plan }: SponsorCardProps) {
             label='Ad During Break'
             value={plan.features.adDuringBreak}
           />
+          <h4 className='font-bold text-gray-800 group-hover:text-white mb-1 mt-3 text-xs transition-colors duration-300'>
+            Logo
+          </h4>
+          <FeatureItem
+            label='Speaker Podium'
+            value={plan.features.logoSpeakerPodium}
+          />
+          <FeatureItem
+            label='Conference Rollup'
+            value={plan.features.logoConferenceRollup}
+          />
+          <FeatureItem
+            label='YouTube Frame'
+            value={plan.features.logoYouTubeFrame}
+          />
+          <FeatureItem label='Website' value={plan.features.logoWebsite} />
 
           <h4 className='font-bold text-gray-800 group-hover:text-white mb-1 mt-3 text-xs transition-colors duration-300'>
             Social Media & Press

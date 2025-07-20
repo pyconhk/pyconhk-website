@@ -99,12 +99,12 @@ const sponsorshipPlans: SponsorshipPlan[] = [
 export default function SponsorChoice() {
   return (
     <div className='w-full py-12'>
-      <div className='container mx-auto px-4'>
+      <div className='container mx-auto px-0 lg:px-4'>
         <div className='text-center mb-12'>
-          <h2 className='text-4xl font-bold text-gray-700 mb-4'>
+          <h2 className='text-2xl md:text-3xl lg:text-4xl font-bold text-gray-700 mb-4'>
             Sponsorship Plans
           </h2>
-          <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
+          <p className='text-gray-600 max-w-2xl mx-auto'>
             Choose the perfect sponsorship package to support PyCon HK 2025 and
             showcase your brand to the Python community.
           </p>
