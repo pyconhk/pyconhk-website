@@ -29,7 +29,7 @@ const sponsorshipPlans: SponsorshipPlan[] = [
     name: 'Platinum',
     tier: 'platinum',
     fee: 'HKD 44,000',
-    maxSlots: '1',
+    maxSlots: '2',
     isPopular: false,
     features: {
       sponsoredTalks: '30-minute talk',
@@ -49,7 +49,7 @@ const sponsorshipPlans: SponsorshipPlan[] = [
     name: 'Gold',
     tier: 'gold',
     fee: 'HKD 22,000',
-    maxSlots: '2',
+    maxSlots: '4',
     isPopular: true,
     features: {
       sponsoredTalks: '15-minute talk',
