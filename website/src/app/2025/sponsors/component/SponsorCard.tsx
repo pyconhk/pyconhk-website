@@ -112,7 +112,7 @@ export default function SponsorCard({ plan }: SponsorCardProps) {
       className={`mt-1 group relative bg-white hover:bg-slate-800 rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:scale-95 hover:shadow-xl h-full border-2 border-slate-300 hover:border-slate-600 ${plan.isPopular ? 'ring-2 ring-blue ring-opacity-50' : ''}`}
     >
       {plan.isPopular && (
-        <div className='absolute top-2 right-2 bg-blue text-white px-2 py-0.5 rounded-full text-xs font-bold z-10 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]'>
+        <div className='absolute top-2 right-2 bg-blue text-white px-2 py-0.5 rounded-full text-xs font-bold z-10'>
           POPULAR
         </div>
       )}
@@ -121,7 +121,7 @@ export default function SponsorCard({ plan }: SponsorCardProps) {
       <div
         className={`h-16 bg-gradient-to-br ${tierColors[plan.tier]} relative`}
       >
-        <div className='relative z-10 p-3 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]'>
+        <div className='relative z-10 p-3 text-white'>
           <h3 className='text-lg font-bold mb-0.5'>{plan.name}</h3>
           <p className='text-xs font-semibold opacity-90'>
             Sponsorship Fee: {plan.fee}
