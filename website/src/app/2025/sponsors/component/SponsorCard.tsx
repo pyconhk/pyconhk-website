@@ -121,7 +121,6 @@ export default function SponsorCard({ plan }: SponsorCardProps) {
       <div
         className={`h-16 bg-gradient-to-br ${tierColors[plan.tier]} relative`}
       >
-        <div className='absolute inset-0 bg-slate-700 bg-opacity-10'></div>
         <div className='relative z-10 p-3 text-white'>
           <h3 className='text-lg font-bold mb-0.5'>{plan.name}</h3>
           <p className='text-xs font-semibold opacity-90'>
@@ -193,12 +192,6 @@ export default function SponsorCard({ plan }: SponsorCardProps) {
             value={plan.features.openingClosing}
           />
         </div>
-
-        <button
-          className={`w-full mt-3 py-1.5 px-3 rounded font-semibold text-white text-xs transition-all duration-200 bg-gradient-to-r ${tierColors[plan.tier]} hover:shadow-md hover:opacity-90`}
-        >
-          Choose {plan.name}
-        </button>
       </div>
     </div>
   );
