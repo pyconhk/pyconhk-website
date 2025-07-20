@@ -12,7 +12,7 @@ import {
 export default async function PrivacyPolicy() {
   return (
     <>
-      <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-slate-600 text-center'>
+      <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-center'>
         PyCon Hong Kong Privacy Policy Statement
       </h1>
       <div className='mt-4'>
