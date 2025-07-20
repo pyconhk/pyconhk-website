@@ -20,7 +20,7 @@ export default async function About() {
         />
       </div>
 
-      <div className='space-y-6 text-gray-700 text-base/7 lg:text-lg/8 text-justify'>
+      <div className='space-y-6 text-gray-700'>
         <p>
           PyCon Hong Kong (PyCon HK) is the leading Python conference in Hong
           Kong, bringing together Python enthusiasts to share their insights and
