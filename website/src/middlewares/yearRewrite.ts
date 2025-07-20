@@ -83,34 +83,6 @@ const fetchProxy = async (url: string, request: NextRequest) => {
     if (requestOrigin && ALLOWED_ORIGINS.includes(requestOrigin)) {
       allowedOriginForResponse = requestOrigin;
     }
-    if (request.method === 'OPTIONS') {
-      const headers = new Headers();
-
-      if (!allowedOriginForResponse) {
-        // If the origin is not allowed, don't set CORS headers and return 403
-        return new NextResponse(null, {
-          status: 403,
-          statusText: 'Forbidden Origin',
-        });
-      }
-
-      headers.set('Access-Control-Allow-Origin', allowedOriginForResponse);
-      headers.set(
-        'Access-Control-Allow-Methods',
-        'GET, POST, PUT, DELETE, OPTIONS'
-      );
-      headers.set(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization, X-Requested-With, X-WP-Nonce'
-      ); // Ensure all required headers are here
-      headers.set('Access-Control-Max-Age', '86400'); // Cache preflight for 24 hours
-      headers.set('Access-Control-Allow-Credentials', 'true'); // REQUIRED for credentialed requests
-
-      return new NextResponse(null, {
-        status: 204, // No content, successful preflight
-        headers: headers,
-      });
-    }
 
     // --- Prepare headers for the actual proxy fetch to legacy.pycon.hk ---
     const proxyHeaders = new Headers();
@@ -134,6 +106,8 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       requestBody = request.body; // Pass the original request body
     }
 
+    console.log(`Proxying request to: ${url}`);
+
     // Fetch from the legacy WordPress site
     const response = await fetch(url, {
       method: request.method,
@@ -141,6 +115,8 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       body: requestBody,
       redirect: 'follow', // Allow Next.js's fetch to follow redirects from legacy.pycon.hk
     });
+
+    console.log(`Response: ${response}`);
 
     const pathname = new URL(url).pathname;
     const contentType =
@@ -248,6 +224,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     // Proxy content from pycon.hk for years before 2025
     if (year < 2025) {
       const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
+
       return fetchProxy(externalUrl, request);
     }
   }
