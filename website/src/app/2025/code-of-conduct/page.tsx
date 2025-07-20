@@ -1,10 +1,9 @@
-import React from 'react';
 import Link from 'next/link';
 
 export default function CodeOfConduct() {
   return (
     <>
-      <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-slate-600 text-center'>
+      <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-center'>
         Code of Conduct
       </h1>
       <div className='space-y-6 text-gray-700 mt-4'>
@@ -166,7 +165,7 @@ export default function CodeOfConduct() {
         </h2>
         <p>
           <Link
-            href='/2025/code-of-conduct/procedures-for-reporting-incidents'
+            href='/2025/code-of-conduct/attendee-reporting'
             className='text-sky-600 hover:text-sky-800'
           >
             Procedures for Reporting Incidents
@@ -174,7 +173,7 @@ export default function CodeOfConduct() {
         </p>
         <p>
           <Link
-            href='/2025/code-of-conduct/enforcement-procedures'
+            href='/2025/code-of-conduct/staff-procedures'
             className='text-sky-600 hover:text-sky-800'
           >
             Enforcement Procedures
