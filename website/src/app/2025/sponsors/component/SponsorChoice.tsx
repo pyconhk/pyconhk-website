@@ -163,8 +163,6 @@ export default function SponsorChoice() {
             </div>
           </div>
         </div>
-
-        {/* Contact CTA */}
       </div>
 
       <style jsx>{`
