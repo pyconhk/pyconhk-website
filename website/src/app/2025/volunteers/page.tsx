@@ -107,7 +107,7 @@ const organizingCommitteeMembers: Role[] = [
   },
 ];
 
-export default function OrganizersPage() {
+export default function VolunteersPage() {
   return (
     <>
       <div className='max-w-7xl mx-auto'>
