@@ -106,8 +106,6 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       requestBody = request.body; // Pass the original request body
     }
 
-    console.log(`Proxying request to: ${url}`);
-
     // Fetch from the legacy WordPress site
     const response = await fetch(url, {
       method: request.method,
@@ -115,8 +113,6 @@ const fetchProxy = async (url: string, request: NextRequest) => {
       body: requestBody,
       redirect: 'follow', // Allow Next.js's fetch to follow redirects from legacy.pycon.hk
     });
-
-    console.log(`Response: ${response}`);
 
     const pathname = new URL(url).pathname;
     const contentType =
