@@ -1,4 +1,4 @@
-import LayoutBackgroundImg from '../../../../../public/content-page-bg.svg';
+import LayoutBackgroundImg from '../../../../../public/2025/inner-pages/background.svg';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -12,6 +12,7 @@ const wordPressProxyPaths = [
   '/xmlrpc.php',
   '/wp-login.php',
   '/wp-cron.php',
+  '/wp-sitemap.xml',
 ];
 
 const ALLOWED_ORIGINS = [
@@ -126,6 +127,20 @@ const fetchProxy = async (url: string, request: NextRequest) => {
     response.headers.forEach((value, key) => {
       responseHeaders.set(key, value);
     });
+
+    // Handle special cases for sitemap.xml
+    if (pathname.endsWith('sitemap.xml')) {
+      const xml = await response.text();
+      // Rewrite XSL stylesheet references to use the legacy domain instead
+      const modifiedXml = xml.replace(
+        'https://pycon.hk/default-sitemap.xsl?sitemap=root',
+        'https://legacy.pycon.hk/default-sitemap.xsl?sitemap=root'
+      );
+      return new NextResponse(modifiedXml, {
+        status: response.status,
+        headers: responseHeaders,
+      });
+    }
 
     // Crucial: Set CORS headers for the response going BACK to the browser
     // Remove any existing CORS headers from the legacy.pycon.hk response first to be authoritative
