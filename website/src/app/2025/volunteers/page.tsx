@@ -137,7 +137,10 @@ export default function OrganizersPage() {
           </h2>
           <div className='flex flex-wrap justify-center gap-8 gap-y-16 mx-auto mt-16'>
             {conferenceCoChairs.map((chair, index) => (
-              <div className='sm:w-1/2 md:w-1/3 lg:w-1/4 flex justify-center'>
+              <div
+                key={`cochair-${index}`}
+                className='sm:w-1/2 md:w-1/3 lg:w-1/4 flex justify-center'
+              >
                 <PersonCard key={`cochair-${index}`} role={chair} />
               </div>
             ))}
@@ -157,7 +160,10 @@ export default function OrganizersPage() {
                   index === self.findIndex(m => m.name === member.name)
               )
               .map((member, index) => (
-                <div className='sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 flex justify-center'>
+                <div
+                  key={`member-${index}`}
+                  className='sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 flex justify-center'
+                >
                   <PersonCard key={`member-${index}`} role={member} />
                 </div>
               ))}
