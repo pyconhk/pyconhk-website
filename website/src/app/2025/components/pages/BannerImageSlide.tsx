@@ -3,10 +3,10 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const images = [
-  '/Event_1.webp',
-  '/Event_2.webp',
-  '/Event_3.webp',
-  '/Event_4.webp',
+  '/events/event_1.webp',
+  '/events/event_2.webp',
+  '/events/event_3.webp',
+  '/events/event_4.webp',
 ];
 
 export default function BannerImageSlide() {
