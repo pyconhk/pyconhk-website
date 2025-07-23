@@ -25,9 +25,17 @@ function Organizer({
       <p className='mt-8'>{description}</p>
 
       <div className='flex items-center justify-center mt-8'>
-        <a href={href} target='_blank'>
-          <Image src={image} alt={imageAlt} width={300} />
-        </a>
+        <div className='skeleton w-fit h-fit'>
+          <a href={href} target='_blank'>
+            <Image
+              src={image}
+              alt={imageAlt}
+              width={300}
+              fetchPriority='low'
+              decoding='async'
+            />
+          </a>
+        </div>
       </div>
     </div>
   );

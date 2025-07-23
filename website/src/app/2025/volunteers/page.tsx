@@ -183,13 +183,17 @@ function PersonCard({ role }: { role: Role }) {
     <div className='flex flex-col items-center w-[200px] min-h-[200px] relative'>
       <div className='w-full overflow-hidden'>
         {role.image ? (
-          <Image
-            src={role.image}
-            alt={role.name}
-            width={200}
-            height={200}
-            className='object-cover object-center'
-          />
+          <div className='skeleton w-fit aspect-square'>
+            <Image
+              src={role.image}
+              alt={role.name}
+              width={200}
+              height={200}
+              className='object-cover object-center'
+              fetchPriority='low'
+              decoding='async'
+            />
+          </div>
         ) : (
           <>
             <div className='absolute aspect-square inset-0 z-0 bg-gradient-to-br from-blue-200 to-purple-200'></div>
