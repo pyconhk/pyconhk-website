@@ -115,7 +115,7 @@ export default function VolunteersPage() {
           Volunteers
         </h1>
 
-        <p className="mt-4">
+        <p className='mt-4'>
           Volunteers are the heart of PyCon Hong Kong 2025. We sincerely thank
           them for their months of tireless effort, making this conference a
           reality. Below is a list of our committed volunteers.
