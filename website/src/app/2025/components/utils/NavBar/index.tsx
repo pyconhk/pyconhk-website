@@ -20,7 +20,7 @@ export default async function NavBar() {
         </div>
         <div className='flex items-center lg:hidden w-full h-full justify-end'>
           <NavBarDrawerlinks>
-            <LuAlignJustify className='text-2xl text-slate-600' />
+            <LuAlignJustify className='text-2xl text-slate-600 cursor-pointer' />
           </NavBarDrawerlinks>
         </div>
       </div>
