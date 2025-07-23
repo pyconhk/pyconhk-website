@@ -12,6 +12,7 @@ const wordPressProxyPaths = [
   '/xmlrpc.php',
   '/wp-login.php',
   '/wp-cron.php',
+  '/wp-sitemap.xml',
 ];
 
 const ALLOWED_ORIGINS = [
@@ -83,34 +84,6 @@ const fetchProxy = async (url: string, request: NextRequest) => {
     if (requestOrigin && ALLOWED_ORIGINS.includes(requestOrigin)) {
       allowedOriginForResponse = requestOrigin;
     }
-    if (request.method === 'OPTIONS') {
-      const headers = new Headers();
-
-      if (!allowedOriginForResponse) {
-        // If the origin is not allowed, don't set CORS headers and return 403
-        return new NextResponse(null, {
-          status: 403,
-          statusText: 'Forbidden Origin',
-        });
-      }
-
-      headers.set('Access-Control-Allow-Origin', allowedOriginForResponse);
-      headers.set(
-        'Access-Control-Allow-Methods',
-        'GET, POST, PUT, DELETE, OPTIONS'
-      );
-      headers.set(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization, X-Requested-With, X-WP-Nonce'
-      ); // Ensure all required headers are here
-      headers.set('Access-Control-Max-Age', '86400'); // Cache preflight for 24 hours
-      headers.set('Access-Control-Allow-Credentials', 'true'); // REQUIRED for credentialed requests
-
-      return new NextResponse(null, {
-        status: 204, // No content, successful preflight
-        headers: headers,
-      });
-    }
 
     // --- Prepare headers for the actual proxy fetch to legacy.pycon.hk ---
     const proxyHeaders = new Headers();
@@ -154,6 +127,20 @@ const fetchProxy = async (url: string, request: NextRequest) => {
     response.headers.forEach((value, key) => {
       responseHeaders.set(key, value);
     });
+
+    // Handle special cases for sitemap.xml
+    if (pathname.endsWith('sitemap.xml')) {
+      const xml = await response.text();
+      // Rewrite XSL stylesheet references to use the legacy domain instead
+      const modifiedXml = xml.replace(
+        'https://pycon.hk/default-sitemap.xsl?sitemap=root',
+        'https://legacy.pycon.hk/default-sitemap.xsl?sitemap=root'
+      );
+      return new NextResponse(modifiedXml, {
+        status: response.status,
+        headers: responseHeaders,
+      });
+    }
 
     // Crucial: Set CORS headers for the response going BACK to the browser
     // Remove any existing CORS headers from the legacy.pycon.hk response first to be authoritative
@@ -248,6 +235,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     // Proxy content from pycon.hk for years before 2025
     if (year < 2025) {
       const externalUrl = `https://legacy.pycon.hk${pathname}${search}`;
+
       return fetchProxy(externalUrl, request);
     }
   }
