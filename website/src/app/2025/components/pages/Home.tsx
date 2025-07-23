@@ -14,7 +14,7 @@ function HomeBackground({ children, className = '' }: HeroBackgroundProps) {
   return (
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
       <Image
-        src='/bg-new1.png'
+        src='/landing-pages/background.png'
         alt='Background'
         fill
         priority
