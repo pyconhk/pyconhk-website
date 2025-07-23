@@ -59,7 +59,7 @@ export default function NavBarDrawerlinks({ children }: NavBarDrawerLinkProps) {
                   {link.children.map(subLink => (
                     <li
                       key={`nav-drawer-${link.label}-${subLink.label}`}
-                      className='group relative'
+                      className='group relative pl-6 ml-2 border-l border-gray-600'
                       onClick={() => setIsOpen(false)}
                     >
                       <ClickableLink
@@ -70,6 +70,20 @@ export default function NavBarDrawerlinks({ children }: NavBarDrawerLinkProps) {
                       />
                     </li>
                   ))}
+                  {/* {link.children.map(subLink => (
+                    <li
+                      key={`nav-drawer-${link.label}-${subLink.label}`}
+                      className='group relative'
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <ClickableLink
+                        href={subLink.href as string}
+                        title={subLink.label}
+                        isActive={subLink.isActive}
+                        className='text-white hover:bg-gray-400/50'
+                      />
+                    </li>
+                  ))} */}
                 </React.Fragment>
               ) : (
                 <li

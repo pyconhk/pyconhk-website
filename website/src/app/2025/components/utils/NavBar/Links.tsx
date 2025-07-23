@@ -32,11 +32,6 @@ export const links: NavBarLink[] = [
     isActive: true,
   },
   {
-    label: 'Volunteers',
-    href: '#volunteers',
-    isActive: false,
-  },
-  {
     label: 'About',
     href: '/about',
     isActive: true,

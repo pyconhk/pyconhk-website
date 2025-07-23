@@ -86,11 +86,6 @@ const organizingCommitteeMembers: Role[] = [
     linkedin: 'https://www.linkedin.com/in/yantungmaya/',
   },
   {
-    name: 'Miss Maya Yan',
-    image: mayaYanImg,
-    linkedin: 'https://www.linkedin.com/in/yantungmaya/',
-  },
-  {
     name: 'Mr. Ronald Yick',
     image: ronaldYickImg,
     linkedin: 'https://www.linkedin.com/in/ronald-yick/',
