@@ -81,7 +81,7 @@ const organizingCommitteeMembers: Role[] = [
     linkedin: 'https://www.linkedin.com/in/ethan-lee-4335251b1/',
   },
   {
-    name: 'Miss Maya Yan',
+    name: 'Ms. Maya Yan',
     image: mayaYanImg,
     linkedin: 'https://www.linkedin.com/in/yantungmaya/',
   },
@@ -112,30 +112,34 @@ export default function VolunteersPage() {
     <>
       <div className='max-w-7xl mx-auto'>
         <h1 className='text-4xl font-bold text-center text-gray-900'>
-          Our Team
+          Volunteers
         </h1>
-        <p className='text-center text-gray-600 max-w-3xl mx-auto mt-8'>
-          Meet the dedicated volunteers who make PyCon HK 2025 possible. Our
-          team works tirelessly to create an amazing conference experience for
-          the Python community.
+
+        <p className="mt-4">
+          Volunteers are the heart of PyCon Hong Kong 2025. We sincerely thank
+          them for their months of tireless effort, making this conference a
+          reality. Below is a list of our committed volunteers.
         </p>
 
+        <h2 className='text-3xl font-bold text-center text-gray-800 mt-16'>
+          Executive Committee
+        </h2>
         {/* Conference Chair */}
-        <section className='mt-20'>
-          <h2 className='text-3xl font-bold text-center text-gray-800'>
+        <section className='mt-16'>
+          <h3 className='text-2xl font-bold text-center text-gray-800'>
             Conference Chair
-          </h2>
-          <div className='flex justify-center mt-16'>
+          </h3>
+          <div className='flex justify-center mt-12'>
             <PersonCard role={conferenceChair} />
           </div>
         </section>
 
         {/* Conference Co-Chairs */}
-        <section className='mt-20'>
-          <h2 className='text-3xl font-bold text-center text-gray-800'>
+        <section className='mt-16'>
+          <h3 className='text-2xl font-bold text-center text-gray-800'>
             Conference Co-Chairs
-          </h2>
-          <div className='flex flex-wrap justify-center gap-8 gap-y-16 mx-auto mt-16'>
+          </h3>
+          <div className='flex flex-wrap justify-center gap-8 gap-y-16 mx-auto mt-12'>
             {conferenceCoChairs.map((chair, index) => (
               <div
                 key={`cochair-${index}`}
@@ -148,11 +152,11 @@ export default function VolunteersPage() {
         </section>
 
         {/* Organizing Committee */}
-        <section className='mt-20'>
-          <h2 className='text-3xl font-bold text-center text-gray-800'>
+        <section className='mt-16'>
+          <h3 className='text-2xl font-bold text-center text-gray-800'>
             Organizing Committee Members
-          </h2>
-          <div className='flex flex-wrap justify-center gap-8 gap-y-16 mx-auto mt-16'>
+          </h3>
+          <div className='flex flex-wrap justify-center gap-8 gap-y-16 mx-auto mt-12'>
             {/* Remove duplicates before mapping */}
             {organizingCommitteeMembers
               .filter(
