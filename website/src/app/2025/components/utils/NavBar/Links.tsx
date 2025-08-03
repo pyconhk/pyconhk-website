@@ -34,7 +34,7 @@ export const links: NavBarLink[] = [
         label: 'Opportunities',
         href: '/sponsorships/opportunities',
         isActive: true,
-      }
+      },
     ],
     isActive: true,
   },
