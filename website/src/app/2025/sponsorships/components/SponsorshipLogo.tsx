@@ -22,13 +22,15 @@ export default function SponsorshipLogo({
 }: SponsorshipLogoProps) {
   return (
     <div className='flex flex-col items-center justify-center'>
-      <a href={href} target='_blank' rel='noopener noreferrer'>
-        <Image
-          src={logo}
-          alt={logoAlt}
-          className={`object-contain mb-2 ${logoClassName} aspect-square`}
-        />
-      </a>
+      <div className='skeleton w-fit h-fit'>
+        <a href={href} target='_blank' rel='noopener noreferrer'>
+          <Image
+            src={logo}
+            alt={logoAlt}
+            className={`object-contain ${logoClassName} aspect-square`}
+          />
+        </a>
+      </div>
       <span
         className={`text-gray-700 font-semibold text-center w-full ${nameClassName}`}
         dangerouslySetInnerHTML={{ __html: name }}
