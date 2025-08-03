@@ -5,13 +5,13 @@ import mysqlLogoImg from '../../../../public/2025/sponsorships/mysql.webp';
 import pccwLogoImg from '../../../../public/2025/sponsorships/pccw.webp';
 import psfLogoImg from '../../../../public/2025/sponsorships/psf.webp';
 import redhatLogoImg from '../../../../public/2025/sponsorships/redhat.webp';
-import SponsorshipLogo, {
-  SponsorshipLogoProps,
-} from './components/SponsorshipLogo';
+import OrganizationLogo, {
+  OrganizationLogoProps,
+} from '../components/utils/OrganizationLogo';
 
 interface SponsorTier {
   tier: string;
-  sponsors: SponsorshipLogoProps[];
+  sponsors: OrganizationLogoProps[];
 }
 
 const sponsorTiers: SponsorTier[] = [
@@ -115,7 +115,7 @@ export default function Sponsorships() {
             </h2>
             <div className='flex flex-col lg:flex-row items-center gap-12 lg:gap-16 xl:gap-24 mt-8'>
               {tier.sponsors.map(sponsor => (
-                <SponsorshipLogo
+                <OrganizationLogo
                   key={sponsor.name}
                   name={sponsor.name}
                   nameClassName='text-base sm:text-xl font-semibold mt-4'
