@@ -15,6 +15,23 @@ export const links: NavBarLink[] = [
     isActive: false,
   },
   {
+    label: 'Sprint',
+    href: '/sprint',
+    isActive: true,
+    children: [
+      {
+        label: 'Sprint Q&A',
+        href: '/sprint/qna/en',
+        isActive: true,
+      },
+      {
+        label: 'Sprint Q&A (Chinese)',
+        href: '/sprint/qna/zh-hk',
+        isActive: true,
+      },
+    ],
+  },
+  {
     label: 'Organizers',
     href: '/organizers',
     isActive: true,
@@ -30,6 +47,11 @@ export const links: NavBarLink[] = [
     label: 'Sponsorships',
     href: '/sponsorships',
     children: [
+      {
+        label: 'Patrons',
+        href: '/sponsorships/patrons',
+        isActive: true,
+      },
       {
         label: 'Opportunities',
         href: '/sponsorships/opportunities',
@@ -75,7 +97,7 @@ export const links: NavBarLink[] = [
 export default async function NavBarLinks() {
   return (
     <div className='flex items-center h-full text-gray-600'>
-      <ul className='flex space-x-8 xl:space-x-12 font-semibold text-base xl:text-lg'>
+      <ul className='flex space-x-6 xl:space-x-8 font-semibold text-base'>
         {links.map(link => (
           <React.Fragment key={`nav-${link.label}`}>
             {Array.isArray(link.children) ? (
