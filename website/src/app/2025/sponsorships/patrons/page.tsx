@@ -21,11 +21,9 @@ export default async function Patrons() {
       </p>
       <ul className='mt-8 space-y-2'>
         {isTestEnv &&
-          patrons.map(patron => (
-            <li key={patron}>
-              <span className='text-base font-semibold'>
-                {patron}
-              </span>
+          patrons.map((patron, index) => (
+            <li key={`patron-${index}`}>
+              <span className='text-base font-semibold'>{patron}</span>
             </li>
           ))}
       </ul>
