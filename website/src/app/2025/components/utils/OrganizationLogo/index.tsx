@@ -1,5 +1,6 @@
 import Image, { type StaticImageData } from 'next/image';
-export interface SponsorshipLogoProps {
+
+export interface OrganizationLogoProps {
   name: string;
   description?: string;
   logo: StaticImageData;
@@ -8,9 +9,10 @@ export interface SponsorshipLogoProps {
   nameClassName?: string;
   descriptionClassName?: string;
   logoClassName?: string;
+  overallClassName?: string; // Removed as per the latest changes
 }
 
-export default function SponsorshipLogo({
+export default async function OrganizationLogo({
   name,
   logo,
   href,
@@ -19,9 +21,12 @@ export default function SponsorshipLogo({
   nameClassName = '',
   descriptionClassName = '',
   logoClassName = '',
-}: SponsorshipLogoProps) {
+  overallClassName = '',
+}: OrganizationLogoProps) {
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div
+      className={`flex flex-col items-center justify-center ${overallClassName}`}
+    >
       <div className='skeleton w-fit h-fit'>
         <a href={href} target='_blank' rel='noopener noreferrer'>
           <Image
