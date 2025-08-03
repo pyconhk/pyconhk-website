@@ -1,10 +1,10 @@
-import awsLogoImg from '../../../../public/2025/sponsorships/aws.png';
-import cityucocLogoImg from '../../../../public/2025/sponsorships/cityucoc.png';
-import jetbrainsLogoImg from '../../../../public/2025/sponsorships/jetbrains.png';
-import mysqlLogoImg from '../../../../public/2025/sponsorships/mysql.png';
-import pccwLogoImg from '../../../../public/2025/sponsorships/pccw.png';
-import psfLogoImg from '../../../../public/2025/sponsorships/psf.png';
-import redhatLogoImg from '../../../../public/2025/sponsorships/redhat.png';
+import awsLogoImg from '../../../../public/2025/sponsorships/aws.webp';
+import cityucocLogoImg from '../../../../public/2025/sponsorships/cityucoc.webp';
+import jetbrainsLogoImg from '../../../../public/2025/sponsorships/jetbrains.webp';
+import mysqlLogoImg from '../../../../public/2025/sponsorships/mysql.webp';
+import pccwLogoImg from '../../../../public/2025/sponsorships/pccw.webp';
+import psfLogoImg from '../../../../public/2025/sponsorships/psf.webp';
+import redhatLogoImg from '../../../../public/2025/sponsorships/redhat.webp';
 import SponsorshipLogo, {
   SponsorshipLogoProps,
 } from './components/SponsorshipLogo';
