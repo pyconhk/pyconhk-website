@@ -15,10 +15,10 @@ export default async function NavBar() {
             isActive={true}
           />
         </div>
-        <div className='hidden lg:flex lg:items-center lg:justify-between w-fit'>
+        <div className='hidden xl:flex xl:items-center xl:justify-between w-fit'>
           <NavBarLinks />
         </div>
-        <div className='flex items-center lg:hidden w-full h-full justify-end'>
+        <div className='flex items-center xl:hidden w-full h-full justify-end'>
           <NavBarDrawerlinks>
             <LuAlignJustify className='text-2xl text-slate-600 cursor-pointer' />
           </NavBarDrawerlinks>
