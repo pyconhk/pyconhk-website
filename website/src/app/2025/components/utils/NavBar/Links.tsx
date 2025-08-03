@@ -39,6 +39,11 @@ export const links: NavBarLink[] = [
     isActive: true,
   },
   {
+    label: 'Communities', //! to save space
+    href: '/supporting-organizations',
+    isActive: true,
+  },
+  {
     label: 'About',
     href: '/about',
     isActive: true,
