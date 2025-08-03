@@ -14,21 +14,20 @@ import {
   WhoShouldAttendChinese,
 } from './components/SprintQnASectionsChinese';
 
-
 const sprintQnAChineseSections: React.ReactNode[] = [
-  <WhatIsSprintChinese />,
-  <ProceduresOfSprintChinese />,
-  <SprintVSConferenceChinese />,
-  <WhoShouldAttendChinese />,
-  <BeginnersSuitableChinese />,
-  <PreparationsChinese />,
-  <CanObserveChinese />,
-  <CanJoinLeaveChinese />,
-  <ParticipationFeeChinese />,
-  <ProjectsValidityChinese />,
-  <SprintLeadValidityChinese />,
-  <ResourcesChinese />,
-  <ProjectsChinese />,
+  <WhatIsSprintChinese key='what-is-sprint-chinese' />,
+  <ProceduresOfSprintChinese key='procedures-of-sprint-chinese' />,
+  <SprintVSConferenceChinese key='sprint-vs-conference-chinese' />,
+  <WhoShouldAttendChinese key='who-should-attend-chinese' />,
+  <BeginnersSuitableChinese key='beginner-suitable-chinese' />,
+  <PreparationsChinese key='preparations-chinese' />,
+  <CanObserveChinese key='can-observe-chinese' />,
+  <CanJoinLeaveChinese key='can-join-leave-chinese' />,
+  <ParticipationFeeChinese key='participation-fee-chinese' />,
+  <ProjectsValidityChinese key='projects-validity-chinese' />,
+  <SprintLeadValidityChinese key='sprint-lead-validity-chinese' />,
+  <ResourcesChinese key='resources-chinese' />,
+  <ProjectsChinese key='projects-chinese' />,
 ];
 
 export default async function SprintQnAChinese() {

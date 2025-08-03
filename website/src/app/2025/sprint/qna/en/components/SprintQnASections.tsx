@@ -7,11 +7,11 @@ export async function WhatIsSprint() {
       <p className='mt-4'>
         A <strong>Sprint</strong>, fully named{' '}
         <strong>Development Sprint</strong>, is translated in Taiwan as
-        "衝刺開發" (Sprint Development). In simple terms, a Sprint is a
-        collaborative coding event that brings together maintainers and
+        &quot;衝刺開發&quot; (Sprint Development). In simple terms, a Sprint is
+        a collaborative coding event that brings together maintainers and
         contributors of Open Source Projects, including both newcomers and
         experienced project leaders. Participants work together within a
-        designated time frame to complete specific tasks. Whether you're a
+        designated time frame to complete specific tasks. Whether you&apos;re a
         beginner looking to learn how to contribute or a project lead seeking
         collaborators, a Sprint is an excellent opportunity.
       </p>

@@ -14,21 +14,20 @@ import {
   WhoShouldAttend,
 } from './components/SprintQnASections';
 
-
 const sprintQnASections: React.ReactNode[] = [
-  <WhatIsSprint />,
-  <ProceduresOfSprint />,
-  <SprintVSConference />,
-  <WhoShouldAttend />,
-  <BeginnersSuitable />,
-  <Preparations />,
-  <CanObserve />,
-  <CanJoinLeave />,
-  <ParticipationFee />,
-  <ProjectsValidity />,
-  <SprintLeadValidity />,
-  <Resources />,
-  <Projects />,
+  <WhatIsSprint key='what-is-sprint' />,
+  <ProceduresOfSprint key='procedures-of-sprint' />,
+  <SprintVSConference key='sprint-vs-conference' />,
+  <WhoShouldAttend key='who-should-attend' />,
+  <BeginnersSuitable key='beginners-suitable' />,
+  <Preparations key='preparations' />,
+  <CanObserve key='can-observe' />,
+  <CanJoinLeave key='can-join-leave' />,
+  <ParticipationFee key='participation-fee' />,
+  <ProjectsValidity key='projects-validity' />,
+  <SprintLeadValidity key='sprint-lead-validity' />,
+  <Resources key='resources' />,
+  <Projects key='projects' />,
 ];
 
 export default async function SprintQnA() {
