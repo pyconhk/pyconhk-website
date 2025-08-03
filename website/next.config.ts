@@ -1,14 +1,13 @@
 // export default nextConfig;
-import type { NextConfig } from "next";
-import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
+import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
 };
 
-
 const setup = async () => {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true') {
     await setupDevPlatform();
   }
   return nextConfig;
