@@ -95,7 +95,7 @@ const sponsorTiers: SponsorTier[] = [
   },
 ];
 
-export default function Sponsorships() {
+export default async function Sponsorships() {
   const isTestEnv = process.env.NEXT_PUBLIC_IS_TEST_ENV == 'true';
   return (
     <>

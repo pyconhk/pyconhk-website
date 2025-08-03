@@ -48,6 +48,11 @@ export const links: NavBarLink[] = [
     href: '/sponsorships',
     children: [
       {
+        label: 'Patrons',
+        href: '/sponsorships/patrons',
+        isActive: true,
+      },
+      {
         label: 'Opportunities',
         href: '/sponsorships/opportunities',
         isActive: true,
