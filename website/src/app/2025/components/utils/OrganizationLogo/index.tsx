@@ -9,6 +9,7 @@ export interface OrganizationLogoProps {
   nameClassName?: string;
   descriptionClassName?: string;
   logoClassName?: string;
+  overallClassName?: string; // Removed as per the latest changes
 }
 
 export default async function OrganizationLogo({
@@ -20,9 +21,12 @@ export default async function OrganizationLogo({
   nameClassName = '',
   descriptionClassName = '',
   logoClassName = '',
+  overallClassName = '',
 }: OrganizationLogoProps) {
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div
+      className={`flex flex-col items-center justify-center ${overallClassName}`}
+    >
       <div className='skeleton w-fit h-fit'>
         <a href={href} target='_blank' rel='noopener noreferrer'>
           <Image

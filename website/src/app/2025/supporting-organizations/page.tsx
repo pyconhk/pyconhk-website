@@ -1,9 +1,9 @@
-import codeaholicsLogoImg from '../../../../public/2025/supporting-organizations/codeaholics.jpg';
-import gdgCloudHKLogoImg from '../../../../public/2025/supporting-organizations/gdg-cloud-hk.png';
-import hkaceLogoImg from '../../../../public/2025/supporting-organizations/hkace.png';
-import hkucsaLogoImg from '../../../../public/2025/supporting-organizations/hkucsa.png';
-import polyuRoboticsClubLogoImg from '../../../../public/2025/supporting-organizations/polyu-robotics-club.png';
-import wtmhkLogoImg from '../../../../public/2025/supporting-organizations/wtmhk.png';
+import codeaholicsLogoImg from '../../../../public/2025/supporting-organizations/codeaholics.webp';
+import gdgCloudHKLogoImg from '../../../../public/2025/supporting-organizations/gdg-cloud-hk.webp';
+import hkaceLogoImg from '../../../../public/2025/supporting-organizations/hkace.webp';
+import hkucsaLogoImg from '../../../../public/2025/supporting-organizations/hkucsa.webp';
+import polyuRoboticsClubLogoImg from '../../../../public/2025/supporting-organizations/polyu-robotics-club.webp';
+import wtmhkLogoImg from '../../../../public/2025/supporting-organizations/wtmhk.webp';
 import OrganizationLogo, {
   OrganizationLogoProps,
 } from '../components/utils/OrganizationLogo';
@@ -74,7 +74,7 @@ export default async function SupportingOrganizations() {
               descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
               logo={supportingOrganization.logo}
               logoAlt={supportingOrganization.logoAlt}
-              logoClassName='w-40 sm:w-64 bg-white'
+              logoClassName='w-40 sm:w-64'
               href={supportingOrganization.href}
             />
           </div>
