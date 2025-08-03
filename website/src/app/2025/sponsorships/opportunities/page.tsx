@@ -1,5 +1,5 @@
 import { HiOutlineEye, HiOutlineHeart, HiOutlineUsers } from 'react-icons/hi';
-import SponsorChoice from './component/SponsorChoice';
+import SponsorChoice from './components/SponsorChoice';
 
 interface SponsorBenefits {
   icon: React.ReactNode;

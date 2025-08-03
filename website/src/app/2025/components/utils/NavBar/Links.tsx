@@ -27,8 +27,15 @@ export const links: NavBarLink[] = [
     ],
   },
   {
-    label: 'Sponsors',
-    href: '/sponsors',
+    label: 'Sponsorships',
+    href: '/sponsorships',
+    children: [
+      {
+        label: 'Opportunities',
+        href: '/sponsorships/opportunities',
+        isActive: true,
+      },
+    ],
     isActive: true,
   },
   {

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { links } from './Links';
 import ClickableLink from './ClickableLink';
+import { links } from './Links';
 
 interface NavBarDrawerLinkProps {
   children?: React.ReactNode;
@@ -70,20 +70,6 @@ export default function NavBarDrawerlinks({ children }: NavBarDrawerLinkProps) {
                       />
                     </li>
                   ))}
-                  {/* {link.children.map(subLink => (
-                    <li
-                      key={`nav-drawer-${link.label}-${subLink.label}`}
-                      className='group relative'
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <ClickableLink
-                        href={subLink.href as string}
-                        title={subLink.label}
-                        isActive={subLink.isActive}
-                        className='text-white hover:bg-gray-400/50'
-                      />
-                    </li>
-                  ))} */}
                 </React.Fragment>
               ) : (
                 <li
