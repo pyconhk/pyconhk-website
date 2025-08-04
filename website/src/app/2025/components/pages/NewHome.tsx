@@ -1,10 +1,9 @@
-import { Itim, Lexend } from 'next/font/google';
+import { Lexend } from 'next/font/google';
 import Image from 'next/image';
 import { FaChevronDown } from 'react-icons/fa6';
 import backgroundImg from '../../../../../public/2025/landing-pages/banner-1.jpeg';
 import logoImg from '../../../../../public/2025/logos/logo.svg';
 
-const itim = Itim({ weight: ['400'], subsets: ['latin'] });
 const lexend = Lexend({ subsets: ['latin'], weight: ['400', '600', '700'] });
 
 interface HeroBackgroundProps {

@@ -82,8 +82,8 @@ export default async function FeaturedSpeakers() {
           </h2>
           <div className='h-1 w-24 bg-blue-400 mx-auto'></div>
           <p className='text-base sm:text-lg md:text-xl mt-4 text-gray-600 max-w-2xl mx-auto'>
-            We're excited to announce our first batch of confirmed speakers for
-            PyCon HK 2025!
+            We&apos;re excited to announce our first batch of confirmed speakers
+            for PyCon HK 2025!
           </p>
         </div>
 
