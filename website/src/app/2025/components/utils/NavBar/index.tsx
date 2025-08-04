@@ -7,7 +7,7 @@ import NavBarLinks from './Links';
 
 export default async function NavBar() {
   return (
-    <nav className='px-4 flex items-center justify-between left-0 w-full sticky top-0 z-50 h-20 backdrop-blur-sm bg-white/10'>
+    <nav className='px-4 flex items-center justify-between left-0 w-full sticky top-0 z-50 h-20 backdrop-blur-sm'>
       <div className='flex items-center justify-between lg:container lg:mx-auto px-4 md:px-8 w-full'>
         <div className='flex items-center justify-center h-full'>
           <Link

@@ -271,7 +271,11 @@ export async function ProjectsChinese() {
       </h2>
       <p className='mt-4'>
         目前正公開招募 Sprint 專案與 Sprint Lead! 歡迎
-        <a href='#' target='_blank' className='text-sky-600 hover:text-sky-800'>
+        <a
+          href={process.env.NEXT_PUBLIC_CALL_FOR_SPRINT_URL}
+          target='_blank'
+          className='text-sky-600 hover:text-sky-800'
+        >
           <span>提交你的開放原始碼專案，或報名成為 Sprint Lead</span>
         </a>
         ，分享你的想法!
