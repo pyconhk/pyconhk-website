@@ -25,7 +25,7 @@ export async function ProceduresOfSprint() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         What Happens on Sprint Day?
       </h2>
-      <p className='mt-4'>
+      <div className='mt-4'>
         <ol className='list-decimal ml-6 space-y-2 mt-4'>
           <li className='md:pl-2'>
             <strong>Project Introductions</strong>: Sprint Leads take turns
@@ -55,7 +55,7 @@ export async function ProceduresOfSprint() {
             learning far more efficient than studying books or videos alone.
           </li>
         </ol>
-      </p>
+      </div>
     </section>
   );
 }
@@ -114,7 +114,7 @@ export async function WhoShouldAttend() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         Who Should Attend?
       </h2>
-      <p className='mt-4'>
+      <div className='mt-4'>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>People who enjoy hands-on collaboration</li>
           <li className='md:pl-2'>Those interested in Open Source Projects</li>
@@ -122,7 +122,7 @@ export async function WhoShouldAttend() {
             Individuals eager to connect and learn from other developers
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -150,7 +150,7 @@ export async function Preparations() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         What Should I Prepare?
       </h2>
-      <p className='mt-4'>
+      <div className='mt-4'>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>
             <strong>Equipment</strong>: Bring a computer capable of running
@@ -165,7 +165,7 @@ export async function Preparations() {
             collaborating!
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -217,9 +217,11 @@ export async function ProjectsValidity() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         What Kind of Projects Can Participate in the Sprint?
       </h2>
-      <p className='mt-4'>
-        We welcome all Open Source Projects, but if there are too many
-        submissions, priority will be given to:
+      <div className='mt-4'>
+        <p>
+          We welcome all Open Source Projects, but if there are too many
+          submissions, priority will be given to:
+        </p>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>
             Projects related to Python or the Python Community
@@ -229,7 +231,7 @@ export async function ProjectsValidity() {
             this is PyCon HK)
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -240,13 +242,15 @@ export async function SprintLeadValidity() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         Who Can Be a Sprint Lead?
       </h2>
-      <p className='mt-4'>
-        Anyone with passion can be a Sprint Lead! Responsibilities include:
+      <div className='mt-4'>
+        <p>
+          Anyone with passion can be a Sprint Lead! Responsibilities include:
+        </p>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>Introducing your project to participants</li>
           <li className='md:pl-2'>Assisting the group in completing tasks</li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -254,8 +258,8 @@ export async function SprintLeadValidity() {
 export async function Resources() {
   return (
     <section id='resources'>
-      <p className='mt-4'>
-        Newcomers can refer to these resources:
+      <div className='mt-4'>
+        <p>Newcomers can refer to these resources:</p>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>
             <a
@@ -285,7 +289,7 @@ export async function Resources() {
             </a>
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }

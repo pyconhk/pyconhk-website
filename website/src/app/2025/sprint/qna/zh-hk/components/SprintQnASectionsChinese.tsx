@@ -5,11 +5,11 @@ export async function WhatIsSprintChinese() {
         Sprint 是什麼？
       </h2>
       <p className='mt-4'>
-        <strong>Sprint</strong> 全名為 <strong>Development Sprint</strong>,
-        在台灣翻譯為「衝刺開發」。簡單來說, Sprint 是一個集體開發程式碼的活動,
-        匯聚參與開放原始碼專案 (Open Source Project) 的負責人與貢獻者,
-        包括新手與有經驗的專案負責人。參加者於指定時間內共同努力完成特定任務,
-        無論是想學習如何參與的新手, 還是尋找協作者的專案負責人, Sprint
+        <strong>Sprint</strong> 全名為 <strong>Development Sprint</strong>，
+        在台灣翻譯為「衝刺開發」。簡單來說，Sprint 是一個集體開發程式碼的活動，
+        匯聚參與開放原始碼專案（Open Source Project）的負責人與貢獻者，
+        包括新手與有經驗的專案負責人。參加者於指定時間內共同努力完成特定任務，
+        無論是想學習如何參與的新手，還是尋找協作者的專案負責人，Sprint
         都是一個絕佳的機會。
       </p>
     </section>
@@ -22,7 +22,7 @@ export async function ProceduresOfSprintChinese() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         Sprint 當天會發生什麼？
       </h2>
-      <p className='mt-4'>
+      <div className='mt-4'>
         <ol className='list-decimal ml-6 space-y-2 mt-4'>
           <li className='md:pl-2'>
             <strong>專案介紹</strong>：由 Sprint Lead
@@ -32,16 +32,16 @@ export async function ProceduresOfSprintChinese() {
             <strong>自由組隊</strong>
             ：參加者根據興趣與能力選擇加入不同小組，並貢獻所長，例如：
             <ul className='list-disc ml-6 mt-4 space-y-2'>
-              <li className='md:pl-4'>修復程式錯誤 (Bugfix)</li>
-              <li className='md:pl-4'>撰寫測試案例 (Test Case)</li>
-              <li className='md:pl-4'>開發新功能 (Enhancement)</li>
+              <li className='md:pl-4'>修復程式錯誤（Bugfix）</li>
+              <li className='md:pl-4'>撰寫測試案例（Test Case）</li>
+              <li className='md:pl-4'>開發新功能（Enhancement）</li>
               <li className='md:pl-4'>整理數據或進行文本翻譯</li>
               <li className='md:pl-4'>籌辦社群活動</li>
             </ul>
           </li>
           <li className='md:pl-2'>
             <strong>動手實作</strong>：大家一起合作完成任務，無論是開發一個
-            Python Library 並上傳至 PyPI, 還是幫忙修改一兩個字的小任務,
+            Python Library 並上傳至 PyPI，還是幫忙修改一兩個字的小任務，
             都有其價值。
           </li>
           <li className='md:pl-2'>
@@ -49,7 +49,7 @@ export async function ProceduresOfSprintChinese() {
             ：過程中可能會遇到困難，但現場有經驗豐富的參加者可以提供指導，學習效率遠超自行研究書籍或影片。
           </li>
         </ol>
-      </p>
+      </div>
     </section>
   );
 }
@@ -71,21 +71,21 @@ export async function SprintVSConferenceChinese() {
           <tbody>
             <tr>
               <td className='border px-4 py-2'>
-                強調動手參與, 共同協作完成專案
+                強調動手參與，共同協作完成專案
               </td>
               <td className='border px-4 py-2'>
-                主要以聆聽講座為主, 知識由講者傳遞
+                主要以聆聽講座為主，知識由講者傳遞
               </td>
             </tr>
             <tr>
               <td className='border px-4 py-2'>
-                互動性高, 技術交流頻繁, 結識更多夥伴
+                互動性高，技術交流頻繁，結識更多夥伴
               </td>
-              <td className='border px-4 py-2'>互動較少, 通常為單向學習</td>
+              <td className='border px-4 py-2'>互動較少，通常為單向學習</td>
             </tr>
             <tr>
               <td className='border px-4 py-2'>
-                場地為協作環境, 參加者可自由走動
+                場地為協作環境，參加者可自由走動
               </td>
               <td className='border px-4 py-2'>通常需固定座位聆聽演講</td>
             </tr>
@@ -102,13 +102,13 @@ export async function WhoShouldAttendChinese() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         誰適合參加？
       </h2>
-      <p className='mt-4'>
+      <div className='mt-4'>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>喜歡一起動手實作的人</li>
           <li className='md:pl-2'>對開放原碼專案有興趣的人</li>
           <li className='md:pl-2'>希望與其他開發者交流、學習的人</li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -120,9 +120,9 @@ export async function BeginnersSuitableChinese() {
         Python 初學者適合參加嗎？
       </h2>
       <p className='mt-4'>
-        非常適合！初學者可以親眼觀察開放原始碼專案的運作方式。當天有不同分工,
-        會寫程式的人可以參與程式碼撰寫,
-        不熟悉程式碼的人可以協助整理數據、翻譯文本等其他工作,
+        非常適合！初學者可以親眼觀察開放原始碼專案的運作方式。當天有不同分工，
+        會寫程式的人可以參與程式碼撰寫，
+        不熟悉程式碼的人可以協助整理數據、翻譯文本等其他工作，
         總有適合你的貢獻方式！
       </p>
     </section>
@@ -135,7 +135,7 @@ export async function PreparationsChinese() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         需要準備什麼？
       </h2>
-      <p className='mt-4'>
+      <div className='mt-4'>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>
             <strong>設備</strong>：攜帶一台可運行 Python 的電腦。
@@ -148,7 +148,7 @@ export async function PreparationsChinese() {
             <strong>心態</strong>：帶著學習與參與的熱情，準備與大家交流！
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -194,15 +194,15 @@ export async function ProjectsValidityChinese() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         什麼樣的專案可以參加 Sprint?
       </h2>
-      <p className='mt-4'>
-        我們歡迎各種開放原始碼專案參與，但若報名數量過多，將優先選擇：
+      <div className='mt-4'>
+        <p>我們歡迎各種開放原始碼專案參與，但若報名數量過多，將優先選擇：</p>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>與 Python 或 Python 社群相關的專案</li>
           <li className='md:pl-2'>
-            與香港本地文化或語言相關的專案 (因為這是香港 PyCon.hk)
+            與香港本地文化或語言相關的專案（因為這是香港 PyCon.hk)
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -213,13 +213,13 @@ export async function SprintLeadValidityChinese() {
       <h2 className='text-xl md:text-2xl font-bold text-sky-600 mb-4'>
         誰可以擔任 Sprint Lead?
       </h2>
-      <p className='mt-4'>
-        任何有熱情的人都可以擔任 Sprint Lead! 主要職責包括:
+      <div className='mt-4'>
+        <p>任何有熱情的人都可以擔任 Sprint Lead! 主要職責包括:</p>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>向參加者介紹你的專案</li>
           <li className='md:pl-2'>協助大家共同完成任務</li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -227,8 +227,8 @@ export async function SprintLeadValidityChinese() {
 export async function ResourcesChinese() {
   return (
     <section id='resources-chinese'>
-      <p className='mt-4'>
-        新手可參考以下資源：
+      <div className='mt-4'>
+        <p>新手可參考以下資源：</p>
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>
             <a
@@ -258,7 +258,7 @@ export async function ResourcesChinese() {
             </a>
           </li>
         </ul>
-      </p>
+      </div>
     </section>
   );
 }
@@ -272,9 +272,9 @@ export async function ProjectsChinese() {
       <p className='mt-4'>
         目前正公開招募 Sprint 專案與 Sprint Lead! 歡迎
         <a href='#' target='_blank' className='text-sky-600 hover:text-sky-800'>
-          <span>提交你的開放原始碼專案, 或報名成為 Sprint Lead</span>
+          <span>提交你的開放原始碼專案，或報名成為 Sprint Lead</span>
         </a>
-        , 分享你的想法!
+        ，分享你的想法!
       </p>
     </section>
   );

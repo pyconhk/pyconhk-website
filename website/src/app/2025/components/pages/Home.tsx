@@ -1,5 +1,6 @@
 import { Itim } from 'next/font/google';
 import Image from 'next/image';
+import backgroundImg from '../../../../../public/2025/landing-pages/background.png';
 import BannerImageSlide from './BannerImageSlide';
 import CountdownTimer from './CountdownTimer';
 
@@ -14,7 +15,7 @@ function HomeBackground({ children, className = '' }: HeroBackgroundProps) {
   return (
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
       <Image
-        src='/landing-pages/background.png'
+        src={backgroundImg}
         alt='Background'
         fill
         priority
