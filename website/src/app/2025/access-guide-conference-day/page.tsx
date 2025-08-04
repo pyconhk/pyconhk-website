@@ -186,23 +186,26 @@ export default async function AccessGuideConferenceDay() {
               CityU has joined the initiative of the Government of Hong Kong
               Special Administration Region to provide free Wi-Fi service to
               visitors on campus since 2014. No prior registration is required,
-              however, the "Acceptable Use Policy" must be observed and accepted
-              before a connection can be established.
+              however, the &quot;Acceptable Use Policy&quot; must be observed
+              and accepted before a connection can be established.
             </p>
 
             <ol className='list-decimal list-inside space-y-4 text-gray-700'>
-              <li>Connect the Wi-Fi network with SSID "Wi-Fi.HK via CityU".</li>
+              <li>
+                Connect the Wi-Fi network with SSID &quot;Wi-Fi.HK via
+                CityU&quot;.
+              </li>
               <li>
                 Open your web browser, and you will be directed to the Wi-Fi.HK
                 via CityU page.
               </li>
               <li>
-                Please read the "Acceptable Use Policy" carefully before using
-                Wi-Fi.HK via CityU service.
+                Please read the &quot;Acceptable Use Policy&quot; carefully
+                before using Wi-Fi.HK via CityU service.
               </li>
               <li>
-                If you agree to all the Conditions, click the "ACCEPT & CONNECT"
-                button to start using the WiFi Service.
+                If you agree to all the Conditions, click the &quot;ACCEPT &
+                CONNECT&quot; button to start using the WiFi Service.
               </li>
             </ol>
           </div>
