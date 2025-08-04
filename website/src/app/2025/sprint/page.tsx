@@ -50,8 +50,9 @@ export default async function Sprint() {
 
         <div className='flex flex-col md:flex-row gap-4 justify-center mt-4 md:mt-8'>
           <a
-            // href='#' //! disabled link for now
-            className='bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded-md text-center transition-colors duration-300 flex items-center justify-center'
+            href={process.env.NEXT_PUBLIC_CALL_FOR_SPRINT_URL}
+            className='bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-md text-center transition-colors duration-300 flex items-center justify-center'
+            target='_blank'
           >
             <HiOutlineCursorClick className='h-5 w-5 mr-2' />
             Submit your Sprint Projects

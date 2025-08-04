@@ -303,7 +303,11 @@ export async function Projects() {
       <p className='mt-4'>
         We are currently recruiting Sprint Projects and Sprint Leads!
         You&apos;re welcome to{' '}
-        <a href='#' target='_blank' className='text-sky-600 hover:text-sky-800'>
+        <a
+          href={process.env.NEXT_PUBLIC_CALL_FOR_SPRINT_URL}
+          target='_blank'
+          className='text-sky-600 hover:text-sky-800'
+        >
           <span>
             submit your Open Source Project or sign up to be a Sprint Lead
           </span>

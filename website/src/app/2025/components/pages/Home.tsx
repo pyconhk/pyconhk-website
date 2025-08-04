@@ -3,6 +3,7 @@ import Image from 'next/image';
 import backgroundImg from '../../../../../public/2025/landing-pages/background.png';
 import BannerImageSlide from './BannerImageSlide';
 import CountdownTimer from './CountdownTimer';
+import { FaChevronDown } from 'react-icons/fa6';
 
 const itim = Itim({ weight: ['400'], subsets: ['latin'] });
 
@@ -76,6 +77,11 @@ export default async function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className='hidden lg:inline-block absolute bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce'>
+          <div className='bg-white/70 rounded-full p-3 border border-blue-200 shadow-sm'>
+            <FaChevronDown className='h-5 w-5 text-blue-400' />
           </div>
         </div>
       </HomeBackground>

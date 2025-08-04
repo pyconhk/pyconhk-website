@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BsArrowRight } from 'react-icons/bs';
-import { HiOutlineCurrencyDollar, HiOutlineLightBulb } from 'react-icons/hi';
+import { GiRunningShoe } from 'react-icons/gi';
+import { HiOutlineCurrencyDollar } from 'react-icons/hi';
 import { MdCheck } from 'react-icons/md';
 import ActionCard from '../utils/ActionCards';
 
@@ -14,10 +15,10 @@ interface FAQ {
   answer: string;
 }
 
-const callForProposalsTypes = [
-  'Talks (15-30 minutes)',
-  'Workshops (1.5 hours)',
-  'Posters and Lightning Talks',
+const callForSprintsBenefits = [
+  'Networking',
+  'Interactive learning experience',
+  'Develop your open-source projects',
 ];
 
 const callForSponsorshipsBenefits = [
@@ -28,11 +29,11 @@ const callForSponsorshipsBenefits = [
 
 const importantDates: ImportantDates[] = [
   {
-    title: 'Proposal Deadline',
-    date: 'July 6, 2025',
+    title: 'Conference Date',
+    date: 'Oct 11, 2025',
   },
   {
-    title: 'Conference Date',
+    title: 'Sprint Deadline',
     date: 'Oct 11, 2025',
   },
   {
@@ -67,9 +68,9 @@ export default async function CallForActions() {
     >
       {/* Hero Section */}
       <div className='py-16 px-4 sm:px-6 lg:px-8 text-center'>
-        <h1 className='text-3xl sm:text-4xl md:text-5xl font-bold text-slate-600 mb-6'>
+        <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-slate-600 mb-6'>
           Be Part of PyCon HK 2025
-        </h1>
+        </h2>
         <p className='text-base sm:text-lg md:text-xl text-slate-500 max-w-3xl mx-auto'>
           Join the Python community and contribute to making PyCon HK 2025 an
           exceptional, fun and amazing experience for everyone.
@@ -79,6 +80,44 @@ export default async function CallForActions() {
       {/* Main Content */}
       <div className='max-w-7xl mx-auto pb-20 px-4 sm:px-6 lg:px-8'>
         <div className='grid lg:grid-cols-2 gap-8 lg:gap-16 text-sm md:text-base max-w-144 lg:max-w-screen mx-auto'>
+          <ActionCard
+            topColorClassName='bg-purple-400'
+            Icon={
+              <div className='h-16 w-16 rounded-full bg-purple-100 flex items-center justify-center mb-6'>
+                <GiRunningShoe className='w-8 h-8 text-purple-400' />
+              </div>
+            }
+          >
+            <h2 className='text-xl md:text-2xl font-bold text-slate-600 mb-4'>
+              Call for Sprint
+            </h2>
+            <p className='text-slate-500  mb-8'>
+              Connect with the community and contribute to open source projects.
+              PyCon HK 2025 Sprint is a great opportunity to collaborate with
+              others, and meet like-minded.
+            </p>
+            <ul className='space-y-3 text-slate-500 mb-8'>
+              {callForSprintsBenefits.map((item, index) => (
+                <li key={index} className='flex items-start gap-4'>
+                  <div className='flex-shrink-0 w-4 h-4 relative top-0.5'>
+                    <MdCheck className='text-purple-400 w-full h-full' />
+                  </div>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href={process.env.NEXT_PUBLIC_CALL_FOR_SPRINT_URL}
+              rel='noopener noreferrer'
+              target='_blank'
+              className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-purple-400 hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200'
+            >
+              <span className='text-center'>Submit Your Project Now</span>
+              <span>
+                <BsArrowRight className='text-xl' />
+              </span>
+            </Link>
+          </ActionCard>
           <ActionCard
             topColorClassName='bg-yellow-300'
             Icon={
@@ -106,50 +145,10 @@ export default async function CallForActions() {
               ))}
             </ul>
             <Link
-              href={process.env.NEXT_PUBLIC_CALL_FOR_SPONSORSHIPS_URL}
-              rel='noopener noreferrer'
-              target='_blank'
+              href='/sponsorships/opportunities'
               className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200'
             >
               <span className='text-center'>Become a Sponsor</span>
-              <span>
-                <BsArrowRight className='text-xl' />
-              </span>
-            </Link>
-          </ActionCard>
-          <ActionCard
-            topColorClassName='bg-sky-400'
-            Icon={
-              <div className='h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mb-6'>
-                <HiOutlineLightBulb className='w-8 h-8 text-sky-400' />
-              </div>
-            }
-          >
-            <h2 className='text-xl md:text-2xl font-bold text-slate-600 mb-4'>
-              Call for Proposals
-            </h2>
-            <p className='text-slate-500  mb-8'>
-              Share your Python knowledge with the community. We&apos;re looking
-              for talks, tutorials, and workshops on a wide range of
-              Python-related topics, from beginner to advanced.
-            </p>
-            <ul className='space-y-3 text-slate-500 mb-8'>
-              {callForProposalsTypes.map((item, index) => (
-                <li key={index} className='flex items-start gap-4'>
-                  <div className='flex-shrink-0 w-4 h-4 relative top-0.5'>
-                    <MdCheck className='text-sky-400 w-full h-full' />
-                  </div>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={process.env.NEXT_PUBLIC_CALL_FOR_PROPOSALS_URL}
-              rel='noopener noreferrer'
-              target='_blank'
-              className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-sky-400 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors duration-200'
-            >
-              <span className='text-center'>Request Special Access</span>
               <span>
                 <BsArrowRight className='text-xl' />
               </span>
