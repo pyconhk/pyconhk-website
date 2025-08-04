@@ -199,7 +199,7 @@ export async function ProjectsValidityChinese() {
         <ul className='list-disc ml-6 mt-4 space-y-2'>
           <li className='md:pl-2'>與 Python 或 Python 社群相關的專案</li>
           <li className='md:pl-2'>
-            與香港本地文化或語言相關的專案（因為這是香港 PyCon.hk)
+            與香港本地文化或語言相關的專案（因為這是香港 PyCon.hk）
           </li>
         </ul>
       </div>
