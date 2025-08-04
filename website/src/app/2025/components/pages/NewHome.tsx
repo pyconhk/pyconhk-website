@@ -71,7 +71,7 @@ export default async function Home() {
             <p
               className={`${montserrat.className} text-lg md:text-xl lg:text-2xl mt-4 max-w-2xl mx-auto text-blue-800`}
             >
-              "Raise the sail, let Python prevail"
+              Raise the sail, let Python prevail
             </p>
           </div>
 
