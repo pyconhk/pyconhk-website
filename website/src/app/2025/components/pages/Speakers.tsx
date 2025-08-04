@@ -91,7 +91,7 @@ export default async function FeaturedSpeakers() {
           {speakers.map((speaker, index) => (
             <div
               key={`featured-speaker-${index}`}
-              className='max-w-96 min-h-48 w-full h-full'
+              className='max-w-80 px-4 lg:px-0 lg:max-w-96 min-h-48 w-full h-full'
             >
               <SpeakerCard
                 key={`featured-speaker-${index}`}
