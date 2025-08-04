@@ -63,7 +63,7 @@ export default async function Home() {
           </div>
 
           <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce'>
-            <div className='bg-white/70 rounded-full p-3 border border-blue-200 shadow-sm'>
+            <div className='bg-white/70 rounded-full p-3 border border-[#016735]/40 shadow-sm'>
               <FaChevronDown className='h-5 w-5 text-[#016735]' />
             </div>
           </div>
