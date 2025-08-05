@@ -8,12 +8,12 @@ import {
   HiOutlineLocationMarker,
   HiOutlineWifi,
 } from 'react-icons/hi';
-import accessGuideMtrImg from '../../../../public/2025/access-guides/conference-day/access-guide-mtr.jpg';
-import cityUWifiImg from '../../../../public/2025/access-guides/conference-day/cityu-wifi.jpg';
-import map1Img from '../../../../public/2025/access-guides/conference-day/map-1.jpg';
-import map2Img from '../../../../public/2025/access-guides/conference-day/map-2.jpg';
-import map3Img from '../../../../public/2025/access-guides/conference-day/map-3.png';
-import map4Img from '../../../../public/2025/access-guides/conference-day/map-4.jpg';
+import accessGuideMtrImg from '../../../../../public/2025/access-guides/conference-day/access-guide-mtr.jpg';
+import cityUWifiImg from '../../../../../public/2025/access-guides/conference-day/cityu-wifi.jpg';
+import map1Img from '../../../../../public/2025/access-guides/conference-day/map-1.jpg';
+import map2Img from '../../../../../public/2025/access-guides/conference-day/map-2.jpg';
+import map3Img from '../../../../../public/2025/access-guides/conference-day/map-3.png';
+import map4Img from '../../../../../public/2025/access-guides/conference-day/map-4.jpg';
 
 export default async function AccessGuideConferenceDay() {
   return (

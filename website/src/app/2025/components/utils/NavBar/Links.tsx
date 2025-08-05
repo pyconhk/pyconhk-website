@@ -21,12 +21,12 @@ export const links: NavBarLink[] = [
     children: [
       {
         label: 'Access Guide (Conference Day)',
-        href: '/access-guide-conference-day',
+        href: '/access-guide/conference-day',
         isActive: true,
       },
       {
         label: 'Access Guide (Sprint Day)',
-        href: '/access-guide-sprint-day',
+        href: '/access-guide/sprint-day',
         isActive: true,
       },
     ],
