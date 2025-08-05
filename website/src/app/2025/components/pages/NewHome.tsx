@@ -1,8 +1,8 @@
 import { Lexend } from 'next/font/google';
 import Image from 'next/image';
-import { FaChevronDown } from 'react-icons/fa6';
 import backgroundImg from '../../../../../public/2025/landing-pages/banner-1.jpeg';
 import logoImg from '../../../../../public/2025/logos/logo.svg';
+import ScrollIndicator from '../utils/ScrollIndicator';
 
 const lexend = Lexend({ subsets: ['latin'], weight: ['400', '600', '700'] });
 
@@ -62,11 +62,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce'>
-            <div className='bg-white/70 rounded-full p-3 border border-[#016735]/40 shadow-sm'>
-              <FaChevronDown className='h-5 w-5 text-[#016735]' />
-            </div>
-          </div>
+          <ScrollIndicator />
         </div>
       </HomeBackground>
     </section>
