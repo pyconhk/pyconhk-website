@@ -246,6 +246,12 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     return fetchProxy(externalUrl, request);
   }
 
+  if (pathname === '/sponsors') {
+    return NextResponse.rewrite(
+      new URL(`/${currentYear}/sponsorships/opportunities`, request.url)
+    );
+  }
+
   // Handle root and non-year paths
   if (pathname === '/') {
     return NextResponse.rewrite(new URL(`/${currentYear}`, request.url));
