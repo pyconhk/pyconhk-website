@@ -17,11 +17,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'PyCon HK 2025',
     description: 'The leading Python Conference in Hong Kong',
-    url: 'https://pycon.hk',
+    url: process.env.NEXT_PUBLIC_SITE_URL,
     siteName: 'PyCon HK 2025',
     images: [
       {
-        url: ogCroppedImage.src,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}${ogCroppedImage.src}`,
         width: ogCroppedImage.width,
         height: ogCroppedImage.height,
         alt: 'PyCon HK 2025',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PyCon HK 2025',
     description: 'The leading Python Conference in Hong Kong',
-    images: [ogImage.src],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}${ogImage.src}`],
     creator: '@pyconhk',
     site: '@pyconhk',
   },
