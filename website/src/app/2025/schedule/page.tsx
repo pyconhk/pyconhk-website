@@ -21,8 +21,8 @@ export default function Schedule() {
       !scheduleContainer.querySelector('pretalx-schedule')
     ) {
       scheduleContainer.innerHTML = `
-        <pretalx-schedule 
-          event-url="${eventUrl}" 
+        <pretalx-schedule
+          event-url="${eventUrl}"
           locale="en"
           style="--pretalx-clr-primary: #0ea5e9"
         ></pretalx-schedule>
@@ -44,8 +44,8 @@ export default function Schedule() {
             !scheduleContainer.querySelector('pretalx-schedule')
           ) {
             scheduleContainer.innerHTML = `
-              <pretalx-schedule 
-                event-url="${eventUrl}" 
+              <pretalx-schedule
+                event-url="${eventUrl}"
                 locale="en"
                 style="--pretalx-clr-primary: #0ea5e9"
               ></pretalx-schedule>
@@ -54,18 +54,16 @@ export default function Schedule() {
         }}
       />
 
-      <div className='text-center mb-12'>
+      <div className='text-center pt-24 lg:pt-32'>
         <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-gray-700 text-center'>
           Schedule
         </h1>
       </div>
 
       {/* Pretalx Widget Container - Full width within the white transparent div */}
-      <div className='bg-gray-50 rounded-lg p-8 lg:p-12 min-h-[700px]'>
-        <div id='schedule-container' className='min-h-96 w-full'>
-          <div className='flex items-center justify-center py-16'>
-            <div className='text-gray-500 text-lg'>Loading schedule...</div>
-          </div>
+      <div id='schedule-container' className='w-full mt-8 bg-white/70 lg:bg-white/0'>
+        <div className='flex items-center justify-center py-16'>
+          <div className='text-gray-500 text-lg'>Loading schedule...</div>
         </div>
 
         {/* Fallback for users with JavaScript disabled */}
