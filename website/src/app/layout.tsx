@@ -5,8 +5,7 @@ import { Montserrat } from 'next/font/google';
 import '../styles/globals.css';
 import Footer from './utils/Footer';
 
-import ogCroppedImage from '../../public/2025/landing-pages/og-cropped.webp';
-import ogImage from '../../public/2025/landing-pages/og.webp';
+import ogImage from '../../public/2025/landing-pages/open-graph.webp';
 
 const montserrat = Montserrat({ weight: ['500', '600'], subsets: ['latin'] });
 
@@ -21,9 +20,9 @@ export const metadata: Metadata = {
     siteName: 'PyCon HK 2025',
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}${ogCroppedImage.src}`,
-        width: ogCroppedImage.width,
-        height: ogCroppedImage.height,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}${ogImage.src}`,
+        width: ogImage.width,
+        height: ogImage.height,
         alt: 'PyCon HK 2025',
       },
     ],
