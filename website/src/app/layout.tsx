@@ -5,12 +5,37 @@ import { Montserrat } from 'next/font/google';
 import '../styles/globals.css';
 import Footer from './utils/Footer';
 
+import ogCroppedImage from '../../public/2025/landing-pages/og-cropped.webp';
+import ogImage from '../../public/2025/landing-pages/og.webp';
+
 const montserrat = Montserrat({ weight: ['500', '600'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'The leading Python Conference in Hong Kong',
   description:
     'PyCon Hong Kong is the leading Python conference in Hong Kong, bringing together Python enthusiasts to share their insights and foster collaboration.',
+  openGraph: {
+    title: 'PyCon HK 2025',
+    description: 'The leading Python Conference in Hong Kong',
+    url: 'https://pycon.hk',
+    siteName: 'PyCon HK 2025',
+    images: [
+      {
+        url: ogCroppedImage.src,
+        width: ogCroppedImage.width,
+        height: ogCroppedImage.height,
+        alt: 'PyCon HK 2025',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PyCon HK 2025',
+    description: 'The leading Python Conference in Hong Kong',
+    images: [ogImage.src],
+    creator: '@pyconhk',
+    site: '@pyconhk',
+  },
 };
 
 export default function RootLayout({
