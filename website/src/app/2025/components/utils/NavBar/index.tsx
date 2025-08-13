@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { LuAlignJustify } from 'react-icons/lu';
-import logoImage from '../../../../../../public/2025/logos/logo.svg';
+import logoImage from '../../../../../../public/2025/logos/logo.png';
 import NavBarDrawerlinks from './DrawerLinks';
 import NavBarLinks from './Links';
 
