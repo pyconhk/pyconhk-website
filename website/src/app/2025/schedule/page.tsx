@@ -61,7 +61,10 @@ export default function Schedule() {
       </div>
 
       {/* Pretalx Widget Container - Full width within the white transparent div */}
-      <div id='schedule-container' className='w-full mt-8 bg-white/70 lg:bg-white/0'>
+      <div
+        id='schedule-container'
+        className='w-full mt-8 bg-white/70 lg:bg-white/0'
+      >
         <div className='flex items-center justify-center py-16'>
           <div className='text-gray-500 text-lg'>Loading schedule...</div>
         </div>
