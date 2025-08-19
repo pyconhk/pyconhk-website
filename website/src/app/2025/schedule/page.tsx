@@ -164,6 +164,7 @@ export default async function Schedule() {
   );
 
   if (!proposalsResponse.ok) {
+    console.log('Failed to fetch accepted proposals');
     throw new Error('Failed to fetch accepted proposals');
   }
 
@@ -206,6 +207,7 @@ export default async function Schedule() {
   );
 
   if (!submissionTypesResponse.ok) {
+    console.log('Failed to fetch submission types');
     throw new Error('Failed to fetch submission types');
   }
 
@@ -229,6 +231,7 @@ export default async function Schedule() {
   );
 
   if (!speakersResponse.ok) {
+    console.log('Failed to fetch speakers');
     throw new Error('Failed to fetch speakers');
   }
 
@@ -247,6 +250,7 @@ export default async function Schedule() {
     });
 
     if (!nextPageResponse.ok) {
+      console.log('Failed to fetch next page of speakers');
       throw new Error('Failed to fetch next page of speakers');
     }
 
