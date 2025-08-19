@@ -89,6 +89,7 @@
 // }
 
 // Add this at the top of your file
+export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 import { transformToCamelCase } from '@/utils/api';
