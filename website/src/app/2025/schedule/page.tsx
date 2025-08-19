@@ -88,6 +88,9 @@
 //   );
 // }
 
+// Add this at the top of your file
+export const dynamic = 'force-dynamic';
+
 import { transformToCamelCase } from '@/utils/api';
 
 interface Speaker {
