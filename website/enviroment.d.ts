@@ -32,6 +32,9 @@ declare global {
 
       // Google Analytics
       NEXT_PUBLIC_GA_ID: string;
+
+      // Pretalx Read-Only API Key
+      NEXT_PUBLIC_PRETALX_API_KEY: string;
     }
   }
 }
