@@ -34,7 +34,7 @@ declare global {
       NEXT_PUBLIC_GA_ID: string;
 
       // Pretalx Read-Only API Key
-      NEXT_PRETALX_API_KEY: string;
+      NEXT_PUBLIC_PRETALX_API_KEY: string;
     }
   }
 }

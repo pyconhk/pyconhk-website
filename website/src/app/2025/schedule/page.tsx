@@ -158,7 +158,7 @@ export default async function Schedule() {
     `https://pretalx.com/api/events/${event}/submissions/`,
     {
       headers: {
-        Authorization: `Token ${process.env.NEXT_PRETALX_API_KEY}`,
+        Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
       },
     }
   );
@@ -178,7 +178,7 @@ export default async function Schedule() {
     // Fetch next page of proposals
     const nextPageResponse = await fetch(proposalResults.next, {
       headers: {
-        Authorization: `Token ${process.env.NEXT_PRETALX_API_KEY}`,
+        Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
       },
     });
 
@@ -200,7 +200,7 @@ export default async function Schedule() {
     `https://pretalx.com/api/events/${event}/submission-types/`,
     {
       headers: {
-        Authorization: `Token ${process.env.NEXT_PRETALX_API_KEY}`,
+        Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
       },
     }
   );
@@ -223,7 +223,7 @@ export default async function Schedule() {
     `https://pretalx.com/api/events/${event}/speakers/`,
     {
       headers: {
-        Authorization: `Token ${process.env.NEXT_PRETALX_API_KEY}`,
+        Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
       },
     }
   );
@@ -242,7 +242,7 @@ export default async function Schedule() {
     // Fetch next page of proposals
     const nextPageResponse = await fetch(speakerResponseResults.next, {
       headers: {
-        Authorization: `Token ${process.env.NEXT_PRETALX_API_KEY}`,
+        Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
       },
     });
 
