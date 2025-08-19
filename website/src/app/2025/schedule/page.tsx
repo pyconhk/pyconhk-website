@@ -191,15 +191,6 @@ export default async function Schedule() {
     proposalResults.next = nextPagecCamelCaseProposals.next;
   }
 
-  console.log(
-    allProposalResults.map(proposal => ({
-      title: proposal.title,
-      speakers: proposal.speakers.join(', '),
-      state: proposal.state,
-      isFeatured: proposal.isFeatured,
-    }))
-  );
-
   // Fetch all submission types
   const submissionTypesResponse = await fetch(
     `https://pretalx.com/api/events/${event}/submission-types/`,
