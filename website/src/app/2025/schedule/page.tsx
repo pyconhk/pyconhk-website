@@ -374,11 +374,15 @@ export default async function Schedule() {
                             className='flex items-center bg-blue-50 px-3 py-1 rounded-full'
                           >
                             {speaker.avatarUrl ? (
-                              <img
-                                src={speaker.avatarUrl}
-                                alt={speaker.name}
-                                className='w-6 h-6 rounded-full mr-2 object-cover'
-                              />
+                              <div className='skeleton w-6 h-6 rounded-full mr-2 object-cover'>
+                                <img
+                                  src={speaker.avatarUrl}
+                                  alt={speaker.name}
+                                  className='w-6 h-6 rounded-full mr-2 object-cover'
+                                  fetchPriority='low'
+                                  loading='lazy'
+                                />
+                              </div>
                             ) : (
                               <div className='w-6 h-6 rounded-full mr-2 bg-blue-200 text-blue-800 flex items-center justify-center text-xs'>
                                 {speaker.name.charAt(0).toUpperCase()}
