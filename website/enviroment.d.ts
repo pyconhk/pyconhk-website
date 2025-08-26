@@ -35,6 +35,9 @@ declare global {
 
       // Pretalx Read-Only API Key
       NEXT_PUBLIC_PRETALX_API_KEY: string;
+
+      // Eventbrite
+      NEXT_PUBLIC_EVENTBRITE_URL: string;
     }
   }
 }

@@ -8,18 +8,18 @@ import {
   HiOutlineLocationMarker,
   HiOutlineWifi,
 } from 'react-icons/hi';
-import accessGuideMtrImg from '../../../../../public/2025/access-guides/conference-day/access-guide-mtr.jpg';
-import cityUWifiImg from '../../../../../public/2025/access-guides/conference-day/cityu-wifi.jpg';
-import map1Img from '../../../../../public/2025/access-guides/conference-day/map-1.jpg';
-import map2Img from '../../../../../public/2025/access-guides/conference-day/map-2.jpg';
-import map3Img from '../../../../../public/2025/access-guides/conference-day/map-3.png';
-import map4Img from '../../../../../public/2025/access-guides/conference-day/map-4.jpg';
+import accessGuideMtrImg from '../../../../public/2025/access-guides/access-guide-mtr.jpg';
+import cityUWifiImg from '../../../../public/2025/access-guides/cityu-wifi.jpg';
+import map1Img from '../../../../public/2025/access-guides/map-1.jpg';
+import map2Img from '../../../../public/2025/access-guides/map-2.jpg';
+import map3Img from '../../../../public/2025/access-guides/map-3.png';
+import map4Img from '../../../../public/2025/access-guides/map-4.jpg';
 
-export default async function AccessGuideConferenceDay() {
+export default async function AccessGuideConferenceSprintDay() {
   return (
     <div className='max-w-4xl mx-auto md:px-4'>
       <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl text-gray-700 text-center'>
-        Access Guide - Conference Day
+        Access Guide - Conference & Sprint Day
       </h1>
 
       {/* Event Information */}
@@ -29,7 +29,7 @@ export default async function AccessGuideConferenceDay() {
             <HiOutlineCalendar className='h-4 w-4 text-purple-600' />
           </div>
           <span className='font-medium text-gray-700 text-sm md:text-base lg:text-lg'>
-            11th October (Sat), 2025
+            11th - 12th October (Sat), 2025
           </span>
         </div>
 
@@ -67,7 +67,7 @@ export default async function AccessGuideConferenceDay() {
           <div className='w-full overflow-hidden rounded-lg shadow-md'>
             <Image
               src={map1Img}
-              alt='Conference Building Map'
+              alt='Conference & Sprint Day Building Map'
               className='w-full h-auto'
             />
           </div>

@@ -62,6 +62,19 @@ export default async function Home() {
             </div>
           </div>
 
+          <div className='mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
+            <a
+              href={process.env.NEXT_PUBLIC_EVENTBRITE_URL || '#'}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-block px-8 py-3 bg-[#f4dc03] text-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
+            >
+              <span className={`${lexend.className} font-semibold text-lg`}>
+                Grab Your Tickets Now!
+              </span>
+            </a>
+          </div>
+
           <ScrollIndicator />
         </div>
       </HomeBackground>

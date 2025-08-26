@@ -25,13 +25,15 @@ export default async function Sprint() {
             </div>
           </div>
 
-          <div className='flex items-center'>
+          <div className='flex items-center mt-6'>
             <div className='bg-blue-100 p-2 rounded-full mr-4'>
               <LiaMapMarkedAltSolid className='h-6 w-6 text-blue-600' />
             </div>
             <div>
               <h3 className='text-sm text-gray-500 uppercase'>Venue</h3>
-              <p className='font-semibold text-gray-700'>TBC</p>
+              <p className='font-semibold text-gray-700'>
+                Yeung Kin Man Academic Building, CityU
+              </p>
             </div>
           </div>
         </div>
