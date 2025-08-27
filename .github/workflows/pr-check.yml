@@ -2,33 +2,48 @@ name: Pull Request Check
 
 on:
   pull_request:
-    branches: [main, test]
-  push:
-    branches: [main, test]
+    branches: [main, test, cms]
 
 jobs:
   pull_request_check:
     name: Pull Request Check
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR to main is from test branch only
-        if: github.base_ref == 'main'
+      - name: Check PR branch rules
         run: |
-          if [ "${{ github.head_ref }}" != "test" ]; then
-            echo "❌ Error: Only the 'test' branch can merge to 'main'"
+          # Rule 1: Only test & cms branches can merge to main
+          if [ "${{ github.base_ref }}" == "main" ]; then
+            if [ "${{ github.head_ref }}" != "test" ] && [ "${{ github.head_ref }}" != "cms" ]; then
+              echo "❌ Error: Only 'test' or 'cms' branches can merge to 'main'"
+              echo "Current source branch: ${{ github.head_ref }}"
+              echo "Target branch: ${{ github.base_ref }}"
+              echo ""
+              echo "Please merge your changes to 'test' first, or use the 'cms' branch for content changes"
+              exit 1
+            else
+              echo "✅ Valid: ${{ github.head_ref }} branch merging to main"
+            fi
+
+          # Rule 2: No branch can merge to cms
+          elif [ "${{ github.base_ref }}" == "cms" ]; then
+            echo "❌ Error: No branches can merge to 'cms'"
             echo "Current source branch: ${{ github.head_ref }}"
             echo "Target branch: ${{ github.base_ref }}"
             echo ""
-            echo "Please:"
-            echo "1. Change your pull request target to 'test' branch, OR"
-            echo "2. Merge your changes to 'test' first, then create a PR from 'test' to 'main'"
+            echo "The 'cms' branch is protected and should only be modified through the CMS interface"
             exit 1
-          else
-            echo "✅ Valid: test branch merging to main"
-          fi
 
-      - name: Validate branch targeting
-        if: github.base_ref != 'main'
-        run: |
-          echo "✅ Pull request targeting '${{ github.base_ref }}' from '${{ github.head_ref }}'"
-          echo "This follows the correct branching strategy"
+          # Rule 3: All other branches must merge to test
+          elif [ "${{ github.base_ref }}" != "test" ]; then
+            echo "❌ Error: All feature branches must merge to 'test'"
+            echo "Current source branch: ${{ github.head_ref }}"
+            echo "Target branch: ${{ github.base_ref }}"
+            echo ""
+            echo "Please change your pull request target to 'test' branch"
+            exit 1
+
+          # Valid case: Merging to test
+          else
+            echo "✅ Valid: PR targeting 'test' from '${{ github.head_ref }}'"
+            echo "This follows the correct branching strategy"
+          fi
