@@ -43,8 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en_US'>
-      <body className={`${montserrat.className}`}>
+    <html lang='en_US' className='light'>
+      <body className={`${montserrat.className} bg-white`}>
         {children}
         <Footer />
       </body>

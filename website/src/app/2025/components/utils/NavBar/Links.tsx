@@ -11,8 +11,8 @@ interface NavBarLink {
 export const links: NavBarLink[] = [
   {
     label: 'News',
-    href: '#news',
-    isActive: false,
+    href: '/news',
+    isActive: true,
   },
   {
     label: 'Schedule',
