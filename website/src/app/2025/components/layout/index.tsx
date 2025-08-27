@@ -1,11 +1,11 @@
 import LayoutBackgroundImg from '../../../../../public/2025/inner-pages/background.svg';
 
-interface LayoutProps {
+type LayoutProps = {
   children: React.ReactNode;
   defaultXPadding?: string;
   mdXPadding?: string;
   lgXPadding?: string;
-}
+};
 
 export default function Layout({
   children,
