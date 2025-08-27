@@ -1,0 +1,22 @@
+{
+  "commit": "",
+  "generated": "2025-08-27T10:26:01.154Z",
+  "metadata": [
+    {
+      "__outstatic": {
+        "commit": "",
+        "hash": "1102981316",
+        "path": "/outstatic/content/2025-posts/2025-sailing-together.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "publishedAt": "2025-08-27T11:00:26.585Z",
+      "slug": "2025-sailing-together",
+      "status": "draft",
+      "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
+    }
+  ]
+}
