@@ -1,11 +1,11 @@
 {
-  "commit": "1054d54443c2bc99df1825e2776cf93803ae22ca",
-  "generated": "2025-08-27T16:45:01.403Z",
+  "commit": "e792d159fd40c5716e775a3bc6aee172ac75d69f",
+  "generated": "2025-08-27T16:58:25.760Z",
   "metadata": [
     {
       "__outstatic": {
-        "commit": "1054d54443c2bc99df1825e2776cf93803ae22ca",
-        "hash": "472705277",
+        "commit": "e792d159fd40c5716e775a3bc6aee172ac75d69f",
+        "hash": "1859746496",
         "path": "/outstatic/content/2025-posts/2025-sailing-together.mdx"
       },
       "author": {
@@ -13,6 +13,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
+      "coverImage": "/outstatic/images/news-UxMD.png",
       "publishedAt": "2025-08-27T11:00:26.585Z",
       "slug": "2025-sailing-together",
       "status": "published",
