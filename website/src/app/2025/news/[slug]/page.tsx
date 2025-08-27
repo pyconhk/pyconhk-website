@@ -1,3 +1,4 @@
+import dateConverter from '@/utils/dateConverter';
 import markdownToHtml from '@/utils/markdownToHtml';
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -70,6 +71,7 @@ async function BackToNews() {
 export default async function Post(props: { params: Params }) {
   const params = await props.params;
   const post = await getData(params);
+  console.log('post', post);
 
   return (
     <main className='bg-gradient-to-b from-white to-gray-50'>
@@ -78,11 +80,11 @@ export default async function Post(props: { params: Params }) {
           <Image
             alt={post.title}
             src={post.coverImage}
-            fill
             className='object-cover object-center'
+            fill
             priority
           />
-          <div className='absolute inset-0 bg-white bg-opacity-30' />
+          <div className='absolute inset-0 bg-black bg-opacity-30' />
 
           {/* Floating Tag Pills */}
           <div className='absolute bottom-6 left-0 w-full px-4 md:px-8'>
@@ -120,11 +122,7 @@ export default async function Post(props: { params: Params }) {
             {/* Date */}
             <div className='mt-6 flex items-center text-sm text-gray-500'>
               <time dateTime={post.publishedAt}>
-                {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+                {dateConverter(post.publishedAt)}
               </time>
             </div>
 
