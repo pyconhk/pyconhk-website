@@ -134,7 +134,9 @@ export default async function Post(props: { params: Params }) {
             )}
           </div>
 
-          <hr className='border-t border-gray-200' />
+          <div className='px-6 md:px-10 pb-10'>
+            <hr className='border-t border-gray-200' />
+          </div>
 
           {/* Article Content */}
           <div className='px-6 md:px-10 pb-10'>
