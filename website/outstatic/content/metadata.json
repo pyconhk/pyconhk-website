@@ -1,6 +1,6 @@
 {
-  "commit": "964959e7f5e685d8e92c562da97fcd1263749116",
-  "generated": "2025-08-27T14:33:30.704Z",
+  "commit": "10730ddeed7d639699dfc6e6269411d3c743bd55",
+  "generated": "2025-08-27T14:34:18.021Z",
   "metadata": [
     {
       "__outstatic": {
@@ -17,22 +17,6 @@
       "slug": "2025-sailing-together",
       "status": "draft",
       "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
-    },
-    {
-      "__outstatic": {
-        "commit": "964959e7f5e685d8e92c562da97fcd1263749116",
-        "hash": "1555862757",
-        "path": "/outstatic/content/2025-posts/hello-world.mdx"
-      },
-      "author": {
-        "name": "Alex Au",
-        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
-      },
-      "collection": "2025-posts",
-      "publishedAt": "2025-08-27T15:21:23.342Z",
-      "slug": "hello-world",
-      "status": "draft",
-      "title": "Hello world!"
     }
   ]
 }
