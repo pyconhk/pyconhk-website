@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "daisyui";
+@plugin "@tailwindcss/typography";
 
 html,
 body,
@@ -8,4 +9,10 @@ body,
   min-height: 100%;
   margin: 0;
   padding: 0;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
 }

@@ -1,0 +1,13 @@
+{
+  "title": "2025-posts",
+  "type": "object",
+  "properties": {
+    "coverImage": {
+      "description": "Image for the Post",
+      "required": false,
+      "fieldType": "Image",
+      "dataType": "image",
+      "title": "Cover Image"
+    }
+  }
+}
