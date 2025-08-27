@@ -1,11 +1,11 @@
 {
-  "commit": "68169b202f05cab358b1c4f88ee21ac0db14f381",
-  "generated": "2025-08-27T16:37:47.154Z",
+  "commit": "1054d54443c2bc99df1825e2776cf93803ae22ca",
+  "generated": "2025-08-27T16:45:01.403Z",
   "metadata": [
     {
       "__outstatic": {
-        "commit": "68169b202f05cab358b1c4f88ee21ac0db14f381",
-        "hash": "1447430213",
+        "commit": "1054d54443c2bc99df1825e2776cf93803ae22ca",
+        "hash": "472705277",
         "path": "/outstatic/content/2025-posts/2025-sailing-together.mdx"
       },
       "author": {
@@ -15,7 +15,7 @@
       "collection": "2025-posts",
       "publishedAt": "2025-08-27T11:00:26.585Z",
       "slug": "2025-sailing-together",
-      "status": "draft",
+      "status": "published",
       "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
     }
   ]

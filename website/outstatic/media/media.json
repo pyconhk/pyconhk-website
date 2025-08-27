@@ -1,6 +1,17 @@
 {
-  "commit": "7f42dbb4c42e6a09ace3249f24a55a1944fd0711",
-  "generated": "2025-08-27T16:37:52.338Z",
+  "commit": "1054d54443c2bc99df1825e2776cf93803ae22ca",
+  "generated": "2025-08-27T16:45:01.403Z",
   "media": [
+    {
+      "__outstatic": {
+        "commit": "1054d54443c2bc99df1825e2776cf93803ae22ca",
+        "hash": "4108465332",
+        "path": "website/public/outstatic/images/news-UxMD.png"
+      },
+      "alt": "",
+      "filename": "news-UxMD.png",
+      "publishedAt": "2025-08-27T16:45:01.402Z",
+      "type": "image"
+    }
   ]
 }
