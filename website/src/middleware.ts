@@ -24,6 +24,6 @@ export const config = {
      * - public folder files
      */
     // '/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)',
-    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|outstatic).*)',
   ],
 };

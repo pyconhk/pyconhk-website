@@ -71,22 +71,20 @@ async function BackToNews() {
 export default async function Post(props: { params: Params }) {
   const params = await props.params;
   const post = await getData(params);
-  console.log('post', post);
 
   return (
     <main className='bg-gradient-to-b from-white to-gray-50'>
       {post?.coverImage && (
-        <div className='relative w-full h-[40vh] md:h-[50vh] lg:h-[60vh]'>
+        <div className='relative w-full'>
           <Image
             alt={post.title}
             src={post.coverImage}
+            width={1920}
+            height={1080}
             className='object-cover object-center'
-            fill
             priority
           />
-          <div className='absolute inset-0 bg-black bg-opacity-30' />
 
-          {/* Floating Tag Pills */}
           <div className='absolute bottom-6 left-0 w-full px-4 md:px-8'>
             <div className='max-w-5xl mx-auto'>
               {Array.isArray(post?.tags) && post.tags.length > 0 ? (
@@ -108,19 +106,19 @@ export default async function Post(props: { params: Params }) {
       {/* Hero Section with Cover Image */}
 
       {/* Content Section */}
-      <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10 pb-6'>
+      <div className='max-w-4xl mx-auto px-2 md:px-6 lg:px-8 -mt-16 relative z-10 pb-6'>
         {/* Article Card */}
         <article className='bg-white rounded-xl shadow-xl overflow-hidden'>
           {/* Article Header */}
           <div className='p-6 md:p-10'>
             <BackToNews />
 
-            <h1 className='font-bold text-3xl md:text-4xl lg:text-5xl text-gray-800 leading-tight'>
+            <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-gray-800 leading-tight'>
               {post.title}
             </h1>
 
             {/* Date */}
-            <div className='mt-6 flex items-center text-sm text-gray-500'>
+            <div className='mt-6 flex items-center text-xs md:text-sm text-gray-500'>
               <time dateTime={post.publishedAt}>
                 {dateConverter(post.publishedAt)}
               </time>
@@ -138,7 +136,7 @@ export default async function Post(props: { params: Params }) {
 
           {/* Article Content */}
           <div className='px-6 md:px-10 pb-10'>
-            <div className='prose prose-lg prose-headings:text-gray-900 prose-a:no-underline prose-a:text-blue-600 prose-a:hover:text-blue-800 text-gray-700 prose-strong:text-gray-900 max-w-none'>
+            <div className='prose prose-sm md:prose-lg prose-headings:text-gray-900 prose-a:no-underline prose-a:text-blue-600 prose-a:hover:text-blue-800 text-gray-700 prose-strong:text-gray-900 max-w-none'>
               <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
 
