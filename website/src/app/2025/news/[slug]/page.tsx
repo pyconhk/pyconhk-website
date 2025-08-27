@@ -73,35 +73,37 @@ export default async function Post(props: { params: Params }) {
 
   return (
     <main className='bg-gradient-to-b from-white to-gray-50'>
-      {/* Hero Section with Cover Image */}
-      <div className='relative w-full h-[40vh] md:h-[50vh] lg:h-[60vh]'>
-        <Image
-          alt={post.title}
-          src={post?.coverImage || ogImage.src}
-          fill
-          className='object-cover object-center'
-          priority
-        />
-        <div className='absolute inset-0 bg-black bg-opacity-30' />
+      {post?.coverImage && (
+        <div className='relative w-full h-[40vh] md:h-[50vh] lg:h-[60vh]'>
+          <Image
+            alt={post.title}
+            src={post.coverImage}
+            fill
+            className='object-cover object-center'
+            priority
+          />
+          <div className='absolute inset-0 bg-white bg-opacity-30' />
 
-        {/* Floating Tag Pills */}
-        <div className='absolute bottom-6 left-0 w-full px-4 md:px-8'>
-          <div className='max-w-5xl mx-auto'>
-            {Array.isArray(post?.tags) && post.tags.length > 0 ? (
-              <div className='flex flex-wrap gap-2 mb-4'>
-                {post.tags.map(({ label }, index) => (
-                  <span
-                    key={`${label}-${index}`}
-                    className='inline-block bg-white bg-opacity-90 backdrop-blur-sm rounded-full px-4 py-1 text-sm font-medium text-gray-800 shadow-sm transition-transform hover:scale-105'
-                  >
-                    {label}
-                  </span>
-                ))}
-              </div>
-            ) : null}
+          {/* Floating Tag Pills */}
+          <div className='absolute bottom-6 left-0 w-full px-4 md:px-8'>
+            <div className='max-w-5xl mx-auto'>
+              {Array.isArray(post?.tags) && post.tags.length > 0 ? (
+                <div className='flex flex-wrap gap-2 mb-4'>
+                  {post.tags.map(({ label }, index) => (
+                    <span
+                      key={`${label}-${index}`}
+                      className='inline-block bg-white bg-opacity-90 backdrop-blur-sm rounded-full px-4 py-1 text-sm font-medium text-gray-800 shadow-sm transition-transform hover:scale-105'
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {/* Hero Section with Cover Image */}
 
       {/* Content Section */}
       <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10 pb-6'>
