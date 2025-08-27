@@ -75,15 +75,17 @@ export default async function Post(props: { params: Params }) {
   return (
     <main className='bg-gradient-to-b from-white to-gray-50'>
       {post?.coverImage && (
-        <div className='relative w-full'>
-          <Image
-            alt={post.title}
-            src={post.coverImage}
-            width={1920}
-            height={1080}
-            className='object-cover object-center'
-            priority
-          />
+        <div className='skeleton w-fit h-fit'>
+          <div className='relative w-full'>
+            <Image
+              alt={post.title}
+              src={post.coverImage}
+              width={1920}
+              height={1080}
+              className='object-cover object-center'
+              priority
+            />
+          </div>
 
           <div className='absolute bottom-6 left-0 w-full px-4 md:px-8'>
             <div className='max-w-5xl mx-auto'>
