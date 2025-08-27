@@ -1,17 +1,6 @@
 {
-  "commit": "",
-  "generated": "2025-08-27T10:26:01.154Z",
+  "commit": "7f42dbb4c42e6a09ace3249f24a55a1944fd0711",
+  "generated": "2025-08-27T16:37:52.338Z",
   "media": [
-    {
-      "__outstatic": {
-        "commit": "",
-        "hash": "4108465332",
-        "path": "website/news-MzOD.png"
-      },
-      "alt": "",
-      "filename": "news-MzOD.png",
-      "publishedAt": "2025-08-27T10:26:01.151Z",
-      "type": "image"
-    }
   ]
 }
