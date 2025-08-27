@@ -1,4 +1,4 @@
 {
   "publicMediaPath": "outstatic/images/",
-  "repoMediaPath": "website/"
+  "repoMediaPath": "website/public/outstatic/images/"
 }
