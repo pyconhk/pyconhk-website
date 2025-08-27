@@ -3,8 +3,6 @@ name: Pull Request Check
 on:
   pull_request:
     branches: [main, test, cms]
-  push:
-    branches: [main, test, cms]
 
 jobs:
   pull_request_check:
@@ -25,7 +23,7 @@ jobs:
             else
               echo "✅ Valid: ${{ github.head_ref }} branch merging to main"
             fi
-          
+
           # Rule 2: No branch can merge to cms
           elif [ "${{ github.base_ref }}" == "cms" ]; then
             echo "❌ Error: No branches can merge to 'cms'"
@@ -34,7 +32,7 @@ jobs:
             echo ""
             echo "The 'cms' branch is protected and should only be modified through the CMS interface"
             exit 1
-          
+
           # Rule 3: All other branches must merge to test
           elif [ "${{ github.base_ref }}" != "test" ]; then
             echo "❌ Error: All feature branches must merge to 'test'"
@@ -43,7 +41,7 @@ jobs:
             echo ""
             echo "Please change your pull request target to 'test' branch"
             exit 1
-          
+
           # Valid case: Merging to test
           else
             echo "✅ Valid: PR targeting 'test' from '${{ github.head_ref }}'"
