@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { YEAR } from '../../constants';
@@ -41,7 +42,7 @@ export default function NewsPagination({
 
   return (
     <>
-      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-6 md:grid-cols-2 xl:grid-cols-3'>
         {currentPosts.map(post => (
           <Link
             key={post.slug}
@@ -51,11 +52,15 @@ export default function NewsPagination({
             <div className='bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all'>
               {post.coverImage && (
                 <div className='h-48 overflow-hidden'>
-                  <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
-                  />
+                  <div className='skeleton w-fit h-fit'>
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      width={540}
+                      height={270}
+                      className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                    />
+                  </div>
                 </div>
               )}
 
