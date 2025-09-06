@@ -1,12 +1,12 @@
 {
-  "commit": "e792d159fd40c5716e775a3bc6aee172ac75d69f",
-  "generated": "2025-08-27T16:58:25.760Z",
+  "commit": "5aaa3d9779fbf36547337e484ed46e35d2b6d60c",
+  "generated": "2025-09-01T11:30:04.890Z",
   "metadata": [
     {
       "__outstatic": {
-        "commit": "e792d159fd40c5716e775a3bc6aee172ac75d69f",
-        "hash": "1859746496",
-        "path": "/outstatic/content/2025-posts/2025-sailing-together.mdx"
+        "commit": "df385ce42011af5c22572aea6cef27e1dbb42150",
+        "hash": "3490229137",
+        "path": "/outstatic/content/2025-posts/sailing-together.mdx"
       },
       "author": {
         "name": "Alex Au",
@@ -15,7 +15,7 @@
       "collection": "2025-posts",
       "coverImage": "/outstatic/images/news-UxMD.png",
       "publishedAt": "2025-08-27T11:00:26.585Z",
-      "slug": "2025-sailing-together",
+      "slug": "sailing-together",
       "status": "published",
       "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
     }
