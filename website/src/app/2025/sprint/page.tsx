@@ -8,7 +8,7 @@ export default async function Sprint() {
   return (
     <div className='max-w-4xl mx-auto'>
       <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-gray-700 text-center'>
-        Sprint
+        Call for Sprint Projects 
       </h1>
 
       <div className='bg-white rounded-lg shadow-md p-6'>

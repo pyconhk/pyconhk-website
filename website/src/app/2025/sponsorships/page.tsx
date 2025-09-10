@@ -100,7 +100,7 @@ export default async function Sponsorships() {
   return (
     <>
       <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold text-center'>
-        Sponsorships
+        Sponsors
       </h1>
       <p className='mt-8'>
         A huge thanks to our amazing sponsors! Your support powers PyCon HK
