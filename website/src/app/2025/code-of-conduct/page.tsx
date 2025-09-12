@@ -4,7 +4,7 @@ export default function CodeOfConduct() {
   return (
     <>
       <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-center'>
-        Code of Conduct
+        Code of Conduct Overview
       </h1>
       <div className='space-y-6 text-gray-700 mt-4'>
         <p>

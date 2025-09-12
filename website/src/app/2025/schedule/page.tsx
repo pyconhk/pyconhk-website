@@ -16,7 +16,7 @@ export default function Schedule() {
         <pretalx-schedule
           event-url="${eventUrl}"
           locale="en"
-          style="--pretalx-clr-primary: #0ea5e9"
+          style="--pretalx-clr-primary: #0ea5e9;"
         ></pretalx-schedule>
       `;
     }
@@ -38,7 +38,7 @@ export default function Schedule() {
               <pretalx-schedule
                 event-url="${eventUrl}"
                 locale="en"
-                style="--pretalx-clr-primary: #0ea5e9"
+                style="--pretalx-clr-primary: #0ea5e9;"
               ></pretalx-schedule>
             `;
           }
@@ -47,7 +47,7 @@ export default function Schedule() {
 
       <div className='text-center pt-24 lg:pt-32 pb-8'>
         <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-gray-700 text-center'>
-          Schedule
+          Conference Schedule
         </h1>
       </div>
 
