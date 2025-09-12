@@ -85,7 +85,7 @@ export default function OrganizersPage() {
     <>
       <div className='max-w-7xl mx-auto'>
         <h1 className='text-4xl font-bold text-center text-gray-900'>
-          Organizers
+          Organizations
         </h1>
 
         <p className='mt-4'>
