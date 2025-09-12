@@ -53,17 +53,17 @@ export default function NavBarDrawerlinks({ children }: NavBarDrawerLinkProps) {
                 <React.Fragment key={`nav-drawer-${link.label}-inner`}>
                   <li
                     key={`nav-drawer-${link.label}`}
-                    className='group relative mt-4'
+                    className='group relative mt-6'
                   >
                     <ul>
-                      <div className='text-white mt-2 flex items-center justify-start gap-2'>
+                      <div className='text-white flex items-center justify-start gap-2'>
                         <span className='text-white/80'>{link.label}</span>
                         <IoChevronDownSharp size={18} />
                       </div>
                       {link.children.map(subLink => (
                         <li
                           key={`nav-drawer-${link.label}-${subLink.label}`}
-                          className='group relative pl-6 ml-2 border-l border-gray-600 pt-2'
+                          className='group relative pl-6 ml-2 border-l border-gray-600 pt-3'
                         >
                           <span onClick={() => setIsOpen(false)}>
                             <ClickableLink
@@ -79,7 +79,7 @@ export default function NavBarDrawerlinks({ children }: NavBarDrawerLinkProps) {
                   </li>
                 </React.Fragment>
               ) : (
-                <li key={`nav-drawer-${link.label}`} className='group mt-4'>
+                <li key={`nav-drawer-${link.label}`} className='group mt-6'>
                   <span onClick={() => setIsOpen(false)}>
                     <ClickableLink
                       href={link.href as string}
