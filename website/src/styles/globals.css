@@ -11,8 +11,12 @@ body,
   padding: 0;
 }
 
-@layer base {
+:root {
+  color-scheme: light only;
+}
+
+@media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: light;
+    color-scheme: light !important;
   }
 }

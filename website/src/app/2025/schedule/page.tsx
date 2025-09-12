@@ -16,7 +16,7 @@ export default function Schedule() {
         <pretalx-schedule
           event-url="${eventUrl}"
           locale="en"
-          style="--pretalx-clr-primary: #0ea5e9"
+          style="--pretalx-clr-primary: #0ea5e9;"
         ></pretalx-schedule>
       `;
     }
@@ -38,7 +38,7 @@ export default function Schedule() {
               <pretalx-schedule
                 event-url="${eventUrl}"
                 locale="en"
-                style="--pretalx-clr-primary: #0ea5e9"
+                style="--pretalx-clr-primary: #0ea5e9;"
               ></pretalx-schedule>
             `;
           }
