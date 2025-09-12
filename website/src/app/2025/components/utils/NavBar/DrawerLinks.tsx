@@ -42,7 +42,7 @@ export default function NavBarDrawerlinks({ children }: NavBarDrawerLinkProps) {
           {/* Close button */}
           <button
             onClick={() => setIsOpen(false)}
-            className='absolute top-6 right-4 p-4 rounded-full hover:bg-gray-700 transition-colors'
+            className='absolute top-6 right-4 my-6 mx-4 rounded-full cursor-pointer'
             aria-label='Close menu'
           >
             <RxCross2 className='h-6 w-6' size={24} />
