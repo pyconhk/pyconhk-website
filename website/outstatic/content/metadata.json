@@ -1,11 +1,11 @@
 {
-  "commit": "5aaa3d9779fbf36547337e484ed46e35d2b6d60c",
-  "generated": "2025-09-01T11:30:04.890Z",
+  "commit": "9d456c6c178f57efa272c8bd0eaad78ce43a4c64",
+  "generated": "2025-09-17T10:39:08.839Z",
   "metadata": [
     {
       "__outstatic": {
-        "commit": "df385ce42011af5c22572aea6cef27e1dbb42150",
-        "hash": "3490229137",
+        "commit": "9d456c6c178f57efa272c8bd0eaad78ce43a4c64",
+        "hash": "435765977",
         "path": "/outstatic/content/2025-posts/sailing-together.mdx"
       },
       "author": {
