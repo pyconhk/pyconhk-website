@@ -48,7 +48,7 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
-      {!process.env.NEXT_PUBLIC_IS_TEST_ENV && (
+      {process.env.NEXT_PUBLIC_IS_TEST_ENV !== 'true' && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       )}
     </html>
