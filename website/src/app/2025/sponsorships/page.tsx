@@ -118,7 +118,6 @@ const sponsorTiers: SponsorTier[] = [
 ];
 
 export default async function Sponsorships() {
-  const isTestEnv = process.env.NEXT_PUBLIC_IS_TEST_ENV == 'true';
   return (
     <>
       <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold text-center'>
@@ -129,29 +128,28 @@ export default async function Sponsorships() {
         2025, fuels the Python community, and keeps the open-source spirit
         alive. We couldn&apos;t do it without you!
       </p>
-      {isTestEnv &&
-        sponsorTiers.map(tier => (
-          <div key={tier.tier} className='flex flex-col items-center mt-16'>
-            <h2 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
-              {tier.tier}
-            </h2>
-            <div className='flex flex-col lg:flex-row items-center gap-12 lg:gap-16 xl:gap-24 mt-8'>
-              {tier.sponsors.map(sponsor => (
-                <OrganizationLogo
-                  key={sponsor.name}
-                  name={sponsor.name}
-                  nameClassName='text-base sm:text-xl font-semibold mt-4'
-                  description={sponsor.description}
-                  descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
-                  logo={sponsor.logo}
-                  logoAlt={sponsor.logoAlt}
-                  logoClassName='w-56 sm:w-80'
-                  href={sponsor.href}
-                />
-              ))}
-            </div>
+      {sponsorTiers.map(tier => (
+        <div key={tier.tier} className='flex flex-col items-center mt-16'>
+          <h2 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
+            {tier.tier}
+          </h2>
+          <div className='flex flex-col lg:flex-row items-center gap-12 lg:gap-16 xl:gap-24 mt-8'>
+            {tier.sponsors.map(sponsor => (
+              <OrganizationLogo
+                key={sponsor.name}
+                name={sponsor.name}
+                nameClassName='text-base sm:text-xl font-semibold mt-4'
+                description={sponsor.description}
+                descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
+                logo={sponsor.logo}
+                logoAlt={sponsor.logoAlt}
+                logoClassName='w-56 sm:w-80'
+                href={sponsor.href}
+              />
+            ))}
           </div>
-        ))}
+        </div>
+      ))}
     </>
   );
 }
