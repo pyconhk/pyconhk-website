@@ -90,7 +90,6 @@ const supportingOrganizations: OrganizationLogoProps[] = [
 ];
 
 export default async function SupportingOrganizations() {
-  const isTestEnv = process.env.NEXT_PUBLIC_IS_TEST_ENV == 'true';
   return (
     <>
       <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-center'>
@@ -102,25 +101,24 @@ export default async function SupportingOrganizations() {
         inspiring the Python community and empowering us to achieve new
         milestones together.
       </p>
-      {isTestEnv &&
-        supportingOrganizations.map(supportingOrganization => (
-          <div
+      {supportingOrganizations.map(supportingOrganization => (
+        <div
+          key={supportingOrganization.name}
+          className='flex flex-col items-center mt-16'
+        >
+          <OrganizationLogo
             key={supportingOrganization.name}
-            className='flex flex-col items-center mt-16'
-          >
-            <OrganizationLogo
-              key={supportingOrganization.name}
-              name={supportingOrganization.name}
-              nameClassName='text-base sm:text-xl font-semibold mt-4'
-              description={supportingOrganization.description}
-              descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
-              logo={supportingOrganization.logo}
-              logoAlt={supportingOrganization.logoAlt}
-              logoClassName='w-56 sm:w-80'
-              href={supportingOrganization.href}
-            />
-          </div>
-        ))}
+            name={supportingOrganization.name}
+            nameClassName='text-base sm:text-xl font-semibold mt-4'
+            description={supportingOrganization.description}
+            descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
+            logo={supportingOrganization.logo}
+            logoAlt={supportingOrganization.logoAlt}
+            logoClassName='w-56 sm:w-80'
+            href={supportingOrganization.href}
+          />
+        </div>
+      ))}
     </>
   );
 }
