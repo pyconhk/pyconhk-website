@@ -1,6 +1,4 @@
-const patrons: string[] = [
-  'Mr. Martin Chan',
-];
+const patrons: string[] = ['Mr. Martin Chan'];
 
 export default async function Patrons() {
   return (
