@@ -15,7 +15,7 @@ export default function Layout({
 }: LayoutProps) {
   return (
     <div
-      className='-mt-20 text-slate-500 text-sm md:text-base w-full h-full bg-cover bg-center bg-no-repeat'
+      className='-mt-20 text-slate-500 text-sm md:text-base w-full h-full bg-cover bg-center bg-no-repeat min-h-[calc(100vh-200px)]'
       style={{
         backgroundImage: `url(${LayoutBackgroundImg.src})`, // We can only use style for dynamic URLs
       }}

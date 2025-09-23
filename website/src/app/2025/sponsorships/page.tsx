@@ -1,10 +1,12 @@
-import awsLogoImg from '../../../../public/2025/sponsorships/aws.webp';
-import cityucocLogoImg from '../../../../public/2025/sponsorships/cityucoc.webp';
-import jetbrainsLogoImg from '../../../../public/2025/sponsorships/jetbrains.webp';
-import mysqlLogoImg from '../../../../public/2025/sponsorships/mysql.webp';
-import pccwLogoImg from '../../../../public/2025/sponsorships/pccw.webp';
-import psfLogoImg from '../../../../public/2025/sponsorships/psf.webp';
-import redhatLogoImg from '../../../../public/2025/sponsorships/redhat.webp';
+import awsLogoImg from '../../../../public/2025/sponsorships/aws.svg';
+import bloombergImg from '../../../../public/2025/sponsorships/bloomberg.svg';
+import bootDevImg from '../../../../public/2025/sponsorships/boot.dev.webp';
+import cityuCOCImg from '../../../../public/2025/sponsorships/cityu_coc.svg';
+import jetbrainsImg from '../../../../public/2025/sponsorships/jetbrains.svg';
+import lgtImg from '../../../../public/2025/sponsorships/lgt.svg';
+import navicatImg from '../../../../public/2025/sponsorships/navicat.svg';
+import psfImg from '../../../../public/2025/sponsorships/psf.webp';
+import redhatImg from '../../../../public/2025/sponsorships/redhat.svg';
 import OrganizationLogo, {
   OrganizationLogoProps,
 } from '../components/utils/OrganizationLogo';
@@ -20,7 +22,7 @@ const sponsorTiers: SponsorTier[] = [
     sponsors: [
       {
         name: 'AWS',
-        description: '❤️ Sponsor of 3 consecutive years',
+        description: '❤️ Sponsor of 4 consecutive years',
         logo: awsLogoImg,
         logoAlt: 'AWS Logo',
         href: 'https://aws.amazon.com/',
@@ -28,49 +30,52 @@ const sponsorTiers: SponsorTier[] = [
     ],
   },
   {
-    tier: 'Platinum Sponsor',
+    tier: 'Platinum Sponsors',
     sponsors: [
       {
-        name: 'Python Software Foundation',
-        description: '❤️ Sponsor for a total of 5 years',
-        logo: psfLogoImg,
-        logoAlt: 'Python Software Foundation Logo',
-        href: 'https://www.python.org/psf-landing/',
+        name: 'LGT Private Banking',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: lgtImg,
+        logoAlt: 'LGT Private Banking Logo',
+        href: 'https://www.lgt.com/hk-en',
       },
-    ],
-  },
-  {
-    tier: 'Gold Sponsor',
-    sponsors: [
       {
         name: 'Red Hat',
-        description: '❤️ Sponsor of 2 consecutive years',
-        logo: redhatLogoImg,
+        description: '❤️ Sponsor of 3 consecutive years',
+        logo: redhatImg,
         logoAlt: 'Red Hat Logo',
-        href: 'https://www.redhat.com/',
+        href: 'https://www.redhat.com/en',
       },
     ],
   },
   {
-    tier: 'Venue Partner',
+    tier: 'Gold and Travel Sponsor',
     sponsors: [
       {
-        name: 'City University of Hong Kong<br/>College of Computing',
-        logo: cityucocLogoImg,
-        logoAlt: 'CityU College of Computing Logo',
-        href: 'https://www.cityu.edu.hk/cc/',
+        name: 'Bloomberg',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: bloombergImg,
+        logoAlt: 'Bloomberg Logo',
+        href: 'https://www.bloomberg.com/asia',
       },
     ],
   },
   {
-    tier: 'Silver Sponsor',
+    tier: 'Silver Sponsors',
     sponsors: [
       {
-        name: 'MySQL',
-        description: '❤️ Sponsor of 9 consecutive years',
-        logo: mysqlLogoImg,
-        logoAlt: 'MySQL Logo',
-        href: 'https://www.mysql.com/',
+        name: 'Boot.dev',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: bootDevImg,
+        logoAlt: 'Boot.dev Logo',
+        href: 'https://www.boot.dev/',
+      },
+      {
+        name: 'Navicat',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: navicatImg,
+        logoAlt: 'Navicat Logo',
+        href: 'https://www.navicat.com/cht',
       },
     ],
   },
@@ -79,17 +84,34 @@ const sponsorTiers: SponsorTier[] = [
     sponsors: [
       {
         name: 'JetBrains',
-        description: '❤️ Sponsor of 2 consecutive years',
-        logo: jetbrainsLogoImg,
+        description: '❤️ Sponsor of 3 consecutive years',
+        logo: jetbrainsImg,
         logoAlt: 'JetBrains Logo',
         href: 'https://www.jetbrains.com/',
       },
+    ],
+  },
+  {
+    tier: 'Foundation Sponsor',
+    sponsors: [
       {
-        name: 'HKT Limited',
-        description: '❤️ Sponsor of 3 consecutive years',
-        logo: pccwLogoImg,
-        logoAlt: 'HKT Limited Logo',
-        href: 'https://www.hkt.com/',
+        name: 'Python Software Foundation',
+        description: '❤️ Sponsor for a total of 6 years',
+        logo: psfImg,
+        logoAlt: 'PSF Logo',
+        href: 'https://www.python.org/psf-landing/',
+      },
+    ],
+  },
+  {
+    tier: 'Community Partner',
+    sponsors: [
+      {
+        name: 'City University of Hong Kong<br/>College of Computing',
+        description: '❤️ Supporter for 2 consecutive years',
+        logo: cityuCOCImg,
+        logoAlt: 'CityU COC Logo',
+        href: 'https://www.cityu.edu.hk/cc/',
       },
     ],
   },

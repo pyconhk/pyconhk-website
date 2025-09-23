@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en_US' className='light'>
-      <body className={`${montserrat.className} bg-white`}>
+      <body className={`${montserrat.className}`}>
         {children}
         <Footer />
       </body>
