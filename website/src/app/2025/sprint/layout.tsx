@@ -5,5 +5,5 @@ export default function SprintLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Layout>{children}</Layout>;
+  return <Layout defaultXPadding='px-4'>{children}</Layout>;
 }
