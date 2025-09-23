@@ -1,13 +1,6 @@
-const patrons: string[] = [
-  'Mr. Joe Chan',
-  'Mr. Anthony Lai',
-  'Mr. Calvin Tsang',
-  'PyCon香港補完計画',
-  'In memory of Madam. Yu Shui Chun',
-];
+const patrons: string[] = ['Mr. Martin Chan'];
 
 export default async function Patrons() {
-  const isTestEnv = process.env.NEXT_PUBLIC_IS_TEST_ENV == 'true';
   return (
     <>
       <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold text-center'>
@@ -20,12 +13,11 @@ export default async function Patrons() {
         commitment!
       </p>
       <ul className='mt-8 space-y-2'>
-        {isTestEnv &&
-          patrons.map((patron, index) => (
-            <li key={`patron-${index}`}>
-              <span className='text-base font-semibold'>{patron}</span>
-            </li>
-          ))}
+        {patrons.map((patron, index) => (
+          <li key={`patron-${index}`}>
+            <span className='text-base font-semibold'>{patron}</span>
+          </li>
+        ))}
       </ul>
     </>
   );
