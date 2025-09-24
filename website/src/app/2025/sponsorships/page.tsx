@@ -61,6 +61,18 @@ const sponsorTiers: SponsorTier[] = [
     ],
   },
   {
+    tier: 'Community Partner',
+    sponsors: [
+      {
+        name: 'City University of Hong Kong<br/>College of Computing',
+        description: '❤️ Supporter for 2 consecutive years',
+        logo: cityuCOCImg,
+        logoAlt: 'CityU COC Logo',
+        href: 'https://www.cityu.edu.hk/cc/',
+      },
+    ],
+  },
+  {
     tier: 'Silver Sponsors',
     sponsors: [
       {
@@ -100,18 +112,6 @@ const sponsorTiers: SponsorTier[] = [
         logo: psfImg,
         logoAlt: 'PSF Logo',
         href: 'https://www.python.org/psf-landing/',
-      },
-    ],
-  },
-  {
-    tier: 'Community Partner',
-    sponsors: [
-      {
-        name: 'City University of Hong Kong<br/>College of Computing',
-        description: '❤️ Supporter for 2 consecutive years',
-        logo: cityuCOCImg,
-        logoAlt: 'CityU COC Logo',
-        href: 'https://www.cityu.edu.hk/cc/',
       },
     ],
   },
