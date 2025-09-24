@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { BsBullseye, BsCodeSlash } from 'react-icons/bs';
-import { FaGithub, FaRegClock, FaUser } from 'react-icons/fa6';
+import { FaDiscord, FaGithub, FaRegClock, FaUser } from 'react-icons/fa6';
 import { HiOutlineCalendar, HiOutlineCursorClick } from 'react-icons/hi';
 import { LiaMapMarkedAltSolid } from 'react-icons/lia';
 import { MdOutlineDescription } from 'react-icons/md';
@@ -18,6 +18,8 @@ interface SprintProject {
   goals: string[];
   githubLinkDisplay: string;
   githubLink: string;
+  discordChannelDisplay: string;
+  discordChannel: string;
   level: string;
   sprintLead: string;
 }
@@ -44,6 +46,9 @@ const sprintProjects: SprintProject[] = [
     ],
     githubLinkDisplay: 'github.com/lucianosrp/frame-check',
     githubLink: 'https://github.com/lucianosrp/frame-check',
+    discordChannelDisplay: '2025-sprint-frame-check',
+    discordChannel:
+      'https://discord.com/channels/1246847132699332640/1420214135857086565',
     level: 'ALL Levels',
     sprintLead: 'Luciano Scarpulla',
   },
@@ -60,6 +65,9 @@ const sprintProjects: SprintProject[] = [
       'github.com/dev1virtuoso/Machine-Learning/Computer Vision/L.E.P.A.U.T.E.',
     githubLink:
       'https://github.com/dev1virtuoso/Machine-Learning/tree/main/Computer%20Vision/L.E.P.A.U.T.E.',
+    discordChannelDisplay: '2025-sprint-lepaute',
+    discordChannel:
+      'https://discord.com/channels/1246847132699332640/1420214691547840563',
     level: 'Intermediate',
     sprintLead: 'Carson',
   },
@@ -162,6 +170,23 @@ export default async function Sprint() {
                     {project.githubLinkDisplay}
                   </span>
                 </a>
+              </div>
+
+              <div className='flex items-start mt-4'>
+                <FaDiscord className='h-5 w-5 mr-4 flex-shrink-0 mt-1' />
+                <div className='text-gray-700 text-sm md:text-base'>
+                  <span className='font-medium'>Discord channel: </span>
+                  <a
+                    href={project.discordChannel}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-blue-600 hover:underline break-words'
+                  >
+                    <span className='font-medium'>
+                      #{project.discordChannelDisplay}
+                    </span>
+                  </a>
+                </div>
               </div>
 
               <div className='flex items-start mt-4'>
