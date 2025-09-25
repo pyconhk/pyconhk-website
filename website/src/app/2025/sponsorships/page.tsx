@@ -49,18 +49,6 @@ const sponsorTiers: SponsorTier[] = [
     ],
   },
   {
-    tier: 'Gold and Travel Sponsor',
-    sponsors: [
-      {
-        name: 'Bloomberg',
-        description: '👏 First-time sponsor of PyCon HK',
-        logo: bloombergImg,
-        logoAlt: 'Bloomberg Logo',
-        href: 'https://www.bloomberg.com/asia',
-      },
-    ],
-  },
-  {
     tier: 'Community Partner',
     sponsors: [
       {
@@ -88,6 +76,13 @@ const sponsorTiers: SponsorTier[] = [
         logo: navicatImg,
         logoAlt: 'Navicat Logo',
         href: 'https://www.navicat.com/cht',
+      },
+      {
+        name: 'Bloomberg',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: bloombergImg,
+        logoAlt: 'Bloomberg Logo',
+        href: 'https://www.bloomberg.com/asia',
       },
     ],
   },
