@@ -26,7 +26,7 @@ const sponsorTiers: SponsorTier[] = [
         modalNode: (
           <div>
             <span>
-              Since 2006, Amazon Web Services has been the world's most
+              Since 2006, Amazon Web Services has been the world&apos;s most
               comprehensive and broadly adopted cloud. AWS has been continually
               expanding its services to support virtually any workload, and it
               now has more than 240 fully featured services for
