@@ -21,8 +21,46 @@ const sponsorTiers: SponsorTier[] = [
     tier: 'Diamond Sponsor',
     sponsors: [
       {
-        name: 'AWS',
+        name: 'Amazon Web Services',
         description: '❤️ Sponsor of 4 consecutive years',
+        modalNode: (
+          <div>
+            <span>
+              Since 2006, Amazon Web Services has been the world's most
+              comprehensive and broadly adopted cloud. AWS has been continually
+              expanding its services to support virtually any workload, and it
+              now has more than 240 fully featured services for
+            </span>
+            <br />
+            <ul className='list-disc list-inside mt-2 mb-2 ml-4'>
+              <li>compute</li>
+              <li>storage</li>
+              <li>databases</li>
+              <li>networking</li>
+              <li>analytics</li>
+              <li>mobile</li>
+              <li>security</li>
+              <li>hybrid</li>
+              <li>media</li>
+              <li>application development</li>
+              <li>deployment</li>
+              <li>management</li>
+            </ul>
+            <span>
+              from 120 Availability Zones within 38 geographic regions, with
+              announced plans for 10 more Availability Zones, and three more AWS
+              Regions in Chile, the Kingdom of Saudi Arabia, and the AWS
+              European Sovereign Cloud.
+            </span>
+            <br />
+            <br />
+            <span>
+              Millions of customers—including the fastest-growing startups,
+              largest enterprises, and leading government agencies—trust AWS to
+              power their infrastructure, become more agile, and lower costs.
+            </span>
+          </div>
+        ),
         logo: awsLogoImg,
         logoAlt: 'AWS Logo',
         href: 'https://aws.amazon.com/',
@@ -135,6 +173,7 @@ export default async function Sponsorships() {
                 name={sponsor.name}
                 nameClassName='text-base sm:text-xl font-semibold mt-4'
                 description={sponsor.description}
+                modalNode={sponsor.modalNode}
                 descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
                 logo={sponsor.logo}
                 logoAlt={sponsor.logoAlt}
