@@ -106,10 +106,10 @@ const sponsorTiers: SponsorTier[] = [
             <p>
               Its portfolio of cloud, developer, AI, Linux, automation and
               application platform technologies enables any application,
-              anywhere—from the datacenter to the edge. As the world&apos;s leading
-              provider of enterprise open source software solutions, Red Hat
-              invests in open ecosystems and communities to solve tomorrow&apos;s IT
-              challenges.
+              anywhere—from the datacenter to the edge. As the world&apos;s
+              leading provider of enterprise open source software solutions, Red
+              Hat invests in open ecosystems and communities to solve
+              tomorrow&apos;s IT challenges.
             </p>
             <br />
             <p>
