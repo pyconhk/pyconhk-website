@@ -45,7 +45,7 @@ const supportingOrganizations: OrganizationLogoProps[] = [
         <p>
           With a mix of local and international speakers, we offer talks and
           workshops which are targeted and relevant. We believe that meetups
-          don't need to be big and expensive to be valuable.
+          don&apos;t need to be big and expensive to be valuable.
         </p>
       </div>
     ),
@@ -87,16 +87,16 @@ const supportingOrganizations: OrganizationLogoProps[] = [
           本會在資訊科技界的專業地位於1997年得到政府及業界的肯定：立法會功能組別選舉中，本會是選舉法認可的科技創新界專業團體之一。除此以外，本會於2000年獲稅務局批准，成為認可慈善團體。
         </p>
         <br />
-        <h2 className="font-bold">面向老師的活動</h2>
-        <p className="mt-1">
+        <h2 className='font-bold'>面向老師的活動</h2>
+        <p className='mt-1'>
           本會經常為校長及老師舉辦各式各樣的活動，較大型者如「Google for
           Education Teachers Network(GETN)」、「Technology Expert: Apple
           Communication Hubs
           (T.E.A.C.H.)」、組織香港中小學老師團出席「全球華人計算機教育應用大會」（GCCCE）。本會亦定期與不同公司及團體舉辦教師講座、工作坊及興趣小組。
         </p>
         <br />
-        <h2 className="font-bold">面向學生的活動</h2>
-        <p className="mt-1">
+        <h2 className='font-bold'>面向學生的活動</h2>
+        <p className='mt-1'>
           本會每年均定期舉辦多項面向學生的大型活動，包括小學生「資訊科技挑戰獎勵計劃」、中學生「青年資訊科技大使獎勵計劃」、「學習如此多紛」專題創作比賽、香港電腦奧林匹克競賽、高中「資訊及通訊科技科」模擬試、中學「Girls
           STEM計劃」、中學生資訊科技體驗團等等。
         </p>

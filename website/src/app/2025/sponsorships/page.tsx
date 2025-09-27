@@ -106,9 +106,9 @@ const sponsorTiers: SponsorTier[] = [
             <p>
               Its portfolio of cloud, developer, AI, Linux, automation and
               application platform technologies enables any application,
-              anywhere—from the datacenter to the edge. As the world's leading
+              anywhere—from the datacenter to the edge. As the world&apos;s leading
               provider of enterprise open source software solutions, Red Hat
-              invests in open ecosystems and communities to solve tomorrow's IT
+              invests in open ecosystems and communities to solve tomorrow&apos;s IT
               challenges.
             </p>
             <br />
@@ -120,7 +120,7 @@ const sponsorTiers: SponsorTier[] = [
                 href='https://access.redhat.com/recognition'
                 target='_blank'
                 rel='noopener noreferrer'
-                className="text-blue-600 hover:underline"
+                className='text-blue-600 hover:underline'
               >
                 award-winning
               </a>{' '}

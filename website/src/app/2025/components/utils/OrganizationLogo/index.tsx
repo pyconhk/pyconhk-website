@@ -62,7 +62,10 @@ export default function OrganizationLogo({
                 className='object-contain aspect-square w-24 md:w-36 rounded-xl'
               />
               <h3 className='font-bold text-base md:text-xl mt-2 flex items-center justify-center'>
-                <span className="text-center" dangerouslySetInnerHTML={{ __html: name }} />
+                <span
+                  className='text-center'
+                  dangerouslySetInnerHTML={{ __html: name }}
+                />
               </h3>
             </div>
             <div className='p-4 md:p-10'>{modalNode}</div>
