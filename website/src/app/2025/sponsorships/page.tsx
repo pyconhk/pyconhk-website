@@ -25,13 +25,12 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Sponsor of 4 consecutive years',
         modalNode: (
           <div>
-            <span>
+            <p>
               Since 2006, Amazon Web Services has been the world&apos;s most
               comprehensive and broadly adopted cloud. AWS has been continually
               expanding its services to support virtually any workload, and it
               now has more than 240 fully featured services for
-            </span>
-            <br />
+            </p>
             <ul className='list-disc list-inside mt-2 mb-2 ml-4'>
               <li>compute</li>
               <li>storage</li>
@@ -46,19 +45,18 @@ const sponsorTiers: SponsorTier[] = [
               <li>deployment</li>
               <li>management</li>
             </ul>
-            <span>
+            <p>
               from 120 Availability Zones within 38 geographic regions, with
               announced plans for 10 more Availability Zones, and three more AWS
               Regions in Chile, the Kingdom of Saudi Arabia, and the AWS
               European Sovereign Cloud.
-            </span>
+            </p>
             <br />
-            <br />
-            <span>
+            <p>
               Millions of customers—including the fastest-growing startups,
               largest enterprises, and leading government agencies—trust AWS to
               power their infrastructure, become more agile, and lower costs.
-            </span>
+            </p>
           </div>
         ),
         logo: awsLogoImg,
@@ -73,6 +71,23 @@ const sponsorTiers: SponsorTier[] = [
       {
         name: 'LGT Private Banking',
         description: '👏 First-time sponsor of PyCon HK',
+        modalNode: (
+          <div>
+            <p>
+              LGT is a leading international private banking and asset
+              management group that has been fully controlled by the
+              Liechtenstein Princely Family for over 90 years.
+            </p>
+            <br />
+            <p>
+              As at 30 June 2025, LGT managed assets of CHF 359.6 billion (USD
+              451.6 billion) for wealthy private individuals and institutional
+              clients. LGT employs over 6000 people who work out of more than 30
+              locations in Europe, Asia, the Americas, Australia and the Middle
+              East.
+            </p>
+          </div>
+        ),
         logo: lgtImg,
         logoAlt: 'LGT Private Banking Logo',
         href: 'https://www.lgt.com/hk-en',
@@ -80,6 +95,39 @@ const sponsorTiers: SponsorTier[] = [
       {
         name: 'Red Hat',
         description: '❤️ Sponsor of 3 consecutive years',
+        modalNode: (
+          <div>
+            <p>
+              Red Hat is the open hybrid cloud technology leader, delivering a
+              trusted, consistent and comprehensive foundation for
+              transformative IT innovation and AI applications.
+            </p>
+            <br />
+            <p>
+              Its portfolio of cloud, developer, AI, Linux, automation and
+              application platform technologies enables any application,
+              anywhere—from the datacenter to the edge. As the world's leading
+              provider of enterprise open source software solutions, Red Hat
+              invests in open ecosystems and communities to solve tomorrow's IT
+              challenges.
+            </p>
+            <br />
+            <p>
+              Collaborating with partners and customers, Red Hat helps them
+              build, connect, automate, secure and manage their IT environments,
+              supported by consulting services and{' '}
+              <a
+                href='https://access.redhat.com/recognition'
+                target='_blank'
+                rel='noopener noreferrer'
+                className="text-blue-600 hover:underline"
+              >
+                award-winning
+              </a>{' '}
+              training and certification offerings.
+            </p>
+          </div>
+        ),
         logo: redhatImg,
         logoAlt: 'Red Hat Logo',
         href: 'https://www.redhat.com/en',

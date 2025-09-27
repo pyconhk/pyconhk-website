@@ -48,7 +48,7 @@ export default function OrganizationLogo({
       </div>
       {modalNode && (
         <dialog id={`org-${name}`} className='modal' ref={dialogRef}>
-          <div className='modal-box w-11/12 max-w-5xl h-11/12 lg:h-23/24 bg-white text-sm md:text-base modal-middle'>
+          <div className='modal-box w-11/12 max-w-5xl max-h-11/12 lg:max-h-23/24 bg-white text-sm md:text-base modal-middle'>
             <form method='dialog'>
               {/* if there is a button in form, it will close the modal */}
               <button className='cursor-pointer absolute right-6 top-6 md:right-8 md:top-8'>
@@ -61,9 +61,11 @@ export default function OrganizationLogo({
                 alt={logoAlt}
                 className='object-contain aspect-square w-24 md:w-36 rounded-xl'
               />
-              <h3 className='font-bold text-base md:text-xl'>{name}</h3>
+              <h3 className='font-bold text-base md:text-xl mt-2 flex items-center justify-center'>
+                <span className="text-center" dangerouslySetInnerHTML={{ __html: name }} />
+              </h3>
             </div>
-            <div className='p-4 md:p-12'>{modalNode}</div>
+            <div className='p-4 md:p-10'>{modalNode}</div>
             <div className='flex justify-center mt-4 mb-4 md:mb-6'>
               <button className='btn btn-primary btn-sm md:btn-md'>
                 <a href={href} target='_blank' rel='noopener noreferrer'>
