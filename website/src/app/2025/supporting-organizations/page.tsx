@@ -145,8 +145,8 @@ const supportingOrganizations: OrganizationLogoProps[] = [
           GDG Cloud Hong Kong is the Hong Kong chapter of the global Google
           Developer Groups focusing on the awesome capability of Google Cloud.
           This group is a community group for all technologists with an interest
-          in Google Cloud Platform (GCP) and its awesome capabilities. We'll be
-          exploring areas including (but not limited to)
+          in Google Cloud Platform (GCP) and its awesome capabilities.
+          We&apos;ll be exploring areas including (but not limited to)
         </p>
         <ul className='list-disc mt-4 ml-6 space-y-2'>
           <li className='md:pl-2'>Machine Learning</li>
