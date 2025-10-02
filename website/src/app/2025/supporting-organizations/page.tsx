@@ -5,6 +5,7 @@ import eduHKMathItImg from '../../../../public/2025/supporting-organizations/edu
 import gdgCloudHKImg from '../../../../public/2025/supporting-organizations/gdg_cloud_hk.webp';
 import gdgHKImg from '../../../../public/2025/supporting-organizations/gdg_hk.webp';
 import hkaceImg from '../../../../public/2025/supporting-organizations/hkace.webp';
+import internetSocietyImg from '../../../../public/2025/supporting-organizations/internet_society.webp';
 import japanRPIImg from '../../../../public/2025/supporting-organizations/japan_rpi_ug.webp';
 import pyladiesHKImg from '../../../../public/2025/supporting-organizations/pyladies_hk.webp';
 import pyladiesTokyoImg from '../../../../public/2025/supporting-organizations/pyladies_tokyo.webp';
@@ -18,12 +19,58 @@ const supportingOrganizations: OrganizationLogoProps[] = [
   {
     name: 'Agile Hong Kong',
     logo: agileHKImg,
+    modalNode: (
+      <div>
+        <p>
+          Established in 2014, Agile HK is a group which welcomes everyone to
+          learn and share knowledge and experience about anything Agile, discuss
+          the latest development in Agile-related topics, from teamwork, metrics
+          and coaching. Learn more about previous events at their website!
+        </p>
+      </div>
+    ),
     logoAlt: 'Agile Hong Kong Logo',
     href: 'https://www.meetup.com/agile-hong-kong/',
   },
   {
     name: 'AWS User Group Hong Kong',
     logo: awsUGHKImg,
+    modalNode: (
+      <div>
+        <p>
+          Since 2015, AWS User Group Hong Kong has been a volunteer-driven
+          community for anyone interested in Amazon Web Services. The group
+          welcomes cloud beginners, seasoned professionals, and everyone in
+          between, and is dedicated to:
+        </p>
+        <ol className='list-decimal mt-4 ml-6 space-y-2'>
+          <li className='md:pl-2'>
+            building a strong AWS community in Hong Kong;
+          </li>
+          <li className='md:pl-2'>
+            sharing the latest AWS news, trends, and best practices;
+          </li>
+          <li className='md:pl-2'>
+            supporting members in their cloud journey; and
+          </li>
+          <li className='md:pl-2'>encouraging collaboration and innovation.</li>
+        </ol>
+        <p className='mt-4'>
+          The group regularly hosts talks, workshops, and networking sessions.
+          Visit their Meetup page for the latest{' '}
+          <span className='text-blue-500 hover:underline'>
+            <a
+              href='https://www.meetup.com/hong-kong-amazon-aws-user-group/'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              schedule
+            </a>
+          </span>
+          .
+        </p>
+      </div>
+    ),
     logoAlt: 'AWS User Group Hong Kong Logo',
     href: 'https://awsug.hk/',
   },
@@ -56,18 +103,84 @@ const supportingOrganizations: OrganizationLogoProps[] = [
   {
     name: 'Department of Mathematics and<br/>Information Techonology, The EdUHK',
     logo: eduHKMathItImg,
+    modalNode: (
+      <div>
+        <p>
+          With the vision to nurture future generations to become quality
+          educators and researchers in mathematics and information technology
+          with passion and talent, the Department of Mathematics and Information
+          Technology, EdUHK seeks to:
+        </p>
+        <ol className='list-decimal mt-4 ml-6 space-y-2'>
+          <li className='md:pl-2'>
+            Strive for excellence in education, research, and knowledge
+            transfer;
+          </li>
+          <li className='md:pl-2'>
+            Cultivate students&apos; mastery of reasoning and analytic
+            processes, problem-solving, critical thinking, and computational
+            thinking, and ultimately enable them to become life-long learners;
+          </li>
+          <li className='md:pl-2'>
+            Contribute new knowledge of high impact and recognition in the areas
+            of mathematics, information technology, and their pedagogy; and
+          </li>
+          <li className='md:pl-2'>
+            Undertake outreach and community engagement that increases
+            mathematical and information technology literacy locally,
+            regionally, and internationally.
+          </li>
+        </ol>
+      </div>
+    ),
     logoAlt: 'EdUHK Math & IT Dept Logo',
     href: 'https://www.eduhk.hk/mit/en/',
   },
   {
     name: 'Google Developer Group Cloud Hong Kong',
     logo: gdgCloudHKImg,
+    modalNode: (
+      <div>
+        <p>
+          GDG Cloud Hong Kong is the Hong Kong chapter of the global Google
+          Developer Groups focusing on the awesome capability of Google Cloud.
+          This group is a community group for all technologists with an interest
+          in Google Cloud Platform (GCP) and its awesome capabilities. We'll be
+          exploring areas including (but not limited to)
+        </p>
+        <ul className='list-disc mt-4 ml-6 space-y-2'>
+          <li className='md:pl-2'>Machine Learning</li>
+          <li className='md:pl-2'>BiqQuery</li>
+          <li className='md:pl-2'>Serverless Computing</li>
+          <li className='md:pl-2'>App Engine, and</li>
+          <li className='md:pl-2'>Containers</li>
+        </ul>
+      </div>
+    ),
     logoAlt: 'GDG Cloud Hong Kong Logo',
     href: 'https://gdg.community.dev/gdg-cloud-hong-kong/',
   },
   {
     name: 'Google Developer Group Hong Kong',
     logo: gdgHKImg,
+    modalNode: (
+      <div>
+        <p>
+          Established in December 2009, Google Developer Group Hong Kong (GDG
+          HK) is an active, Hong Kong-based non-profit community within the
+          global Google Developer Groups network. Dedicated to fostering a
+          community of 2,000+ developers and tech enthusiasts, GDG HK provides
+          an open platform for learning and sharing knowledge about Google
+          technologies, including AI, web, and mobile development.
+        </p>
+        <p>
+          We organize periodic off-line events, from study groups and tech talks
+          to the annual DevFest, and have successfully hosted over 40 events,
+          workshops, and meetups—such as DevFest, Build with AI, and I/O
+          Extended—contributing significantly to the local tech ecosystem.
+        </p>
+      </div>
+    ),
     logoAlt: 'GDG Hong Kong Logo',
     href: 'https://gdg.community.dev/gdg-hong-kong/',
   },
@@ -107,6 +220,21 @@ const supportingOrganizations: OrganizationLogoProps[] = [
     href: 'https://www.hkace.org.hk/',
   },
   {
+    name: 'Internet Society Hong Kong',
+    logo: internetSocietyImg,
+    modalNode: (
+      <div>
+        <p>
+          We aim for an open, neutral, reliable and accessible Internet, through
+          foster participation and contribution on open development of
+          standards, protocols, governance, infrastructure of the Internet.
+        </p>
+      </div>
+    ),
+    logoAlt: 'Internet Society Hong Kong Logo',
+    href: 'https://www.isoc.hk/',
+  },
+  {
     name: 'Japanese Raspberry Pi Users Group<br/>(Raspberry JAM Tokyo)',
     logo: japanRPIImg,
     logoAlt: 'Japanese Raspberry Pi Users Group Logo',
@@ -121,18 +249,59 @@ const supportingOrganizations: OrganizationLogoProps[] = [
   {
     name: 'PyLadies Tokyo',
     logo: pyladiesTokyoImg,
+    modalNode: (
+      <div>
+        <p>
+          PyLadies Tokyo is the Tokyo branch of PyLadies, working to connect
+          female Pythonists. While their main activity is monthly meetups, they
+          also participate in various other activities, such as participating in
+          the PyCon JP conference and hosting workshops in collaboration with
+          Django Girls Tokyo.
+        </p>
+      </div>
+    ),
     logoAlt: 'PyLadies Tokyo Logo',
     href: 'https://tokyo.pyladies.com/',
   },
   {
     name: 'Python Asia Organization',
     logo: pythonAsiaImg,
+    modalNode: (
+      <div>
+        <p>
+          PAO is a non-profit based in Estonia that organizes the annual
+          regional conference and supports Python events across Asia. It also
+          fosters community and leadership development while holding the rights
+          to the annual regional conference series and related trademarks. Their
+          mission is to promote, protect, and advance the Python programming
+          language while fostering the growth of a diverse and thriving
+          community of Python programmers in East and Southeast Asia region.
+        </p>
+        <br />
+        <p>
+          By organizing events, supporting community initiatives, and
+          collaborating globally, we aim to create a sustainable and inclusive
+          ecosystem for Python enthusiasts and professionals alike.
+        </p>
+      </div>
+    ),
     logoAlt: 'Python Asia Organization Logo',
     href: 'https://pythonasia.org/',
   },
   {
     name: 'VTC<br/>Innovation and Technology Co-creation Centre',
     logo: vtcImg,
+    modalNode: (
+      <div>
+        <p>
+          VTC Innovation and Technology Co-creation Centre provides a platform
+          for students to nurture young talents and foster an innovation and
+          entrepreneurial culture, by bringing in cutting-edge technologies and
+          establishing strong partnerships and collaborations with industries,
+          to build a successful innovation ecosystem and create social impacts..
+        </p>
+      </div>
+    ),
     logoAlt: 'VTC Logo',
     href: 'https://vco-create.vtc.edu.hk/en/',
   },

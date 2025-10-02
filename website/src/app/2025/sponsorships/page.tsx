@@ -32,18 +32,18 @@ const sponsorTiers: SponsorTier[] = [
               now has more than 240 fully featured services for
             </p>
             <ul className='list-disc list-inside mt-2 mb-2 ml-4'>
-              <li>compute</li>
-              <li>storage</li>
-              <li>databases</li>
-              <li>networking</li>
-              <li>analytics</li>
-              <li>mobile</li>
-              <li>security</li>
-              <li>hybrid</li>
-              <li>media</li>
-              <li>application development</li>
-              <li>deployment</li>
-              <li>management</li>
+              <li className='md:pl-2'>compute</li>
+              <li className='md:pl-2'>storage</li>
+              <li className='md:pl-2'>databases</li>
+              <li className='md:pl-2'>networking</li>
+              <li className='md:pl-2'>analytics</li>
+              <li className='md:pl-2'>mobile</li>
+              <li className='md:pl-2'>security</li>
+              <li className='md:pl-2'>hybrid</li>
+              <li className='md:pl-2'>media</li>
+              <li className='md:pl-2'>application development</li>
+              <li className='md:pl-2'>deployment</li>
+              <li className='md:pl-2'>management</li>
             </ul>
             <p>
               from 120 Availability Zones within 38 geographic regions, with
@@ -120,7 +120,7 @@ const sponsorTiers: SponsorTier[] = [
                 href='https://access.redhat.com/recognition'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-blue-600 hover:underline'
+                className='text-blue-500 hover:underline'
               >
                 award-winning
               </a>{' '}
