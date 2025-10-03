@@ -9,6 +9,7 @@ export interface OrganizationLogoProps {
   modalNode?: React.ReactNode;
   logo: StaticImageData;
   logoAlt?: string;
+  logoSize?: number;
   href?: string;
   nameClassName?: string;
   descriptionClassName?: string;

@@ -11,6 +11,7 @@ import pyladiesHKImg from '../../../../public/2025/supporting-organizations/pyla
 import pyladiesTokyoImg from '../../../../public/2025/supporting-organizations/pyladies_tokyo.webp';
 import pythonAsiaImg from '../../../../public/2025/supporting-organizations/python_asia.webp';
 import vtcImg from '../../../../public/2025/supporting-organizations/vtc.webp';
+import wtiaImg from '../../../../public/2025/supporting-organizations/wtia.png.webp';
 import OrganizationLogo, {
   OrganizationLogoProps,
 } from '../components/utils/OrganizationLogo';
@@ -320,6 +321,41 @@ const supportingOrganizations: OrganizationLogoProps[] = [
     ),
     logoAlt: 'VTC Logo',
     href: 'https://vco-create.vtc.edu.hk/en/',
+  },
+  {
+    name: 'WTIA<br/>Hong Kong Wireless Technology Industry Association',
+    logo: wtiaImg,
+    modalNode: (
+      <div>
+        <p>
+          Hong Kong Wireless Technology Industry Association (WTIA), established
+          in 2001, is a not-for-profit trade association and community for
+          professionals, dedicated to the innovative and emerging technologies
+          industry.
+        </p>
+        <br />
+        <p>
+          The Association acts as a platform, an aggregator, and a community for
+          industry professionals to advance and facilitate the development of
+          wireless, mobile, and emerging innovative technologies. We aim to
+          enable technological breakthroughs and accelerate the applications of
+          state-of-the-art technologies in various industries. Together, WTIA is
+          dedicated to shaping Hong Kong into a top-class innovation and
+          technology smart hub.
+        </p>
+        <br />
+        <p>
+          Throughout all these years, WTIA is glad and honored to have support
+          from all corners of the Wireless Industry. We strive to gather
+          like-minded professionals by organising various online and offline
+          activities to facilitate our six core objectives: StartUp, m-Commerce
+          & FinTech, EduTech, Blockchain & Metaverse, 5G & IoT, and Information
+          Security.
+        </p>
+      </div>
+    ),
+    logoAlt: 'WTIA Logo',
+    href: 'https://hkwtia.org/',
   },
 ];
 

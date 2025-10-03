@@ -61,6 +61,7 @@ const sponsorTiers: SponsorTier[] = [
         ),
         logo: awsLogoImg,
         logoAlt: 'AWS Logo',
+        logoClassName: 'w-56 sm:w-80',
         href: 'https://aws.amazon.com/',
       },
     ],
@@ -90,6 +91,7 @@ const sponsorTiers: SponsorTier[] = [
         ),
         logo: lgtImg,
         logoAlt: 'LGT Private Banking Logo',
+        logoClassName: 'w-52 sm:w-72',
         href: 'https://www.lgt.com/hk-en',
       },
       {
@@ -130,6 +132,7 @@ const sponsorTiers: SponsorTier[] = [
         ),
         logo: redhatImg,
         logoAlt: 'Red Hat Logo',
+        logoClassName: 'w-52 sm:w-72',
         href: 'https://www.redhat.com/en',
       },
     ],
@@ -142,6 +145,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Supporter for 2 consecutive years',
         logo: cityuCOCImg,
         logoAlt: 'CityU COC Logo',
+        logoClassName: 'w-48 sm:w-64',
         href: 'https://www.cityu.edu.hk/cc/',
       },
     ],
@@ -154,6 +158,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '👏 First-time sponsor of PyCon HK',
         logo: bloombergImg,
         logoAlt: 'Bloomberg Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.bloomberg.com/asia',
       },
       {
@@ -161,6 +166,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '👏 First-time sponsor of PyCon HK',
         logo: bootDevImg,
         logoAlt: 'Boot.dev Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.boot.dev/',
       },
       {
@@ -168,6 +174,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '👏 First-time sponsor of PyCon HK',
         logo: navicatImg,
         logoAlt: 'Navicat Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.navicat.com/cht',
       },
     ],
@@ -180,6 +187,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Sponsor of 3 consecutive years',
         logo: jetbrainsImg,
         logoAlt: 'JetBrains Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.jetbrains.com/',
       },
     ],
@@ -192,6 +200,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Sponsor for a total of 6 years',
         logo: psfImg,
         logoAlt: 'PSF Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.python.org/psf-landing/',
       },
     ],
@@ -225,7 +234,7 @@ export default async function Sponsorships() {
                 descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
                 logo={sponsor.logo}
                 logoAlt={sponsor.logoAlt}
-                logoClassName='w-56 sm:w-80'
+                logoClassName={sponsor.logoClassName}
                 href={sponsor.href}
               />
             ))}
