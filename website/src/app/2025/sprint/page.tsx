@@ -14,7 +14,7 @@ interface SprintScheduleItem {
 
 interface SprintProject {
   title: string;
-  description: string;
+  descriptionNode: React.ReactNode;
   goals: string[];
   githubLinkDisplay: string;
   githubLink: string;
@@ -37,8 +37,14 @@ const sprintSchedule: SprintScheduleItem[] = [
 const sprintProjects: SprintProject[] = [
   {
     title: 'frame-check',
-    description:
-      "A python checker that can check the validity of DataFrame objects through the code. It will keep track of the dataframes' schema and raise errors if the schema is not respected or if the user is trying to access a column that does not exists.",
+    descriptionNode: (
+      <div>
+        A python checker that can check the validity of DataFrame objects
+        through the code. It will keep track of the dataframes' schema and raise
+        errors if the schema is not respected or if the user is trying to access
+        a column that does not exists.
+      </div>
+    ),
     goals: [
       'Core parser (parsing DF creations, user-specified schema, variable assignment)',
       'Core checker (rules and validators)',
@@ -54,8 +60,14 @@ const sprintProjects: SprintProject[] = [
   },
   {
     title: 'L.E.P.A.U.T.E. Framework',
-    description:
-      'L.E.P.A.U.T.E. The framework is a visual framework based on Lie group theory that accurately models geometric transformations in images and improves the performance of CNNs. Recommended Sprint: Strong market demand, with applications in robotics and healthcare.',
+    descriptionNode: (
+      <div>
+        L.E.P.A.U.T.E. The framework is a visual framework based on Lie group
+        theory that accurately models geometric transformations in images and
+        improves the performance of CNNs. Recommended Sprint: Strong market
+        demand, with applications in robotics and healthcare.
+      </div>
+    ),
     goals: [
       'Implement the Lie group convolutional layer',
       'Train the self-supervisory model',
@@ -70,6 +82,47 @@ const sprintProjects: SprintProject[] = [
       'https://discord.com/channels/1246847132699332640/1420214691547840563',
     level: 'Intermediate',
     sprintLead: 'Carson',
+  },
+  {
+    title: 'Contribute to Engineering Blog Article Prototypes',
+    descriptionNode: (
+      <div>
+        <p>
+          Most startups and companies publish engineering blog articles. During
+          the sprint, I will add 2 - 3 projects to the repository. Each
+          repository will be a prototype of the architecture described in these
+          blog articles, rebuilt with a tech stack we&apos;re comfortable with,
+          to understand why those companies took that approach.
+        </p>
+        <br />
+        <p>
+          Additionally, most of these blog articles mention &quot;Future
+          Work.&quot; I will build the initial prototype, and participants will
+          work on the future work items mentioned.
+        </p>
+        <br />
+        <p>
+          For example, Uber released their Enhanced Agentic RAG solution. In
+          their future work, they highlighted pending features like OCR support,
+          Multimodal RAG, and Chain-of-RAG for multi-hop reasoning. I will build
+          the initial Enhanced Agentic RAG pipeline, and participants can
+          implement the future work items. I will guide them with resources and
+          resolve doubts. Those who contribute will receive Streamlit swags, and
+          I also have 2 - 3 Google swags.
+        </p>
+      </div>
+    ),
+    goals: [
+      'Understand how big tech companies build their AI systems by understanding the architecture',
+      'Build projects that create impact and are used in the industry rather than copy-pasting the project',
+    ],
+    githubLinkDisplay: 'github.com/lucifertrj/case-study-series',
+    githubLink: 'https://github.com/lucifertrj/case-study-series',
+    discordChannelDisplay: '2025-sprint-blog-articles',
+    discordChannel:
+      'https://discord.com/channels/1246847132699332640/1423684541201125457',
+    level: 'ALL Levels',
+    sprintLead: 'Tarun Jain',
   },
 ];
 
@@ -153,9 +206,9 @@ export default async function Sprint() {
 
               <div className='flex items-start mt-4'>
                 <MdOutlineDescription className='h-5 w-5 mr-4 text-gray-500 mt-1 flex-shrink-0' />
-                <p className='text-gray-700 text-sm/relaxed md:text-base lg:text-lg'>
-                  {project.description}
-                </p>
+                <div className='text-gray-700 text-sm/relaxed md:text-base lg:text-lg'>
+                  {project.descriptionNode}
+                </div>
               </div>
 
               <div className='flex items-start mt-4'>
