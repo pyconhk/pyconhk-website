@@ -243,6 +243,22 @@ const supportingOrganizations: OrganizationLogoProps[] = [
   {
     name: 'PyLadies Hong Kong',
     logo: pyladiesHKImg,
+    modalNode: (
+      <div>
+        <p>
+          PyLadies Hong Kong encourages women to actively participate and lead
+          in the Python open-source community. We promote, educate, and advance
+          a diverse Python community through outreach, education, events, and
+          social gatherings.
+        </p>
+        <br />
+        <p>
+          Our supportive network empowers women and connects them to the broader
+          Python community, welcoming everyone with an interest in Python to
+          join!
+        </p>
+      </div>
+    ),
     logoAlt: 'PyLadies Hong Kong Logo',
     href: 'https://linktr.ee/pyladieshk',
   },
