@@ -119,7 +119,8 @@ const sprintProjects: SprintProject[] = [
     githubLinkDisplay: 'github.com/lucifertrj/case-study-series',
     githubLink: 'https://github.com/lucifertrj/case-study-series',
     discordChannelDisplay: '2025-sprint-blog-articles',
-    discordChannel: '',
+    discordChannel:
+      'https://discord.com/channels/1246847132699332640/1423684541201125457',
     level: 'ALL Levels',
     sprintLead: 'Tarun Jain',
   },
