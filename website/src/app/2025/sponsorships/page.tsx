@@ -1,4 +1,5 @@
 import awsLogoImg from '../../../../public/2025/sponsorships/aws.svg';
+import betaLabsImg from '../../../../public/2025/sponsorships/beta_labs.svg';
 import bloombergImg from '../../../../public/2025/sponsorships/bloomberg.svg';
 import bootDevImg from '../../../../public/2025/sponsorships/boot.dev.webp';
 import cityuCOCImg from '../../../../public/2025/sponsorships/cityu_coc.svg';
@@ -6,6 +7,7 @@ import jetbrainsImg from '../../../../public/2025/sponsorships/jetbrains.svg';
 import lgtImg from '../../../../public/2025/sponsorships/lgt.svg';
 import navicatImg from '../../../../public/2025/sponsorships/navicat.svg';
 import psfImg from '../../../../public/2025/sponsorships/psf.webp';
+import pyladiesHKImg from '../../../../public/2025/sponsorships/pyladies_hk.svg';
 import redhatImg from '../../../../public/2025/sponsorships/redhat.svg';
 import OrganizationLogo, {
   OrganizationLogoProps,
@@ -61,6 +63,7 @@ const sponsorTiers: SponsorTier[] = [
         ),
         logo: awsLogoImg,
         logoAlt: 'AWS Logo',
+        logoClassName: 'w-56 sm:w-80',
         href: 'https://aws.amazon.com/',
       },
     ],
@@ -90,6 +93,7 @@ const sponsorTiers: SponsorTier[] = [
         ),
         logo: lgtImg,
         logoAlt: 'LGT Private Banking Logo',
+        logoClassName: 'w-52 sm:w-72',
         href: 'https://www.lgt.com/hk-en',
       },
       {
@@ -130,6 +134,7 @@ const sponsorTiers: SponsorTier[] = [
         ),
         logo: redhatImg,
         logoAlt: 'Red Hat Logo',
+        logoClassName: 'w-52 sm:w-72',
         href: 'https://www.redhat.com/en',
       },
     ],
@@ -142,6 +147,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Supporter for 2 consecutive years',
         logo: cityuCOCImg,
         logoAlt: 'CityU COC Logo',
+        logoClassName: 'w-48 sm:w-64',
         href: 'https://www.cityu.edu.hk/cc/',
       },
     ],
@@ -154,6 +160,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '👏 First-time sponsor of PyCon HK',
         logo: bloombergImg,
         logoAlt: 'Bloomberg Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.bloomberg.com/asia',
       },
       {
@@ -161,6 +168,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '👏 First-time sponsor of PyCon HK',
         logo: bootDevImg,
         logoAlt: 'Boot.dev Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.boot.dev/',
       },
       {
@@ -168,7 +176,33 @@ const sponsorTiers: SponsorTier[] = [
         description: '👏 First-time sponsor of PyCon HK',
         logo: navicatImg,
         logoAlt: 'Navicat Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.navicat.com/cht',
+      },
+    ],
+  },
+  {
+    tier: 'Bronze Sponsors',
+    sponsors: [
+      {
+        name: 'Beta Labs',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: betaLabsImg,
+        logoAlt: 'Beta Labs Logo',
+        logoClassName: 'w-40 sm:w-48',
+        href: 'https://www.linkedin.com/company/betalabs-hk',
+      },
+    ],
+  },
+  {
+    tier: 'Sparkle Sponsors',
+    sponsors: [
+      {
+        name: 'PyLadies Hong Kong',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: pyladiesHKImg,
+        logoAlt: 'PyLadies Hong Kong Logo',
+        logoClassName: 'w-40 sm:w-48',
       },
     ],
   },
@@ -180,6 +214,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Sponsor of 3 consecutive years',
         logo: jetbrainsImg,
         logoAlt: 'JetBrains Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.jetbrains.com/',
       },
     ],
@@ -192,6 +227,7 @@ const sponsorTiers: SponsorTier[] = [
         description: '❤️ Sponsor for a total of 6 years',
         logo: psfImg,
         logoAlt: 'PSF Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.python.org/psf-landing/',
       },
     ],
@@ -225,7 +261,7 @@ export default async function Sponsorships() {
                 descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
                 logo={sponsor.logo}
                 logoAlt={sponsor.logoAlt}
-                logoClassName='w-56 sm:w-80'
+                logoClassName={sponsor.logoClassName}
                 href={sponsor.href}
               />
             ))}

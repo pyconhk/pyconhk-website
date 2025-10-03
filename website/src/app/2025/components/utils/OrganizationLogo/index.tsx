@@ -9,6 +9,7 @@ export interface OrganizationLogoProps {
   modalNode?: React.ReactNode;
   logo: StaticImageData;
   logoAlt?: string;
+  logoSize?: number;
   href?: string;
   nameClassName?: string;
   descriptionClassName?: string;
@@ -39,12 +40,27 @@ export default function OrganizationLogo({
       className={`flex flex-col items-center justify-center ${overallClassName}`}
     >
       <div className='skeleton w-fit h-fit'>
-        <Image
-          src={logo}
-          alt={logoAlt}
-          className={`object-contain ${logoClassName} aspect-square ${modalNode ? 'cursor-pointer' : 'cursor-default'}`}
-          onClick={openDialog}
-        />
+        {href && !modalNode ? (
+          <a
+            href={href}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='cursor-pointer'
+          >
+            <Image
+              src={logo}
+              alt={logoAlt}
+              className={`object-contain ${logoClassName} aspect-square`}
+            />
+          </a>
+        ) : (
+          <Image
+            src={logo}
+            alt={logoAlt}
+            className={`object-contain ${logoClassName} aspect-square ${modalNode ? 'cursor-pointer' : 'cursor-default'}`}
+            onClick={openDialog}
+          />
+        )}
       </div>
       {modalNode && (
         <dialog id={`org-${name}`} className='modal' ref={dialogRef}>
