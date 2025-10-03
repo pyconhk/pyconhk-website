@@ -203,6 +203,7 @@ const sponsorTiers: SponsorTier[] = [
         logo: pyladiesHKImg,
         logoAlt: 'PyLadies Hong Kong Logo',
         logoClassName: 'w-40 sm:w-48',
+        href: 'https://linktr.ee/pyladieshk',
       },
     ],
   },
