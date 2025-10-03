@@ -7,7 +7,7 @@ import gdgHKImg from '../../../../public/2025/supporting-organizations/gdg_hk.we
 import hkaceImg from '../../../../public/2025/supporting-organizations/hkace.webp';
 import internetSocietyImg from '../../../../public/2025/supporting-organizations/internet_society.webp';
 import japanRPIImg from '../../../../public/2025/supporting-organizations/japan_rpi_ug.webp';
-import pyladiesHKImg from '../../../../public/2025/supporting-organizations/pyladies_hk.webp';
+import pyladiesHKImg from '../../../../public/2025/supporting-organizations/pyladies_hk.svg';
 import pyladiesTokyoImg from '../../../../public/2025/supporting-organizations/pyladies_tokyo.webp';
 import pythonAsiaImg from '../../../../public/2025/supporting-organizations/python_asia.webp';
 import vtcImg from '../../../../public/2025/supporting-organizations/vtc.webp';

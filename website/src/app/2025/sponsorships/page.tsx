@@ -1,4 +1,5 @@
 import awsLogoImg from '../../../../public/2025/sponsorships/aws.svg';
+import betaLabsImg from '../../../../public/2025/sponsorships/beta_labs.svg';
 import bloombergImg from '../../../../public/2025/sponsorships/bloomberg.svg';
 import bootDevImg from '../../../../public/2025/sponsorships/boot.dev.webp';
 import cityuCOCImg from '../../../../public/2025/sponsorships/cityu_coc.svg';
@@ -6,6 +7,7 @@ import jetbrainsImg from '../../../../public/2025/sponsorships/jetbrains.svg';
 import lgtImg from '../../../../public/2025/sponsorships/lgt.svg';
 import navicatImg from '../../../../public/2025/sponsorships/navicat.svg';
 import psfImg from '../../../../public/2025/sponsorships/psf.webp';
+import pyladiesHKImg from '../../../../public/2025/sponsorships/pyladies_hk.svg';
 import redhatImg from '../../../../public/2025/sponsorships/redhat.svg';
 import OrganizationLogo, {
   OrganizationLogoProps,
@@ -176,6 +178,31 @@ const sponsorTiers: SponsorTier[] = [
         logoAlt: 'Navicat Logo',
         logoClassName: 'w-44 sm:w-56',
         href: 'https://www.navicat.com/cht',
+      },
+    ],
+  },
+  {
+    tier: 'Bronze Sponsors',
+    sponsors: [
+      {
+        name: 'Beta Labs',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: betaLabsImg,
+        logoAlt: 'Beta Labs Logo',
+        logoClassName: 'w-40 sm:w-48',
+        href: 'https://www.linkedin.com/company/betalabs-hk',
+      },
+    ],
+  },
+  {
+    tier: 'Sparkle Sponsors',
+    sponsors: [
+      {
+        name: 'PyLadies Hong Kong',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: pyladiesHKImg,
+        logoAlt: 'PyLadies Hong Kong Logo',
+        logoClassName: 'w-40 sm:w-48',
       },
     ],
   },
