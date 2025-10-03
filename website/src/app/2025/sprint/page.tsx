@@ -40,9 +40,9 @@ const sprintProjects: SprintProject[] = [
     descriptionNode: (
       <div>
         A python checker that can check the validity of DataFrame objects
-        through the code. It will keep track of the dataframes' schema and raise
-        errors if the schema is not respected or if the user is trying to access
-        a column that does not exists.
+        through the code. It will keep track of the dataframes&apos; schema and
+        raise errors if the schema is not respected or if the user is trying to
+        access a column that does not exists.
       </div>
     ),
     goals: [
