@@ -1,6 +1,6 @@
 {
-  "commit": "c59cf0a7366d3e86d9c025b605b3c74c5527b364",
-  "generated": "2025-10-08T04:55:20.606Z",
+  "commit": "469f801963446e054a64c334de581ce4caf4a6fe",
+  "generated": "2025-10-08T06:05:28.631Z",
   "metadata": [
     {
       "__outstatic": {
@@ -38,8 +38,8 @@
     },
     {
       "__outstatic": {
-        "commit": "c59cf0a7366d3e86d9c025b605b3c74c5527b364",
-        "hash": "2979452925",
+        "commit": "469f801963446e054a64c334de581ce4caf4a6fe",
+        "hash": "367151143",
         "path": "/outstatic/content/2025-posts/sprint-day-guide.mdx"
       },
       "author": {
