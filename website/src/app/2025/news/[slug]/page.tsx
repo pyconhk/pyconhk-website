@@ -108,7 +108,7 @@ export default async function Post(props: { params: Params }) {
       {/* Hero Section with Cover Image */}
 
       {/* Content Section */}
-      <div className='max-w-4xl mx-auto px-2 md:px-6 lg:px-8 -mt-4 sm:-mt-8 md:-mt-16 relative z-10 pb-6'>
+      <div className='max-w-4xl mx-auto px-2 md:px-6 lg:px-8 -mt-4 sm:-mt-8 md:-mt-20 relative z-10 pb-6'>
         {/* Article Card */}
         <article className='bg-white rounded-xl shadow-xl overflow-hidden'>
           {/* Article Header */}
