@@ -1,6 +1,6 @@
 {
-  "commit": "bc3691cfc2973009d1bd5904b1f1257274ae4d07",
-  "generated": "2025-10-08T01:33:36.652Z",
+  "commit": "d121c23dc4218f641841b96651e34a1c4c369214",
+  "generated": "2025-10-08T01:37:19.236Z",
   "metadata": [
     {
       "__outstatic": {
@@ -21,8 +21,8 @@
     },
     {
       "__outstatic": {
-        "commit": "bc3691cfc2973009d1bd5904b1f1257274ae4d07",
-        "hash": "3944082735",
+        "commit": "d121c23dc4218f641841b96651e34a1c4c369214",
+        "hash": "1195441800",
         "path": "/outstatic/content/2025-posts/2025-platinum-sponsor-lgt.mdx"
       },
       "author": {
