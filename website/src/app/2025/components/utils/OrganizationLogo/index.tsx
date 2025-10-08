@@ -15,6 +15,8 @@ export interface OrganizationLogoProps {
   descriptionClassName?: string;
   logoClassName?: string;
   overallClassName?: string; // Removed as per the latest changes
+  showName?: boolean; // Removed as per the latest changes
+  showSkeleton?: boolean; // New prop to control skeleton display
 }
 
 export default function OrganizationLogo({
@@ -23,11 +25,13 @@ export default function OrganizationLogo({
   href,
   description,
   modalNode,
-  logoAlt = name,
+  logoAlt = '',
   nameClassName = '',
   descriptionClassName = '',
   logoClassName = '',
   overallClassName = '',
+  showName = true,
+  showSkeleton = true,
 }: OrganizationLogoProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const openDialog = () => {
@@ -39,7 +43,7 @@ export default function OrganizationLogo({
     <div
       className={`flex flex-col items-center justify-center ${overallClassName}`}
     >
-      <div className='skeleton w-fit h-fit'>
+      <div className={`${showSkeleton && 'skeleton'} w-fit h-fit`}>
         {href && !modalNode ? (
           <a
             href={href}
@@ -64,7 +68,7 @@ export default function OrganizationLogo({
       </div>
       {modalNode && (
         <dialog id={`org-${name}`} className='modal' ref={dialogRef}>
-          <div className='modal-box w-11/12 max-w-5xl max-h-11/12 lg:max-h-23/24 bg-white text-sm md:text-base modal-middle'>
+          <div className='modal-box w-11/12 max-w-5xl max-h-11/12 lg:max-h-23/24 bg-white text-gray-700 text-sm md:text-base modal-middle'>
             <form method='dialog'>
               {/* if there is a button in form, it will close the modal */}
               <button className='cursor-pointer absolute right-6 top-6 md:right-8 md:top-8'>
@@ -98,10 +102,12 @@ export default function OrganizationLogo({
           </form>
         </dialog>
       )}
-      <span
-        className={`text-gray-700 font-semibold text-center w-full ${nameClassName}`}
-        dangerouslySetInnerHTML={{ __html: name }}
-      />
+      {showName && (
+        <span
+          className={`text-gray-700 font-semibold text-center w-full ${nameClassName}`}
+          dangerouslySetInnerHTML={{ __html: name }}
+        />
+      )}
       {description && (
         <p
           className={`text-gray-500 mt-1 text-center w-full ${descriptionClassName} text-wrap`}

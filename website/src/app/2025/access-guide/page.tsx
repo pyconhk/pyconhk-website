@@ -51,8 +51,8 @@ export default async function AccessGuideConferenceSprintDay() {
           rel='noopener noreferrer'
           className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-md transition-colors duration-300'
         >
-          <FaMapMarkedAlt className='h-5 w-5' />
-          Open in Google Maps
+          <FaMapMarkedAlt className='h-5 w-5 flex-shrink-0' />
+          <span>Open in Google Maps</span>
         </Link>
       </div>
 
@@ -76,14 +76,14 @@ export default async function AccessGuideConferenceSprintDay() {
 
       {/* Useful Information Section */}
       <h2 className='text-xl md:text-2xl font-bold text-gray-700 mt-12 flex items-center'>
-        <HiOutlineInformationCircle className='inline-block mr-4 text-blue-600' />
-        Useful Information
+        <HiOutlineInformationCircle className='inline-block mr-4 text-blue-600 flex-shrink-0' />
+        <span>Useful Information</span>
       </h2>
 
       {/* Getting to CityU */}
       <div className='bg-white rounded-lg shadow-md px-6 py-12 md:px-10 lg:px-12 lg:py-16 mt-6'>
         <h3 className='text-xl font-semibold text-blue-700 mb-4 grid grid-cols-5 gap-4 md:flex items-center'>
-          <FaMapMarkedAlt className='w-full col-span-1 md:w-6 lg:w-8 md:mr-2 lg:mr-4' />
+          <FaMapMarkedAlt className='w-full col-span-1 md:w-6 lg:w-8 md:mr-2 lg:mr-4 flex-shrink-0' />
           <span className='text-base sm:text-lg lg:text-xl col-span-4'>
             1. Getting to City University of Hong Kong (CityU)
           </span>
@@ -97,7 +97,7 @@ export default async function AccessGuideConferenceSprintDay() {
         {/* By MTR */}
         <div className='mt-6'>
           <h4 className='text-base md:text-lg font-semibold text-gray-800 mb-2 flex items-center'>
-            <FaSubway className='mr-4 text-purple-600' /> By MTR
+            <FaSubway className='mr-4 text-purple-600 flex-shrink-0' /> By MTR
           </h4>
 
           <div className='bg-gray-50 rounded-md p-6 text-sm/6 md:text-base/7 xl:text-lg/8'>
@@ -130,7 +130,7 @@ export default async function AccessGuideConferenceSprintDay() {
         {/* By Taxi */}
         <div className='mt-6'>
           <h4 className='text-base md:text-lg font-semibold text-gray-800 flex items-center'>
-            <FaTaxi className='mr-4 text-amber-500' /> By Taxi
+            <FaTaxi className='mr-4 text-amber-500 flex-shrink-0' /> By Taxi
           </h4>
 
           <div className='bg-gray-50 rounded-md p-6 text-sm/6 md:text-base/7 xl:text-lg/8'>
@@ -156,7 +156,7 @@ export default async function AccessGuideConferenceSprintDay() {
       {/* Key Locations */}
       <div className='bg-white rounded-lg shadow-md px-8 py-12 md:px-10 lg:px-12 lg:py-16 mt-12'>
         <h3 className='text-xl font-semibold text-blue-700 mb-4 grid grid-cols-5 gap-4 md:flex items-center'>
-          <FaLocationDot className='w-full col-span-1 md:w-6 lg:w-8 md:mr-2 lg:mr-4' />
+          <FaLocationDot className='w-full col-span-1 md:w-6 lg:w-8 md:mr-2 lg:mr-4 flex-shrink-0' />
           <span className='text-base sm:text-lg lg:text-xl col-span-4'>
             2. Getting to Key Locations in Yeung Kin Man Academic Building
           </span>
@@ -174,7 +174,7 @@ export default async function AccessGuideConferenceSprintDay() {
       {/* WiFi */}
       <div className='bg-white rounded-lg shadow-md px-8 py-12 md:px-10 lg:px-12 lg:py-16 mt-12'>
         <h3 className='text-xl font-semibold text-blue-700 mb-4 grid grid-cols-5 gap-4 md:flex items-center'>
-          <HiOutlineWifi className='w-full col-span-1 md:w-6 lg:w-8 md:mr-2 lg:mr-4' />
+          <HiOutlineWifi className='w-full col-span-1 md:w-6 lg:w-8 md:mr-2 lg:mr-4 flex-shrink-0' />
           <span className='text-base sm:text-lg lg:text-xl col-span-4'>
             3. Wi-Fi Access
           </span>

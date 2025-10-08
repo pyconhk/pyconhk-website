@@ -20,3 +20,18 @@ body,
     color-scheme: light !important;
   }
 }
+
+/* The keyframes for the scrolling animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Moves the track to the left by the width of the original set of logos */
+    transform: translateX(calc(-200px * 9));
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}

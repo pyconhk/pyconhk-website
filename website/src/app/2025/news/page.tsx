@@ -13,7 +13,7 @@ export default async function NewsPage() {
       'coverImage',
       'description',
     ])
-    .sort('publishedAt')
+    .sort({ publishedAt: -1 })
     .toArray();
 
   return (

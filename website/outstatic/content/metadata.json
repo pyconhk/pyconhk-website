@@ -1,11 +1,11 @@
 {
-  "commit": "5aaa3d9779fbf36547337e484ed46e35d2b6d60c",
-  "generated": "2025-09-01T11:30:04.890Z",
+  "commit": "957298089b9b3631a0888f7ec17ee30aee60339d",
+  "generated": "2025-10-08T06:06:50.746Z",
   "metadata": [
     {
       "__outstatic": {
-        "commit": "df385ce42011af5c22572aea6cef27e1dbb42150",
-        "hash": "3490229137",
+        "commit": "ea6adefc1c1c136461b4eb949c786c1adb002311",
+        "hash": "435765977",
         "path": "/outstatic/content/2025-posts/sailing-together.mdx"
       },
       "author": {
@@ -18,6 +18,40 @@
       "slug": "sailing-together",
       "status": "published",
       "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
+    },
+    {
+      "__outstatic": {
+        "commit": "7def48fb1f867cbf3f976308777896d62c4ab631",
+        "hash": "518739226",
+        "path": "/outstatic/content/2025-posts/platinum-sponsor-lgt.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/outstatic/images/2025-platinum-sponsor-lgt-c0MT.png",
+      "publishedAt": "2025-10-08T01:51:43.485Z",
+      "slug": "platinum-sponsor-lgt",
+      "status": "published",
+      "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
+    },
+    {
+      "__outstatic": {
+        "commit": "957298089b9b3631a0888f7ec17ee30aee60339d",
+        "hash": "2658921279",
+        "path": "/outstatic/content/2025-posts/sprint-day-guide.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/outstatic/images/2025-sprint-day-guide-M5Nj.png",
+      "publishedAt": "2025-10-08T05:19:05.712Z",
+      "slug": "sprint-day-guide",
+      "status": "published",
+      "title": "Power Up for Sprint Day: Your Prep Guide & How to Snag Extra Tickets"
     }
   ]
 }
