@@ -19,7 +19,10 @@ export default function ScrollIndicator() {
       onClick={handleClick}
     >
       <div className='bg-white/70 rounded-full border border-[#016735]/40 flex items-center justify-center p-3 cursor-pointer'>
-        <FaChevronDown className='h-5 w-5 text-[#016735]' />
+        <div className='flex items-center justify-center gap-2 text-[#016735]'>
+          <span>Latest News</span>
+          <FaChevronDown className='h-5 w-5' />
+        </div>
       </div>
     </div>
   );

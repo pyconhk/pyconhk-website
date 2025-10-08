@@ -74,7 +74,7 @@ async function SpeakerCard({ name, title, type, avatar }: Speaker) {
 
 export default async function FeaturedSpeakers() {
   return (
-    <section className='py-24 bg-gradient-to-b from-white to-blue-50'>
+    <>
       <div className='container mx-auto px-4 max-w-6xl'>
         <div className='text-center mb-12'>
           <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-slate-600 mb-6'>
@@ -104,6 +104,6 @@ export default async function FeaturedSpeakers() {
           ))}
         </div>
       </div>
-    </section>
+    </>
   );
 }

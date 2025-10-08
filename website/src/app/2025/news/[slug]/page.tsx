@@ -108,7 +108,7 @@ export default async function Post(props: { params: Params }) {
       {/* Hero Section with Cover Image */}
 
       {/* Content Section */}
-      <div className='max-w-4xl mx-auto px-2 md:px-6 lg:px-8 -mt-16 relative z-10 pb-6'>
+      <div className='max-w-4xl mx-auto px-2 md:px-6 lg:px-8 -mt-4 sm:-mt-8 md:-mt-20 relative z-10 pb-6'>
         {/* Article Card */}
         <article className='bg-white rounded-xl shadow-xl overflow-hidden'>
           {/* Article Header */}
@@ -140,7 +140,7 @@ export default async function Post(props: { params: Params }) {
 
           {/* Article Content */}
           <div className='px-6 md:px-10 pb-10'>
-            <div className='prose prose-sm md:prose-lg prose-headings:text-gray-900 prose-a:no-underline prose-a:text-blue-600 prose-a:hover:text-blue-800 text-gray-700 prose-strong:text-gray-900 max-w-none'>
+            <div className='prose prose-sm md:prose-lg prose-headings:text-gray-900 prose-a:no-underline prose-a:text-blue-600 prose-a:hover:text-blue-800 text-gray-700 prose-strong:text-gray-900 max-w-none marker:text-gray-700'>
               <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
 

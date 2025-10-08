@@ -62,11 +62,7 @@ const faqs: FAQ[] = [
 
 export default async function CallForActions() {
   return (
-    <section
-      id='call-for-actions'
-      className='min-h-screen bg-gradient-to-b from-white to-blue-50 px-8'
-    >
-      {/* Hero Section */}
+    <>
       <div className='py-16 px-4 sm:px-6 lg:px-8 text-center'>
         <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-slate-600 mb-6'>
           Be Part of PyCon HK 2025
@@ -198,6 +194,6 @@ export default async function CallForActions() {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }

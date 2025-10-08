@@ -29,6 +29,11 @@ export const links: NavBarLink[] = [
         href: '/access-guide',
         isActive: true,
       },
+      {
+        label: 'Catering Guide',
+        href: '/catering-guide',
+        isActive: true,
+      },
     ],
   },
   {
@@ -37,7 +42,7 @@ export const links: NavBarLink[] = [
     isActive: false,
     children: [
       {
-        label: 'Call for Projects',
+        label: 'Sprint Day',
         href: '/sprint',
         isActive: true,
       },
