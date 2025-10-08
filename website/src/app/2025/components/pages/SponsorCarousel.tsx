@@ -87,7 +87,7 @@ export default function SponsorCarousel() {
     <>
       <div className='container mx-auto px-4'>
         {/* Main slider container */}
-        <div className='relative overflow-hidden py-10 w-full before:content-[""] before:absolute before:top-0 before:left-0 before:w-[150px] before:h-full before:z-10 before:bg-gradient-to-r before:from-white before:to-transparent after:content-[""] after:absolute after:top-0 after:right-0 after:w-[150px] after:h-full after:z-10 after:bg-gradient-to-l after:from-white after:to-transparent hover:[&>div]:animate-none'>
+        <div className='relative overflow-hidden py-10 w-full hover:[&>div]:animate-none'>
           {/* The moving track */}
           <div
             className='flex animate-scroll animate-[scroll_40s_linear_infinite]'
