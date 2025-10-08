@@ -1,6 +1,6 @@
 {
-  "commit": "7def48fb1f867cbf3f976308777896d62c4ab631",
-  "generated": "2025-10-08T02:11:43.361Z",
+  "commit": "c0d2bba47efbadfd97f1e5c765a1a073b082fb30",
+  "generated": "2025-10-08T04:49:11.908Z",
   "metadata": [
     {
       "__outstatic": {
@@ -35,6 +35,23 @@
       "slug": "platinum-sponsor-lgt",
       "status": "published",
       "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
+    },
+    {
+      "__outstatic": {
+        "commit": "c0d2bba47efbadfd97f1e5c765a1a073b082fb30",
+        "hash": "327536625",
+        "path": "/outstatic/content/2025-posts/power-up-for-sprint-day-your-prep-guide-how-to-snag-extra-tickets.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-sprint-day-guide-c4OD.png",
+      "publishedAt": "2025-10-08T05:19:05.712Z",
+      "slug": "power-up-for-sprint-day-your-prep-guide-how-to-snag-extra-tickets",
+      "status": "published",
+      "title": "Power Up for Sprint Day: Your Prep Guide & How to Snag Extra Tickets"
     }
   ]
 }
