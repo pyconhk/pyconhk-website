@@ -70,7 +70,9 @@ export default async function Home() {
               rel='noopener noreferrer'
               className='inline-block px-8 py-3 bg-[#f4dc03] text-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
             >
-              <span className={`${lexend.className} font-semibold text-base md:text-lg`}>
+              <span
+                className={`${lexend.className} font-semibold text-base md:text-lg`}
+              >
                 Grab Your Tickets Now!
               </span>
             </a>
@@ -83,7 +85,9 @@ export default async function Home() {
               rel='noopener noreferrer'
               className='inline-block px-8 py-3 text-[#f4dc03] bg-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
             >
-              <span className={`${lexend.className} font-semibold text-base md:text-lg`}>
+              <span
+                className={`${lexend.className} font-semibold text-base md:text-lg`}
+              >
                 Conference Schedule
               </span>
             </Link>
