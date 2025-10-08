@@ -27,7 +27,7 @@ const sectionNodes: React.ReactNode[] = sections.map(
     <section
       key={id}
       id={id}
-      className={`py-12 md:py-24 ${index == 0 && 'pt-24 md:pt-36'} bg-gradient-to-b ${index % 2 == 0 ? 'from-white to-blue-50' : 'from-blue-50 to-white'}`}
+      className={`py-12 md:py-18 ${index == 0 && 'pt-24 md:pt-36'} bg-gradient-to-b ${index % 2 == 0 ? 'from-white to-blue-50' : 'from-blue-50 to-white'}`}
     >
       <Component />
     </section>

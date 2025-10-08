@@ -21,73 +21,6 @@ body,
   }
 }
 
-/* In app/globals.css */
-
-/* The outer container for the slider, which hides the overflow */
-.logo-slider {
-  overflow: hidden;
-  padding: 40px 0;
-  background: white; /* Or your desired background color */
-  position: relative;
-  width: 100%;
-}
-
-/* This adds the fade-out effect on the edges */
-.logo-slider::before,
-.logo-slider::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 150px; /* Width of the fade */
-  height: 100%;
-  z-index: 2;
-}
-
-.logo-slider::before {
-  left: 0;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
-}
-
-.logo-slider::after {
-  right: 0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
-}
-
-/* Pause the animation on hover */
-.logo-slider:hover .logo-slide-track {
-  animation-play-state: paused;
-}
-
-/* The track that holds all the logos and moves */
-.logo-slide-track {
-  display: flex;
-  /* Adjust animation duration for speed */
-  animation: scroll 40s linear infinite;
-  /* The width is calculated based on number of logos * width of each logo */
-  /* We will set this inline in our component */
-}
-
-/* Each individual logo slide */
-.slide {
-  height: 60px; /* Adjust height of logos */
-  width: 200px; /* Adjust width of each logo container */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 15px;
-}
-
-.slide img {
-  height: 100%;
-  width: auto;
-  filter: grayscale(1);
-  transition: filter 0.3s ease-in-out;
-}
-
-.slide img:hover {
-  filter: grayscale(0);
-}
-
 /* The keyframes for the scrolling animation */
 @keyframes scroll {
   0% {
@@ -95,6 +28,10 @@ body,
   }
   100% {
     /* Moves the track to the left by the width of the original set of logos */
-    transform: translateX(calc(-200px * var(--logo-count)));
+    transform: translateX(calc(-200px * 9));
   }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
 }

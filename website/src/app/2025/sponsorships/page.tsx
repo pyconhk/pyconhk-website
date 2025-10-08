@@ -1,14 +1,14 @@
-import awsLogoImg from '../../../../public/2025/sponsorships/aws.svg';
-import betaLabsImg from '../../../../public/2025/sponsorships/beta_labs.svg';
-import bloombergImg from '../../../../public/2025/sponsorships/bloomberg.svg';
-import bootDevImg from '../../../../public/2025/sponsorships/boot.dev.webp';
-import cityuCOCImg from '../../../../public/2025/sponsorships/cityu_coc.svg';
-import jetbrainsImg from '../../../../public/2025/sponsorships/jetbrains.svg';
-import lgtImg from '../../../../public/2025/sponsorships/lgt.svg';
-import navicatImg from '../../../../public/2025/sponsorships/navicat.svg';
-import psfImg from '../../../../public/2025/sponsorships/psf.webp';
-import pyladiesHKImg from '../../../../public/2025/sponsorships/pyladies_hk.svg';
-import redhatImg from '../../../../public/2025/sponsorships/redhat.svg';
+import awsLogoImg from '../../../../public/2025/sponsorships/white-bg/aws.svg';
+import betaLabsImg from '../../../../public/2025/sponsorships/white-bg/beta_labs.svg';
+import bloombergImg from '../../../../public/2025/sponsorships/white-bg/bloomberg.svg';
+import bootDevImg from '../../../../public/2025/sponsorships/white-bg/boot.dev.webp';
+import cityuCOCImg from '../../../../public/2025/sponsorships/white-bg/cityu_coc.svg';
+import jetbrainsImg from '../../../../public/2025/sponsorships/white-bg/jetbrains.svg';
+import lgtImg from '../../../../public/2025/sponsorships/white-bg/lgt.svg';
+import navicatImg from '../../../../public/2025/sponsorships/white-bg/navicat.svg';
+import psfImg from '../../../../public/2025/sponsorships/white-bg/psf.webp';
+import pyladiesHKImg from '../../../../public/2025/sponsorships/white-bg/pyladies_hk.svg';
+import redhatImg from '../../../../public/2025/sponsorships/white-bg/redhat.svg';
 import OrganizationLogo, {
   OrganizationLogoProps,
 } from '../components/utils/OrganizationLogo';
