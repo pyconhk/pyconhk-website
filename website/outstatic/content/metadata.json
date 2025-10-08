@@ -1,6 +1,6 @@
 {
-  "commit": "c0d2bba47efbadfd97f1e5c765a1a073b082fb30",
-  "generated": "2025-10-08T04:49:11.908Z",
+  "commit": "ee6fcdfe90e12dfa58f37c2591372b5c21ee259e",
+  "generated": "2025-10-08T04:49:24.418Z",
   "metadata": [
     {
       "__outstatic": {
@@ -38,9 +38,9 @@
     },
     {
       "__outstatic": {
-        "commit": "c0d2bba47efbadfd97f1e5c765a1a073b082fb30",
-        "hash": "327536625",
-        "path": "/outstatic/content/2025-posts/power-up-for-sprint-day-your-prep-guide-how-to-snag-extra-tickets.mdx"
+        "commit": "ee6fcdfe90e12dfa58f37c2591372b5c21ee259e",
+        "hash": "2251384159",
+        "path": "/outstatic/content/2025-posts/sprint-day-guide.mdx"
       },
       "author": {
         "name": "Alex Au",
@@ -49,7 +49,7 @@
       "collection": "2025-posts",
       "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-sprint-day-guide-c4OD.png",
       "publishedAt": "2025-10-08T05:19:05.712Z",
-      "slug": "power-up-for-sprint-day-your-prep-guide-how-to-snag-extra-tickets",
+      "slug": "sprint-day-guide",
       "status": "published",
       "title": "Power Up for Sprint Day: Your Prep Guide & How to Snag Extra Tickets"
     }
