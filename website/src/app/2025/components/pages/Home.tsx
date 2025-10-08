@@ -37,8 +37,8 @@ export default async function Home() {
   return (
     <section id='home' className='w-full h-screen bg-white overflow-hidden'>
       <HomeBackground className='w-full h-full'>
-        <div className='flex flex-col items-center justify-center w-full h-full px-4'>
-          <div className='text-center mb-8 animate-fade-in'>
+        <div className='flex flex-col mb-0 md:mb-6 items-center justify-center w-full h-full px-4'>
+          <div className='text-center animate-fade-in'>
             <Image
               src={logoImg}
               alt='PyCon HK 2025 Logo'
@@ -63,27 +63,31 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className='mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
+          <div className='mt-2 md:mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
             <a
               href={process.env.NEXT_PUBLIC_EVENTBRITE_URL || '#'}
               target='_blank'
               rel='noopener noreferrer'
               className='inline-block px-8 py-3 bg-[#f4dc03] text-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
             >
-              <span className={`${lexend.className} font-semibold text-lg`}>
+              <span
+                className={`${lexend.className} font-semibold text-base md:text-lg`}
+              >
                 Grab Your Tickets Now!
               </span>
             </a>
           </div>
 
-          <div className='mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
+          <div className='mt-2 md:mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
             <Link
               href='/schedule'
               target='_blank'
               rel='noopener noreferrer'
               className='inline-block px-8 py-3 text-[#f4dc03] bg-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
             >
-              <span className={`${lexend.className} font-semibold text-lg`}>
+              <span
+                className={`${lexend.className} font-semibold text-base md:text-lg`}
+              >
                 Conference Schedule
               </span>
             </Link>
