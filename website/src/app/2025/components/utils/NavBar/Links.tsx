@@ -29,6 +29,11 @@ export const links: NavBarLink[] = [
         href: '/access-guide',
         isActive: true,
       },
+      {
+        label: 'Catering Guide',
+        href: '/catering-guide',
+        isActive: true,
+      },
     ],
   },
   {
