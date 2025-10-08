@@ -1,6 +1,6 @@
 {
-  "commit": "ee6fcdfe90e12dfa58f37c2591372b5c21ee259e",
-  "generated": "2025-10-08T04:49:24.418Z",
+  "commit": "c59cf0a7366d3e86d9c025b605b3c74c5527b364",
+  "generated": "2025-10-08T04:55:20.606Z",
   "metadata": [
     {
       "__outstatic": {
@@ -38,8 +38,8 @@
     },
     {
       "__outstatic": {
-        "commit": "ee6fcdfe90e12dfa58f37c2591372b5c21ee259e",
-        "hash": "2251384159",
+        "commit": "c59cf0a7366d3e86d9c025b605b3c74c5527b364",
+        "hash": "2979452925",
         "path": "/outstatic/content/2025-posts/sprint-day-guide.mdx"
       },
       "author": {
@@ -47,7 +47,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/outstatic/images/2025-sprint-day-guide-c4OD.png",
+      "coverImage": "/outstatic/images/2025-sprint-day-guide-M5Nj.png",
       "publishedAt": "2025-10-08T05:19:05.712Z",
       "slug": "sprint-day-guide",
       "status": "published",

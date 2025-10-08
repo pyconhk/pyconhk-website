@@ -1,6 +1,6 @@
 {
-  "commit": "2fe4f9bbaf4d04fca32c1677b45baa210b836f64",
-  "generated": "2025-10-08T04:47:23.955Z",
+  "commit": "5edbdb4e1a79f6c531b79329dea94f466754a279",
+  "generated": "2025-10-08T04:55:04.227Z",
   "media": [
     {
       "__outstatic": {
@@ -15,13 +15,13 @@
     },
     {
       "__outstatic": {
-        "commit": "2fe4f9bbaf4d04fca32c1677b45baa210b836f64",
-        "hash": "3870497033",
-        "path": "website/website/public/outstatic/images/2025-sprint-day-guide-c4OD.png"
+        "commit": "5edbdb4e1a79f6c531b79329dea94f466754a279",
+        "hash": "232219813",
+        "path": "website/website/public/outstatic/images/2025-sprint-day-guide-M5Nj.png"
       },
       "alt": "",
-      "filename": "2025-sprint-day-guide-c4OD.png",
-      "publishedAt": "2025-10-08T04:47:23.955Z",
+      "filename": "2025-sprint-day-guide-M5Nj.png",
+      "publishedAt": "2025-10-08T04:55:04.227Z",
       "type": "image"
     },
     {
