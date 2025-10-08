@@ -1,27 +1,10 @@
 {
-  "commit": "e67ee776442e88c670635461ba7dd150152c3982",
-  "generated": "2025-10-08T01:42:31.326Z",
+  "commit": "",
+  "generated": "Wed, 08 Oct 2025 01:44:12 GMT",
   "metadata": [
     {
       "__outstatic": {
-        "commit": "9d456c6c178f57efa272c8bd0eaad78ce43a4c64",
-        "hash": "435765977",
-        "path": "/outstatic/content/2025-posts/sailing-together.mdx"
-      },
-      "author": {
-        "name": "Alex Au",
-        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
-      },
-      "collection": "2025-posts",
-      "coverImage": "/outstatic/images/news-UxMD.png",
-      "publishedAt": "2025-08-27T11:00:26.585Z",
-      "slug": "sailing-together",
-      "status": "published",
-      "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
-    },
-    {
-      "__outstatic": {
-        "commit": "e67ee776442e88c670635461ba7dd150152c3982",
+        "commit": "3ed104d40a7e8467a7721a0a04918070e0288487",
         "hash": "51180970",
         "path": "/outstatic/content/2025-posts/2025-platinum-sponsor-lgt.mdx"
       },
@@ -35,6 +18,23 @@
       "slug": "2025-platinum-sponsor-lgt",
       "status": "published",
       "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
+    },
+    {
+      "__outstatic": {
+        "commit": "ea6adefc1c1c136461b4eb949c786c1adb002311",
+        "hash": "435765977",
+        "path": "/outstatic/content/2025-posts/sailing-together.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/outstatic/images/news-UxMD.png",
+      "publishedAt": "2025-08-27T11:00:26.585Z",
+      "slug": "sailing-together",
+      "status": "published",
+      "title": "PyCon HK 2025 – Sailing Together: \"Raise the Sail, Let Python Prevail\""
     }
   ]
 }
