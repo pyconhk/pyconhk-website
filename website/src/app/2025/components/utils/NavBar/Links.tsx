@@ -42,7 +42,7 @@ export const links: NavBarLink[] = [
     isActive: false,
     children: [
       {
-        label: 'Call for Projects',
+        label: 'Sprint Day',
         href: '/sprint',
         isActive: true,
       },

@@ -1,8 +1,19 @@
 import Link from 'next/link';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { BsBullseye, BsCodeSlash } from 'react-icons/bs';
-import { FaDiscord, FaGithub, FaRegClock, FaUser } from 'react-icons/fa6';
-import { HiOutlineCalendar, HiOutlineCursorClick } from 'react-icons/hi';
+import {
+  FaDiscord,
+  FaGithub,
+  FaLaptopCode,
+  FaRegClock,
+  FaUser,
+} from 'react-icons/fa6';
+import {
+  HiOutlineCalendar,
+  HiOutlineCursorClick,
+  HiOutlineExclamationCircle,
+  HiOutlineLightBulb,
+} from 'react-icons/hi';
 import { LiaMapMarkedAltSolid } from 'react-icons/lia';
 import { MdOutlineDescription } from 'react-icons/md';
 
@@ -32,6 +43,7 @@ const sprintSchedule: SprintScheduleItem[] = [
   { startTime: '15:00', endTime: '15:10', item: 'Progress Report' },
   { startTime: '15:10', endTime: '17:45', item: 'Sprint Session 2' },
   { startTime: '17:45', endTime: '18:00', item: 'Closing' },
+  { startTime: '18:00', endTime: '', item: 'Dinner at Ban Heung Lau' },
 ];
 
 const sprintProjects: SprintProject[] = [
@@ -130,8 +142,85 @@ export default async function Sprint() {
   return (
     <div className='max-w-4xl mx-auto'>
       <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mb-8 text-gray-700 text-center'>
-        Call for Sprint Projects
+        Sprint Day
       </h1>
+
+      <div className='bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg mb-12'>
+        <h2 className='text-xl font-bold text-amber-800 mb-4 flex items-center'>
+          <HiOutlineLightBulb className='h-6 w-6 mr-3' />
+          Get Prepared for a Productive Sprint!
+        </h2>
+        <p className='text-amber-900/90 text-sm/relaxed md:text-base/relaxed mb-6'>
+          To ensure everyone has a smooth and productive experience, please read
+          the following preparation steps carefully. A little setup beforehand
+          makes a huge difference!
+        </p>
+
+        <div className='space-y-6'>
+          <div>
+            <h3 className='font-bold text-gray-800 flex items-center mb-2'>
+              <FaLaptopCode className='mr-2' />
+              Laptop & System Requirements
+            </h3>
+            <p className='text-gray-700 text-sm md:text-base'>
+              Please bring a laptop with a minimum of{' '}
+              <strong>2 CPU cores & 8 GB RAM</strong>. Don&apos;t forget your
+              charger!
+            </p>
+          </div>
+          <div>
+            <h3 className='font-bold text-gray-800 flex items-center mb-2'>
+              <FaDiscord className='mr-2 text-indigo-600' />
+              Join the Discord Channels
+            </h3>
+            <p className='text-gray-700 text-sm md:text-base mb-2'>
+              Our dedicated Discord channels are your primary resource for
+              pre-event communication. By joining, you can get a head start,
+              interact with sprint leaders, and meet fellow participants.
+            </p>
+            <div className='mb-4'>
+              <h4 className='font-semibold text-gray-700 text-sm mb-2'>
+                Sprint Project Channels:
+              </h4>
+              <ul className='space-y-1.5 pl-2'>
+                {sprintProjects.map(project => (
+                  <li
+                    key={project.title}
+                    className='flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm mb-4 sm:mb-2'
+                  >
+                    <span className='text-gray-800'>{project.title}</span>
+                    <a
+                      href={project.discordChannel}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='font-medium text-blue-600 hover:underline'
+                    >
+                      #{project.discordChannelDisplay}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div>
+            <h3 className='font-bold text-gray-800 flex items-center mb-2'>
+              <HiOutlineExclamationCircle className='mr-2 text-red-600' />
+              Mandatory: The Installation Test
+            </h3>
+            <p className='text-gray-700 text-sm md:text-base'>
+              Our sprint leaders have prepared an installation test or setup
+              guide for their projects. Completing this before you arrive is
+              crucial to verify your environment has all necessary dependencies.
+            </p>
+            <p className='text-gray-700 text-sm md:text-base mt-2'>
+              <strong>Please be aware:</strong> To ensure the productivity of
+              the group, sprint leaders may not be able to accommodate
+              participants whose systems do not pass the installation test. A
+              successful setup guarantees you can participate fully.
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className='bg-white rounded-lg shadow-md p-4 md:p-6'>
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 mt-4 border-gray-700'>

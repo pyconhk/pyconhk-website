@@ -37,8 +37,8 @@ export default async function CateringGuidePage() {
         <section className='bg-white rounded-lg shadow-md overflow-hidden'>
           <div className='p-6 md:p-8'>
             <h2 className='text-xl md:text-2xl font-bold text-blue-700 flex items-center mb-4'>
-              <FaUtensils className='mr-4' />
-              Lunch (Day 1 & Day 2)
+              <FaUtensils className='mr-4 flex-shrink-0' />
+              <span>Lunch (Day 1 & Day 2)</span>
             </h2>
             <p className='text-gray-600 text-sm md:text-base lg:text-lg mb-6'>
               Fuel up for a day of learning and networking! The closest canteen
@@ -98,13 +98,13 @@ export default async function CateringGuidePage() {
         <section className='bg-white rounded-lg shadow-md overflow-hidden'>
           <div className='p-6 md:p-8'>
             <h2 className='text-xl md:text-2xl font-bold text-purple-700 flex items-center mb-4'>
-              <FaGlassCheers className='mr-4' />
-              PyNight (Day 1 Evening)
+              <FaGlassCheers className='mr-4 flex-shrink-0' />
+              <span>PyNight (Day 1 Evening)</span>
             </h2>
             <p className='text-gray-600 text-sm md:text-base lg:text-lg mb-6'>
               Let the conversations flow! Join our evening networking party on
               Conference Day (11th Oct) from <strong>6:30 pm</strong> onwards.
-              Mingle with the community over light snacks and drinks.
+              Mingle with the community over light refreshments.
             </p>
 
             <div className='mt-6 border-l-4 border-purple-500 pl-4'>
@@ -136,8 +136,8 @@ export default async function CateringGuidePage() {
         <section className='bg-white rounded-lg shadow-md overflow-hidden'>
           <div className='p-6 md:p-8'>
             <h2 className='text-xl md:text-2xl font-bold text-amber-700 flex items-center mb-4'>
-              <FaStore className='mr-4' />
-              Informal Dinner (Day 2 Evening)
+              <FaStore className='mr-4 flex-shrink-0' />
+              <span>Self-Funded Dinner (Day 2 Evening)</span>
             </h2>
             <p className='text-gray-600 text-sm md:text-base lg:text-lg mb-6'>
               After a productive Sprint Day (12th Oct), keep the conversation
