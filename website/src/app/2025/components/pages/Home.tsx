@@ -1,5 +1,6 @@
 import { Lexend } from 'next/font/google';
 import Image from 'next/image';
+import Link from 'next/link';
 import backgroundImg from '../../../../../public/2025/landing-pages/banner-1.jpeg';
 import logoImg from '../../../../../public/2025/logos/logo.png';
 import ScrollIndicator from '../utils/ScrollIndicator';
@@ -73,6 +74,19 @@ export default async function Home() {
                 Grab Your Tickets Now!
               </span>
             </a>
+          </div>
+
+          <div className='mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
+            <Link
+              href='/schedule'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-block px-8 py-3 text-[#f4dc03] bg-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
+            >
+              <span className={`${lexend.className} font-semibold text-lg`}>
+                Conference Schedule
+              </span>
+            </Link>
           </div>
 
           <ScrollIndicator />
