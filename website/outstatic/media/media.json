@@ -1,6 +1,6 @@
 {
-  "commit": "34637addb098b74831dc668592e7c50185e781cb",
-  "generated": "2025-10-08T02:11:20.515Z",
+  "commit": "2fe4f9bbaf4d04fca32c1677b45baa210b836f64",
+  "generated": "2025-10-08T04:47:23.955Z",
   "media": [
     {
       "__outstatic": {
@@ -11,6 +11,17 @@
       "alt": "",
       "filename": "2025-platinum-sponsor-lgt-c0MT.png",
       "publishedAt": "2025-10-08T02:11:20.515Z",
+      "type": "image"
+    },
+    {
+      "__outstatic": {
+        "commit": "2fe4f9bbaf4d04fca32c1677b45baa210b836f64",
+        "hash": "3870497033",
+        "path": "website/website/public/outstatic/images/2025-sprint-day-guide-c4OD.png"
+      },
+      "alt": "",
+      "filename": "2025-sprint-day-guide-c4OD.png",
+      "publishedAt": "2025-10-08T04:47:23.955Z",
       "type": "image"
     },
     {
