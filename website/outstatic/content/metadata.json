@@ -1,6 +1,6 @@
 {
-  "commit": "920abb28834f2b670a07e72be1740a4ce9a319f5",
-  "generated": "2025-10-08T01:16:11.460Z",
+  "commit": "bc3691cfc2973009d1bd5904b1f1257274ae4d07",
+  "generated": "2025-10-08T01:33:36.652Z",
   "metadata": [
     {
       "__outstatic": {
@@ -21,8 +21,8 @@
     },
     {
       "__outstatic": {
-        "commit": "920abb28834f2b670a07e72be1740a4ce9a319f5",
-        "hash": "1945554202",
+        "commit": "bc3691cfc2973009d1bd5904b1f1257274ae4d07",
+        "hash": "3944082735",
         "path": "/outstatic/content/2025-posts/2025-platinum-sponsor-lgt.mdx"
       },
       "author": {
@@ -30,10 +30,10 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "",
+      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-platinum-sponsor-lgt-I3Nz.png",
       "publishedAt": "2025-10-08T01:51:43.485Z",
       "slug": "2025-platinum-sponsor-lgt",
-      "status": "draft",
+      "status": "published",
       "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
     }
   ]
