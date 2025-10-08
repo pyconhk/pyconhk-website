@@ -15,10 +15,15 @@ export const links: NavBarLink[] = [
     isActive: true,
   },
   {
-    label: 'Schedule',
-    href: '/schedule',
-    isActive: true,
+    label: 'Conference',
+    href: '',
+    isActive: false,
     children: [
+      {
+        label: 'Conference Schedule',
+        href: '/schedule',
+        isActive: true,
+      },
       {
         label: 'Access Guide',
         href: '/access-guide',
@@ -28,9 +33,14 @@ export const links: NavBarLink[] = [
   },
   {
     label: 'Sprint',
-    href: '/sprint',
-    isActive: true,
+    href: '',
+    isActive: false,
     children: [
+      {
+        label: 'Call for Projects',
+        href: '/sprint',
+        isActive: true,
+      },
       {
         label: 'Sprint Q&A',
         href: '/sprint/qna/en',
@@ -45,9 +55,14 @@ export const links: NavBarLink[] = [
   },
   {
     label: 'Organizers',
-    href: '/organizers',
-    isActive: true,
+    href: '',
+    isActive: false,
     children: [
+      {
+        label: 'Organizations',
+        href: '/organizers',
+        isActive: true,
+      },
       {
         label: 'Volunteers',
         href: '/volunteers',
@@ -57,8 +72,14 @@ export const links: NavBarLink[] = [
   },
   {
     label: 'Sponsorships',
-    href: '/sponsorships',
+    href: '',
+    isActive: false,
     children: [
+      {
+        label: 'Sponsors',
+        href: '/sponsorships',
+        isActive: true,
+      },
       {
         label: 'Patrons',
         href: '/sponsorships/patrons',
@@ -70,7 +91,6 @@ export const links: NavBarLink[] = [
         isActive: true,
       },
     ],
-    isActive: true,
   },
   {
     label: 'Communities', //! to save space
@@ -84,8 +104,13 @@ export const links: NavBarLink[] = [
   },
   {
     label: 'Code of Conduct',
-    href: '/code-of-conduct',
+    href: '',
     children: [
+      {
+        label: 'Overview',
+        href: '/code-of-conduct',
+        isActive: true,
+      },
       {
         label: 'Enforcement Procedures',
         href: '/code-of-conduct/staff-procedures',
@@ -97,7 +122,7 @@ export const links: NavBarLink[] = [
         isActive: true,
       },
     ] as NavBarLink[],
-    isActive: true,
+    isActive: false,
   },
   {
     label: 'Contact Us',

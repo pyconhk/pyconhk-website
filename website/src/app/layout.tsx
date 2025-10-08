@@ -44,11 +44,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en_US' className='light'>
-      <body className={`${montserrat.className} bg-white`}>
+      <body className={`${montserrat.className}`}>
         {children}
         <Footer />
       </body>
-      {!process.env.NEXT_PUBLIC_IS_TEST_ENV && (
+      {process.env.NEXT_PUBLIC_IS_TEST_ENV !== 'true' && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       )}
     </html>

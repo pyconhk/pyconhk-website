@@ -1,10 +1,14 @@
-import awsLogoImg from '../../../../public/2025/sponsorships/aws.webp';
-import cityucocLogoImg from '../../../../public/2025/sponsorships/cityucoc.webp';
-import jetbrainsLogoImg from '../../../../public/2025/sponsorships/jetbrains.webp';
-import mysqlLogoImg from '../../../../public/2025/sponsorships/mysql.webp';
-import pccwLogoImg from '../../../../public/2025/sponsorships/pccw.webp';
-import psfLogoImg from '../../../../public/2025/sponsorships/psf.webp';
-import redhatLogoImg from '../../../../public/2025/sponsorships/redhat.webp';
+import awsLogoImg from '../../../../public/2025/sponsorships/aws.svg';
+import betaLabsImg from '../../../../public/2025/sponsorships/beta_labs.svg';
+import bloombergImg from '../../../../public/2025/sponsorships/bloomberg.svg';
+import bootDevImg from '../../../../public/2025/sponsorships/boot.dev.webp';
+import cityuCOCImg from '../../../../public/2025/sponsorships/cityu_coc.svg';
+import jetbrainsImg from '../../../../public/2025/sponsorships/jetbrains.svg';
+import lgtImg from '../../../../public/2025/sponsorships/lgt.svg';
+import navicatImg from '../../../../public/2025/sponsorships/navicat.svg';
+import psfImg from '../../../../public/2025/sponsorships/psf.webp';
+import pyladiesHKImg from '../../../../public/2025/sponsorships/pyladies_hk.svg';
+import redhatImg from '../../../../public/2025/sponsorships/redhat.svg';
 import OrganizationLogo, {
   OrganizationLogoProps,
 } from '../components/utils/OrganizationLogo';
@@ -19,58 +23,187 @@ const sponsorTiers: SponsorTier[] = [
     tier: 'Diamond Sponsor',
     sponsors: [
       {
-        name: 'AWS',
-        description: '❤️ Sponsor of 3 consecutive years',
+        name: 'Amazon Web Services',
+        description: '❤️ Sponsor of 4 consecutive years',
+        modalNode: (
+          <div>
+            <p>
+              Since 2006, Amazon Web Services has been the world&apos;s most
+              comprehensive and broadly adopted cloud. AWS has been continually
+              expanding its services to support virtually any workload, and it
+              now has more than 240 fully featured services for
+            </p>
+            <ul className='list-disc list-inside mt-2 mb-2 ml-4'>
+              <li className='md:pl-2'>compute</li>
+              <li className='md:pl-2'>storage</li>
+              <li className='md:pl-2'>databases</li>
+              <li className='md:pl-2'>networking</li>
+              <li className='md:pl-2'>analytics</li>
+              <li className='md:pl-2'>mobile</li>
+              <li className='md:pl-2'>security</li>
+              <li className='md:pl-2'>hybrid</li>
+              <li className='md:pl-2'>media</li>
+              <li className='md:pl-2'>application development</li>
+              <li className='md:pl-2'>deployment</li>
+              <li className='md:pl-2'>management</li>
+            </ul>
+            <p>
+              from 120 Availability Zones within 38 geographic regions, with
+              announced plans for 10 more Availability Zones, and three more AWS
+              Regions in Chile, the Kingdom of Saudi Arabia, and the AWS
+              European Sovereign Cloud.
+            </p>
+            <br />
+            <p>
+              Millions of customers—including the fastest-growing startups,
+              largest enterprises, and leading government agencies—trust AWS to
+              power their infrastructure, become more agile, and lower costs.
+            </p>
+          </div>
+        ),
         logo: awsLogoImg,
         logoAlt: 'AWS Logo',
+        logoClassName: 'w-56 sm:w-80',
         href: 'https://aws.amazon.com/',
       },
     ],
   },
   {
-    tier: 'Platinum Sponsor',
+    tier: 'Platinum Sponsors',
     sponsors: [
       {
-        name: 'Python Software Foundation',
-        description: '❤️ Sponsor for a total of 5 years',
-        logo: psfLogoImg,
-        logoAlt: 'Python Software Foundation Logo',
-        href: 'https://www.python.org/psf-landing/',
+        name: 'LGT Private Banking',
+        description: '👏 First-time sponsor of PyCon HK',
+        modalNode: (
+          <div>
+            <p>
+              LGT is a leading international private banking and asset
+              management group that has been fully controlled by the
+              Liechtenstein Princely Family for over 90 years.
+            </p>
+            <br />
+            <p>
+              As at 30 June 2025, LGT managed assets of CHF 359.6 billion (USD
+              451.6 billion) for wealthy private individuals and institutional
+              clients. LGT employs over 6000 people who work out of more than 30
+              locations in Europe, Asia, the Americas, Australia and the Middle
+              East.
+            </p>
+          </div>
+        ),
+        logo: lgtImg,
+        logoAlt: 'LGT Private Banking Logo',
+        logoClassName: 'w-52 sm:w-72',
+        href: 'https://www.lgt.com/hk-en',
       },
-    ],
-  },
-  {
-    tier: 'Gold Sponsor',
-    sponsors: [
       {
         name: 'Red Hat',
-        description: '❤️ Sponsor of 2 consecutive years',
-        logo: redhatLogoImg,
+        description: '❤️ Sponsor of 3 consecutive years',
+        modalNode: (
+          <div>
+            <p>
+              Red Hat is the open hybrid cloud technology leader, delivering a
+              trusted, consistent and comprehensive foundation for
+              transformative IT innovation and AI applications.
+            </p>
+            <br />
+            <p>
+              Its portfolio of cloud, developer, AI, Linux, automation and
+              application platform technologies enables any application,
+              anywhere—from the datacenter to the edge. As the world&apos;s
+              leading provider of enterprise open source software solutions, Red
+              Hat invests in open ecosystems and communities to solve
+              tomorrow&apos;s IT challenges.
+            </p>
+            <br />
+            <p>
+              Collaborating with partners and customers, Red Hat helps them
+              build, connect, automate, secure and manage their IT environments,
+              supported by consulting services and{' '}
+              <a
+                href='https://access.redhat.com/recognition'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-blue-500 hover:underline'
+              >
+                award-winning
+              </a>{' '}
+              training and certification offerings.
+            </p>
+          </div>
+        ),
+        logo: redhatImg,
         logoAlt: 'Red Hat Logo',
-        href: 'https://www.redhat.com/',
+        logoClassName: 'w-52 sm:w-72',
+        href: 'https://www.redhat.com/en',
       },
     ],
   },
   {
-    tier: 'Venue Partner',
+    tier: 'Community Partner',
     sponsors: [
       {
         name: 'City University of Hong Kong<br/>College of Computing',
-        logo: cityucocLogoImg,
-        logoAlt: 'CityU College of Computing Logo',
+        description: '❤️ Supporter for 2 consecutive years',
+        logo: cityuCOCImg,
+        logoAlt: 'CityU COC Logo',
+        logoClassName: 'w-48 sm:w-64',
         href: 'https://www.cityu.edu.hk/cc/',
       },
     ],
   },
   {
-    tier: 'Silver Sponsor',
+    tier: 'Silver Sponsors',
     sponsors: [
       {
-        name: 'MySQL',
-        description: '❤️ Sponsor of 9 consecutive years',
-        logo: mysqlLogoImg,
-        logoAlt: 'MySQL Logo',
-        href: 'https://www.mysql.com/',
+        name: 'Bloomberg',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: bloombergImg,
+        logoAlt: 'Bloomberg Logo',
+        logoClassName: 'w-44 sm:w-56',
+        href: 'https://www.bloomberg.com/asia',
+      },
+      {
+        name: 'Boot.dev',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: bootDevImg,
+        logoAlt: 'Boot.dev Logo',
+        logoClassName: 'w-44 sm:w-56',
+        href: 'https://www.boot.dev/',
+      },
+      {
+        name: 'Navicat',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: navicatImg,
+        logoAlt: 'Navicat Logo',
+        logoClassName: 'w-44 sm:w-56',
+        href: 'https://www.navicat.com/cht',
+      },
+    ],
+  },
+  {
+    tier: 'Bronze Sponsors',
+    sponsors: [
+      {
+        name: 'Beta Labs',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: betaLabsImg,
+        logoAlt: 'Beta Labs Logo',
+        logoClassName: 'w-40 sm:w-48',
+        href: 'https://www.linkedin.com/company/betalabs-hk',
+      },
+    ],
+  },
+  {
+    tier: 'Sparkle Sponsors',
+    sponsors: [
+      {
+        name: 'PyLadies Hong Kong',
+        description: '👏 First-time sponsor of PyCon HK',
+        logo: pyladiesHKImg,
+        logoAlt: 'PyLadies Hong Kong Logo',
+        logoClassName: 'w-40 sm:w-48',
+        href: 'https://linktr.ee/pyladieshk',
       },
     ],
   },
@@ -79,57 +212,63 @@ const sponsorTiers: SponsorTier[] = [
     sponsors: [
       {
         name: 'JetBrains',
-        description: '❤️ Sponsor of 2 consecutive years',
-        logo: jetbrainsLogoImg,
+        description: '❤️ Sponsor of 3 consecutive years',
+        logo: jetbrainsImg,
         logoAlt: 'JetBrains Logo',
+        logoClassName: 'w-44 sm:w-56',
         href: 'https://www.jetbrains.com/',
       },
+    ],
+  },
+  {
+    tier: 'Foundation Sponsor',
+    sponsors: [
       {
-        name: 'HKT Limited',
-        description: '❤️ Sponsor of 3 consecutive years',
-        logo: pccwLogoImg,
-        logoAlt: 'HKT Limited Logo',
-        href: 'https://www.hkt.com/',
+        name: 'Python Software Foundation',
+        description: '❤️ Sponsor for a total of 6 years',
+        logo: psfImg,
+        logoAlt: 'PSF Logo',
+        logoClassName: 'w-44 sm:w-56',
+        href: 'https://www.python.org/psf-landing/',
       },
     ],
   },
 ];
 
 export default async function Sponsorships() {
-  const isTestEnv = process.env.NEXT_PUBLIC_IS_TEST_ENV == 'true';
   return (
     <>
       <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold text-center'>
-        Sponsorships
+        Sponsors
       </h1>
       <p className='mt-8'>
         A huge thanks to our amazing sponsors! Your support powers PyCon HK
         2025, fuels the Python community, and keeps the open-source spirit
         alive. We couldn&apos;t do it without you!
       </p>
-      {isTestEnv &&
-        sponsorTiers.map(tier => (
-          <div key={tier.tier} className='flex flex-col items-center mt-16'>
-            <h2 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
-              {tier.tier}
-            </h2>
-            <div className='flex flex-col lg:flex-row items-center gap-12 lg:gap-16 xl:gap-24 mt-8'>
-              {tier.sponsors.map(sponsor => (
-                <OrganizationLogo
-                  key={sponsor.name}
-                  name={sponsor.name}
-                  nameClassName='text-base sm:text-xl font-semibold mt-4'
-                  description={sponsor.description}
-                  descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
-                  logo={sponsor.logo}
-                  logoAlt={sponsor.logoAlt}
-                  logoClassName='w-56 sm:w-80'
-                  href={sponsor.href}
-                />
-              ))}
-            </div>
+      {sponsorTiers.map(tier => (
+        <div key={tier.tier} className='flex flex-col items-center mt-16'>
+          <h2 className='text-xl md:text-2xl lg:text-3xl font-semibold'>
+            {tier.tier}
+          </h2>
+          <div className='flex flex-col lg:flex-row items-center gap-12 lg:gap-16 xl:gap-24 mt-8'>
+            {tier.sponsors.map(sponsor => (
+              <OrganizationLogo
+                key={sponsor.name}
+                name={sponsor.name}
+                nameClassName='text-base sm:text-xl font-semibold mt-4'
+                description={sponsor.description}
+                modalNode={sponsor.modalNode}
+                descriptionClassName='text-sm sm:text-base text-gray-600 mt-2'
+                logo={sponsor.logo}
+                logoAlt={sponsor.logoAlt}
+                logoClassName={sponsor.logoClassName}
+                href={sponsor.href}
+              />
+            ))}
           </div>
-        ))}
+        </div>
+      ))}
     </>
   );
 }
