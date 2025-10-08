@@ -1,11 +1,10 @@
-import { Itim } from 'next/font/google';
+import { Lexend } from 'next/font/google';
 import Image from 'next/image';
-import backgroundImg from '../../../../../public/2025/landing-pages/background.png';
-import BannerImageSlide from './BannerImageSlide';
-import CountdownTimer from './CountdownTimer';
-import { FaChevronDown } from 'react-icons/fa6';
+import backgroundImg from '../../../../../public/2025/landing-pages/banner-1.jpeg';
+import logoImg from '../../../../../public/2025/logos/logo.png';
+import ScrollIndicator from '../utils/ScrollIndicator';
 
-const itim = Itim({ weight: ['400'], subsets: ['latin'] });
+const lexend = Lexend({ subsets: ['latin'], weight: ['400', '600', '700'] });
 
 interface HeroBackgroundProps {
   children: React.ReactNode;
@@ -14,75 +13,69 @@ interface HeroBackgroundProps {
 
 function HomeBackground({ children, className = '' }: HeroBackgroundProps) {
   return (
-    <div className={`relative w-full h-full overflow-hidden ${className}`}>
-      <Image
-        src={backgroundImg}
-        alt='Background'
-        fill
-        priority
-        className='object-cover z-0'
-        quality={100}
-        sizes='100vw'
-        style={{
-          objectPosition: 'center',
-        }}
-      />
-      <div className='relative z-10 w-full h-full'>{children}</div>
+    <div className={`relative overflow-hidden ${className}`}>
+      <div className='absolute inset-0 opacity-30'>
+        <Image
+          src={backgroundImg}
+          alt='Background'
+          fill
+          priority
+          className='object-cover z-0 object-center'
+          quality={100}
+          sizes='100vw'
+        />
+      </div>
+      <div className='relative z-10 w-screen h-screen opacity-100'>
+        {children}
+      </div>
     </div>
   );
 }
 
 export default async function Home() {
   return (
-    <section id='home' className='w-full min-h-screen lg:min-h-0 lg:h-screen'>
-      <HomeBackground className='w-full min-h-screen lg:min-h-0 lg:h-screen'>
-        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center container mx-auto lg:p-6 lg:mt-8'>
-          <div className='col-span-1 lg:hidden mt-30'>
-            <h1 className='text-5xl lg:text-6xl mb-5 text-gray-600 w-full text-center'>
-              <small className='text-4xl lg:text-5xl font-bold text-gray-800 opacity-90 transition-all duration-200'>
-                PyCon HK 2025 is
-              </small>
-              <br />
-              <span className={itim.className}>Coming Soon</span>
+    <section id='home' className='w-full h-screen bg-white overflow-hidden'>
+      <HomeBackground className='w-full h-full'>
+        <div className='flex flex-col items-center justify-center w-full h-full px-4'>
+          <div className='text-center mb-8 animate-fade-in'>
+            <Image
+              src={logoImg}
+              alt='PyCon HK 2025 Logo'
+              className='w-auto h-auto max-w-[70%] md:max-w-[60%] lg:max-w-[70%] min-w-[200px] max-h-[70vh] object-contain mx-auto'
+              priority
+            />
+
+            <h1
+              className={`${lexend.className} text-4xl md:text-5xl lg:text-6xl font-bold text-[#016735] mt-3 tracking-tight`}
+            >
+              PyCon HK 2025
             </h1>
-          </div>
-          <div className='col-span-1 lg:col-span-6 lg:col-start-7'>
-            <div className='w-full flex justify-center items-center'>
-              <BannerImageSlide />
-            </div>
-          </div>
-          <div className='col-span-1 lg:col-span-6 lg:col-start-1 lg:row-start-1'>
-            <h1 className='hidden lg:block text-5xl lg:text-6xl mb-5 text-gray-600'>
-              <small className='text-4xl lg:text-5xl font-bold text-gray-800 opacity-90 transition-all duration-200'>
-                PyCon HK 2025 is
-              </small>
-              <br />
-              <span className={itim.className}>Coming Soon</span>
-            </h1>
-            <CountdownTimer launchDate='2025-10-11T09:00:00' />
-            <div className='flex items-center justify-center lg:justify-start mb-8 lg:mb-0'>
-              <div className='border-3 border-white text-gray-700 rounded shadow-md px-4 py-3 my-5 inline-block text-left mt-8 w-full max-w-xs sm:max-w-md md:max-w-lg'>
-                <div className='font-bold text-md lg:text-xl mb-1'>Date:</div>
-                <div className='font-semibold text-base lg:text-lg'>
-                  October 11, 2025 (Conference Day)
-                </div>
-                <div className='font-semibold text-base lg:text-lg'>
-                  October 12, 2025 (Sprint)
-                </div>
-                <div className='font-bold text-base lg:text-lg mt-3 mb-1'>
-                  Venue:
-                </div>
-                <div className='font-semibold text-base lg:text-lg'>
-                  City University of Hong Kong, Kowloon Tong, HK
-                </div>
+
+            <div className='relative my-4'>
+              <div className='relative flex justify-center'>
+                <span
+                  className={`${lexend.className} px-8 py-1 text-xl text-[#f4dc03] bg-[#016735] italic`}
+                >
+                  Sailing Together
+                </span>
               </div>
             </div>
           </div>
-        </div>
-        <div className='hidden lg:inline-block absolute bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce'>
-          <div className='bg-white/70 rounded-full p-3 border border-blue-200 shadow-sm'>
-            <FaChevronDown className='h-5 w-5 text-blue-400' />
+
+          <div className='mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
+            <a
+              href={process.env.NEXT_PUBLIC_EVENTBRITE_URL || '#'}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-block px-8 py-3 bg-[#f4dc03] text-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'
+            >
+              <span className={`${lexend.className} font-semibold text-lg`}>
+                Grab Your Tickets Now!
+              </span>
+            </a>
           </div>
+
+          <ScrollIndicator />
         </div>
       </HomeBackground>
     </section>

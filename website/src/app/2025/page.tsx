@@ -1,13 +1,39 @@
 import CallForActions from './components/pages/CallForActions';
 import FeaturedSpeakers from './components/pages/Speakers';
-import NewHome from './components/pages/NewHome';
+import Home from './components/pages/Home';
+import LatestNews from './components/pages/LatestNews';
+
+const sections = [
+  {
+    id: 'latest-news',
+    Component: LatestNews,
+  },
+  {
+    id: 'featured-speakers',
+    Component: FeaturedSpeakers,
+  },
+  {
+    id: 'call-for-actions',
+    Component: CallForActions,
+  },
+];
+const sectionNodes: React.ReactNode[] = sections.map(
+  ({ id, Component }, index) => (
+    <section
+      key={id}
+      id={id}
+      className={`py-12 md:py-24 bg-gradient-to-b ${index % 2 == 0 ? 'from-white to-blue-50' : 'from-blue-50 to-white'}`}
+    >
+      <Component />
+    </section>
+  )
+);
 
 export default function Page() {
   return (
     <div className='w-full min-h-screen -mt-20'>
-      <NewHome />
-      <FeaturedSpeakers />
-      <CallForActions />
+      <Home />
+      {sectionNodes.map(node => node)}
     </div>
   );
 }
