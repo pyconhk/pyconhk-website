@@ -1,7 +1,18 @@
 {
-  "commit": "",
-  "generated": "Wed, 08 Oct 2025 02:11:11 GMT",
+  "commit": "34637addb098b74831dc668592e7c50185e781cb",
+  "generated": "2025-10-08T02:11:20.515Z",
   "media": [
+    {
+      "__outstatic": {
+        "commit": "34637addb098b74831dc668592e7c50185e781cb",
+        "hash": "1812717077",
+        "path": "website/website/public/outstatic/images/2025-platinum-sponsor-lgt-c0MT.png"
+      },
+      "alt": "",
+      "filename": "2025-platinum-sponsor-lgt-c0MT.png",
+      "publishedAt": "2025-10-08T02:11:20.515Z",
+      "type": "image"
+    },
     {
       "__outstatic": {
         "commit": "",
