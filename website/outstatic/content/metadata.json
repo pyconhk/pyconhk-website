@@ -1,6 +1,6 @@
 {
-  "commit": "d121c23dc4218f641841b96651e34a1c4c369214",
-  "generated": "2025-10-08T01:37:19.236Z",
+  "commit": "e67ee776442e88c670635461ba7dd150152c3982",
+  "generated": "2025-10-08T01:42:31.326Z",
   "metadata": [
     {
       "__outstatic": {
@@ -21,8 +21,8 @@
     },
     {
       "__outstatic": {
-        "commit": "d121c23dc4218f641841b96651e34a1c4c369214",
-        "hash": "1195441800",
+        "commit": "e67ee776442e88c670635461ba7dd150152c3982",
+        "hash": "51180970",
         "path": "/outstatic/content/2025-posts/2025-platinum-sponsor-lgt.mdx"
       },
       "author": {
@@ -30,7 +30,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-platinum-sponsor-lgt-I3Nz.png",
+      "coverImage": "",
       "publishedAt": "2025-10-08T01:51:43.485Z",
       "slug": "2025-platinum-sponsor-lgt",
       "status": "published",
