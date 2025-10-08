@@ -1,6 +1,6 @@
 {
-  "commit": "c6788c8595dcd4709332bcd3a056a5553b8eb5c4",
-  "generated": "2025-10-08T04:54:54.861Z",
+  "commit": "5edbdb4e1a79f6c531b79329dea94f466754a279",
+  "generated": "2025-10-08T04:55:04.227Z",
   "media": [
     {
       "__outstatic": {
@@ -11,6 +11,17 @@
       "alt": "",
       "filename": "2025-platinum-sponsor-lgt-c0MT.png",
       "publishedAt": "2025-10-08T02:11:20.515Z",
+      "type": "image"
+    },
+    {
+      "__outstatic": {
+        "commit": "5edbdb4e1a79f6c531b79329dea94f466754a279",
+        "hash": "232219813",
+        "path": "website/website/public/outstatic/images/2025-sprint-day-guide-M5Nj.png"
+      },
+      "alt": "",
+      "filename": "2025-sprint-day-guide-M5Nj.png",
+      "publishedAt": "2025-10-08T04:55:04.227Z",
       "type": "image"
     },
     {
