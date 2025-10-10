@@ -1,6 +1,6 @@
 {
-  "commit": "a4b9e327b83d4b9e61286cf0cbd4368b4ae18b24",
-  "generated": "2025-10-10T00:16:53.920Z",
+  "commit": "92fc8d81f5344a1c78462a61c5fa2cf12e959571",
+  "generated": "2025-10-10T03:32:33.375Z",
   "media": [
     {
       "__outstatic": {
@@ -33,6 +33,17 @@
       "alt": "",
       "filename": "2025-platinum-sponsor-redhat-EyOD.webp",
       "publishedAt": "2025-10-10T00:16:46.517Z",
+      "type": "image"
+    },
+    {
+      "__outstatic": {
+        "commit": "92fc8d81f5344a1c78462a61c5fa2cf12e959571",
+        "hash": "4261267646",
+        "path": "website/public/outstatic/images/2025-pyconhk-preevent-notice-g3MT.webp"
+      },
+      "alt": "",
+      "filename": "2025-pyconhk-preevent-notice-g3MT.webp",
+      "publishedAt": "2025-10-10T03:32:33.374Z",
       "type": "image"
     },
     {
