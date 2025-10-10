@@ -1,6 +1,6 @@
 {
-  "commit": "2762f9c5016cbbb50bb60835137c97d4d1cb1235",
-  "generated": "2025-10-10T00:17:12.084Z",
+  "commit": "4a38667f5aeec977963e1a441bc87491c5b43cd2",
+  "generated": "2025-10-10T00:28:51.848Z",
   "metadata": [
     {
       "__outstatic": {
@@ -52,6 +52,23 @@
       "slug": "platinum-sponsor-lgt",
       "status": "published",
       "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
+    },
+    {
+      "__outstatic": {
+        "commit": "4a38667f5aeec977963e1a441bc87491c5b43cd2",
+        "hash": "3318543227",
+        "path": "/outstatic/content/2025-posts/platinum-sponsor-redhat.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-platinum-sponsor-redhat-EyOD.webp",
+      "publishedAt": "2025-10-08T16:00:00.000Z",
+      "slug": "platinum-sponsor-redhat",
+      "status": "published",
+      "title": "The Open Source Engine: Why Red Hat's Partnership with PyCon HK 2025 is in Our DNA"
     }
   ]
 }
