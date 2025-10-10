@@ -1,6 +1,6 @@
 {
-  "commit": "b75194fa2e7be33f03991cdbf7a1edab0a39e445",
-  "generated": "2025-10-10T00:16:39.303Z",
+  "commit": "f467919bf16798d89f806913a2a2abd3b3c0b47c",
+  "generated": "2025-10-10T00:16:46.517Z",
   "media": [
     {
       "__outstatic": {
@@ -11,6 +11,17 @@
       "alt": "",
       "filename": "2025-platinum-sponsor-lgt-g0MD.webp",
       "publishedAt": "2025-10-10T00:16:39.303Z",
+      "type": "image"
+    },
+    {
+      "__outstatic": {
+        "commit": "f467919bf16798d89f806913a2a2abd3b3c0b47c",
+        "hash": "2101273585",
+        "path": "website/website/public/outstatic/images/2025-platinum-sponsor-redhat-EyOD.webp"
+      },
+      "alt": "",
+      "filename": "2025-platinum-sponsor-redhat-EyOD.webp",
+      "publishedAt": "2025-10-10T00:16:46.517Z",
       "type": "image"
     },
     {
