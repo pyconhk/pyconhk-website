@@ -2,6 +2,7 @@
 import Script from 'next/script';
 import { useEffect } from 'react';
 import { YEAR } from '../constants';
+import { HiOutlineInformationCircle } from 'react-icons/hi2';
 
 export default function Schedule() {
   const eventUrl = `https://pretalx.com/pyconhk${YEAR}/`;
@@ -51,6 +52,42 @@ export default function Schedule() {
         </h1>
       </div>
 
+      <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-0 sm:py-4 lg:py-6'>
+        <div className='bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg mb-12'>
+          <h2 className='text-xl font-bold text-amber-800 mb-3 flex items-center'>
+            <HiOutlineInformationCircle className='h-6 w-6 mr-3 flex-shrink-0' />
+            Important Schedule Update
+          </h2>
+          <div className='pl-9 text-amber-900/90 text-sm/relaxed md:text-base/relaxed space-y-3'>
+            <p>
+              Please note the following last-minute changes to our Day 1
+              schedule:
+            </p>
+            <ul className='list-disc list-outside space-y-2 pl-5'>
+              <li>
+                The talk{' '}
+                <strong>"The graph capture mechanisms in PyTorch"</strong> by
+                Xuanteng Huang will now be a{' '}
+                <strong>virtual/online session</strong>. It will be streamed
+                live in the scheduled room.
+              </li>
+              <li>
+                Due to unforeseen circumstances, the talk{' '}
+                <strong>
+                  &quot;Memory Efficient Iteration with Python's itertools - A Deep
+                  Dive&quot; by Kaylan has been cancelled.
+                </strong>
+              </li>
+            </ul>
+            <p>
+              The interactive schedule below has been updated to reflect these
+              changes. We thank you for your understanding and apologize for any
+              inconvenience.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Pretalx Widget Container - Full width within the white transparent div */}
       <div id='schedule-container' className='w-full bg-white/70 lg:bg-white/0'>
         <div className='flex items-center justify-center py-16 w-full h-screen'>
@@ -78,319 +115,3 @@ export default function Schedule() {
     </>
   );
 }
-
-// Add this at the top of your file
-// export const runtime = 'edge';
-// export const dynamic = 'force-dynamic';
-
-// import { transformToCamelCase } from '@/utils/api';
-
-// interface Speaker {
-//   name: string;
-//   avatarUrl: string; // URL to the speaker's avatar image
-// }
-
-// interface Proposal {
-//   title: string;
-//   speakers: Speaker[]; // Array of speakers
-//   state: string; // e.g., 'submitted', 'accepted', etc.
-//   description: string;
-//   isFeatured: boolean;
-//   image: null | string; // Assuming this can be a URL or null
-//   submissionType: string;
-//   contentLocale: string; // e.g., 'en'
-// }
-
-// interface ProposalResponseResult {
-//   code: string;
-//   title: string;
-//   speakers: string[];
-//   submissionType: number; // Assuming this is an enum or constant
-//   track: number; // Assuming this is an enum or constant
-//   tags: number[]; // Assuming these are IDs for tags
-//   state: string; // e.g., 'submitted', 'accepted', etc.
-//   isFeatured: boolean;
-//   abstract: string;
-//   description: string;
-//   contentLocale: string; // e.g., 'en'
-//   image: null | string; // Assuming this can be a URL or null
-// }
-
-// interface SubmissionTypeResult {
-//   id: number;
-//   name: {
-//     en: string;
-//   };
-// }
-// interface SpeakerResponseResult {
-//   code: string;
-//   name: string;
-//   biography: string;
-//   avatarUrl: null | string; // URL to the speaker's avatar image
-// }
-
-// interface PretalxResponse<T> {
-//   count: number;
-//   next: string | null;
-//   previous: string | null;
-//   results: T[];
-// }
-
-// export default async function Schedule() {
-//   const event =
-//     process.env.NEXT_PUBLIC_CURRENT_YEAR === '2024'
-//       ? 'pyconhk2024'
-//       : 'pyconhk2025';
-
-//   // Fetch all proposals from the Pretalx API
-//   const allProposalResults: ProposalResponseResult[] = [];
-
-//   const proposalsResponse = await fetch(
-//     `https://pretalx.com/api/events/${event}/submissions/`,
-//     {
-//       headers: {
-//         Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
-//       },
-//     }
-//   );
-
-//   if (!proposalsResponse.ok) {
-//     throw new Error('Failed to fetch accepted proposals');
-//   }
-
-//   const proposalResults = await proposalsResponse.json();
-//   const camelCaseProposalResults =
-//     transformToCamelCase<PretalxResponse<ProposalResponseResult>>(
-//       proposalResults
-//     );
-//   allProposalResults.push(...camelCaseProposalResults.results);
-
-//   while (proposalResults.next) {
-//     // Fetch next page of proposals
-//     const nextPageResponse = await fetch(proposalResults.next, {
-//       headers: {
-//         Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
-//       },
-//     });
-
-//     if (!nextPageResponse.ok) {
-//       throw new Error('Failed to fetch next page of proposals');
-//     }
-
-//     const nextPageProposals = await nextPageResponse.json();
-//     const nextPagecCamelCaseProposals =
-//       transformToCamelCase<PretalxResponse<ProposalResponseResult>>(
-//         nextPageProposals
-//       );
-//     allProposalResults.push(...nextPagecCamelCaseProposals.results);
-//     proposalResults.next = nextPagecCamelCaseProposals.next;
-//   }
-
-//   // Fetch all submission types
-//   const submissionTypesResponse = await fetch(
-//     `https://pretalx.com/api/events/${event}/submission-types/`,
-//     {
-//       headers: {
-//         Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
-//       },
-//     }
-//   );
-
-//   if (!submissionTypesResponse.ok) {
-//     throw new Error('Failed to fetch submission types');
-//   }
-
-//   const submissionTypes = await submissionTypesResponse.json();
-//   const camelCaseSubmissionTypes =
-//     transformToCamelCase<PretalxResponse<SubmissionTypeResult>>(
-//       submissionTypes
-//     );
-
-//   // Fetch all speakers
-
-//   const allSpeakerResults: SpeakerResponseResult[] = [];
-
-//   const speakersResponse = await fetch(
-//     `https://pretalx.com/api/events/${event}/speakers/`,
-//     {
-//       headers: {
-//         Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
-//       },
-//     }
-//   );
-
-//   if (!speakersResponse.ok) {
-//     throw new Error('Failed to fetch speakers');
-//   }
-
-//   const speakerResponseResults = await speakersResponse.json();
-//   const camelCaseSpeakerResults = transformToCamelCase<
-//     PretalxResponse<SpeakerResponseResult>
-//   >(speakerResponseResults);
-//   allSpeakerResults.push(...camelCaseSpeakerResults.results);
-
-//   while (speakerResponseResults.next) {
-//     // Fetch next page of proposals
-//     const nextPageResponse = await fetch(speakerResponseResults.next, {
-//       headers: {
-//         Authorization: `Token ${process.env.NEXT_PUBLIC_PRETALX_API_KEY}`,
-//       },
-//     });
-
-//     if (!nextPageResponse.ok) {
-//       throw new Error('Failed to fetch next page of speakers');
-//     }
-
-//     const nextPageProposals = await nextPageResponse.json();
-//     const nextPagecCamelCaseSpeakers =
-//       transformToCamelCase<PretalxResponse<SpeakerResponseResult>>(
-//         nextPageProposals
-//       );
-//     allSpeakerResults.push(...nextPagecCamelCaseSpeakers.results);
-//     speakerResponseResults.next = nextPagecCamelCaseSpeakers.next;
-//   }
-
-//   const submissionTypeMap = new Map<number, string>(
-//     camelCaseSubmissionTypes.results.map(type => [type.id, type.name.en])
-//   );
-
-//   const speakerMap = new Map<string, Speaker>(
-//     allSpeakerResults.map(speaker => [
-//       speaker.code,
-//       {
-//         name: speaker.name,
-//         avatarUrl: speaker.avatarUrl || '', // Default to empty string if null
-//       },
-//     ])
-//   );
-
-//   const mergedProposals: Proposal[] = allProposalResults
-//     .filter(proposal => proposal.state === 'confirmed' || proposal.isFeatured)
-//     .map(proposal => {
-//       const submissionTypeName = submissionTypeMap.get(proposal.submissionType);
-//       const speakers = proposal.speakers
-//         .map(speakerCode => {
-//           const speaker = speakerMap.get(speakerCode);
-//           return speaker
-//             ? { name: speaker.name, avatarUrl: speaker.avatarUrl }
-//             : { name: 'Unknown', avatarUrl: '' };
-//         })
-//         .filter(speaker => speaker.name !== 'Unknown');
-//       return {
-//         title: proposal.title,
-//         speakers: speakers,
-//         state: proposal.state,
-//         description: proposal.description,
-//         isFeatured: proposal.isFeatured,
-//         image: proposal.image,
-//         submissionType: submissionTypeName || 'Unknown',
-//         contentLocale: proposal.contentLocale, // e.g., 'en'
-//       };
-//     })
-//     .filter(proposal => proposal.submissionType !== 'Unknown');
-
-//   // Group proposals by submission type
-//   const proposalsByType: Record<string, Proposal[]> = {};
-
-//   mergedProposals.forEach(proposal => {
-//     if (!proposalsByType[proposal.submissionType]) {
-//       proposalsByType[proposal.submissionType] = [];
-//     }
-//     proposalsByType[proposal.submissionType].push(proposal);
-//   });
-
-//   // Define the order of submission types
-//   const typeOrder = ['Talk', 'Workshop', 'Short talk', 'Lightning talk'];
-
-//   // Sort the submission types according to our predefined order
-//   const sortedTypes = Object.keys(proposalsByType).sort((a, b) => {
-//     const indexA = typeOrder.indexOf(a);
-//     const indexB = typeOrder.indexOf(b);
-
-//     // If both types are in our predefined list, sort by their order
-//     if (indexA !== -1 && indexB !== -1) {
-//       return indexA - indexB;
-//     }
-
-//     // If only one is in the list, prioritize the one in the list
-//     if (indexA !== -1) return -1;
-//     if (indexB !== -1) return 1;
-
-//     // For any other types not in our predefined list, sort alphabetically
-//     return a.localeCompare(b);
-//   });
-
-//   return (
-//     <>
-//       <div className='text-center pt-24 lg:pt-32'>
-//         <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl mt-8 text-gray-700 text-center'>
-//           Schedule
-//         </h1>
-//       </div>
-//       <div className='pb-16 px-4 md:px-10 lg:px-16'>
-//         {sortedTypes.map(type => (
-//           <section key={type} className='mt-12'>
-//             <h2 className='text-2xl lg:text-3xl font-bold mt-6 inline-block w-full text-center'>
-//               {type}
-//             </h2>
-
-//             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-//               {proposalsByType[type].map((proposal, idx) => (
-//                 <div
-//                   key={`${type}-${idx}`}
-//                   className='bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition-all'
-//                 >
-//                   {/* Card content with flex justify-between */}
-//                   <div className='flex flex-col h-full justify-between'>
-//                     {/* Title */}
-//                     <div className='flex justify-between items-start gap-2'>
-//                       <h3 className='font-bold text-lg text-gray-800 mt-0'>
-//                         {proposal.title}
-//                       </h3>
-
-//                       {/* Content locale tag */}
-//                       <span className='inline-block px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded'>
-//                         {proposal.contentLocale.toUpperCase() === 'ZH-HANT'
-//                           ? 'CANT'
-//                           : proposal.contentLocale.toUpperCase()}
-//                       </span>
-//                     </div>
-
-//                     {/* Speakers */}
-//                     {proposal.speakers.length > 0 && (
-//                       <div className='flex flex-wrap gap-2 mt-4'>
-//                         {proposal.speakers.map((speaker, i) => (
-//                           <div
-//                             key={i}
-//                             className='flex items-center bg-blue-50 px-3 py-1 rounded-full'
-//                           >
-//                             {speaker.avatarUrl ? (
-//                               <div className='skeleton w-6 h-6 rounded-full mr-2 object-cover'>
-//                                 <img
-//                                   src={speaker.avatarUrl}
-//                                   alt={speaker.name}
-//                                   className='w-6 h-6 rounded-full mr-2 object-cover'
-//                                   fetchPriority='low'
-//                                   loading='lazy'
-//                                 />
-//                               </div>
-//                             ) : (
-//                               <div className='w-6 h-6 rounded-full mr-2 bg-blue-200 text-blue-800 flex items-center justify-center text-xs'>
-//                                 {speaker.name.charAt(0).toUpperCase()}
-//                               </div>
-//                             )}
-//                             <span className='text-sm'>{speaker.name}</span>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     )}
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           </section>
-//         ))}
-//       </div>
-//     </>
-//   );
-// }
