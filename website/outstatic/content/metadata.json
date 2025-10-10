@@ -1,6 +1,6 @@
 {
-  "commit": "4a38667f5aeec977963e1a441bc87491c5b43cd2",
-  "generated": "2025-10-10T00:28:51.848Z",
+  "commit": "903222ebac72cf59b4f75d050a2a9bae0813182f",
+  "generated": "2025-10-10T00:40:11.998Z",
   "metadata": [
     {
       "__outstatic": {
@@ -69,6 +69,23 @@
       "slug": "platinum-sponsor-redhat",
       "status": "published",
       "title": "The Open Source Engine: Why Red Hat's Partnership with PyCon HK 2025 is in Our DNA"
+    },
+    {
+      "__outstatic": {
+        "commit": "903222ebac72cf59b4f75d050a2a9bae0813182f",
+        "hash": "2420033119",
+        "path": "/outstatic/content/2025-posts/diamond-sponsor-aws.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-diamond-sponsor-aws-QzNj.webp",
+      "publishedAt": "2025-10-10T01:26:31.134Z",
+      "slug": "diamond-sponsor-aws",
+      "status": "published",
+      "title": "Supercharging PyCon HK 2025: Welcoming Amazon Web Services (AWS) as our Diamond Sponsor!"
     }
   ]
 }
