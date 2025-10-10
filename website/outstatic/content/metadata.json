@@ -1,6 +1,6 @@
 {
-  "commit": "903222ebac72cf59b4f75d050a2a9bae0813182f",
-  "generated": "2025-10-10T00:40:11.998Z",
+  "commit": "dfdbc6b38146e0f496303f6127f8e051606452cd",
+  "generated": "2025-10-10T00:45:57.091Z",
   "metadata": [
     {
       "__outstatic": {
@@ -72,8 +72,8 @@
     },
     {
       "__outstatic": {
-        "commit": "903222ebac72cf59b4f75d050a2a9bae0813182f",
-        "hash": "2420033119",
+        "commit": "dfdbc6b38146e0f496303f6127f8e051606452cd",
+        "hash": "863933205",
         "path": "/outstatic/content/2025-posts/diamond-sponsor-aws.mdx"
       },
       "author": {
