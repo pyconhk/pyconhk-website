@@ -1,23 +1,45 @@
 {
-  "commit": "5edbdb4e1a79f6c531b79329dea94f466754a279",
-  "generated": "2025-10-08T04:55:04.227Z",
+  "commit": "a4b9e327b83d4b9e61286cf0cbd4368b4ae18b24",
+  "generated": "2025-10-10T00:16:53.920Z",
   "media": [
     {
       "__outstatic": {
-        "commit": "34637addb098b74831dc668592e7c50185e781cb",
-        "hash": "1812717077",
-        "path": "website/website/public/outstatic/images/2025-platinum-sponsor-lgt-c0MT.png"
+        "commit": "a4b9e327b83d4b9e61286cf0cbd4368b4ae18b24",
+        "hash": "352443181",
+        "path": "website/public/outstatic/images/2025-diamond-sponsor-aws-QzNj.webp"
       },
       "alt": "",
-      "filename": "2025-platinum-sponsor-lgt-c0MT.png",
-      "publishedAt": "2025-10-08T02:11:20.515Z",
+      "filename": "2025-diamond-sponsor-aws-QzNj.webp",
+      "publishedAt": "2025-10-10T00:16:53.920Z",
+      "type": "image"
+    },
+    {
+      "__outstatic": {
+        "commit": "b75194fa2e7be33f03991cdbf7a1edab0a39e445",
+        "hash": "2395113476",
+        "path": "website/public/outstatic/images/2025-platinum-sponsor-lgt-g0MD.webp"
+      },
+      "alt": "",
+      "filename": "2025-platinum-sponsor-lgt-g0MD.webp",
+      "publishedAt": "2025-10-10T00:16:39.303Z",
+      "type": "image"
+    },
+    {
+      "__outstatic": {
+        "commit": "f467919bf16798d89f806913a2a2abd3b3c0b47c",
+        "hash": "2101273585",
+        "path": "website/public/outstatic/images/2025-platinum-sponsor-redhat-EyOD.webp"
+      },
+      "alt": "",
+      "filename": "2025-platinum-sponsor-redhat-EyOD.webp",
+      "publishedAt": "2025-10-10T00:16:46.517Z",
       "type": "image"
     },
     {
       "__outstatic": {
         "commit": "5edbdb4e1a79f6c531b79329dea94f466754a279",
         "hash": "232219813",
-        "path": "website/website/public/outstatic/images/2025-sprint-day-guide-M5Nj.png"
+        "path": "website/public/outstatic/images/2025-sprint-day-guide-M5Nj.png"
       },
       "alt": "",
       "filename": "2025-sprint-day-guide-M5Nj.png",
