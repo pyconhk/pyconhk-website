@@ -66,16 +66,18 @@ export default function Schedule() {
             <ul className='list-disc list-outside space-y-2 pl-5'>
               <li>
                 The talk{' '}
-                <strong>"The graph capture mechanisms in PyTorch"</strong> by
-                Xuanteng Huang will now be a{' '}
+                <strong>
+                  &quot;The graph capture mechanisms in PyTorch&quot;
+                </strong>{' '}
+                by Xuanteng Huang will now be a{' '}
                 <strong>virtual/online session</strong>. It will be streamed
                 live in the scheduled room.
               </li>
               <li>
                 Due to unforeseen circumstances, the talk{' '}
                 <strong>
-                  &quot;Memory Efficient Iteration with Python's itertools - A Deep
-                  Dive&quot; by Kaylan has been cancelled.
+                  &quot;Memory Efficient Iteration with Python&apos;s itertools
+                  - A Deep Dive&quot; by Kaylan has been cancelled.
                 </strong>
               </li>
             </ul>
