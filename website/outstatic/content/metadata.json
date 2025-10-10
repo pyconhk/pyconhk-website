@@ -1,6 +1,6 @@
 {
-  "commit": "957298089b9b3631a0888f7ec17ee30aee60339d",
-  "generated": "2025-10-08T06:06:50.746Z",
+  "commit": "903222ebac72cf59b4f75d050a2a9bae0813182f",
+  "generated": "2025-10-10T00:40:11.998Z",
   "metadata": [
     {
       "__outstatic": {
@@ -21,23 +21,6 @@
     },
     {
       "__outstatic": {
-        "commit": "7def48fb1f867cbf3f976308777896d62c4ab631",
-        "hash": "518739226",
-        "path": "/outstatic/content/2025-posts/platinum-sponsor-lgt.mdx"
-      },
-      "author": {
-        "name": "Alex Au",
-        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
-      },
-      "collection": "2025-posts",
-      "coverImage": "/outstatic/images/2025-platinum-sponsor-lgt-c0MT.png",
-      "publishedAt": "2025-10-08T01:51:43.485Z",
-      "slug": "platinum-sponsor-lgt",
-      "status": "published",
-      "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
-    },
-    {
-      "__outstatic": {
         "commit": "957298089b9b3631a0888f7ec17ee30aee60339d",
         "hash": "2658921279",
         "path": "/outstatic/content/2025-posts/sprint-day-guide.mdx"
@@ -52,6 +35,57 @@
       "slug": "sprint-day-guide",
       "status": "published",
       "title": "Power Up for Sprint Day: Your Prep Guide & How to Snag Extra Tickets"
+    },
+    {
+      "__outstatic": {
+        "commit": "2762f9c5016cbbb50bb60835137c97d4d1cb1235",
+        "hash": "1432298190",
+        "path": "/outstatic/content/2025-posts/platinum-sponsor-lgt.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/outstatic/images/2025-platinum-sponsor-lgt-g0MD.webp",
+      "publishedAt": "2025-10-08T01:51:43.485Z",
+      "slug": "platinum-sponsor-lgt",
+      "status": "published",
+      "title": "Championing Innovation: PyCon HK 2025 is Proud to Welcome LGT Private Banking as a Platinum Sponsor"
+    },
+    {
+      "__outstatic": {
+        "commit": "4a38667f5aeec977963e1a441bc87491c5b43cd2",
+        "hash": "3318543227",
+        "path": "/outstatic/content/2025-posts/platinum-sponsor-redhat.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/outstatic/images/2025-platinum-sponsor-redhat-EyOD.webp",
+      "publishedAt": "2025-10-08T16:00:00.000Z",
+      "slug": "platinum-sponsor-redhat",
+      "status": "published",
+      "title": "The Open Source Engine: Why Red Hat's Partnership with PyCon HK 2025 is in Our DNA"
+    },
+    {
+      "__outstatic": {
+        "commit": "903222ebac72cf59b4f75d050a2a9bae0813182f",
+        "hash": "2420033119",
+        "path": "/outstatic/content/2025-posts/diamond-sponsor-aws.mdx"
+      },
+      "author": {
+        "name": "Alex Au",
+        "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
+      },
+      "collection": "2025-posts",
+      "coverImage": "/outstatic/images/2025-diamond-sponsor-aws-QzNj.webp",
+      "publishedAt": "2025-10-10T01:26:31.134Z",
+      "slug": "diamond-sponsor-aws",
+      "status": "published",
+      "title": "Supercharging PyCon HK 2025: Welcoming Amazon Web Services (AWS) as our Diamond Sponsor!"
     }
   ]
 }
