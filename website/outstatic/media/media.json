@@ -1,7 +1,18 @@
 {
-  "commit": "f467919bf16798d89f806913a2a2abd3b3c0b47c",
-  "generated": "2025-10-10T00:16:46.517Z",
+  "commit": "a4b9e327b83d4b9e61286cf0cbd4368b4ae18b24",
+  "generated": "2025-10-10T00:16:53.920Z",
   "media": [
+    {
+      "__outstatic": {
+        "commit": "a4b9e327b83d4b9e61286cf0cbd4368b4ae18b24",
+        "hash": "352443181",
+        "path": "website/website/public/outstatic/images/2025-diamond-sponsor-aws-QzNj.webp"
+      },
+      "alt": "",
+      "filename": "2025-diamond-sponsor-aws-QzNj.webp",
+      "publishedAt": "2025-10-10T00:16:53.920Z",
+      "type": "image"
+    },
     {
       "__outstatic": {
         "commit": "b75194fa2e7be33f03991cdbf7a1edab0a39e445",
