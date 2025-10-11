@@ -65,8 +65,7 @@ const sprintProjects: SprintProject[] = [
     githubLinkDisplay: 'github.com/lucianosrp/frame-check',
     githubLink: 'https://github.com/lucianosrp/frame-check',
     discordChannelDisplay: '2025-sprint-frame-check',
-    discordChannel:
-      'https://discord.com/channels/1246847132699332640/1420214135857086565',
+    discordChannel: 'https://discord.gg/Ry7aQV4BdF',
     level: 'ALL Levels',
     sprintLead: 'Luciano Scarpulla',
   },
@@ -90,8 +89,7 @@ const sprintProjects: SprintProject[] = [
     githubLink:
       'https://github.com/dev1virtuoso/Machine-Learning/tree/main/Computer%20Vision/L.E.P.A.U.T.E.',
     discordChannelDisplay: '2025-sprint-lepaute',
-    discordChannel:
-      'https://discord.com/channels/1246847132699332640/1420214691547840563',
+    discordChannel: 'https://discord.gg/waKXY5GDpz',
     level: 'Intermediate',
     sprintLead: 'Carson',
   },
@@ -131,8 +129,7 @@ const sprintProjects: SprintProject[] = [
     githubLinkDisplay: 'github.com/lucifertrj/case-study-series',
     githubLink: 'https://github.com/lucifertrj/case-study-series',
     discordChannelDisplay: '2025-sprint-blog-articles',
-    discordChannel:
-      'https://discord.com/channels/1246847132699332640/1423684541201125457',
+    discordChannel: 'https://discord.gg/A7RNeYqkHx',
     level: 'ALL Levels',
     sprintLead: 'Tarun Jain',
   },
