@@ -25,7 +25,7 @@ interface SprintScheduleItem {
 
 interface SprintProject {
   title: string;
-  descriptionNode: React.ReactNode;
+  descriptionNode?: React.ReactNode;
   goals: string[];
   githubLinkDisplay: string;
   githubLink: string;
@@ -132,6 +132,19 @@ const sprintProjects: SprintProject[] = [
     discordChannel: 'https://discord.gg/A7RNeYqkHx',
     level: 'ALL Levels',
     sprintLead: 'Tarun Jain',
+  },
+  {
+    title: 'Global Headlines',
+    goals: [
+      'To create a website that contains headlines from different countries around the world in their native languages and English translations.',
+      'Let Hong Konbg people understand what is happening in the world through the lens of different countries.',
+    ],
+    githubLinkDisplay: 'github.com/dl512/global-headlines',
+    githubLink: 'https://github.com/dl512/global-headlines',
+    discordChannelDisplay: '2025-sprint-global-headlines',
+    discordChannel: 'https://discord.gg/fZCYH5R8rm',
+    level: 'ALL Levels',
+    sprintLead: 'David',
   },
 ];
 
@@ -289,13 +302,14 @@ export default async function Sprint() {
               <h3 className='text-lg font-bold text-purple-600'>
                 {project.title}
               </h3>
-
-              <div className='flex items-start mt-4'>
-                <MdOutlineDescription className='h-5 w-5 mr-4 text-gray-500 mt-1 flex-shrink-0' />
-                <div className='text-gray-700 text-sm/relaxed md:text-base lg:text-lg'>
-                  {project.descriptionNode}
+              {project.descriptionNode && (
+                <div className='flex items-start mt-4'>
+                  <MdOutlineDescription className='h-5 w-5 mr-4 text-gray-500 mt-1 flex-shrink-0' />
+                  <div className='text-gray-700 text-sm/relaxed md:text-base lg:text-lg'>
+                    {project.descriptionNode}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className='flex items-start mt-4'>
                 <FaGithub className='h-5 w-5 mr-4 text-gray-600 flex-shrink-0 mt-2' />
