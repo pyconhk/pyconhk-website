@@ -1,8 +1,10 @@
-import { redirect } from 'next/navigation';
+import { NextResponse } from 'next/server';
 
 export default async function Album() {
-  redirect(
-    'https://drive.google.com/drive/folders/1xZPVXsE7_0amFbSM6lLgyeKsyzgmTd-k?usp=sharing'
+  return NextResponse.redirect(
+    'https://drive.google.com/drive/folders/1xZPVXsE7_0amFbSM6lLgyeKsyzgmTd-k?usp=sharing',
+    {
+      status: 302,
+    }
   );
-  return null;
 }
