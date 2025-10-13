@@ -210,9 +210,13 @@ const fetchProxy = async (url: string, request: NextRequest) => {
   }
 };
 
+const albumConfig = {
+  2025: 'https://drive.google.com/drive/folders/1xZPVXsE7_0amFbSM6lLgyeKsyzgmTd-k?usp=sharing',
+};
+
 export default async function yearRewriteMiddleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const currentYear = new Date().getFullYear();
+  const currentYear = '2025'; // Set current year here
 
   const isWordPressPath = wordPressProxyPaths.some(path =>
     pathname.startsWith(path)
@@ -250,6 +254,13 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     return NextResponse.rewrite(
       new URL(`/${currentYear}/sponsorships/opportunities`, request.url)
     );
+  }
+
+  if (pathname.includes('/album')) {
+    const albumUrl = albumConfig[currentYear];
+    if (albumUrl) {
+      return NextResponse.redirect(albumUrl, 301);
+    }
   }
 
   // Handle root and non-year paths
