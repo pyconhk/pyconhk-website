@@ -134,12 +134,17 @@ export const links: NavBarLink[] = [
     href: process.env.NEXT_PUBLIC_CONTACT_US_URL,
     isActive: true,
   },
+  {
+    label: 'Album',
+    href: '/album',
+    isActive: true,
+  },
 ];
 
 export default async function NavBarLinks() {
   return (
     <div className='flex items-center h-full text-gray-600'>
-      <ul className='flex space-x-6 xl:space-x-7 font-semibold text-base'>
+      <ul className='flex space-x-6 xl:space-x-7 font-semibold text-sm 2xl:text-base'>
         {links.map(link => (
           <React.Fragment key={`nav-${link.label}`}>
             {Array.isArray(link.children) ? (
