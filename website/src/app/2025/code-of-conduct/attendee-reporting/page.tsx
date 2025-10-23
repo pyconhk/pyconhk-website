@@ -128,7 +128,7 @@ export default function ProceduresForReportingIncidents() {
           information about the incident according to the&nbsp;
           <b>
             <Link
-              href='/2025/code-of-conduct/enforcement-procedures'
+              href='/2025/code-of-conduct/staff-procedures'
               className='text-sky-600 hover:text-sky-800'
             >
               Procedure For Incident Response
@@ -155,7 +155,7 @@ export default function ProceduresForReportingIncidents() {
           Examples of possible incident responses are outlined in the{' '}
           <b>
             <a
-              href='/2025/code-of-conduct/enforcement-procedures'
+              href='/2025/code-of-conduct/staff-procedures'
               className='text-sky-600 hover:text-sky-800'
               target='_blank'
             >
