@@ -1,0 +1,411 @@
+---
+import type { SiteLocale, SiteYear } from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+const { year, locale }: Props = Astro.props;
+const cocHref = buildLocalizedPath(year, locale, 'code-of-conduct');
+const staffProceduresHref = buildLocalizedPath(year, locale, 'code-of-conduct/staff-procedures');
+---
+
+{
+  locale === 'zh-hk' ? (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+        事件舉報程序
+      </h1>
+      <div class="mt-4 space-y-6 text-gray-700">
+        <p>
+          <b>如果你相信有人正處於人身危險之中，包括對自己造成危險</b>
+          ，最重要的是先讓對方獲得協助。請立即聯絡適當的危機支援電話、非緊急支援熱線或警方。如你是 PyCon HK 參加者，也可向義工或工作人員求助，以協助你找到合適的聯絡方式。
+        </p>
+        <p>
+          如果你認為有人違反了
+          <b>
+            <a href={cocHref} class="text-sky-600 hover:text-sky-800">行為準則</a>
+          </b>
+          ，我們鼓勵你提出舉報。即使你未能確定事件是否構成違規，或不確定事發地點是否屬於本行為準則的適用範圍，我們仍然鼓勵你提交報告。即使最終我們決定不採取行動，這類報告仍有助我們建立更安全的環境。
+        </p>
+        <p>
+          如果你需要舉報，但未能找到相應的行為準則聯絡方式，你可以透過以下 PyCon HK 行為準則電郵地址提交報告。PyCon HK 活動工作人員將處理你的報告。如有此情況，也請一併告知我們你未能找到指定舉報資料，以便我們日後改善。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">一般舉報程序</h2>
+        <p>
+          聯絡 PyCon HK 行為準則活動工作人員的最佳方式，是電郵至
+          <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">
+            pycon@pycon.hk
+          </a>
+          。監察此電郵帳戶的 PyCon HK 活動工作人員包括：
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Alex Au</li>
+          <li class="md:pl-2">Calvin Tsang</li>
+        </ul>
+        <p>
+          如涉及<b>利益衝突</b>，你可直接聯絡以下主要事件回應負責人：
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Henry Law，PyCon HK 2025 大會主席</li>
+        </ul>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">報告內容</h2>
+        <p>如你透過電郵或電話舉報，請盡量提供以下資料：</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">你的聯絡方式（方便我們在需要時跟進）</li>
+          <li class="md:pl-2">事件發生的日期和時間</li>
+          <li class="md:pl-2">事件發生地點</li>
+          <li class="md:pl-2">事件是否仍在進行中</li>
+          <li class="md:pl-2">事件描述</li>
+          <li class="md:pl-2">
+            被舉報者的辨識資料，例如姓名、外貌、身高、衣著、口音，以及公司名稱、絲帶或證件編號等識別資料
+          </li>
+          <li class="md:pl-2">事件發生時的其他相關情況</li>
+          <li class="md:pl-2">其他涉事人士或目擊者的聯絡資料或描述</li>
+        </ul>
+        <p>請盡可能提供詳細資料。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">保密原則</h2>
+        <p>
+          <b>所有報告都會保密處理</b>
+          。當我們與被舉報者討論事件時，會盡可能將細節匿名化，以保護舉報人的私隱。
+        </p>
+        <p>
+          然而，部分事件可能發生於一對一互動中，即使資料已匿名化，被舉報者仍可能推測出舉報人身份。如果你擔心遭到報復或對個人安全有顧慮，請在報告中註明。我們仍鼓勵你作出舉報，以便我們在保障會議參加者安全的同時為你提供支援。在某些情況下，我們亦可把多份匿名報告整理成行為模式，並就該模式採取行動。
+        </p>
+        <p>
+          在某些情況下，我們可能認為需要作出公開聲明。若屬此情況，除非受害者或舉報人明確要求，否則所有受影響人士及舉報人的身份仍會保密。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">報告處理程序</h2>
+        <p>
+          當你向事件回應人員提交報告後，他們會按照
+          <b>
+            <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">事件處理程序</a>
+          </b>
+          收集與事件相關的資訊。
+        </p>
+        <p>
+          事件回應人員在接獲報告後，會立即與 PyCon HK 活動工作人員商討；如涉及利益衝突，則會聯絡沒有利益衝突的其他負責人。
+        </p>
+        <p>
+          如事件仍在進行並需要即時處理，任何主要事件回應人員都可採取合適行動，以保障所有相關人士的安全。如有需要，這可能包括轉介至適當的非 PyCon HK 機構，例如本地警方。PyCon HK 並不具備處理緊急事故的能力。
+        </p>
+        <p>
+          如事件較不緊急，報告將交由活動工作人員討論，並透過會議決定合適的回應方式。可能採取的處理措施可參考
+          <b>
+            <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">事件處理程序</a>
+          </b>
+          。
+        </p>
+        <p>
+          在任何大型實體會議開始前，工作人員都會參與必須出席的會議，說明事件應對程序。會議結束後，所有事件回應人員亦會與主要回應人員一同參與檢討會議，討論所有事件及決定是否需要後續跟進。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">向舉報人跟進</h2>
+        <p>
+          在收到事件報告後一星期內，活動工作人員或其中一位主要回應人員會聯絡提交報告並提供聯絡方式的人士。跟進內容可能包括：
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">確認行為準則回應人員已討論有關情況</li>
+          <li class="md:pl-2">說明該報告是否被判定為違反行為準則</li>
+          <li class="md:pl-2">說明已採取哪些行動（如有）以糾正被舉報行為</li>
+        </ul>
+        <p>在某些情況下，主要回應人員可能需要提出額外問題，以識別被舉報者身份。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">利益衝突</h2>
+        <p>
+          如果某位事件回應人員在某宗報告中涉及利益衝突，他們將退出與事件有關的討論及處理工作。相關事件文件不會向其披露，而他們亦會避免參與任何有關處理該事件的對話。
+        </p>
+        <p>
+          如超過兩位 PyCon HK 主要事件回應人員需要迴避，其他 PyCon HK 工作人員將暫時接任主要事件回應人員角色。
+        </p>
+        <p>
+          本程序改編自 Ada Initiative 的
+          <a
+            href="http://geekfeminism.wikia.com/wiki/Conference_anti-harassment/Responding_to_reports"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Conference anti-harassment/Responding to Reports</b>
+          </a>
+          、
+          <a
+            href="https://www.djangoproject.com/conduct/reporting/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Django Project reporting guidelines</b>
+          </a>
+          （CC BY 3.0），以及
+          <a
+            href="https://otter.technology/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Otter Tech</b>
+          </a>
+          補充的內容。
+        </p>
+      </div>
+    </div>
+  ) : locale === 'ja' ? (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+        事案報告手順
+      </h1>
+      <div class="mt-4 space-y-6 text-gray-700">
+        <p>
+          <b>誰かが身体的な危険にさらされている、または自傷の恐れがある場合</b>
+          は、まずその人の安全確保を最優先してください。必要に応じて危機対応窓口、非緊急支援窓口、または警察へ連絡してください。PyCon HK の参加者であれば、ボランティアやスタッフに相談して適切な連絡先を確認することもできます。
+        </p>
+        <p>
+          誰かが
+          <b>
+            <a href={cocHref} class="text-sky-600 hover:text-sky-800">行動規範</a>
+          </b>
+          に違反したと思われる場合は、ぜひ報告してください。違反かどうか確信が持てない場合や、出来事が規範の対象範囲内かどうか不明な場合でも、報告は歓迎します。結果として対応不要と判断される場合でも、安全な場づくりに役立ちます。
+        </p>
+        <p>
+          もし適切な報告先が見つからない場合は、下記の PyCon HK 行動規範用メールアドレスへご連絡ください。PyCon HK のイベントスタッフが対応します。その際、報告先が見つからなかったことも合わせてお知らせください。今後の改善に役立てます。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">一般的な報告方法</h2>
+        <p>
+          PyCon HK 行動規範担当スタッフへの最善の連絡方法は、
+          <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+          へのメールです。このアカウントを監視している担当者は次の通りです。
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Alex Au</li>
+          <li class="md:pl-2">Calvin Tsang</li>
+        </ul>
+        <p>
+          <b>利益相反</b> がある場合は、次の主要対応者へ直接ご連絡ください。
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Henry Law, Conference Chair of PyCon HK 2025</li>
+        </ul>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">報告時に含めてほしい情報</h2>
+        <p>メールまたは電話で報告する場合は、できるだけ次の情報を含めてください。</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">連絡先（必要に応じてフォローアップするため）</li>
+          <li class="md:pl-2">出来事の日時</li>
+          <li class="md:pl-2">出来事の場所</li>
+          <li class="md:pl-2">出来事が現在も続いているかどうか</li>
+          <li class="md:pl-2">出来事の内容</li>
+          <li class="md:pl-2">相手を特定できる情報（氏名、外見、身長、服装、声の特徴、会社名、バッジ情報など）</li>
+          <li class="md:pl-2">周辺状況や補足事情</li>
+          <li class="md:pl-2">関係者や目撃者の情報</li>
+        </ul>
+        <p>可能な限り詳しくご記入ください。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">守秘義務</h2>
+        <p>
+          <b>すべての報告は秘密として扱われます</b>。報告対象者と事案を共有する際は、報告者のプライバシーを守るため、可能な限り情報を匿名化します。
+        </p>
+        <p>
+          ただし、1対1のやり取りで起きた事案では、匿名化しても報告者が推測される可能性があります。報復や安全面に不安がある場合は、その旨を報告時に記載してください。参加者の安全を守りながら、必要な支援を行います。
+        </p>
+        <p>
+          場合によっては公開声明が必要になることがありますが、その際も、関係者本人が希望しない限り、被害者や報告者の身元は公開されません。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">報告後の流れ</h2>
+        <p>
+          事案対応担当者は、
+          <b>
+            <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">対応手順</a>
+          </b>
+          に沿って必要な情報を整理します。
+        </p>
+        <p>
+          報告を受けた担当者は、利益相反がない限り、速やかに PyCon HK のイベントスタッフと相談します。
+        </p>
+        <p>
+          進行中で緊急対応が必要な場合は、主要対応者が安全確保のために適切な措置を取ります。必要であれば現地警察など、PyCon HK 以外の機関へ連携します。PyCon HK 自体は緊急事案の対応機関ではありません。
+        </p>
+        <p>
+          緊急性が低い場合は、スタッフが協議して適切な対応を決定します。可能な対応例は
+          <b>
+            <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">対応手順</a>
+          </b>
+          に記載されています。
+        </p>
+        <p>
+          大規模な対面イベントの前には、スタッフ向けに必須の事前確認を行います。イベント後には、事案対応者と主要対応者が振り返りを行い、必要なフォローアップを確認します。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">報告者へのフォローアップ</h2>
+        <p>
+          連絡先を残してくださった方には、通常 1 週間以内にイベントスタッフまたは主要対応者からフォローアップを行います。内容には次のような項目が含まれる場合があります。
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">行動規範対応者が事案を協議したことの確認</li>
+          <li class="md:pl-2">行動規範違反と判断されたかどうか</li>
+          <li class="md:pl-2">是正のために取られた措置（ある場合）</li>
+        </ul>
+        <p>場合によっては、相手を特定するために追加の質問をすることがあります。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">利益相反</h2>
+        <p>
+          対応者が事案について利益相反を持つ場合、その人は議論や処理から外れます。関連文書へアクセスせず、事案に関するやり取りにも参加しません。
+        </p>
+        <p>
+          主要対応者のうち 2 名を超えて回避が必要な場合は、別の PyCon HK スタッフが一時的に主要対応者を担います。
+        </p>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+        Procedures for Reporting Incidents
+      </h1>
+      <div class="mt-4 space-y-6 text-gray-700">
+        <p>
+          <b>If you believe someone is in physical danger, including from themselves</b>, the most important thing is to get that person help. Please contact the appropriate crisis number, non-emergency number, or police number. If you are a PyCon HK attendee, you can consult with a volunteer or staff member to help find an appropriate number.
+        </p>
+        <p>
+          If you believe someone has violated the
+          <b>
+            <a href={cocHref} class="text-sky-600 hover:text-sky-800">Code of Conduct</a>
+          </b>
+          , we encourage you to report it. If you are unsure whether the incident is a violation, or whether the space where it happened is covered by the Code of Conduct, we encourage you to still report it. We are fine with receiving reports where we decide to take no action for the sake of creating a safer space.
+        </p>
+        <p>
+          If you find that you need to make a report, and you cannot find the appropriate Code of Conduct reporting contact, you may report to the PyCon HK Code of Conduct email alias below. PyCon HK event staff will handle your report. If this happens, please also mention that you could not find specific reporting information so that we can improve.
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">General Reporting Procedure</h2>
+        <p>
+          The best way to contact the PyCon HK Code of Conduct event staff is by email at
+          <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+          . The members of the PyCon HK event staff who monitor this account are:
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Alex Au</li>
+          <li class="md:pl-2">Calvin Tsang</li>
+        </ul>
+        <p>
+          In the event of a <b>conflict of interest</b>, you may directly contact any of the lead incident responders:
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Henry Law, Conference Chair of PyCon HK 2025</li>
+        </ul>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Report Data</h2>
+        <p>When you make a report via email or phone, please include:</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Your contact info (so we can get in touch with you if we need to follow up)</li>
+          <li class="md:pl-2">Date and time of the incident</li>
+          <li class="md:pl-2">Location of incident</li>
+          <li class="md:pl-2">Whether the incident is ongoing</li>
+          <li class="md:pl-2">Description of the incident</li>
+          <li class="md:pl-2">
+            Identifying information of the reported person: name, physical appearance, height, clothing, voice accent, identifying badge information such as company name, ribbons, or badge number
+          </li>
+          <li class="md:pl-2">Additional circumstances surrounding the incident</li>
+          <li class="md:pl-2">
+            Other people involved in or witnesses to the incident and their contact information or description
+          </li>
+        </ul>
+        <p>Please provide as much information as possible.</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Confidentiality</h2>
+        <p>
+          <b>All reports will be kept confidential</b>. When we discuss incidents with people who are reported, we will anonymize details as much as we can to protect reporter privacy.
+        </p>
+        <p>
+          However, some incidents happen in one-on-one interactions, and even if the details are anonymized, the reported person may be able to guess who made the report. If you have concerns about retaliation or your personal safety, please note those in your report. We still encourage you to report, so that we can support you while keeping our conference attendees safe. In some cases, we can compile several anonymized reports into a pattern of behavior, and take action on that pattern.
+        </p>
+        <p>
+          In some cases, we may determine that a public statement will need to be made. If that&apos;s the case, the identities of all victims and reporters will remain confidential unless those individuals instruct us otherwise.
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Report Handling Procedure</h2>
+        <p>
+          When you make a report to an incident responder, they will gather information about the incident according to the
+          <b>
+            <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">Procedure For Incident Response</a>
+          </b>
+          .
+        </p>
+        <p>
+          After an incident responder takes the report, they will immediately consult with the PyCon HK event staff, unless there is a conflict of interest, in which case any non-interested parties will be contacted.
+        </p>
+        <p>
+          If the incident is ongoing and needs to be immediately addressed, any lead incident responder may take appropriate action to ensure the safety of everyone involved. If the situation requires it, this may take the form of a referral to an appropriate non-PyCon HK agency, including the local police. PyCon HK is not equipped to handle emergency situations.
+        </p>
+        <p>
+          If the incident is less urgent, the report will be discussed by the event staff, who will meet to determine an appropriate response. Examples of possible incident responses are outlined in the
+          <b>
+            <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">Procedure For Incident Response</a>
+          </b>
+          .
+        </p>
+        <p>
+          Before any large in-person gathering conference, staff will have a mandatory meeting where incident response procedures will be outlined. After the conference, all incident responders will attend a debriefing session with the lead responders to discuss all incidents and determine any necessary follow-up actions.
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Following up with Reporters</h2>
+        <p>
+          Within one week of an incident report, a member of the event staff, or one of the lead responders, will follow up with the person who made the report and provided their contact information. The follow up may include:
+        </p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">An acknowledgment that the Code of Conduct responders discussed the situation</li>
+          <li class="md:pl-2">Whether or not the report was determined to be a violation of the Code of Conduct</li>
+          <li class="md:pl-2">What actions (if any) were taken to correct the reported behavior</li>
+        </ul>
+        <p>
+          In some cases, the lead responders may need to ask additional questions about the incident in order to identify the reported person.
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Conflicts of Interest</h2>
+        <p>
+          If an incident responder has a conflict of interest for a report, they will recuse themselves from the discussion and handling of the incident. The incident documentation will not be available to them, and they will excuse themselves from any conversations involving handling the incident.
+        </p>
+        <p>
+          Should more than two of the PyCon HK lead incident responders need to recuse themselves, another PyCon HK staff member will step in as a temporary lead incident responder.
+        </p>
+        <p>
+          This procedure was adapted from the Ada Initiative&apos;s guide titled
+          <a
+            href="http://geekfeminism.wikia.com/wiki/Conference_anti-harassment/Responding_to_reports"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Conference anti-harassment/Responding to Reports</b>
+          </a>
+          , the
+          <a
+            href="https://www.djangoproject.com/conduct/reporting/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Django Project reporting guidelines</b>
+          </a>
+          (CC BY 3.0), with additions by
+          <a
+            href="https://otter.technology/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Otter Tech</b>
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  )
+}

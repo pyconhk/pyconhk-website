@@ -1,0 +1,117 @@
+---
+import type { SiteLocale, SiteYear } from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { callForSprintUrl } from '@/years/2025/external-links';
+import { getMessages, getTranslations } from '@/years/2025/i18n';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+const { year, locale } = Astro.props;
+const home = getMessages(locale, 'home');
+const t = getTranslations(locale, 'home');
+const sponsorHref = buildLocalizedPath(year, locale, 'sponsorships/opportunities');
+---
+
+<div>
+  <div class="px-4 py-16 text-center sm:px-6 lg:px-8">
+    <h2 class="mb-6 text-3xl font-bold text-slate-600 sm:text-4xl md:text-5xl">{t('actionsHeading')}</h2>
+    <p class="mx-auto max-w-3xl text-base text-slate-500 sm:text-lg md:text-xl">{t('actionsIntro')}</p>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+    <div class="mx-auto grid max-w-6xl gap-8 text-sm md:grid-cols-2 md:text-base lg:gap-16">
+      <article class="overflow-hidden rounded-2xl bg-white shadow-xl">
+        <div class="h-3 bg-purple-400"></div>
+        <div class="p-8">
+          <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 text-purple-400">
+            <Icon name="shoe-sneaker" className="h-8 w-8" />
+          </div>
+          <h3 class="mb-4 text-xl font-semibold text-slate-600 md:text-2xl">{t('sprintTitle')}</h3>
+          <p class="mb-8 text-slate-500">{t('sprintBody')}</p>
+          <ul class="mb-8 space-y-3 text-slate-500">
+            {home.sprintBenefits.map((item) => (
+              <li class="flex items-start gap-4">
+                <span class="relative top-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center text-purple-400">
+                  <Icon name="check" className="h-4 w-4" />
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={callForSprintUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-md bg-purple-400 px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-purple-500 md:text-lg"
+          >
+            <span>{t('sprintCta')}</span>
+            <Icon name="arrow-right" className="h-5 w-5" />
+          </a>
+        </div>
+      </article>
+
+      <article class="overflow-hidden rounded-2xl bg-white shadow-xl">
+        <div class="h-3 bg-yellow-300"></div>
+        <div class="p-8">
+          <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 text-yellow-400">
+            <Icon name="currency-dollar-circle" className="h-8 w-8" />
+          </div>
+          <h3 class="mb-4 text-xl font-semibold text-slate-600 md:text-2xl">{t('sponsorTitle')}</h3>
+          <p class="mb-8 text-slate-500">{t('sponsorBody')}</p>
+          <ul class="mb-8 space-y-3 text-slate-500">
+            {home.sponsorBenefits.map((item) => (
+              <li class="flex items-start gap-4">
+                <span class="relative top-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center text-yellow-400">
+                  <Icon name="check" className="h-4 w-4" />
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={sponsorHref}
+            class="inline-flex items-center justify-center gap-2 rounded-md bg-yellow-400 px-6 py-3 text-base font-medium text-white transition-colors duration-200 hover:bg-yellow-500 md:text-lg"
+          >
+            <span>{t('sponsorCta')}</span>
+            <Icon name="arrow-right" className="h-5 w-5" />
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <div class="mt-16 text-center">
+      <div class="rounded-xl bg-gradient-to-r from-sky-400 to-sky-500 px-4 py-8">
+        <h3 class="mb-4 text-xl font-bold text-white md:text-2xl">{t('datesHeading')}</h3>
+        <p class="mx-auto mb-6 max-w-3xl text-sm text-white/90 md:text-base">{t('datesIntro')}</p>
+        <div class="flex flex-col justify-center gap-6 lg:flex-row">
+          {home.dates.map((item) => (
+            <div class="flex-1 rounded-lg bg-white/80 p-4 text-gray-600">
+              <h4 class="text-base font-semibold md:text-lg">{item.title}</h4>
+              <p class="text-sm md:text-base">{item.date}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16 text-gray-600">
+      <h3 class="mb-6 text-center text-xl font-bold text-slate-600 md:text-2xl">
+        {t('faqHeading')}
+      </h3>
+      <div class="space-y-4 text-slate-500">
+        {home.faqs.map((faq) => (
+          <details class="rounded-lg bg-white p-6 shadow-md">
+            <summary class="cursor-pointer text-base font-semibold md:text-lg">
+              {faq.question}
+            </summary>
+            <p class="mt-3 text-sm md:text-base">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

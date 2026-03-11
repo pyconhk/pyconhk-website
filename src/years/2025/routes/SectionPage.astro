@@ -1,0 +1,68 @@
+---
+import { type SiteLocale, type SiteYear, siteName } from '@/config/site';
+import InnerPageFrame from '@/years/2025/components/content/InnerPageFrame.astro';
+import AboutPage from '@/years/2025/components/pages/AboutPage.astro';
+import AccessGuidePage from '@/years/2025/components/pages/AccessGuidePage.astro';
+import CateringGuidePage from '@/years/2025/components/pages/CateringGuidePage.astro';
+import CodeOfConductPage from '@/years/2025/components/pages/CodeOfConductPage.astro';
+import OrganizersPage from '@/years/2025/components/pages/OrganizersPage.astro';
+import PrivacyPolicyPage from '@/years/2025/components/pages/PrivacyPolicyPage.astro';
+import SchedulePage from '@/years/2025/components/pages/SchedulePage.astro';
+import SponsorshipsPage from '@/years/2025/components/pages/SponsorshipsPage.astro';
+import SprintPage from '@/years/2025/components/pages/SprintPage.astro';
+import SupportingOrganizationsPage from '@/years/2025/components/pages/SupportingOrganizationsPage.astro';
+import VolunteersPage from '@/years/2025/components/pages/VolunteersPage.astro';
+import { getSectionCopy, type SiteSectionSlug } from '@/years/2025/data/sections';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+  section: SiteSectionSlug;
+}
+
+const { year, locale, section } = Astro.props;
+const sectionCopy = getSectionCopy(section, locale);
+const localizedSections = new Set<SiteSectionSlug>([
+  'about',
+  'schedule',
+  'access-guide',
+  'catering-guide',
+  'code-of-conduct',
+  'organizers',
+  'privacy-policy',
+  'sprint',
+  'sponsorships',
+  'supporting-organizations',
+  'volunteers',
+]);
+const englishOnly = locale === 'en' ? false : !localizedSections.has(section);
+const compactSections = new Set<SiteSectionSlug>([
+  'access-guide',
+  'catering-guide',
+  'sprint',
+  'sponsorships',
+  'supporting-organizations',
+]);
+---
+
+<InnerPageFrame
+  title={`${sectionCopy.title} | ${siteName} ${year}`}
+  description={sectionCopy.blurb}
+  year={year}
+  locale={locale}
+  currentSection={section}
+  englishOnly={englishOnly}
+  compact={compactSections.has(section)}
+>
+  {section === 'about' && <AboutPage locale={locale} />}
+  {section === 'schedule' && <SchedulePage year={year} locale={locale} />}
+  {section === 'access-guide' && <AccessGuidePage locale={locale} />}
+  {section === 'catering-guide' && <CateringGuidePage locale={locale} />}
+  {section === 'sprint' && <SprintPage year={year} locale={locale} />}
+  {section === 'organizers' && <OrganizersPage locale={locale} />}
+  {section === 'volunteers' && <VolunteersPage locale={locale} />}
+  {section === 'supporting-organizations' && <SupportingOrganizationsPage locale={locale} />}
+  {section === 'sponsorships' && <SponsorshipsPage locale={locale} />}
+  {section === 'code-of-conduct' && <CodeOfConductPage year={year} locale={locale} />}
+  {section === 'privacy-policy' && <PrivacyPolicyPage locale={locale} />}
+</InnerPageFrame>

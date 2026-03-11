@@ -1,0 +1,10 @@
+[tools]
+bun = "latest"
+
+[tasks.dev]
+description = "Build and serve the site with Wrangler Pages"
+run = "bun run build && bunx wrangler pages dev dist --local --port 8788"
+
+[tasks.preview]
+description = "Preview the built site with Wrangler Pages"
+run = "bun run build && bunx wrangler pages dev dist --local --port 8788"

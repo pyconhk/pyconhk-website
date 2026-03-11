@@ -1,0 +1,13 @@
+---
+import { getCurrentYearLocaleStaticPaths, resolveLocaleParam } from '@/lib/routing';
+import NewsIndexPage from '@/years/2025/routes/NewsIndexPage.astro';
+import { conferenceYear } from '@/years/2025/site';
+
+export function getStaticPaths() {
+  return getCurrentYearLocaleStaticPaths();
+}
+
+const locale = resolveLocaleParam(Astro.params.locale);
+---
+
+<NewsIndexPage year={conferenceYear} locale={locale} />

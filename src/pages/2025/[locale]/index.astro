@@ -1,0 +1,33 @@
+---
+import { type SiteYear, siteName } from '@/config/site';
+import {
+  buildLocalizedPath,
+  getCurrentYearLocaleStaticPaths,
+  isCurrentYear,
+  resolveLocaleParam,
+} from '@/lib/routing';
+import HomePage from '@/years/2025/routes/HomePage.astro';
+import RedirectPage from '@/years/2025/routes/RedirectPage.astro';
+
+export function getStaticPaths() {
+  return getCurrentYearLocaleStaticPaths();
+}
+
+const year: SiteYear = 2025;
+const locale = resolveLocaleParam(Astro.params.locale);
+const shouldRedirect = isCurrentYear(year);
+const targetPath = buildLocalizedPath(year, locale);
+---
+
+{
+  shouldRedirect ? (
+    <RedirectPage
+      title={`${siteName} ${year} | Redirecting`}
+      description="The current conference year now uses locale-first URLs without the year segment."
+      href={targetPath}
+      locale={locale}
+    />
+  ) : (
+    <HomePage year={year} locale={locale} />
+  )
+}

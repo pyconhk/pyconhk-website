@@ -1,0 +1,44 @@
+---
+import { locales, type SiteYear, siteName } from '@/config/site';
+import { getPublishedPostSlugs } from '@/lib/news';
+import {
+  buildLocalizedPath,
+  isCurrentYear,
+  resolveLocaleParam,
+} from '@/lib/routing';
+import NewsArticlePage from '@/years/2025/routes/NewsArticlePage.astro';
+import RedirectPage from '@/years/2025/routes/RedirectPage.astro';
+
+export async function getStaticPaths() {
+  const year: SiteYear = 2025;
+  const slugs = await getPublishedPostSlugs(year);
+
+  return locales.flatMap((locale) =>
+    slugs.map((slug) => ({
+      params: {
+        locale: locale.code,
+        slug,
+      },
+    }))
+  );
+}
+
+const year: SiteYear = 2025;
+const locale = resolveLocaleParam(Astro.params.locale);
+const slug = Astro.params.slug || '';
+const shouldRedirect = isCurrentYear(year);
+const targetPath = buildLocalizedPath(year, locale, `news/${slug}`);
+---
+
+{
+  shouldRedirect ? (
+    <RedirectPage
+      title={`${siteName} ${year} | Redirecting`}
+      description="The current conference year now uses locale-first article URLs without the year segment."
+      href={targetPath}
+      locale={locale}
+    />
+  ) : (
+    <NewsArticlePage year={year} locale={locale} slug={slug} />
+  )
+}

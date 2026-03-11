@@ -1,0 +1,71 @@
+---
+import { type SiteLocale, type SiteYear } from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+import ScrollIndicator from '@/years/2025/components/home/ScrollIndicator.astro';
+import { eventbriteUrl } from '@/years/2025/external-links';
+import { getTranslations } from '@/years/2025/i18n';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+const { year, locale } = Astro.props;
+const t = getTranslations(locale, 'home');
+---
+
+<section class="h-screen w-full overflow-hidden bg-white" id="home">
+  <div class="relative h-full w-full overflow-hidden">
+    <div class="absolute inset-0 opacity-30">
+      <img
+        src="/2025/landing-pages/banner-1.jpeg"
+        alt="Background"
+        width="1800"
+        height="1200"
+        class="h-full w-full object-cover object-center"
+      />
+    </div>
+
+    <div class="relative z-10 flex h-full w-full flex-col items-center justify-center px-4 text-center">
+      <div>
+        <img
+          src="/2025/logos/logo.png"
+          alt={`PyCon HK ${year} Logo`}
+          width="640"
+          height="640"
+          class="mx-auto h-auto max-h-[70vh] min-w-[200px] max-w-[70%] object-contain md:max-w-[60%] lg:max-w-[70%]"
+        />
+
+        <h1 class="mt-3 font-display text-4xl font-bold tracking-tight text-[#016735] md:text-5xl lg:text-6xl">
+          PyCon HK {year}
+        </h1>
+
+        <div class="relative my-4 flex justify-center">
+          <span class="bg-[#016735] px-8 py-1 font-display text-xl italic text-[#f4dc03]">
+            {t('tagline')}
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-2 flex w-full flex-col items-center gap-4 md:mt-6">
+        <a
+          href={eventbriteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block rounded-full bg-[#f4dc03] px-8 py-3 text-[#016735] shadow-sm transition-all duration-300 hover:shadow-xl"
+        >
+          <span class="font-display text-base font-semibold md:text-lg">{t('primaryCta')}</span>
+        </a>
+
+        <a
+          href={buildLocalizedPath(year, locale, 'schedule')}
+          class="inline-block rounded-full bg-[#016735] px-8 py-3 text-[#f4dc03] shadow-sm transition-all duration-300 hover:shadow-xl"
+        >
+          <span class="font-display text-base font-semibold md:text-lg">{t('secondaryCta')}</span>
+        </a>
+      </div>
+
+      <ScrollIndicator locale={locale} />
+    </div>
+  </div>
+</section>

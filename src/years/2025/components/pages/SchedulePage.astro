@@ -1,0 +1,576 @@
+---
+import {
+  type LocalizedValue,
+  resolveLocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+  type SiteYear,
+} from '@/config/site';
+import {
+  applySessionOverrides,
+  fetchConferenceSchedule,
+  formatScheduleDayLabel,
+  formatScheduleSyncTime,
+  formatScheduleTimeRange,
+  getLanguageLabel,
+  getPublishedSessionCount,
+  hasPublishedSessions,
+  type ScheduleSessionStatus,
+} from '@/lib/schedule';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { scheduleSessionOverrides } from '@/years/2025/data/schedule-overrides';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+const schedule = applySessionOverrides(
+  await fetchConferenceSchedule(),
+  scheduleSessionOverrides
+);
+
+type SchedulePageCopy = {
+  title: string;
+  introEyebrow: string;
+  introTitle: string;
+  introBody: string;
+  sessionLanguageNote: string;
+  timezoneLabel: string;
+  timezoneValue: string;
+  lastSyncedLabel: string;
+  officialScheduleLinkLabel: string;
+  daysLabel: string;
+  roomsLabel: string;
+  sessionsLabel: string;
+  jumpLabel: string;
+  dayLabel: string;
+  roomLabel: string;
+  capacityLabel: string;
+  detailsLabel: string;
+  sessionLinkLabel: string;
+  emptyDayTitle: string;
+  emptyDayBody: string;
+  updateTitle: string;
+  updateIntro: string;
+  updateOutro: string;
+};
+
+const copy: LocalizedValue<SchedulePageCopy> = {
+  en: {
+    title: 'Conference Schedule',
+    introEyebrow: 'Native schedule',
+    introTitle: 'Built directly from Pretalx data',
+    introBody:
+      'The schedule below is rendered directly in Astro at build time, so this page keeps the PyCon HK look and still follows the latest published Pretalx agenda.',
+    sessionLanguageNote:
+      'Session titles and abstracts are currently published mostly in English by speakers and organizers.',
+    timezoneLabel: 'Timezone',
+    timezoneValue: 'Hong Kong Time (HKT)',
+    lastSyncedLabel: 'Last synced',
+    officialScheduleLinkLabel: 'Open Pretalx schedule',
+    daysLabel: 'Days',
+    roomsLabel: 'Rooms',
+    sessionsLabel: 'Sessions',
+    jumpLabel: 'Jump to a day',
+    dayLabel: 'Day',
+    roomLabel: 'Room',
+    capacityLabel: 'Capacity',
+    detailsLabel: 'Session details',
+    sessionLinkLabel: 'Open session page',
+    emptyDayTitle: 'More sessions coming soon',
+    emptyDayBody:
+      'This conference day does not have published rooms yet. A new build will pull in the latest Pretalx schedule automatically.',
+    updateTitle: 'Important Schedule Update',
+    updateIntro: 'Please note the following last-minute changes to our Day 1 schedule:',
+    updateOutro:
+      'The native schedule below reflects the latest published information. Thank you for your understanding.',
+  },
+  'zh-hk': {
+    title: '會議議程',
+    introEyebrow: '原生議程',
+    introTitle: '直接以 Pretalx 資料建構',
+    introBody:
+      '下方議程會在 Astro build 時直接抓取 Pretalx 公開資料，因此可保留 PyCon HK 網站風格，同時同步最新已發佈場次。',
+    sessionLanguageNote: '講題名稱與摘要目前仍主要以講者或主辦方發佈的英文內容為主。',
+    timezoneLabel: '時區',
+    timezoneValue: '香港時間 (HKT)',
+    lastSyncedLabel: '最近同步',
+    officialScheduleLinkLabel: '開啟 Pretalx 議程',
+    daysLabel: '日程',
+    roomsLabel: '房間',
+    sessionsLabel: '場次',
+    jumpLabel: '快速跳至日期',
+    dayLabel: '第',
+    roomLabel: '房間',
+    capacityLabel: '容量',
+    detailsLabel: '場次詳情',
+    sessionLinkLabel: '開啟場次頁面',
+    emptyDayTitle: '更多場次即將公佈',
+    emptyDayBody: '此日子暫時未有已發佈房間安排。下一次 build 會自動帶入最新 Pretalx 議程。',
+    updateTitle: '議程更新',
+    updateIntro: '請留意第一日議程的以下最新調整：',
+    updateOutro: '下方原生議程已反映最新已發佈資料。感謝你的理解。',
+  },
+  'zh-hant': {
+    title: '會議議程',
+    introEyebrow: '原生議程',
+    introTitle: '直接以 Pretalx 資料建構',
+    introBody:
+      '下方議程會在 Astro build 時直接抓取 Pretalx 公開資料，因此可保留 PyCon HK 網站風格，同時同步最新已發佈場次。',
+    sessionLanguageNote: '講題名稱與摘要目前仍主要以講者或主辦方發佈的英文內容為主。',
+    timezoneLabel: '時區',
+    timezoneValue: '香港時間 (HKT)',
+    lastSyncedLabel: '最近同步',
+    officialScheduleLinkLabel: '開啟 Pretalx 議程',
+    daysLabel: '日程',
+    roomsLabel: '房間',
+    sessionsLabel: '場次',
+    jumpLabel: '快速跳至日期',
+    dayLabel: '第',
+    roomLabel: '房間',
+    capacityLabel: '容量',
+    detailsLabel: '場次詳情',
+    sessionLinkLabel: '開啟場次頁面',
+    emptyDayTitle: '更多場次即將公佈',
+    emptyDayBody: '此日子暫時未有已發佈房間安排。下一次 build 會自動帶入最新 Pretalx 議程。',
+    updateTitle: '議程更新',
+    updateIntro: '請留意第一日議程的以下最新調整：',
+    updateOutro: '下方原生議程已反映最新已發佈資料。感謝你的理解。',
+  },
+  'zh-hans': {
+    title: '会议议程',
+    introEyebrow: '原生议程',
+    introTitle: '直接以 Pretalx 数据构建',
+    introBody:
+      '下方议程会在 Astro build 时直接抓取 Pretalx 公开数据，因此既能保留 PyCon HK 网站风格，也能同步最新已发布场次。',
+    sessionLanguageNote: '讲题名称与摘要目前仍主要以讲者或主办方发布的英文内容为主。',
+    timezoneLabel: '时区',
+    timezoneValue: '香港时间 (HKT)',
+    lastSyncedLabel: '最近同步',
+    officialScheduleLinkLabel: '打开 Pretalx 议程',
+    daysLabel: '日期',
+    roomsLabel: '房间',
+    sessionsLabel: '场次',
+    jumpLabel: '快速跳至日期',
+    dayLabel: '第',
+    roomLabel: '房间',
+    capacityLabel: '容量',
+    detailsLabel: '场次详情',
+    sessionLinkLabel: '打开场次页面',
+    emptyDayTitle: '更多场次即将公布',
+    emptyDayBody: '这一天暂时未有已发布房间安排。下一次 build 会自动带入最新 Pretalx 议程。',
+    updateTitle: '议程更新',
+    updateIntro: '请留意第一天议程的以下最新调整：',
+    updateOutro: '下方原生议程已反映最新已发布资料。感谢你的理解。',
+  },
+  ja: {
+    title: 'カンファレンススケジュール',
+    introEyebrow: 'ネイティブスケジュール',
+    introTitle: 'Pretalx の公開データを Astro で直接描画',
+    introBody:
+      'このページは build 時に Pretalx の公開データを取得して描画するため、PyCon HK のデザインを保ちながら最新の公開スケジュールを反映できます。',
+    sessionLanguageNote:
+      'セッション名と概要は、現時点では主に英語で公開されているものが中心です。',
+    timezoneLabel: 'タイムゾーン',
+    timezoneValue: '香港時間 (HKT)',
+    lastSyncedLabel: '最終同期',
+    officialScheduleLinkLabel: 'Pretalx のスケジュールを開く',
+    daysLabel: '日程',
+    roomsLabel: '会場',
+    sessionsLabel: 'セッション',
+    jumpLabel: '日付へ移動',
+    dayLabel: 'Day',
+    roomLabel: '会場',
+    capacityLabel: '定員',
+    detailsLabel: 'セッション詳細',
+    sessionLinkLabel: 'セッションページを開く',
+    emptyDayTitle: '今後さらに公開予定です',
+    emptyDayBody:
+      'この日はまだ公開済みの部屋情報がありません。次回 build 時に最新の Pretalx スケジュールが反映されます。',
+    updateTitle: 'スケジュール更新',
+    updateIntro: '1日目のスケジュールについて、直前の変更がありますのでご確認ください。',
+    updateOutro: '下のネイティブスケジュールには最新の公開情報が反映されています。ご理解ありがとうございます。',
+  },
+};
+
+const sessionTypeLabels = {
+  Talk: {
+    en: 'Talk',
+    'zh-hk': '演講',
+    'zh-hant': '演講',
+    'zh-hans': '演讲',
+    ja: 'トーク',
+  },
+  'Short talk': {
+    en: 'Short talk',
+    'zh-hk': '短講',
+    'zh-hant': '短講',
+    'zh-hans': '短讲',
+    ja: 'ショートトーク',
+  },
+  'Lightning talk': {
+    en: 'Lightning talk',
+    'zh-hk': '閃電講',
+    'zh-hant': '閃電講',
+    'zh-hans': '闪电讲',
+    ja: 'ライトニングトーク',
+  },
+  'Lightning Talk On-Day': {
+    en: 'Lightning talk',
+    'zh-hk': '閃電講',
+    'zh-hant': '閃電講',
+    'zh-hans': '闪电讲',
+    ja: 'ライトニングトーク',
+  },
+  Workshop: {
+    en: 'Workshop',
+    'zh-hk': '工作坊',
+    'zh-hant': '工作坊',
+    'zh-hans': '工作坊',
+    ja: 'ワークショップ',
+  },
+} as const satisfies Record<string, LocalizedValue<string>>;
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+
+function getSessionTypeLabel(sessionType: string): string {
+  const localizedLabel = sessionTypeLabels[sessionType as keyof typeof sessionTypeLabels];
+
+  return localizedLabel
+    ? resolveRequiredLocalizedValue(localizedLabel, locale)
+    : sessionType;
+}
+
+function getStatusLabel(status: ScheduleSessionStatus): string {
+  switch (status) {
+    case 'virtual':
+      return locale === 'zh-hk' || locale === 'zh-hant'
+        ? '線上場次'
+        : locale === 'zh-hans'
+          ? '线上场次'
+          : locale === 'ja'
+            ? 'オンライン'
+            : 'Virtual';
+    case 'cancelled':
+      return locale === 'zh-hk' || locale === 'zh-hant'
+        ? '已取消'
+        : locale === 'zh-hans'
+          ? '已取消'
+          : locale === 'ja'
+            ? '中止'
+            : 'Cancelled';
+    default:
+      return 'Scheduled';
+  }
+}
+
+function getTypeBadgeClasses(sessionType: string): string {
+  if (sessionType.includes('Workshop')) {
+    return 'rounded-full bg-amber-100 px-3 py-1 text-amber-800';
+  }
+
+  if (sessionType.toLowerCase().includes('lightning')) {
+    return 'rounded-full bg-fuchsia-100 px-3 py-1 text-fuchsia-800';
+  }
+
+  if (sessionType.toLowerCase().includes('short')) {
+    return 'rounded-full bg-emerald-100 px-3 py-1 text-emerald-800';
+  }
+
+  return 'rounded-full bg-sky-100 px-3 py-1 text-sky-800';
+}
+
+function getStatusBadgeClasses(status: ScheduleSessionStatus): string {
+  switch (status) {
+    case 'virtual':
+      return 'rounded-full bg-violet-100 px-3 py-1 text-violet-800';
+    case 'cancelled':
+      return 'rounded-full bg-rose-100 px-3 py-1 text-rose-800';
+    default:
+      return 'rounded-full bg-slate-100 px-3 py-1 text-slate-700';
+  }
+}
+---
+
+<div class="pb-8 pt-24 text-center lg:pt-32">
+  <h1 class="mb-8 text-center text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+    {content.title}
+  </h1>
+</div>
+
+<div class="mx-auto max-w-6xl space-y-8 px-4 py-0 sm:px-6 sm:py-4 lg:px-8 lg:py-6">
+  <div class="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <section class="rounded-[28px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_55%,#0ea5e9_100%)] p-8 text-white shadow-xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
+        {content.introEyebrow}
+      </p>
+      <h2 class="mt-3 text-2xl font-bold md:text-3xl">{content.introTitle}</h2>
+      <p class="mt-4 max-w-3xl text-sm/7 text-white/85 md:text-base/7">
+        {content.introBody}
+      </p>
+      <p class="mt-3 max-w-3xl text-sm/7 text-sky-100 md:text-base/7">
+        {content.sessionLanguageNote}
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-3 text-sm font-medium text-white/90">
+        <span class="rounded-full border border-white/20 bg-white/10 px-4 py-2">
+          {content.timezoneLabel}: {content.timezoneValue}
+        </span>
+        <span class="rounded-full border border-white/20 bg-white/10 px-4 py-2">
+          {content.lastSyncedLabel}: {formatScheduleSyncTime(schedule.lastSyncedAt, locale)}
+        </span>
+      </div>
+
+      <a
+        href={schedule.eventUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-sky-700 transition hover:bg-sky-50"
+      >
+        {content.officialScheduleLinkLabel}
+        <Icon name="arrow-right" className="h-4 w-4" />
+      </a>
+    </section>
+
+    <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+      <div class="rounded-3xl bg-white/90 p-6 shadow-md ring-1 ring-slate-200/70">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {content.daysLabel}
+        </p>
+        <p class="mt-3 text-3xl font-bold text-slate-900">{schedule.days.length}</p>
+      </div>
+      <div class="rounded-3xl bg-white/90 p-6 shadow-md ring-1 ring-slate-200/70">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {content.roomsLabel}
+        </p>
+        <p class="mt-3 text-3xl font-bold text-slate-900">{schedule.roomCount}</p>
+      </div>
+      <div class="rounded-3xl bg-white/90 p-6 shadow-md ring-1 ring-slate-200/70">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {content.sessionsLabel}
+        </p>
+        <p class="mt-3 text-3xl font-bold text-slate-900">{schedule.sessionCount}</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="rounded-3xl border-l-4 border-amber-400 bg-amber-50 p-6 shadow-sm">
+    <h2 class="mb-3 flex items-center text-xl font-bold text-amber-800">
+      <Icon name="information-circle-outline" className="mr-3 h-6 w-6 flex-shrink-0" />
+      {content.updateTitle}
+    </h2>
+    <div class="space-y-3 pl-9 text-sm/relaxed text-amber-900/90 md:text-base/relaxed">
+      <p>{content.updateIntro}</p>
+      <ul class="list-outside list-disc space-y-2 pl-5">
+        <li>
+          {locale === 'zh-hk' || locale === 'zh-hant' ? (
+            <>
+              Xuanteng Huang 的講題 <strong>"The graph capture mechanisms in PyTorch"</strong>{' '}
+              將改為<strong>線上形式</strong>進行，並會在原定房間同步播放。
+            </>
+          ) : locale === 'zh-hans' ? (
+            <>
+              Xuanteng Huang 的讲题 <strong>"The graph capture mechanisms in PyTorch"</strong>{' '}
+              将改为<strong>线上形式</strong>进行，并会在原定房间同步播放。
+            </>
+          ) : locale === 'ja' ? (
+            <>
+              Xuanteng Huang による <strong>"The graph capture mechanisms in PyTorch"</strong>{' '}
+              は、<strong>オンライン登壇</strong>に変更となりました。予定どおりの会場で同時配信されます。
+            </>
+          ) : (
+            <>
+              The talk <strong>"The graph capture mechanisms in PyTorch"</strong> by Xuanteng Huang will now be a <strong>virtual/online session</strong>. It will be streamed live in the scheduled room.
+            </>
+          )}
+        </li>
+        <li>
+          {locale === 'zh-hk' || locale === 'zh-hant' ? (
+            <>
+              由於突發情況，Kaylan 的講題 <strong>"Memory Efficient Iteration with Python&apos;s itertools - A Deep Dive" 已取消。</strong>
+            </>
+          ) : locale === 'zh-hans' ? (
+            <>
+              由于突发情况，Kaylan 的讲题 <strong>"Memory Efficient Iteration with Python&apos;s itertools - A Deep Dive" 已取消。</strong>
+            </>
+          ) : locale === 'ja' ? (
+            <>
+              やむを得ない事情により、Kaylan の講演 <strong>"Memory Efficient Iteration with Python&apos;s itertools - A Deep Dive" は中止となりました。</strong>
+            </>
+          ) : (
+            <>
+              Due to unforeseen circumstances, the talk <strong>"Memory Efficient Iteration with Python&apos;s itertools - A Deep Dive" by Kaylan has been cancelled.</strong>
+            </>
+          )}
+        </li>
+      </ul>
+      <p>{content.updateOutro}</p>
+    </div>
+  </section>
+
+  <section class="rounded-3xl bg-white/90 p-6 shadow-md ring-1 ring-slate-200/70">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+      {content.jumpLabel}
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      {schedule.days.map((day) => (
+        <a
+          href={`#day-${day.index}`}
+          class="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-100 hover:text-sky-800"
+        >
+          {content.dayLabel} {day.index} - {formatScheduleDayLabel(day.date, locale)}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <div class="space-y-8">
+    {schedule.days.map((day) => (
+      <section
+        id={`day-${day.index}`}
+        class="scroll-mt-28 rounded-[30px] bg-white/90 p-6 shadow-lg ring-1 ring-slate-200/70 md:p-8"
+      >
+        <div class="flex flex-col gap-4 border-b border-slate-200 pb-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
+              {content.dayLabel} {day.index}
+            </p>
+            <h2 class="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
+              {formatScheduleDayLabel(day.date, locale)}
+            </h2>
+            <p class="mt-2 text-sm text-slate-600 md:text-base">
+              {getPublishedSessionCount(day)} {content.sessionsLabel.toLowerCase()} • {day.rooms.length}{' '}
+              {content.roomsLabel.toLowerCase()}
+            </p>
+          </div>
+          <a
+            href={schedule.eventUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-sky-700 hover:text-sky-900"
+          >
+            {content.officialScheduleLinkLabel}
+            <Icon name="arrow-right" className="h-4 w-4" />
+          </a>
+        </div>
+
+        {!hasPublishedSessions(day) ? (
+          <div class="mt-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+            <h3 class="text-lg font-bold text-slate-800">{content.emptyDayTitle}</h3>
+            <p class="mx-auto mt-3 max-w-2xl text-sm/7 text-slate-600 md:text-base/7">
+              {content.emptyDayBody}
+            </p>
+          </div>
+        ) : (
+          <div class="mt-6 space-y-6">
+            {day.rooms.map((room) => (
+              <article class="rounded-3xl border border-slate-200 bg-slate-50/70 p-5 shadow-sm md:p-6">
+                <div class="flex flex-col gap-3 border-b border-slate-200 pb-5 md:flex-row md:items-center md:justify-between">
+                  <div class="flex items-start gap-3">
+                    <div class="rounded-2xl bg-sky-100 p-3 text-sky-700">
+                      <Icon name="location-marker-outline" className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        {content.roomLabel}
+                      </p>
+                      <h3 class="mt-1 text-xl font-bold text-slate-900">{room.name}</h3>
+                    </div>
+                  </div>
+
+                  {room.capacity && (
+                    <div class="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 ring-1 ring-slate-200">
+                      {content.capacityLabel}: {room.capacity}
+                    </div>
+                  )}
+                </div>
+
+                <div class="mt-5 space-y-4">
+                  {room.sessions.map((session) => {
+                    const sessionNote = session.note
+                      ? resolveLocalizedValue(session.note, locale)
+                      : undefined;
+                    const languageLabel = getLanguageLabel(session.language, locale);
+
+                    return (
+                      <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/80">
+                        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                          <div>
+                            <div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                              <span class="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+                                {formatScheduleTimeRange(session.start, session.end, locale)}
+                              </span>
+                              <span class={getTypeBadgeClasses(session.type)}>
+                                {getSessionTypeLabel(session.type)}
+                              </span>
+                              {languageLabel && (
+                                <span class="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+                                  {languageLabel}
+                                </span>
+                              )}
+                              {session.status !== 'scheduled' && (
+                                <span class={getStatusBadgeClasses(session.status)}>
+                                  {getStatusLabel(session.status)}
+                                </span>
+                              )}
+                            </div>
+
+                            <h4 class="mt-4 text-lg font-bold text-slate-900 md:text-xl">
+                              {session.title}
+                            </h4>
+
+                            {session.subtitle && (
+                              <p class="mt-2 text-sm text-slate-500 md:text-base">
+                                {session.subtitle}
+                              </p>
+                            )}
+
+                            {session.speakers.length > 0 && (
+                              <p class="mt-3 flex items-start gap-2 text-sm text-slate-700 md:text-base">
+                                <Icon name="users-outline" className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                                <span>{session.speakers.join(', ')}</span>
+                              </p>
+                            )}
+
+                            {sessionNote && (
+                              <p class="mt-4 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm/6 text-violet-900 md:text-base/6">
+                                {sessionNote}
+                              </p>
+                            )}
+                          </div>
+
+                          <a
+                            href={session.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700"
+                          >
+                            {content.sessionLinkLabel}
+                            <Icon name="arrow-right" className="h-4 w-4" />
+                          </a>
+                        </div>
+
+                        {session.description && (
+                          <details class="mt-4 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200/80">
+                            <summary class="cursor-pointer font-semibold text-slate-700">
+                              {content.detailsLabel}
+                            </summary>
+                            <p class="mt-3 whitespace-pre-line text-sm/7 text-slate-600 md:text-base/7">
+                              {session.description}
+                            </p>
+                          </details>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+    ))}
+  </div>
+</div>

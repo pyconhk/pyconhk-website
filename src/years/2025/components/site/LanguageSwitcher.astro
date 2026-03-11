@@ -1,0 +1,125 @@
+---
+import { locales, preferredLocaleCookie, type SiteLocale, type SiteYear } from '@/config/site';
+import { buildLocaleSwitchPath } from '@/lib/routing';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+  currentPathname?: string;
+  fallbackSuffix?: string;
+  mobile?: boolean;
+}
+
+const {
+  year,
+  locale,
+  currentPathname = Astro.url.pathname,
+  fallbackSuffix = '',
+  mobile = false,
+} = Astro.props;
+
+const items = locales.map(item => ({
+  ...item,
+  href: buildLocaleSwitchPath(currentPathname, year, item.code, fallbackSuffix),
+  active: item.code === locale,
+}));
+
+const activeItem = items.find(item => item.active) ?? items[0];
+---
+
+{
+  mobile ? (
+    <nav class="grid grid-cols-2 gap-2" aria-label="Language selector">
+      {items.map(item => (
+        <a
+          href={item.href}
+          data-base-href={item.href}
+          class:list={[
+            'min-w-0 rounded-xl border px-2.5 py-2 text-left transition-colors duration-200',
+            item.active
+              ? 'border-white/20 bg-white text-slate-800 shadow-sm'
+              : 'border-white/15 bg-white/5 text-white hover:bg-white/10',
+          ]}
+          data-locale-switch={item.code}
+          data-mobile-nav-link="true"
+          aria-current={item.active ? 'page' : undefined}
+          lang={item.htmlLang}
+        >
+          <span class="block text-[0.95rem] font-semibold leading-tight">{item.nativeLabel}</span>
+          <span
+            class:list={[
+              'mt-1 block text-[0.72rem] leading-snug break-words',
+              item.active ? 'text-slate-500' : 'text-white/65',
+            ]}
+          >
+            {item.label}
+          </span>
+        </a>
+      ))}
+    </nav>
+  ) : (
+    <details class="group relative">
+      <summary class="inline-flex min-h-11 min-w-[9rem] cursor-pointer list-none items-center justify-between gap-3 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm [&::-webkit-details-marker]:hidden">
+        <span class="truncate" lang={activeItem.htmlLang}>{activeItem.nativeLabel}</span>
+        <Icon
+          name="chevron-down"
+          className="h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200 group-open:rotate-180"
+        />
+      </summary>
+
+      <div class="absolute right-0 top-full z-30 mt-3 w-60 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg">
+        <nav class="space-y-1" aria-label="Language selector">
+          {items.map(item => (
+            <a
+              href={item.href}
+              data-base-href={item.href}
+              class:list={[
+                'flex items-center justify-between rounded-xl px-3 py-2 transition-colors duration-200',
+                item.active
+                  ? 'bg-slate-700 text-white shadow-sm'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-800',
+              ]}
+              data-locale-switch={item.code}
+              aria-current={item.active ? 'page' : undefined}
+              lang={item.htmlLang}
+            >
+              <span class="font-semibold">{item.nativeLabel}</span>
+              <span class:list={['text-xs', item.active ? 'text-white/75' : 'text-slate-400']}>
+                {item.label}
+              </span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </details>
+  )
+}
+
+<script is:inline data-astro-rerun define:vars={{ cookieName: preferredLocaleCookie }}>
+  for (const link of document.querySelectorAll('[data-locale-switch]')) {
+    if (link instanceof HTMLAnchorElement) {
+      const baseHref = link.dataset.baseHref;
+
+      if (baseHref) {
+        link.href = `${baseHref}${window.location.search}${window.location.hash}`;
+      }
+    }
+
+    link.addEventListener('click', event => {
+      const target = event.currentTarget;
+
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      const nextLocale = target.dataset.localeSwitch;
+
+      if (!nextLocale) {
+        return;
+      }
+
+      document.cookie = `${cookieName}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; SameSite=Lax`;
+    });
+  }
+</script>

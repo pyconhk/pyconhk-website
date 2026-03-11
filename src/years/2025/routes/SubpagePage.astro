@@ -1,0 +1,58 @@
+---
+import { type SiteLocale, type SiteYear, siteName } from '@/config/site';
+import InnerPageFrame from '@/years/2025/components/content/InnerPageFrame.astro';
+import CodeOfConductAttendeeReportingPage from '@/years/2025/components/pages/CodeOfConductAttendeeReportingPage.astro';
+import CodeOfConductStaffProceduresPage from '@/years/2025/components/pages/CodeOfConductStaffProceduresPage.astro';
+import SponsorshipOpportunitiesPage from '@/years/2025/components/pages/SponsorshipOpportunitiesPage.astro';
+import SponsorshipPatronsPage from '@/years/2025/components/pages/SponsorshipPatronsPage.astro';
+import SprintQnaPage from '@/years/2025/components/pages/SprintQnaPage.astro';
+import type { SiteSectionSlug } from '@/years/2025/data/sections';
+import { getSubpageCopy } from '@/years/2025/data/subpages';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+  section: SiteSectionSlug;
+  subsection: string;
+}
+
+const { year, locale, section, subsection } = Astro.props;
+const subpageCopy = getSubpageCopy(section, subsection, locale);
+const localizedSubpages = new Set([
+  'sprint/qna',
+  'sponsorships/opportunities',
+  'sponsorships/patrons',
+  'code-of-conduct/attendee-reporting',
+  'code-of-conduct/staff-procedures',
+]);
+const englishOnly = locale === 'en' ? false : !localizedSubpages.has(`${section}/${subsection}`);
+const compactSubpages = new Set([
+  'sprint/qna',
+  'sponsorships/opportunities',
+  'sponsorships/patrons',
+]);
+---
+
+<InnerPageFrame
+  title={`${subpageCopy.title} | ${siteName} ${year}`}
+  description={subpageCopy.blurb}
+  year={year}
+  locale={locale}
+  currentSection={section}
+  englishOnly={englishOnly}
+  compact={compactSubpages.has(`${section}/${subsection}`)}
+>
+  {section === 'sprint' && subsection === 'qna' && <SprintQnaPage locale={locale} />}
+  {section === 'sponsorships' && subsection === 'opportunities' && (
+    <SponsorshipOpportunitiesPage locale={locale} />
+  )}
+  {section === 'sponsorships' && subsection === 'patrons' && (
+    <SponsorshipPatronsPage locale={locale} />
+  )}
+  {section === 'code-of-conduct' && subsection === 'attendee-reporting' && (
+    <CodeOfConductAttendeeReportingPage year={year} locale={locale} />
+  )}
+  {section === 'code-of-conduct' && subsection === 'staff-procedures' && (
+    <CodeOfConductStaffProceduresPage locale={locale} />
+  )}
+</InnerPageFrame>

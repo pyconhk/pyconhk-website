@@ -1,0 +1,55 @@
+---
+import { type SiteLocale, type SiteYear } from '@/config/site';
+import type { SiteSectionSlug } from '@/years/2025/data/sections';
+import { getTranslations } from '@/years/2025/i18n';
+import ConferenceLayout from '@/years/2025/layouts/ConferenceLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  year: SiteYear;
+  locale: SiteLocale;
+  currentSection?: SiteSectionSlug;
+  englishOnly?: boolean;
+  compact?: boolean;
+}
+
+const {
+  title,
+  description,
+  year,
+  locale,
+  currentSection,
+  englishOnly = false,
+  compact = false,
+} = Astro.props;
+
+const t = getTranslations(locale, 'home');
+---
+
+<ConferenceLayout
+  title={title}
+  description={description}
+  year={year}
+  locale={locale}
+  currentSection={currentSection}
+>
+  <section class="-mt-20 min-h-[calc(100vh-200px)] w-full overflow-x-clip bg-[url('/2025/inner-pages/background.svg')] bg-cover bg-center bg-no-repeat text-sm text-slate-500 md:text-base">
+    <div class:list={[
+      'container mx-auto',
+      compact ? 'px-3 py-10 sm:px-5 sm:py-12 lg:px-6' : 'px-4 py-16 sm:px-6 lg:px-8',
+    ]}>
+      <div class:list={[
+        'relative mt-20 rounded-xl bg-slate-100/90 text-base/8 text-gray-700 shadow-xl md:text-lg/8',
+        compact ? 'px-5 py-8 sm:px-7 sm:py-10 md:px-10 md:py-14 lg:px-12 lg:py-20' : 'px-8 py-12 md:px-12 md:py-16 lg:px-16 lg:py-24',
+      ]}>
+        {englishOnly && (
+          <div class="mb-8 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-900 md:text-base">
+            {t('englishOnlyPageNotice')}
+          </div>
+        )}
+        <slot />
+      </div>
+    </div>
+  </section>
+</ConferenceLayout>

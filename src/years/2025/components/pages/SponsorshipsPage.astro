@@ -1,0 +1,110 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import OrganizationModalCard from '@/years/2025/components/content/OrganizationModalCard.astro';
+import RichContentBlocks from '@/years/2025/components/content/RichContentBlocks.astro';
+import {
+  getSponsorBadge,
+  getSponsorDetails,
+  getSponsorTierName,
+  sponsorTiers,
+} from '@/years/2025/data/sponsors';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale }: Props = Astro.props;
+
+type SponsorshipsCopy = {
+  title: string;
+  intro: string;
+};
+
+const copy: LocalizedValue<SponsorshipsCopy> = {
+  en: {
+    title: 'Sponsors',
+    intro:
+      "A huge thanks to our amazing sponsors! Your support powers PyCon HK 2025, fuels the Python community, and keeps the open-source spirit alive. We couldn't do it without you!",
+  },
+  'zh-hk': {
+    title: '贊助名單',
+    intro:
+      '衷心感謝各位贊助夥伴支持 PyCon HK 2025，讓大會得以舉行，並持續推動香港 Python 社群及開源精神。',
+  },
+  'zh-hant': {
+    title: '贊助名單',
+    intro:
+      '衷心感謝各位贊助夥伴支持 PyCon HK 2025，讓大會得以舉行，並持續推動香港 Python 社群及開源精神。',
+  },
+  'zh-hans': {
+    title: '赞助名单',
+    intro:
+      '衷心感谢各位赞助伙伴支持 PyCon HK 2025，让大会得以举行，并持续推动香港 Python 社群及开源精神。',
+  },
+  ja: {
+    title: 'スポンサー一覧',
+    intro:
+      'PyCon HK 2025 を支えてくださるスポンサーの皆さまに、心より感謝します。皆さまの支援がコミュニティを後押しし、オープンソースの精神を育て、このカンファレンスを実現させています。',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+---
+
+<div class="mx-auto max-w-7xl overflow-x-clip">
+  <h1 class="text-center text-xl font-bold leading-tight text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl">{content.title}</h1>
+
+  <p class="mt-8 text-base/8 text-slate-700 md:text-lg/8">{content.intro}</p>
+
+  {sponsorTiers.map((tier) => (
+    <section class="mt-16 flex flex-col items-center">
+      <h2 class="text-center text-2xl font-semibold text-slate-800 md:text-3xl">
+        {getSponsorTierName(tier, locale)}
+      </h2>
+
+      <div class="mt-8 flex flex-col items-center gap-12 lg:flex-row lg:flex-wrap lg:justify-center lg:gap-16 xl:gap-24">
+        {tier.sponsors.map((sponsor) => {
+          const detailBlocks = getSponsorDetails(sponsor, locale);
+
+          return (
+            <div>
+              {detailBlocks ? (
+                <OrganizationModalCard
+                  dialogId={`sponsor-${sponsor.slug}`}
+                  locale={locale}
+                  nameLines={sponsor.nameLines}
+                  logoSrc={sponsor.imagePath}
+                  logoAlt={sponsor.logoAlt}
+                  href={sponsor.url}
+                  description={getSponsorBadge(sponsor, locale)}
+                  logoClass={sponsor.logoClass ?? 'w-44 sm:w-56'}
+                  nameClass="mt-4 text-base font-semibold sm:text-xl"
+                  descriptionClass="mt-2 text-sm text-gray-600 sm:text-base"
+                >
+                  <RichContentBlocks slot="modal" blocks={detailBlocks} />
+                </OrganizationModalCard>
+              ) : (
+                <OrganizationModalCard
+                  dialogId={`sponsor-${sponsor.slug}`}
+                  locale={locale}
+                  nameLines={sponsor.nameLines}
+                  logoSrc={sponsor.imagePath}
+                  logoAlt={sponsor.logoAlt}
+                  href={sponsor.url}
+                  description={getSponsorBadge(sponsor, locale)}
+                  logoClass={sponsor.logoClass ?? 'w-44 sm:w-56'}
+                  nameClass="mt-4 text-base font-semibold sm:text-xl"
+                  descriptionClass="mt-2 text-sm text-gray-600 sm:text-base"
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  ))}
+</div>

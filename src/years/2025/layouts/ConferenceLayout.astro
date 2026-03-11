@@ -1,0 +1,32 @@
+---
+import { getLocaleDefinition, type SiteLocale, type SiteYear } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteFooter from '@/years/2025/components/site/SiteFooter.astro';
+import SiteHeader from '@/years/2025/components/site/SiteHeader.astro';
+import type { SiteSectionSlug } from '@/years/2025/data/sections';
+
+interface Props {
+  title: string;
+  description: string;
+  year: SiteYear;
+  locale: SiteLocale;
+  currentSection?: SiteSectionSlug;
+}
+
+const { title, description, year, locale, currentSection } = Astro.props;
+const localeDefinition = getLocaleDefinition(locale);
+const currentPathname = Astro.url.pathname;
+---
+
+<BaseLayout title={title} description={description} htmlLang={localeDefinition.htmlLang}>
+  <SiteHeader
+    year={year}
+    locale={locale}
+    currentSection={currentSection}
+    currentPathname={currentPathname}
+  />
+  <main class="w-full overflow-x-clip">
+    <slot />
+  </main>
+  <SiteFooter year={year} locale={locale} />
+</BaseLayout>

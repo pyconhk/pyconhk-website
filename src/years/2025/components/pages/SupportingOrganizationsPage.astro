@@ -1,0 +1,96 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import OrganizationModalCard from '@/years/2025/components/content/OrganizationModalCard.astro';
+import RichContentBlocks from '@/years/2025/components/content/RichContentBlocks.astro';
+import {
+  getSupportingOrganizationDetails,
+  supportingOrganizations,
+} from '@/years/2025/data/supporting-organizations';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale }: Props = Astro.props;
+
+type SupportingOrganizationsCopy = {
+  title: string;
+  intro: string;
+};
+
+const copy: LocalizedValue<SupportingOrganizationsCopy> = {
+  en: {
+    title: 'Supporting Organizations',
+    intro:
+      'Heartfelt thanks to the exceptional organization backing PyCon HK 2025. Your steadfast dedication and contributions propel our mission forward, inspiring the Python community and empowering us to achieve new milestones together.',
+  },
+  'zh-hk': {
+    title: '支持組織',
+    intro:
+      '衷心感謝所有支持 PyCon HK 2025 的組織。你們的參與讓大會能夠與香港及亞洲地區更廣泛的 Python、教育與科技社群保持緊密連結。',
+  },
+  'zh-hant': {
+    title: '支持組織',
+    intro:
+      '衷心感謝所有支持 PyCon HK 2025 的組織。你們的參與讓大會能夠與香港及亞洲地區更廣泛的 Python、教育與科技社群保持緊密連結。',
+  },
+  'zh-hans': {
+    title: '支持组织',
+    intro:
+      '衷心感谢所有支持 PyCon HK 2025 的组织。你们的参与让大会能够与香港及亚洲地区更广泛的 Python、教育与科技社群保持紧密联系。',
+  },
+  ja: {
+    title: 'コミュニティパートナー',
+    intro:
+      'PyCon HK 2025 を支えてくださるすべての団体に、心より感謝します。皆さまの参加と協力により、香港そしてアジアの Python、教育、テクノロジーの各コミュニティと、より強くつながることができています。',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+---
+
+<div class="mx-auto max-w-7xl">
+  <h1 class="text-center text-4xl font-bold text-gray-900">{content.title}</h1>
+
+  <p class="mt-8 text-base/8 text-slate-700 md:text-lg/8">{content.intro}</p>
+
+  <div class="mt-16 space-y-16">
+    {supportingOrganizations.map((organization) => {
+      const detailBlocks = getSupportingOrganizationDetails(organization, locale);
+
+      return (
+        <div class="flex flex-col items-center">
+          {detailBlocks ? (
+            <OrganizationModalCard
+              dialogId={`supporting-${organization.slug}`}
+              locale={locale}
+              nameLines={organization.nameLines}
+              logoSrc={organization.imagePath}
+              logoAlt={organization.logoAlt}
+              href={organization.url}
+              logoClass={organization.logoClass ?? 'w-56 sm:w-80'}
+              nameClass="mt-4 text-base font-semibold sm:text-xl"
+            >
+              <RichContentBlocks slot="modal" blocks={detailBlocks} />
+            </OrganizationModalCard>
+          ) : (
+            <OrganizationModalCard
+              dialogId={`supporting-${organization.slug}`}
+              locale={locale}
+              nameLines={organization.nameLines}
+              logoSrc={organization.imagePath}
+              logoAlt={organization.logoAlt}
+              href={organization.url}
+              logoClass={organization.logoClass ?? 'w-56 sm:w-80'}
+              nameClass="mt-4 text-base font-semibold sm:text-xl"
+            />
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>

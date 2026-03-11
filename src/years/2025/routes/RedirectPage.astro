@@ -1,0 +1,36 @@
+---
+import { getLocaleDefinition, type SiteLocale } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { eyebrow, leadText, pillButton, sectionPanel, supportingText } from '@/lib/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  locale?: SiteLocale;
+}
+
+const { title, description, href, locale } = Astro.props;
+const htmlLang = locale ? getLocaleDefinition(locale).htmlLang : 'en-HK';
+---
+
+<BaseLayout title={title} description={description} htmlLang={htmlLang}>
+  <section class:list={[sectionPanel, 'mx-auto mt-[16vh] max-w-3xl space-y-6']}>
+    <p class={eyebrow}>Redirecting</p>
+    <h1 class="font-serif text-4xl leading-none text-ink sm:text-5xl lg:text-6xl">{title}</h1>
+    <p class={leadText}>{description}</p>
+    <p class={supportingText}>If you are not redirected automatically, continue to the current URL:</p>
+
+    <div>
+      <a class={pillButton} href={href}>
+        Open current URL
+      </a>
+    </div>
+  </section>
+
+  <script is:inline data-astro-rerun define:vars={{ href }}>
+    if (window.location.pathname !== href) {
+      window.location.replace(href);
+    }
+  </script>
+</BaseLayout>

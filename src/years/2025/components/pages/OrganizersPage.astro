@@ -1,0 +1,68 @@
+---
+import type { SiteLocale } from '@/config/site';
+import { getOrganizerDescription, organizers } from '@/years/2025/data/organizers';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+
+const pageCopy =
+  locale === 'zh-hk'
+    ? {
+        title: '主辦單位',
+        intro:
+          'PyCon Hong Kong 2025 由多個充滿熱誠的組織共同策劃，攜手推動香港 Python 社群持續成長。',
+      }
+    : locale === 'zh-hant'
+      ? {
+          title: '主辦單位',
+          intro:
+            'PyCon Hong Kong 2025 由多個充滿熱忱的組織共同策劃，攜手推動香港 Python 社群持續成長。',
+        }
+      : locale === 'zh-hans'
+        ? {
+            title: '主办单位',
+            intro:
+              'PyCon Hong Kong 2025 由多个充满热忱的组织共同策划，携手推动香港 Python 社群持续成长。',
+          }
+        : locale === 'ja'
+          ? {
+              title: '主催団体',
+              intro:
+                'PyCon Hong Kong 2025 は、香港の Python コミュニティの成長を支える複数の情熱的な団体によって企画・運営されています。',
+            }
+          : {
+              title: 'Organizations',
+              intro:
+                'PyCon Hong Kong 2025 is organized by a dedicated group of passionate organizations committed to growing the Python community in Hong Kong.',
+            };
+---
+
+<div class="mx-auto max-w-7xl">
+  <h1 class="text-center text-4xl font-bold text-gray-900">{pageCopy.title}</h1>
+
+  <p class="mt-4">{pageCopy.intro}</p>
+
+  {organizers.map((organizer) => (
+    <div class="mt-24 opacity-100">
+      <h2 class="text-center text-3xl font-bold text-gray-800">
+        {organizer.titleLines.map((line, index) => (
+          <>
+            {index > 0 && <br />}
+            {line}
+          </>
+        ))}
+      </h2>
+
+      <p class="mt-8">{getOrganizerDescription(organizer, locale)}</p>
+
+      <div class="mt-8 flex items-center justify-center">
+        <a href={organizer.href} target="_blank" rel="noopener noreferrer">
+          <img src={organizer.imageSrc} alt={organizer.imageAlt} width="300" class="w-[300px]" />
+        </a>
+      </div>
+    </div>
+  ))}
+</div>

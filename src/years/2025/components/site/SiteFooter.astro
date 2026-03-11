@@ -1,0 +1,124 @@
+---
+import { type SiteLocale, type SiteYear, siteName } from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { socialLinks } from '@/years/2025/data/about';
+import { archiveYears } from '@/years/2025/data/footer';
+import { getTranslations } from '@/years/2025/i18n';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+type FooterIconName = 'x' | 'linkedin' | 'youtube' | 'facebook' | 'instagram' | 'threads';
+
+const { year, locale } = Astro.props;
+const t = getTranslations(locale, 'home');
+const privacyPolicyHref = buildLocalizedPath(year, locale, 'privacy-policy');
+const currentYear = new Date().getFullYear();
+
+const footerCopy =
+  locale === 'zh-hk'
+    ? {
+        followUsHeading: '追蹤我們',
+        historyHeading: '歷史',
+      }
+    : locale === 'zh-hant'
+      ? {
+          followUsHeading: '追蹤我們',
+          historyHeading: '歷史',
+        }
+      : locale === 'zh-hans'
+        ? {
+            followUsHeading: '关注我们',
+            historyHeading: '历年活动',
+          }
+        : locale === 'ja'
+          ? {
+              followUsHeading: 'フォローする',
+              historyHeading: '過去開催',
+            }
+          : {
+              followUsHeading: 'Follow Us',
+              historyHeading: 'History',
+            };
+
+const socialHrefByLabel = new Map(socialLinks.map((link) => [link.label, link.href]));
+
+const footerSocialLinkDefs = [
+  { label: 'X', icon: 'x' },
+  { label: 'LinkedIn', icon: 'linkedin' },
+  { label: 'YouTube', icon: 'youtube' },
+  { label: 'Facebook', icon: 'facebook' },
+  { label: 'Instagram', icon: 'instagram' },
+  { label: 'Threads', icon: 'threads' },
+ ] as const satisfies readonly { label: string; icon: FooterIconName }[];
+
+const footerSocialLinks: { label: string; icon: FooterIconName; href?: string }[] =
+  footerSocialLinkDefs.map((item) => ({
+  ...item,
+  href: socialHrefByLabel.get(item.label),
+}));
+---
+
+<footer class="w-full bg-slate-700 text-white">
+  <div class="container mx-auto px-8 pt-12 pb-6">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div>
+        <h3 class="mb-4 text-xl font-bold">{footerCopy.followUsHeading}</h3>
+        <div class="flex items-center gap-6">
+          {footerSocialLinks.map((item) =>
+            item.href ? (
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-white transition-colors duration-300 hover:text-gray-400"
+                aria-label={item.label}
+              >
+                <span class="sr-only">{item.label}</span>
+                <Icon name={item.icon as FooterIconName} className="h-6 w-6" />
+              </a>
+            ) : null
+          )}
+        </div>
+      </div>
+
+      <div>
+        <h3 class="mb-4 text-xl font-bold">{footerCopy.historyHeading}</h3>
+        <div class="flex flex-wrap gap-4">
+          {archiveYears.map((archiveYear) => (
+            <span class="whitespace-nowrap text-white transition-colors duration-300 hover:text-gray-400">
+              {archiveYear}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-auto px-4">
+    <div class="mx-auto my-2 h-px max-w-full bg-[linear-gradient(to_right,rgba(75,85,99,0),rgba(75,85,99,1)_30%,rgba(75,85,99,1)_70%,rgba(75,85,99,0)_100%)]"></div>
+  </div>
+
+  <div class="container mx-auto flex items-center justify-center px-4 py-4 text-center text-sm font-semibold text-gray-200">
+    {
+      locale === 'zh-hk'
+        ? `© ${currentYear} ${siteName}。保留所有權利。`
+        : locale === 'zh-hant'
+          ? `© ${currentYear} ${siteName}。保留所有權利。`
+          : locale === 'zh-hans'
+            ? `© ${currentYear} ${siteName}。保留所有权利。`
+            : locale === 'ja'
+              ? `© ${currentYear} ${siteName}. All rights reserved.`
+              : `© ${currentYear} ${siteName}. All rights reserved.`
+    }
+  </div>
+
+  <div class="pb-8 text-center text-sm text-gray-300">
+    <a href={privacyPolicyHref} class="transition-colors duration-300 hover:text-white">
+      {t('privacyPolicyLabel')}
+    </a>
+  </div>
+</footer>

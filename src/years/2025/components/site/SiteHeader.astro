@@ -1,0 +1,140 @@
+---
+import { type SiteLocale, type SiteYear } from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+import LanguageSwitcher from '@/years/2025/components/site/LanguageSwitcher.astro';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import type { SiteSectionSlug } from '@/years/2025/data/sections';
+import { getTranslations } from '@/years/2025/i18n';
+import PrimaryNavigation from './PrimaryNavigation.astro';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+  currentSection?: SiteSectionSlug;
+  currentPathname?: string;
+}
+
+const { year, locale, currentSection, currentPathname = Astro.url.pathname } = Astro.props;
+const homeHref = buildLocalizedPath(year, locale);
+const t = getTranslations(locale, 'home');
+---
+
+<header class="sticky top-0 z-50 h-20 w-full border-b border-white/30 bg-white/55 px-3 backdrop-blur-md supports-[backdrop-filter]:bg-white/35 sm:px-4" data-site-header>
+  <div aria-hidden="true" class="site-header-atmosphere pointer-events-none absolute inset-0"></div>
+  <div class="relative mx-auto flex h-full w-full max-w-[90rem] items-center justify-between px-2 sm:px-4 md:px-8">
+    <a href={homeHref} class="flex items-center whitespace-nowrap text-lg font-bold text-slate-700">
+      <img
+        src="/2025/logos/logo.png"
+        alt={`PyCon HK ${year} Logo`}
+        width="80"
+        height="80"
+        class="my-auto p-1"
+      />
+    </a>
+
+    <div class="hidden items-center gap-4 xl:flex">
+      <PrimaryNavigation year={year} locale={locale} currentSection={currentSection} />
+      <LanguageSwitcher year={year} locale={locale} currentPathname={currentPathname} />
+    </div>
+
+    <div class="xl:hidden">
+      <button
+        type="button"
+        class="inline-flex items-center justify-center text-slate-600"
+        aria-label={t('menuLabel')}
+        aria-expanded="false"
+        data-mobile-nav-trigger
+      >
+        <Icon name="menu" className="h-7 w-7" />
+      </button>
+
+      <div class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200" data-mobile-nav-drawer>
+        <button
+          type="button"
+          class="absolute inset-0 bg-slate-950/45 opacity-0 transition-opacity duration-200"
+          aria-label="Close menu"
+          data-mobile-nav-close
+          data-mobile-nav-backdrop
+        ></button>
+
+        <div
+          class="fixed right-0 top-0 flex h-dvh w-80 max-w-[calc(100vw-0.75rem)] translate-x-full flex-col overflow-hidden bg-gray-800 p-4 text-white shadow-2xl transition-transform duration-200 sm:max-w-[calc(100vw-1rem)] sm:p-6"
+          data-mobile-nav-panel
+        >
+          <div class="flex shrink-0 items-center justify-end">
+            <button
+              type="button"
+              class="rounded-full p-1 text-white transition-colors hover:bg-white/10"
+              aria-label="Close menu"
+              data-mobile-nav-close
+            >
+              <Icon name="close" className="h-6 w-6" />
+            </button>
+          </div>
+
+          <div class="mt-6 min-h-0 flex-1 overflow-y-auto pr-1 sm:mt-8">
+            <PrimaryNavigation year={year} locale={locale} currentSection={currentSection} mobile />
+          </div>
+
+          <div class="mt-4 shrink-0 border-t border-white/20 pt-3 sm:mt-6 sm:pt-4">
+            <LanguageSwitcher year={year} locale={locale} currentPathname={currentPathname} mobile />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script is:inline data-astro-rerun>
+  for (const header of document.querySelectorAll('[data-site-header]')) {
+    if (!(header instanceof HTMLElement) || header.dataset.mobileNavReady === 'true') {
+      continue;
+    }
+
+    header.dataset.mobileNavReady = 'true';
+
+    const trigger = header.querySelector('[data-mobile-nav-trigger]');
+    const drawer = header.querySelector('[data-mobile-nav-drawer]');
+    const backdrop = header.querySelector('[data-mobile-nav-backdrop]');
+    const panel = header.querySelector('[data-mobile-nav-panel]');
+    const closeButtons = header.querySelectorAll('[data-mobile-nav-close]');
+    const links = header.querySelectorAll('[data-mobile-nav-link]');
+
+    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+      continue;
+    }
+
+    const setOpen = (isOpen) => {
+      trigger.setAttribute('aria-expanded', String(isOpen));
+      drawer.classList.toggle('pointer-events-none', !isOpen);
+      drawer.classList.toggle('pointer-events-auto', isOpen);
+      drawer.classList.toggle('opacity-0', !isOpen);
+      drawer.classList.toggle('opacity-100', isOpen);
+      panel.classList.toggle('translate-x-full', !isOpen);
+      panel.classList.toggle('translate-x-0', isOpen);
+
+      if (backdrop instanceof HTMLElement) {
+        backdrop.classList.toggle('opacity-0', !isOpen);
+        backdrop.classList.toggle('opacity-100', isOpen);
+      }
+
+      document.documentElement.classList.toggle('overflow-hidden', isOpen);
+    };
+
+    trigger.addEventListener('click', () => setOpen(true));
+
+    for (const button of closeButtons) {
+      button.addEventListener('click', () => setOpen(false));
+    }
+
+    for (const link of links) {
+      link.addEventListener('click', () => setOpen(false));
+    }
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    });
+  }
+</script>

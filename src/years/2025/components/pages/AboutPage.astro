@@ -1,0 +1,110 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import { socialLinks } from '@/years/2025/data/about';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+
+type AboutPageCopy = {
+  title: string;
+  paragraphs: readonly string[];
+  socialHeading: string;
+};
+
+const copy: LocalizedValue<AboutPageCopy> = {
+  en: {
+    title: 'About PyCon Hong Kong',
+    paragraphs: [
+      'PyCon Hong Kong (PyCon HK) is the leading Python conference in Hong Kong, bringing together Python enthusiasts to share their insights and foster collaboration. Among the 50+ PyCons hosted annually in various cities and countries worldwide, PyCon HK is proud to be one of them.',
+      'The founding of PyCon HK traces back to Sammy Fung, who drew inspiration from the PyCon APAC 2013 event in Tokyo. Sammy recognized that Hong Kong was missing out on this vital Python conference, despite PyCon being hosted in various Asian cities. Determined to fill this gap, Sammy collaborated with Open Source Hong Kong to organize the inaugural PyCon HK in 2015. Since then, PyCon HK has played a pivotal role in nurturing Python development and adoption within the city.',
+      'In 2025, PyCon Hong Kong celebrates its 11th anniversary with Mr. Henry Law as the Chairman of PyCon HK 2025. A cornerstone of the event since its founding, Mr. Law brings extensive expertise and leadership to the Python community. With over ten years as a software engineer at a Fortune 500 tech company, specializing in server-side development and client / server / web infrastructure, he offers a blend of technical proficiency and innovative vision. Under his guidance, PyCon HK 2025 is set to deliver an inspiring, high-impact event for Python enthusiasts worldwide.',
+    ],
+    socialHeading: 'Follow us on:',
+  },
+  'zh-hk': {
+    title: '關於 PyCon Hong Kong',
+    paragraphs: [
+      'PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度會議，匯聚來自不同背景的 Python 愛好者，分享經驗、交流想法，並促進合作。全球每年有超過五十個城市及地區舉辦 PyCon，而 PyCon HK 很榮幸成為其中一員。',
+      'PyCon HK 的起點可追溯至 Sammy Fung 參與 2013 年東京 PyCon APAC 之後。當時他意識到，亞洲多個城市都有自己的 PyCon，但香港仍然缺少一個屬於本地 Python 社群的重要年度聚會。於是，Sammy 與開源香港合作，在 2015 年舉辦了首屆 PyCon HK。自此，PyCon HK 一直在香港推動 Python 技術交流與社群發展。',
+      '2025 年，PyCon Hong Kong 迎來第 11 屆，由 Henry Law 擔任大會主席。Henry 自大會創立以來一直是核心成員之一，擁有超過十年的軟件工程經驗，專注於伺服器端開發以及 client / server / web 基礎架構。',
+      '他的技術背景與社群視野，為 PyCon HK 2025 帶來穩健而具前瞻性的方向。',
+    ],
+    socialHeading: '關注我們',
+  },
+  'zh-hant': {
+    title: '關於 PyCon Hong Kong',
+    paragraphs: [
+      'PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度會議，匯聚來自不同背景的 Python 愛好者，分享經驗、交流想法，並促進合作。全球每年有超過五十個城市及地區舉辦 PyCon，而 PyCon HK 很榮幸成為其中一員。',
+      'PyCon HK 的起點可追溯至 Sammy Fung 參與 2013 年東京 PyCon APAC 之後。當時他意識到，亞洲多個城市都有自己的 PyCon，但香港仍然缺少一個屬於本地 Python 社群的重要年度聚會。於是，Sammy 與開源香港合作，在 2015 年舉辦了首屆 PyCon HK。自此，PyCon HK 一直在香港推動 Python 技術交流與社群發展。',
+      '2025 年，PyCon Hong Kong 迎來第 11 屆，由 Henry Law 擔任大會主席。Henry 自大會創立以來一直是核心成員之一，擁有超過十年的軟體工程經驗，專注於伺服器端開發以及 client / server / web 基礎架構。',
+      '他的技術背景與社群視野，為 PyCon HK 2025 帶來穩健且具前瞻性的方向。',
+    ],
+    socialHeading: '關注我們',
+  },
+  'zh-hans': {
+    title: '关于 PyCon Hong Kong',
+    paragraphs: [
+      'PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度会议，汇聚来自不同背景的 Python 爱好者，分享经验、交流想法，并促进合作。全球每年有超过五十个城市及地区举办 PyCon，而 PyCon HK 很荣幸成为其中一员。',
+      'PyCon HK 的起点可追溯至 Sammy Fung 参与 2013 年东京 PyCon APAC 之后。当时他意识到，亚洲多个城市都有自己的 PyCon，但香港仍然缺少一个属于本地 Python 社群的重要年度聚会。于是，Sammy 与开源香港合作，在 2015 年举办了首届 PyCon HK。自此，PyCon HK 一直在香港推动 Python 技术交流与社群发展。',
+      '2025 年，PyCon Hong Kong 迎来第 11 届，由 Henry Law 担任大会主席。Henry 自大会创立以来一直是核心成员之一，拥有超过十年的软件工程经验，专注于服务器端开发以及 client / server / web 基础架构。',
+      '他的技术背景与社群视野，为 PyCon HK 2025 带来稳健且具前瞻性的方向。',
+    ],
+    socialHeading: '关注我们',
+  },
+  ja: {
+    title: 'PyCon Hong Kong について',
+    paragraphs: [
+      'PyCon Hong Kong（PyCon HK）は、香港を代表する Python カンファレンスです。さまざまな背景を持つ Python 愛好家が集まり、知見を共有し、交流し、協力関係を育む場となっています。世界では毎年 50 を超える都市や地域で PyCon が開催されており、PyCon HK もその一つであることを誇りに思っています。',
+      'PyCon HK の始まりは、Sammy Fung が 2013 年に東京で開催された PyCon APAC に参加したことにさかのぼります。アジア各地に PyCon がある一方で、香港にはまだ年次の Python カンファレンスがないことに気づいた Sammy は、その空白を埋めるべく Open Source Hong Kong と協力し、2015 年に初めての PyCon HK を開催しました。それ以来、PyCon HK は香港における Python 技術交流とコミュニティの発展を支える存在となっています。',
+      '2025 年、PyCon Hong Kong は 11 回目を迎え、Henry Law が大会長を務めます。Henry は創設当初から中核メンバーとして関わってきた人物で、10 年を超えるソフトウェアエンジニア経験を持ち、サーバーサイド開発と client / server / web インフラを専門としています。',
+      'その技術的な知見とコミュニティへの視野が、PyCon HK 2025 に安定感と前向きな方向性をもたらしています。',
+    ],
+    socialHeading: 'フォローはこちら',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+---
+
+<h1 class="mb-8 text-center text-xl font-bold leading-tight text-gray-700 sm:text-2xl md:text-3xl lg:text-4xl">
+  {content.title}
+</h1>
+
+<div class="relative mb-8 flex w-full items-center justify-center overflow-hidden rounded-lg">
+  <img
+    src="/2025/events/event_1.webp"
+    alt="PyCon Hong Kong Event"
+    width="1080"
+    class="rounded-lg"
+  />
+</div>
+
+<div class="space-y-6 text-gray-700">
+  {content.paragraphs.map((paragraph) => (
+    <p>{paragraph}</p>
+  ))}
+
+  <div class="mt-8">
+    <h2 class="mb-4 text-2xl font-bold text-sky-600">{content.socialHeading}</h2>
+    <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
+      {socialLinks.map((item) => (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex min-w-0 flex-col items-start gap-1 text-sky-600 hover:text-sky-800 sm:flex-row sm:items-center"
+        >
+          <span class="font-semibold sm:mr-2">{item.label}:</span>
+          <span class="min-w-0 break-all text-sm">{item.display}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>

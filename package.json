@@ -1,0 +1,38 @@
+{
+  "name": "pyconhk-public-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "format": "biome format . --write",
+    "format:check": "biome format .",
+    "check": "astro check && biome check ."
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.13",
+    "@biomejs/biome": "^2.3.1",
+    "@types/node": "^22.14.0",
+    "astro": "^5.14.0",
+    "gray-matter": "^4.0.3",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "sharp": "^0.34.2",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@iconify-json/fa6-brands": "^1.2.6",
+    "@iconify-json/fa6-solid": "^1.2.4",
+    "@iconify-json/heroicons-outline": "^1.2.1",
+    "@iconify-json/mdi": "^1.2.3",
+    "astro-icon": "^1.1.5"
+  }
+}

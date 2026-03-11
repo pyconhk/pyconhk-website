@@ -1,0 +1,17 @@
+---
+import { siteName } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LocaleRedirect from '@/years/2025/components/site/LocaleRedirect.astro';
+import { conferenceYear } from '@/years/2025/site';
+---
+
+<BaseLayout
+  title={`${siteName} | Redirecting`}
+  description="Redirecting to your preferred locale for the current conference year."
+>
+  <LocaleRedirect
+    year={conferenceYear}
+    title="Preparing your preferred PyCon Hong Kong locale"
+    description="The new public site resolves your preferred language from cookies and sends you to the current conference year."
+  />
+</BaseLayout>

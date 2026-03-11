@@ -1,0 +1,100 @@
+---
+import { type SiteLocale, type SiteYear, siteName } from '@/config/site';
+import { formatDate } from '@/lib/date';
+import { getPostBySlug } from '@/lib/news';
+import { buildLocalizedPath } from '@/lib/routing';
+import { getTranslations } from '@/years/2025/i18n';
+import ConferenceLayout from '@/years/2025/layouts/ConferenceLayout.astro';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+  slug: string;
+}
+
+const { year, locale, slug } = Astro.props;
+const t = getTranslations(locale, 'home');
+const post = await getPostBySlug(year, slug, locale);
+
+if (!post) {
+  throw new Error(`Missing post for slug: ${slug}`);
+}
+
+const backHref = buildLocalizedPath(year, locale, 'news');
+---
+
+<ConferenceLayout
+  title={`${post.title} | ${siteName} ${year}`}
+  description={post.excerpt}
+  year={year}
+  locale={locale}
+  currentSection="news"
+>
+  <section class="-mt-20 min-h-[calc(100vh-200px)] w-full bg-[url('/2025/inner-pages/background.svg')] bg-cover bg-center bg-no-repeat text-sm text-slate-500 md:text-base">
+    <div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+      <div class="relative mt-20 rounded-xl bg-slate-100/90 px-4 py-12 text-base/8 text-gray-700 shadow-xl md:px-12 md:py-16 md:text-lg/8 lg:px-16 lg:py-24">
+        <img
+          src={post.coverImage}
+          alt={post.title}
+          width="1920"
+          height="1080"
+          class="w-full object-cover object-center"
+        />
+
+        <div class="relative z-10 mx-auto -mt-4 max-w-4xl px-2 pb-6 sm:-mt-8 md:-mt-20 md:px-6 lg:px-8">
+          <article class="overflow-hidden rounded-xl bg-white shadow-xl">
+            <div class="p-6 md:p-10">
+              <a
+                href={backHref}
+                class="mb-6 inline-flex items-center text-sm text-blue-600 transition-colors hover:text-blue-800"
+              >
+                <span aria-hidden="true">&larr;</span>
+                <span class="ml-2">{t('articleBackLabel')}</span>
+              </a>
+
+              <h1 class="text-xl font-bold leading-tight text-gray-800 md:text-3xl lg:text-4xl">
+                {post.title}
+              </h1>
+
+              <div class="mt-6 flex items-center text-xs text-gray-500 md:text-sm">
+                <time datetime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>
+              </div>
+
+              <div class="mt-6 border-l-4 border-gray-200 pl-4 text-lg font-light italic text-gray-600">
+                {post.excerpt}
+              </div>
+
+              {
+                locale !== 'en' && post.isFallback && (
+                  <p class="mt-6 rounded-lg bg-yellow-50 px-4 py-3 text-sm font-medium text-gray-700">
+                    {t('englishOnlyNotice')}
+                  </p>
+                )
+              }
+            </div>
+
+            <div class="px-6 pb-10 md:px-10">
+              <hr class="border-t border-gray-200" />
+            </div>
+
+            <div class="px-6 pb-10 md:px-10">
+              <div class="prose prose-sm max-w-none text-gray-700 prose-headings:text-gray-900 prose-a:text-blue-600 prose-a:no-underline prose-a:hover:text-blue-800 prose-strong:text-gray-900 marker:text-gray-700 md:prose-lg">
+                <div set:html={post.html}></div>
+              </div>
+
+              <div class="mt-12 border-t border-gray-200 pt-6">
+                <a
+                  href={backHref}
+                  class="inline-flex items-center text-sm text-blue-600 transition-colors hover:text-blue-800"
+                >
+                  <span aria-hidden="true">&larr;</span>
+                  <span class="ml-2">{t('articleBackLabel')}</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+</ConferenceLayout>

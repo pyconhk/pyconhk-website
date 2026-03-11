@@ -1,0 +1,62 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale }: Props = Astro.props;
+
+const patrons = ['Mr. Martin Chan'];
+
+type SponsorshipPatronsCopy = {
+  title: string;
+  description: string;
+};
+
+const copy: LocalizedValue<SponsorshipPatronsCopy> = {
+  en: {
+    title: 'Patrons',
+    description:
+      "A sincere thank you to our generous patrons of PyCon HK 2025! Your invaluable support ignites our passion for Python and drives the growth of our vibrant community. We're deeply grateful for your commitment!",
+  },
+  'zh-hk': {
+    title: '鳴謝贊助人',
+    description:
+      '衷心感謝支持 PyCon HK 2025 的贊助人。你們的支持讓我們能持續推動 Python 熱情與社群成長，我們十分感激你們的投入與信任。',
+  },
+  'zh-hant': {
+    title: '鳴謝贊助人',
+    description:
+      '衷心感謝支持 PyCon HK 2025 的贊助人。你們的支持讓我們能持續推動 Python 熱情與社群成長，我們十分感激你們的投入與信任。',
+  },
+  'zh-hans': {
+    title: '鸣谢赞助人',
+    description:
+      '衷心感谢支持 PyCon HK 2025 的赞助人。你们的支持让我们得以持续推动 Python 热情与社群成长，我们十分感激你们的投入与信任。',
+  },
+  ja: {
+    title: 'Patrons',
+    description:
+      'PyCon HK 2025 を支えてくださるパトロンの皆さまに、心より感謝いたします。皆さまのご支援が Python への情熱とコミュニティの成長を後押ししています。',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+---
+
+<div>
+  <h1 class="text-center text-2xl font-bold md:text-3xl lg:text-4xl">{content.title}</h1>
+  <p class="mt-8">{content.description}</p>
+  <ul class="mt-8 space-y-2">
+    {patrons.map((patron) => (
+      <li>
+        <span class="text-base font-semibold">{patron}</span>
+      </li>
+    ))}
+  </ul>
+</div>

@@ -1,0 +1,37 @@
+---
+import { type SiteYear, siteName } from '@/config/site';
+import {
+  buildLocalizedPath,
+  getCurrentYearLocaleSectionStaticPaths,
+  isCurrentYear,
+  resolveLocaleParam,
+  resolveSectionParam,
+} from '@/lib/routing';
+import { getSectionCopy } from '@/years/2025/data/sections';
+import RedirectPage from '@/years/2025/routes/RedirectPage.astro';
+import SectionPage from '@/years/2025/routes/SectionPage.astro';
+
+export function getStaticPaths() {
+  return getCurrentYearLocaleSectionStaticPaths();
+}
+
+const year: SiteYear = 2025;
+const locale = resolveLocaleParam(Astro.params.locale);
+const section = resolveSectionParam(Astro.params.section);
+const sectionCopy = getSectionCopy(section, locale);
+const shouldRedirect = isCurrentYear(year);
+const targetPath = buildLocalizedPath(year, locale, section);
+---
+
+{
+  shouldRedirect ? (
+    <RedirectPage
+      title={`${sectionCopy.title} | ${siteName} ${year} | Redirecting`}
+      description="The current conference year now uses locale-first section URLs without the year segment."
+      href={targetPath}
+      locale={locale}
+    />
+  ) : (
+    <SectionPage year={year} locale={locale} section={section} />
+  )
+}

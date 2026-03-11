@@ -1,0 +1,22 @@
+---
+import type { SiteLocale } from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { getTranslations } from '@/years/2025/i18n';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale, 'home');
+---
+
+<a
+  href="#latest-news"
+  class="absolute bottom-10 left-1/2 inline-flex -translate-x-1/2 animate-bounce items-center gap-2 rounded-full border border-[#016735]/40 bg-white/70 px-4 py-3 font-display text-[#016735] shadow-sm transition-colors hover:bg-white/85"
+>
+  <span>{t('tertiaryCta')}</span>
+  <span aria-hidden="true" class="inline-flex items-center justify-center">
+    <Icon name="chevron-down" className="h-4 w-4" />
+  </span>
+</a>

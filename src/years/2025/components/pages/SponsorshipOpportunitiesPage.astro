@@ -1,0 +1,774 @@
+---
+import {
+  type LocalizedValue,
+  resolveLocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { callForSponsorshipsUrl } from '@/years/2025/external-links';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+type LocalizedText = LocalizedValue<string>;
+type SponsorshipPageCopy = {
+  title: string;
+  introParagraphs: readonly string[];
+  whySponsorTitle: string;
+  plansTitle: string;
+  plansDescription: string;
+  popularLabel: string;
+  sponsorshipFeeLabel: string;
+  visibilityHeading: string;
+  logoHeading: string;
+  promotionHeading: string;
+  ctaTitle: string;
+  ctaDescription: string;
+  ctaButtonLabel: string;
+};
+
+type SponsorshipBenefitIconName = 'eye-outline' | 'users-outline' | 'heart-outline';
+type SponsorshipFeatureKey = keyof SponsorshipPlan['features'];
+
+type SponsorshipPlan = {
+  name: LocalizedText;
+  tier: 'diamond' | 'platinum' | 'gold' | 'silver' | 'bronze';
+  fee: string;
+  maxSlots: 1 | 2 | 4 | 'unlimited';
+  isPopular?: boolean;
+  features: {
+    sponsoredTalks?: LocalizedText;
+    boothTables?: LocalizedText;
+    logoSpeakerPodium?: boolean;
+    logoConferenceRollup?: LocalizedText;
+    logoYouTubeFrame?: LocalizedText;
+    logoWebsite?: LocalizedText;
+    rollupBySponsor?: boolean;
+    adDuringBreak?: LocalizedText | boolean;
+    preEventEmails?: boolean;
+    pressReleases?: boolean;
+    socialNetworks?: boolean;
+    openingClosing?: boolean;
+  };
+};
+
+const { locale }: Props = Astro.props;
+
+const pageCopy: LocalizedValue<SponsorshipPageCopy> = {
+  en: {
+    title: 'Sponsorship Opportunities',
+    introParagraphs: [
+      "PyCon HK 2025 presents an exceptional opportunity to connect with Hong Kong's most passionate Python developers, innovative tech leaders, and forward-thinking organizations.",
+      "As a sponsor, you'll be at the heart of Asia's premier Python conference, where cutting-edge ideas meet practical solutions. Join hundreds of enthusiastic developers, seasoned engineers, data scientists, and tech entrepreneurs who are shaping the future of technology in the region.",
+      "Your sponsorship doesn't just showcase your brand - it demonstrates your commitment to fostering innovation, supporting the open-source community, and driving technological advancement in Hong Kong and beyond.",
+    ],
+    whySponsorTitle: 'Why Sponsor?',
+    plansTitle: 'Sponsorship Plans',
+    plansDescription:
+      'Choose the perfect sponsorship package to support PyCon HK 2025 and showcase your brand to the Python community.',
+    popularLabel: 'POPULAR',
+    sponsorshipFeeLabel: 'Sponsorship Fee',
+    visibilityHeading: 'Brand Visibility',
+    logoHeading: 'Logo',
+    promotionHeading: 'Social Media & Press',
+    ctaTitle: 'Ready to Sponsor?',
+    ctaDescription:
+      'Contact us to discuss your sponsorship package and customization options.',
+    ctaButtonLabel: 'Contact Us',
+  },
+  'zh-hk': {
+    title: '贊助機會',
+    introParagraphs: [
+      'PyCon HK 2025 係一個難得機會，畀你接觸香港一班最投入嘅 Python 開發者、科技團隊同創新機構。',
+      '作為贊助夥伴，你會置身亞洲其中一個最有代表性嘅 Python 大會，同數百位開發者、資深工程師、資料科學家同科技創業者交流，睇住新想法點樣變成實際方案。',
+      '你嘅贊助唔單止可以展示品牌，更代表你願意支持創新、開源社群，同香港以至區內嘅科技發展。',
+    ],
+    whySponsorTitle: '點解值得贊助？',
+    plansTitle: '贊助方案',
+    plansDescription:
+      '揀一個最適合你團隊嘅贊助方案，支持 PyCon HK 2025，同 Python 社群見面。',
+    popularLabel: '熱門',
+    sponsorshipFeeLabel: '贊助費用',
+    visibilityHeading: '品牌曝光',
+    logoHeading: '標誌曝光',
+    promotionHeading: '社交媒體與宣傳',
+    ctaTitle: '準備成為贊助夥伴？',
+    ctaDescription: '歡迎聯絡我哋，傾下贊助方案同可自訂嘅合作方式。',
+    ctaButtonLabel: '聯絡我們',
+  },
+  'zh-hant': {
+    title: '贊助機會',
+    introParagraphs: [
+      'PyCon HK 2025 是一個難得的機會，讓你接觸香港最投入的 Python 開發者、科技團隊與創新機構。',
+      '作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、資料科學家及科技創業者交流，見證新想法如何變成實際方案。',
+      '你的贊助不只是品牌曝光，更代表你願意支持創新、開源社群，以及香港與區內的科技發展。',
+    ],
+    whySponsorTitle: '為什麼值得贊助？',
+    plansTitle: '贊助方案',
+    plansDescription: '選擇最適合你團隊的贊助方案，支持 PyCon HK 2025，並與 Python 社群建立連結。',
+    popularLabel: '熱門',
+    sponsorshipFeeLabel: '贊助費用',
+    visibilityHeading: '品牌曝光',
+    logoHeading: '標誌曝光',
+    promotionHeading: '社群媒體與宣傳',
+    ctaTitle: '準備成為贊助夥伴？',
+    ctaDescription: '歡迎聯絡我們，討論最適合的贊助方案與可自訂的合作方式。',
+    ctaButtonLabel: '聯絡我們',
+  },
+  'zh-hans': {
+    title: '赞助机会',
+    introParagraphs: [
+      'PyCon HK 2025 是一个难得的机会，让你接触香港最投入的 Python 开发者、科技团队与创新机构。',
+      '作为赞助伙伴，你将置身亚洲其中一个具代表性的 Python 大会，与数百位开发者、资深工程师、数据科学家及科技创业者交流，见证新想法如何变成实际方案。',
+      '你的赞助不只是品牌曝光，更代表你愿意支持创新、开源社群，以及香港与区内的科技发展。',
+    ],
+    whySponsorTitle: '为什么值得赞助？',
+    plansTitle: '赞助方案',
+    plansDescription: '选择最适合你团队的赞助方案，支持 PyCon HK 2025，并与 Python 社群建立联系。',
+    popularLabel: '热门',
+    sponsorshipFeeLabel: '赞助费用',
+    visibilityHeading: '品牌曝光',
+    logoHeading: '标志曝光',
+    promotionHeading: '社交媒体与宣传',
+    ctaTitle: '准备成为赞助伙伴？',
+    ctaDescription: '欢迎联系我们，讨论最适合的赞助方案与可自定义的合作方式。',
+    ctaButtonLabel: '联系我们',
+  },
+  ja: {
+    title: 'スポンサー募集',
+    introParagraphs: [
+      'PyCon HK 2025 は、香港で最も熱量の高い Python 開発者、技術チーム、革新的な組織とつながる絶好の機会です。',
+      'スポンサーとして参加することで、アジアを代表する Python カンファレンスの中心に立ち、数百名の開発者、経験豊富なエンジニア、データサイエンティスト、テック起業家と出会えます。',
+      'スポンサーシップは単なるブランド露出ではありません。イノベーションを後押しし、オープンソースコミュニティを支え、香港と地域全体の技術発展に貢献する意思を示すものです。',
+    ],
+    whySponsorTitle: 'スポンサーになる理由',
+    plansTitle: 'スポンサープラン',
+    plansDescription: 'PyCon HK 2025 を支え、Python コミュニティにブランドを届けるための最適なプランをお選びください。',
+    popularLabel: 'おすすめ',
+    sponsorshipFeeLabel: 'スポンサー費用',
+    visibilityHeading: 'ブランド露出',
+    logoHeading: 'ロゴ掲載',
+    promotionHeading: 'SNS・広報',
+    ctaTitle: 'スポンサーをご検討中ですか？',
+    ctaDescription: 'スポンサー内容やカスタマイズ可能な連携方法について、お気軽にご相談ください。',
+    ctaButtonLabel: 'お問い合わせ',
+  },
+} as const;
+
+const content = resolveRequiredLocalizedValue(pageCopy, locale);
+
+const sponsorBenefits = [
+  {
+    title: {
+      en: 'Brand Visibility',
+      'zh-hk': '品牌曝光',
+      ja: 'ブランド露出',
+    },
+    description: {
+      en: 'Increase visibility among tech professionals',
+      'zh-hk': '提升品牌喺科技圈嘅曝光',
+      ja: '技術コミュニティの中で認知を高める',
+    },
+    iconClass: 'text-sky-500',
+    bgClass: 'from-blue-100 to-indigo-100',
+    icon: 'eye-outline' as SponsorshipBenefitIconName,
+  },
+  {
+    title: {
+      en: 'Network',
+      'zh-hk': '建立人脈',
+      ja: 'ネットワーク形成',
+    },
+    description: {
+      en: 'Connect with industry leaders and potential clients',
+      'zh-hk': '接觸業界領袖同潛在客戶',
+      ja: '業界リーダーや潜在的な顧客とつながる',
+    },
+    iconClass: 'text-green-600',
+    bgClass: 'from-green-100 to-emerald-100',
+    icon: 'users-outline' as SponsorshipBenefitIconName,
+  },
+  {
+    title: {
+      en: 'Community Support',
+      'zh-hk': '支持社群',
+      ja: 'コミュニティ支援',
+    },
+    description: {
+      en: 'Support Python community growth in Hong Kong',
+      'zh-hk': '支持香港 Python 社群繼續成長',
+      ja: '香港の Python コミュニティの成長を支える',
+    },
+    iconClass: 'text-rose-500',
+    bgClass: 'from-red-100 to-pink-100',
+    icon: 'heart-outline' as SponsorshipBenefitIconName,
+  },
+] as const;
+
+const featureLabels = {
+  sponsoredTalks: {
+    en: 'Sponsored Talk(s)',
+    'zh-hk': '贊助演講',
+    ja: 'スポンサー講演',
+  },
+  boothTables: {
+    en: 'Booth Tables',
+    'zh-hk': '攤位',
+    ja: 'ブース',
+  },
+  logoSpeakerPodium: {
+    en: 'Speaker Podium',
+    'zh-hk': '講台',
+    ja: '登壇台',
+  },
+  logoConferenceRollup: {
+    en: 'Conference Rollup',
+    'zh-hk': '大會易拉架',
+    ja: '会場ロールアップ',
+  },
+  logoYouTubeFrame: {
+    en: 'YouTube Frame',
+    'zh-hk': 'YouTube 畫面',
+    ja: 'YouTube 画面',
+  },
+  logoWebsite: {
+    en: 'Website',
+    'zh-hk': '網站',
+    ja: 'ウェブサイト',
+  },
+  rollupBySponsor: {
+    en: 'Rollup by Sponsor',
+    'zh-hk': '可自備易拉架',
+    ja: '自社ロールアップ持参可',
+  },
+  adDuringBreak: {
+    en: 'Ad During Break',
+    'zh-hk': '中場廣告',
+    ja: '休憩中広告',
+  },
+  preEventEmails: {
+    en: 'Pre-event Emails',
+    'zh-hk': '會前電郵宣傳',
+    ja: '事前メール告知',
+  },
+  pressReleases: {
+    en: 'Press Releases',
+    'zh-hk': '新聞稿',
+    ja: 'プレスリリース',
+  },
+  socialNetworks: {
+    en: 'Social Networks',
+    'zh-hk': '社交平台宣傳',
+    ja: 'SNS 告知',
+  },
+  openingClosing: {
+    en: 'Opening & Closing',
+    'zh-hk': '開幕及閉幕鳴謝',
+    ja: '開会・閉会での謝辞',
+  },
+} as const;
+
+const sponsorshipPlans: SponsorshipPlan[] = [
+  {
+    name: {
+      en: 'Diamond',
+      'zh-hk': '鑽石',
+    },
+    tier: 'diamond',
+    fee: 'HKD 70,000+',
+    maxSlots: 1,
+    features: {
+      sponsoredTalks: {
+        en: '2 x 30-minute talks',
+        'zh-hk': '2 場 30 分鐘演講',
+      },
+      boothTables: {
+        en: 'Double-Sized',
+        'zh-hk': '雙倍大小',
+      },
+      logoSpeakerPodium: true,
+      logoConferenceRollup: {
+        en: 'Extra Large',
+        'zh-hk': '特大',
+      },
+      logoYouTubeFrame: {
+        en: 'Extra Large',
+        'zh-hk': '特大',
+      },
+      logoWebsite: {
+        en: 'Extra Large with write-up',
+        'zh-hk': '特大，附簡介',
+      },
+      rollupBySponsor: true,
+      adDuringBreak: true,
+      preEventEmails: true,
+      pressReleases: true,
+      socialNetworks: true,
+      openingClosing: true,
+    },
+  },
+  {
+    name: {
+      en: 'Platinum',
+      'zh-hk': '白金',
+    },
+    tier: 'platinum',
+    fee: 'HKD 44,000',
+    maxSlots: 2,
+    features: {
+      sponsoredTalks: {
+        en: '30-minute talk',
+        'zh-hk': '1 場 30 分鐘演講',
+      },
+      boothTables: {
+        en: 'Normal Size',
+        'zh-hk': '標準大小',
+      },
+      logoConferenceRollup: {
+        en: 'Large',
+        'zh-hk': '大',
+      },
+      logoYouTubeFrame: {
+        en: 'Large',
+        'zh-hk': '大',
+      },
+      logoWebsite: {
+        en: 'Large with write-up',
+        'zh-hk': '大，附簡介',
+      },
+      rollupBySponsor: true,
+      adDuringBreak: true,
+      preEventEmails: true,
+      pressReleases: true,
+      socialNetworks: true,
+      openingClosing: true,
+    },
+  },
+  {
+    name: {
+      en: 'Gold',
+      'zh-hk': '金',
+    },
+    tier: 'gold',
+    fee: 'HKD 22,000',
+    maxSlots: 4,
+    isPopular: true,
+    features: {
+      sponsoredTalks: {
+        en: '15-minute talk',
+        'zh-hk': '1 場 15 分鐘演講',
+      },
+      boothTables: {
+        en: 'Normal Size',
+        'zh-hk': '標準大小',
+      },
+      logoConferenceRollup: {
+        en: 'Medium',
+        'zh-hk': '中',
+      },
+      logoYouTubeFrame: {
+        en: 'Medium',
+        'zh-hk': '中',
+      },
+      logoWebsite: {
+        en: 'Medium',
+        'zh-hk': '中',
+      },
+      adDuringBreak: {
+        en: '+ HKD 3,100',
+        'zh-hk': '+ HKD 3,100',
+      },
+      preEventEmails: true,
+      pressReleases: true,
+      socialNetworks: true,
+      openingClosing: true,
+    },
+  },
+  {
+    name: {
+      en: 'Silver',
+      'zh-hk': '銀',
+    },
+    tier: 'silver',
+    fee: 'HKD 11,000',
+    maxSlots: 4,
+    isPopular: true,
+    features: {
+      boothTables: {
+        en: 'Normal Size',
+        'zh-hk': '標準大小',
+      },
+      logoConferenceRollup: {
+        en: 'Regular',
+        'zh-hk': '一般',
+      },
+      logoYouTubeFrame: {
+        en: 'Regular',
+        'zh-hk': '一般',
+      },
+      logoWebsite: {
+        en: 'Regular',
+        'zh-hk': '一般',
+      },
+      adDuringBreak: {
+        en: '+ HKD 3,100',
+        'zh-hk': '+ HKD 3,100',
+      },
+      socialNetworks: true,
+      openingClosing: true,
+    },
+  },
+  {
+    name: {
+      en: 'Bronze',
+      'zh-hk': '銅',
+    },
+    tier: 'bronze',
+    fee: 'HKD 6,000',
+    maxSlots: 'unlimited',
+    features: {
+      logoConferenceRollup: {
+        en: 'Small',
+        'zh-hk': '小',
+      },
+      logoYouTubeFrame: {
+        en: 'Small',
+        'zh-hk': '小',
+      },
+      logoWebsite: {
+        en: 'Small',
+        'zh-hk': '小',
+      },
+      adDuringBreak: {
+        en: '+ HKD 3,100',
+        'zh-hk': '+ HKD 3,100',
+      },
+      openingClosing: true,
+    },
+  },
+];
+
+const tierColors = {
+  diamond: 'from-sky-300 to-sky-600',
+  platinum: 'from-slate-300 to-slate-600',
+  gold: 'from-yellow-300 to-amber-600',
+  silver: 'from-zinc-300 to-teal-600',
+  bronze: 'from-cyan-300 to-yellow-600',
+} as const;
+
+const tierAccents = {
+  diamond: 'border-purple-500 bg-purple-50',
+  platinum: 'border-gray-500 bg-gray-50',
+  gold: 'border-yellow-500 bg-yellow-50',
+  silver: 'border-gray-400 bg-gray-50',
+  bronze: 'border-orange-500 bg-orange-50',
+} as const;
+
+const featureSections: {
+  heading: keyof Pick<typeof content, 'visibilityHeading' | 'logoHeading' | 'promotionHeading'>;
+  items: readonly { key: SponsorshipFeatureKey; highlight?: boolean }[];
+}[] = [
+  {
+    heading: 'visibilityHeading',
+    items: [
+      { key: 'sponsoredTalks', highlight: true },
+      { key: 'boothTables' },
+      { key: 'rollupBySponsor' },
+      { key: 'adDuringBreak' },
+    ],
+  },
+  {
+    heading: 'logoHeading',
+    items: [
+      { key: 'logoSpeakerPodium' },
+      { key: 'logoConferenceRollup' },
+      { key: 'logoYouTubeFrame' },
+      { key: 'logoWebsite' },
+    ],
+  },
+  {
+    heading: 'promotionHeading',
+    items: [
+      { key: 'preEventEmails' },
+      { key: 'pressReleases' },
+      { key: 'socialNetworks' },
+      { key: 'openingClosing' },
+    ],
+  },
+];
+
+function getLocalizedValue(value: LocalizedText | boolean | undefined, currentLocale: SiteLocale) {
+  if (typeof value === 'boolean' || value === undefined) {
+    return value;
+  }
+
+  return resolveLocalizedValue(value, currentLocale);
+}
+
+function getFeatureDisplay(
+  key: SponsorshipFeatureKey,
+  value: LocalizedText | boolean | undefined,
+  currentLocale: SiteLocale
+) {
+  const localizedValue = getLocalizedValue(value, currentLocale);
+
+  if (key === 'adDuringBreak' && typeof localizedValue === 'boolean') {
+    return localizedValue
+      ? { kind: 'text' as const, value: currentLocale === 'zh-hk' ? '有' : 'YES' }
+      : { kind: 'icon' as const, icon: 'close' as const };
+  }
+
+  if (typeof localizedValue === 'boolean') {
+    return {
+      kind: 'icon' as const,
+      icon: localizedValue ? ('check' as const) : ('close' as const),
+    };
+  }
+
+  if (!localizedValue) {
+    return { kind: 'icon' as const, icon: 'close' as const };
+  }
+
+  return { kind: 'text' as const, value: localizedValue };
+}
+
+function maxSlotsLabel(
+  maxSlots: SponsorshipPlan['maxSlots'],
+  currentLocale: SiteLocale
+): string {
+  if (currentLocale === 'zh-hk') {
+    return maxSlots === 'unlimited' ? '名額不限' : `最多 ${maxSlots} 個名額`;
+  }
+
+  return maxSlots === 'unlimited'
+    ? 'Unlimited slots'
+    : `Max ${maxSlots} slot${maxSlots === 1 ? '' : 's'}`;
+}
+---
+
+<div>
+  <h1 class="text-center text-2xl font-bold md:text-3xl lg:text-4xl">{content.title}</h1>
+
+  <div class="mt-8 space-y-6">
+    {content.introParagraphs.map((paragraph: string) => (
+      <p>{paragraph}</p>
+    ))}
+  </div>
+
+  <h2 class="mt-16 text-center text-2xl font-semibold md:text-3xl lg:text-4xl">
+    {content.whySponsorTitle}
+  </h2>
+  <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3">
+    {sponsorBenefits.map((benefit) => (
+      <div class="flex flex-col items-center rounded-lg px-6 text-center">
+        <div class:list={['mt-4 rounded-full bg-gradient-to-br p-4', benefit.bgClass]}>
+          <Icon name={benefit.icon} className={`h-12 w-12 ${benefit.iconClass}`} />
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">{resolveRequiredLocalizedValue(benefit.title, locale)}</h3>
+        <p class="mt-2 text-base text-gray-600">
+          {resolveRequiredLocalizedValue(benefit.description, locale)}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  <div class="w-full py-12">
+    <div class="container mx-auto px-0 lg:px-4">
+      <div class="mb-12 text-center">
+        <h2 class="mb-4 text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+          {content.plansTitle}
+        </h2>
+        <p class="mx-auto max-w-2xl text-gray-600">{content.plansDescription}</p>
+      </div>
+
+      <div class="relative" data-sponsorship-carousel>
+        <div
+          class="scrollbar-hide flex gap-6 overflow-x-auto overscroll-none pb-6 scroll-smooth snap-x snap-mandatory scroll-px-8"
+          data-sponsorship-track
+        >
+          {sponsorshipPlans.map((plan) => (
+            <div class="w-full flex-none snap-start p-1 lg:w-1/2 xl:w-1/3">
+              <div
+                class:list={[
+                  'group relative mt-1 h-full overflow-hidden rounded-lg border-2 border-slate-300 bg-white shadow-md transition-all duration-300 hover:scale-95 hover:border-slate-600 hover:bg-slate-800 hover:shadow-xl',
+                  plan.isPopular && 'ring-2 ring-brand-blue/50',
+                ]}
+              >
+                {plan.isPopular && (
+                  <div class="absolute right-2 top-2 z-10 rounded-full bg-brand-blue px-2 py-0.5 text-xs font-bold text-white">
+                    {content.popularLabel}
+                  </div>
+                )}
+
+                <div class:list={['relative h-16 bg-gradient-to-br', tierColors[plan.tier]]}>
+                  <div class="relative z-10 p-3 text-white">
+                    <h3 class="mb-0.5 text-lg font-bold">
+                      {resolveRequiredLocalizedValue(plan.name, locale)}
+                    </h3>
+                    <p class="text-xs font-semibold opacity-90">
+                      {content.sponsorshipFeeLabel}: {plan.fee}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="bg-white p-3 transition-colors duration-300 group-hover:bg-slate-800">
+                  <div
+                    class:list={[
+                      'mb-2 inline-block rounded-full px-2 py-0.5 text-xs font-semibold',
+                      tierAccents[plan.tier],
+                    ]}
+                  >
+                    {maxSlotsLabel(plan.maxSlots, locale)}
+                  </div>
+
+                  <div class="space-y-0.5 text-xs">
+                    {featureSections.map((section) => (
+                      <div>
+                        <h4 class="mb-1 font-bold text-gray-800 transition-colors duration-300 group-hover:text-white">
+                          {content[section.heading]}
+                        </h4>
+
+                        {section.items.map((feature) => {
+                          const rawValue = plan.features[feature.key];
+                          const display = getFeatureDisplay(feature.key, rawValue, locale);
+                          const isHighlight = Boolean(feature.highlight && rawValue);
+
+                          return (
+                            <div
+                              class:list={[
+                                'flex items-center justify-between rounded px-1 py-0.5 text-xs transition-colors duration-300',
+                                isHighlight &&
+                                  'border-l-2 border-brand-blue bg-brand-blue-soft group-hover:bg-brand-blue-dark',
+                              ]}
+                            >
+                              <span class="font-medium text-gray-700 transition-colors duration-300 group-hover:text-white">
+                                {resolveRequiredLocalizedValue(featureLabels[feature.key], locale)}
+                              </span>
+
+                              {display.kind === 'text' ? (
+                                <span
+                                  class:list={[
+                                    'font-semibold transition-colors duration-300',
+                                    isHighlight
+                                      ? 'text-brand-blue group-hover:text-brand-blue-soft-strong'
+                                      : 'text-gray-900 group-hover:text-white',
+                                  ]}
+                                >
+                                  {display.value}
+                                </span>
+                              ) : (
+                                <span class="inline-flex items-center justify-center">
+                                  <Icon
+                                    name={display.icon}
+                                    className={
+                                      display.icon === 'check'
+                                        ? isHighlight
+                                          ? 'h-4 w-4 text-brand-blue group-hover:text-brand-blue-soft-strong'
+                                          : 'h-4 w-4 text-green-600 group-hover:text-green-400'
+                                        : 'h-4 w-4 text-red-500 group-hover:text-rose-400'
+                                    }
+                                  />
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-6 flex justify-center gap-8">
+          <button
+            type="button"
+            class="flex items-center justify-center rounded-full bg-gray-200 p-4 text-slate-600 transition-colors hover:bg-gray-300"
+            data-sponsorship-scroll="prev"
+            aria-label={
+              locale === 'zh-hk'
+                ? '上一組方案'
+                : locale === 'ja'
+                  ? '前のカード'
+                  : 'Previous cards'
+            }
+          >
+            <Icon name="chevron-left" className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            class="flex items-center justify-center rounded-full bg-gray-200 p-4 text-slate-600 transition-colors hover:bg-gray-300"
+            data-sponsorship-scroll="next"
+            aria-label={
+              locale === 'zh-hk'
+                ? '下一組方案'
+                : locale === 'ja'
+                  ? '次のカード'
+                  : 'Next cards'
+            }
+          >
+            <Icon name="chevron-right" className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+
+  <script is:inline data-astro-rerun>
+    const carousels = document.querySelectorAll('[data-sponsorship-carousel]');
+
+    for (const carousel of carousels) {
+      const track = carousel.querySelector('[data-sponsorship-track]');
+
+      if (!(track instanceof HTMLElement)) {
+        continue;
+      }
+
+      const buttons = carousel.querySelectorAll('[data-sponsorship-scroll]');
+
+      for (const button of buttons) {
+        button.addEventListener('click', () => {
+          const direction = button.getAttribute('data-sponsorship-scroll');
+          const scrollAmount = track.clientWidth + 24;
+
+          track.scrollBy({
+            left: direction === 'prev' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth',
+          });
+        });
+      }
+    }
+  </script>
+
+  <div class="mt-2 text-center lg:mt-6">
+    <div class="rounded-2xl bg-gradient-to-r from-brand-blue to-brand-yellow p-8">
+      <h2 class="text-3xl font-bold xl:text-4xl">{content.ctaTitle}</h2>
+      <p class="mt-8 text-lg opacity-90">{content.ctaDescription}</p>
+      <div class="mt-6">
+        <a
+          href={callForSponsorshipsUrl}
+          class="inline-block rounded-lg bg-white px-8 py-3 font-semibold text-brand-blue transition-colors hover:bg-slate-200"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {content.ctaButtonLabel}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

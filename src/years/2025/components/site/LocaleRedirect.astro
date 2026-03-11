@@ -1,0 +1,75 @@
+---
+import {
+  defaultLocale,
+  locales,
+  preferredLocaleCookie,
+  type SiteYear,
+} from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+import { eyebrow, leadText, pillButton, sectionPanel, supportingText } from '@/lib/ui';
+
+interface Props {
+  year: SiteYear;
+  title: string;
+  description: string;
+}
+
+const { year, title, description } = Astro.props;
+
+const localeLinks = locales.map((locale) => ({
+  ...locale,
+  href: buildLocalizedPath(year, locale.code),
+}));
+---
+
+<section class:list={[sectionPanel, 'mx-auto mt-[16vh] max-w-3xl space-y-6']}>
+  <p class={eyebrow}>Locale Redirect</p>
+  <h1 class="font-serif text-4xl leading-none text-ink sm:text-5xl lg:text-6xl">{title}</h1>
+  <p class={leadText}>{description}</p>
+
+  <div class="flex flex-wrap gap-3">
+    {localeLinks.map(locale => (
+      <a class={pillButton} href={locale.href}>
+        {locale.nativeLabel}
+      </a>
+    ))}
+  </div>
+
+  <noscript>
+    <p class={supportingText}>
+      JavaScript is disabled. Choose a locale manually to continue.
+    </p>
+  </noscript>
+</section>
+
+<script
+  is:inline
+  data-astro-rerun
+  define:vars={{
+    cookieName: preferredLocaleCookie,
+    defaultLocale,
+    localePaths: Object.fromEntries(
+      locales.map((locale) => [locale.code, buildLocalizedPath(year, locale.code)])
+    ),
+  }}
+>
+  const readCookie = name => {
+    const prefix = `${name}=`;
+    const match = document.cookie
+      .split(';')
+      .map(value => value.trim())
+      .find(value => value.startsWith(prefix));
+
+    return match ? decodeURIComponent(match.slice(prefix.length)) : '';
+  };
+
+  const preferredLocale = readCookie(cookieName);
+  const nextLocale = Object.hasOwn(localePaths, preferredLocale)
+    ? preferredLocale
+    : defaultLocale;
+  const nextPath = localePaths[nextLocale] || localePaths[defaultLocale];
+
+  if (window.location.pathname !== nextPath) {
+    window.location.replace(nextPath);
+  }
+</script>

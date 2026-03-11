@@ -1,0 +1,375 @@
+---
+import type { SiteLocale, SiteYear } from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+const { year, locale }: Props = Astro.props;
+const attendeeReportingHref = buildLocalizedPath(year, locale, 'code-of-conduct/attendee-reporting');
+const staffProceduresHref = buildLocalizedPath(year, locale, 'code-of-conduct/staff-procedures');
+---
+
+{
+  locale === 'zh-hk' ? (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold md:text-3xl lg:text-4xl">
+        行為準則總覽
+      </h1>
+      <div class="mt-4 space-y-6 text-gray-700">
+        <p>PyCon Hong Kong 是一個以促進開發者社群交流與合作為目標的社群會議。</p>
+        <p>
+          我們重視每一位 Python 社群成員的參與，並希望所有參加者都能擁有愉快而充實的體驗。因此，所有參加者都應在整個會議期間，以及所有與會議相關的活動中，對其他參加者保持尊重與禮貌，無論該活動是否由 PyCon Hong Kong 主辦單位正式贊助。
+        </p>
+        <p>
+          為了清楚說明我們對行為的期望，所有 PyCon 活動中的工作人員、參加者、講者、參展單位、主辦者及義工，都必須遵守以下行為準則。主辦單位將在整個活動期間執行本準則。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">我們的標準</h2>
+        <p>
+          PyCon 致力為每一位參與者提供正面而安全的會議體驗，不論其年齡、性別認同與表達、性傾向、身心障礙、外表、體型、族裔、國籍、種族、宗教（或無宗教信仰）、教育背景或社會經濟地位。
+        </p>
+        <p>有助於建立正面環境的行為包括：</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">友善對待他人</li>
+          <li class="md:pl-2">以專業方式行事</li>
+          <li class="md:pl-2">使用歡迎且具包容性的語言</li>
+          <li class="md:pl-2">尊重不同觀點與經驗</li>
+          <li class="md:pl-2">以成熟態度接受建設性批評</li>
+          <li class="md:pl-2">專注於對社群最有益的事情</li>
+          <li class="md:pl-2">對其他社群成員展現同理心</li>
+        </ul>
+        <p>不可接受的行為包括：</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">以任何形式騷擾會議參加者</li>
+          <li class="md:pl-2">蓄意恐嚇、跟蹤或尾隨他人</li>
+          <li class="md:pl-2">對他人作出暴力威脅或使用威嚇性言語</li>
+          <li class="md:pl-2">在會場任何地方（包括演講內容）使用帶有性意味的語言或影像</li>
+          <li class="md:pl-2">侮辱、貶低或羞辱他人</li>
+          <li class="md:pl-2">性別歧視、種族歧視、恐同、恐跨、歧視殘障或排他性的笑話</li>
+          <li class="md:pl-2">過度粗言穢語</li>
+          <li class="md:pl-2">不受歡迎的性暗示或性挑逗</li>
+          <li class="md:pl-2">不受歡迎的身體接觸</li>
+          <li class="md:pl-2">持續打斷演講或其他活動</li>
+          <li class="md:pl-2">其他不適合多元專業觀眾場合的行為</li>
+        </ul>
+        <p>當參加者被要求停止任何不當行為時，應立即遵從。</p>
+        <p>
+          如有參加者作出違反本行為準則的行為，主辦單位可視情況採取其認為合適的行動，包括口頭或書面警告，或在不退款的情況下取消其參與資格。
+        </p>
+        <p>感謝你一起協助建立一個友善、歡迎所有人的活動環境。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">武器政策</h2>
+        <p>
+          會議場地內禁止攜帶任何武器，包括但不限於爆炸品（包括煙花）、槍械、大型刀具（例如狩獵刀或展示用刀）以及任何可能用作傷害他人的物品。任何被發現持有上述物品的人士將被要求立即離場，並只有在不攜帶武器的情況下方可返回。
+        </p>
+        <p>參加者亦須遵守所有適用的本地法律與規例。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">適用範圍</h2>
+        <p>
+          所有 PyCon Hong Kong 參加者均受本行為準則約束，包括 PyCon Hong Kong 的工作人員及義工，以及教學課、工作坊、峰會、海報展示、交流酒會、正式會議、sprint、贊助活動或非官方聚會的參加者。
+        </p>
+        <p>
+          博覽區參展單位、贊助商或供應商攤位，以及其他類似活動，同樣受本行為準則約束。特別是，參展單位不應使用帶有性意味的圖像、活動或素材；攤位工作人員（包括義工）亦不應穿著帶有性暗示的服裝、制服或造型，或營造令人感到性化的不適環境。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">聯絡方式</h2>
+        <p>
+          如果你認為有人在 PyCon 活動期間違反了行為準則，或你有其他相關疑慮，請立即聯絡現場工作人員。
+        </p>
+        <p>
+          PyCon Hong Kong
+          <br />
+          Email:
+          <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+        </p>
+        <p>如存在利益衝突，你亦可以個別聯絡：</p>
+        <p>
+          PyCon HK 2025 大會主席
+          <br />
+          Henry Law 先生
+        </p>
+        <p>
+          大會工作人員會盡力協助參加者聯絡場地保安、酒店保安或本地執法部門，提供陪同支援，或以其他方式協助參加者在整個會議期間感到安全。我們十分重視你的參與。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">事件處理程序</h2>
+        <p>
+          <a href={attendeeReportingHref} class="text-sky-600 hover:text-sky-800">
+            事件舉報程序
+          </a>
+        </p>
+        <p>
+          <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">
+            執行程序
+          </a>
+        </p>
+        <p>
+          本行為準則改編自 PyCon US，原始版本可參考
+          <a
+            href="https://github.com/python/pycon-code-of-conduct"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Python GitHub</b>
+          </a>
+          。
+        </p>
+        <p>
+          PyCon 行為準則採用
+          <a
+            href="http://creativecommons.org/licenses/by/3.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Creative Commons Attribution 3.0 Unported License</b>
+          </a>
+          授權。
+        </p>
+      </div>
+    </div>
+  ) : locale === 'ja' ? (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold md:text-3xl lg:text-4xl">
+        行動規範の概要
+      </h1>
+      <div class="mt-4 space-y-6 text-gray-700">
+        <p>
+          PyCon Hong Kong は、開発者コミュニティの交流と協力のためのコミュニティカンファレンスです。
+        </p>
+        <p>
+          私たちは、Python コミュニティのすべての参加者を大切にし、誰もが安心して充実した体験を得られる場であることを目指しています。そのため、参加者は会期中および関連イベントのすべてにおいて、主催の公式イベントかどうかを問わず、他の参加者に対して敬意と礼節をもって接することが求められます。
+        </p>
+        <p>
+          期待される行動を明確にするため、スタッフ、参加者、登壇者、出展者、主催者、ボランティアを含む、あらゆる PyCon イベントの関係者は以下の行動規範に従う必要があります。主催者はイベント期間中、この規範を適用します。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">私たちの基準</h2>
+        <p>
+          PyCon は、年齢、性自認や性表現、性的指向、障害、外見、体格、民族性、国籍、人種、宗教（または無宗教）、教育歴、社会経済的背景にかかわらず、すべての人にとって前向きで安全な体験を提供することを目指します。
+        </p>
+        <p>望ましい行動の例:</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">他者に親切であること</li>
+          <li class="md:pl-2">プロフェッショナルに行動すること</li>
+          <li class="md:pl-2">歓迎的で包摂的な言葉を使うこと</li>
+          <li class="md:pl-2">異なる視点や経験を尊重すること</li>
+          <li class="md:pl-2">建設的な批判を冷静に受け止めること</li>
+          <li class="md:pl-2">コミュニティにとって何が最善かを重視すること</li>
+          <li class="md:pl-2">他のコミュニティメンバーへの共感を示すこと</li>
+        </ul>
+        <p>許容されない行動の例:</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">あらゆる形のハラスメント</li>
+          <li class="md:pl-2">意図的な威圧、付きまとい、追跡</li>
+          <li class="md:pl-2">暴力的な脅迫や威嚇的な言動</li>
+          <li class="md:pl-2">会場や発表内での性的表現・画像の使用</li>
+          <li class="md:pl-2">侮辱、見下し、人格を傷つける行為</li>
+          <li class="md:pl-2">性差別的・人種差別的・同性愛嫌悪・トランス嫌悪・障害差別的・排他的な冗談</li>
+          <li class="md:pl-2">過度な罵倒</li>
+          <li class="md:pl-2">望まれない性的な関心や誘い</li>
+          <li class="md:pl-2">望まれない身体接触</li>
+          <li class="md:pl-2">セッションや他の活動の継続的な妨害</li>
+          <li class="md:pl-2">多様な参加者が集まる専門的な場に不適切なその他の行為</li>
+        </ul>
+        <p>不適切な行動の停止を求められた参加者は、直ちに従う必要があります。</p>
+        <p>
+          行動規範に違反する行動があった場合、主催者は警告や、返金なしの退場を含む適切な対応を行うことがあります。
+        </p>
+        <p>すべての人にとって歓迎的で安心できるイベントづくりへのご協力に感謝します。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">武器に関する方針</h2>
+        <p>
+          会場内への武器の持ち込みは禁止です。爆発物（花火を含む）、銃器、大型ナイフ、その他他人を傷つける目的で使用できる物品を含みます。所持が確認された場合は直ちに退場していただき、武器を持たない場合にのみ再入場が認められます。
+        </p>
+        <p>参加者は、この点に関する現地の法律や規則にも従う必要があります。</p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">適用範囲</h2>
+        <p>
+          この行動規範は、PyCon Hong Kong のすべての参加者に適用されます。これには、スタッフやボランティア、チュートリアル、ワークショップ、サミット、ポスター、交流会、カンファレンス本編、Sprint、スポンサーイベント、非公式イベントの参加者も含まれます。
+        </p>
+        <p>
+          展示ブース、スポンサーやベンダーのブース、そのほか類似の活動も同様に対象です。特に、性的な画像や演出の使用、性的な印象を与える服装や環境づくりは認められません。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">連絡先</h2>
+        <p>
+          イベント中に誰かが行動規範に違反していると思われる場合、または懸念がある場合は、直ちにスタッフへご連絡ください。
+        </p>
+        <p>
+          PyCon Hong Kong
+          <br />
+          Email:
+          <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+        </p>
+        <p>利益相反がある場合は、次の担当者へ個別に連絡することもできます。</p>
+        <p>
+          PyCon HK 2025 大会長
+          <br />
+          Henry Law
+        </p>
+        <p>
+          スタッフは、会場警備や必要に応じた関係機関への連絡、同行支援などを通じて、参加者が会期中安全に過ごせるよう支援します。
+        </p>
+
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">関連手続き</h2>
+        <p>
+          <a href={attendeeReportingHref} class="text-sky-600 hover:text-sky-800">
+            事案報告手順
+          </a>
+        </p>
+        <p>
+          <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">
+            対応手順
+          </a>
+        </p>
+        <p>
+          この行動規範は PyCon US の内容をもとにしており、原文は
+          <a
+            href="https://github.com/python/pycon-code-of-conduct"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Python GitHub</b>
+          </a>
+          で確認できます。
+        </p>
+        <p>
+          PyCon の行動規範は
+          <a
+            href="http://creativecommons.org/licenses/by/3.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Creative Commons Attribution 3.0 Unported License</b>
+          </a>
+          のもとで提供されています。
+        </p>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold md:text-3xl lg:text-4xl">
+        Code of Conduct Overview
+      </h1>
+      <div class="mt-4 space-y-6 text-gray-700">
+        <p>
+          PyCon Hong Kong is a community conference intended for networking and collaboration in the developer community.
+        </p>
+        <p>
+          We value the participation of each member of the Python community and want all attendees to have an enjoyable and fulfilling experience. Accordingly, all attendees are expected to show respect and courtesy to other attendees throughout the conference and at all conference events, whether officially sponsored by the PyCon Hong Kong organisers or not.
+        </p>
+        <p>
+          To make clear what is expected, all staff, attendees, speakers, exhibitors, organizers, and volunteers at any PyCon event are required to conform to the following Code of Conduct. Organizers will enforce this code throughout the event.
+        </p>
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Our Standards</h2>
+        <p>
+          PyCon is dedicated to providing a positive conference experience for everyone, regardless of age, gender identity and expression, sexual orientation, disability, physical appearance, body size, ethnicity, nationality, race, or religion (or lack thereof), education, or socio-economic status.
+        </p>
+        <p>Examples of behavior that contributes to creating a positive environment include:</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Being kind to others</li>
+          <li class="md:pl-2">Behaving professionally</li>
+          <li class="md:pl-2">Using welcoming and inclusive language</li>
+          <li class="md:pl-2">Being respectful of differing viewpoints and experiences</li>
+          <li class="md:pl-2">Gracefully accepting constructive criticism</li>
+          <li class="md:pl-2">Focusing on what is best for the community</li>
+          <li class="md:pl-2">Showing empathy towards other community members</li>
+        </ul>
+        <p>Examples of unacceptable behavior by participants include:</p>
+        <ul class="ml-6 mt-4 list-disc space-y-2">
+          <li class="md:pl-2">Harassment of conference participants in any form</li>
+          <li class="md:pl-2">Deliberate intimidation, stalking, or following</li>
+          <li class="md:pl-2">Violent threats or language directed against another person</li>
+          <li class="md:pl-2">Sexual language and imagery in any conference venue, including talks</li>
+          <li class="md:pl-2">Insults or put downs</li>
+          <li class="md:pl-2">Sexist, racist, homophobic, transphobic, ableist, or exclusionary jokes</li>
+          <li class="md:pl-2">Excessive swearing</li>
+          <li class="md:pl-2">Unwelcome sexual attention or advances</li>
+          <li class="md:pl-2">Unwelcome physical contact</li>
+          <li class="md:pl-2">Sustained disruption of talks or other events</li>
+          <li class="md:pl-2">
+            Other conduct that is inappropriate for a professional audience including people of many different backgrounds
+          </li>
+        </ul>
+        <p>Participants asked to stop any inappropriate behavior are expected to comply immediately.</p>
+        <p>
+          If a participant engages in behavior that violates this code of conduct, the conference organizers may take any action they deem appropriate, including warning the offender or expulsion from the conference with no refund.
+        </p>
+        <p>Thank you for helping make this a welcoming, friendly event for all.</p>
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Weapons Policy</h2>
+        <p>
+          No weapons are allowed at conference venues, including but not limited to explosives (including fireworks), guns, and large knives such as those used for hunting or display, as well as any other item used for the purpose of causing injury or harm to others. Anyone seen in possession of one of these items will be asked to leave immediately, and will only be allowed to return without the weapon.
+        </p>
+        <p>Attendees are further expected to comply with all state and local laws on this matter.</p>
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Scope</h2>
+        <p>
+          All PyCon Hong Kong attendees are subject to the Code of Conduct. This includes PyCon Hong Kong staff and volunteers, as well as attendees of the tutorials, workshops, summits, poster sessions, receptions, conference, sprints, and sponsored or unofficial events.
+        </p>
+        <p>
+          Exhibitors in the expo hall, sponsor or vendor booths, or similar activities are also subject to the Code of Conduct. In particular, exhibitors should not use sexualized images, activities, or other material. Booth staff (including volunteers) should not use sexualized clothing/uniforms/costumes, or otherwise create a sexualized environment.
+        </p>
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Contact Information</h2>
+        <p>
+          If you believe that someone is violating the code of conduct during a PyCon event, or have any other concerns, please contact a member of the event staff immediately.
+        </p>
+        <p>
+          PyCon Hong Kong
+          <br />
+          Email:
+          <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+        </p>
+        <p>In case of a conflict of interest, you can individually contact:</p>
+        <p>
+          Conference Chair of PyCon HK 2025
+          <br />
+          Mr. Henry Law
+        </p>
+        <p>
+          Conference staff will be happy to help participants contact hotel/venue security or local law enforcement, provide escorts, or otherwise assist any attendee to feel safe for the duration of the conference. We value your attendance.
+        </p>
+        <h2 class="mb-4 mt-8 text-2xl font-bold text-sky-600">Procedure for Handling Incidents</h2>
+        <p>
+          <a href={attendeeReportingHref} class="text-sky-600 hover:text-sky-800">
+            Procedures for Reporting Incidents
+          </a>
+        </p>
+        <p>
+          <a href={staffProceduresHref} class="text-sky-600 hover:text-sky-800">
+            Enforcement Procedures
+          </a>
+        </p>
+        <p>
+          This Code of Conduct was forked from PyCon US from the
+          <a
+            href="https://github.com/python/pycon-code-of-conduct"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Python GitHub</b>
+          </a>
+          .
+        </p>
+        <p>
+          The PyCon Code of Conduct is licensed under a
+          <a
+            href="http://creativecommons.org/licenses/by/3.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sky-600 hover:text-sky-800"
+          >
+            <b>Creative Commons Attribution 3.0 Unported License</b>
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  )
+}

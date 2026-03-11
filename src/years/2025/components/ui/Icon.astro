@@ -1,0 +1,57 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components';
+
+const iconNameMap = {
+  alipay: 'fa6-brands:alipay',
+  apple: 'fa6-brands:apple',
+  'arrow-right': 'heroicons-outline:arrow-right',
+  'calendar-outline': 'heroicons-outline:calendar',
+  'chevron-left': 'heroicons-outline:chevron-left',
+  'chevron-right': 'heroicons-outline:chevron-right',
+  check: 'heroicons-outline:check',
+  'chevron-down': 'heroicons-outline:chevron-down',
+  close: 'heroicons-outline:x-mark',
+  'credit-card': 'heroicons-outline:credit-card',
+  'currency-dollar-circle': 'mdi:currency-usd-circle-outline',
+  'eye-outline': 'heroicons-outline:eye',
+  facebook: 'fa6-brands:facebook',
+  'glass-cheers': 'fa6-solid:champagne-glasses',
+  'globe-alt': 'heroicons-outline:globe-alt',
+  'heart-outline': 'heroicons-outline:heart',
+  'information-circle-outline': 'heroicons-outline:information-circle',
+  instagram: 'fa6-brands:instagram',
+  linkedin: 'fa6-brands:linkedin',
+  'location-marker-outline': 'heroicons-outline:location-marker',
+  'map-marked-alt': 'fa6-solid:map-location-dot',
+  menu: 'heroicons-outline:menu',
+  'shoe-sneaker': 'mdi:shoe-sneaker',
+  store: 'fa6-solid:store',
+  subway: 'fa6-solid:train-subway',
+  taxi: 'fa6-solid:taxi',
+  threads: 'fa6-brands:threads',
+  utensils: 'fa6-solid:utensils',
+  'users-outline': 'heroicons-outline:users',
+  wechat: 'fa6-brands:weixin',
+  'wifi-outline': 'heroicons-outline:wifi',
+  x: 'fa6-brands:x-twitter',
+  youtube: 'fa6-brands:youtube',
+} as const;
+
+type IconName = keyof typeof iconNameMap;
+
+interface Props {
+  name: IconName;
+  className?: string;
+  title?: string;
+}
+
+const { name, className = 'h-5 w-5', title }: Props = Astro.props;
+---
+
+<AstroIcon
+  name={iconNameMap[name]}
+  class={className}
+  title={title}
+  aria-hidden={title ? undefined : 'true'}
+  focusable="false"
+/>

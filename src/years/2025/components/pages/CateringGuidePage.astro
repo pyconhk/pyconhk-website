@@ -1,0 +1,392 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+type PaymentIconName =
+  | 'credit-card'
+  | 'alipay'
+  | 'apple'
+  | 'wechat'
+  | 'currency-dollar-circle';
+
+interface PaymentMethod {
+  name: LocalizedValue<string>;
+  icon?: PaymentIconName;
+}
+
+const { locale } = Astro.props;
+
+type CateringGuideCopy = {
+  title: string;
+  lunchHeading: string;
+  lunchDescription: string;
+  locationLabel: string;
+  openingHoursLabel: string;
+  paymentNoteHeading: string;
+  paymentNote: string;
+  acceptedPaymentMethodsLabel: string;
+  viewAllOutletsLabel: string;
+  pyNightHeading: string;
+  pyNightDescription: string;
+  joinPartyHeading: string;
+  joinPartyDescription: string;
+  selfFundedDinnerHeading: string;
+  selfFundedDinnerDescription: string;
+  headingToLabel: string;
+  restaurantDescription: string;
+  mapButtonLabel: string;
+  speakersAccessLabel: string;
+  speakersAccessDetail: string;
+  allAttendeesLabel: string;
+  allAttendeesDetail: string;
+};
+
+const copy: LocalizedValue<CateringGuideCopy> = {
+  en: {
+    title: 'Catering Guide',
+    lunchHeading: 'Lunch (Day 1 & Day 2)',
+    lunchDescription:
+      'Fuel up for a day of learning and networking! The closest canteen is just one floor above our venue.',
+    locationLabel: 'Location:',
+    openingHoursLabel: 'Opening Hours:',
+    paymentNoteHeading: 'Important Payment Note',
+    paymentNote:
+      'The vending machines are for students only. Please use the right-hand-side counter for over-the-counter payments.',
+    acceptedPaymentMethodsLabel: 'Accepted Payment Methods:',
+    viewAllOutletsLabel: 'View all catering outlets at CityU ->',
+    pyNightHeading: 'PyNight (Day 1 Evening)',
+    pyNightDescription:
+      'Let the conversations flow! Join our evening networking party on Conference Day (11th Oct) from 6:30 pm onwards. Mingle with the community over light refreshments.',
+    joinPartyHeading: 'How to Join the Party',
+    joinPartyDescription:
+      'Entry is free but limited to the first 100 people. A wristband is required for entry.',
+    selfFundedDinnerHeading: 'Self-Funded Dinner (Day 2 Evening)',
+    selfFundedDinnerDescription:
+      'After a productive Sprint Day (12th Oct), keep the conversation going at a voluntary social dinner. This is a fantastic chance to relax with fellow developers over authentic local cuisine.',
+    headingToLabel: 'We will be heading to:',
+    restaurantDescription: 'A popular local Cantonese restaurant near CityU.',
+    mapButtonLabel: 'View on Google Maps',
+    speakersAccessLabel: 'Speakers & Paid Ticket Holders',
+    speakersAccessDetail: 'Grab your wristband at reception from 2:00 pm - 3:30 pm.',
+    allAttendeesLabel: 'All Attendees',
+    allAttendeesDetail:
+      'Remaining wristbands are available from 3:30 pm - 6:00 pm, or until they are all gone.',
+  },
+  'zh-hk': {
+    title: '餐飲指南',
+    lunchHeading: '午餐（第一日及第二日）',
+    lunchDescription: '為一整天的學習與交流補充能量。距離會場最近的餐廳就在樓上一層。',
+    locationLabel: '地點：',
+    openingHoursLabel: '營業時間：',
+    paymentNoteHeading: '付款須知',
+    paymentNote: '自助售賣機只供學生使用，請使用右手邊櫃檯以現場方式付款。',
+    acceptedPaymentMethodsLabel: '接受付款方式：',
+    viewAllOutletsLabel: '查看城大所有餐飲設施 ->',
+    pyNightHeading: 'PyNight（第一日晚間）',
+    pyNightDescription:
+      '讓交流延續下去吧！歡迎於 10 月 11 日會議日晚上 6:30 起參加社群聚會，一邊享用輕食，一邊與社群朋友自在聊天。',
+    joinPartyHeading: '如何參加聚會',
+    joinPartyDescription: '免費入場，但名額只限首 100 位參加者，入場必須佩戴手帶。',
+    selfFundedDinnerHeading: '第二日晚間自費晚餐',
+    selfFundedDinnerDescription:
+      '在 10 月 12 日 Sprint Day 完結後，歡迎參加自願性質的晚餐聚會，與其他開發者一起放鬆聊天，品嚐地道粵菜。',
+    headingToLabel: '我們將前往：',
+    restaurantDescription: '位於城大附近、深受歡迎的本地粵菜餐廳。',
+    mapButtonLabel: '在 Google 地圖查看',
+    speakersAccessLabel: '講者及已購票參加者',
+    speakersAccessDetail: '請於下午 2:00 至 3:30 到接待處領取手帶。',
+    allAttendeesLabel: '所有參加者',
+    allAttendeesDetail: '餘下手帶將於下午 3:30 至 6:00 派發，派完即止。',
+  },
+  'zh-hant': {
+    title: '餐飲指南',
+    lunchHeading: '午餐（第一日及第二日）',
+    lunchDescription: '為一整天的學習與交流補充能量。距離會場最近的餐廳就在樓上一層。',
+    locationLabel: '地點：',
+    openingHoursLabel: '營業時間：',
+    paymentNoteHeading: '付款須知',
+    paymentNote: '自助販賣機僅供學生使用，請使用右手邊櫃檯現場付款。',
+    acceptedPaymentMethodsLabel: '接受付款方式：',
+    viewAllOutletsLabel: '查看城大所有餐飲設施 ->',
+    pyNightHeading: 'PyNight（第一日晚間）',
+    pyNightDescription:
+      '讓交流延續下去吧！歡迎於 10 月 11 日會議日晚上 6:30 起參加社群聚會，一邊享用輕食，一邊與社群朋友自在聊天。',
+    joinPartyHeading: '如何參加聚會',
+    joinPartyDescription: '免費入場，但名額僅限首 100 位參加者，入場必須佩戴手環。',
+    selfFundedDinnerHeading: '第二日晚間自費晚餐',
+    selfFundedDinnerDescription:
+      '在 10 月 12 日 Sprint Day 結束後，歡迎參加自願性質的晚餐聚會，與其他開發者一起放鬆聊天，品嚐地道粵菜。',
+    headingToLabel: '我們將前往：',
+    restaurantDescription: '位於城大附近、深受歡迎的本地粵菜餐廳。',
+    mapButtonLabel: '在 Google 地圖查看',
+    speakersAccessLabel: '講者與已購票參加者',
+    speakersAccessDetail: '請於下午 2:00 至 3:30 到接待處領取手環。',
+    allAttendeesLabel: '所有參加者',
+    allAttendeesDetail: '其餘手環將於下午 3:30 至 6:00 派發，送完為止。',
+  },
+  'zh-hans': {
+    title: '餐饮指南',
+    lunchHeading: '午餐（第一日及第二日）',
+    lunchDescription: '为一整天的学习与交流补充能量。距离会场最近的餐厅就在楼上一层。',
+    locationLabel: '地点：',
+    openingHoursLabel: '营业时间：',
+    paymentNoteHeading: '付款须知',
+    paymentNote: '自助售卖机仅供学生使用，请使用右手边柜台现场付款。',
+    acceptedPaymentMethodsLabel: '接受付款方式：',
+    viewAllOutletsLabel: '查看城大所有餐饮设施 ->',
+    pyNightHeading: 'PyNight（第一日晚间）',
+    pyNightDescription:
+      '让交流继续延续吧！欢迎于 10 月 11 日会议日晚上 6:30 起参加社群聚会，一边享用轻食，一边与社群朋友自在聊天。',
+    joinPartyHeading: '如何参加聚会',
+    joinPartyDescription: '免费入场，但名额仅限前 100 位参加者，入场必须佩戴手环。',
+    selfFundedDinnerHeading: '第二日晚间自费晚餐',
+    selfFundedDinnerDescription:
+      '在 10 月 12 日 Sprint Day 结束后，欢迎参加自愿性质的晚餐聚会，与其他开发者一起放松聊天，品尝地道粤菜。',
+    headingToLabel: '我们将前往：',
+    restaurantDescription: '位于城大附近、深受欢迎的本地粤菜餐厅。',
+    mapButtonLabel: '在 Google 地图查看',
+    speakersAccessLabel: '讲者及已购票参加者',
+    speakersAccessDetail: '请于下午 2:00 至 3:30 到接待处领取手环。',
+    allAttendeesLabel: '所有参加者',
+    allAttendeesDetail: '其余手环将于下午 3:30 至 6:00 派发，送完即止。',
+  },
+  ja: {
+    title: '食事ガイド',
+    lunchHeading: 'ランチ（1日目・2日目）',
+    lunchDescription:
+      '学びと交流の一日に向けてしっかりエネルギー補給を。会場から最も近い食堂は1フロア上にあります。',
+    locationLabel: '場所:',
+    openingHoursLabel: '営業時間:',
+    paymentNoteHeading: '支払いに関する注意',
+    paymentNote:
+      '自動販売機は学生専用です。支払いは右側のカウンターで行ってください。',
+    acceptedPaymentMethodsLabel: '利用できる支払い方法:',
+    viewAllOutletsLabel: 'CityU の全飲食施設を見る ->',
+    pyNightHeading: 'PyNight（1日目の夜）',
+    pyNightDescription:
+      '会話の続きを楽しみましょう。10月11日（Conference Day）の午後 6:30 から、軽食付きのコミュニティ交流会を開催します。',
+    joinPartyHeading: '参加方法',
+    joinPartyDescription: '参加無料ですが、先着 100 名限定です。入場にはリストバンドが必要です。',
+    selfFundedDinnerHeading: '自己負担ディナー（2日目の夜）',
+    selfFundedDinnerDescription:
+      '10月12日（Sprint Day）終了後は、希望者向けの夕食会で交流を続けましょう。ローカルな広東料理を楽しみながら、参加者同士でゆっくり話せる機会です。',
+    headingToLabel: '今回向かうお店:',
+    restaurantDescription: 'CityU 近くで人気の広東料理レストランです。',
+    mapButtonLabel: 'Google マップで見る',
+    speakersAccessLabel: '登壇者・有料チケット参加者',
+    speakersAccessDetail: '午後 2:00 〜 3:30 の間に受付でリストバンドを受け取ってください。',
+    allAttendeesLabel: 'すべての参加者',
+    allAttendeesDetail:
+      '残りのリストバンドは午後 3:30 〜 6:00 の間に配布します。なくなり次第終了です。',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+const viewAllOutletsLabel = content.viewAllOutletsLabel.replace(/\s*->\s*$/, '');
+
+const paymentMethods: PaymentMethod[] = [
+  {
+    name: {
+      en: 'Credit Card',
+      'zh-hk': '信用卡',
+      'zh-hant': '信用卡',
+      'zh-hans': '信用卡',
+      ja: 'クレジットカード',
+    },
+    icon: 'credit-card',
+  },
+  {
+    name: {
+      en: 'Octopus',
+      'zh-hk': '八達通',
+      'zh-hant': '八達通',
+      'zh-hans': '八达通',
+      ja: 'Octopus',
+    },
+  },
+  {
+    name: {
+      en: 'AlipayHK',
+      'zh-hk': 'AlipayHK',
+      'zh-hant': 'AlipayHK',
+      'zh-hans': 'AlipayHK',
+      ja: 'AlipayHK',
+    },
+    icon: 'alipay',
+  },
+  {
+    name: {
+      en: 'Apple Pay',
+      'zh-hk': 'Apple Pay',
+      'zh-hant': 'Apple Pay',
+      'zh-hans': 'Apple Pay',
+      ja: 'Apple Pay',
+    },
+    icon: 'apple',
+  },
+  {
+    name: {
+      en: 'WeChat Pay HK',
+      'zh-hk': 'WeChat Pay HK',
+      'zh-hant': 'WeChat Pay HK',
+      'zh-hans': 'WeChat Pay HK',
+      ja: 'WeChat Pay HK',
+    },
+    icon: 'wechat',
+  },
+  {
+    name: {
+      en: 'Cash',
+      'zh-hk': '現金',
+      'zh-hant': '現金',
+      'zh-hans': '现金',
+      ja: '現金',
+    },
+    icon: 'currency-dollar-circle',
+  },
+];
+
+const pyNightAccess = [
+  {
+    label: content.speakersAccessLabel,
+    detail: content.speakersAccessDetail,
+  },
+  {
+    label: content.allAttendeesLabel,
+    detail: content.allAttendeesDetail,
+  },
+] as const;
+---
+
+<div class="mx-auto max-w-4xl px-1 py-8 sm:px-2 md:px-4">
+  <h1 class="mb-12 text-center text-xl font-bold leading-tight text-gray-700 sm:text-2xl md:text-3xl lg:text-4xl">
+    {content.title}
+  </h1>
+
+  <div class="space-y-12">
+    <section class="overflow-hidden rounded-lg bg-white shadow-md">
+      <div class="p-4 sm:p-6 md:p-8">
+        <h2 class="mb-4 flex items-center text-xl font-bold text-blue-700 md:text-2xl">
+          <Icon name="utensils" className="mr-4 h-6 w-6 flex-shrink-0" />
+          <span>{content.lunchHeading}</span>
+        </h2>
+
+        <p class="mb-6 text-sm text-gray-600 md:text-base lg:text-lg">
+          {content.lunchDescription}
+        </p>
+
+        <div class="space-y-2 rounded-lg bg-gray-50 p-4 text-sm md:text-base">
+          <p>
+            <strong>{content.locationLabel}</strong> City Express at
+            Yeung Kin Man Academic Building, 5/F
+          </p>
+          <p><strong>{content.openingHoursLabel}</strong> 07:00 - 21:00</p>
+        </div>
+
+        <div class="mt-4 rounded-r-lg border-l-4 border-yellow-400 bg-yellow-50 p-4 text-sm text-yellow-800 md:text-base">
+          <h3 class="mb-2 flex items-center font-bold">
+            <Icon name="information-circle-outline" className="mr-2 h-5 w-5 flex-shrink-0" />
+            {content.paymentNoteHeading}
+          </h3>
+          <p>{content.paymentNote}</p>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="mb-3 text-sm font-semibold text-gray-700 md:text-base">
+            {content.acceptedPaymentMethodsLabel}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {paymentMethods.map((method) => (
+              <div class="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-xs text-gray-700">
+                {method.icon && <Icon name={method.icon} className="h-4 w-4" />}
+                <span>{resolveRequiredLocalizedValue(method.name, locale)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a
+            href="https://www.cityu.edu.hk/en/directories/catering"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm text-blue-600 hover:underline"
+          >
+            <span>{viewAllOutletsLabel}</span>
+            <Icon name="arrow-right" className="h-4 w-4 flex-shrink-0" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="overflow-hidden rounded-lg bg-white shadow-md">
+      <div class="p-4 sm:p-6 md:p-8">
+        <h2 class="mb-4 flex items-center text-xl font-bold text-fuchsia-700 md:text-2xl">
+          <Icon name="glass-cheers" className="mr-4 h-6 w-6 flex-shrink-0" />
+          <span>{content.pyNightHeading}</span>
+        </h2>
+
+        <p class="mb-6 text-sm text-gray-600 md:text-base lg:text-lg">
+          {content.pyNightDescription}
+        </p>
+
+        <div class="mt-6 border-l-4 border-fuchsia-500 pl-4">
+          <h3 class="mb-2 text-base font-bold text-gray-800 md:text-lg">
+            {content.joinPartyHeading}
+          </h3>
+          <p class="mb-4 text-sm md:text-base">
+            {content.joinPartyDescription}
+          </p>
+          <div class="space-y-2 text-sm md:text-base">
+            {pyNightAccess.map((item) => (
+              <p>
+                <strong>{item.label}:</strong> {item.detail}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="overflow-hidden rounded-lg bg-white shadow-md">
+      <div class="p-4 sm:p-6 md:p-8">
+        <h2 class="mb-4 flex items-center text-xl font-bold text-amber-700 md:text-2xl">
+          <Icon name="store" className="mr-4 h-6 w-6 flex-shrink-0" />
+          <span>{content.selfFundedDinnerHeading}</span>
+        </h2>
+
+        <p class="mb-6 text-sm text-gray-600 md:text-base lg:text-lg">
+          {content.selfFundedDinnerDescription}
+        </p>
+
+        <div class="rounded-lg bg-gray-50 p-4 text-center text-sm md:text-base">
+          <p class="font-semibold text-gray-800">
+            {content.headingToLabel}
+          </p>
+          <p class="my-1 text-lg font-bold text-amber-800">Ban Heung Lau (品香樓)</p>
+          <p class="text-gray-600">{content.restaurantDescription}</p>
+        </div>
+
+        <div class="mt-6 flex justify-center text-sm md:text-base">
+          <a
+            href="https://maps.app.goo.gl/5Q4BdKbFn7GgaAY49"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-md bg-amber-600 px-6 py-3 font-medium text-white shadow-md transition-colors duration-300 hover:bg-amber-700"
+          >
+            <Icon name="map-marked-alt" className="h-5 w-5 flex-shrink-0" />
+            <span>{content.mapButtonLabel}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
