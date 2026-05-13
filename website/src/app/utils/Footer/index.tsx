@@ -4,6 +4,7 @@ import ToC from './ToC';
 
 export default function Footer() {
   const historyYears = [
+    '2025',
     '2024',
     '2023',
     '2022',
@@ -61,7 +62,7 @@ export default function Footer() {
 
       <div className='text-center pb-8 text-sm text-gray-400'>
         <Link
-          href='/privacy-policy'
+          href='/2025/privacy-policy'
           className='hover:text-white transition-colors duration-300'
         >
           Privacy Policy

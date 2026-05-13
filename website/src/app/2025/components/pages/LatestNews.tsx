@@ -40,7 +40,7 @@ export default async function LatestNews() {
           <ul className='space-y-4'>
             {posts.map(post => (
               <li key={post.slug} className='border-b border-gray-200 pb-4'>
-                <Link href={`/news/${post.slug}`} className='group'>
+                <Link href={`/2025/news/${post.slug}`} className='group'>
                   <h3 className='text-base md:text-xl font-semibold text-gray-700 group-hover:text-blue-600 transition-colors'>
                     {post.title}
                   </h3>
@@ -65,7 +65,7 @@ export default async function LatestNews() {
         {posts.length > 0 && (
           <div className='mt-6 text-center'>
             <Link
-              href='/news'
+              href='/2025/news'
               className='font-semibold text-blue-600 hover:underline'
             >
               View all news →
