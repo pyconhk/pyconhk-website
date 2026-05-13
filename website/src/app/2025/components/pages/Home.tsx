@@ -80,7 +80,7 @@ export default async function Home() {
 
           <div className='mt-2 md:mt-6 mb-2 animate-fade-in-up animation-delay-300 w-full text-center'>
             <Link
-              href='/schedule'
+              href='/2025/schedule'
               target='_blank'
               rel='noopener noreferrer'
               className='inline-block px-8 py-3 text-[#f4dc03] bg-[#016735] rounded-full shadow-sm hover:shadow-xl transform transition-all duration-300'

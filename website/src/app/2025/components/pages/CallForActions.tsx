@@ -141,7 +141,7 @@ export default async function CallForActions() {
               ))}
             </ul>
             <Link
-              href='/sponsorships/opportunities'
+              href='/2025/sponsorships/opportunities'
               className='text-base md:text-lg inline-flex items-center gap-2 justify-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200'
             >
               <span className='text-center'>Become a Sponsor</span>
