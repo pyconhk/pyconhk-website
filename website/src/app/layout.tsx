@@ -5,7 +5,10 @@ import { Montserrat } from 'next/font/google';
 import '../styles/globals.css';
 import Footer from './utils/Footer';
 
-const montserrat = Montserrat({ weight: ['500', '600'], subsets: ['latin'] });
+const montserrat = Montserrat({
+  weight: ['500', '600', '800', '900'],
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: 'PyCon HK 2026 CFP | Many Voices, One Python Story',

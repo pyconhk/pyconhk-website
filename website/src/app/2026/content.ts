@@ -20,6 +20,8 @@ export function resolveLocale(locale?: string): Locale {
 export const submitProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/cfp';
 export const editProposalUrl =
   'https://cfp.pycon.hk/pyconhk2026/me/submissions/';
+export const sponsorshipUrl =
+  'mailto:pycon@pycon.hk?subject=PyCon%20Hong%20Kong%202026%20Sponsorship';
 
 type LocaleMeta = {
   label: string;
@@ -30,6 +32,7 @@ type LocaleMeta = {
 type DateItem = {
   label: string;
   value: string;
+  status?: string;
   note: string;
 };
 
@@ -61,6 +64,7 @@ export type PageCopy = {
   cta: {
     submit: string;
     edit: string;
+    sponsorship: string;
   };
   programWall: {
     title: string;
@@ -95,7 +99,7 @@ export const localeMetadata: Record<Locale, LocaleMeta> = {
   'zh-hk': { label: '香港粵語', shortLabel: '粵', htmlLang: 'zh-HK' },
   'zh-hant': { label: '繁體中文', shortLabel: '繁', htmlLang: 'zh-Hant' },
   'zh-hans': { label: '简体中文', shortLabel: '简', htmlLang: 'zh-Hans' },
-  ko: { label: '한국어', shortLabel: 'KO', htmlLang: 'ko' },
+  ko: { label: '한국어', shortLabel: 'KR', htmlLang: 'ko' },
   ja: { label: '日本語', shortLabel: 'JA', htmlLang: 'ja' },
 };
 
@@ -113,17 +117,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     },
     hero: {
       badge: 'Speaker-friendly CFP',
-      headline: 'Many Voices, One Python Story',
+      headline: 'Many Voices,\nOne Python Story',
       subheadline: 'PyCon Hong Kong 2026 Call for Proposals',
       body: 'Bring the idea you keep explaining in hallways. A lesson, a tool, a story, a demo, a question worth sharing.',
     },
     cta: {
       submit: 'Submit a proposal',
       edit: 'Edit or view proposals',
+      sponsorship: 'Sponsor Us',
     },
     programWall: {
       title: 'Program notes, pinned for review',
-      caption: 'A good proposal is clear about the audience, the takeaway, and the shape of the session.',
+      caption:
+        'A good proposal is clear about the audience, the takeaway, and the shape of the session.',
     },
     keyDates: {
       title: 'Key dates, circled twice',
@@ -131,17 +137,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
       items: [
         {
           label: 'CFP deadline',
-          value: 'June 20, 2026\n23:59 HKT',
+          value: 'June 20, 2026',
           note: 'last-call energy',
         },
         {
           label: 'Conference',
           value: 'November 14,\n2026',
+          status: '(Tentative)',
           note: 'conference day',
         },
         {
           label: 'Sprint',
           value: 'November 15,\n2026',
+          status: '(Tentative)',
           note: 'build something together',
         },
       ],
@@ -216,115 +224,118 @@ export const contentByLocale: Record<Locale, PageCopy> = {
   },
   'zh-hk': {
     metadata: {
-      title: 'PyCon HK 2026 CFP | 好多把聲，同一個 Python 故事',
+      title: 'PyCon HK 2026 CFP | 多元聲音，同一個 Python 故事',
       description:
-        'PyCon Hong Kong 2026 現正徵集提案。截止時間係 2026 年 6 月 20 日 23:59 香港時間。',
+        'PyCon Hong Kong 2026 正徵集提案。提案截止時間為 2026 年 6 月 20 日 23:59 香港時間。',
     },
     localeMeta: localeMetadata['zh-hk'],
     nav: {
       brand: 'PyCon HK 2026 CFP',
-      tagline: '好多把聲，同一個 Python 故事',
+      tagline: '多元聲音，同一個 Python 故事',
     },
     hero: {
-      badge: '歡迎每一把聲',
-      headline: '好多把聲，同一個 Python 故事',
-      subheadline: 'PyCon Hong Kong 2026 現正徵集提案',
-      body: '帶嚟你想同社群分享嘅諗法：一個經驗、一個工具、一個故事、一個 demo，或者一條值得一齊諗嘅問題。',
+      badge: '以講者為本',
+      headline: '多元聲音，\n同一個 Python 故事',
+      subheadline: 'PyCon Hong Kong 2026 徵集提案',
+      body: '分享你嘅想法、專案、經驗同社群故事，讓更多人聽見你嘅 Python 觀點。',
     },
     cta: {
-      submit: '交提案',
-      edit: '睇返或修改提案',
+      submit: '提交提案',
+      edit: '編輯或查看提案',
+      sponsorship: '贊助合作',
     },
     programWall: {
-      title: '節目筆記，釘低先',
-      caption: '一份好提案，會講清楚對象、聽眾可以帶走啲咩，同埋 session 會點樣進行。',
+      title: '節目筆記板',
+      caption: '好嘅提案會清楚講明受眾、聽眾可以帶走咩，以及議程會點樣進行。',
     },
     keyDates: {
-      title: '重要日子，圈低佢',
+      title: '重要日期',
       timezone: 'Asia/Hong_Kong',
       items: [
         {
           label: '提案截止',
-          value: '2026 年 6 月 20 日\n23:59 HKT',
-          note: '最後召集',
+          value: '2026年6月20日',
+          note: '最後提醒',
         },
         {
-          label: '大會日期',
-          value: '2026 年 11 月 14 日',
-          note: '大會日',
+          label: '會議日期',
+          value: '2026年11月14日',
+          status: '（暫定）',
+          note: '會議日',
         },
         {
           label: 'Sprint',
-          value: '2026 年 11 月 15 日',
-          note: '一齊落手整',
+          value: '2026年11月15日',
+          status: '（暫定）',
+          note: '一齊動手實作',
         },
       ],
     },
     proposals: {
-      title: '徵集嘅節目形式',
-      intro: '揀一個最啱你個諗法嘅形式。',
+      title: '開放徵集形式',
+      intro: '選擇最能清楚傳達想法嘅形式。',
       types: [
         {
           index: '01',
-          title: '閃電分享',
-          description: '短短時間，講清一個 sharp 嘅諗法、demo 或經驗。',
+          title: '閃電演講',
+          description: '用短時間分享一個清楚嘅想法、展示或經驗。',
           tone: 'yellow',
         },
         {
           index: '02',
           title: '短講',
-          description: '集中講一個重點，留返空間畀聽眾消化。',
+          description: '聚焦說明一個重點，令聽眾容易帶走。',
           tone: 'white',
         },
         {
           index: '03',
           title: '演講',
-          description: '深入分享項目、系統、實戰經驗或者社群故事。',
+          description: '深入分享故事、系統、專案同實務經驗。',
           tone: 'lilac',
         },
         {
           index: '04',
           title: '海報展示',
-          description: '展示研究、工具、圖解，或者仲喺進行中嘅作品。',
+          description: '展示研究、工具、圖解或進行中嘅作品。',
           tone: 'sky',
         },
         {
           index: '05',
           title: 'Sprint',
-          description: '帶大家一齊圍住一個開源任務落手做。',
+          description: '邀請大家一齊投入一個開源任務。',
           tone: 'white',
         },
       ],
     },
     guidance: {
-      kicker: '提交提示',
-      title: '由你所在嘅位置開始講。',
-      body: '第一次做講者、本地故事、多語言分享、實用經驗，同埋誠實嘅試驗，我哋都好歡迎。',
+      kicker: '提交建議',
+      title: '由你所在嘅位置開始講起。',
+      body: '我哋歡迎第一次上台嘅講者、本地故事、多語言議程、實用經驗，以及誠實嘅實驗。',
       items: [
         {
           mark: '+',
-          text: '講清楚你個分享幫到邊個，同聽完可以帶走啲咩。',
+          text: '講明你嘅分享適合邊個，以及聽眾可以帶走咩。',
         },
         {
           mark: '?',
-          text: '用最能夠講清楚個諗法嘅語言嚟寫。',
+          text: '用最能展現想法嘅語言撰寫草稿。',
         },
         {
           mark: '!',
-          text: '講問題、講對象、講今次 session 會點樣進行。',
+          text: '清楚講明問題、受眾，以及議程形式。',
         },
       ],
     },
     finalCta: {
-      fragments: '好多把聲 / 一個 Python 故事',
-      title: '你嘅 Python 故事，應該出現喺節目入面。',
-      body: '請喺 2026 年 6 月 20 日 23:59 HKT 前提交，一齊塑造 PyCon Hong Kong 2026。',
+      fragments: '多元聲音 / 同一個 Python 故事',
+      title: '你嘅 Python 故事值得出現喺節目入面。',
+      body: '請於 2026 年 6 月 20 日 23:59 HKT 前提交，一齊塑造 PyCon Hong Kong 2026。',
     },
     decorativeFragments: [
-      '第一次分享都歡迎',
-      '香港同本地社群故事',
-      '工具、系統、demo',
-      '值得一齊諗嘅問題',
+      '歡迎第一次投稿',
+      '本地經驗同社群故事',
+      '工具、系統同展示',
+      '值得一齊討論嘅問題',
     ],
   },
   'zh-hant': {
@@ -340,13 +351,14 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     },
     hero: {
       badge: '以講者為本',
-      headline: '多元聲音，同一個 Python 故事',
+      headline: '多元聲音，\n同一個 Python 故事',
       subheadline: 'PyCon Hong Kong 2026 徵求提案',
       body: '分享你的想法、專案、經驗與社群故事，讓更多人聽見你的 Python 觀點。',
     },
     cta: {
       submit: '提交提案',
       edit: '編輯或查看提案',
+      sponsorship: '贊助合作',
     },
     programWall: {
       title: '節目筆記板',
@@ -358,17 +370,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
       items: [
         {
           label: '提案截止',
-          value: '2026 年 6 月 20 日\n23:59 HKT',
+          value: '2026年6月20日',
           note: '最後提醒',
         },
         {
           label: '會議日期',
-          value: '2026 年 11 月 14 日',
+          value: '2026年11月14日',
+          status: '（暫定）',
           note: '會議日',
         },
         {
           label: 'Sprint',
-          value: '2026 年 11 月 15 日',
+          value: '2026年11月15日',
+          status: '（暫定）',
           note: '一起動手實作',
         },
       ],
@@ -453,13 +467,14 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     },
     hero: {
       badge: '以讲者为本',
-      headline: '多元声音，同一个 Python 故事',
+      headline: '多元声音，\n同一个 Python 故事',
       subheadline: 'PyCon Hong Kong 2026 征集提案',
       body: '分享你的想法、项目、经验和社区故事，让更多人听见你的 Python 视角。',
     },
     cta: {
       submit: '提交提案',
       edit: '编辑或查看提案',
+      sponsorship: '赞助合作',
     },
     programWall: {
       title: '节目笔记板',
@@ -471,17 +486,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
       items: [
         {
           label: '提案截止',
-          value: '2026 年 6 月 20 日\n23:59 HKT',
+          value: '2026年6月20日',
           note: '最后提醒',
         },
         {
           label: '会议日期',
-          value: '2026 年 11 月 14 日',
+          value: '2026年11月14日',
+          status: '（暂定）',
           note: '会议日',
         },
         {
           label: 'Sprint',
-          value: '2026 年 11 月 15 日',
+          value: '2026年11月15日',
+          status: '（暂定）',
           note: '一起动手实践',
         },
       ],
@@ -566,17 +583,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     },
     hero: {
       badge: '발표자를 위한 CFP',
-      headline: '여러 목소리, 하나의 Python 이야기',
+      headline: '여러 목소리, 하나의\nPython 이야기',
       subheadline: 'PyCon Hong Kong 2026 발표 제안 모집',
       body: '아이디어, 프로젝트, 배운 점, 커뮤니티 이야기를 홍콩 Python 커뮤니티와 나눠 주세요.',
     },
     cta: {
       submit: '제안 제출하기',
       edit: '제안 수정 또는 보기',
+      sponsorship: '스폰서십',
     },
     programWall: {
       title: '프로그램 메모 보드',
-      caption: '좋은 제안서는 대상, 가져갈 수 있는 내용, 세션 진행 방식을 분명히 보여 줍니다.',
+      caption:
+        '좋은 제안서는 대상, 가져갈 수 있는 내용, 세션 진행 방식을 분명히 보여 줍니다.',
     },
     keyDates: {
       title: '중요 일정',
@@ -584,17 +603,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
       items: [
         {
           label: '제안 마감',
-          value: '2026년 6월 20일\n23:59 HKT',
+          value: '2026년 6월 20일',
           note: '마지막 알림',
         },
         {
           label: '컨퍼런스',
           value: '2026년 11월 14일',
+          status: '(예정)',
           note: '컨퍼런스 데이',
         },
         {
           label: 'Sprint',
           value: '2026년 11월 15일',
+          status: '(예정)',
           note: '함께 만들어 봅시다',
         },
       ],
@@ -679,17 +700,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     },
     hero: {
       badge: '登壇者歓迎',
-      headline: '多くの声、ひとつの Python ストーリー',
+      headline: '多くの声、ひとつの\nPython ストーリー',
       subheadline: 'PyCon Hong Kong 2026 プロポーザル募集',
       body: 'アイデア、プロジェクト、学び、コミュニティの物語を香港の Python コミュニティと共有してください。',
     },
     cta: {
       submit: 'プロポーザルを提出',
       edit: '編集または確認',
+      sponsorship: 'スポンサー募集',
     },
     programWall: {
       title: 'プログラムメモボード',
-      caption: 'よい提案は、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
+      caption:
+        'よい提案は、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
     },
     keyDates: {
       title: '重要な日程',
@@ -697,17 +720,19 @@ export const contentByLocale: Record<Locale, PageCopy> = {
       items: [
         {
           label: 'CFP 締切',
-          value: '2026 年 6 月 20 日\n23:59 HKT',
+          value: '2026年6月20日',
           note: '最後のお知らせ',
         },
         {
           label: 'カンファレンス',
-          value: '2026 年 11 月 14 日',
+          value: '2026年11月14日',
+          status: '（予定）',
           note: 'カンファレンスの日',
         },
         {
           label: 'Sprint',
-          value: '2026 年 11 月 15 日',
+          value: '2026年11月15日',
+          status: '（予定）',
           note: '一緒に手を動かす日',
         },
       ],
