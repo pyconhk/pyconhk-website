@@ -1,6 +1,9 @@
 import React from 'react';
 import ClickableLink from './ClickableLink';
 import NavigationDropdown from './Dropdown';
+
+const yearPath = '/2025';
+
 interface NavBarLink {
   label: string;
   href?: string;
@@ -11,7 +14,7 @@ interface NavBarLink {
 export const links: NavBarLink[] = [
   {
     label: 'News',
-    href: '/news',
+    href: `${yearPath}/news`,
     isActive: true,
   },
   {
@@ -21,17 +24,17 @@ export const links: NavBarLink[] = [
     children: [
       {
         label: 'Conference Schedule',
-        href: '/schedule',
+        href: `${yearPath}/schedule`,
         isActive: true,
       },
       {
         label: 'Access Guide',
-        href: '/access-guide',
+        href: `${yearPath}/access-guide`,
         isActive: true,
       },
       {
         label: 'Catering Guide',
-        href: '/catering-guide',
+        href: `${yearPath}/catering-guide`,
         isActive: true,
       },
     ],
@@ -43,17 +46,17 @@ export const links: NavBarLink[] = [
     children: [
       {
         label: 'Sprint Day',
-        href: '/sprint',
+        href: `${yearPath}/sprint`,
         isActive: true,
       },
       {
         label: 'Sprint Q&A',
-        href: '/sprint/qna/en',
+        href: `${yearPath}/sprint/qna/en`,
         isActive: true,
       },
       {
         label: 'Sprint Q&A (Chinese)',
-        href: '/sprint/qna/zh-hk',
+        href: `${yearPath}/sprint/qna/zh-hk`,
         isActive: true,
       },
     ],
@@ -65,12 +68,12 @@ export const links: NavBarLink[] = [
     children: [
       {
         label: 'Organizations',
-        href: '/organizers',
+        href: `${yearPath}/organizers`,
         isActive: true,
       },
       {
         label: 'Volunteers',
-        href: '/volunteers',
+        href: `${yearPath}/volunteers`,
         isActive: true,
       },
     ],
@@ -82,29 +85,29 @@ export const links: NavBarLink[] = [
     children: [
       {
         label: 'Sponsors',
-        href: '/sponsorships',
+        href: `${yearPath}/sponsorships`,
         isActive: true,
       },
       {
         label: 'Patrons',
-        href: '/sponsorships/patrons',
+        href: `${yearPath}/sponsorships/patrons`,
         isActive: true,
       },
       {
         label: 'Opportunities',
-        href: '/sponsorships/opportunities',
+        href: `${yearPath}/sponsorships/opportunities`,
         isActive: true,
       },
     ],
   },
   {
     label: 'Communities', //! to save space
-    href: '/supporting-organizations',
+    href: `${yearPath}/supporting-organizations`,
     isActive: true,
   },
   {
     label: 'About',
-    href: '/about',
+    href: `${yearPath}/about`,
     isActive: true,
   },
   {
@@ -113,17 +116,17 @@ export const links: NavBarLink[] = [
     children: [
       {
         label: 'Overview',
-        href: '/code-of-conduct',
+        href: `${yearPath}/code-of-conduct`,
         isActive: true,
       },
       {
         label: 'Enforcement Procedures',
-        href: '/code-of-conduct/staff-procedures',
+        href: `${yearPath}/code-of-conduct/staff-procedures`,
         isActive: true,
       },
       {
         label: 'Procedures for Reporting Incidents',
-        href: '/code-of-conduct/attendee-reporting',
+        href: `${yearPath}/code-of-conduct/attendee-reporting`,
         isActive: true,
       },
     ] as NavBarLink[],
@@ -136,7 +139,7 @@ export const links: NavBarLink[] = [
   },
   {
     label: 'Album',
-    href: '/album',
+    href: `${yearPath}/album`,
     isActive: true,
   },
 ];

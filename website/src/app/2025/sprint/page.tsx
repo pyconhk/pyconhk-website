@@ -381,7 +381,7 @@ export default async function Sprint() {
           </a>
 
           <Link
-            href='/sprint/qna/en'
+            href='/2025/sprint/qna/en'
             className='bg-white border-2 border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-md text-center transition-colors duration-300 flex items-center justify-center'
           >
             <AiOutlineQuestionCircle className='h-5 w-5 mr-2 text-blue-500' />

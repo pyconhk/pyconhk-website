@@ -5,33 +5,25 @@ import { Montserrat } from 'next/font/google';
 import '../styles/globals.css';
 import Footer from './utils/Footer';
 
-import ogImage from '../../public/2025/landing-pages/open-graph.webp';
-
-const montserrat = Montserrat({ weight: ['500', '600'], subsets: ['latin'] });
+const montserrat = Montserrat({
+  weight: ['500', '600', '800', '900'],
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
-  title: 'The leading Python Conference in Hong Kong',
+  title: 'PyCon HK 2026 CFP | Many Voices, One Python Story',
   description:
-    'PyCon Hong Kong is the leading Python conference in Hong Kong, bringing together Python enthusiasts to share their insights and foster collaboration.',
+    'Submit a proposal for PyCon Hong Kong 2026. Many voices, one Python story.',
   openGraph: {
-    title: 'PyCon HK 2025',
-    description: 'The leading Python Conference in Hong Kong',
+    title: 'PyCon HK 2026 CFP',
+    description: 'Many Voices, One Python Story',
     url: process.env.NEXT_PUBLIC_SITE_URL,
-    siteName: 'PyCon HK 2025',
-    images: [
-      {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}${ogImage.src}`,
-        width: ogImage.width,
-        height: ogImage.height,
-        alt: 'PyCon HK 2025',
-      },
-    ],
+    siteName: 'PyCon HK 2026',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'PyCon HK 2025',
-    description: 'The leading Python Conference in Hong Kong',
-    images: [`${process.env.NEXT_PUBLIC_SITE_URL}${ogImage.src}`],
+    card: 'summary',
+    title: 'PyCon HK 2026 CFP',
+    description: 'Many Voices, One Python Story',
     creator: '@pyconhk',
     site: '@pyconhk',
   },

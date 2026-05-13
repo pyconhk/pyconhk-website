@@ -210,13 +210,40 @@ const fetchProxy = async (url: string, request: NextRequest) => {
   }
 };
 
-const albumConfig = {
+const albumConfig: Partial<Record<string, string>> = {
   2025: 'https://drive.google.com/drive/folders/1xZPVXsE7_0amFbSM6lLgyeKsyzgmTd-k?usp=sharing',
+};
+
+const legacy2025PathPrefixes = [
+  '/about',
+  '/access-guide',
+  '/album',
+  '/catering-guide',
+  '/code-of-conduct',
+  '/news',
+  '/organizers',
+  '/privacy-policy',
+  '/schedule',
+  '/sponsorships',
+  '/sprint',
+  '/supporting-organizations',
+  '/volunteers',
+];
+
+const getLegacy2025RedirectPath = (pathname: string) => {
+  if (pathname === '/sponsors') {
+    return '/2025/sponsorships/opportunities';
+  }
+
+  const matchedPrefix = legacy2025PathPrefixes.find(
+    prefix => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
+  return matchedPrefix ? `/2025${pathname}` : null;
 };
 
 export default async function yearRewriteMiddleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const currentYear = '2025'; // Set current year here
+  const currentYear = '2026'; // Set current year here
 
   const isWordPressPath = wordPressProxyPaths.some(path =>
     pathname.startsWith(path)
@@ -250,14 +277,18 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
     return fetchProxy(externalUrl, request);
   }
 
-  if (pathname === '/sponsors') {
-    return NextResponse.rewrite(
-      new URL(`/${currentYear}/sponsorships/opportunities`, request.url)
+  const legacy2025RedirectPath = getLegacy2025RedirectPath(pathname);
+  if (legacy2025RedirectPath) {
+    return NextResponse.redirect(
+      new URL(`${legacy2025RedirectPath}${search}`, request.url),
+      308
     );
   }
 
   if (pathname.includes('/album')) {
-    const albumUrl = albumConfig[currentYear];
+    const albumYear =
+      pathname.match(/^\/(20\d{2})(?:\/|$)/)?.[1] ?? currentYear;
+    const albumUrl = albumConfig[albumYear];
     if (albumUrl) {
       return NextResponse.redirect(albumUrl, 301);
     }
@@ -269,9 +300,7 @@ export default async function yearRewriteMiddleware(request: NextRequest) {
   }
 
   if (!pathname.match(/^\/20\d{2}/)) {
-    return NextResponse.rewrite(
-      new URL(`/${currentYear}${pathname}`, request.url)
-    );
+    return NextResponse.rewrite(new URL(`/${currentYear}`, request.url));
   }
 
   return null;
