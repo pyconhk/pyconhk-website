@@ -21,6 +21,7 @@ export const submitProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/cfp';
 export const editProposalUrl =
   'https://cfp.pycon.hk/pyconhk2026/me/submissions/';
 export const sponsorshipUrl =
+  process.env.NEXT_PUBLIC_CALL_FOR_SPONSORSHIPS_URL ??
   'mailto:pycon@pycon.hk?subject=PyCon%20Hong%20Kong%202026%20Sponsorship';
 
 type LocaleMeta = {
