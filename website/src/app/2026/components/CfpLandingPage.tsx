@@ -53,7 +53,7 @@ const compactHeaderLabels: Record<
   'zh-hant': { proposal: '提案', sponsor: '贊助' },
   'zh-hans': { proposal: '提案', sponsor: '赞助' },
   ko: { proposal: '제안', sponsor: '후원' },
-  ja: { proposal: '提案', sponsor: 'スポンサー' },
+  ja: { proposal: 'プロポーザル', sponsor: 'スポンサー' },
 };
 
 const localeHref = (item: Locale) =>

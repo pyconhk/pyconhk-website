@@ -713,7 +713,7 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     programWall: {
       title: 'プログラムメモボード',
       caption:
-        'よい提案は、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
+        'よいプロポーザルは、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
     },
     keyDates: {
       title: '重要な日程',
