@@ -596,7 +596,7 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     programWall: {
       title: '프로그램 메모 보드',
       caption:
-        '좋은 제안서는 대상, 가져갈 수 있는 내용, 세션 진행 방식을 분명히 보여 줍니다.',
+        '좋은 제안서는 대상, 취득 가능한 사항, 세션 진행 방식을 분명히 보여 줍니다.',
     },
     keyDates: {
       title: '중요 일정',
@@ -713,7 +713,7 @@ export const contentByLocale: Record<Locale, PageCopy> = {
     programWall: {
       title: 'プログラムメモボード',
       caption:
-        'よい提案は、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
+        'よいプロポーザルは、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
     },
     keyDates: {
       title: '重要な日程',
