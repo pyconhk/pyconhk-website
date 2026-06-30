@@ -6,7 +6,7 @@
 
 **Architecture:** Treat `/Users/alexau/Project/pyconhk-website` at commit `ac67700` as the target monorepo base. Treat each older worktree as a source-of-truth slice, then map root `src/`, `public/`, `scripts/`, `astro.config.mjs`, `tsconfig.json`, and `wrangler.toml` changes into `website/` paths without reintroducing root-level website files. Use scoped verification through `mise run //website:*` and repo verification through `mise run ci`.
 
-**Tech Stack:** Astro 7, Bun 1.3.10, Node 26.4.0, mise 2026.6.14+, Biome, Cloudflare Pages for the public website, Vercel for the CMS.
+**Tech Stack:** Astro 7, Bun 1.3.10, Node 24.18.0, mise 2026.6.14+, Biome, Cloudflare Pages for the public website, Vercel for the CMS.
 
 ---
 

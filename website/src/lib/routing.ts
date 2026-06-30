@@ -13,6 +13,10 @@ import {
 } from '@/years/2025/data/sections';
 import { isSupportedSubpage, siteSubpages } from '@/years/2025/data/subpages';
 
+const sectionAliases: Partial<Record<string, SiteSectionSlug>> = {
+  sponsors: 'sponsorships',
+};
+
 function normalizeSuffix(suffix: string): string {
   return suffix.replace(/^\/+|\/+$/g, '');
 }
@@ -83,28 +87,61 @@ export function getCurrentYearLocaleStaticPaths() {
   }));
 }
 
+function getSectionRouteSlugs(section: SiteSectionSlug): string[] {
+  const aliases = Object.entries(sectionAliases)
+    .filter(([, canonicalSection]) => canonicalSection === section)
+    .map(([alias]) => alias);
+
+  return [section, ...aliases];
+}
+
+export function getDefaultLocaleSectionStaticPaths() {
+  return siteSections.flatMap((section) =>
+    getSectionRouteSlugs(section.slug).map((sectionSlug) => ({
+      params: {
+        section: sectionSlug,
+      },
+    }))
+  );
+}
+
+export function getDefaultLocaleSubpageStaticPaths() {
+  return siteSubpages.flatMap((subpage) =>
+    getSectionRouteSlugs(subpage.section).map((sectionSlug) => ({
+      params: {
+        section: sectionSlug,
+        subsection: subpage.subsection,
+      },
+    }))
+  );
+}
+
 export function getCurrentYearLocaleSectionStaticPaths() {
   return locales.flatMap((locale) =>
     siteSections
       .filter((section) => section.slug !== 'news')
-      .map((section) => ({
-        params: {
-          locale: locale.code,
-          section: section.slug,
-        },
-      }))
+      .flatMap((section) =>
+        getSectionRouteSlugs(section.slug).map((sectionSlug) => ({
+          params: {
+            locale: locale.code,
+            section: sectionSlug,
+          },
+        }))
+      )
   );
 }
 
 export function getCurrentYearLocaleSubpageStaticPaths() {
   return locales.flatMap((locale) =>
-    siteSubpages.map((subpage) => ({
-      params: {
-        locale: locale.code,
-        section: subpage.section,
-        subsection: subpage.subsection,
-      },
-    }))
+    siteSubpages.flatMap((subpage) =>
+      getSectionRouteSlugs(subpage.section).map((sectionSlug) => ({
+        params: {
+          locale: locale.code,
+          section: sectionSlug,
+          subsection: subpage.subsection,
+        },
+      }))
+    )
   );
 }
 
@@ -117,11 +154,15 @@ export function resolveLocaleParam(value: string | undefined): SiteLocale {
 }
 
 export function resolveSectionParam(value: string | undefined): SiteSectionSlug {
-  if (!value || !isSupportedSection(value)) {
+  if (!value) {
     return 'about';
   }
 
-  return value;
+  if (isSupportedSection(value)) {
+    return value;
+  }
+
+  return sectionAliases[value] ?? 'about';
 }
 
 export function resolveSubpageParam(

@@ -1,16 +1,14 @@
 ---
 import { defaultLocale, type SiteYear } from '@/config/site';
-import { resolveSectionParam, resolveSubpageParam } from '@/lib/routing';
-import { siteSubpages } from '@/years/2025/data/subpages';
+import {
+  getDefaultLocaleSubpageStaticPaths,
+  resolveSectionParam,
+  resolveSubpageParam,
+} from '@/lib/routing';
 import SubpagePage from '@/years/2025/routes/SubpagePage.astro';
 
 export function getStaticPaths() {
-  return siteSubpages.map((subpage) => ({
-    params: {
-      section: subpage.section,
-      subsection: subpage.subsection,
-    },
-  }));
+  return getDefaultLocaleSubpageStaticPaths();
 }
 
 const year: SiteYear = 2025;

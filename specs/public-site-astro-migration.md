@@ -258,7 +258,7 @@ The project should not assume all assets fit into one strategy.
 ## Workstream 6: Tooling Alignment
 
 - keep app formatting and linting on Biome
-- ensure Bun 1.3.10 and Node 26.4.0 are provisioned through mise in local and CI environments
+- ensure Bun 1.3.10 and Node 24.18.0 are provisioned through mise in local and CI environments
 - ensure root `mise run //...` and app-scoped `mise run //website:*` / `mise run //cms:*` task paths are documented and verified in CI
 - keep archived implementation files out of active app tooling scope
 

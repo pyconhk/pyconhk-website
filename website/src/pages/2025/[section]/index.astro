@@ -1,16 +1,11 @@
 ---
 import { defaultLocale, type SiteYear } from '@/config/site';
-import { resolveSectionParam } from '@/lib/routing';
-import { siteSections } from '@/years/2025/data/sections';
+import { getDefaultLocaleSectionStaticPaths, resolveSectionParam } from '@/lib/routing';
 import NewsIndexPage from '@/years/2025/routes/NewsIndexPage.astro';
 import SectionPage from '@/years/2025/routes/SectionPage.astro';
 
 export function getStaticPaths() {
-  return siteSections.map((section) => ({
-    params: {
-      section: section.slug,
-    },
-  }));
+  return getDefaultLocaleSectionStaticPaths();
 }
 
 const year: SiteYear = 2025;

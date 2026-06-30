@@ -111,10 +111,10 @@ Related docs:
 - [x] Remove the root `package-lock.json` so the active apps are not npm-lockfile-led.
 - [x] Keep the archived Next.js app isolated from the active TypeScript configurations.
 - [x] Add Bun to the local developer environment so app-owned install/check/build tasks are verified.
-- [x] Add Bun 1.3.10 and Node 26.4.0 to CI via mise.
+- [x] Add Bun 1.3.10 and Node 24.18.0 to CI via mise.
 - [x] Configure the root mise file with `monorepo_root = true` and explicit `[monorepo].config_roots` for `website/` and `cms/`.
-- [ ] Decide production CMS runtime handling while Vercel serverless does not support Node 26.
-- [ ] Confirm Cloudflare Pages uses Node 26.4.0 and Bun 1.3.10 for the `website/` build.
+- [x] Pin production-compatible Node 24.18.0 for the CMS runtime.
+- [ ] Confirm Cloudflare Pages uses Node 24.18.0 and Bun 1.3.10 for the `website/` build.
 - [x] Add mise monorepo task paths for checking and building the website app and CMS app together.
 - [x] Document repo-level `mise run //...` commands and app-scoped `mise run //website:*` / `mise run //cms:*` commands using current stable mise monorepo settings.
 

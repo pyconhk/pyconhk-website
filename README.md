@@ -10,7 +10,7 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - Tailwind CSS 4
 - Biome for linting and formatting
 - Bun 1.3.10 for package management and script execution
-- Node.js 26.4.0 for Astro tooling
+- Node.js 24.18.0 for Astro tooling
 - Outstatic-compatible repository content files for news content
 - Decap CMS under `cms/` for multilingual editorial updates
 
@@ -27,7 +27,7 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 
 - mise 2026.6.14 or newer
 - Bun 1.3.10, provisioned by mise
-- Node.js 26.4.0, provisioned by mise
+- Node.js 24.18.0, provisioned by mise
 
 ## Quick Start
 
@@ -54,7 +54,7 @@ This setup uses the current stable mise monorepo settings.
 
 ## Common Commands
 
-- `mise install` - install Node 26.4.0 and Bun 1.3.10 from mise
+- `mise install` - install Node 24.18.0 and Bun 1.3.10 from mise
 - `mise run install` - install dependencies for both apps sequentially
 - `mise run //...:build` - build every app with a local `build` task
 - `mise run //...:check` - check every app with a local `check` task
