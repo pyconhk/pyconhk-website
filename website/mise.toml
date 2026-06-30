@@ -25,7 +25,7 @@ bun run preview -- --host 127.0.0.1 --port 8788
 description = "Build and preview the public website through Wrangler Pages"
 run = """
 bun run build
-bunx wrangler pages dev dist --ip 127.0.0.1 --port 8788
+bunx wrangler pages dev dist --local --ip 127.0.0.1 --port 8788
 """
 
 [tasks.check]
