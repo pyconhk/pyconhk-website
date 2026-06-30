@@ -1,0 +1,33 @@
+---
+import LegacyShell from '@/legacy/LegacyShell.astro';
+import { legacyArchives } from '@/legacy/legacy-indexes';
+
+const archives = legacyArchives.filter((page) => page.type === 'tag');
+---
+
+<LegacyShell
+  title="Tag Archives"
+  description="Browse legacy PyCon Hong Kong posts by tag."
+  eyebrow="Legacy Archives"
+>
+  <section class="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
+    <div class="mb-8 border-b border-slate-200 pb-6">
+      <p class="text-sm font-semibold text-slate-500">Tags</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+        Tag Archives
+      </h1>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {archives.map((archive) => (
+        <a
+          href={archive.path}
+          class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-300 hover:shadow-md"
+        >
+          <p class="text-lg font-bold text-slate-950">{archive.title.replace(/^Tag: /u, '')}</p>
+          <p class="mt-2 text-sm text-slate-600">{archive.items.length} posts</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</LegacyShell>
