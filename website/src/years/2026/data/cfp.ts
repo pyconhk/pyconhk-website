@@ -17,7 +17,7 @@ export const submitProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/cfp';
 export const editProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/me/submissions/';
 export const sponsorshipUrl =
   import.meta.env.PUBLIC_CALL_FOR_SPONSORSHIPS_URL ??
-  'mailto:pycon@pycon.hk?subject=PyCon%20Hong%20Kong%202026%20Sponsorship';
+  'mailto:pycon@pycon.hk?cc=calvin@opensource.hk&subject=Regarding%20Sponsoring%20PyCon%20HK%202026';
 
 type LocaleMeta = {
   label: string;
