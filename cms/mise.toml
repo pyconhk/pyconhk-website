@@ -1,0 +1,38 @@
+[tools]
+bun = "1.3.10"
+node = "26.4.0"
+
+[tasks.install]
+description = "Install CMS dependencies"
+run = "bun install --frozen-lockfile"
+
+[tasks.dev]
+description = "Start the CMS dev server"
+run = "bun run dev"
+
+[tasks.build]
+description = "Build the CMS app"
+run = "bun run build"
+
+[tasks.preview]
+description = "Build and preview the CMS app locally"
+run = """
+bun run build
+bun run preview
+"""
+
+[tasks.check]
+description = "Run CMS type and lint checks"
+run = "bun run check && bun run lint"
+
+[tasks.lint]
+description = "Lint the CMS app"
+run = "bun run lint"
+
+[tasks.format]
+description = "Format the CMS app"
+run = "bun run format"
+
+[tasks.local-backend]
+description = "Start the Decap local backend"
+run = "bun run cms:local-backend"

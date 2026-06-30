@@ -1,0 +1,40 @@
+---
+import { cleanLegacyText } from '@/legacy/legacy-indexes';
+import LegacyArchiveShell from '@/years/2022/components/LegacyArchiveShell.astro';
+import archive from '@/years/2022/data/archive.json';
+
+const { year, landing } = archive;
+const landingDescription = cleanLegacyText(landing.description);
+const cards = landing.cards.map((card) => ({
+  ...card,
+  description: cleanLegacyText(card.description),
+}));
+---
+
+<LegacyArchiveShell
+  title={landing.title}
+  description={landingDescription}
+  year={year}
+  currentPath={`/${year}/`}
+>
+  <section class="legacy-container">
+    <p class="legacy-kicker">Archive</p>
+    <h1 class="legacy-title">{landing.title}</h1>
+    <p class="legacy-description">{landingDescription}</p>
+
+    <div class="legacy-grid">
+      {
+        cards.map((card) => (
+          <a class="legacy-card" href={card.url}>
+            {card.image?.src && <img src={card.image.src} alt={card.image.alt || ''} loading="lazy" />}
+            <div class="legacy-card__body">
+              {card.date?.label && <p class="legacy-card__date">{card.date.label}</p>}
+              <h2>{card.title}</h2>
+              <p>{card.description}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</LegacyArchiveShell>

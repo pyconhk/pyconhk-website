@@ -1,0 +1,13 @@
+---
+import LegacyYearLanding from '@/legacy/LegacyYearLanding.astro';
+import { getHighlightsForEdition } from '@/legacy/year-highlights';
+
+const highlights = getHighlightsForEdition('2015');
+---
+
+<LegacyYearLanding
+  title="PyCon HK 2015"
+  description="Photos and highlights from the first PyCon Hong Kong archive."
+  editionLabel="PyCon HK 2015"
+  highlights={highlights}
+/>

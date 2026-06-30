@@ -1,0 +1,17 @@
+---
+import {
+  resolveLocaleParam,
+  resolveSectionParam,
+} from '@/lib/routing';
+import SectionPage from '@/years/2025/routes/SectionPage.astro';
+import { conferenceYear } from '@/years/2025/site';
+
+export function getStaticPaths() {
+  return [] as { params: { locale: string; section: string } }[];
+}
+
+const locale = resolveLocaleParam(Astro.params.locale);
+const section = resolveSectionParam(Astro.params.section);
+---
+
+<SectionPage year={conferenceYear} locale={locale} section={section} />

@@ -1,6 +1,6 @@
 # ADR 0001: Root-Level Astro App
 
-- Status: accepted
+- Status: superseded by `0007-top-level-website-cms-monorepo.md`
 - Date: 2026-03-07
 
 ## Context

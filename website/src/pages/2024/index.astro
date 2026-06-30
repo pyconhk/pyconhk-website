@@ -1,0 +1,57 @@
+---
+import ArchiveLayout from '@/years/2024/components/ArchiveLayout.astro';
+import { legacy2024Listing, legacy2024Pages } from '@/years/2024/data/pages';
+
+const listedUrls = new Set(legacy2024Listing.map((item) => item.url));
+const landingItems = [
+  ...legacy2024Listing,
+  ...legacy2024Pages
+    .filter((page) => !listedUrls.has(page.url))
+    .map((page) => ({
+      title: page.title,
+      url: page.url,
+      dateTime: page.dateTime,
+      dateLabel: page.dateLabel,
+      excerpt: page.description,
+    })),
+].sort((a, b) => (Date.parse(b.dateTime ?? '') || 0) - (Date.parse(a.dateTime ?? '') || 0));
+---
+
+<ArchiveLayout
+  title="PyCon HK 2024 Archive"
+  description="Archived PyCon Hong Kong 2024 news and conference pages."
+>
+  <section class="container mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-5xl">
+      <div class="border-b border-slate-200 pb-8">
+        <p class="text-sm font-bold uppercase tracking-wide text-brand-blue-dark">Archive</p>
+        <h1 class="mt-3 font-display text-4xl font-bold text-brand-black md:text-6xl">
+          PyCon HK 2024
+        </h1>
+        <p class="mt-4 max-w-3xl text-lg leading-8 text-muted">
+          News, conference information, schedule, sponsor, community, organizer, and policy pages migrated from the 2024 WordPress archive.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-4">
+        {
+          landingItems.map((item) => (
+            <article class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-md md:p-6">
+              {item.dateTime && item.dateLabel && (
+                <p class="text-xs font-semibold uppercase tracking-wide text-muted">
+                  <time datetime={item.dateTime}>{item.dateLabel}</time>
+                </p>
+              )}
+              <h2 class="mt-2 font-display text-2xl font-bold leading-tight text-brand-black">
+                <a href={item.url} class="hover:text-brand-blue-dark">
+                  {item.title}
+                </a>
+              </h2>
+              {item.excerpt && <p class="mt-3 text-base leading-7 text-slate-600">{item.excerpt}</p>}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</ArchiveLayout>

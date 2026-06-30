@@ -1,0 +1,116 @@
+---
+import { siteName } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { pageTitle } from '@/legacy/legacy-indexes';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+}
+
+const { title, description, eyebrow } = Astro.props;
+---
+
+<BaseLayout title={pageTitle(title)} description={description || siteName}>
+  <div class="min-h-screen bg-slate-50 text-slate-800">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+        <a href="/" class="text-xl font-bold text-slate-950">PyCon HK</a>
+        <nav class="flex flex-wrap gap-3 text-sm font-semibold text-slate-600">
+          <a class="rounded-full px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/2024/photos/">Highlights</a>
+          <a class="rounded-full px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/2024/">Archives</a>
+          <a class="rounded-full px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/2020/">2020</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="border-b border-slate-200 bg-white">
+        <div class="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
+          {eyebrow && <p class="mb-3 text-sm font-bold uppercase tracking-wide text-teal-700">{eyebrow}</p>}
+          <h1 class="max-w-4xl text-4xl font-bold leading-tight text-slate-950 md:text-5xl">{title}</h1>
+        </div>
+      </section>
+
+      <slot />
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div class="mx-auto max-w-6xl px-5 py-8 text-sm text-slate-500 lg:px-8">
+        Migrated from the legacy PyCon HK WordPress archive.
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .legacy-content {
+    overflow-wrap: anywhere;
+  }
+
+  .legacy-content > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .legacy-content p,
+  .legacy-content li {
+    color: rgb(51 65 85);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .legacy-content a {
+    color: rgb(15 118 110);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .legacy-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  .legacy-content figure {
+    margin: 0;
+  }
+
+  .legacy-content figcaption {
+    margin-top: 0.5rem;
+    color: rgb(100 116 139);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .legacy-content .wp-block-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .legacy-content .wp-block-gallery .wp-block-image {
+    min-width: 0;
+  }
+
+  .legacy-content iframe {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  .legacy-excerpt p {
+    color: rgb(71 85 105);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .legacy-excerpt a {
+    color: rgb(15 118 110);
+    font-weight: 700;
+  }
+</style>

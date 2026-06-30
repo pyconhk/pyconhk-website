@@ -1,0 +1,91 @@
+name: Promote CMS Content
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: promote-cms-content
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    name: Promote cms to main
+    runs-on: ubuntu-latest
+    env:
+      CMS_BRANCH: cms
+      PRODUCTION_BRANCH: main
+    steps:
+      - name: Check out production branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.PRODUCTION_BRANCH }}
+          fetch-depth: 0
+          token: ${{ secrets.CMS_PROMOTION_TOKEN || github.token }}
+
+      - name: Fetch deployment branches
+        run: |
+          git fetch origin "${PRODUCTION_BRANCH}" "${CMS_BRANCH}"
+
+      - name: Check for CMS changes
+        id: changes
+        run: |
+          changed_files="$(git diff --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}")"
+
+          if [ -z "${changed_files}" ]; then
+            echo "has_changes=false" >> "${GITHUB_OUTPUT}"
+            echo "No CMS changes to promote."
+            exit 0
+          fi
+
+          echo "has_changes=true" >> "${GITHUB_OUTPUT}"
+          {
+            echo "changed_files<<EOF"
+            echo "${changed_files}"
+            echo "EOF"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Refuse non-CMS changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          disallowed_files="$(
+            printf '%s\n' "${{ steps.changes.outputs.changed_files }}" |
+              grep -Ev '^(website/outstatic/content/|website/outstatic/media/|website/public/outstatic/images/)' || true
+          )"
+
+          if [ -n "${disallowed_files}" ]; then
+            echo "The cms branch contains changes outside CMS-owned content paths:"
+            printf '%s\n' "${disallowed_files}"
+            exit 1
+          fi
+
+      - name: Merge CMS content locally
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "pyconhk-cms-promoter"
+          git config user.email "actions@github.com"
+          git checkout -B cms-content-promotion "origin/${PRODUCTION_BRANCH}"
+          git merge --no-ff --no-edit "origin/${CMS_BRANCH}"
+
+      - name: Set up mise
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: jdx/mise-action@v4
+
+      - name: Install website dependencies
+        if: steps.changes.outputs.has_changes == 'true'
+        run: mise run //website:install
+
+      - name: Validate website with promoted content
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          mise run //website:check
+          mise run //website:build
+
+      - name: Push promoted content
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git push origin HEAD:"${PRODUCTION_BRANCH}"

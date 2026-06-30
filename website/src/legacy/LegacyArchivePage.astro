@@ -1,0 +1,92 @@
+---
+import LegacyShell from '@/legacy/LegacyShell.astro';
+import { cleanLegacyHtml, cleanLegacyText, type LegacyArchiveRecord } from '@/legacy/legacy-indexes';
+
+interface Props {
+  page: LegacyArchiveRecord;
+}
+
+const { page } = Astro.props;
+const eyebrow = page.type === 'page' ? 'Post Archive' : `${page.type[0].toUpperCase()}${page.type.slice(1)} Archive`;
+const description = cleanLegacyText(page.description);
+const items = page.items.map((item) => ({
+  ...item,
+  excerptHtml: cleanLegacyHtml(item.excerptHtml),
+}));
+---
+
+<LegacyShell title={page.title} description={description} eyebrow={eyebrow}>
+  <section class="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
+    <div class="mb-8 flex flex-col gap-2 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <p class="text-sm font-semibold text-slate-500">
+        {page.items.length} posts on this page
+      </p>
+      <p class="text-sm font-semibold text-slate-500">
+        Page {page.pageNumber}
+      </p>
+    </div>
+
+    <div class="grid gap-5">
+      {items.map((item) => (
+        <article class="grid overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm md:grid-cols-[16rem_minmax(0,1fr)]">
+          {item.image ? (
+            <a href={item.href} class="block bg-slate-100">
+              <img
+                class="h-56 w-full object-cover md:h-full"
+                src={item.image.src}
+                alt={item.image.alt}
+                width={item.image.width}
+                height={item.image.height}
+                loading="lazy"
+              />
+            </a>
+          ) : (
+            <div class="hidden bg-slate-100 md:block" />
+          )}
+          <div class="p-5 sm:p-6">
+            <h2 class="text-2xl font-bold leading-snug text-slate-950">
+              <a class="hover:text-teal-700" href={item.href}>{item.title}</a>
+            </h2>
+            {item.date && (
+              <p class="mt-2 text-sm font-semibold text-slate-500">
+                {item.isoDate ? <time datetime={item.isoDate}>{item.date}</time> : item.date}
+              </p>
+            )}
+            {item.excerptHtml && (
+              <div class="legacy-excerpt mt-4" set:html={item.excerptHtml} />
+            )}
+            <a class="mt-5 inline-flex rounded-full bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-teal-700" href={item.href}>
+              Read More
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    {page.pagination.length > 0 && (
+      <nav class="mt-10 flex flex-wrap gap-2" aria-label="Archive pagination">
+        {page.pagination.map((item) => (
+          item.href ? (
+            <a
+              class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-teal-700 hover:text-teal-700"
+              href={item.href}
+              rel={item.rel}
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span
+              class:list={[
+                'rounded-full px-4 py-2 text-sm font-bold',
+                item.current ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-500',
+              ]}
+              aria-current={item.current ? 'page' : undefined}
+            >
+              {item.label}
+            </span>
+          )
+        ))}
+      </nav>
+    )}
+  </section>
+</LegacyShell>

@@ -1,0 +1,87 @@
+---
+import { preferredLocaleCookie, siteName } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { eyebrow, leadText, pillButton, sectionPanel, supportingText } from '@/lib/ui';
+import {
+  type CfpLocale,
+  localeMetadata,
+  supportedLocales,
+} from '@/years/2026/data/cfp';
+
+interface Props {
+  prefixed?: boolean;
+}
+
+const { prefixed = false } = Astro.props;
+
+function localePath(locale: CfpLocale) {
+  return prefixed ? `/2026/${locale}/` : `/${locale}/`;
+}
+
+const localeLinks = supportedLocales.map((locale) => ({
+  code: locale,
+  label: localeMetadata[locale].label,
+  href: localePath(locale),
+}));
+const localePaths = Object.fromEntries(
+  supportedLocales.map((locale) => [locale, localePath(locale)])
+);
+const title = `${siteName} 2026 CFP | Redirecting`;
+const description = 'Choose your preferred PyCon Hong Kong 2026 CFP locale.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class:list={[sectionPanel, 'mx-auto mt-[16vh] max-w-3xl space-y-6']}>
+    <p class={eyebrow}>Locale Redirect</p>
+    <h1 class="font-serif text-4xl leading-none text-ink sm:text-5xl lg:text-6xl">
+      {title}
+    </h1>
+    <p class={leadText}>{description}</p>
+
+    <div class="flex flex-wrap gap-3">
+      {
+        localeLinks.map((locale) => (
+          <a class={pillButton} href={locale.href}>
+            {locale.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <noscript>
+      <p class={supportingText}>
+        JavaScript is disabled. Choose a locale manually to continue.
+      </p>
+    </noscript>
+  </section>
+
+  <script
+    is:inline
+    data-astro-rerun
+    define:vars={{
+      cookieName: preferredLocaleCookie,
+      defaultLocale: 'en',
+      localePaths,
+    }}
+  >
+    const readCookie = name => {
+      const prefix = `${name}=`;
+      const match = document.cookie
+        .split(';')
+        .map(value => value.trim())
+        .find(value => value.startsWith(prefix));
+
+      return match ? decodeURIComponent(match.slice(prefix.length)) : '';
+    };
+
+    const preferredLocale = readCookie(cookieName);
+    const nextLocale = Object.hasOwn(localePaths, preferredLocale)
+      ? preferredLocale
+      : defaultLocale;
+    const nextPath = localePaths[nextLocale] || localePaths[defaultLocale];
+
+    if (window.location.pathname !== nextPath) {
+      window.location.replace(nextPath);
+    }
+  </script>
+</BaseLayout>

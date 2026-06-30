@@ -1,0 +1,25 @@
+---
+import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import { getHighlightsForEdition } from '@/legacy/year-highlights';
+import ArchiveArticle from '@/years/2024/components/ArchiveArticle.astro';
+import { legacy2024Pages } from '@/years/2024/data/pages';
+
+export function getStaticPaths() {
+  const highlights = getHighlightsForEdition('2024');
+
+  return [
+    ...legacy2024Pages.map((page) => ({
+      params: { slug: page.slug },
+      props: { archivePage: page },
+    })),
+    ...highlights.map((highlight) => ({
+      params: { slug: highlight.slug },
+      props: { highlightPage: highlight.page },
+    })),
+  ];
+}
+
+const { archivePage, highlightPage } = Astro.props;
+---
+
+{highlightPage ? <LegacyHighlightPage page={highlightPage} /> : <ArchiveArticle page={archivePage} />}

@@ -1,10 +1,37 @@
+monorepo_root = true
+
 [tools]
-bun = "latest"
+bun = "1.3.10"
+node = "26.4.0"
+
+[monorepo]
+config_roots = [
+  "website",
+  "cms",
+]
+
+[tasks.install]
+description = "Install dependencies for all apps sequentially"
+run = """
+mise //website:install
+mise //cms:install
+"""
 
 [tasks.dev]
-description = "Build and serve the site with Wrangler Pages"
-run = "bun run build && bunx wrangler pages dev dist --local --port 8788"
+description = "Start the public website dev server"
+run = "mise //website:dev"
+
+[tasks.ci]
+description = "Check and build all apps"
+run = """
+mise //...:check
+mise //...:build
+"""
 
 [tasks.preview]
-description = "Preview the built site with Wrangler Pages"
-run = "bun run build && bunx wrangler pages dev dist --local --port 8788"
+description = "Build and preview the public website locally"
+run = "mise //website:preview"
+
+[tasks.cloudflare-preview]
+description = "Preview with Wrangler Pages for Cloudflare redirect/runtime checks"
+run = "mise //website:cloudflare-preview"

@@ -6,19 +6,20 @@ on:
 
 jobs:
   pull_request_check:
-    name: Pull Request Check
+    name: Branch Rules
     runs-on: ubuntu-latest
     steps:
       - name: Check PR branch rules
         run: |
-          # Rule 1: Only test & cms branches can merge to main
+          # Rule 1: Only test can merge to main.
+          # The cms branch is promoted by the scheduled content workflow, not by PR.
           if [ "${{ github.base_ref }}" == "main" ]; then
-            if [ "${{ github.head_ref }}" != "test" ] && [ "${{ github.head_ref }}" != "cms" ]; then
-              echo "❌ Error: Only 'test' or 'cms' branches can merge to 'main'"
+            if [ "${{ github.head_ref }}" != "test" ]; then
+              echo "❌ Error: Only 'test' can merge to 'main'"
               echo "Current source branch: ${{ github.head_ref }}"
               echo "Target branch: ${{ github.base_ref }}"
               echo ""
-              echo "Please merge your changes to 'test' first, or use the 'cms' branch for content changes"
+              echo "Please merge code changes to 'test' first. CMS content is promoted by workflow."
               exit 1
             else
               echo "✅ Valid: ${{ github.head_ref }} branch merging to main"
@@ -47,3 +48,22 @@ jobs:
             echo "✅ Valid: PR targeting 'test' from '${{ github.head_ref }}'"
             echo "This follows the correct branching strategy"
           fi
+
+  validate:
+    name: Validate Monorepo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up mise
+        uses: jdx/mise-action@v4
+
+      - name: Install dependencies
+        run: mise run install
+
+      - name: Check website and CMS
+        run: mise run '//...:check'
+
+      - name: Build website and CMS
+        run: mise run '//...:build'

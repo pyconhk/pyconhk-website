@@ -1,0 +1,35 @@
+---
+import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import { getHighlightsForEdition } from '@/legacy/year-highlights';
+import LegacyArchiveLayout from '@/years/2018/components/LegacyArchiveLayout.astro';
+import { legacyArchivePages } from '@/years/2020-fall/data/pages';
+
+export function getStaticPaths() {
+  const highlights = getHighlightsForEdition('2020-fall');
+
+  return [
+    ...legacyArchivePages.map((page) => ({
+      params: { slug: page.slug },
+      props: { archivePage: page },
+    })),
+    ...highlights.map((highlight) => ({
+      params: { slug: highlight.slug },
+      props: { highlightPage: highlight.page },
+    })),
+  ];
+}
+
+const { archivePage, highlightPage } = Astro.props;
+---
+
+{
+  highlightPage ? (
+    <LegacyHighlightPage page={highlightPage} />
+  ) : (
+    <LegacyArchiveLayout
+      editionLabel="PyCon HK 2020 Fall"
+      pages={legacyArchivePages}
+      page={archivePage}
+    />
+  )
+}

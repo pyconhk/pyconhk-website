@@ -1,0 +1,14 @@
+---
+import { resolveLocaleParam } from '@/lib/routing';
+import NewsArticlePage from '@/years/2025/routes/NewsArticlePage.astro';
+import { conferenceYear } from '@/years/2025/site';
+
+export async function getStaticPaths() {
+  return [] as { params: { locale: string; slug: string } }[];
+}
+
+const locale = resolveLocaleParam(Astro.params.locale);
+const slug = Astro.params.slug || '';
+---
+
+<NewsArticlePage year={conferenceYear} locale={locale} slug={slug} />

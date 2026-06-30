@@ -1,0 +1,27 @@
+---
+import { defaultLocale, type SiteYear } from '@/config/site';
+import { resolveSectionParam } from '@/lib/routing';
+import { siteSections } from '@/years/2025/data/sections';
+import NewsIndexPage from '@/years/2025/routes/NewsIndexPage.astro';
+import SectionPage from '@/years/2025/routes/SectionPage.astro';
+
+export function getStaticPaths() {
+  return siteSections.map((section) => ({
+    params: {
+      section: section.slug,
+    },
+  }));
+}
+
+const year: SiteYear = 2025;
+const locale = defaultLocale;
+const section = resolveSectionParam(Astro.params.section);
+---
+
+{
+  section === 'news' ? (
+    <NewsIndexPage year={year} locale={locale} />
+  ) : (
+    <SectionPage year={year} locale={locale} section={section} />
+  )
+}

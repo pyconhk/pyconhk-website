@@ -1,0 +1,96 @@
+---
+import '@/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import {
+  defaultOpenGraphDescription,
+  defaultOpenGraphTitle,
+  defaultSeoDescription,
+  defaultSeoTitle,
+  siteName,
+  socialHandle,
+} from '@/config/site';
+import { buildSeoMetadata, toOpenGraphLocale } from '@/lib/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  htmlLang?: string;
+  imagePath?: string;
+}
+
+const {
+  title = defaultSeoTitle,
+  description = defaultSeoDescription,
+  htmlLang = 'en-HK',
+  imagePath,
+} = Astro.props;
+const seo = buildSeoMetadata({
+  pathname: Astro.url.pathname,
+  imagePath,
+});
+const openGraphTitle = title || defaultOpenGraphTitle;
+const openGraphDescription = description || defaultOpenGraphDescription;
+const googleAnalyticsId = process.env.PUBLIC_GA_ID || process.env.NEXT_PUBLIC_GA_ID;
+const isTestEnvironment =
+  process.env.PUBLIC_IS_TEST_ENV === 'true' ||
+  process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true';
+const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironment);
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={seo.canonicalUrl} />
+    {seo.alternates.map((alternate) => (
+      <link rel="alternate" hreflang={alternate.hreflang} href={alternate.href} />
+    ))}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={openGraphTitle} />
+    <meta property="og:description" content={openGraphDescription} />
+    <meta property="og:url" content={seo.canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={toOpenGraphLocale(htmlLang)} />
+    {seo.alternates.filter((alternate) => alternate.hreflang !== 'x-default').map((alternate) => (
+      <meta property="og:locale:alternate" content={toOpenGraphLocale(alternate.hreflang)} />
+    ))}
+    <meta property="og:image" content={seo.imageUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={openGraphTitle} />
+    <meta name="twitter:description" content={openGraphDescription} />
+    <meta name="twitter:creator" content={socialHandle} />
+    <meta name="twitter:site" content={socialHandle} />
+    <meta name="twitter:image" content={seo.imageUrl} />
+    <link rel="icon" href="/favicon.ico" />
+    <ClientRouter />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Montserrat:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    {
+      shouldLoadGoogleAnalytics && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`} />
+          <script is:inline define:vars={{ googleAnalyticsId }}>
+            window.dataLayer = window.dataLayer || []
+            function gtag(...args) {
+              window.dataLayer.push(args)
+            }
+            gtag('js', new Date())
+            gtag('config', googleAnalyticsId)
+          </script>
+        </>
+      )
+    }
+  </head>
+  <body class="min-h-screen overflow-x-clip bg-white font-sans font-medium text-slate-700 antialiased">
+    <div class="min-h-screen overflow-x-clip">
+      <slot />
+    </div>
+  </body>
+</html>

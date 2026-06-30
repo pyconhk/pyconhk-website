@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This document defines the target architecture and delivery requirements for migrating the public PyCon Hong Kong website from the current Next.js implementation to Astro.
+This document defines the target architecture and delivery requirements for migrating the public PyCon Hong Kong website from the previous Next.js implementation to Astro.
 
-The scope of this specification is the public website only. `cms.pycon.hk` remains a separate editorial system. The active Astro app lives at the repository root, while the current Next.js implementation is archived for reference.
+The scope of this specification is the public website. ADR 0007 expands the repository shape to a top-level `website/` + `cms/` monorepo, with the active public Astro app under `website/` and the Decap CMS app under `cms/`. The previous Next.js implementation is archived for reference.
 
 ## Problem Statement
 
@@ -24,12 +24,12 @@ This increases maintenance cost and makes deployment behavior harder to predict.
 - Treat English and Cantonese as equal first-class locales.
 - Preserve editorial workflows for news and business-managed content.
 - Improve confidence in rollout and rollback.
-- Start from a clean root-level application structure instead of continuing under `website/`.
+- Start from a clean top-level `website/` application structure instead of continuing the old Next.js app in place.
 
 ### Technical Goals
 
 - Move the public site to Astro.
-- Move the active application from `website/` to the repository root.
+- Keep the active public website application under top-level `website/`.
 - Replace implicit rewrite-driven navigation with explicit route structure.
 - Reduce hardcoded year and locale duplication.
 - Render content from repository-managed source files with a cleaner pipeline.
@@ -38,8 +38,8 @@ This increases maintenance cost and makes deployment behavior harder to predict.
 
 ## Non-Goals
 
-- Replacing Outstatic.
-- Migrating `cms.pycon.hk`.
+- Replacing the repository content contract that the public website consumes.
+- Embedding CMS runtime behavior into the public website.
 - Building authenticated product features.
 - Re-implementing legacy WordPress redirects or proxy behavior in the first Astro foundation.
 - Reworking business editorial processes during the first migration phase.
@@ -99,14 +99,14 @@ This means the site should treat committed content files and their related metad
 
 ## 3. Workspace And Tooling Layer
 
-The root-level app should use a clean, low-friction toolchain that matches the migration goals.
+The `website/` app should use a clean, low-friction toolchain that matches the migration goals.
 
 Requirements:
 
 - Biome is the formatter and linter for the active app.
-- Root editor defaults should align with Biome.
+- Editor defaults should align with Biome.
 - The active app should be Bun-friendly for install and script execution.
-- Archived implementation details should stay isolated from root-level build and typecheck scope.
+- Archived implementation details should stay isolated from active build and typecheck scope.
 
 ## URL Model
 
@@ -257,9 +257,10 @@ The project should not assume all assets fit into one strategy.
 
 ## Workstream 6: Tooling Alignment
 
-- keep root formatting and linting centralized in Biome
-- ensure Bun-based install and script execution are documented and verified in CI
-- keep archived implementation files out of active root tooling scope
+- keep app formatting and linting on Biome
+- ensure Bun 1.3.10 and Node 26.4.0 are provisioned through mise in local and CI environments
+- ensure root `mise run //...` and app-scoped `mise run //website:*` / `mise run //cms:*` task paths are documented and verified in CI
+- keep archived implementation files out of active app tooling scope
 
 ## Risks And Mitigations
 

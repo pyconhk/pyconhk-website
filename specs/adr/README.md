@@ -10,3 +10,4 @@ This directory captures the high-impact decisions for the Astro migration.
 - `0004-external-outstatic-cms-boundary.md`
 - `0005-biome-as-root-tooling.md`
 - `0006-bun-as-preferred-runtime.md`
+- `0007-top-level-website-cms-monorepo.md`
