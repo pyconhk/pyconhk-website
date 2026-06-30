@@ -1,0 +1,15 @@
+---
+import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import { legacyHighlights } from '@/legacy/legacy-indexes';
+
+export function getStaticPaths() {
+  return legacyHighlights.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<LegacyHighlightPage page={page} />

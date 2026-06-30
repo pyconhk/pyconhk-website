@@ -1,0 +1,17 @@
+---
+import LegacyArchivePage from '@/legacy/LegacyArchivePage.astro';
+import { legacyArchives } from '@/legacy/legacy-indexes';
+
+export function getStaticPaths() {
+  return legacyArchives
+    .filter((page) => page.type === 'tag')
+    .map((page) => ({
+      params: { slug: page.slug },
+      props: { page },
+    }));
+}
+
+const { page } = Astro.props;
+---
+
+<LegacyArchivePage page={page} />
