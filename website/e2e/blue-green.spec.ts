@@ -49,7 +49,7 @@ const criticalPages = [
   },
   {
     path: '/2024/',
-    title: /PyCon HK 2024/,
+    title: /2024 - PyCon HK/,
     text: /PyCon HK 2024/,
   },
   {
@@ -127,6 +127,49 @@ test.describe('blue-green launch smoke', () => {
       await expect(page.getByText(pageCheck.text).first()).toBeVisible();
     });
   }
+
+  test('serves legacy year archives with live WordPress archive structure', async ({
+    page,
+  }) => {
+    const response2018 = await page.goto('/2018/');
+
+    expect(response2018?.status()).toBe(200);
+    await expect(page).toHaveTitle(/2018 - PyCon HK/);
+    await expect(page.getByRole('heading', { name: /Category:\s*2018/u })).toBeVisible();
+    await expect(page.locator('article.posts-entry.blogposts-list')).toHaveCount(21);
+    await expect(page.locator('article.posts-entry.blogposts-list').first()).toContainText(
+      /PyCon HK 2018 Photos/u
+    );
+    await expect(page.locator('#secondary .search-form')).toBeVisible();
+    await expect(page.locator('#secondary .widget_archive')).toBeVisible();
+    await expect(page.locator('a.next.page-numbers[href="/2018/page/2/"]')).toBeVisible();
+
+    const response2024 = await page.goto('/2024/');
+
+    expect(response2024?.status()).toBe(200);
+    await expect(page).toHaveTitle(/2024 - PyCon HK/);
+    await expect(page.locator('li.wp-block-post')).toHaveCount(21);
+    await expect(page.locator('li.wp-block-post').first()).toContainText(
+      /PyCon HK 2024 Photos/u
+    );
+    await expect(page.locator('.voyago-sidebar .voyago-search')).toBeVisible();
+    await expect(page.locator('.voyago-sidebar select')).toBeVisible();
+    await expect(page.locator('a.next.page-numbers[href="/2024/page/2/"]')).toBeVisible();
+
+    const pageTwoResponse = await page.goto('/2018/page/2/');
+
+    expect(pageTwoResponse?.status()).toBe(200);
+    await expect(page.locator('article.posts-entry.blogposts-list')).toHaveCount(18);
+    await expect(page.locator('span.page-numbers.current')).toHaveText('2');
+    await expect(page.locator('a.prev.page-numbers[href="/2018/"]')).toBeVisible();
+
+    const pageTwo2024Response = await page.goto('/2024/page/2/');
+
+    expect(pageTwo2024Response?.status()).toBe(200);
+    await expect(page.locator('li.wp-block-post')).toHaveCount(3);
+    await expect(page.locator('span.page-numbers.current')).toHaveText('2');
+    await expect(page.locator('a.prev.page-numbers[href="/2024/"]')).toBeVisible();
+  });
 
   test('serves robots and sitemap for production crawling', async ({ request }) => {
     const robots = await request.get('/robots.txt');

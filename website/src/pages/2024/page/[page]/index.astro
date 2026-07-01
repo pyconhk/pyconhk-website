@@ -1,0 +1,22 @@
+---
+import LegacyVoyagoYearArchivePage from '@/legacy/LegacyVoyagoYearArchivePage.astro';
+import {
+  getLegacyYearArchive,
+  getLegacyYearArchivePageNumbers,
+} from '@/legacy/legacy-year-archives';
+
+const year = '2024';
+
+export function getStaticPaths() {
+  return getLegacyYearArchivePageNumbers('2024')
+    .filter((pageNumber) => pageNumber > 1)
+    .map((pageNumber) => ({
+      params: { page: String(pageNumber) },
+      props: { page: getLegacyYearArchive('2024', pageNumber) },
+    }));
+}
+
+const { page } = Astro.props;
+---
+
+<LegacyVoyagoYearArchivePage year={year} page={page} />

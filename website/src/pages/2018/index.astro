@@ -1,6 +1,9 @@
 ---
-import LegacyArchiveLayout from '@/years/2018/components/LegacyArchiveLayout.astro';
-import { legacyArchivePages } from '@/years/2018/data/pages';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyYearArchive } from '@/legacy/legacy-year-archives';
+
+const year = '2018';
+const page = getLegacyYearArchive(year);
 ---
 
-<LegacyArchiveLayout editionLabel="PyCon HK 2018" pages={legacyArchivePages} />
+<LegacyYearArchivePage year={year} page={page} />
