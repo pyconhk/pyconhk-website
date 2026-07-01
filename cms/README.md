@@ -127,4 +127,4 @@ bun run check
 bun run lint
 ```
 
-The root `mise.toml` provisions Bun 1.3.10 and Node 26.4.0. It uses current stable mise monorepo settings with `monorepo_root = true` and explicit `[monorepo].config_roots` for `website/` and `cms/`.
+The root `mise.toml` provisions Bun 1.3.10 and Node 24.18.0. It uses current stable mise monorepo settings with `monorepo_root = true` and explicit `[monorepo].config_roots` for `website/` and `cms/`.

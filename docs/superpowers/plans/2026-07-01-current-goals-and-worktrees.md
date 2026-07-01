@@ -1,0 +1,170 @@
+# Current Astro Goals And Worktree Audit
+
+Date: 2026-07-01
+
+This is the current coordination note for the Astro migration work after auditing the
+forked worktrees with parallel agents. It supersedes the unchecked execution state in
+`docs/superpowers/plans/2026-07-01-astro-worktree-port.md`.
+
+## Agent Audit Summary
+
+- Current-year and locale audit: no missing 2025 parity or 2026 CFP code should be
+  ported. The source worktrees are older than `astro-migration` in a few shared config
+  files.
+- Legacy year and asset audit: legacy route/data/page slices for 2018, 2020 Spring,
+  2020 Fall, 2021, 2022, 2023, and 2024 are represented in `astro-migration`; older
+  branch route files are superseded by the current highlight/sanitization handling.
+- Archive index, redirect, SEO, and deploy audit: archive indexes, 2025 compatibility,
+  SEO primitives, Wrangler config, and mise monorepo tasks are represented. One
+  missing redirect block for `/conference-highlights` was identified and should be
+  integrated into `website/public/_redirects`.
+- Task-document audit: several historical todo items are stale. The real remaining
+  work is launch hardening, content validation, visual parity evidence, CMS operations,
+  and cleanup.
+
+## Worktree Classification
+
+Keep these worktrees as historical snapshots until the owner approves cleanup; do not
+merge them blindly.
+
+| Worktree | Branch | Current classification |
+| --- | --- | --- |
+| `/Users/alexau/Project/pyconhk-website` | `astro-migration` | Active target branch |
+| `/Users/alexau/Project/pyconhk-website-integrate-current-deploy` | `codex/integrate-current-deploy` | Integrated into active target |
+| `/Users/alexau/Project/pyconhk-website-integrate-legacy-archives` | `codex/integrate-legacy-archives` | Integrated into active target |
+| `/Users/alexau/Project/pyconhk-website-2025-parity` | `codex/astro-2025-parity` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-2026-cfp` | `codex/astro-2026-cfp` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-legacy-2018-2021` | `codex/astro-legacy-2018-2021` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-legacy-2022-2023` | `codex/astro-legacy-2022-2023` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-legacy-2024` | `codex/astro-legacy-2024` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-legacy-indexes` | `codex/astro-legacy-indexes` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-legacy-urls` | `codex/astro-legacy-urls` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-seo-deploy` | `codex/astro-seo-deploy` | Obsolete root-layout source snapshot |
+| `/Users/alexau/Project/pyconhk-website-port-2025-parity` | `codex/port-2025-parity` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-2026-cfp` | `codex/port-2026-cfp` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-2018-2021` | `codex/port-legacy-2018-2021` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-2022-2023` | `codex/port-legacy-2022-2023` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-2024` | `codex/port-legacy-2024` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-indexes` | `codex/port-legacy-indexes` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-urls` | `codex/port-legacy-urls` | Clean port; superseded after highlight redirects land |
+| `/Users/alexau/Project/pyconhk-website-port-seo-deploy` | `codex/port-seo-deploy` | Clean port; superseded |
+
+## Remaining Goals
+
+### P0: Commit And Verify Asset Pruning
+
+The active working tree intentionally prunes unused legacy WordPress assets so the
+repository no longer carries the full crawled payload. The current `website/public`
+size is about 82 MB and `website/public/legacy-wp` is about 74 MB.
+
+Success conditions:
+
+- A reference scanner over generated pages and source content reports zero missing
+  `/legacy-wp/...` paths, including URL-encoded filenames.
+- `website/public` stays comfortably below 100 MB.
+- `MISE_EXPERIMENTAL=0 mise run ci` exits 0 after the prune and redirect changes.
+- The commit contains only intentional asset deletions, `_redirects`, and this
+  coordination documentation.
+
+### P0: Finish 2026 Current-Year SEO And Routing Hardening
+
+`currentConferenceYear` is 2026, and neutral locale routes serve the 2026 CFP, but
+some SEO and sitemap code still needs a launch-mode review.
+
+Success conditions:
+
+- `website/src/lib/seo.ts` and `website/src/pages/sitemap.xml.ts` produce the intended
+  current-year and archive-year metadata without relying on stale 2025 assumptions.
+- `website/src/pages/robots.txt.ts` reflects the intended launch policy instead of
+  accidentally blocking production indexing.
+- Canonical URLs, alternate links, sitemap entries, and Open Graph data are verified
+  for `/`, `/en/`, `/zh-hk/`, `/2026/`, `/2026/en/`, `/2025/en/`, and legacy archive
+  highlight pages.
+
+### P0: Resolve Locale Scope Drift
+
+The Astro i18n config and 2026 CFP data include `ko`, while the shared site locale
+model is narrower. Decide whether Korean is CFP-only or a global public-site locale.
+
+Success conditions:
+
+- Locale configuration, route helpers, sitemap output, and docs all describe the same
+  locale policy.
+- Korean CFP pages either build and link intentionally or are removed from public route
+  generation until the site-wide locale model supports them.
+- Locale switching behavior is documented for pages without translated equivalents.
+
+### P0: Produce Visual Parity Evidence Against Live `pycon.hk`
+
+The migration still needs browser evidence that local Astro pages match or intentionally
+differ from the live site.
+
+Success conditions:
+
+- Start the local site through mise-managed tasks.
+- Compare desktop and mobile screenshots for the critical routes: `/`, `/en/`,
+  `/zh-hk/`, `/2025/en/`, `/2025/zh-hk/`, `/2026/en/`, `/2024/`, `/2023/`,
+  `/conference-highlights/pycon-hk-2024-photos/`, `/news/`, and one article page.
+- Record intentional differences, regressions, and broken assets with screenshot paths.
+
+### P1: Harden News Rendering And Validation
+
+News listing and detail pages exist, but content validation and rendering policy still
+need cleanup.
+
+Success conditions:
+
+- Duplicate slugs, malformed frontmatter, missing descriptions, missing cover images,
+  missing tags, and broken internal links fail a validation command.
+- Per-post Open Graph images use the post cover image when available.
+- Markdown/HTML rendering policy is documented; any remaining `set:html` usage is
+  intentional and sanitized or otherwise justified.
+
+### P1: CMS And Branching Operations
+
+The Decap CMS app and promotion workflow exist, but production operations still need
+secrets, branch protections, and deployment checks.
+
+Success conditions:
+
+- `cms.pycon.hk` deploys the CMS app from production code, not from the content branch.
+- Decap writes only to the `cms` branch and only to CMS-owned paths.
+- The scheduled promotion workflow can merge content-only changes into `main` every
+  10 minutes after website check/build validation.
+- Multi-locale content editing is documented and tested through the CMS UI.
+
+### P1: Blue-Green Cutover And Rollback
+
+The public site still needs operational cutover evidence before replacing live traffic.
+
+Success conditions:
+
+- A green Cloudflare Pages environment exists with the Astro build.
+- Smoke tests cover redirects, locale cookies, critical pages, static assets, robots,
+  and sitemap.
+- Rollback steps are documented and rehearsed.
+
+### P2: Worktree Cleanup
+
+There are many local worktrees because earlier migration slices were forked before the
+monorepo layout settled. They are useful for audit history but no longer need active
+development.
+
+Success conditions:
+
+- The owner confirms which worktrees should be removed.
+- Each candidate worktree is clean or has its useful diff captured elsewhere.
+- `git worktree remove` is used only after confirmation; branches are deleted only by
+  explicit owner instruction.
+
+## Suggested Next Parallel Assignments
+
+- SEO/routing worker: owns `website/src/lib/seo.ts`, `website/src/pages/sitemap.xml.ts`,
+  `website/src/pages/robots.txt.ts`, and route metadata checks.
+- Locale worker: owns shared locale config, route helpers, Astro i18n config, and docs
+  for Korean CFP scope.
+- Visual QA worker: owns local-vs-live browser comparison and screenshot/report output.
+- News validation worker: owns content validation command, post metadata, and rendering
+  policy notes.
+- CMS ops worker: owns branch protection assumptions, Decap environment documentation,
+  and promotion workflow verification.

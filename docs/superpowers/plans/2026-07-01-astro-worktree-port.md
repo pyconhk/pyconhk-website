@@ -1,5 +1,10 @@
 # Astro Worktree Port Implementation Plan
 
+> **Current status (2026-07-01):** This plan is now historical. The worktree-port
+> tasks below were audited with parallel agents after the monorepo migration, and the
+> current source of truth is
+> `docs/superpowers/plans/2026-07-01-current-goals-and-worktrees.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Port every existing root-layout Astro migration worktree 1-to-1 into the newer monorepo layout where the public site lives under `website/` and shared execution is driven by current `mise` monorepo tasks.
