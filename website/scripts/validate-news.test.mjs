@@ -1,0 +1,130 @@
+import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { validateNewsContent } from './validate-news.mjs';
+
+async function createFixture(files) {
+  const root = await mkdtemp(path.join(tmpdir(), 'pyconhk-news-validation-'));
+  const contentRoot = path.join(root, 'content');
+  const publicRoot = path.join(root, 'public');
+  const postsRoot = path.join(contentRoot, '2025-posts');
+
+  await mkdir(postsRoot, { recursive: true });
+  await mkdir(path.join(publicRoot, 'outstatic/images'), { recursive: true });
+  await writeFile(path.join(publicRoot, 'outstatic/images/cover.webp'), '');
+
+  for (const [name, source] of Object.entries(files)) {
+    await writeFile(path.join(postsRoot, name), source.trimStart());
+  }
+
+  return {
+    contentRoot,
+    publicRoot,
+    cleanup: () => rm(root, { recursive: true, force: true }),
+  };
+}
+
+const validPost = `---
+title: "Valid post"
+description: "A useful short description for previews."
+publishedAt: "2025-10-10T00:00:00.000Z"
+status: "published"
+author:
+  name: "PyCon HK"
+slug: "valid-post"
+coverImage: "/outstatic/images/cover.webp"
+tags:
+  - announcement
+---
+
+Read the [schedule](/2025/en/schedule/).
+`;
+
+test('accepts complete localized news content', async () => {
+  const fixture = await createFixture({
+    'valid-post.en.mdx': validPost,
+  });
+
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.deepEqual(result.errors, []);
+  } finally {
+    await fixture.cleanup();
+  }
+});
+
+test('reports malformed metadata, duplicate slugs, missing assets, and broken internal links', async () => {
+  const fixture = await createFixture({
+    'broken-post.en.mdx': `---
+title: ""
+publishedAt: "not-a-date"
+status: "published"
+slug: "broken-post"
+coverImage: "/outstatic/images/missing.webp"
+tags: []
+---
+
+Read the [missing page](/missing-page/).
+`,
+    'duplicate-one.en.mdx': validPost.replace('slug: "valid-post"', 'slug: "duplicate"'),
+    'duplicate-two.en.mdx': validPost.replace('slug: "valid-post"', 'slug: "duplicate"'),
+    'bad-description.en.mdx': validPost
+      .replace('slug: "valid-post"', 'slug: "bad-description"')
+      .replace(
+        'description: "A useful short description for previews."',
+        `description: "${'a'.repeat(241)}..."`
+      ),
+  });
+
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.match(result.errors.join('\n'), /missing required description/);
+    assert.match(result.errors.join('\n'), /duplicate slug "duplicate"/);
+    assert.match(result.errors.join('\n'), /missing local cover image/);
+    assert.match(result.errors.join('\n'), /broken internal link \/missing-page\//);
+    assert.match(result.errors.join('\n'), /invalid publishedAt/);
+    assert.match(result.errors.join('\n'), /description must be 240 characters or fewer/);
+    assert.match(result.errors.join('\n'), /description must not end with an ellipsis/);
+  } finally {
+    await fixture.cleanup();
+  }
+});
+
+test('reports broken year-aware internal routes', async () => {
+  const fixture = await createFixture({
+    'valid-post.en.mdx': validPost.replace(
+      'Read the [schedule](/2025/en/schedule/).',
+      'Read the [missing archive page](/2025/en/not-real/).'
+    ),
+  });
+
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.match(result.errors.join('\n'), /broken internal link \/2025\/en\/not-real\//);
+  } finally {
+    await fixture.cleanup();
+  }
+});
+
+test('accepts known 2025 internal routes and localized news articles', async () => {
+  const fixture = await createFixture({
+    'valid-post.en.mdx': validPost.replace(
+      'Read the [schedule](/2025/en/schedule/).',
+      [
+        'Read the [localized schedule](/2025/en/schedule/).',
+        'Read the [default schedule](/2025/schedule/).',
+        'Read the [sprint Q&A](/2025/en/sprint/qna/).',
+        'Read the [localized article](/2025/zh-hk/news/valid-post/).',
+      ].join('\n')
+    ),
+  });
+
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.deepEqual(result.errors, []);
+  } finally {
+    await fixture.cleanup();
+  }
+});

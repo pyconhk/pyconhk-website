@@ -18,10 +18,12 @@ type RawPostFrontmatter = {
   };
   collectionYear?: number;
   coverImage?: string;
+  description?: string;
   locale?: string;
   publishedAt?: string;
   slug?: string;
   status?: string;
+  tags?: string[];
   title?: string;
 };
 
@@ -37,6 +39,7 @@ type IndexedNewsVariant = {
   publishedAt: string;
   slug: string;
   status: PostStatus;
+  tags: readonly string[];
   title: string;
 };
 
@@ -66,6 +69,7 @@ export type NewsSummary = {
   publishedAt: string;
   slug: string;
   sourceLocale: SiteLocale;
+  tags: readonly string[];
   title: string;
 };
 
@@ -120,6 +124,10 @@ function createExcerpt(markdown: string): string {
 
 function normalizeStatus(status: string | undefined): PostStatus {
   return status === 'published' ? 'published' : 'draft';
+}
+
+function normalizeTags(tags: string[] | undefined): readonly string[] {
+  return tags?.map((tag) => tag.trim()).filter((tag) => tag.length > 0) ?? [];
 }
 
 function comparePublishedAtDescending(left: string, right: string): number {
@@ -217,6 +225,8 @@ async function loadVariantsFromDirectory(
       const slug = frontmatter.slug?.trim() || parsedFilename.slug;
       const title = frontmatter.title?.trim() || slug;
       const publishedAt = frontmatter.publishedAt?.trim() || defaultPublishedAt;
+      const description =
+        frontmatter.description?.trim() || createExcerpt(parsedSource.content);
 
       return [
         {
@@ -226,11 +236,12 @@ async function loadVariantsFromDirectory(
           body: parsedSource.content.trim(),
           collectionYear,
           coverImage: normalizeCoverImage(frontmatter.coverImage, collectionYear),
-          excerpt: createExcerpt(parsedSource.content),
+          excerpt: description,
           locale,
           publishedAt,
           slug,
           status: normalizeStatus(frontmatter.status),
+          tags: normalizeTags(frontmatter.tags),
           title,
         } satisfies IndexedNewsVariant,
       ];
@@ -279,6 +290,7 @@ function toSummary(resolved: ResolvedNewsVariant): NewsSummary {
     publishedAt: variant.publishedAt,
     slug: variant.slug,
     sourceLocale,
+    tags: variant.tags,
     title: variant.title,
   };
 }

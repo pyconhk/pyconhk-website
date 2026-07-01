@@ -11,14 +11,15 @@ interface Props {
   year: SiteYear;
   locale: SiteLocale;
   currentSection?: SiteSectionSlug;
+  imagePath?: string;
 }
 
-const { title, description, year, locale, currentSection } = Astro.props;
+const { title, description, year, locale, currentSection, imagePath } = Astro.props;
 const localeDefinition = getLocaleDefinition(locale);
 const currentPathname = Astro.url.pathname;
 ---
 
-<BaseLayout title={title} description={description} htmlLang={localeDefinition.htmlLang}>
+<BaseLayout title={title} description={description} htmlLang={localeDefinition.htmlLang} imagePath={imagePath}>
   <SiteHeader
     year={year}
     locale={locale}

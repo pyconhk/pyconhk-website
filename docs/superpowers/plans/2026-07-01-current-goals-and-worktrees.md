@@ -24,6 +24,9 @@ forked worktrees with parallel agents. It supersedes the unchecked execution sta
   `output/playwright/visual-parity-readiness-20260701T040448Z/summary.json`. A focused
   `/news/` rerun after adding root news compatibility lives at
   `output/playwright/visual-parity-news-rerun-20260701T041841Z/summary.json`.
+- News content validation now runs in `website:check`: it verifies localized post
+  frontmatter, duplicate slugs, cover images, tags, and year-aware internal links.
+  Existing 2025 posts have descriptions, tags, and archive-safe links.
 
 ## Agent Audit Summary
 
@@ -40,6 +43,15 @@ forked worktrees with parallel agents. It supersedes the unchecked execution sta
 - Task-document audit: several historical todo items are stale. The real remaining
   work is launch hardening, content validation, visual parity evidence, CMS operations,
   and cleanup.
+- Worktree cleanup re-audit: the only clean worktrees whose branch heads are already
+  ancestors of `astro-migration` are `integrate-current-deploy`,
+  `integrate-legacy-archives`, `port-2025-parity`, and `port-legacy-urls`. Several
+  other clean `port-*` branches still have one unique commit each and must be reviewed
+  before removal, even when their behavior appears represented in the active branch.
+- CMS repo audit: `/Users/alexau/Project/pyconhk-website-cms` is a separate clone, not
+  a worktree. The monorepo `cms/` copy is the canonical Decap migration target because
+  it has the newer Node 24/mise alignment plus the current `description` and `tags`
+  post fields.
 
 ## Worktree Classification
 
@@ -60,13 +72,20 @@ merge them blindly.
 | `/Users/alexau/Project/pyconhk-website-legacy-urls` | `codex/astro-legacy-urls` | Obsolete root-layout source snapshot |
 | `/Users/alexau/Project/pyconhk-website-seo-deploy` | `codex/astro-seo-deploy` | Obsolete root-layout source snapshot |
 | `/Users/alexau/Project/pyconhk-website-port-2025-parity` | `codex/port-2025-parity` | Clean port; superseded |
-| `/Users/alexau/Project/pyconhk-website-port-2026-cfp` | `codex/port-2026-cfp` | Clean port; superseded |
-| `/Users/alexau/Project/pyconhk-website-port-legacy-2018-2021` | `codex/port-legacy-2018-2021` | Clean port; superseded |
-| `/Users/alexau/Project/pyconhk-website-port-legacy-2022-2023` | `codex/port-legacy-2022-2023` | Clean port; superseded |
-| `/Users/alexau/Project/pyconhk-website-port-legacy-2024` | `codex/port-legacy-2024` | Clean port; superseded |
-| `/Users/alexau/Project/pyconhk-website-port-legacy-indexes` | `codex/port-legacy-indexes` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-2026-cfp` | `codex/port-2026-cfp` | Clean but not ancestor; review unique commit before cleanup |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-2018-2021` | `codex/port-legacy-2018-2021` | Clean but not ancestor; review unique commit before cleanup |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-2022-2023` | `codex/port-legacy-2022-2023` | Clean but not ancestor; review unique commit before cleanup |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-2024` | `codex/port-legacy-2024` | Clean but not ancestor; review unique commit before cleanup |
+| `/Users/alexau/Project/pyconhk-website-port-legacy-indexes` | `codex/port-legacy-indexes` | Clean but not ancestor; review unique commit before cleanup |
 | `/Users/alexau/Project/pyconhk-website-port-legacy-urls` | `codex/port-legacy-urls` | Clean port; superseded after highlight redirects land |
-| `/Users/alexau/Project/pyconhk-website-port-seo-deploy` | `codex/port-seo-deploy` | Clean port; superseded |
+| `/Users/alexau/Project/pyconhk-website-port-seo-deploy` | `codex/port-seo-deploy` | Clean but not ancestor; review unique commit before cleanup |
+
+## Related Repositories
+
+| Path | Status | Current decision |
+| --- | --- | --- |
+| `/Users/alexau/Project/pyconhk-website-cms` | Separate dirty clone on `feat/astro-decap-migration` | Keep as reference only; sync forward from monorepo `cms/` if the standalone deploy artifact is still needed |
+| `/Users/alexau/Project/pyconhk-website-redeem` | Separate clean repo on `main` | Out of scope for the Astro/Decap migration |
 
 ## Remaining Goals
 
@@ -141,6 +160,10 @@ Success conditions:
 News listing and detail pages exist, but content validation and rendering policy still
 need cleanup.
 
+Status: content validation and per-article social images are implemented. Remaining
+work is to document the Markdown/HTML rendering policy and decide whether sanitized
+HTML should replace the current trusted `set:html` rendering path.
+
 Success conditions:
 
 - Duplicate slugs, malformed frontmatter, missing descriptions, missing cover images,
@@ -185,6 +208,10 @@ Success conditions:
 - Each candidate worktree is clean or has its useful diff captured elsewhere.
 - `git worktree remove` is used only after confirmation; branches are deleted only by
   explicit owner instruction.
+- Automatic cleanup candidates after owner approval: `integrate-current-deploy`,
+  `integrate-legacy-archives`, `port-2025-parity`, and `port-legacy-urls`.
+- Review-before-cleanup candidates: dirty obsolete `astro-*` source worktrees and clean
+  non-ancestor `port-*` worktrees with unique commits.
 
 ## Suggested Next Parallel Assignments
 

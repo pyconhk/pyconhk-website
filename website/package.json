@@ -12,11 +12,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "lint": "biome check package.json astro.config.mjs tsconfig.json biome.json src",
-    "lint:fix": "biome check package.json astro.config.mjs tsconfig.json biome.json src --write",
-    "format": "biome format package.json astro.config.mjs tsconfig.json biome.json src --write",
-    "format:check": "biome format package.json astro.config.mjs tsconfig.json biome.json src",
-    "check": "astro check && bun run lint"
+    "lint": "biome check package.json astro.config.mjs tsconfig.json biome.json src scripts",
+    "lint:fix": "biome check package.json astro.config.mjs tsconfig.json biome.json src scripts --write",
+    "format": "biome format package.json astro.config.mjs tsconfig.json biome.json src scripts --write",
+    "format:check": "biome format package.json astro.config.mjs tsconfig.json biome.json src scripts",
+    "validate:news": "bun scripts/validate-news.mjs",
+    "test:news": "node --test scripts/validate-news.test.mjs",
+    "check": "astro check && bun run lint && bun run test:news && bun run validate:news"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

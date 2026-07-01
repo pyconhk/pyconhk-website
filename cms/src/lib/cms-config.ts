@@ -26,6 +26,13 @@ const postFields: CmsField[] = [
   },
   { label: "Title", name: "title", widget: "string", i18n: true },
   {
+    label: "Description",
+    name: "description",
+    widget: "text",
+    hint: "Short summary used for cards, meta descriptions, and social previews.",
+    i18n: true,
+  },
+  {
     label: "Publish Date",
     name: "publishedAt",
     widget: "datetime",
@@ -74,6 +81,14 @@ const postFields: CmsField[] = [
     name: "coverImage",
     widget: "image",
     required: false,
+    i18n: "duplicate",
+  },
+  {
+    label: "Tags",
+    name: "tags",
+    widget: "list",
+    field: { label: "Tag", name: "tag", widget: "string" },
+    min: 1,
     i18n: "duplicate",
   },
   { label: "Body", name: "body", widget: "markdown", i18n: true },
