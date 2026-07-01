@@ -160,9 +160,10 @@ Success conditions:
 News listing and detail pages exist, but content validation and rendering policy still
 need cleanup.
 
-Status: content validation and per-article social images are implemented. Remaining
-work is to document the Markdown/HTML rendering policy and decide whether sanitized
-HTML should replace the current trusted `set:html` rendering path.
+Status: content validation, per-article social images, and the Markdown/HTML
+rendering policy are implemented. News Markdown is rendered through explicit
+sanitization before the intentional `set:html` path. Legacy WordPress archive HTML
+remains a separate compatibility surface.
 
 Success conditions:
 

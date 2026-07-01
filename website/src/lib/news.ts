@@ -346,12 +346,16 @@ export async function getPostBySlug(
     return null;
   }
 
-  const html = String(await remark().use(remarkHtml).process(resolved.variant.body));
+  const html = await renderNewsMarkdown(resolved.variant.body);
 
   return {
     ...toSummary(resolved),
     html,
   } satisfies NewsPost;
+}
+
+export async function renderNewsMarkdown(markdown: string): Promise<string> {
+  return String(await remark().use(remarkHtml, { sanitize: true }).process(markdown));
 }
 
 export async function getPublishedPostSlugs(year: number): Promise<string[]> {

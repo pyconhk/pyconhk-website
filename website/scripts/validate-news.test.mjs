@@ -128,3 +128,25 @@ test('accepts known 2025 internal routes and localized news articles', async () 
     await fixture.cleanup();
   }
 });
+
+test('reports raw HTML that is unsafe for CMS-authored markdown', async () => {
+  const fixture = await createFixture({
+    'valid-post.en.mdx': validPost.replace(
+      'Read the [schedule](/2025/en/schedule/).',
+      [
+        '<script>alert("xss")</script>',
+        '<img src="/outstatic/images/cover.webp" onerror="alert(1)">',
+        '<a href="javascript:alert(1)">Unsafe link</a>',
+      ].join('\n')
+    ),
+  });
+
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.match(result.errors.join('\n'), /raw HTML tag <script> is not allowed/);
+    assert.match(result.errors.join('\n'), /raw HTML event handler onerror is not allowed/);
+    assert.match(result.errors.join('\n'), /raw HTML javascript URL is not allowed/);
+  } finally {
+    await fixture.cleanup();
+  }
+});

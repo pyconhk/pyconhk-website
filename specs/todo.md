@@ -120,20 +120,20 @@ Related docs:
 
 ## Content Strategy
 
-- [ ] Keep Outstatic-managed news as a repository-driven content source.
-- [ ] Define how Astro reads and renders Outstatic-authored Markdown/MDX content from the repository.
-- [ ] Normalize frontmatter fields used by the public site, including title, description, slug, published date, tags, and cover image.
-- [ ] Normalize cover image paths so the public site does not depend on `/api/outstatic/media/...` URLs.
-- [ ] Decide whether to consume Outstatic's generated metadata JSON, source MDX files directly, or use both for different concerns.
-- [ ] Document the content contract between the external CMS and the Astro website.
-- [ ] Add validation checks for malformed frontmatter, missing cover images, missing descriptions, and duplicate slugs.
+- [x] Keep Outstatic-managed news as a repository-driven content source.
+- [x] Define how Astro reads and renders Outstatic-authored Markdown/MDX content from the repository.
+- [x] Normalize frontmatter fields used by the public site, including title, description, slug, published date, tags, and cover image.
+- [x] Normalize cover image paths so the public site does not depend on `/api/outstatic/media/...` URLs.
+- [x] Decide whether to consume Outstatic's generated metadata JSON, source MDX files directly, or use both for different concerns.
+- [x] Document the content contract between the external CMS and the Astro website.
+- [x] Add validation checks for malformed frontmatter, missing cover images, missing descriptions, and duplicate slugs.
 
 ## `dangerouslySetInnerHTML` Cleanup Strategy
 
 - [ ] News rendering:
   - [ ] Confirm whether Astro can render committed Markdown/MDX directly without HTML string injection.
   - [ ] Preserve equivalent typography and styling for rich news content.
-  - [ ] Keep sanitization expectations explicit if any HTML content is still allowed.
+  - [x] Keep sanitization expectations explicit if any HTML content is still allowed.
 - [ ] Organization and sponsor content:
   - [ ] Replace inline HTML strings such as `<br/>` with structured arrays or explicit line-break fields.
   - [ ] Update card and modal components to render structured content without HTML injection.

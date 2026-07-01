@@ -206,9 +206,9 @@ export const legacy2024Pages: Legacy2024Page[] = [
     title: 'Schedule – PyCon HK 2024',
     dateTime: '2024-07-18T17:50:06+00:00',
     description:
-      'div.scroll-container { overflow: auto; padding: 5%; zoom: 0.90; -moz-transform: scale(0.90); } Click here to checkout our 2024',
+      'Browse the PyCon HK 2024 schedule on Pretalx, including talks, speakers, and session timing for the conference.',
     content:
-      '<style>\n\tdiv.scroll-container {\n           overflow: auto;\n           padding: 5%;\n           zoom: 0.90;\n           -moz-transform: scale(0.90);\n\t}\n</style>\n\n<script type="text/javascript" src="https://pretalx.com/democon/schedule/widget/v2.en.js"></script>\n\n<div class="scroll-container">\n\t<pretalx-schedule event-url="https://pretalx.com/pyconhk2024/" locale="en" format="grid" style="--pretalx-clr-primary: #7CC0C0"></pretalx-schedule>\n</div>\n\n<noscript>\n   <div class="pretalx-widget">\n        <div class="pretalx-widget-info-message">\n            <a target="_blank" href="https://pretalx.com/pyconhk2024/schedule/" rel="noopener">Click here</a> to checkout our 2024 schedule!\n        </div>\n    </div>\n</noscript>',
+      '<p>The PyCon HK 2024 schedule is available on Pretalx, including talks, speakers, and session timing.</p>\n\n<p><a target="_blank" href="https://pretalx.com/pyconhk2024/schedule/" rel="noopener noreferrer">Open the PyCon HK 2024 schedule on Pretalx</a>.</p>',
   },
   {
     slug: 'pycon-hk-2024-call-for-proposal',

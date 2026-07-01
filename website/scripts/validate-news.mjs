@@ -325,6 +325,41 @@ function validateInternalLinks({ content, errors, fileLabel, knownPostRoutes, pu
   }
 }
 
+function validateRawHtmlPolicy({ content, errors, fileLabel }) {
+  const rawHtmlTagPattern =
+    /<\/?([A-Za-z][A-Za-z0-9:-]*)(?:\s[^<>]*|\/?)>/gu;
+  const eventHandlerPattern = /\son[A-Za-z]+\s*=/gu;
+  const javascriptUrlPattern = /\b(?:href|src)\s*=\s*["']?\s*javascript:/giu;
+  const seenTags = new Set();
+  const seenEventHandlers = new Set();
+
+  for (const match of content.matchAll(rawHtmlTagPattern)) {
+    if (match[0].startsWith('</')) {
+      continue;
+    }
+
+    const tagName = match[1].toLowerCase();
+
+    if (!seenTags.has(tagName)) {
+      errors.push(`${fileLabel}: raw HTML tag <${tagName}> is not allowed`);
+      seenTags.add(tagName);
+    }
+  }
+
+  for (const match of content.matchAll(eventHandlerPattern)) {
+    const handlerName = match[0].trim().replace(/\s*=.*$/u, '').toLowerCase();
+
+    if (!seenEventHandlers.has(handlerName)) {
+      errors.push(`${fileLabel}: raw HTML event handler ${handlerName} is not allowed`);
+      seenEventHandlers.add(handlerName);
+    }
+  }
+
+  if (javascriptUrlPattern.test(content)) {
+    errors.push(`${fileLabel}: raw HTML javascript URL is not allowed`);
+  }
+}
+
 export async function validateNewsContent({
   contentRoot = path.join(process.cwd(), 'outstatic/content'),
   publicRoot = path.join(process.cwd(), 'public'),
@@ -384,6 +419,10 @@ export async function validateNewsContent({
       errors,
       knownPostRoutes,
       publicRoot,
+    });
+    validateRawHtmlPolicy({
+      ...record,
+      errors,
     });
   }
 
