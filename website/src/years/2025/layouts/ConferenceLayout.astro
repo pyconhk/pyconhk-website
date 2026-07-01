@@ -12,21 +12,36 @@ interface Props {
   locale: SiteLocale;
   currentSection?: SiteSectionSlug;
   imagePath?: string;
+  allowHorizontalOverflow?: boolean;
 }
 
-const { title, description, year, locale, currentSection, imagePath } = Astro.props;
+const {
+  title,
+  description,
+  year,
+  locale,
+  currentSection,
+  imagePath,
+  allowHorizontalOverflow = false,
+} = Astro.props;
 const localeDefinition = getLocaleDefinition(locale);
 const currentPathname = Astro.url.pathname;
 ---
 
-<BaseLayout title={title} description={description} htmlLang={localeDefinition.htmlLang} imagePath={imagePath}>
+<BaseLayout
+  title={title}
+  description={description}
+  htmlLang={localeDefinition.htmlLang}
+  imagePath={imagePath}
+  allowHorizontalOverflow={allowHorizontalOverflow}
+>
   <SiteHeader
     year={year}
     locale={locale}
     currentSection={currentSection}
     currentPathname={currentPathname}
   />
-  <main class="w-full overflow-x-clip">
+  <main class:list={['w-full', !allowHorizontalOverflow && 'overflow-x-clip']}>
     <slot />
   </main>
   <SiteFooter year={year} locale={locale} />

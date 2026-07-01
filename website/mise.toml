@@ -15,10 +15,10 @@ description = "Build the public website"
 run = "bun run build"
 
 [tasks.preview]
-description = "Build and preview the public website locally"
+description = "Build and preview the public website locally through Wrangler Pages"
 run = """
 bun run build
-bun run preview -- --host 127.0.0.1 --port 8788
+bunx wrangler pages dev dist --local --ip 127.0.0.1 --port "${PREVIEW_PORT:-8788}"
 """
 
 [tasks.cloudflare-preview]

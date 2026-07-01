@@ -50,6 +50,14 @@ function normalizeSuffix(suffix: string): string {
   return suffix.replace(/^\/+|\/+$/g, '');
 }
 
+function normalizeAstroPathname(pathname: string): string {
+  const normalizedPathname = pathname
+    .replace(/\/index\.html$/u, '/')
+    .replace(/\.html$/u, '');
+
+  return normalizedPathname || '/';
+}
+
 function buildPath(...segments: string[]): string {
   const normalizedSegments = segments
     .map((segment) => normalizeSuffix(segment))
@@ -59,7 +67,7 @@ function buildPath(...segments: string[]): string {
     return '/';
   }
 
-  return `/${normalizedSegments.join('/')}/`;
+  return `/${normalizedSegments.join('/')}`;
 }
 
 function isFourDigitYear(value: string | undefined): boolean {
@@ -86,7 +94,7 @@ function findLocale(
 }
 
 function parseLocalizedPath(pathname: string): ParsedLocalizedPath | null {
-  const normalizedPathname = normalizeSuffix(pathname);
+  const normalizedPathname = normalizeSuffix(normalizeAstroPathname(pathname));
   const currentYearLocales = getSeoLocalesForYear(currentConferenceYear);
 
   if (!normalizedPathname) {

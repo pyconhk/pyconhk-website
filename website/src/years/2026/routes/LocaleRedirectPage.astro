@@ -15,7 +15,7 @@ interface Props {
 const { prefixed = false } = Astro.props;
 
 function localePath(locale: CfpLocale) {
-  return prefixed ? `/2026/${locale}/` : `/${locale}/`;
+  return prefixed ? `/2026/${locale}` : `/${locale}`;
 }
 
 const localeLinks = supportedLocales.map((locale) => ({
@@ -71,7 +71,15 @@ const description = 'Choose your preferred PyCon Hong Kong 2026 CFP locale.';
         .map(value => value.trim())
         .find(value => value.startsWith(prefix));
 
-      return match ? decodeURIComponent(match.slice(prefix.length)) : '';
+      if (!match) {
+        return '';
+      }
+
+      try {
+        return decodeURIComponent(match.slice(prefix.length));
+      } catch {
+        return '';
+      }
     };
 
     const preferredLocale = readCookie(cookieName);

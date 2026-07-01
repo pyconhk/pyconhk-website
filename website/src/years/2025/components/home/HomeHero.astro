@@ -27,7 +27,7 @@ const t = getTranslations(locale, 'home');
     </div>
 
     <div class="relative z-10 flex h-full w-full flex-col items-center justify-center px-4 text-center">
-      <div>
+      <div class="w-[600px] max-w-[calc(100vw-2rem)] -translate-y-1">
         <img
           src="/2025/logos/logo.png"
           alt={`PyCon HK ${year} Logo`}
@@ -41,13 +41,13 @@ const t = getTranslations(locale, 'home');
         </h1>
 
         <div class="relative my-4 flex justify-center">
-          <span class="bg-[#016735] px-8 py-1 font-display text-xl italic text-[#f4dc03]">
+          <span class="bg-[#016735] px-8 py-1 font-display text-xl font-normal text-[#f4dc03]">
             {t('tagline')}
           </span>
         </div>
       </div>
 
-      <div class="mt-2 flex w-full flex-col items-center gap-4 md:mt-6">
+      <div class="mt-2 flex w-full -translate-y-1 flex-col items-center gap-8 md:mt-6">
         <a
           href={eventbriteUrl}
           target="_blank"

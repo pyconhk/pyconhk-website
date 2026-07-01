@@ -8,7 +8,10 @@ interface Props {
 }
 
 const { page, year } = Astro.props;
-const title = `${year} - PyCon HK`;
+const title =
+  page.pageNumber > 1
+    ? `${year} - PyCon HK - Page ${page.pageNumber}`
+    : `${year} - PyCon HK`;
 const description = page.description || `PyCon HK ${year} archive.`;
 const navGroups = [
   {
@@ -170,7 +173,7 @@ const socialLinks = [
         <div id="primary" class="featured-content content-area">
           <main id="main" class="site-main all-blog-articles">
             <header class="fbox page-header">
-              <h1 class="page-title">Category: <span>{year}</span></h1>
+              <h1 class="page-title">Year: <span>{year}</span></h1>
             </header>
 
             {page.items.map((item) => (

@@ -45,7 +45,8 @@ const newsIndexHref = buildLocalizedPath(year, locale, 'news');
       <div class="mt-6 text-center">
         <a href={newsIndexHref} class="font-semibold text-blue-600 hover:underline">
           {t('viewAllNewsLabel')}
-          <span class="ml-1" aria-hidden="true">&rarr;</span>
+          {' '}
+          <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
     )

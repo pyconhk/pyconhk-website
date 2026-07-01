@@ -2,7 +2,49 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import icon from 'astro-icon';
 
+function noTrailingSlashRedirect(req, res, next) {
+  if (!req.url) {
+    next();
+    return;
+  }
+
+  const url = new URL(req.url, 'http://localhost');
+
+  if (url.pathname === '/' || !url.pathname.endsWith('/')) {
+    next();
+    return;
+  }
+
+  const pathname = url.pathname.replace(/\/+$/u, '');
+
+  res.statusCode = 308;
+  res.setHeader('Location', `${pathname}${url.search}`);
+  res.end();
+}
+
+function noTrailingSlashRedirects() {
+  const installMiddleware = (server) => {
+    server.middlewares.stack.unshift({
+      handle: noTrailingSlashRedirect,
+      route: '',
+    });
+  };
+
+  return {
+    name: 'pyconhk:no-trailing-slash-redirects',
+    configureServer(server) {
+      return () => installMiddleware(server);
+    },
+    configurePreviewServer(server) {
+      return () => installMiddleware(server);
+    },
+  };
+}
+
 export default defineConfig({
+  build: {
+    format: 'file',
+  },
   integrations: [
     icon({
       include: {
@@ -58,8 +100,8 @@ export default defineConfig({
     },
   },
   site: 'https://pycon.hk',
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [noTrailingSlashRedirects(), tailwindcss()],
   },
 });

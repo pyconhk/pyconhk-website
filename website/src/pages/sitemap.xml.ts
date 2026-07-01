@@ -79,13 +79,13 @@ function buildStaticEntry(pathname: string): SitemapEntry {
 function buildYearOwnedPath(year: number, locale: SiteLocale, suffix: string): string {
   const normalizedSuffix = suffix.replace(/^\/+|\/+$/g, '');
 
-  return `/${[String(year), locale, normalizedSuffix].filter(Boolean).join('/')}/`;
+  return `/${[String(year), locale, normalizedSuffix].filter(Boolean).join('/')}`;
 }
 
 function buildDefaultYearPath(year: number, suffix: string): string {
   const normalizedSuffix = suffix.replace(/^\/+|\/+$/g, '');
 
-  return `/${[String(year), normalizedSuffix].filter(Boolean).join('/')}/`;
+  return `/${[String(year), normalizedSuffix].filter(Boolean).join('/')}`;
 }
 
 function buildYearOwnedEntry(

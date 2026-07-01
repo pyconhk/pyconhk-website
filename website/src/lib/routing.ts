@@ -33,6 +33,18 @@ function buildPath(...segments: string[]): string {
   return `/${normalizedSegments.join('/')}/`;
 }
 
+function buildPathWithoutTrailingSlash(...segments: string[]): string {
+  const normalizedSegments = segments
+    .map((segment) => normalizeSuffix(segment))
+    .filter(Boolean);
+
+  if (normalizedSegments.length === 0) {
+    return '/';
+  }
+
+  return `/${normalizedSegments.join('/')}`;
+}
+
 function isFourDigitYear(value: string | undefined): boolean {
   return Boolean(value && /^\d{4}$/u.test(value));
 }
@@ -73,7 +85,11 @@ export function buildLocalizedPath(year: SiteYear, locale: SiteLocale, suffix = 
   const normalizedSuffix = normalizeSuffix(suffix);
 
   if (year === 2025) {
-    return buildPath(String(year), normalizedSuffix);
+    if (normalizedSuffix === 'sprint/qna') {
+      return buildPathWithoutTrailingSlash(String(year), normalizedSuffix, locale);
+    }
+
+    return buildPathWithoutTrailingSlash(String(year), normalizedSuffix);
   }
 
   return buildPath(String(year), locale, normalizedSuffix);

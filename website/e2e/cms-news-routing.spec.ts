@@ -91,19 +91,19 @@ test.describe('CMS news routing', () => {
     try {
       const distRoot = path.join(tempRoot, 'website', 'dist');
       const futurePostHtml = await readFile(
-        path.join(distRoot, '2026', 'en', 'news', 'cms-route-fixture', 'index.html'),
+        path.join(distRoot, '2026', 'en', 'news', 'cms-route-fixture.html'),
         'utf8'
       );
       const futureFallbackHtml = await readFile(
-        path.join(distRoot, '2026', 'zh-hk', 'news', 'cms-route-fixture', 'index.html'),
+        path.join(distRoot, '2026', 'zh-hk', 'news', 'cms-route-fixture.html'),
         'utf8'
       );
       const existingDefaultHtml = await readFile(
-        path.join(distRoot, '2025', 'news', 'pre-event-notice', 'index.html'),
+        path.join(distRoot, '2025', 'news', 'pre-event-notice.html'),
         'utf8'
       );
       const existingCompatibilityHtml = await readFile(
-        path.join(distRoot, 'news', 'pre-event-notice', 'index.html'),
+        path.join(distRoot, 'news', 'pre-event-notice.html'),
         'utf8'
       );
       const sitemapXml = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
@@ -116,16 +116,16 @@ test.describe('CMS news routing', () => {
       expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(existingCompatibilityHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2026/en/news/cms-route-fixture/</loc>'
+        '<loc>https://pycon.hk/2026/en/news/cms-route-fixture</loc>'
       );
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2026/zh-hk/news/cms-route-fixture/</loc>'
+        '<loc>https://pycon.hk/2026/zh-hk/news/cms-route-fixture</loc>'
       );
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2025/news/pre-event-notice/</loc>'
+        '<loc>https://pycon.hk/2025/news/pre-event-notice</loc>'
       );
       expect(sitemapXml).not.toContain(
-        '<loc>https://pycon.hk/2025/en/news/pre-event-notice/</loc>'
+        '<loc>https://pycon.hk/2025/en/news/pre-event-notice</loc>'
       );
     } finally {
       await rm(tempRoot, { force: true, recursive: true });

@@ -1,0 +1,37 @@
+---
+import type { SiteLocale } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PrivacyPolicyPage from '@/years/2025/components/pages/PrivacyPolicyPage.astro';
+import CfpFooter from '@/years/2026/components/CfpFooter.astro';
+import CfpNav from '@/years/2026/components/CfpNav.astro';
+import { type CfpLocale, contentByLocale } from '@/years/2026/data/cfp';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const copy = contentByLocale[locale];
+const policyLocale: SiteLocale =
+  locale === 'en' || locale === 'zh-hk' || locale === 'ja' ? locale : 'en';
+const title = `Privacy Policy | ${copy.nav.brand}`;
+const description = 'PyCon Hong Kong privacy policy statement.';
+---
+
+<BaseLayout title={title} description={description} htmlLang={copy.localeMeta.htmlLang}>
+  <main
+    lang={copy.localeMeta.htmlLang}
+    class="min-h-screen bg-[#fff8e8] text-[#172033]"
+  >
+    <CfpNav locale={locale} section="privacy" />
+
+    <section class="px-5 py-12 sm:px-8 sm:py-16 lg:px-14 xl:px-16">
+      <div class="mx-auto max-w-5xl">
+        <div class="rounded-[1.75rem] border-2 border-[#172033] bg-white px-6 py-10 shadow-[8px_10px_0_#17203322] sm:px-8 md:px-12 lg:px-16">
+          <PrivacyPolicyPage locale={policyLocale} />
+        </div>
+      </div>
+    </section>
+  </main>
+  <CfpFooter locale={locale} />
+</BaseLayout>

@@ -11,6 +11,7 @@ export const footerQuickLinks: SiteSectionSlug[] = [
 ];
 
 export const archiveLinks = [
+  { label: '2026', href: '/2026' },
   { label: '2025', href: '/2025' },
   { label: '2024', href: '/2024' },
   { label: '2023', href: '/2023' },

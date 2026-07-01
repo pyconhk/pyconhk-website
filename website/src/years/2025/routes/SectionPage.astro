@@ -53,6 +53,7 @@ const compactSections = new Set<SiteSectionSlug>([
   englishOnly={englishOnly}
   compact={compactSections.has(section)}
   bare={section === 'schedule'}
+  allowHorizontalOverflow={section === 'schedule'}
 >
   {section === 'about' && <AboutPage locale={locale} />}
   {section === 'schedule' && <SchedulePage year={year} locale={locale} />}

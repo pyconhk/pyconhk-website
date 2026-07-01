@@ -1,6 +1,6 @@
 ---
 import { resolveRequiredLocalizedValue, type SiteLocale, type SiteYear } from '@/config/site';
-import { buildLocalizedPath } from '@/lib/routing';
+import { buildLocalizedPath, getLocalizedSuffixFromPathname } from '@/lib/routing';
 import Icon from '@/years/2025/components/ui/Icon.astro';
 import { navigationItems } from '@/years/2025/data/navigation';
 import type { SiteSectionSlug } from '@/years/2025/data/sections';
@@ -9,10 +9,11 @@ interface Props {
   year: SiteYear;
   locale: SiteLocale;
   currentSection?: SiteSectionSlug;
+  currentPathname?: string;
   mobile?: boolean;
 }
 
-const { year, locale, currentSection, mobile = false } = Astro.props;
+const { year, locale, currentSection, currentPathname = Astro.url.pathname, mobile = false } = Astro.props;
 
 type ResolvedNavigationLink = {
   kind: 'link';
@@ -30,28 +31,52 @@ type ResolvedNavigationGroup = {
 
 type ResolvedNavigationItem = ResolvedNavigationLink | ResolvedNavigationGroup;
 
+const currentNavigationSuffix = getLocalizedSuffixFromPathname(currentPathname);
+
+function resolveNavigationSuffix(href: string): string | undefined {
+  if (!href.startsWith('/')) {
+    return undefined;
+  }
+
+  return getLocalizedSuffixFromPathname(href);
+}
+
+function isCurrentNavigationHref(href: string): boolean {
+  return resolveNavigationSuffix(href) === currentNavigationSuffix;
+}
+
 const resolvedNavigationItems: ResolvedNavigationItem[] = navigationItems.map((item) => {
   if (item.kind === 'group') {
-    const children = item.children.map((child) => ({
-      kind: 'link' as const,
-      label: resolveRequiredLocalizedValue(child.label, locale),
-      href: child.href ?? buildLocalizedPath(year, locale, child.path ?? ''),
-      active: Boolean(child.activeSection && child.activeSection === currentSection),
-    }));
+    const children = item.children.map((child) => {
+      const href = child.href ?? buildLocalizedPath(year, locale, child.path ?? '');
+
+      return {
+        kind: 'link' as const,
+        label: resolveRequiredLocalizedValue(child.label, locale),
+        href,
+        active: isCurrentNavigationHref(href),
+      };
+    });
 
     return {
       kind: 'group' as const,
       label: resolveRequiredLocalizedValue(item.label, locale),
-      active: children.some((child) => child.active),
+      active:
+        children.some((child) => child.active) ||
+        item.children.some((child) => child.activeSection === currentSection),
       children,
     };
   }
 
+  const href = item.href ?? buildLocalizedPath(year, locale, item.path ?? '');
+
   return {
     kind: 'link' as const,
     label: resolveRequiredLocalizedValue(item.label, locale),
-    href: item.href ?? buildLocalizedPath(year, locale, item.path ?? ''),
-    active: Boolean(item.activeSection && item.activeSection === currentSection),
+    href,
+    active:
+      isCurrentNavigationHref(href) ||
+      Boolean(item.activeSection && item.activeSection === currentSection),
   };
 });
 
@@ -118,9 +143,11 @@ const mobileLinkClass =
                   <li>
                     <a
                       href={child.href}
+                      aria-current={child.active ? 'page' : undefined}
+                      data-dropdown-link
                       class:list={[
-                        'block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-gray-100 hover:text-slate-800 2xl:text-base',
-                        child.active && 'bg-gray-100 text-slate-800',
+                        'block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors focus-visible:outline-none 2xl:text-base',
+                        child.active && 'text-slate-800',
                       ]}
                     >
                       {child.label}
@@ -149,3 +176,40 @@ const mobileLinkClass =
     )
   )}
 </ul>
+
+<style>
+  [data-dropdown-link][data-highlighted='true'] {
+    background-color: rgb(243 244 246);
+    color: rgb(30 41 59);
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  for (const dropdownLink of document.querySelectorAll('[data-dropdown-link]')) {
+    if (!(dropdownLink instanceof HTMLElement) || dropdownLink.dataset.highlightReady === 'true') {
+      continue;
+    }
+
+    dropdownLink.dataset.highlightReady = 'true';
+
+    const clearSiblingHighlights = () => {
+      const list = dropdownLink.closest('ul');
+
+      for (const link of list?.querySelectorAll('[data-dropdown-link]') ?? []) {
+        if (link instanceof HTMLElement) {
+          link.removeAttribute('data-highlighted');
+        }
+      }
+    };
+
+    const setHighlighted = () => {
+      clearSiblingHighlights();
+      dropdownLink.dataset.highlighted = 'true';
+    };
+
+    dropdownLink.addEventListener('mouseenter', setHighlighted);
+    dropdownLink.addEventListener('focus', setHighlighted);
+    dropdownLink.addEventListener('mouseleave', () => dropdownLink.removeAttribute('data-highlighted'));
+    dropdownLink.addEventListener('blur', () => dropdownLink.removeAttribute('data-highlighted'));
+  }
+</script>

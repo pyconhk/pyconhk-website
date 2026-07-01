@@ -28,7 +28,8 @@ const enMessages = {
     newsIntro:
       'Fresh announcements from the Outstatic editorial workflow, now surfaced in the Astro foundation.',
     speakersHeading: 'Featured Speakers',
-    speakersIntro: 'A first look at the lineup already announced for PyCon HK 2025.',
+    speakersIntro:
+      "We're excited to announce our first batch of confirmed speakers for PyCon HK 2025!",
     sponsorsHeading: 'Sponsors and Partners',
     sponsorsIntro:
       'The organizations helping PyCon HK stay welcoming, practical, and community-first.',

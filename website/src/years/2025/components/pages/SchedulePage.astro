@@ -34,7 +34,8 @@ const copy: LocalizedValue<SchedulePageCopy> = {
       'The talk "The graph capture mechanisms in PyTorch" by Xuanteng Huang will now be a virtual/online session. It will be streamed live in the scheduled room.',
     updateCancelled:
       'Due to unforeseen circumstances, the talk "Memory Efficient Iteration with Python\'s itertools - A Deep Dive" by Kaylan has been cancelled.',
-    updateOutro: 'Thank you for your understanding.',
+    updateOutro:
+      'The interactive schedule below has been updated to reflect these changes. We thank you for your understanding and apologize for any inconvenience.',
     loading: 'Loading schedule...',
     noscript: 'JavaScript is required to view the interactive schedule.',
   },
@@ -99,8 +100,8 @@ const widgetScriptUrl = `https://pretalx.com/pyconhk2025/schedule/widget/v2.${pr
   </h1>
 </div>
 
-<section class="mx-auto w-full max-w-6xl px-4 pb-8 sm:px-6 lg:px-8">
-  <div class="rounded-xl border-l-4 border-amber-400 bg-amber-50 p-6 shadow-sm">
+<div class="mx-auto w-full max-w-4xl px-4 py-0 sm:px-6 sm:py-4 lg:px-8 lg:py-6">
+  <div class="mb-12 rounded-lg border-l-4 border-amber-400 bg-amber-50 p-6">
     <h2 class="mb-3 flex items-center text-xl font-bold text-amber-800">
       <Icon name="information-circle-outline" className="mr-3 h-6 w-6 flex-shrink-0" />
       {content.updateTitle}
@@ -114,16 +115,14 @@ const widgetScriptUrl = `https://pretalx.com/pyconhk2025/schedule/widget/v2.${pr
       <p>{content.updateOutro}</p>
     </div>
   </div>
-</section>
+</div>
 
-<section class="mx-auto w-full max-w-7xl px-0 pb-12 sm:px-4 lg:px-8">
-  <div id="schedule-container" class="w-full bg-white/70 lg:bg-white/0">
-    <p class="px-4 py-8 text-center text-base text-slate-500">{content.loading}</p>
-    <noscript>
-      <p class="px-4 py-8 text-center text-base text-slate-500">{content.noscript}</p>
-    </noscript>
-  </div>
-</section>
+<div id="schedule-container" class="w-full bg-white/70 lg:bg-white/0">
+  <p class="px-4 py-8 text-center text-base text-slate-500">{content.loading}</p>
+  <noscript>
+    <p class="px-4 py-8 text-center text-base text-slate-500">{content.noscript}</p>
+  </noscript>
+</div>
 
 <script is:inline src={widgetScriptUrl}></script>
 <script

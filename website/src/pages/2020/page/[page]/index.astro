@@ -5,12 +5,12 @@ import {
   getLegacyYearArchivePageNumbers,
 } from '@/legacy/legacy-year-archives';
 
-const year = '2018';
+const year = '2020';
 
 export function getStaticPaths() {
-  return getLegacyYearArchivePageNumbers('2018').map((pageNumber) => ({
+  return getLegacyYearArchivePageNumbers('2020').map((pageNumber) => ({
     params: { page: String(pageNumber) },
-    props: { page: getLegacyYearArchive('2018', pageNumber) },
+    props: { page: getLegacyYearArchive('2020', pageNumber) },
   }));
 }
 

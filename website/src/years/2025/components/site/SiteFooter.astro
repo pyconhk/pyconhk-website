@@ -1,5 +1,5 @@
 ---
-import { type SiteLocale, type SiteYear, siteName } from '@/config/site';
+import { type SiteLocale, type SiteYear } from '@/config/site';
 import { buildLocalizedPath } from '@/lib/routing';
 import Icon from '@/years/2025/components/ui/Icon.astro';
 import { socialLinks } from '@/years/2025/data/about';
@@ -16,7 +16,7 @@ type FooterIconName = 'x' | 'linkedin' | 'youtube' | 'facebook' | 'instagram' | 
 const { year, locale } = Astro.props;
 const t = getTranslations(locale, 'home');
 const privacyPolicyHref = buildLocalizedPath(year, locale, 'privacy-policy');
-const currentYear = new Date().getFullYear();
+const footerSiteName = 'PyCon Hong Kong';
 
 const footerCopy =
   locale === 'zh-hk'
@@ -108,14 +108,14 @@ const footerSocialLinks: { label: string; icon: FooterIconName; href?: string }[
   <div class="container mx-auto flex items-center justify-center px-4 py-4 text-center text-sm font-semibold text-gray-200">
     {
       locale === 'zh-hk'
-        ? `© ${currentYear} ${siteName}。保留所有權利。`
+        ? `© ${year} ${footerSiteName}。保留所有權利。`
         : locale === 'zh-hant'
-          ? `© ${currentYear} ${siteName}。保留所有權利。`
+          ? `© ${year} ${footerSiteName}。保留所有權利。`
           : locale === 'zh-hans'
-            ? `© ${currentYear} ${siteName}。保留所有权利。`
+            ? `© ${year} ${footerSiteName}。保留所有权利。`
             : locale === 'ja'
-              ? `© ${currentYear} ${siteName}. All rights reserved.`
-              : `© ${currentYear} ${siteName}. All rights reserved.`
+              ? `© ${year} ${footerSiteName}. All rights reserved.`
+              : `© ${year} ${footerSiteName}. All rights reserved.`
     }
   </div>
 

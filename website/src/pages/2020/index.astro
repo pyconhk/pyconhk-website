@@ -1,28 +1,9 @@
 ---
-import LegacyYearLanding from '@/legacy/LegacyYearLanding.astro';
-import { getHighlightsForEdition } from '@/legacy/year-highlights';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyYearArchive } from '@/legacy/legacy-year-archives';
 
-const highlights = [
-  ...getHighlightsForEdition('2020-spring'),
-  ...getHighlightsForEdition('2020-fall'),
-];
+const year = '2020';
+const page = getLegacyYearArchive(year);
 ---
 
-<LegacyYearLanding
-  title="PyCon HK 2020"
-  description="PyCon Hong Kong 2020 was archived as Spring and Fall editions."
-  editionLabel="PyCon HK 2020"
-  highlights={highlights}
-  relatedLinks={[
-    {
-      href: '/2020-spring/',
-      label: '2020 Spring',
-      description: 'Online PyCon HK 2020 Spring archive pages and sessions.',
-    },
-    {
-      href: '/2020-fall/',
-      label: '2020 Fall',
-      description: 'PyCon HK 2020 Fall archive pages and sessions.',
-    },
-  ]}
-/>
+<LegacyYearArchivePage year={year} page={page} />
