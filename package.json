@@ -13,6 +13,7 @@
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",
     "dev": "mise //website:dev",
+    "e2e": "mise //website:e2e",
     "build": "mise //...:build",
     "preview": "mise //website:preview",
     "check": "mise //...:check",
@@ -24,6 +25,7 @@
     "website:build": "mise //website:build",
     "website:preview": "mise //website:preview",
     "website:check": "mise //website:check",
+    "website:e2e": "mise //website:e2e",
     "website:lint": "mise //website:lint",
     "website:lint:fix": "mise //website:lint-fix",
     "website:format": "mise //website:format",

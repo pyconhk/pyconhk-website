@@ -37,6 +37,10 @@ run = "node scripts/validate-cms-ops.mjs"
 description = "Build and preview the public website locally"
 run = "mise //website:preview"
 
+[tasks.e2e]
+description = "Run public website Playwright e2e tests"
+run = "mise //website:e2e"
+
 [tasks.cloudflare-preview]
 description = "Preview with Wrangler Pages for Cloudflare redirect/runtime checks"
 run = "mise //website:cloudflare-preview"

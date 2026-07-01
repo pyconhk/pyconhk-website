@@ -27,6 +27,9 @@ forked worktrees with parallel agents. It supersedes the unchecked execution sta
 - News content validation now runs in `website:check`: it verifies localized post
   frontmatter, duplicate slugs, cover images, tags, and year-aware internal links.
   Existing 2025 posts have descriptions, tags, and archive-safe links.
+- Playwright e2e coverage now runs through `mise //website:e2e` against a local
+  Wrangler Pages server. It covers locale-cookie redirects, legacy redirects, critical
+  current/archive/news pages, robots, sitemap, and key static assets.
 
 ## Agent Audit Summary
 
@@ -145,7 +148,8 @@ differ from the live site.
 Status: exact desktop and mobile evidence has been generated for the requested route
 set. Current major differences are intentional migration differences or known legacy
 URL compatibility gaps rather than missing local assets; `/news/` now has a local
-compatibility route and returns 200 in the focused rerun.
+compatibility route and returns 200 in the focused rerun. A Playwright e2e smoke gate
+now exercises the launch-critical local routes through Wrangler Pages.
 
 Success conditions:
 
@@ -202,7 +206,7 @@ The public site still needs operational cutover evidence before replacing live t
 Success conditions:
 
 - A green Cloudflare Pages environment exists with the Astro build.
-- Smoke tests cover redirects, locale cookies, critical pages, static assets, robots,
+- Playwright smoke tests cover redirects, locale cookies, critical pages, static assets, robots,
   and sitemap.
 - Rollback steps are documented and rehearsed.
 

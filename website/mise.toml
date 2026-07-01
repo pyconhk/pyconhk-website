@@ -28,6 +28,10 @@ bun run build
 bunx wrangler pages dev dist --local --ip 127.0.0.1 --port 8788
 """
 
+[tasks.e2e]
+description = "Run public website Playwright e2e tests through Wrangler Pages"
+run = "bun run e2e"
+
 [tasks.check]
 description = "Check the public website"
 run = "bun run check"

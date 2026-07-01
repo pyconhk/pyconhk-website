@@ -7,6 +7,9 @@ dist/
 
 # Coverage and caches
 coverage/
+test-results/
+playwright-report/
+.tmp-bun-cache/
 
 # Local environment files
 .env

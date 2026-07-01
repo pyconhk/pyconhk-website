@@ -13,6 +13,7 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - Node.js 24.18.0 for Astro tooling
 - Outstatic-compatible repository content files for news content
 - Decap CMS under `cms/` for multilingual editorial updates
+- Playwright for public website e2e smoke tests
 
 ## Repository Layout
 
@@ -63,12 +64,14 @@ This setup uses the current stable mise monorepo settings.
 - `mise run //website:build` - build the public website only
 - `mise run //website:check` - check the public website only
 - `mise run //website:lint` - lint the public website only
+- `mise run //website:e2e` - run public website Playwright smoke tests through Wrangler Pages
 - `mise run //cms:dev` - start the CMS Astro dev server
 - `mise run //cms:build` - build the CMS app only
 - `mise run //cms:check` - check the CMS app only
 - `mise run //cms:lint` - lint the CMS app only
 - `mise run preview` - build and preview the generated website on `127.0.0.1:8788`
 - `mise run cloudflare-preview` - build and preview through Wrangler Pages for redirect/runtime checks
+- `mise run e2e` - run the public website Playwright smoke tests
 
 ## Routing Model
 
