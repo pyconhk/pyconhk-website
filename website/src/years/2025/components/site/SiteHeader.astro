@@ -1,7 +1,6 @@
 ---
 import { type SiteLocale, type SiteYear } from '@/config/site';
 import { buildLocalizedPath } from '@/lib/routing';
-import LanguageSwitcher from '@/years/2025/components/site/LanguageSwitcher.astro';
 import Icon from '@/years/2025/components/ui/Icon.astro';
 import type { SiteSectionSlug } from '@/years/2025/data/sections';
 import { getTranslations } from '@/years/2025/i18n';
@@ -14,27 +13,25 @@ interface Props {
   currentPathname?: string;
 }
 
-const { year, locale, currentSection, currentPathname = Astro.url.pathname } = Astro.props;
+const { year, locale, currentSection } = Astro.props;
 const homeHref = buildLocalizedPath(year, locale);
 const t = getTranslations(locale, 'home');
 ---
 
-<header class="sticky top-0 z-50 h-20 w-full border-b border-white/30 bg-white/55 px-3 backdrop-blur-md supports-[backdrop-filter]:bg-white/35 sm:px-4" data-site-header>
-  <div aria-hidden="true" class="site-header-atmosphere pointer-events-none absolute inset-0"></div>
-  <div class="relative mx-auto flex h-full w-full max-w-[90rem] items-center justify-between px-2 sm:px-4 md:px-8">
-    <a href={homeHref} class="flex items-center whitespace-nowrap text-lg font-bold text-slate-700">
+<header class="sticky top-0 z-50 h-20 w-full px-3 backdrop-blur-sm sm:px-4" data-site-header>
+  <div class="relative mx-auto flex h-full w-full max-w-7xl items-center justify-between px-2 sm:px-4 md:px-8">
+    <a href={homeHref} class="flex w-fit shrink-0 items-center whitespace-nowrap text-lg font-bold text-slate-700">
       <img
         src="/2025/logos/logo.png"
         alt={`PyCon HK ${year} Logo`}
         width="80"
         height="80"
-        class="my-auto p-1"
+        class="my-auto h-16 w-16 p-1 md:h-20 md:w-20"
       />
     </a>
 
     <div class="hidden items-center gap-4 xl:flex">
       <PrimaryNavigation year={year} locale={locale} currentSection={currentSection} />
-      <LanguageSwitcher year={year} locale={locale} currentPathname={currentPathname} />
     </div>
 
     <div class="xl:hidden">
@@ -76,9 +73,6 @@ const t = getTranslations(locale, 'home');
             <PrimaryNavigation year={year} locale={locale} currentSection={currentSection} mobile />
           </div>
 
-          <div class="mt-4 shrink-0 border-t border-white/20 pt-3 sm:mt-6 sm:pt-4">
-            <LanguageSwitcher year={year} locale={locale} currentPathname={currentPathname} mobile />
-          </div>
         </div>
       </div>
     </div>

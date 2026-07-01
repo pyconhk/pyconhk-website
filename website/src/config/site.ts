@@ -1,4 +1,4 @@
-export const siteName = 'PyCon Hong Kong';
+export const siteName = 'PyCon HK';
 export const siteUrl = 'https://pycon.hk';
 export const currentConferenceYear = 2026 as const;
 export const defaultSeoTitle = 'PyCon HK 2026 CFP | Many Voices, One Python Story';
@@ -19,7 +19,7 @@ export const locales = [
     code: 'en',
     label: 'English',
     nativeLabel: 'English',
-    htmlLang: 'en-HK',
+    htmlLang: 'en',
   },
   {
     code: 'zh-hk',

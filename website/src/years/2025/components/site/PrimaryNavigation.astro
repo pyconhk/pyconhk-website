@@ -56,7 +56,7 @@ const resolvedNavigationItems: ResolvedNavigationItem[] = navigationItems.map((i
 });
 
 const desktopLinkClass =
-  "relative inline-flex items-center px-1 py-2.5 text-[0.95rem] font-semibold text-slate-600 transition-colors duration-200 hover:text-slate-800 xl:text-base after:absolute after:left-1/2 after:-bottom-1 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-current after:transition-all after:duration-300 hover:after:w-full";
+  "relative inline-flex items-center px-1 py-2.5 text-sm font-semibold text-slate-600 transition-colors duration-200 hover:text-slate-800 2xl:text-base after:absolute after:left-1/2 after:-bottom-1 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-current after:transition-all after:duration-300 hover:after:w-full";
 
 const desktopActiveClass = 'text-slate-800 after:w-full';
 const dropdownPanelClass =
@@ -65,7 +65,7 @@ const mobileLinkClass =
   'relative block py-1.5 text-base font-normal leading-snug text-white transition-colors hover:text-white/80';
 ---
 
-<ul class:list={[mobile ? 'flex flex-col gap-3' : 'flex items-center space-x-6 xl:space-x-7', 'm-0 list-none p-0']}>
+<ul class:list={[mobile ? 'flex flex-col gap-3' : 'flex items-center space-x-5 2xl:space-x-7', 'm-0 list-none p-0']}>
   {resolvedNavigationItems.map((item) =>
     item.kind === 'group' ? (
       <li class:list={mobile ? 'mt-2' : 'group relative'}>
@@ -119,7 +119,7 @@ const mobileLinkClass =
                     <a
                       href={child.href}
                       class:list={[
-                        'block rounded-lg px-3 py-2.5 text-[0.95rem] font-medium text-slate-600 transition-colors hover:bg-gray-100 hover:text-slate-800 xl:text-base',
+                        'block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-gray-100 hover:text-slate-800 2xl:text-base',
                         child.active && 'bg-gray-100 text-slate-800',
                       ]}
                     >

@@ -1,5 +1,5 @@
 ---
-import { type SiteLocale, type SiteYear, siteName } from '@/config/site';
+import { type SiteLocale, type SiteYear } from '@/config/site';
 import { formatDate } from '@/lib/date';
 import { getPostBySlug } from '@/lib/news';
 import { buildLocalizedPath } from '@/lib/routing';
@@ -24,7 +24,7 @@ const backHref = buildLocalizedPath(year, locale, 'news');
 ---
 
 <ConferenceLayout
-  title={`${post.title} | ${siteName} ${year}`}
+  title={post.title}
   description={post.excerpt}
   year={year}
   locale={locale}
@@ -59,10 +59,6 @@ const backHref = buildLocalizedPath(year, locale, 'news');
 
               <div class="mt-6 flex items-center text-xs text-gray-500 md:text-sm">
                 <time datetime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>
-              </div>
-
-              <div class="mt-6 border-l-4 border-gray-200 pl-4 text-lg font-light italic text-gray-600">
-                {post.excerpt}
               </div>
 
               {

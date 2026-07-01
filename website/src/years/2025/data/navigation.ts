@@ -261,18 +261,6 @@ export const navigationItems: SiteNavigationItem[] = [
       {
         kind: 'link',
         label: {
-          en: 'Procedures for Reporting Incidents',
-          'zh-hk': '事件舉報',
-          'zh-hant': '事件舉報',
-          'zh-hans': '事件举报',
-          ja: '報告方法',
-        },
-        path: 'code-of-conduct/attendee-reporting',
-        activeSection: 'code-of-conduct',
-      },
-      {
-        kind: 'link',
-        label: {
           en: 'Enforcement Procedures',
           'zh-hk': '執行程序',
           'zh-hant': '執行程序',
@@ -280,6 +268,18 @@ export const navigationItems: SiteNavigationItem[] = [
           ja: '対応手順',
         },
         path: 'code-of-conduct/staff-procedures',
+        activeSection: 'code-of-conduct',
+      },
+      {
+        kind: 'link',
+        label: {
+          en: 'Procedures for Reporting Incidents',
+          'zh-hk': '事件舉報',
+          'zh-hant': '事件舉報',
+          'zh-hans': '事件举报',
+          ja: '報告方法',
+        },
+        path: 'code-of-conduct/attendee-reporting',
         activeSection: 'code-of-conduct',
       },
     ],

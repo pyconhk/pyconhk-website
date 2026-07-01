@@ -18,6 +18,16 @@ function cookieDomain(baseURL: string | undefined): string {
 
 const criticalPages = [
   {
+    path: '/',
+    title: /PyCon HK 2026 CFP \| Many Voices, One Python Story/,
+    text: /Many Voices, One Python Story/u,
+  },
+  {
+    path: '/2026/',
+    title: /PyCon HK 2026 CFP \| Many Voices, One Python Story/,
+    text: /Many Voices, One Python Story/u,
+  },
+  {
     path: '/en/',
     title: /PyCon HK 2026 CFP/,
     text: /Many Voices/u,
@@ -25,22 +35,12 @@ const criticalPages = [
   {
     path: '/zh-hk/',
     title: /PyCon HK 2026 CFP/,
-    text: /多元聲音/u,
+    text: /Many Voices/u,
   },
   {
     path: '/2026/en/',
     title: /PyCon HK 2026 CFP/,
     text: /Many Voices/u,
-  },
-  {
-    path: '/2025/en/',
-    title: /PyCon Hong Kong 2025/,
-    text: /PYCON HK 2025/i,
-  },
-  {
-    path: '/2025/en/news/',
-    title: /News/,
-    text: /PyCon HK 2025 Pre-Event Essentials/u,
   },
   {
     path: '/news/pre-event-notice/',
@@ -52,27 +52,28 @@ const criticalPages = [
     title: /PyCon HK 2024/,
     text: /PyCon HK 2024/,
   },
+  {
+    path: '/conference-highlights/pycon-hk-2024-photos/',
+    title: /PyCon HK 2024 Photos/,
+    text: /PyCon HK 2024 Photos/u,
+  },
 ];
 
 const redirectChecks = [
   { path: '/news/', status: 308, location: '/2025/news/' },
-  {
-    path: '/conference-highlights/pycon-hk-2024-photos/',
-    status: 308,
-    location: '/2024/photos/',
-  },
   { path: '/2000/', status: 301, location: 'https://legacy.pycon.hk/2000' },
 ];
 
 test.describe('blue-green launch smoke', () => {
-  test('redirects neutral entry pages by preferred locale cookie', async ({
+  test('serves neutral entry pages like the live CFP page', async ({
     baseURL,
     context,
     page,
   }) => {
     await context.clearCookies();
     await page.goto('/');
-    await expect(page).toHaveURL(/\/en\/$/u);
+    await expect(page).toHaveTitle(/PyCon HK 2026 CFP \| Many Voices, One Python Story/);
+    await expect(page.getByRole('heading', { name: /Many Voices/u })).toBeVisible();
 
     await context.clearCookies();
     await context.addCookies([
@@ -84,11 +85,27 @@ test.describe('blue-green launch smoke', () => {
       },
     ]);
     await page.goto('/');
-    await expect(page).toHaveURL(/\/zh-hk\/$/u);
+    await expect(page).toHaveTitle(/PyCon HK 2026 CFP \| Many Voices, One Python Story/);
+    await expect(page.getByRole('heading', { name: /Many Voices/u })).toBeVisible();
 
     await page.goto('/2026/');
-    await expect(page).toHaveURL(/\/2026\/zh-hk\/$/u);
+    await expect(page).toHaveTitle(/PyCon HK 2026 CFP \| Many Voices, One Python Story/);
+    await expect(page.getByRole('heading', { name: /Many Voices/u })).toBeVisible();
   });
+
+  for (const path of [
+    '/2025/en/',
+    '/2025/zh-hk/',
+    '/2025/en/news/',
+    '/2025/en/news/pre-event-notice/',
+    '/2024/photos/',
+  ]) {
+    test(`keeps non-live public route at 404: ${path}`, async ({ request }) => {
+      const response = await request.get(path);
+
+      expect(response.status()).toBe(404);
+    });
+  }
 
   for (const check of redirectChecks) {
     test(`serves redirect ${check.path}`, async ({ request }) => {
@@ -127,11 +144,17 @@ test.describe('blue-green launch smoke', () => {
     for (const url of [
       'https://pycon.hk/en/',
       'https://pycon.hk/zh-hk/',
+      'https://pycon.hk/2025/',
+      'https://pycon.hk/2025/news/pre-event-notice/',
+    ]) {
+      expect(sitemapText).toContain(`<loc>${url}</loc>`);
+    }
+    for (const url of [
       'https://pycon.hk/2025/en/',
       'https://pycon.hk/2025/en/news/pre-event-notice/',
       'https://pycon.hk/2024/photos/',
     ]) {
-      expect(sitemapText).toContain(`<loc>${url}</loc>`);
+      expect(sitemapText).not.toContain(`<loc>${url}</loc>`);
     }
   });
 

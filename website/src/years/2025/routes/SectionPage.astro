@@ -41,7 +41,6 @@ const compactSections = new Set<SiteSectionSlug>([
   'catering-guide',
   'sprint',
   'sponsorships',
-  'supporting-organizations',
 ]);
 ---
 
@@ -53,6 +52,7 @@ const compactSections = new Set<SiteSectionSlug>([
   currentSection={section}
   englishOnly={englishOnly}
   compact={compactSections.has(section)}
+  bare={section === 'schedule'}
 >
   {section === 'about' && <AboutPage locale={locale} />}
   {section === 'schedule' && <SchedulePage year={year} locale={locale} />}

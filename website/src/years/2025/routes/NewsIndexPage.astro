@@ -18,7 +18,7 @@ const pageHeading = locale === 'en' ? 'News' : t('newsHeading');
 ---
 
 <ConferenceLayout
-  title={`News | ${siteName} ${year}`}
+  title={`${siteName} ${year}`}
   description={t('newsIntro')}
   year={year}
   locale={locale}
@@ -33,15 +33,22 @@ const pageHeading = locale === 'en' ? 'News' : t('newsHeading');
 
         {
           posts.length > 0 ? (
-            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {posts.map((post) => (
-                <NewsCard
-                  post={post}
-                  locale={locale}
-                  href={buildLocalizedPath(year, locale, `news/${post.slug}`)}
-                />
-              ))}
-            </div>
+            <>
+              <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {posts.map((post) => (
+                  <NewsCard
+                    post={post}
+                    locale={locale}
+                    href={buildLocalizedPath(year, locale, `news/${post.slug}`)}
+                  />
+                ))}
+              </div>
+              <nav class="mt-10 flex justify-center" aria-label="Pagination">
+                <span class="rounded bg-slate-700 px-4 py-2 text-sm font-semibold text-white">
+                  1
+                </span>
+              </nav>
+            </>
           ) : (
             <p class="text-gray-500">{t('newsEmptyState')}</p>
           )

@@ -104,7 +104,7 @@ const enMessages = {
     newsEmptyState: 'No published updates are available yet.',
     viewAllNewsLabel: 'View all news',
     readArticleLabel: 'Read article',
-    articleBackLabel: 'Back to news',
+    articleBackLabel: 'Back to News',
     englishOnlyNotice:
       'This article is currently available in English only while bilingual content migration is still underway.',
     englishOnlyPageNotice:

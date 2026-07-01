@@ -115,6 +115,8 @@ test('accepts known 2025 internal routes and localized news articles', async () 
       [
         'Read the [localized schedule](/2025/en/schedule/).',
         'Read the [default schedule](/2025/schedule/).',
+        'Read the [live schedule alias](https://pycon.hk/schedule).',
+        'Read the [live sprint alias](https://pycon.hk/sprint).',
         'Read the [sprint Q&A](/2025/en/sprint/qna/).',
         'Read the [localized article](/2025/zh-hk/news/valid-post/).',
       ].join('\n')

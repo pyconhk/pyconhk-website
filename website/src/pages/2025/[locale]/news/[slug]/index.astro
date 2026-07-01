@@ -1,26 +1,18 @@
 ---
-import { locales, type SiteYear } from '@/config/site';
-import { getPublishedPostSlugs } from '@/lib/news';
+import { type SiteYear } from '@/config/site';
 import { resolveLocaleParam } from '@/lib/routing';
 import NewsArticlePage from '@/years/2025/routes/NewsArticlePage.astro';
 
-export async function getStaticPaths() {
-  const year: SiteYear = 2025;
-  const slugs = await getPublishedPostSlugs(year);
+type StaticPath = { params: { locale: string; slug: string } };
 
-  return locales.flatMap((locale) =>
-    slugs.map((slug) => ({
-      params: {
-        locale: locale.code,
-        slug,
-      },
-    }))
-  );
+export async function getStaticPaths(): Promise<StaticPath[]> {
+  return [];
 }
 
 const year: SiteYear = 2025;
-const locale = resolveLocaleParam(Astro.params.locale);
-const slug = Astro.params.slug || '';
+const params = Astro.params as { locale?: string; slug?: string };
+const locale = resolveLocaleParam(params.locale);
+const slug = params.slug || '';
 ---
 
 <NewsArticlePage year={year} locale={locale} slug={slug} />

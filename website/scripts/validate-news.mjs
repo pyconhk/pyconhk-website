@@ -26,6 +26,21 @@ const known2025Sections = new Set([
   'supporting-organizations',
   'volunteers',
 ]);
+const known2025RootAliases = new Set([
+  'about',
+  'access-guide',
+  'catering-guide',
+  'code-of-conduct',
+  'news',
+  'organizers',
+  'privacy-policy',
+  'schedule',
+  'sponsors',
+  'sponsorships',
+  'sprint',
+  'supporting-organizations',
+  'volunteers',
+]);
 const sectionAliases = new Map([['sponsors', 'sponsorships']]);
 const known2025Subpages = new Set([
   'code-of-conduct/attendee-reporting',
@@ -147,6 +162,10 @@ function getRouteSegments(urlPath) {
 
 function isKnown2025Route(urlPath, knownPostRoutes) {
   const segments = getRouteSegments(urlPath);
+
+  if (known2025RootAliases.has(segments[0])) {
+    return segments.length === 1;
+  }
 
   if (segments[0] !== '2025') {
     return false;

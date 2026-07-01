@@ -54,9 +54,11 @@ const content = resolveRequiredLocalizedValue(copy, locale);
 ---
 
 <div class="mx-auto max-w-7xl">
-  <h1 class="text-center text-4xl font-bold text-gray-900">{content.title}</h1>
+  <h1 class="mb-8 text-center text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+    {content.title}
+  </h1>
 
-  <p class="mt-8 text-base/8 text-slate-700 md:text-lg/8">{content.intro}</p>
+  <p>{content.intro}</p>
 
   <div class="mt-16 space-y-16">
     {supportingOrganizations.map((organization) => {

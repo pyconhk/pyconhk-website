@@ -98,8 +98,8 @@ test.describe('CMS news routing', () => {
         path.join(distRoot, '2026', 'zh-hk', 'news', 'cms-route-fixture', 'index.html'),
         'utf8'
       );
-      const existingLocalizedHtml = await readFile(
-        path.join(distRoot, '2025', 'en', 'news', 'pre-event-notice', 'index.html'),
+      const existingDefaultHtml = await readFile(
+        path.join(distRoot, '2025', 'news', 'pre-event-notice', 'index.html'),
         'utf8'
       );
       const existingCompatibilityHtml = await readFile(
@@ -113,7 +113,7 @@ test.describe('CMS news routing', () => {
         'This future-year CMS post should build under its own localized year route.'
       );
       expect(futureFallbackHtml).toContain('Future-Year CMS Fixture');
-      expect(existingLocalizedHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
+      expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(existingCompatibilityHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(sitemapXml).toContain(
         '<loc>https://pycon.hk/2026/en/news/cms-route-fixture/</loc>'
@@ -122,6 +122,9 @@ test.describe('CMS news routing', () => {
         '<loc>https://pycon.hk/2026/zh-hk/news/cms-route-fixture/</loc>'
       );
       expect(sitemapXml).toContain(
+        '<loc>https://pycon.hk/2025/news/pre-event-notice/</loc>'
+      );
+      expect(sitemapXml).not.toContain(
         '<loc>https://pycon.hk/2025/en/news/pre-event-notice/</loc>'
       );
     } finally {

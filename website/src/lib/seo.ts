@@ -174,6 +174,10 @@ export function buildCanonicalPath(pathname: string): string {
     return buildPath(parsedPath.locale, parsedPath.suffix);
   }
 
+  if (parsedPath.year === archiveConferenceYear) {
+    return buildPath(String(parsedPath.year), parsedPath.suffix);
+  }
+
   return buildPath(String(parsedPath.year), parsedPath.locale, parsedPath.suffix);
 }
 
@@ -187,6 +191,10 @@ export function buildLocalizedCanonicalPath(
 
   if (year === currentConferenceYear) {
     return buildPath(locale, suffix);
+  }
+
+  if (year === archiveConferenceYear) {
+    return buildPath(String(year), suffix);
   }
 
   return buildPath(String(year), locale, suffix);

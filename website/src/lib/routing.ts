@@ -33,6 +33,10 @@ function buildPath(...segments: string[]): string {
   return `/${normalizedSegments.join('/')}/`;
 }
 
+function isFourDigitYear(value: string | undefined): boolean {
+  return Boolean(value && /^\d{4}$/u.test(value));
+}
+
 export function getLocalizedSuffixFromPathname(pathname: string): string {
   const normalizedPathname = normalizeSuffix(pathname);
 
@@ -50,6 +54,14 @@ export function getLocalizedSuffixFromPathname(pathname: string): string {
     return segments.slice(2).join('/');
   }
 
+  if (isFourDigitYear(segments[0])) {
+    if (isSupportedLocale(segments[1])) {
+      return segments.slice(2).join('/');
+    }
+
+    return segments.slice(1).join('/');
+  }
+
   return '';
 }
 
@@ -60,8 +72,8 @@ export function isCurrentYear(year: SiteYear): boolean {
 export function buildLocalizedPath(year: SiteYear, locale: SiteLocale, suffix = '') {
   const normalizedSuffix = normalizeSuffix(suffix);
 
-  if (isCurrentYear(year)) {
-    return buildPath(locale, normalizedSuffix);
+  if (year === 2025) {
+    return buildPath(String(year), normalizedSuffix);
   }
 
   return buildPath(String(year), locale, normalizedSuffix);

@@ -12,10 +12,12 @@ export function getStaticPaths() {
       params: { slug: page.slug },
       props: { archivePage: page },
     })),
-    ...highlights.map((highlight) => ({
-      params: { slug: highlight.slug },
-      props: { highlightPage: highlight.page },
-    })),
+    ...highlights
+      .filter((highlight) => highlight.slug !== 'photos')
+      .map((highlight) => ({
+        params: { slug: highlight.slug },
+        props: { highlightPage: highlight.page },
+      })),
   ];
 }
 

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { currentConferenceYear, locales, type SiteLocale } from '@/config/site';
-import { canonicalLegacyHighlights } from '@/legacy/year-highlights';
+import { legacyHighlights } from '@/legacy/legacy-indexes';
 import { getAvailablePostYears, getPublishedPostSlugs } from '@/lib/news';
 import { buildLocalizedCanonicalPath, toAbsoluteSiteUrl } from '@/lib/seo';
 import { siteSections } from '@/years/2025/data/sections';
@@ -82,6 +82,12 @@ function buildYearOwnedPath(year: number, locale: SiteLocale, suffix: string): s
   return `/${[String(year), locale, normalizedSuffix].filter(Boolean).join('/')}/`;
 }
 
+function buildDefaultYearPath(year: number, suffix: string): string {
+  const normalizedSuffix = suffix.replace(/^\/+|\/+$/g, '');
+
+  return `/${[String(year), normalizedSuffix].filter(Boolean).join('/')}/`;
+}
+
 function buildYearOwnedEntry(
   year: number,
   locale: SiteLocale,
@@ -144,10 +150,8 @@ export const GET: APIRoute = async () => {
     ...siteSubpages.map((subpage) => `${subpage.section}/${subpage.subsection}`),
     ...postSlugs.map((slug) => `news/${slug}`),
   ];
-  const archiveYearEntries = archiveYearLocales.flatMap((locale) =>
-    archiveYearSuffixes.map((suffix) =>
-      buildEntry(conferenceYear, locale.code, suffix, archiveYearLocales)
-    )
+  const archiveYearEntries = archiveYearSuffixes.map((suffix) =>
+    buildStaticEntry(buildDefaultYearPath(conferenceYear, suffix))
   );
   const cmsPostEntries = (
     await Promise.all(
@@ -164,7 +168,7 @@ export const GET: APIRoute = async () => {
         })
     )
   ).flat();
-  const legacyHighlightEntries = canonicalLegacyHighlights.map((highlight) =>
+  const legacyHighlightEntries = legacyHighlights.map((highlight) =>
     buildStaticEntry(highlight.path)
   );
   const entries = [
