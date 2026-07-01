@@ -252,6 +252,14 @@ Success conditions:
 
 The public site still needs operational cutover evidence before replacing live traffic.
 
+Status: a practical cutover and rollback runbook exists at
+`specs/blue-green-cutover-runbook.md`. The runbook documents local preflight commands,
+green deployment checks, hosted Playwright smoke with `PLAYWRIGHT_BASE_URL`,
+DNS/custom-domain cutover methods, post-cutover verification, rollback triggers, and
+rollback procedures. Cloudflare Pages project settings, DNS/custom-domain ownership, GitHub
+branch protections, runtime versions, production hostnames, deployment IDs, and rollback
+rehearsal evidence still require owner verification in the external services.
+
 Success conditions:
 
 - A green Cloudflare Pages environment exists with the Astro build.
