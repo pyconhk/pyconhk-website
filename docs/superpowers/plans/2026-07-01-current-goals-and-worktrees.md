@@ -184,10 +184,10 @@ Latest crawl inventory:
 - Non-year legacy surfaces should stay compatibility-only: `/conference-highlights/*`
   maps into year-owned highlights, category/tag/author/page archives are duplicate
   WordPress index surfaces, and sponsor/community tags duplicate year pages.
-- Remaining year-first leak: `LegacyShell.astro` still links to
-  `/conference-highlights/pycon-hk-2024-photos/` and
-  `/category/conference-highlights/`; the renderable compatibility route is acceptable
-  for old URLs but should not be primary navigation.
+- The year-first navigation leak in `LegacyShell.astro` has been closed by pointing
+  shell navigation at `/2024/photos/`, `/2024/`, and the current news index. The
+  renderable compatibility route remains acceptable for old URLs but should not be
+  primary navigation.
 - Asset cleanup should keep only referenced legacy media, avoid WordPress runtime
   folders, normalize duplicated media URLs, and run the existing Sharp optimizer.
 
