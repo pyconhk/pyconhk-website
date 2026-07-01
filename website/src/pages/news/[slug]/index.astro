@@ -1,0 +1,18 @@
+---
+import { defaultLocale, type SiteYear } from '@/config/site';
+import { getPublishedPostSlugs } from '@/lib/news';
+import NewsArticlePage from '@/years/2025/routes/NewsArticlePage.astro';
+
+export async function getStaticPaths() {
+  const slugs = await getPublishedPostSlugs(2025);
+
+  return slugs.map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const year: SiteYear = 2025;
+const slug = Astro.params.slug || '';
+---
+
+<NewsArticlePage year={year} locale={defaultLocale} slug={slug} />

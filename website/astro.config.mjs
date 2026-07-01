@@ -48,6 +48,8 @@ export default defineConfig({
     }),
   ],
   i18n: {
+    // Union of routable prefixes. Korean is currently CFP-only; the site-wide
+    // locale model remains in src/config/site.ts.
     locales: ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ko', 'ja'],
     defaultLocale: 'en',
     routing: {

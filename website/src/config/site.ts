@@ -6,7 +6,10 @@ export const defaultSeoDescription =
   'Submit a proposal for PyCon Hong Kong 2026. Many voices, one Python story.';
 export const defaultOpenGraphTitle = 'PyCon HK 2026 CFP';
 export const defaultOpenGraphDescription = 'Many Voices, One Python Story';
-export const socialImagePath = '/2025/landing-pages/open-graph.webp';
+export const socialImagePath = '/2026/open-graph.webp';
+export const archiveSocialImagePaths = {
+  2025: '/2025/landing-pages/open-graph.webp',
+} as const;
 export const socialHandle = '@pyconhk';
 
 export type SiteYear = 2025 | typeof currentConferenceYear;

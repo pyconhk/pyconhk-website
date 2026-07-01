@@ -5,10 +5,12 @@ export const prerender = true;
 
 export const GET: APIRoute = () => {
   const sitemapUrl = new URL('/sitemap.xml', siteUrl).toString();
+  const isTestEnvironment =
+    import.meta.env.PUBLIC_IS_TEST_ENV === 'true' ||
+    import.meta.env.NEXT_PUBLIC_IS_TEST_ENV === 'true';
   const body = [
-    '# Matches origin/main website/src/app/robots.ts until the public launch policy changes.',
     'User-agent: *',
-    'Disallow: /',
+    isTestEnvironment ? 'Disallow: /' : 'Allow: /',
     '',
     `Sitemap: ${sitemapUrl}`,
     '',

@@ -1,0 +1,8 @@
+---
+import { defaultLocale, type SiteYear } from '@/config/site';
+import NewsIndexPage from '@/years/2025/routes/NewsIndexPage.astro';
+
+const year: SiteYear = 2025;
+---
+
+<NewsIndexPage year={year} locale={defaultLocale} />

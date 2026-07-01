@@ -1,3 +1,5 @@
+// CFP-only locale set. Keep this separate from the site-wide SiteLocale model until
+// Korean is supported across the full public site.
 export const supportedLocales = [
   'en',
   'zh-hk',

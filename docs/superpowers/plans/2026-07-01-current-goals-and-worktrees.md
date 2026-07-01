@@ -6,6 +6,25 @@ This is the current coordination note for the Astro migration work after auditin
 forked worktrees with parallel agents. It supersedes the unchecked execution state in
 `docs/superpowers/plans/2026-07-01-astro-worktree-port.md`.
 
+## Progress Log
+
+- `d2100b2` audits the worktrees, integrates the missing conference-highlight
+  redirects, documents the remaining goals, and prunes unused legacy assets.
+- This checkpoint hardens 2026 SEO and locale output: current-year CFP pages
+  canonicalize to unyeared locale URLs, 2025 archive pages stay under `/2025/`,
+  non-localized legacy archive pages no longer advertise fake locale alternates, and
+  `robots.txt` allows crawling unless an explicit test environment flag is set.
+- Korean is documented and implemented as a 2026 CFP-only locale. It is included in
+  CFP pages, CFP hreflang alternates, and the sitemap as `/ko/`; it is not added to
+  the site-wide `SiteLocale` model or to 2025 archive route generation.
+- The stale current-page 2025 social image has been replaced with a 2026 CFP Open Graph
+  image at `website/public/2026/open-graph.webp`; known 2025 archive and legacy routes
+  keep the existing 2025 conference Open Graph fallback.
+- Visual parity evidence was generated at
+  `output/playwright/visual-parity-readiness-20260701T040448Z/summary.json`. A focused
+  `/news/` rerun after adding root news compatibility lives at
+  `output/playwright/visual-parity-news-rerun-20260701T041841Z/summary.json`.
+
 ## Agent Audit Summary
 
 - Current-year and locale audit: no missing 2025 parity or 2026 CFP code should be
@@ -71,6 +90,8 @@ Success conditions:
 `currentConferenceYear` is 2026, and neutral locale routes serve the 2026 CFP, but
 some SEO and sitemap code still needs a launch-mode review.
 
+Status: implemented and verified in the SEO/routing checkpoint that follows `d2100b2`.
+
 Success conditions:
 
 - `website/src/lib/seo.ts` and `website/src/pages/sitemap.xml.ts` produce the intended
@@ -86,6 +107,9 @@ Success conditions:
 The Astro i18n config and 2026 CFP data include `ko`, while the shared site locale
 model is narrower. Decide whether Korean is CFP-only or a global public-site locale.
 
+Status: policy chosen and implemented. Korean is CFP-only for 2026; the site-wide
+locale model remains unchanged.
+
 Success conditions:
 
 - Locale configuration, route helpers, sitemap output, and docs all describe the same
@@ -98,6 +122,11 @@ Success conditions:
 
 The migration still needs browser evidence that local Astro pages match or intentionally
 differ from the live site.
+
+Status: exact desktop and mobile evidence has been generated for the requested route
+set. Current major differences are intentional migration differences or known legacy
+URL compatibility gaps rather than missing local assets; `/news/` now has a local
+compatibility route and returns 200 in the focused rerun.
 
 Success conditions:
 
