@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { currentConferenceYear, locales, type SiteLocale } from '@/config/site';
 import { canonicalLegacyHighlights } from '@/legacy/year-highlights';
-import { getPublishedPostSlugs } from '@/lib/news';
+import { getAvailablePostYears, getPublishedPostSlugs } from '@/lib/news';
 import { buildLocalizedCanonicalPath, toAbsoluteSiteUrl } from '@/lib/seo';
 import { siteSections } from '@/years/2025/data/sections';
 import { siteSubpages } from '@/years/2025/data/subpages';
@@ -22,6 +22,11 @@ type SitemapEntry = {
 
 type SitemapLocale = {
   code: SiteLocale | CfpLocale;
+  htmlLang: string;
+};
+
+type SiteSitemapLocale = {
+  code: SiteLocale;
   htmlLang: string;
 };
 
@@ -71,6 +76,35 @@ function buildStaticEntry(pathname: string): SitemapEntry {
   };
 }
 
+function buildYearOwnedPath(year: number, locale: SiteLocale, suffix: string): string {
+  const normalizedSuffix = suffix.replace(/^\/+|\/+$/g, '');
+
+  return `/${[String(year), locale, normalizedSuffix].filter(Boolean).join('/')}/`;
+}
+
+function buildYearOwnedEntry(
+  year: number,
+  locale: SiteLocale,
+  suffix: string,
+  sitemapLocales: readonly SiteSitemapLocale[]
+): SitemapEntry {
+  const alternates = sitemapLocales.map((alternateLocale) => ({
+    href: toAbsoluteSiteUrl(buildYearOwnedPath(year, alternateLocale.code, suffix)),
+    hreflang: alternateLocale.htmlLang,
+  }));
+
+  return {
+    alternates: [
+      ...alternates,
+      {
+        href: toAbsoluteSiteUrl(buildYearOwnedPath(year, 'en', suffix)),
+        hreflang: 'x-default',
+      },
+    ],
+    loc: toAbsoluteSiteUrl(buildYearOwnedPath(year, locale, suffix)),
+  };
+}
+
 function serializeEntry(entry: SitemapEntry): string {
   const alternates = entry.alternates
     .map(
@@ -88,6 +122,7 @@ function serializeEntry(entry: SitemapEntry): string {
 }
 
 export const GET: APIRoute = async () => {
+  const availablePostYears = await getAvailablePostYears();
   const postSlugs = await getPublishedPostSlugs(conferenceYear);
   const currentYearLocales = cfpLocales.map((locale) => ({
     code: locale,
@@ -96,7 +131,7 @@ export const GET: APIRoute = async () => {
   const archiveYearLocales = locales.map((locale) => ({
     code: locale.code,
     htmlLang: locale.htmlLang,
-  })) satisfies SitemapLocale[];
+  })) satisfies SiteSitemapLocale[];
   const currentYearEntries = currentYearLocales.map((locale) =>
     buildEntry(currentConferenceYear, locale.code, '', currentYearLocales)
   );
@@ -114,12 +149,28 @@ export const GET: APIRoute = async () => {
       buildEntry(conferenceYear, locale.code, suffix, archiveYearLocales)
     )
   );
+  const cmsPostEntries = (
+    await Promise.all(
+      availablePostYears
+        .filter((year) => year !== conferenceYear)
+        .map(async (year) => {
+          const slugs = await getPublishedPostSlugs(year);
+
+          return archiveYearLocales.flatMap((locale) =>
+            slugs.map((slug) =>
+              buildYearOwnedEntry(year, locale.code, `news/${slug}`, archiveYearLocales)
+            )
+          );
+        })
+    )
+  ).flat();
   const legacyHighlightEntries = canonicalLegacyHighlights.map((highlight) =>
     buildStaticEntry(highlight.path)
   );
   const entries = [
     ...currentYearEntries,
     ...archiveYearEntries,
+    ...cmsPostEntries,
     ...legacyHighlightEntries,
   ];
   const body = [

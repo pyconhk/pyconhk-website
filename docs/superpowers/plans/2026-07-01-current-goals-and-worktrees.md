@@ -232,8 +232,8 @@ outside the promotion-owned prefixes. A hosted config smoke command now checks t
 live Decap YAML contract when pointed at a CMS base URL. Hosted GitHub settings,
 deployment secrets, and real CMS UI publishing still require environment-level
 verification. Multi-locale Decap editing is implemented for the 2025 content shape,
-but year-generic public news routing is still being closed so future CMS-created
-`<year>-posts` folders do not become write-only content.
+and CMS-created `<year>-posts` folders beyond 2025 now build year-owned localized
+news detail routes plus sitemap entries.
 The current live `https://cms.pycon.hk/admin/config.yml` check returns 404, which means
 the hosted CMS deployment is not yet serving this Decap config.
 
@@ -245,8 +245,8 @@ Success conditions:
   10 minutes after website check/build validation.
 - Multi-locale content editing is documented and tested through the CMS UI.
 - Hosted `/admin/config.yml` passes `mise run smoke-cms-config -- https://cms.pycon.hk`.
-- CMS-authored posts in year folders beyond 2025 have public year-owned routes or are
-  explicitly blocked in the CMS until those routes exist.
+- CMS-authored posts in year folders beyond 2025 have public year-owned routes and
+  Playwright fixture coverage.
 
 ### P1: Blue-Green Cutover And Rollback
 
