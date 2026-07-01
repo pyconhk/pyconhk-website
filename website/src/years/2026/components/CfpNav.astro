@@ -56,28 +56,19 @@ const compactLabels = compactHeaderLabels[locale];
       'flex flex-col gap-4 overflow-visible rounded-[1.75rem] border-2 border-[#172033] bg-white/90 p-4 shadow-[6px_8px_0_#17203314] backdrop-blur sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8',
     ]}
   >
-    <div class="min-w-0 space-y-1 lg:max-w-[25rem] xl:max-w-[32rem]">
+    <a
+      href={landingHref(locale)}
+      class="block min-w-0 space-y-1 rounded-2xl px-2 py-1 transition hover:bg-[#bfe8ff33] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#172033] lg:max-w-[25rem] xl:max-w-[32rem]"
+    >
       <p class="break-words font-mono text-base font-black text-[#2b5b84] sm:text-lg xl:text-xl">
         {copy.nav.brand}
       </p>
       <p class="hidden break-words text-base leading-tight font-semibold text-[#586174] sm:block sm:text-lg lg:text-base xl:text-lg">
         {copy.nav.tagline}
       </p>
-    </div>
+    </a>
 
     <div class="flex w-full flex-wrap items-center gap-2 lg:w-auto lg:shrink-0 lg:justify-end lg:gap-3">
-      {
-        section === 'privacy' && (
-          <a
-            href={landingHref(locale)}
-            aria-label="CFP Home"
-            class:list={[navButtonBase, 'bg-white']}
-          >
-            CFP Home
-          </a>
-        )
-      }
-
       <div class="hidden items-center gap-1 rounded-full border-2 border-[#172033] bg-[#bfe8ff] px-3 py-2 font-mono text-xs font-black lg:flex">
         {
           supportedLocales.map((item) => (

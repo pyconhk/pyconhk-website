@@ -100,7 +100,7 @@ test.describe('2026 privacy policy i18n', () => {
       await expect(page.locator('html')).toHaveAttribute('lang', locale.htmlLang);
 
       const nav = await visibleNav(page);
-      const homeLink = nav.getByRole('link', { name: 'CFP Home' });
+      const homeLink = nav.getByRole('link', { name: /PyCon HK 2026 CFP/u });
 
       await expect(homeLink).toBeVisible();
       await expect(homeLink).toHaveAttribute('href', locale.landingHref);
