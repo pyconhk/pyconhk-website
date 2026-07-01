@@ -24,9 +24,14 @@ run = "mise //website:dev"
 [tasks.ci]
 description = "Check and build all apps"
 run = """
+mise run validate-cms-ops
 mise //...:check
 mise //...:build
 """
+
+[tasks.validate-cms-ops]
+description = "Validate CMS branch, workflow, and Decap content ownership policy"
+run = "node scripts/validate-cms-ops.mjs"
 
 [tasks.preview]
 description = "Build and preview the public website locally"

@@ -9,10 +9,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "astro check && bun run test",
     "cms:local-backend": "decap-server",
     "lint": "biome check src package.json tsconfig.json astro.config.mjs biome.json vercel.json mise.toml",
-    "format": "biome format --write src package.json tsconfig.json astro.config.mjs biome.json vercel.json mise.toml"
+    "format": "biome format --write src package.json tsconfig.json astro.config.mjs biome.json vercel.json mise.toml",
+    "test": "bun test src/**/*.test.ts"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.0",

@@ -40,6 +40,7 @@ website/public/outstatic/images/
 ```
 
 The promotion workflow must reject changes outside these paths and validate promoted content with `mise run //website:check` and `mise run //website:build`.
+Repository changes must also pass `mise run validate-cms-ops`, which checks that the Decap defaults, workflow branch rules, CMS-owned path allowlist, and promotion validation commands still match this model.
 
 ## Decap Backend Settings
 
@@ -53,6 +54,11 @@ CMS_PUBLIC_FOLDER=/outstatic/images
 CMS_LOCALES=en,zh-hk,zh-hant,zh-hans,ja
 CMS_DEFAULT_LOCALE=en
 ```
+
+CMS environment overrides are intentionally constrained. `CMS_LOCALES` and
+`CMS_DEFAULT_LOCALE` must stay within the website-supported locale set,
+`CMS_CONTENT_ROOT` and `CMS_MEDIA_FOLDER` must stay inside the CMS-owned promotion
+prefixes, and `CMS_PUBLIC_FOLDER` must remain `/outstatic/images`.
 
 ## Deployment Split
 

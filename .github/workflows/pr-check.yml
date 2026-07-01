@@ -62,6 +62,9 @@ jobs:
       - name: Install dependencies
         run: mise run install
 
+      - name: Validate CMS operations policy
+        run: mise run validate-cms-ops
+
       - name: Check website and CMS
         run: mise run '//...:check'
 

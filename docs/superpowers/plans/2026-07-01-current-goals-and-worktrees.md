@@ -178,6 +178,15 @@ Success conditions:
 The Decap CMS app and promotion workflow exist, but production operations still need
 secrets, branch protections, and deployment checks.
 
+Status: local CMS operations policy validation is implemented through
+`mise run validate-cms-ops` and is part of root `mise run ci` plus pull request
+validation. The gate checks Decap branch defaults, guarded CMS-owned content paths,
+multi-file locale configuration, promotion workflow branch/path rules, and website
+check/build validation commands. CMS env overrides now fail fast when locales or
+the default locale are not supported by the website, or when write paths fall
+outside the promotion-owned prefixes. Hosted GitHub settings, deployment secrets,
+and real CMS UI publishing still require environment-level verification.
+
 Success conditions:
 
 - `cms.pycon.hk` deploys the CMS app from production code, not from the content branch.

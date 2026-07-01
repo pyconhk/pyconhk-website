@@ -116,6 +116,7 @@ Related docs:
 - [x] Pin production-compatible Node 24.18.0 for the CMS runtime.
 - [ ] Confirm Cloudflare Pages uses Node 24.18.0 and Bun 1.3.10 for the `website/` build.
 - [x] Add mise monorepo task paths for checking and building the website app and CMS app together.
+- [x] Add a local CMS operations verifier for Decap branch defaults, guarded CMS-owned paths, supported locales/default locale, and promotion workflow checks.
 - [x] Document repo-level `mise run //...` commands and app-scoped `mise run //website:*` / `mise run //cms:*` commands using current stable mise monorepo settings.
 
 ## Content Strategy
