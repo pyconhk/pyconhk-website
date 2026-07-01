@@ -34,6 +34,13 @@ forked worktrees with parallel agents. It supersedes the unchecked execution sta
   e2e smoke gate after check/build. The suite also supports
   `PLAYWRIGHT_BASE_URL=https://<green-hostname>` for hosted green-environment smoke
   checks without starting a local Wrangler server.
+- Hosted CMS config smoke validation is available through
+  `mise run smoke-cms-config -- https://cms.pycon.hk`. It fetches Decap
+  `/admin/config.yml` and checks the GitHub branch, CMS-owned write paths,
+  multi-file i18n structure, and locale list.
+- The first live CMS smoke run against `https://cms.pycon.hk` fails with
+  `404 Not Found` for `/admin/config.yml`, so hosted CMS cutover/config remains an
+  external deployment task rather than a local-code task.
 
 ## Agent Audit Summary
 
@@ -43,6 +50,9 @@ forked worktrees with parallel agents. It supersedes the unchecked execution sta
 - Legacy year and asset audit: legacy route/data/page slices for 2018, 2020 Spring,
   2020 Fall, 2021, 2022, 2023, and 2024 are represented in `astro-migration`; older
   branch route files are superseded by the current highlight/sanitization handling.
+  The Simply Static crawl is about 257 MB, mostly WordPress runtime and upload variants;
+  direct crawl slug coverage is complete locally for 2018 through 2024, so remaining
+  legacy migration work is navigation purity, redirects, and asset deduplication.
 - Archive index, redirect, SEO, and deploy audit: archive indexes, 2025 compatibility,
   SEO primitives, Wrangler config, and mise monorepo tasks are represented. One
   missing redirect block for `/conference-highlights` was identified and should be
@@ -163,6 +173,24 @@ compatibility route and returns 200 in the focused rerun. A Playwright e2e smoke
 now exercises the launch-critical local routes through Wrangler Pages and can target a
 hosted green URL with `PLAYWRIGHT_BASE_URL`.
 
+Latest crawl inventory:
+
+- `/Users/alexau/Downloads/simply-static-1-1779119343` is about 257 MB. The largest
+  buckets are `wp-content/uploads` at about 168 MB, `wp-includes` at about 39 MB, and
+  `wp-content/plugins` at about 27 MB.
+- Local year coverage matches crawl slug counts for 2018, 2020 Spring, 2020 Fall,
+  2021, 2022, 2023, and 2024. The 2015-2017 material in this crawl only supports
+  highlight pages, not full schedules/sites.
+- Non-year legacy surfaces should stay compatibility-only: `/conference-highlights/*`
+  maps into year-owned highlights, category/tag/author/page archives are duplicate
+  WordPress index surfaces, and sponsor/community tags duplicate year pages.
+- Remaining year-first leak: `LegacyShell.astro` still links to
+  `/conference-highlights/pycon-hk-2024-photos/` and
+  `/category/conference-highlights/`; the renderable compatibility route is acceptable
+  for old URLs but should not be primary navigation.
+- Asset cleanup should keep only referenced legacy media, avoid WordPress runtime
+  folders, normalize duplicated media URLs, and run the existing Sharp optimizer.
+
 Success conditions:
 
 - Start the local site through mise-managed tasks.
@@ -200,8 +228,14 @@ validation. The gate checks Decap branch defaults, guarded CMS-owned content pat
 multi-file locale configuration, promotion workflow branch/path rules, and website
 check/build validation commands. CMS env overrides now fail fast when locales or
 the default locale are not supported by the website, or when write paths fall
-outside the promotion-owned prefixes. Hosted GitHub settings, deployment secrets,
-and real CMS UI publishing still require environment-level verification.
+outside the promotion-owned prefixes. A hosted config smoke command now checks the
+live Decap YAML contract when pointed at a CMS base URL. Hosted GitHub settings,
+deployment secrets, and real CMS UI publishing still require environment-level
+verification. Multi-locale Decap editing is implemented for the 2025 content shape,
+but year-generic public news routing is still being closed so future CMS-created
+`<year>-posts` folders do not become write-only content.
+The current live `https://cms.pycon.hk/admin/config.yml` check returns 404, which means
+the hosted CMS deployment is not yet serving this Decap config.
 
 Success conditions:
 
@@ -210,6 +244,9 @@ Success conditions:
 - The scheduled promotion workflow can merge content-only changes into `main` every
   10 minutes after website check/build validation.
 - Multi-locale content editing is documented and tested through the CMS UI.
+- Hosted `/admin/config.yml` passes `mise run smoke-cms-config -- https://cms.pycon.hk`.
+- CMS-authored posts in year folders beyond 2025 have public year-owned routes or are
+  explicitly blocked in the CMS until those routes exist.
 
 ### P1: Blue-Green Cutover And Rollback
 

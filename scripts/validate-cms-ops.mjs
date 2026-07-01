@@ -31,6 +31,9 @@ function validateRootMiseTasks() {
   requireIncludes("mise.toml", [
     "[tasks.validate-cms-ops]",
     "node scripts/validate-cms-ops.mjs",
+    "node --test scripts/*.test.mjs",
+    "[tasks.smoke-cms-config]",
+    "node scripts/smoke-cms-config.mjs",
     "mise run validate-cms-ops",
     "mise //...:check",
     "mise //...:build",
@@ -113,6 +116,7 @@ function validateBranchingSpec() {
     "CMS_PUBLIC_FOLDER=/outstatic/images",
     "CMS_LOCALES=en,zh-hk,zh-hant,zh-hans,ja",
     "`cms.pycon.hk` deploys the CMS app from `main`",
+    "mise run smoke-cms-config -- https://cms.pycon.hk",
   ]);
 }
 

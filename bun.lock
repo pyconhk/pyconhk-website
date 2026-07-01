@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "pyconhk-website-monorepo",
+      "devDependencies": {
+        "yaml": "^2.8.0",
+      },
     },
     "cms": {
       "name": "pyconhk-website-cms",

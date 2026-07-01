@@ -31,7 +31,14 @@ mise //...:build
 
 [tasks.validate-cms-ops]
 description = "Validate CMS branch, workflow, and Decap content ownership policy"
-run = "node scripts/validate-cms-ops.mjs"
+run = """
+node scripts/validate-cms-ops.mjs
+node --test scripts/*.test.mjs
+"""
+
+[tasks.smoke-cms-config]
+description = "Validate a hosted Decap config.yml against CMS branch, path, and locale policy"
+run = "node scripts/smoke-cms-config.mjs"
 
 [tasks.preview]
 description = "Build and preview the public website locally"

@@ -73,6 +73,7 @@ This setup uses the current stable mise monorepo settings.
 - `mise run cloudflare-preview` - build and preview through Wrangler Pages for redirect/runtime checks
 - `mise run e2e` - run the public website Playwright smoke tests
 - `PLAYWRIGHT_BASE_URL=https://<green-hostname> mise run e2e` - run the same smoke tests against a hosted green environment
+- `mise run smoke-cms-config -- https://cms.pycon.hk` - verify hosted Decap config branch, path, and locale policy
 
 ## Routing Model
 

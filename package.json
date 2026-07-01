@@ -10,6 +10,9 @@
     "website",
     "cms"
   ],
+  "devDependencies": {
+    "yaml": "^2.8.0"
+  },
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",
     "dev": "mise //website:dev",

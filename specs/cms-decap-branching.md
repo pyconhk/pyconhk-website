@@ -60,6 +60,24 @@ CMS environment overrides are intentionally constrained. `CMS_LOCALES` and
 `CMS_CONTENT_ROOT` and `CMS_MEDIA_FOLDER` must stay inside the CMS-owned promotion
 prefixes, and `CMS_PUBLIC_FOLDER` must remain `/outstatic/images`.
 
+## Hosted Config Smoke Check
+
+After deploying `cms.pycon.hk`, verify the live Decap config matches the branch,
+path, and locale contract:
+
+```bash
+mise run smoke-cms-config -- https://cms.pycon.hk
+```
+
+The smoke check fetches `/admin/config.yml` from the supplied CMS host and asserts:
+
+- backend `name: github`, `repo: pyconhk/pyconhk-website`, and `branch: cms`
+- `publish_mode: editorial_workflow`
+- CMS-owned `media_folder`, `public_folder`, and post collection `folder`
+- Decap i18n `structure: multiple_files`, all supported CMS locales, and default
+  locale `en`
+- localized post body editing for the `posts` collection
+
 ## Deployment Split
 
 - `pycon.hk` deploys the website app from `main`.
