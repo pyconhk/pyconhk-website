@@ -173,6 +173,27 @@ compatibility route and returns 200 in the focused rerun. A Playwright e2e smoke
 now exercises the launch-critical local routes through Wrangler Pages and can target a
 hosted green URL with `PLAYWRIGHT_BASE_URL`.
 
+Latest live comparison evidence:
+
+- A fresh local-vs-live run compared 22 routes at desktop `1440x1000` and mobile
+  `390x844`; current artifacts live under
+  `output/playwright/hosted-live-ui-parity-current-20260701T062916Z/`.
+- Route parity risk: local serves localized 2025 routes such as `/2025/en/`,
+  `/2025/en/news/`, `/2025/en/news/pre-event-notice/`, and `/2025/zh-hk/`, while live
+  currently returns 404 for those paths. Decide whether these are intentional new
+  routes for the Astro launch or whether 2025 navigation should remain unlocalized.
+- Visual/content differences still needing owner decision: local 2025 schedule has a
+  Pretalx-derived hero block before the live-style schedule content; local 2025 news
+  cards include excerpts and long-form dates; local supporting-organizations headings
+  differ from live; local metadata uses `PyCon Hong Kong 2025` where live mostly uses
+  `PyCon HK 2025`.
+- 2026 canonical `/2026/en/` and `/2026/zh-hk/` match content, but font/link formatting
+  differs. The `/zh-hk/` alias intentionally differs from live today because local uses
+  localized Cantonese CFP copy while live still shows English CFP copy there.
+- Legacy year routes remain simplified Astro archives rather than full WordPress visual
+  parity; this is acceptable only if the launch strategy treats them as archival,
+  year-first compatibility pages rather than exact restores.
+
 Latest crawl inventory:
 
 - `/Users/alexau/Downloads/simply-static-1-1779119343` is about 257 MB. The largest
