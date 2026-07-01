@@ -72,6 +72,7 @@ This setup uses the current stable mise monorepo settings.
 - `mise run preview` - build and preview the generated website on `127.0.0.1:8788`
 - `mise run cloudflare-preview` - build and preview through Wrangler Pages for redirect/runtime checks
 - `mise run e2e` - run the public website Playwright smoke tests
+- `PLAYWRIGHT_BASE_URL=https://<green-hostname> mise run e2e` - run the same smoke tests against a hosted green environment
 
 ## Routing Model
 

@@ -70,3 +70,10 @@ jobs:
 
       - name: Build website and CMS
         run: mise run '//...:build'
+
+      - name: Install Playwright browser
+        working-directory: website
+        run: mise exec -- bunx playwright install chromium
+
+      - name: Run website e2e smoke tests
+        run: mise run '//website:e2e'

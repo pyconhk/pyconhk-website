@@ -30,6 +30,10 @@ forked worktrees with parallel agents. It supersedes the unchecked execution sta
 - Playwright e2e coverage now runs through `mise //website:e2e` against a local
   Wrangler Pages server. It covers locale-cookie redirects, legacy redirects, critical
   current/archive/news pages, robots, sitemap, and key static assets.
+- Pull request validation now installs a Playwright browser and runs the same website
+  e2e smoke gate after check/build. The suite also supports
+  `PLAYWRIGHT_BASE_URL=https://<green-hostname>` for hosted green-environment smoke
+  checks without starting a local Wrangler server.
 
 ## Agent Audit Summary
 
@@ -82,6 +86,13 @@ merge them blindly.
 | `/Users/alexau/Project/pyconhk-website-port-legacy-indexes` | `codex/port-legacy-indexes` | Clean but not ancestor; review unique commit before cleanup |
 | `/Users/alexau/Project/pyconhk-website-port-legacy-urls` | `codex/port-legacy-urls` | Clean port; superseded after highlight redirects land |
 | `/Users/alexau/Project/pyconhk-website-port-seo-deploy` | `codex/port-seo-deploy` | Clean but not ancestor; review unique commit before cleanup |
+
+Current live-state notes:
+
+- The active repo has untracked visual parity evidence under `output/`; keep it out of
+  code commits unless the owner asks to preserve those artifacts in git.
+- Local branch `alex-dev` is not an ancestor of `astro-migration` and needs separate
+  owner review before any branch cleanup.
 
 ## Related Repositories
 
@@ -149,7 +160,8 @@ Status: exact desktop and mobile evidence has been generated for the requested r
 set. Current major differences are intentional migration differences or known legacy
 URL compatibility gaps rather than missing local assets; `/news/` now has a local
 compatibility route and returns 200 in the focused rerun. A Playwright e2e smoke gate
-now exercises the launch-critical local routes through Wrangler Pages.
+now exercises the launch-critical local routes through Wrangler Pages and can target a
+hosted green URL with `PLAYWRIGHT_BASE_URL`.
 
 Success conditions:
 
@@ -208,6 +220,8 @@ Success conditions:
 - A green Cloudflare Pages environment exists with the Astro build.
 - Playwright smoke tests cover redirects, locale cookies, critical pages, static assets, robots,
   and sitemap.
+- The same Playwright smoke tests pass against the hosted green hostname through
+  `PLAYWRIGHT_BASE_URL`.
 - Rollback steps are documented and rehearsed.
 
 ### P2: Worktree Cleanup

@@ -8,6 +8,14 @@ function normalizeRedirectLocation(location: string | undefined): string {
   return location.replace(/\/+$/u, '');
 }
 
+function cookieDomain(baseURL: string | undefined): string {
+  if (!baseURL) {
+    return '127.0.0.1';
+  }
+
+  return new URL(baseURL).hostname;
+}
+
 const criticalPages = [
   {
     path: '/en/',
@@ -58,6 +66,7 @@ const redirectChecks = [
 
 test.describe('blue-green launch smoke', () => {
   test('redirects neutral entry pages by preferred locale cookie', async ({
+    baseURL,
     context,
     page,
   }) => {
@@ -68,7 +77,7 @@ test.describe('blue-green launch smoke', () => {
     await context.clearCookies();
     await context.addCookies([
       {
-        domain: '127.0.0.1',
+        domain: cookieDomain(baseURL),
         name: 'preferredLocale',
         path: '/',
         value: 'zh-hk',
