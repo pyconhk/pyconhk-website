@@ -9,6 +9,65 @@ const localeLinks = [
   { label: 'JA', href: '/ja/privacy-policy' },
 ] as const;
 
+const privacyLocales = [
+  {
+    activeLabel: 'EN',
+    heading: 'PyCon Hong Kong Privacy Policy Statement',
+    htmlLang: 'en',
+    landingHref: '/en',
+    path: '/privacy-policy',
+  },
+  {
+    activeLabel: 'EN',
+    heading: 'PyCon Hong Kong Privacy Policy Statement',
+    htmlLang: 'en',
+    landingHref: '/en',
+    path: '/en/privacy-policy',
+  },
+  {
+    activeLabel: '粵',
+    heading: 'PyCon Hong Kong 私隱政策聲明',
+    htmlLang: 'zh-HK',
+    landingHref: '/zh-hk',
+    path: '/zh-hk/privacy-policy',
+  },
+  {
+    activeLabel: '繁',
+    heading: 'PyCon Hong Kong 私隱政策聲明',
+    htmlLang: 'zh-Hant',
+    landingHref: '/zh-hant',
+    path: '/zh-hant/privacy-policy',
+  },
+  {
+    activeLabel: '简',
+    heading: 'PyCon Hong Kong Privacy Policy Statement',
+    htmlLang: 'zh-Hans',
+    landingHref: '/zh-hans',
+    path: '/zh-cn/privacy-policy',
+  },
+  {
+    activeLabel: '简',
+    heading: 'PyCon Hong Kong Privacy Policy Statement',
+    htmlLang: 'zh-Hans',
+    landingHref: '/zh-hans',
+    path: '/zh-hans/privacy-policy',
+  },
+  {
+    activeLabel: 'KR',
+    heading: 'PyCon Hong Kong Privacy Policy Statement',
+    htmlLang: 'ko',
+    landingHref: '/ko',
+    path: '/ko/privacy-policy',
+  },
+  {
+    activeLabel: 'JA',
+    heading: 'PyCon Hong Kong プライバシーポリシー',
+    htmlLang: 'ja',
+    landingHref: '/ja',
+    path: '/ja/privacy-policy',
+  },
+] as const;
+
 async function visibleNav(page: Page) {
   const nav = page.getByRole('navigation');
   await expect(nav).toBeVisible();
@@ -31,6 +90,28 @@ async function currentLocaleLabels(page: Page) {
 }
 
 test.describe('2026 privacy policy i18n', () => {
+  for (const locale of privacyLocales) {
+    test(`renders valid privacy content and landing navigation for ${locale.path}`, async ({
+      page,
+    }) => {
+      await page.goto(locale.path);
+
+      await expect(page.getByRole('heading', { name: locale.heading })).toBeVisible();
+      await expect(page.locator('html')).toHaveAttribute('lang', locale.htmlLang);
+
+      const nav = await visibleNav(page);
+      const homeLink = nav.getByRole('link', { name: 'CFP Home' });
+
+      await expect(homeLink).toBeVisible();
+      await expect(homeLink).toHaveAttribute('href', locale.landingHref);
+      await expect.poll(() => currentLocaleLabels(page)).toContain(locale.activeLabel);
+      await expect(page.locator('main section[id="information-we-collect"]')).toBeVisible();
+
+      await homeLink.click();
+      await expect(page).toHaveURL(locale.landingHref);
+    });
+  }
+
   test('renders English latest privacy page with CFP nav and privacy locale links', async ({
     page,
   }) => {

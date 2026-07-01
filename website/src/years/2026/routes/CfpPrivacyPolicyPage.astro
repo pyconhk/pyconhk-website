@@ -12,8 +12,15 @@ interface Props {
 
 const { locale } = Astro.props;
 const copy = contentByLocale[locale];
-const policyLocale: SiteLocale =
-  locale === 'en' || locale === 'zh-hk' || locale === 'ja' ? locale : 'en';
+const policyLocaleByCfpLocale = {
+  en: 'en',
+  'zh-hk': 'zh-hk',
+  'zh-hant': 'zh-hk',
+  'zh-hans': 'en',
+  ko: 'en',
+  ja: 'ja',
+} as const satisfies Record<CfpLocale, SiteLocale>;
+const policyLocale = policyLocaleByCfpLocale[locale];
 const title = `Privacy Policy | ${copy.nav.brand}`;
 const description = 'PyCon Hong Kong privacy policy statement.';
 ---

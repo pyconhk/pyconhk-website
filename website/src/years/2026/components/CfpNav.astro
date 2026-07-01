@@ -30,6 +30,10 @@ const compactHeaderLabels: Record<CfpLocale, { proposal: string; sponsor: string
   ja: { proposal: 'プロポーザル', sponsor: 'スポンサー' },
 };
 
+function landingHref(item: CfpLocale) {
+  return `/${item}`;
+}
+
 function localeHref(item: CfpLocale) {
   if (section === 'privacy') {
     if (item === 'en') {
@@ -61,7 +65,19 @@ const compactLabels = compactHeaderLabels[locale];
       </p>
     </div>
 
-    <div class="grid w-full grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 lg:flex lg:w-auto lg:shrink-0 lg:justify-end lg:gap-3">
+    <div class="flex w-full flex-wrap items-center gap-2 lg:w-auto lg:shrink-0 lg:justify-end lg:gap-3">
+      {
+        section === 'privacy' && (
+          <a
+            href={landingHref(locale)}
+            aria-label="CFP Home"
+            class:list={[navButtonBase, 'bg-white']}
+          >
+            CFP Home
+          </a>
+        )
+      }
+
       <div class="hidden items-center gap-1 rounded-full border-2 border-[#172033] bg-[#bfe8ff] px-3 py-2 font-mono text-xs font-black lg:flex">
         {
           supportedLocales.map((item) => (
