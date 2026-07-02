@@ -1,0 +1,14 @@
+---
+import type { Legacy2015Page } from '@/years/2015/data/types';
+
+interface Props {
+  page: Legacy2015Page;
+}
+
+const { page } = Astro.props;
+---
+
+<main class="container legacy-2015-compatibility-page">
+  <h1>{page.route}</h1>
+  <Fragment set:html={page.bodyHtml} />
+</main>

@@ -1,0 +1,11 @@
+---
+import type { Legacy2015Page } from '@/years/2015/data/types';
+
+interface Props {
+  page: Legacy2015Page;
+}
+
+const { page } = Astro.props;
+---
+
+<Fragment set:html={page.bodyHtml} />
