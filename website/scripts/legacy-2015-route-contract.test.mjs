@@ -29,6 +29,10 @@ function readOutput(route) {
   return fs.readFileSync(outputFileForRoute(route), 'utf8');
 }
 
+function readDistFile(fileName) {
+  return fs.readFileSync(new URL(fileName, distDir), 'utf8');
+}
+
 function outputFileForRoute(route) {
   const clean = decodeURI(route).replace(/^\/|\/$/gu, '');
   return path.join(distDir.pathname, `${clean}.html`);
@@ -80,6 +84,38 @@ describe('PyCon HK 2015 route contract', () => {
       .filter(([, filePath]) => fs.existsSync(filePath));
 
     assert.deepEqual(encodedDuplicates, []);
+  });
+
+  it('does not emit stale HTML for migrated top-level 2015 routes', () => {
+    const emittedMigratedSources = routeContract.migratedTopLevelRoutes
+      .map(({ from }) => [from, outputFileForRoute(from)])
+      .filter(([, filePath]) => fs.existsSync(filePath));
+
+    assert.deepEqual(emittedMigratedSources, []);
+  });
+
+  it('redirects migrated top-level 2015 routes to their year-scoped routes', () => {
+    const redirects = readDistFile('_redirects');
+
+    for (const { from, to } of routeContract.migratedTopLevelRoutes) {
+      const fromWithoutSlash = from.replace(/\/$/u, '');
+      const toWithoutSlash = to.replace(/\/$/u, '');
+
+      assert.match(
+        redirects,
+        new RegExp(`^${fromWithoutSlash} ${toWithoutSlash} 308$`, 'mu')
+      );
+      assert.match(redirects, new RegExp(`^${from} ${toWithoutSlash} 308$`, 'mu'));
+    }
+  });
+
+  it('lists migrated 2015 routes in the sitemap under the year scope', () => {
+    const sitemap = readDistFile('sitemap.xml');
+
+    for (const { from, to } of routeContract.migratedTopLevelRoutes) {
+      assert.ok(!sitemap.includes(`https://pycon.hk${from}`));
+      assert.ok(sitemap.includes(`https://pycon.hk${to}`));
+    }
   });
 
   it('rewrites visible legacy 2015 image URLs to Astro-managed assets', () => {

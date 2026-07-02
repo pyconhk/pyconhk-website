@@ -1,6 +1,10 @@
 import type { APIRoute } from 'astro';
 import { currentConferenceYear, locales, type SiteLocale } from '@/config/site';
 import { legacyHighlights } from '@/legacy/legacy-indexes';
+import {
+  isMigratedTopLevelRoute,
+  migratedTopLevelRouteTargets,
+} from '@/legacy/migrated-routes';
 import { getAvailablePostYears, getPublishedPostSlugs } from '@/lib/news';
 import { buildLocalizedCanonicalPath, toAbsoluteSiteUrl } from '@/lib/seo';
 import { siteSections } from '@/years/2025/data/sections';
@@ -168,13 +172,16 @@ export const GET: APIRoute = async () => {
         })
     )
   ).flat();
-  const legacyHighlightEntries = legacyHighlights.map((highlight) =>
-    buildStaticEntry(highlight.path)
-  );
+  const legacyHighlightEntries = legacyHighlights
+    .filter((highlight) => !isMigratedTopLevelRoute(highlight.path))
+    .map((highlight) => buildStaticEntry(highlight.path));
+  const migratedTopLevelRouteEntries =
+    migratedTopLevelRouteTargets.map(buildStaticEntry);
   const entries = [
     ...currentYearEntries,
     ...archiveYearEntries,
     ...cmsPostEntries,
+    ...migratedTopLevelRouteEntries,
     ...legacyHighlightEntries,
   ];
   const body = [
