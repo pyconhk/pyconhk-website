@@ -6,8 +6,9 @@ import routeContract from '../src/years/2015/data/routes.json' with { type: 'jso
 const liveBase = 'https://pycon.hk';
 const outputRoot = new URL('../../output/legacy-2015-source/', import.meta.url);
 const assetRoot = new URL('../src/years/2015/assets/live/', import.meta.url);
-const assetPattern =
-  /\b(?:src|href)\s*=\s*["']([^"']+\.(?:png|jpe?g|gif|webp|svg)(?:[?#][^"']*)?)["']/giu;
+const tagPattern = /<([a-z][a-z0-9:-]*)(\s[^>]*)?>/giu;
+const attributePattern = /\b(src|href|rel)\s*=\s*["']([^"']*)["']/giu;
+const imageUrlPattern = /\.(?:png|jpe?g|gif|webp|svg)(?:[?#].*)?$/iu;
 
 function decodeUrlPath(urlPath) {
   try {
@@ -37,6 +38,14 @@ export function routeSlug(route) {
     .toLowerCase();
 
   return slug || 'index';
+}
+
+export function sourceRouteForTarget(route) {
+  const mapping = routeContract.migratedTopLevelRoutes.find(
+    (candidate) => candidate.to === route
+  );
+
+  return mapping ? mapping.from : route;
 }
 
 export function assetFileName(url) {
@@ -90,14 +99,41 @@ export function collectAssetUrls(html, route) {
   const urls = [];
   const base = new URL(route, liveBase);
 
-  for (const match of html.matchAll(assetPattern)) {
-    const raw = match[1];
+  for (const tagMatch of html.matchAll(tagPattern)) {
+    const tagName = tagMatch[1].toLowerCase();
+    const attributes = [];
+    let rel = '';
 
-    if (/^data:/iu.test(raw)) {
-      continue;
+    for (const attributeMatch of tagMatch[2]?.matchAll(attributePattern) ?? []) {
+      const name = attributeMatch[1].toLowerCase();
+      const value = attributeMatch[2];
+
+      if (name === 'rel') {
+        rel = value;
+      }
+
+      attributes.push({ name, value });
     }
 
-    urls.push(new URL(raw, base).href);
+    for (const { name, value } of attributes) {
+      if (!['src', 'href'].includes(name)) {
+        continue;
+      }
+
+      if (
+        tagName === 'link' &&
+        name === 'href' &&
+        /\b(?:apple-touch-icon|icon)\b/iu.test(rel)
+      ) {
+        continue;
+      }
+
+      if (/^data:/iu.test(value) || !imageUrlPattern.test(value)) {
+        continue;
+      }
+
+      urls.push(new URL(value, base).href);
+    }
   }
 
   return urls;
@@ -112,17 +148,18 @@ export async function captureLegacy2015Source() {
   const assetUrls = new Set();
 
   for (const route of routeContract.requiredRoutes) {
-    const url = new URL(route, liveBase).href;
-    const { status, text } = await fetchText(url);
+    const sourceRoute = sourceRouteForTarget(route);
+    const sourceUrl = new URL(sourceRoute, liveBase).href;
+    const { status, text } = await fetchText(sourceUrl);
     const fileName = `${routeSlug(route)}.html`;
 
     await fs.writeFile(new URL(`html/${fileName}`, outputRoot), text);
 
-    for (const assetUrl of collectAssetUrls(text, route)) {
+    for (const assetUrl of collectAssetUrls(text, sourceRoute)) {
       assetUrls.add(assetUrl);
     }
 
-    pages.push({ fileName, route, status, url });
+    pages.push({ fileName, route, sourceRoute, sourceUrl, status });
   }
 
   const assets = [];
