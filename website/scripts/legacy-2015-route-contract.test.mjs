@@ -8,10 +8,21 @@ const distDir = new URL('../dist/', import.meta.url);
 
 function outputFileForRoute(route) {
   const clean = route.replace(/^\/|\/$/gu, '');
-  return path.join(distDir.pathname, clean, 'index.html');
+  return path.join(distDir.pathname, `${clean}.html`);
 }
 
 describe('PyCon HK 2015 route contract', () => {
+  it('maps trailing-slash routes to Astro file-format output paths', () => {
+    assert.equal(
+      outputFileForRoute('/2015/'),
+      path.join(distDir.pathname, '2015.html')
+    );
+    assert.equal(
+      outputFileForRoute('/2015/schedule/'),
+      path.join(distDir.pathname, '2015/schedule.html')
+    );
+  });
+
   it('has no duplicate required routes', () => {
     assert.equal(
       new Set(routeContract.requiredRoutes).size,
@@ -26,7 +37,7 @@ describe('PyCon HK 2015 route contract', () => {
     ]);
   });
 
-  it('emits one built HTML file for every required 2015 route', () => {
+  it('emits one file-format built output for every required 2015 route', () => {
     const missing = routeContract.requiredRoutes
       .map((route) => [route, outputFileForRoute(route)])
       .filter(([, filePath]) => !fs.existsSync(filePath));

@@ -150,10 +150,21 @@ const distDir = new URL('../dist/', import.meta.url);
 
 function outputFileForRoute(route) {
   const clean = route.replace(/^\/|\/$/gu, '');
-  return path.join(distDir.pathname, clean, 'index.html');
+  return path.join(distDir.pathname, `${clean}.html`);
 }
 
 describe('PyCon HK 2015 route contract', () => {
+  it('maps trailing-slash routes to Astro file-format output paths', () => {
+    assert.equal(
+      outputFileForRoute('/2015/'),
+      path.join(distDir.pathname, '2015.html')
+    );
+    assert.equal(
+      outputFileForRoute('/2015/schedule/'),
+      path.join(distDir.pathname, '2015/schedule.html')
+    );
+  });
+
   it('has no duplicate required routes', () => {
     assert.equal(
       new Set(routeContract.requiredRoutes).size,
@@ -168,7 +179,7 @@ describe('PyCon HK 2015 route contract', () => {
     ]);
   });
 
-  it('emits one built HTML file for every required 2015 route', () => {
+  it('emits one file-format built output for every required 2015 route', () => {
     const missing = routeContract.requiredRoutes
       .map((route) => [route, outputFileForRoute(route)])
       .filter(([, filePath]) => !fs.existsSync(filePath));
@@ -194,10 +205,10 @@ Run:
 
 ```bash
 MISE_EXPERIMENTAL=0 mise run //website:build
-cd website && bun run test:legacy-2015
+cd website && MISE_EXPERIMENTAL=0 mise exec -- bun run test:legacy-2015
 ```
 
-Expected: build may succeed, then `test:legacy-2015` fails with missing files such as `dist/2015/schedule/index.html`. This confirms the contract test catches the current gap.
+Expected: build may succeed, then `test:legacy-2015` fails with missing file-format outputs such as `dist/2015/schedule.html`. The missing list should not include `/2015/` if `dist/2015.html` already exists. This confirms the contract test catches the current gap.
 
 - [ ] **Step 5: Commit Task 1**
 
