@@ -1,0 +1,55 @@
+---
+import CompatibilityAsset2015 from '@/years/2015/components/CompatibilityAsset2015.astro';
+import Layout2015 from '@/years/2015/components/Layout2015.astro';
+import PageContent2015 from '@/years/2015/components/PageContent2015.astro';
+import { legacy2015Pages } from '@/years/2015/data/pages';
+import type { Legacy2015Page } from '@/years/2015/data/types';
+
+interface Props {
+  page: Legacy2015Page;
+}
+
+export function getStaticPaths() {
+  function pathParamFromRoute(route: string): string {
+    return decodeURI(route.replace(/^\/2015\//u, '').replace(/\/$/u, ''));
+  }
+
+  function encodedPathParamFromRoute(route: string): string {
+    return route.replace(/^\/2015\//u, '').replace(/\/$/u, '');
+  }
+
+  return legacy2015Pages
+    .filter((page) => page.route !== '/2015/')
+    .flatMap((page) => {
+      const paths = [
+        {
+          params: { path: pathParamFromRoute(page.route) },
+          props: { page },
+        },
+      ];
+
+      if (page.route.includes('%')) {
+        // Astro decodes params for props lookup, but the route contract requires
+        // the percent-encoded output file to exist on disk.
+        paths.push({
+          params: { path: encodedPathParamFromRoute(page.route) },
+          props: { page },
+        });
+      }
+
+      return paths;
+    });
+}
+
+const { page } = Astro.props;
+---
+
+<Layout2015 title={page.title} description={page.description}>
+  {
+    page.kind === 'html' ? (
+      <PageContent2015 page={page} />
+    ) : (
+      <CompatibilityAsset2015 page={page} />
+    )
+  }
+</Layout2015>
