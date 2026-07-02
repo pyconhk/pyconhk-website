@@ -7,6 +7,11 @@ import routeContract from '../src/years/2015/data/routes.json' with { type: 'jso
 const distDir = new URL('../dist/', import.meta.url);
 
 function outputFileForRoute(route) {
+  const clean = decodeURI(route).replace(/^\/|\/$/gu, '');
+  return path.join(distDir.pathname, `${clean}.html`);
+}
+
+function rawEncodedOutputFileForRoute(route) {
   const clean = route.replace(/^\/|\/$/gu, '');
   return path.join(distDir.pathname, `${clean}.html`);
 }
@@ -43,5 +48,14 @@ describe('PyCon HK 2015 route contract', () => {
       .filter(([, filePath]) => !fs.existsSync(filePath));
 
     assert.deepEqual(missing, []);
+  });
+
+  it('does not emit duplicate raw percent-encoded files for encoded routes', () => {
+    const encodedDuplicates = routeContract.requiredRoutes
+      .filter((route) => route.includes('%'))
+      .map((route) => [route, rawEncodedOutputFileForRoute(route)])
+      .filter(([, filePath]) => fs.existsSync(filePath));
+
+    assert.deepEqual(encodedDuplicates, []);
   });
 });
