@@ -452,7 +452,13 @@
 }
 
 .legacy-2015-site .legacy-2015-nav-checkbox {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 .legacy-2015-site .navbar-header {
@@ -491,6 +497,11 @@
 .legacy-2015-site .navbar-toggle:hover,
 .legacy-2015-site .navbar-toggle:focus {
   background-color: #333;
+}
+
+.legacy-2015-site .legacy-2015-nav-checkbox:focus + .navbar-header .navbar-toggle {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 
 .legacy-2015-site .navbar-toggle .icon-bar {
@@ -573,10 +584,6 @@
 
 .legacy-2015-site .dropdown {
   position: relative;
-}
-
-.legacy-2015-site .dropdown-toggle:focus {
-  outline: 0;
 }
 
 .legacy-2015-site .caret {
