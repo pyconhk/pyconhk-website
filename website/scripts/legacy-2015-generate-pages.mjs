@@ -246,6 +246,14 @@ function withTrailingSlashForRoute(pathname) {
     : `${pathname}/`;
 }
 
+function rewriteUploadPath(pathname, search, hash) {
+  if (!/^\/wp-content\/uploads\/\d{4}\//u.test(pathname)) {
+    return '';
+  }
+
+  return `/legacy-wp/uploads${pathname.slice('/wp-content/uploads'.length)}${search}${hash}`;
+}
+
 function rewriteUrl(value, sourceUrl) {
   const trimmed = value.trim();
 
@@ -271,6 +279,14 @@ function rewriteUrl(value, sourceUrl) {
   const hostname = parsed.hostname.toLowerCase().replace(/^www\./u, '');
   let pathname = parsed.pathname;
   let shouldRewrite = false;
+
+  if (hostname === 'pycon.hk' || hostname === 'legacy.pycon.hk') {
+    const uploadPath = rewriteUploadPath(pathname, parsed.search, parsed.hash);
+
+    if (uploadPath) {
+      return uploadPath;
+    }
+  }
 
   if (hostname === '2015.pycon.hk') {
     pathname = `/2015${pathname === '/' ? '/' : pathname}`;
@@ -311,7 +327,7 @@ function rewriteHtmlFragment(html, sourceUrl) {
   return html.replace(/<[a-z][a-z0-9:-]*(?:\s[^<>]*)?>/giu, (tag) =>
     tag.replace(
       /\b(href|src|poster|data-src|action|srcset)\s*=\s*(["'])([\s\S]*?)\2/giu,
-      (match, name, quote, value) => {
+      (_match, name, quote, value) => {
         const rewritten =
           name.toLowerCase() === 'srcset'
             ? rewriteSrcset(value, sourceUrl)
@@ -449,6 +465,94 @@ function validateManifestPage(page) {
   }
 }
 
+function findUploadUrlResidues(page) {
+  const residuePattern =
+    /https:\/\/(?:legacy\.)?pycon\.hk\/wp-content\/uploads|(?:src|href)="\/wp-content\/uploads/gu;
+  return page.bodyHtml.match(residuePattern) ?? [];
+}
+
+function assertNoUploadUrlResidues(pages) {
+  const failures = pages
+    .map((page) => ({
+      residues: findUploadUrlResidues(page),
+      route: page.route,
+    }))
+    .filter((entry) => entry.residues.length > 0);
+
+  if (failures.length > 0) {
+    throw new Error(
+      [
+        'Generated 2015 pages contain stale WordPress upload URL shapes.',
+        ...failures.map(
+          (failure) =>
+            `${failure.route}: ${[...new Set(failure.residues)].join(', ')}`
+        ),
+      ].join('\n')
+    );
+  }
+}
+
+function trimTrailingLineWhitespace(value) {
+  return value.replace(/[ \t]+$/gmu, '');
+}
+
+function escapeQuotedString(value, quote) {
+  return value.replace(
+    /[\u0000-\u001f"'\\\u2028\u2029]/gu,
+    (character) => {
+      if (character !== quote && character !== '\\' && character >= ' ') {
+        if (character === '\u2028' || character === '\u2029') {
+          return `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`;
+        }
+
+        return character;
+      }
+
+      switch (character) {
+        case '"':
+          return '\\"';
+        case "'":
+          return "\\'";
+        case '\\':
+          return '\\\\';
+        case '\b':
+          return '\\b';
+        case '\f':
+          return '\\f';
+        case '\n':
+          return '\\n';
+        case '\r':
+          return '\\r';
+        case '\t':
+          return '\\t';
+        default:
+          return `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`;
+      }
+    }
+  );
+}
+
+function tsString(value) {
+  const singleQuoteCount = value.match(/'/gu)?.length ?? 0;
+  const doubleQuoteCount = value.match(/"/gu)?.length ?? 0;
+  const quote = singleQuoteCount > doubleQuoteCount ? '"' : "'";
+
+  return `${quote}${escapeQuotedString(value, quote)}${quote}`;
+}
+
+function tsScalar(value) {
+  return typeof value === 'string' ? tsString(value) : JSON.stringify(value);
+}
+
+function propertyLine(name, value) {
+  const scalar = tsScalar(value);
+  const singleLine = `    ${name}: ${scalar},`;
+
+  return singleLine.length <= 88
+    ? singleLine
+    : `    ${name}:\n      ${scalar},`;
+}
+
 function escapeTemplateLiteral(value) {
   return value
     .replace(/\\/gu, '\\\\')
@@ -457,17 +561,22 @@ function escapeTemplateLiteral(value) {
 }
 
 function pageEntry(page) {
+  const bodyHtml = trimTrailingLineWhitespace(page.bodyHtml);
+  const visibleText = trimTrailingLineWhitespace(page.visibleText);
+
   return `  {
-    route: ${JSON.stringify(page.route)},
-    sourceRoute: ${JSON.stringify(page.sourceRoute)},
-    sourceUrl: ${JSON.stringify(page.sourceUrl)},
-    status: ${JSON.stringify(page.status)},
-    title: ${JSON.stringify(page.title)},
-    description: ${JSON.stringify(page.description)},
-    kind: ${JSON.stringify(page.kind)},
-    capturedFile: ${JSON.stringify(page.capturedFile)},
-    bodyHtml: \`${escapeTemplateLiteral(page.bodyHtml)}\`,
-    visibleText: \`${escapeTemplateLiteral(page.visibleText)}\`,
+${[
+  propertyLine('route', page.route),
+  propertyLine('sourceRoute', page.sourceRoute),
+  propertyLine('sourceUrl', page.sourceUrl),
+  propertyLine('status', page.status),
+  propertyLine('title', page.title),
+  propertyLine('description', page.description),
+  propertyLine('kind', page.kind),
+  propertyLine('capturedFile', page.capturedFile),
+].join('\n')}
+    bodyHtml: \`${escapeTemplateLiteral(bodyHtml)}\`,
+    visibleText: \`${escapeTemplateLiteral(visibleText)}\`,
   }`;
 }
 
@@ -475,7 +584,7 @@ function dataFileContents(pages) {
   return `import type { Legacy2015Page } from './types';
 
 export const legacy2015Pages: Legacy2015Page[] = [
-${pages.map(pageEntry).join(',\n')}
+${pages.map(pageEntry).join(',\n')},
 ];
 
 const pagesByRoute = new Map<string, Legacy2015Page>(
@@ -541,6 +650,7 @@ export async function generateLegacy2015Pages() {
   }
 
   validateRouteCoverage('Generated pages', routes.requiredRoutes, generatedPages);
+  assertNoUploadUrlResidues(generatedPages);
 
   await fs.mkdir(new URL('.', pagesOutputUrl), { recursive: true });
   await fs.writeFile(pagesOutputUrl, dataFileContents(generatedPages));
