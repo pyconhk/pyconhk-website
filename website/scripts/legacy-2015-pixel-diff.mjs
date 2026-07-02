@@ -17,10 +17,15 @@ const flagsWithValues = new Set([
   '--local-base',
   '--out',
   '--path',
+  '--path-pair',
+  '--path-pairs',
   '--paths',
   '--viewport',
   '--viewports',
 ]);
+const liveRouteByLocalRoute = new Map(
+  routeContract.migratedTopLevelRoutes.map(({ from, to }) => [to, from])
+);
 
 function hasFlag(argv, names) {
   return argv.some((arg) =>
@@ -49,8 +54,14 @@ function hasPositionalPath(argv) {
 function defaultArgs(passThroughArgs) {
   const args = [];
 
-  if (!hasFlag(passThroughArgs, ['--path', '--paths']) && !hasPositionalPath(passThroughArgs)) {
-    args.push('--paths', routeContract.visualSampleRoutes.join(','));
+  if (
+    !hasFlag(passThroughArgs, ['--path', '--paths', '--path-pair', '--path-pairs']) &&
+    !hasPositionalPath(passThroughArgs)
+  ) {
+    args.push(
+      '--path-pairs',
+      routeContract.visualSampleRoutes.map(visualSamplePair).join(',')
+    );
   }
 
   if (!hasFlag(passThroughArgs, ['--viewports', '--viewport'])) {
@@ -74,6 +85,10 @@ function defaultArgs(passThroughArgs) {
   }
 
   return args;
+}
+
+function visualSamplePair(route) {
+  return `${route}=${liveRouteByLocalRoute.get(route) || route}`;
 }
 
 const passThroughArgs = process.argv.slice(2);

@@ -15,6 +15,7 @@ const viewports = {
 function parseArgs(argv) {
   const args = {
     concurrency: 1,
+    dryRun: false,
     localBase: defaultLocalBase,
     liveBase: defaultLiveBase,
     outDir: path.join(os.tmpdir(), 'pyconhk-ui-diff'),
@@ -26,19 +27,30 @@ function parseArgs(argv) {
     const arg = argv[index];
 
     if (arg === '--path') {
-      args.paths.push(normalizeUrlPath(argv[index + 1]));
+      args.paths.push(sameRoutePair(argv[index + 1]));
       index += 1;
       continue;
     }
 
     if (arg.startsWith('--path=')) {
-      args.paths.push(normalizeUrlPath(arg.slice('--path='.length)));
+      args.paths.push(sameRoutePair(arg.slice('--path='.length)));
+      continue;
+    }
+
+    if (arg === '--path-pair') {
+      args.paths.push(parsePathPair(argv[index + 1]));
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith('--path-pair=')) {
+      args.paths.push(parsePathPair(arg.slice('--path-pair='.length)));
       continue;
     }
 
     if (arg === '--paths') {
       args.paths.push(
-        ...argv[index + 1].split(',').filter(Boolean).map(normalizeUrlPath)
+        ...argv[index + 1].split(',').filter(Boolean).map(sameRoutePair)
       );
       index += 1;
       continue;
@@ -46,7 +58,22 @@ function parseArgs(argv) {
 
     if (arg.startsWith('--paths=')) {
       args.paths.push(
-        ...arg.slice('--paths='.length).split(',').filter(Boolean).map(normalizeUrlPath)
+        ...arg.slice('--paths='.length).split(',').filter(Boolean).map(sameRoutePair)
+      );
+      continue;
+    }
+
+    if (arg === '--path-pairs') {
+      args.paths.push(
+        ...argv[index + 1].split(',').filter(Boolean).map(parsePathPair)
+      );
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith('--path-pairs=')) {
+      args.paths.push(
+        ...arg.slice('--path-pairs='.length).split(',').filter(Boolean).map(parsePathPair)
       );
       continue;
     }
@@ -117,12 +144,17 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (arg === '--dry-run') {
+      args.dryRun = true;
+      continue;
+    }
+
     if (!arg.startsWith('--')) {
-      args.paths.push(normalizeUrlPath(arg));
+      args.paths.push(sameRoutePair(arg));
     }
   }
 
-  args.paths = [...new Set(args.paths)];
+  args.paths = dedupePathPairs(args.paths);
   args.viewports = [...new Set(args.viewports)];
 
   if (args.paths.length === 0) {
@@ -152,6 +184,46 @@ function normalizeUrlPath(urlPath) {
   const withLeadingSlash = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
 
   return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`;
+}
+
+function sameRoutePair(urlPath) {
+  const normalizedPath = normalizeUrlPath(urlPath);
+
+  return {
+    livePath: normalizedPath,
+    localPath: normalizedPath,
+  };
+}
+
+function parsePathPair(rawPair) {
+  const [localPath, livePath] = rawPair.split('=');
+
+  if (!localPath || !livePath) {
+    throw new Error(`Invalid --path-pair value "${rawPair}". Use local=live.`);
+  }
+
+  return {
+    livePath: normalizeUrlPath(livePath),
+    localPath: normalizeUrlPath(localPath),
+  };
+}
+
+function dedupePathPairs(pathPairs) {
+  const seen = new Set();
+  const deduped = [];
+
+  for (const pathPair of pathPairs) {
+    const key = `${pathPair.localPath}\0${pathPair.livePath}`;
+
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    deduped.push(pathPair);
+  }
+
+  return deduped;
 }
 
 function slugFor(urlPath) {
@@ -383,34 +455,36 @@ async function runQueue(items, concurrency, worker) {
   return results;
 }
 
-async function comparePath({ args, urlPath, viewportName }) {
+async function comparePath({ args, livePath, localPath, viewportName }) {
   const viewport = viewports[viewportName];
-  const slug = `${slugFor(urlPath)}-${viewportName}`;
-  const localUrl = joinBase(args.localBase, urlPath);
-  const liveUrl = joinBase(args.liveBase, urlPath);
-  const localPath = path.join(args.outDir, `${slug}-local.png`);
-  const livePath = path.join(args.outDir, `${slug}-live.png`);
+  const slug = `${slugFor(localPath)}-${viewportName}`;
+  const localUrl = joinBase(args.localBase, localPath);
+  const liveUrl = joinBase(args.liveBase, livePath);
+  const localScreenshotPath = path.join(args.outDir, `${slug}-local.png`);
+  const liveScreenshotPath = path.join(args.outDir, `${slug}-live.png`);
   const diffPath = path.join(args.outDir, `${slug}-diff.png`);
 
   const [local, live] = await Promise.all([
-    captureScreenshot({ url: localUrl, viewport, outputPath: localPath }),
-    captureScreenshot({ url: liveUrl, viewport, outputPath: livePath }),
+    captureScreenshot({ url: localUrl, viewport, outputPath: localScreenshotPath }),
+    captureScreenshot({ url: liveUrl, viewport, outputPath: liveScreenshotPath }),
   ]);
   let diff = null;
 
   if (local.ok && live.ok) {
-    diff = await compareScreenshots(localPath, livePath, diffPath);
+    diff = await compareScreenshots(localScreenshotPath, liveScreenshotPath, diffPath);
   }
 
   return {
     diff,
     diffPath: local.ok && live.ok ? diffPath : null,
     live,
+    livePath,
     liveUrl,
     local,
+    localPath,
     localUrl,
     notes: summarizeDifference(local, live, diff),
-    urlPath,
+    urlPath: localPath,
     viewport: viewportName,
   };
 }
@@ -464,9 +538,27 @@ function summarizeDifference(local, live, diff) {
 const args = parseArgs(process.argv.slice(2));
 await fs.mkdir(args.outDir, { recursive: true });
 
-const jobs = args.paths.flatMap((urlPath) =>
-  args.viewports.map((viewportName) => ({ args, urlPath, viewportName }))
+const jobs = args.paths.flatMap(({ livePath, localPath }) =>
+  args.viewports.map((viewportName) => ({ args, livePath, localPath, viewportName }))
 );
+
+if (args.dryRun) {
+  console.log(
+    JSON.stringify(
+      {
+        jobs: jobs.map(({ livePath, localPath, viewportName }) => ({
+          livePath,
+          localPath,
+          viewport: viewportName,
+        })),
+      },
+      null,
+      2
+    )
+  );
+  process.exit(0);
+}
+
 const results = await runQueue(jobs, args.concurrency, comparePath);
 const summaryPath = path.join(args.outDir, 'summary.json');
 await fs.writeFile(
