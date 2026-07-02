@@ -5,6 +5,29 @@ import { describe, it } from 'node:test';
 import routeContract from '../src/years/2015/data/routes.json' with { type: 'json' };
 
 const distDir = new URL('../dist/', import.meta.url);
+const validSpeakerImageSlugs = [
+  'albert-au-yeung',
+  'andrew-svetlov',
+  'andy-li',
+  'ayun-park',
+  'chris-choy',
+  'chung-hong-chan',
+  'eric-ahn',
+  'graham-dumpleton',
+  'honza-kral',
+  'joseph-wang',
+  'marcelo-araujo',
+  'mart-van-de-ven',
+  'mosky-liu',
+  'rick-mak',
+  'samson-lee',
+  'steven-mak',
+  'younggun-kim',
+];
+
+function readOutput(route) {
+  return fs.readFileSync(outputFileForRoute(route), 'utf8');
+}
 
 function outputFileForRoute(route) {
   const clean = decodeURI(route).replace(/^\/|\/$/gu, '');
@@ -57,5 +80,32 @@ describe('PyCon HK 2015 route contract', () => {
       .filter(([, filePath]) => fs.existsSync(filePath));
 
     assert.deepEqual(encodedDuplicates, []);
+  });
+
+  it('rewrites visible legacy 2015 image URLs to Astro-managed assets', () => {
+    const filesToCheck = [
+      outputFileForRoute('/2015/'),
+      ...routeContract.requiredRoutes
+        .filter((route) => route.startsWith('/2015/schedule/topics/'))
+        .map(outputFileForRoute),
+    ];
+    const html = filesToCheck
+      .map((filePath) => fs.readFileSync(filePath, 'utf8'))
+      .join('\n');
+    const rawValidSpeakerPattern = new RegExp(
+      String.raw`/2015/speakers/(?:${validSpeakerImageSlugs.join('|')})\.jpg`,
+      'u'
+    );
+
+    assert.match(readOutput('/2015/'), /\/_astro\/pyconhk-logo\./u);
+    assert.match(html, /\/_astro\/(?:albert-au-yeung|honza-kr[aá]l)\./u);
+    assert.doesNotMatch(html, /\/2015\/images\//u);
+    assert.doesNotMatch(html, /\/legacy-wp\/uploads\//u);
+    assert.doesNotMatch(html, rawValidSpeakerPattern);
+    assert.doesNotMatch(html, /\/2015\/speakers\/honza-kr(?:%C3%A1|á)l\.jpg/u);
+    assert.doesNotMatch(html, /\/2015\/speakers\/s%C3%A9bastien-bourdeauducq\.jpg/u);
+    assert.doesNotMatch(html, /\/2015\/speakers\/sébastien-bourdeauducq\.jpg/u);
+    assert.match(html, /\/2015\/speakers\/austin-imperial\.jpg/u);
+    assert.match(html, /\/2015\/speakers\/pili-hu\.jpg/u);
   });
 });
