@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { describe, it } from 'node:test';
 
 const websiteRoot = new URL('..', import.meta.url);
@@ -80,5 +83,44 @@ describe('2015 pixel diff route mapping', () => {
         viewport: 'desktop',
       },
     ]);
+  });
+
+  it('does not create the output directory during dry-run', () => {
+    const outDir = path.join(tmpdir(), `pyconhk-ui-diff-dry-run-${Date.now()}`);
+    const result = runScript('scripts/ui-diff.mjs', [
+      '--dry-run',
+      '--out',
+      outDir,
+      '--path',
+      '/2015/',
+      '--viewport',
+      'desktop',
+    ]);
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    assert.equal(existsSync(outDir), false);
+  });
+
+  it('exits nonzero when required screenshots fail', () => {
+    const outDir = mkdtempSync(path.join(tmpdir(), 'pyconhk-ui-diff-failure-'));
+
+    try {
+      const result = runScript('scripts/ui-diff.mjs', [
+        '--local-base',
+        'http://127.0.0.1:9',
+        '--live-base',
+        'http://127.0.0.1:9',
+        '--out',
+        outDir,
+        '--path',
+        '/2015/',
+        '--viewport',
+        'desktop',
+      ]);
+
+      assert.notEqual(result.status, 0, result.stdout);
+    } finally {
+      rmSync(outDir, { force: true, recursive: true });
+    }
   });
 });

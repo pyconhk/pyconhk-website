@@ -536,8 +536,6 @@ function summarizeDifference(local, live, diff) {
 }
 
 const args = parseArgs(process.argv.slice(2));
-await fs.mkdir(args.outDir, { recursive: true });
-
 const jobs = args.paths.flatMap(({ livePath, localPath }) =>
   args.viewports.map((viewportName) => ({ args, livePath, localPath, viewportName }))
 );
@@ -559,6 +557,8 @@ if (args.dryRun) {
   process.exit(0);
 }
 
+await fs.mkdir(args.outDir, { recursive: true });
+
 const results = await runQueue(jobs, args.concurrency, comparePath);
 const summaryPath = path.join(args.outDir, 'summary.json');
 await fs.writeFile(
@@ -574,3 +574,7 @@ for (const result of results) {
 }
 
 console.log(`summary: ${summaryPath}`);
+
+if (results.some((result) => !result.local.ok || !result.live.ok)) {
+  process.exitCode = 1;
+}
