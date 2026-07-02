@@ -84,9 +84,8 @@ describe('PyCon HK 2015 route contract', () => {
 
   it('rewrites visible legacy 2015 image URLs to Astro-managed assets', () => {
     const filesToCheck = [
-      outputFileForRoute('/2015/'),
       ...routeContract.requiredRoutes
-        .filter((route) => route.startsWith('/2015/schedule/topics/'))
+        .filter((route) => !route.match(/\.(css|js)\/$/u))
         .map(outputFileForRoute),
     ];
     const html = filesToCheck
