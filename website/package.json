@@ -21,7 +21,9 @@
     "test:news": "node --test scripts/validate-news.test.mjs && bun test scripts/news-rendering.test.mjs",
     "test:legacy-html": "bun test scripts/legacy-html-policy.test.mjs",
     "test:legacy-2015": "bun test scripts/legacy-2015-route-contract.test.mjs",
-    "check": "astro check && bun run lint && bun run test:news && bun run test:legacy-html && bun run validate:news"
+    "parity:2015": "bun scripts/legacy-2015-live-parity.mjs",
+    "diff:2015": "bun scripts/legacy-2015-pixel-diff.mjs",
+    "check": "astro check && bun run lint && bun run test:news && bun run test:legacy-html && bun run test:legacy-2015 && bun run validate:news"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
