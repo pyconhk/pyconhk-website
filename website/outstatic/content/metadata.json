@@ -30,7 +30,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-sprint-day-guide-M5Nj.png",
+      "coverImage": "/outstatic/images/2025-sprint-day-guide-M5Nj.png",
       "publishedAt": "2025-10-08T05:19:05.712Z",
       "slug": "sprint-day-guide",
       "status": "published",
@@ -47,7 +47,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-platinum-sponsor-lgt-g0MD.webp",
+      "coverImage": "/outstatic/images/2025-platinum-sponsor-lgt-g0MD.webp",
       "publishedAt": "2025-10-08T01:51:43.485Z",
       "slug": "platinum-sponsor-lgt",
       "status": "published",
@@ -64,7 +64,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-platinum-sponsor-redhat-EyOD.webp",
+      "coverImage": "/outstatic/images/2025-platinum-sponsor-redhat-EyOD.webp",
       "publishedAt": "2025-10-08T16:00:00.000Z",
       "slug": "platinum-sponsor-redhat",
       "status": "published",
@@ -81,7 +81,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-diamond-sponsor-aws-QzNj.webp",
+      "coverImage": "/outstatic/images/2025-diamond-sponsor-aws-QzNj.webp",
       "publishedAt": "2025-10-10T01:26:31.134Z",
       "slug": "diamond-sponsor-aws",
       "status": "published",
@@ -98,7 +98,7 @@
         "picture": "https://avatars.githubusercontent.com/u/79151747?v=4"
       },
       "collection": "2025-posts",
-      "coverImage": "/api/outstatic/media/pyconhk/pyconhk-website/cms/website/website/public/outstatic/images/2025-pyconhk-preevent-notice-g3MT.webp",
+      "coverImage": "/outstatic/images/2025-pyconhk-preevent-notice-g3MT.webp",
       "publishedAt": "2025-10-10T04:13:15.872Z",
       "slug": "pre-event-notice",
       "status": "published",
