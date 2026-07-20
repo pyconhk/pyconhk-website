@@ -1,0 +1,30 @@
+---
+import LegacySearchPage from '@/legacy/LegacySearchPage.astro';
+
+export function getStaticPaths() {
+  const events = [
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2020',
+    '2020-spring',
+    '2020-fall',
+    '2021',
+    '2022',
+    '2023',
+    '2024',
+    '2025',
+    '2026',
+  ];
+
+  return events.map((event) => ({
+    params: { event },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+---
+
+<LegacySearchPage event={event} />

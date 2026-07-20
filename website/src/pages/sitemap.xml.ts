@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
 import { currentConferenceYear, locales, type SiteLocale } from '@/config/site';
-import { legacyHighlights } from '@/legacy/legacy-indexes';
-import {
-  isMigratedTopLevelRoute,
-  migratedTopLevelRouteTargets,
-} from '@/legacy/migrated-routes';
+import { migratedTopLevelRouteTargets } from '@/legacy/migrated-routes';
+import { canonicalLegacyHighlights } from '@/legacy/year-highlights';
 import { getAvailablePostYears, getPublishedPostSlugs } from '@/lib/news';
 import { buildLocalizedCanonicalPath, toAbsoluteSiteUrl } from '@/lib/seo';
+import routeContract2016 from '@/years/2016/data/routes.json';
+import routeContract2017 from '@/years/2017/data/routes.json';
+import routeContract2018 from '@/years/2018/data/routes.json';
 import { siteSections } from '@/years/2025/data/sections';
 import { siteSubpages } from '@/years/2025/data/subpages';
 import { conferenceYear } from '@/years/2025/site';
@@ -35,6 +35,29 @@ type SiteSitemapLocale = {
 };
 
 export const prerender = true;
+
+const legacyYearPaths = [
+  '/2015',
+  '/2016',
+  '/2017',
+  '/2018',
+  '/2020-spring',
+  '/2020-fall',
+  '/2020',
+  '/2021',
+  '/2022',
+  '/2023',
+  '/2024',
+];
+const legacy2016MicrositePaths = routeContract2016.requiredRoutes.map((route) =>
+  route.replace(/\/$/u, '')
+);
+const legacy2017MicrositePaths = routeContract2017.requiredRoutes.map((route) =>
+  route.replace(/\/$/u, '')
+);
+const legacy2018WordPressPaths = routeContract2018.requiredRoutes.map((route) =>
+  route.replace(/\/$/u, '')
+);
 
 function escapeXml(value: string): string {
   return value
@@ -78,6 +101,20 @@ function buildStaticEntry(pathname: string): SitemapEntry {
     alternates: [],
     loc: toAbsoluteSiteUrl(pathname),
   };
+}
+
+function uniqueEntries(entries: SitemapEntry[]): SitemapEntry[] {
+  const seen = new Set<string>();
+
+  return entries.filter((entry) => {
+    if (seen.has(entry.loc)) {
+      return false;
+    }
+
+    seen.add(entry.loc);
+
+    return true;
+  });
 }
 
 function buildYearOwnedPath(year: number, locale: SiteLocale, suffix: string): string {
@@ -172,18 +209,26 @@ export const GET: APIRoute = async () => {
         })
     )
   ).flat();
-  const legacyHighlightEntries = legacyHighlights
-    .filter((highlight) => !isMigratedTopLevelRoute(highlight.path))
-    .map((highlight) => buildStaticEntry(highlight.path));
+  const legacyYearEntries = legacyYearPaths.map(buildStaticEntry);
+  const legacy2016MicrositeEntries = legacy2016MicrositePaths.map(buildStaticEntry);
+  const legacy2017MicrositeEntries = legacy2017MicrositePaths.map(buildStaticEntry);
+  const legacy2018WordPressEntries = legacy2018WordPressPaths.map(buildStaticEntry);
+  const legacyHighlightEntries = canonicalLegacyHighlights.map((highlight) =>
+    buildStaticEntry(highlight.path)
+  );
   const migratedTopLevelRouteEntries =
     migratedTopLevelRouteTargets.map(buildStaticEntry);
-  const entries = [
+  const entries = uniqueEntries([
     ...currentYearEntries,
     ...archiveYearEntries,
     ...cmsPostEntries,
+    ...legacyYearEntries,
+    ...legacy2016MicrositeEntries,
+    ...legacy2017MicrositeEntries,
+    ...legacy2018WordPressEntries,
     ...migratedTopLevelRouteEntries,
     ...legacyHighlightEntries,
-  ];
+  ]);
   const body = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',

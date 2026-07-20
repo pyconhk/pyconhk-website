@@ -104,8 +104,19 @@ export function parseCookies(
     }, {});
 }
 
-function escapeForInlineScript(value: string): string {
-  return value.replace(/</g, "\\u003c").replace(/>/g, "\\u003e");
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function serializeInlineScriptValue(value: string): string {
+  return JSON.stringify(value)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 }
 
 function renderAuthBridgeHtml(options: {
@@ -113,10 +124,12 @@ function renderAuthBridgeHtml(options: {
   heading: string;
   message: string;
   eventName: string;
+  trustedOrigin: string;
 }): string {
-  const eventName = escapeForInlineScript(options.eventName);
-  const heading = escapeForInlineScript(options.heading);
-  const message = escapeForInlineScript(options.message);
+  const eventName = serializeInlineScriptValue(options.eventName);
+  const trustedOrigin = serializeInlineScriptValue(options.trustedOrigin);
+  const heading = escapeHtml(options.heading);
+  const message = escapeHtml(options.message);
 
   return `<!doctype html>
 <html lang="en">
@@ -160,14 +173,20 @@ function renderAuthBridgeHtml(options: {
       <p>${message}</p>
     </main>
     <script>
-      const eventName = ${JSON.stringify(eventName)};
+      const eventName = ${eventName};
+      const trustedOrigin = ${trustedOrigin};
 
       const completeAuthorization = (event) => {
-        if (event.data !== "authorizing:github" || !window.opener) {
+        if (
+          !window.opener ||
+          event.source !== window.opener ||
+          event.origin !== trustedOrigin ||
+          event.data !== "authorizing:github"
+        ) {
           return;
         }
 
-        window.opener.postMessage(eventName, event.origin);
+        window.opener.postMessage(eventName, trustedOrigin);
         window.removeEventListener("message", completeAuthorization, false);
         window.close();
       };
@@ -175,7 +194,7 @@ function renderAuthBridgeHtml(options: {
       window.addEventListener("message", completeAuthorization, false);
 
       if (window.opener) {
-        window.opener.postMessage("authorizing:github", "*");
+        window.opener.postMessage("authorizing:github", trustedOrigin);
         window.setTimeout(() => {
           window.close();
         }, 4000);
@@ -185,7 +204,10 @@ function renderAuthBridgeHtml(options: {
 </html>`;
 }
 
-export function renderSuccessHtml(token: string): string {
+export function renderSuccessHtml(
+  token: string,
+  trustedOrigin: string,
+): string {
   return renderAuthBridgeHtml({
     title: "GitHub authorization complete",
     heading: "GitHub authorization complete",
@@ -194,10 +216,14 @@ export function renderSuccessHtml(token: string): string {
       token,
       provider: "github",
     })}`,
+    trustedOrigin,
   });
 }
 
-export function renderErrorHtml(message: string): string {
+export function renderErrorHtml(
+  message: string,
+  trustedOrigin: string,
+): string {
   return renderAuthBridgeHtml({
     title: "GitHub authorization failed",
     heading: "GitHub authorization failed",
@@ -205,5 +231,6 @@ export function renderErrorHtml(message: string): string {
     eventName: `authorization:github:error:${JSON.stringify({
       message,
     })}`,
+    trustedOrigin,
   });
 }

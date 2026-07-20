@@ -21,6 +21,22 @@ bun run build
 bun run preview
 """
 
+[tasks.deploy-dry-run]
+description = "Build and validate the Cloudflare Worker bundle"
+run = "bun run deploy:dry-run"
+
+[tasks.deploy]
+description = "Build and deploy the CMS to Cloudflare Workers"
+run = "bun run deploy"
+
+[tasks.types]
+description = "Generate Cloudflare Worker binding types"
+run = "bun run types"
+
+[tasks.smoke-worker]
+description = "Smoke-test a local or deployed Cloudflare Worker"
+run = "bun run smoke:worker"
+
 [tasks.check]
 description = "Run CMS type and lint checks"
 run = "bun run check && bun run lint"

@@ -24,8 +24,15 @@ const flagsWithValues = new Set([
   '--viewports',
 ]);
 const liveRouteByLocalRoute = new Map(
-  routeContract.migratedTopLevelRoutes.map(({ from, to }) => [to, from])
+  routeContract.migratedTopLevelRoutes.map(({ from, to }) => [
+    normalizeRouteKey(to),
+    from,
+  ])
 );
+
+function normalizeRouteKey(route) {
+  return route.endsWith('/') ? route : `${route}/`;
+}
 
 function hasFlag(argv, names) {
   return argv.some((arg) =>
@@ -88,7 +95,7 @@ function defaultArgs(passThroughArgs) {
 }
 
 function visualSamplePair(route) {
-  return `${route}=${liveRouteByLocalRoute.get(route) || route}`;
+  return `${route}=${liveRouteByLocalRoute.get(normalizeRouteKey(route)) || route}`;
 }
 
 const passThroughArgs = process.argv.slice(2);

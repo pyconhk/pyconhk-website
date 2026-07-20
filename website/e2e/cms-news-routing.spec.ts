@@ -34,12 +34,11 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
     await cp(path.join(websiteRoot, fileName), path.join(targetRoot, fileName));
   }
 
-  for (const directoryName of ['outstatic', 'public', 'src']) {
+  for (const directoryName of ['outstatic', 'public', 'scripts', 'src']) {
     await cp(path.join(websiteRoot, directoryName), path.join(targetRoot, directoryName), {
       recursive: true,
     });
   }
-
 }
 
 async function buildFixtureSite(): Promise<string> {
@@ -102,10 +101,7 @@ test.describe('CMS news routing', () => {
         path.join(distRoot, '2025', 'news', 'pre-event-notice.html'),
         'utf8'
       );
-      const existingCompatibilityHtml = await readFile(
-        path.join(distRoot, 'news', 'pre-event-notice.html'),
-        'utf8'
-      );
+      const redirects = await readFile(path.join(distRoot, '_redirects'), 'utf8');
       const sitemapXml = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
 
       expect(futurePostHtml).toContain('Future-Year CMS Fixture');
@@ -114,7 +110,7 @@ test.describe('CMS news routing', () => {
       );
       expect(futureFallbackHtml).toContain('Future-Year CMS Fixture');
       expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
-      expect(existingCompatibilityHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
+      expect(redirects).toMatch(/^\/news\/\* \/2025\/news\/:splat 308$/mu);
       expect(sitemapXml).toContain(
         '<loc>https://pycon.hk/2026/en/news/cms-route-fixture</loc>'
       );

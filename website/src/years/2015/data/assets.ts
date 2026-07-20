@@ -9,6 +9,10 @@ const liveAssets = import.meta.glob<AssetModule>('../assets/live/**/*.{jpg,png}'
 });
 
 const assetUrlByLegacyPath = new Map<string, string>();
+const missingSpeakerImagePaths = new Set([
+  '/2015/speakers/austin-imperial.jpg',
+  '/2015/speakers/pili-hu.jpg',
+]);
 
 for (const [assetPath, asset] of Object.entries(liveAssets)) {
   const legacyPath = legacyPathForAssetPath(assetPath);
@@ -20,6 +24,13 @@ for (const [assetPath, asset] of Object.entries(liveAssets)) {
 
 export async function resolveLegacy2015HtmlImages(html: string): Promise<string> {
   return html
+    .replace(/<img\b[^>]*>/giu, (tag) => {
+      const source = tag.match(/\ssrc=(["'])([^"']+)\1/iu)?.[2];
+
+      return source && missingSpeakerImagePaths.has(normalizeLegacyPath(source))
+        ? ''
+        : tag;
+    })
     .replace(
       /(\s)(src|href)=(["'])([^"']+)\3/giu,
       (attribute, prefix: string, name: string, quote: string, value: string) => {

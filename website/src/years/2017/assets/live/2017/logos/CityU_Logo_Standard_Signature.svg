@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="150" viewBox="0 0 520 150" role="img" aria-labelledby="title">
+  <title id="title">City University of Hong Kong</title>
+  <rect width="520" height="150" fill="#fff"/>
+  <rect x="24" y="28" width="84" height="84" fill="#c8102e"/>
+  <path d="M43 49h46v14H58v11h27v14H58v11h32v14H43z" fill="#fff"/>
+  <text x="130" y="68" fill="#222" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">City University</text>
+  <text x="130" y="110" fill="#555" font-family="Arial, Helvetica, sans-serif" font-size="28">of Hong Kong</text>
+</svg>

@@ -1,0 +1,40 @@
+{
+  "requiredRoutes": [
+    "/2022/",
+    "/2022/page/2/",
+    "/2022/2022-aws/",
+    "/2022/2022-microsoft/",
+    "/2022/2022-mysql/",
+    "/2022/2022-organizers/",
+    "/2022/2022-pccw-hkt/",
+    "/2022/2022-schedule/",
+    "/2022/2022-sponsors/",
+    "/2022/2022-supporting-organizations/",
+    "/2022/2022-ticket/",
+    "/2022/2022-volunteers/",
+    "/2022/3d-visualization-with-spatial-data-for-5g-planning-websites-auto-tagging-algorithm/",
+    "/2022/accelerate-data-preparation-with-pandas-and-aws-glue-databrew/",
+    "/2022/airflow-v2-using-airflow-to-manage-etl-workflows/",
+    "/2022/automation-and-monitoring-in-wealthtech/",
+    "/2022/django-apps-at-scale-mistakes-to-avoid/",
+    "/2022/education-track-a-journey-to-be-a-python-angel/",
+    "/2022/exploration-of-mysql-operator-for-kubernetes-in-python/",
+    "/2022/healthcare-by-a-pythonista/",
+    "/2022/healthy-machine-learning-from-theory-to-practice/",
+    "/2022/how-python-is-applying-in-architecture-engineering-construction-industry/",
+    "/2022/managing-r-and-matlab-gui-environments-in-jupyter/",
+    "/2022/pycon-hk-2022-calls-for-proposals-is-now-open/",
+    "/2022/pycon-hk-x-coscup-2022-online-special-track-deep-learning-with-pytorch-from-beginner-to-research/",
+    "/2022/pycon-hk-x-coscup-2022-online-special-track-introduction-to-kedro-building-data-pipeline-with-python/",
+    "/2022/pycon-hk-x-coscup-2022-online-special-track-triton-as-nlp-model-inference-back-end/",
+    "/2022/taking-machine-learning-models-to-production-using-python-and-fastapi/",
+    "/2022/what-ifpython-azure/",
+    "/2022/photos/"
+  ],
+  "migratedTopLevelRoutes": [
+    {
+      "from": "/conference-highlights/pycon-hk-2022-photos/",
+      "to": "/2022/photos"
+    }
+  ]
+}

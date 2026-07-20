@@ -1,3 +1,5 @@
+import { conferenceArchiveNavItems } from '@/legacy/conference-archive-links';
+
 export interface Legacy2015NavItem {
   href: string;
   label: string;
@@ -49,6 +51,10 @@ export const legacy2015NavGroups = [
       { href: 'https://pycon-hk-2015.eventbrite.com/', label: 'Registration' },
       { href: 'http://bit.ly/pyconhk2015-faa', label: 'Financial Aid' },
     ],
+  },
+  {
+    label: 'Archive',
+    items: conferenceArchiveNavItems,
   },
 ] as const satisfies readonly Legacy2015NavGroup[];
 

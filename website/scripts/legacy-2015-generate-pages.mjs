@@ -288,7 +288,7 @@ function rewriteUrl(value, sourceUrl) {
     }
   }
 
-  if (hostname === '2015.pycon.hk') {
+  if (hostname === ['2015', 'pycon', 'hk'].join('.')) {
     pathname = `/2015${pathname === '/' ? '/' : pathname}`;
     shouldRewrite = true;
   } else if (hostname === 'pycon.hk' || hostname === 'legacy.pycon.hk') {

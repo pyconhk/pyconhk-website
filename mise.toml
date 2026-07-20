@@ -26,15 +26,25 @@ description = "Check and build all apps"
 run = """
 mise run validate-cms-ops
 mise //...:check
-mise //...:build
+mise //website:build
+mise //cms:deploy-dry-run
 """
 
 [tasks.validate-cms-ops]
 description = "Validate CMS branch, workflow, and Decap content ownership policy"
 run = """
 node scripts/validate-cms-ops.mjs
+node scripts/check-cms-content-locales.mjs
 node --test scripts/*.test.mjs
 """
+
+[tasks.check-cms-content]
+description = "Validate locale-coded Decap content in the working tree or a git ref"
+run = "node scripts/check-cms-content-locales.mjs"
+
+[tasks.check-cms-release]
+description = "Fetch and validate the CMS branch before deployment"
+run = "node scripts/check-cms-release.mjs"
 
 [tasks.smoke-cms-config]
 description = "Validate a hosted Decap config.yml against CMS branch, path, and locale policy"

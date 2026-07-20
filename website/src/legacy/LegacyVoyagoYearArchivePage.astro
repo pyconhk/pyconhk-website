@@ -1,15 +1,35 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { archiveMonths } from '@/legacy/archive-months';
+import { conferenceArchiveHistoryLinks } from '@/legacy/conference-archive-links';
+import { canonicalLegacyHref, cleanLegacyHtml } from '@/legacy/legacy-html';
 import type { LegacyArchiveRecord } from '@/legacy/legacy-indexes';
 
 interface Props {
   page: LegacyArchiveRecord;
   year: string;
+  label?: string;
 }
 
-const { page, year } = Astro.props;
-const title = `${year} - PyCon HK`;
-const description = page.description || `PyCon HK ${year} archive.`;
+const { label: labelProp, page, year } = Astro.props;
+const label = labelProp ?? year;
+const title = `${label} - PyCon HK`;
+const description = page.description || `PyCon HK ${label} archive.`;
+const pageItems = page.items.map((item) => ({
+  ...item,
+  excerptHtml: cleanLegacyHtml(item.excerptHtml, { event: year }),
+  href: canonicalLegacyHref(item.href, { event: year }),
+  image: item.image
+    ? {
+        ...item.image,
+        src: canonicalLegacyHref(item.image.src, { event: year }),
+      }
+    : undefined,
+}));
+const paginationItems = page.pagination.map((item) => ({
+  ...item,
+  href: item.href ? canonicalLegacyHref(item.href, { event: year }) : undefined,
+}));
 const navLinks = [
   { href: '/2024/', label: '2024' },
   { href: '/2024/schedule/', label: 'Schedule' },
@@ -23,36 +43,6 @@ const navLinks = [
   { href: '/2024/2024-about/', label: 'About' },
   { href: '/2024/2024-code-of-conduct/', label: 'Code of Conduct' },
 ];
-const archiveMonths = [
-  ['2024/11', 'November 2024'],
-  ['2024/10', 'October 2024'],
-  ['2024/09', 'September 2024'],
-  ['2024/07', 'July 2024'],
-  ['2024/04', 'April 2024'],
-  ['2023/12', 'December 2023'],
-  ['2023/10', 'October 2023'],
-  ['2023/09', 'September 2023'],
-  ['2023/07', 'July 2023'],
-  ['2023/04', 'April 2023'],
-  ['2022/11', 'November 2022'],
-  ['2022/10', 'October 2022'],
-  ['2022/08', 'August 2022'],
-  ['2021/10', 'October 2021'],
-  ['2021/09', 'September 2021'],
-  ['2021/05', 'May 2021'],
-  ['2020/11', 'November 2020'],
-  ['2020/10', 'October 2020'],
-  ['2020/09', 'September 2020'],
-  ['2020/05', 'May 2020'],
-  ['2020/04', 'April 2020'],
-  ['2018/11', 'November 2018'],
-  ['2018/10', 'October 2018'],
-  ['2018/09', 'September 2018'],
-  ['2018/08', 'August 2018'],
-  ['2017/11', 'November 2017'],
-  ['2016/10', 'October 2016'],
-  ['2015/11', 'November 2015'],
-];
 const socialLinks = [
   { href: 'https://www.instagram.com/pyconhk/', label: 'Instagram', short: 'ig', className: 'instagram' },
   { href: 'https://www.linkedin.com/company/pyconhk', label: 'LinkedIn', short: 'in', className: 'linkedin' },
@@ -60,20 +50,9 @@ const socialLinks = [
   { href: 'https://x.com/pyconhk', label: 'Twitter', short: 'x', className: 'twitter' },
   { href: 'https://www.youtube.com/c/pyconhk', label: 'YouTube', short: 'yt', className: 'youtube' },
   { href: 'https://github.com/pyconhk', label: 'GitHub', short: 'gh', className: 'github' },
-  { href: '/feed/', label: 'RSS Feed', short: 'rss', className: 'feed' },
+  { href: `/${year}/`, label: 'Archive Home', short: 'home', className: 'feed' },
 ];
-const historyLinks = [
-  { href: '/2024/', label: '2024' },
-  { href: '/2023/', label: '2023' },
-  { href: '/2022/', label: '2022' },
-  { href: '/2021/', label: '2021' },
-  { href: '/2020-fall/', label: '2020-fall' },
-  { href: '/2020-spring/', label: '2020-spring' },
-  { href: '/2018/', label: '2018' },
-  { href: 'https://pycon.hk/2017/', label: '2017' },
-  { href: 'https://pycon.hk/2016/', label: '2016' },
-  { href: 'https://2015.pycon.hk/', label: '2015' },
-];
+const historyLinks = conferenceArchiveHistoryLinks;
 ---
 
 <BaseLayout title={title} description={description} htmlLang="en-US">
@@ -84,10 +63,10 @@ const historyLinks = [
 
     <header class="wp-block-template-part voyago-header">
       <div class="voyago-header-inner">
-        <a class="voyago-brand-mark" href="/" aria-label="PyCon HK home">
-          <img src="/legacy-wp/2024/wp-content/uploads/2024/09/logo_1200px-150x150.gif" alt="" width="60" height="60" />
+        <a class="voyago-brand-mark" href="/2024/" aria-label="PyCon HK home">
+          <img src={`/${year}/assets/uploads/2024/09/logo_1200px-150x150.gif`} alt="" width="60" height="60" />
         </a>
-        <a class="voyago-brand" href="https://legacy.pycon.hk">PyCon HK</a>
+        <a class="voyago-brand" href="/2024/">PyCon HK</a>
         <nav class="voyago-nav" aria-label="PyCon HK 2024 navigation">
           {navLinks.map((link) => (
             <a href={link.href}>{link.label}</a>
@@ -98,9 +77,15 @@ const historyLinks = [
 
     <main id="wp--skip-link--target" class="voyago-main">
       <div class="voyago-grid">
-        <section class="voyago-post-column" aria-label={`PyCon HK ${year} posts`}>
+        <section
+          class="voyago-post-column"
+          aria-label={`PyCon HK ${label} posts`}
+          data-pagefind-body
+          data-pagefind-filter={`year:${year}`}
+          data-pagefind-meta={`year:${year}`}
+        >
           <ul class="wp-block-post-template voyago-post-list">
-            {page.items.map((item) => (
+            {pageItems.map((item) => (
               <li class="wp-block-post type-post status-publish format-standard hentry category-24">
                 <h3 class="wp-block-post-title">
                   <a href={item.href}>{item.title}</a>
@@ -133,7 +118,7 @@ const historyLinks = [
 
           {page.pagination.length > 0 && (
             <nav class="voyago-pagination" aria-label="Archive pagination">
-              {page.pagination.map((item) => (
+              {paginationItems.map((item) => (
                 item.href ? (
                   <a
                     class:list={[
@@ -172,7 +157,7 @@ const historyLinks = [
           <hr />
 
           <h4>Search</h4>
-          <form method="get" class="voyago-search" action="/">
+          <form method="get" class="voyago-search" action={`/${year}/search/`}>
             <label class="screen-reader-text" for="voyago-search-input">Search</label>
             <input id="voyago-search-input" type="search" name="s" />
             <button type="submit">Search</button>
@@ -184,7 +169,7 @@ const historyLinks = [
           <label class="screen-reader-text" for="voyago-archives">Archives</label>
           <select id="voyago-archives" name="archive-dropdown">
             <option value="">Select Month</option>
-            {archiveMonths.map(([path, label]) => (
+            {archiveMonths.map(({ path, label }) => (
               <option value={`/${path}/`}>{label}</option>
             ))}
           </select>
@@ -351,6 +336,19 @@ const historyLinks = [
     font-size: 30px;
     font-weight: 700;
     line-height: 1.3;
+  }
+
+  .voyago-post-list .wp-block-post-title a {
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.12em;
+  }
+
+  .voyago-post-list .wp-block-post-title a:hover,
+  .voyago-post-list .wp-block-post-title a:focus-visible {
+    color: #002020;
+    text-decoration-color: currentColor;
   }
 
   .voyago-post-list .wp-block-post-featured-image {

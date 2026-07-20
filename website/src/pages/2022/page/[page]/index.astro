@@ -1,20 +1,17 @@
 ---
-import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
-import {
-  getLegacyYearArchive,
-  getLegacyYearArchivePageNumbers,
-} from '@/legacy/legacy-year-archives';
-
-const year = '2022';
+import Legacy2022Page from '@/years/2022/components/Legacy2022Page.astro';
+import { legacy2022Pages } from '@/years/2022/data/pages';
 
 export function getStaticPaths() {
-  return getLegacyYearArchivePageNumbers('2022').map((pageNumber) => ({
-    params: { page: String(pageNumber) },
-    props: { page: getLegacyYearArchive('2022', pageNumber) },
-  }));
+  return legacy2022Pages
+    .filter((page) => page.route.startsWith('/2022/page/'))
+    .map((page) => ({
+      params: { page: page.route.replace('/2022/page/', '').replace(/\/$/u, '') },
+      props: { page },
+    }));
 }
 
 const { page } = Astro.props;
 ---
 
-<LegacyYearArchivePage year={year} page={page} />
+<Legacy2022Page page={page} />

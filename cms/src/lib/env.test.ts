@@ -1,10 +1,15 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import {
+  getCmsRepo,
+  getCmsSiteUrl,
+  getGithubScope,
   normalizeCmsDefaultLocale,
   normalizeCmsLocales,
   normalizeCmsOwnedPath,
   normalizeCmsPublicFolder,
+  normalizeGithubRepo,
+  readCmsEnvironment,
 } from "./env";
 
 describe("CMS environment normalization", () => {
@@ -67,6 +72,62 @@ describe("CMS environment normalization", () => {
     assert.throws(
       () => normalizeCmsDefaultLocale("ko", ["en", "zh-hk"]),
       /CMS_DEFAULT_LOCALE must be one of the configured CMS locales/u,
+    );
+  });
+
+  test("reads runtime bindings through an explicit environment boundary", () => {
+    assert.deepEqual(
+      readCmsEnvironment({
+        CMS_GITHUB_REPO: "pyconhk/pyconhk-website",
+        CMS_GITHUB_CLIENT_SECRET: "secret",
+        UNRELATED_BINDING: "ignored",
+      }),
+      {
+        CMS_GITHUB_REPO: "pyconhk/pyconhk-website",
+        CMS_GITHUB_CLIENT_SECRET: "secret",
+      },
+    );
+
+    assert.throws(
+      () => readCmsEnvironment({ CMS_GITHUB_REPO: { binding: true } }),
+      /CMS_GITHUB_REPO must be a string/u,
+    );
+  });
+
+  test("uses the request origin unless a canonical CMS origin is configured", () => {
+    const requestUrl = new URL(
+      "https://preview.pyconhk-cms.workers.dev/admin/",
+    );
+
+    assert.equal(getCmsSiteUrl(requestUrl, {}), requestUrl.origin);
+    assert.equal(
+      getCmsSiteUrl(requestUrl, { CMS_PUBLIC_URL: "https://cms.pycon.hk/" }),
+      "https://cms.pycon.hk",
+    );
+
+    assert.throws(
+      () =>
+        getCmsSiteUrl(requestUrl, {
+          CMS_PUBLIC_URL: "https://cms.pycon.hk/unexpected-path",
+        }),
+      /CMS_PUBLIC_URL must be an origin/u,
+    );
+  });
+
+  test("uses the least-privilege GitHub scope and validates repository names", () => {
+    assert.equal(getGithubScope({}), "public_repo");
+    assert.equal(
+      getCmsRepo({ CMS_GITHUB_REPO: "pyconhk/pyconhk-website" }),
+      "pyconhk/pyconhk-website",
+    );
+    assert.equal(
+      normalizeGithubRepo("CMS_GITHUB_REPO", "pyconhk/pyconhk-website"),
+      "pyconhk/pyconhk-website",
+    );
+
+    assert.throws(
+      () => normalizeGithubRepo("CMS_GITHUB_REPO", "pyconhk/website/extra"),
+      /CMS_GITHUB_REPO must use the owner\/repository form/u,
     );
   });
 });

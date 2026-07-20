@@ -4,6 +4,7 @@ import Icon from '@/years/2025/components/ui/Icon.astro';
 import { socialLinks } from '@/years/2025/data/about';
 import { archiveLinks } from '@/years/2025/data/footer';
 import type { CfpLocale } from '@/years/2026/data/cfp';
+import { privacyPolicyPath } from '@/years/2026/site';
 
 interface Props {
   locale: CfpLocale;
@@ -61,7 +62,7 @@ const footerCopy: Record<
 };
 
 const footerSiteName = 'PyCon Hong Kong';
-const privacyPolicyHref = locale === 'en' ? '/privacy-policy' : `/${locale}/privacy-policy`;
+const privacyPolicyHref = privacyPolicyPath(locale);
 const socialHrefByLabel = new Map(socialLinks.map((link) => [link.label, link.href]));
 const footerSocialLinkDefs = [
   { label: 'X', icon: 'x' },

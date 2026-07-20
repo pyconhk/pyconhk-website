@@ -1,4 +1,5 @@
 ---
+import { preferredLocaleCookie } from '@/config/site';
 import {
   type CfpLocale,
   contentByLocale,
@@ -7,6 +8,7 @@ import {
   submitProposalUrl,
   supportedLocales,
 } from '@/years/2026/data/cfp';
+import { privacyPolicyPath } from '@/years/2026/site';
 
 interface Props {
   locale: CfpLocale;
@@ -31,19 +33,15 @@ const compactHeaderLabels: Record<CfpLocale, { proposal: string; sponsor: string
 };
 
 function landingHref(item: CfpLocale) {
-  return `/${item}`;
+  return `/2026/${item}`;
 }
 
 function localeHref(item: CfpLocale) {
   if (section === 'privacy') {
-    if (item === 'en') {
-      return '/privacy-policy';
-    }
-
-    return `/${item === 'zh-hans' ? 'zh-cn' : item}/privacy-policy`;
+    return privacyPolicyPath(item);
   }
 
-  return `/${item}`;
+  return `/2026/${item}`;
 }
 
 const compactLabels = compactHeaderLabels[locale];
@@ -129,3 +127,11 @@ const compactLabels = compactHeaderLabels[locale];
     </div>
   </nav>
 </div>
+
+<script
+  is:inline
+  data-astro-rerun
+  define:vars={{ cookieName: preferredLocaleCookie, currentLocale: locale }}
+>
+  document.cookie = `${cookieName}=${encodeURIComponent(currentLocale)}; path=/; max-age=31536000; SameSite=Lax`;
+</script>

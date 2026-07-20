@@ -47,6 +47,7 @@ Repository changes must also pass `mise run validate-cms-ops`, which checks that
 ```env
 CMS_GITHUB_REPO=pyconhk/pyconhk-website
 CMS_GITHUB_BRANCH=cms
+CMS_GITHUB_OAUTH_SCOPE=public_repo
 CMS_ACCESS_REPO=pyconhk/pyconhk-website
 CMS_CONTENT_ROOT=website/outstatic/content
 CMS_MEDIA_FOLDER=website/public/outstatic/images
@@ -59,6 +60,29 @@ CMS environment overrides are intentionally constrained. `CMS_LOCALES` and
 `CMS_DEFAULT_LOCALE` must stay within the website-supported locale set,
 `CMS_CONTENT_ROOT` and `CMS_MEDIA_FOLDER` must stay inside the CMS-owned promotion
 prefixes, and `CMS_PUBLIC_FOLDER` must remain `/outstatic/images`.
+
+Decap exposes one folder collection per conference year. The current
+configuration has `2026 Posts` at `website/outstatic/content/2026-posts` and
+`2025 Posts` at `website/outstatic/content/2025-posts`. The folder determines the
+year, so `collectionYear` is not duplicated in post frontmatter.
+
+The versioned values above live in `cms/wrangler.jsonc`. GitHub OAuth client
+credentials are Cloudflare Worker secrets named `CMS_GITHUB_CLIENT_ID` and
+`CMS_GITHUB_CLIENT_SECRET`; they must not be stored in Wrangler variables or
+repository secrets files. The OAuth callback requires GitHub to report push
+permission for `CMS_ACCESS_REPO` before returning a token to Decap.
+
+Before the CMS is released, the `cms` branch must contain locale-coded files
+compatible with `multiple_files`, such as `slug.en.mdx` and `slug.zh-hk.mdx`.
+An unlocalized legacy file such as `slug.mdx` will not appear as the same Decap
+entry and must be migrated before editors start using the hosted CMS.
+
+Validate the latest remote branch before release:
+
+```bash
+git fetch origin cms
+mise run check-cms-content -- origin/cms
+```
 
 ## Hosted Config Smoke Check
 
@@ -73,7 +97,7 @@ The smoke check fetches `/admin/config.yml` from the supplied CMS host and asser
 
 - backend `name: github`, `repo: pyconhk/pyconhk-website`, and `branch: cms`
 - `publish_mode: editorial_workflow`
-- CMS-owned `media_folder`, `public_folder`, and post collection `folder`
+- CMS-owned `media_folder`, `public_folder`, and year-specific post collection folders
 - Decap i18n `structure: multiple_files`, all supported CMS locales, and default
   locale `en`
 - localized post body editing for the `posts` collection
@@ -81,7 +105,7 @@ The smoke check fetches `/admin/config.yml` from the supplied CMS host and asser
 ## Deployment Split
 
 - `pycon.hk` deploys the website app from `main`.
-- `cms.pycon.hk` deploys the CMS app from `main`.
+- `cms.pycon.hk` deploys the CMS app from `main` as a Cloudflare Worker.
 - The `cms` branch exists for content commits only, not app deployment.
 
 In the target repository layout, the app roots should be:
@@ -92,3 +116,23 @@ cms/
 ```
 
 Use deploy project roots to distinguish the public website and CMS deployments instead of using different deployment branches for each app.
+
+The CMS Worker uses Astro's Cloudflare adapter, a static `ASSETS` binding, and
+`nodejs_compat`. It intentionally has no KV, D1, R2, Durable Object, or service
+binding. Repository CI must run `mise run //cms:deploy-dry-run` so a pull request
+cannot pass without producing a Wrangler-deployable bundle.
+
+Release first to the generated `workers.dev` URL. Attach `cms.pycon.hk` only
+after all of these checks pass:
+
+1. `mise run //cms:smoke-worker -- <workers.dev URL>`
+2. `mise run smoke-cms-config -- <workers.dev URL>`
+3. `/admin/test/` loads without a Decap configuration error in a browser.
+4. A real GitHub OAuth login succeeds for an editor with push permission.
+5. A test edit and image upload create only locale-coded files on `cms`.
+6. The scheduled promotion workflow accepts the content-only diff and the
+   public website build succeeds.
+
+The old Vercel DNS record must be removed before the Cloudflare Worker custom
+domain is attached. Update the GitHub OAuth callback to the final custom-domain
+URL as part of that cutover.

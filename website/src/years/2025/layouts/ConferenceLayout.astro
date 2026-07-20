@@ -41,7 +41,12 @@ const currentPathname = Astro.url.pathname;
     currentSection={currentSection}
     currentPathname={currentPathname}
   />
-  <main class:list={['w-full', !allowHorizontalOverflow && 'overflow-x-clip']}>
+  <main
+    class:list={['w-full', !allowHorizontalOverflow && 'overflow-x-clip']}
+    data-pagefind-body
+    data-pagefind-filter={`year:${year}`}
+    data-pagefind-meta={`year:${year}`}
+  >
     <slot />
   </main>
   <SiteFooter year={year} locale={locale} />

@@ -1,4 +1,5 @@
 ---
+import { legacy2015CompatibilityText } from '@/years/2015/data/compatibility';
 import type { Legacy2015Page } from '@/years/2015/data/types';
 
 interface Props {
@@ -6,9 +7,16 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const text = legacy2015CompatibilityText(page.bodyHtml);
 ---
 
-<main class="container legacy-2015-compatibility-page">
-  <h1>{page.route}</h1>
-  <Fragment set:html={page.bodyHtml} />
-</main>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body style="margin: 8px;">
+    <pre style="margin: 0; font-family: monospace; white-space: pre-wrap; word-wrap: break-word;">{text}</pre>
+  </body>
+</html>

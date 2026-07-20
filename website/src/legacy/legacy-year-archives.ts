@@ -1,9 +1,12 @@
+import { archiveMonths } from '@/legacy/archive-months';
+import { canonicalLegacyHref } from '@/legacy/legacy-html';
 import {
   type LegacyArchiveItem,
   type LegacyArchiveRecord,
   type LegacyPaginationItem,
   legacyArchives,
 } from '@/legacy/legacy-indexes';
+import { canonicalLegacyHighlights } from '@/legacy/year-highlights';
 
 const legacy2018PageTwoLiveExtraTitle = 'Code of Conduct – As of 2024';
 const legacy2023PageTwoLiveInsertTitles = [
@@ -31,14 +34,77 @@ function yearArchivePaginationPath(year: string, pageNumber: number) {
   return `/${year}/page/${pageNumber}/`;
 }
 
+function editionArchivePath(edition: string, pageNumber: number) {
+  return pageNumber === 1 ? `/${edition}/` : `/${edition}/page/${pageNumber}/`;
+}
+
 function normalizeYearHref(href: string | undefined, year: string) {
   return href
     ?.replace(`/category/${year}/page/`, `/${year}/page/`)
     .replace(`/category/${year}/`, `/${year}/page/1/`);
 }
 
+function normalizeEditionHref(href: string | undefined, edition: string) {
+  return href
+    ?.replace(`/category/${edition}/page/`, `/${edition}/page/`)
+    .replace(`/category/${edition}/`, `/${edition}/`);
+}
+
 function archiveItemTimestamp(item: LegacyArchiveItem) {
   return new Date(item.isoDate).getTime();
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/gu, (character) => {
+    switch (character) {
+      case '&':
+        return '&amp;';
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '"':
+        return '&quot;';
+      case "'":
+        return '&#39;';
+      default:
+        return character;
+    }
+  });
+}
+
+function archiveItemFromHighlight(
+  highlight: (typeof canonicalLegacyHighlights)[number]
+): LegacyArchiveItem {
+  return {
+    title: highlight.page.title,
+    href: highlight.path,
+    date: highlight.page.date,
+    isoDate: highlight.page.isoDate,
+    excerptHtml: highlight.page.description
+      ? `<p>${escapeHtml(highlight.page.description)}</p>`
+      : '',
+    image: highlight.page.featuredImage,
+  };
+}
+
+function allLegacyArchiveItems() {
+  const items = new Map<string, LegacyArchiveItem>();
+
+  for (const item of [
+    ...legacyArchives.flatMap((archive) => archive.items),
+    ...canonicalLegacyHighlights.map(archiveItemFromHighlight),
+  ]) {
+    const href = canonicalLegacyHref(item.href);
+    items.set(href, {
+      ...item,
+      href,
+    });
+  }
+
+  return [...items.values()].toSorted(
+    (a, b) => archiveItemTimestamp(b) - archiveItemTimestamp(a)
+  );
 }
 
 function paginationItem(
@@ -315,6 +381,71 @@ export function getLegacyYearArchivePageNumbers(year: string) {
   }
 
   const prefix = `/category/${year}/`;
+
+  return legacyArchives
+    .filter((page) => page.path === prefix || page.path.startsWith(`${prefix}page/`))
+    .map((page) => page.pageNumber)
+    .sort((a, b) => a - b);
+}
+
+export function getLegacyArchiveMonth(
+  year: string,
+  month: string
+): LegacyArchiveRecord {
+  const archiveMonth = archiveMonths.find(
+    (item) => item.year === year && item.month === month
+  );
+
+  if (!archiveMonth) {
+    throw new Error(`Missing configured archive month for /${year}/${month}/`);
+  }
+
+  const items = allLegacyArchiveItems().filter((item) =>
+    item.isoDate.startsWith(`${year}-${month}-`)
+  );
+
+  if (items.length === 0) {
+    throw new Error(`Missing legacy archive items for /${year}/${month}/`);
+  }
+
+  return {
+    type: 'category',
+    path: `/${year}/${month}/`,
+    slug: `${year}-${month}`,
+    title: archiveMonth.label,
+    label: archiveMonth.label,
+    pageNumber: 1,
+    description: `PyCon HK ${archiveMonth.label} archive.`,
+    items,
+    pagination: [],
+  };
+}
+
+export function getLegacyEditionArchive(
+  edition: string,
+  pageNumber = 1
+): LegacyArchiveRecord {
+  const path = legacyCategoryPath(edition, pageNumber);
+  const archive = legacyArchives.find((page) => page.path === path);
+
+  if (!archive) {
+    throw new Error(`Missing legacy edition archive for ${path}`);
+  }
+
+  return {
+    ...archive,
+    path: editionArchivePath(edition, pageNumber),
+    pagination: archive.pagination
+      .filter((item) => item.current || item.href)
+      .map((item) => ({
+        ...item,
+        href: normalizeEditionHref(item.href, edition),
+      })),
+  };
+}
+
+export function getLegacyEditionArchivePageNumbers(edition: string) {
+  const prefix = `/category/${edition}/`;
 
   return legacyArchives
     .filter((page) => page.path === prefix || page.path.startsWith(`${prefix}page/`))

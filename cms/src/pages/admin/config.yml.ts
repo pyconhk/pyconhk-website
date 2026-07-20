@@ -3,22 +3,24 @@ import { stringify } from "yaml";
 
 import { createCmsConfig } from "../../lib/cms-config";
 import { getCmsBranch, getCmsRepo, getCmsSiteUrl } from "../../lib/env";
+import { getRuntimeEnvironment } from "../../lib/runtime-env";
 
 export const prerender = false;
 
 export const GET: APIRoute = ({ url }) => {
-  const siteUrl = getCmsSiteUrl(url);
+  const environment = getRuntimeEnvironment();
+  const siteUrl = getCmsSiteUrl(url, environment);
   const backendMode = url.searchParams.get("backend");
 
   const cmsConfig =
     backendMode === "local"
-      ? createCmsConfig({
+      ? createCmsConfig(environment, {
           contentRoot: "sandbox-content",
           mediaFolder: "public/sandbox-images",
           publicFolder: "/sandbox-images",
           publishMode: "simple",
         })
-      : createCmsConfig();
+      : createCmsConfig(environment);
 
   const backend =
     backendMode === "test"
@@ -26,12 +28,12 @@ export const GET: APIRoute = ({ url }) => {
       : backendMode === "local"
         ? {
             name: "git-gateway",
-            branch: getCmsBranch(),
+            branch: getCmsBranch(environment),
           }
         : {
             name: "github",
-            repo: getCmsRepo(),
-            branch: getCmsBranch(),
+            repo: getCmsRepo(environment),
+            branch: getCmsBranch(environment),
             base_url: siteUrl,
             auth_endpoint: "api/decap/auth",
             site_domain: new URL(siteUrl).host,

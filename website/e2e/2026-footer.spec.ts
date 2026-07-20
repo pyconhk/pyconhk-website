@@ -38,7 +38,7 @@ test.describe('site footers', () => {
       );
       await expect(footer.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute(
         'href',
-        '/privacy-policy'
+        '/2026/en/privacy-policy'
       );
     });
 
@@ -49,8 +49,17 @@ test.describe('site footers', () => {
 
       await footer.getByRole('link', { name: 'Privacy Policy' }).click();
 
-      await expect(page).toHaveURL('/privacy-policy');
+      await expect(page).toHaveURL('/2026/en/privacy-policy');
       await expect(page.getByRole('heading', { name: /Privacy Policy/i })).toBeVisible();
     });
   }
+
+  test('uses the canonical Simplified Chinese privacy route', async ({ page }) => {
+    const footer = await footerShell('/2026/zh-hans', page);
+
+    await expect(footer.getByRole('link', { name: '隐私政策' })).toHaveAttribute(
+      'href',
+      '/2026/zh-cn/privacy-policy'
+    );
+  });
 });

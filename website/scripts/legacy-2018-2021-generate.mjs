@@ -6,7 +6,6 @@ const crawlRoot = '/Users/alexau/Downloads/simply-static-1-1779119343';
 const projectRoot = process.cwd();
 
 const editions = [
-  { slug: '2018', label: 'PyCon HK 2018' },
   { slug: '2020-spring', label: 'PyCon HK 2020 Spring' },
   { slug: '2020-fall', label: 'PyCon HK 2020 Fall' },
   { slug: '2021', label: 'PyCon HK 2021' },

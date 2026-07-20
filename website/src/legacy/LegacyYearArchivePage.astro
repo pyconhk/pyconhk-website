@@ -1,26 +1,48 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { archiveMonths } from '@/legacy/archive-months';
+import { conferenceArchiveHistoryLinks } from '@/legacy/conference-archive-links';
+import { canonicalLegacyHref, cleanLegacyHtml } from '@/legacy/legacy-html';
 import type { LegacyArchiveRecord } from '@/legacy/legacy-indexes';
+import { legacyHighlightNavLinks } from '@/legacy/year-highlights';
 
 interface Props {
   page: LegacyArchiveRecord;
   year: string;
+  headingKind?: 'Category' | 'Month' | 'Year';
+  label?: string;
 }
 
-const { page, year } = Astro.props;
+const { headingKind = 'Year', label: labelProp, page, year } = Astro.props;
+const label = labelProp ?? year;
 const title =
   page.pageNumber > 1
-    ? `${year} - PyCon HK - Page ${page.pageNumber}`
-    : `${year} - PyCon HK`;
-const description = page.description || `PyCon HK ${year} archive.`;
+    ? `${label} - PyCon HK - Page ${page.pageNumber}`
+    : `${label} - PyCon HK`;
+const description = page.description || `PyCon HK ${label} archive.`;
+const pageItems = page.items.map((item) => ({
+  ...item,
+  excerptHtml: cleanLegacyHtml(item.excerptHtml, { event: year }),
+  href: canonicalLegacyHref(item.href, { event: year }),
+  image: item.image
+    ? {
+        ...item.image,
+        src: canonicalLegacyHref(item.image.src, { event: year }),
+      }
+    : undefined,
+}));
+const paginationItems = page.pagination.map((item) => ({
+  ...item,
+  href: item.href ? canonicalLegacyHref(item.href, { event: year }) : undefined,
+}));
 const navGroups = [
   {
-    href: '/conference-highlights/',
+    href: '/2024/photos',
     label: 'Conference Highlights',
-    links: [],
+    links: legacyHighlightNavLinks,
   },
   {
-    href: '/schedule/',
+    href: '/2024/schedule/',
     label: 'Schedule',
     links: [
       { href: '/2024/schedule/', label: '2024' },
@@ -33,7 +55,7 @@ const navGroups = [
     ],
   },
   {
-    href: '/sponsors/',
+    href: '/2024/2024-sponsors/',
     label: 'Sponsors',
     links: [
       { href: '/2024/2024-sponsors/', label: '2024' },
@@ -45,7 +67,7 @@ const navGroups = [
     ],
   },
   {
-    href: '/communities/',
+    href: '/2024/2024-supporting-organizations/',
     label: 'Communities',
     links: [
       { href: '/2024/2024-supporting-organizations/', label: '2024' },
@@ -54,7 +76,7 @@ const navGroups = [
     ],
   },
   {
-    href: '/booths/',
+    href: '/2024/2024-booths/',
     label: 'Booths',
     links: [
       { href: '/2024/2024-booths/', label: '2024' },
@@ -62,7 +84,7 @@ const navGroups = [
     ],
   },
   {
-    href: '/organizers/',
+    href: '/2024/2024-organizers/',
     label: 'Organizers',
     links: [
       { href: '/2024/2024-organizers/', label: '2024' },
@@ -71,7 +93,7 @@ const navGroups = [
     ],
   },
   {
-    href: '/volunteers/',
+    href: '/2024/2024-volunteers/',
     label: 'Volunteers',
     links: [
       { href: '/2024/2024-volunteers/', label: '2024' },
@@ -83,48 +105,7 @@ const navGroups = [
     ],
   },
 ];
-const archiveMonths = [
-  ['2024/11', 'November 2024'],
-  ['2024/10', 'October 2024'],
-  ['2024/09', 'September 2024'],
-  ['2024/07', 'July 2024'],
-  ['2024/04', 'April 2024'],
-  ['2023/12', 'December 2023'],
-  ['2023/10', 'October 2023'],
-  ['2023/09', 'September 2023'],
-  ['2023/07', 'July 2023'],
-  ['2023/04', 'April 2023'],
-  ['2022/11', 'November 2022'],
-  ['2022/10', 'October 2022'],
-  ['2022/08', 'August 2022'],
-  ['2021/10', 'October 2021'],
-  ['2021/09', 'September 2021'],
-  ['2021/05', 'May 2021'],
-  ['2020/11', 'November 2020'],
-  ['2020/10', 'October 2020'],
-  ['2020/09', 'September 2020'],
-  ['2020/05', 'May 2020'],
-  ['2020/04', 'April 2020'],
-  ['2018/11', 'November 2018'],
-  ['2018/10', 'October 2018'],
-  ['2018/09', 'September 2018'],
-  ['2018/08', 'August 2018'],
-  ['2017/11', 'November 2017'],
-  ['2016/10', 'October 2016'],
-  ['2015/11', 'November 2015'],
-];
-const historyLinks = [
-  { href: '/2024/', label: '2024' },
-  { href: '/2023/', label: '2023' },
-  { href: '/2022/', label: '2022' },
-  { href: '/2021/', label: '2021' },
-  { href: '/2020-fall/', label: '2020-fall' },
-  { href: '/2020-spring/', label: '2020-spring' },
-  { href: '/2018/', label: '2018' },
-  { href: 'https://pycon.hk/2017/', label: '2017' },
-  { href: 'https://pycon.hk/2016/', label: '2016' },
-  { href: 'https://2015.pycon.hk/', label: '2015' },
-];
+const historyLinks = conferenceArchiveHistoryLinks;
 const socialLinks = [
   { href: 'https://www.instagram.com/pyconhk/', label: 'Instagram', short: 'ig' },
   { href: 'https://www.linkedin.com/company/pyconhk', label: 'LinkedIn', short: 'in' },
@@ -143,7 +124,7 @@ const socialLinks = [
         <div class="top-nav-wrapper">
           <div class="content-wrap nav-content">
             <div class="logo-container">
-              <a class="logofont" href="/" rel="home">PyCon HK</a>
+              <a class="logofont" href={`/${year}/`} rel="home">PyCon HK</a>
             </div>
             <div class="center-main-menu">
               <ul id="primary-menu" class="pmenu">
@@ -163,6 +144,11 @@ const socialLinks = [
                 ))}
               </ul>
             </div>
+            <button class="mobile-menu-toggle" type="button" aria-label="Menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </div>
         </div>
       </nav>
@@ -171,12 +157,18 @@ const socialLinks = [
     <div id="content" class="site-content clearfix">
       <div class="content-wrap">
         <div id="primary" class="featured-content content-area">
-          <main id="main" class="site-main all-blog-articles">
+          <main
+            id="main"
+            class="site-main all-blog-articles"
+            data-pagefind-body
+            data-pagefind-filter={`year:${year}`}
+            data-pagefind-meta={`year:${year}`}
+          >
             <header class="fbox page-header">
-              <h1 class="page-title">Year: <span>{year}</span></h1>
+              <h1 class="page-title">{headingKind}: <span>{label}</span></h1>
             </header>
 
-            {page.items.map((item) => (
+            {pageItems.map((item) => (
               <article class="posts-entry fbox blogposts-list post type-post status-publish format-standard has-post-thumbnail hentry">
                 <div class="featured-img-box">
                   {item.image && (
@@ -224,7 +216,7 @@ const socialLinks = [
             {page.pagination.length > 0 && (
               <div class="text-center pag-wrapper">
                 <ul class="page-numbers">
-                  {page.pagination.map((item) => (
+                  {paginationItems.map((item) => (
                     <li>
                       {item.href ? (
                         <a
@@ -267,7 +259,7 @@ const socialLinks = [
 
           <section id="search-2" class="fbox swidgets-wrap widget widget_search">
             <search>
-              <form method="get" class="search-form" action="/">
+              <form method="get" class="search-form" action={`/${year}/search/`}>
                 <label>
                   <span class="screen-reader-text">Search for:</span>
                   <input type="search" class="search-field" placeholder="Search ..." value="" name="s" />
@@ -282,7 +274,7 @@ const socialLinks = [
             <label class="screen-reader-text" for="archives-dropdown-2">Archives</label>
             <select id="archives-dropdown-2" name="archive-dropdown">
               <option value="">Select Month</option>
-              {archiveMonths.map(([path, label]) => (
+              {archiveMonths.map(({ path, label }) => (
                 <option value={`/${path}/`}>{label}</option>
               ))}
             </select>
@@ -481,6 +473,22 @@ const socialLinks = [
   .legacy-year-site .sub-menu a {
     padding: 13px 18px;
     text-align: left;
+  }
+
+  .legacy-year-site .mobile-menu-toggle {
+    display: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .legacy-year-site .mobile-menu-toggle span {
+    display: block;
+    width: 27px;
+    height: 4px;
+    margin: 4px 0;
+    border-radius: 1px;
+    background: #bbb;
   }
 
   .legacy-year-site .site-content {
@@ -824,19 +832,23 @@ const socialLinks = [
 
   @media screen and (max-width: 1023px) {
     .legacy-year-site .nav-content {
-      display: block;
+      display: flex;
+      min-height: 50px;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .legacy-year-site .primary-menu .pmenu {
-      justify-content: flex-start;
-      text-align: left;
+    .legacy-year-site .logofont {
+      padding-top: 14px;
+      padding-bottom: 13px;
     }
 
-    .legacy-year-site .sub-menu {
-      position: static;
+    .legacy-year-site .center-main-menu {
+      display: none;
+    }
+
+    .legacy-year-site .mobile-menu-toggle {
       display: block;
-      min-width: 0;
-      padding-left: 18px;
     }
 
     .legacy-year-site .featured-content,

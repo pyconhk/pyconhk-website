@@ -1,6 +1,23 @@
-export function trimTrailingSlash(value: string): string {
-  return value.replace(/\/+$/, "");
-}
+export const cmsEnvironmentKeys = [
+  "CMS_PUBLIC_URL",
+  "CMS_GITHUB_CLIENT_ID",
+  "CMS_GITHUB_CLIENT_SECRET",
+  "CMS_GITHUB_REPO",
+  "CMS_GITHUB_BRANCH",
+  "CMS_GITHUB_OAUTH_SCOPE",
+  "CMS_ACCESS_REPO",
+  "CMS_CONTENT_ROOT",
+  "CMS_MEDIA_FOLDER",
+  "CMS_PUBLIC_FOLDER",
+  "CMS_LOCALES",
+  "CMS_DEFAULT_LOCALE",
+] as const;
+
+type CmsEnvironmentKey = (typeof cmsEnvironmentKeys)[number];
+
+export type CmsEnvironment = Readonly<
+  Partial<Record<CmsEnvironmentKey, string>>
+>;
 
 export const supportedCmsLocales = [
   "en",
@@ -17,6 +34,30 @@ const cmsMediaPrefixes = [
   "website/outstatic/media",
 ];
 
+export function trimTrailingSlash(value: string): string {
+  return value.replace(/\/+$/, "");
+}
+
+export function readCmsEnvironment(source: object): CmsEnvironment {
+  const environment: Partial<Record<CmsEnvironmentKey, string>> = {};
+
+  for (const key of cmsEnvironmentKeys) {
+    const value = Reflect.get(source, key);
+
+    if (value === undefined) {
+      continue;
+    }
+
+    if (typeof value !== "string") {
+      throw new Error(`${key} must be a string`);
+    }
+
+    environment[key] = value;
+  }
+
+  return environment;
+}
+
 export function getRequiredEnv(
   name: string,
   value: string | undefined,
@@ -28,40 +69,62 @@ export function getRequiredEnv(
   return value;
 }
 
-export function getCmsSiteUrl(requestUrl: URL): string {
-  const configuredUrl = import.meta.env.CMS_PUBLIC_URL;
+export function normalizeCmsSiteUrl(value: string): string {
+  const url = new URL(value);
 
-  if (configuredUrl) {
-    const configured = new URL(configuredUrl);
-
-    if (
-      [configured.hostname, requestUrl.hostname].every((hostname) =>
-        ["127.0.0.1", "localhost"].includes(hostname),
-      )
-    ) {
-      return trimTrailingSlash(requestUrl.origin);
-    }
-
-    return trimTrailingSlash(configuredUrl);
+  if (
+    !["http:", "https:"].includes(url.protocol) ||
+    url.username ||
+    url.password ||
+    url.pathname !== "/" ||
+    url.search ||
+    url.hash
+  ) {
+    throw new Error("CMS_PUBLIC_URL must be an origin without a path");
   }
 
-  return trimTrailingSlash(requestUrl.origin);
+  return url.origin;
 }
 
-export function getCmsRepo(): string {
-  return getRequiredEnv("CMS_GITHUB_REPO", import.meta.env.CMS_GITHUB_REPO);
+export function getCmsSiteUrl(
+  requestUrl: URL,
+  environment: CmsEnvironment,
+): string {
+  return environment.CMS_PUBLIC_URL
+    ? normalizeCmsSiteUrl(environment.CMS_PUBLIC_URL)
+    : requestUrl.origin;
 }
 
-export function getCmsBranch(): string {
-  return import.meta.env.CMS_GITHUB_BRANCH || "cms";
+export function normalizeGithubRepo(name: string, value: string): string {
+  const normalized = value.trim();
+
+  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(normalized)) {
+    throw new Error(`${name} must use the owner/repository form`);
+  }
+
+  return normalized;
 }
 
-export function getGithubScope(): string {
-  return import.meta.env.CMS_GITHUB_OAUTH_SCOPE || "repo";
+export function getCmsRepo(environment: CmsEnvironment): string {
+  return normalizeGithubRepo(
+    "CMS_GITHUB_REPO",
+    getRequiredEnv("CMS_GITHUB_REPO", environment.CMS_GITHUB_REPO),
+  );
 }
 
-export function getCmsAccessRepo(): string {
-  return import.meta.env.CMS_ACCESS_REPO || getCmsRepo();
+export function getCmsBranch(environment: CmsEnvironment): string {
+  return environment.CMS_GITHUB_BRANCH || "cms";
+}
+
+export function getGithubScope(environment: CmsEnvironment): string {
+  return environment.CMS_GITHUB_OAUTH_SCOPE || "public_repo";
+}
+
+export function getCmsAccessRepo(environment: CmsEnvironment): string {
+  return normalizeGithubRepo(
+    "CMS_ACCESS_REPO",
+    environment.CMS_ACCESS_REPO || getCmsRepo(environment),
+  );
 }
 
 export function normalizeCmsOwnedPath(
@@ -143,32 +206,35 @@ export function normalizeCmsDefaultLocale(
   return locales[0] || "en";
 }
 
-export function getCmsContentRoot(): string {
+export function getCmsContentRoot(environment: CmsEnvironment): string {
   return normalizeCmsOwnedPath(
     "CMS_CONTENT_ROOT",
-    import.meta.env.CMS_CONTENT_ROOT || "website/outstatic/content",
+    environment.CMS_CONTENT_ROOT || "website/outstatic/content",
     cmsContentPrefixes,
   );
 }
 
-export function getCmsMediaFolder(): string {
+export function getCmsMediaFolder(environment: CmsEnvironment): string {
   return normalizeCmsOwnedPath(
     "CMS_MEDIA_FOLDER",
-    import.meta.env.CMS_MEDIA_FOLDER || "website/public/outstatic/images",
+    environment.CMS_MEDIA_FOLDER || "website/public/outstatic/images",
     cmsMediaPrefixes,
   );
 }
 
-export function getCmsPublicFolder(): string {
+export function getCmsPublicFolder(environment: CmsEnvironment): string {
   return normalizeCmsPublicFolder(
-    import.meta.env.CMS_PUBLIC_FOLDER || "/outstatic/images",
+    environment.CMS_PUBLIC_FOLDER || "/outstatic/images",
   );
 }
 
-export function getCmsLocales(): string[] {
-  return normalizeCmsLocales(import.meta.env.CMS_LOCALES || defaultCmsLocales);
+export function getCmsLocales(environment: CmsEnvironment): string[] {
+  return normalizeCmsLocales(environment.CMS_LOCALES || defaultCmsLocales);
 }
 
-export function getCmsDefaultLocale(locales = getCmsLocales()): string {
-  return normalizeCmsDefaultLocale(import.meta.env.CMS_DEFAULT_LOCALE, locales);
+export function getCmsDefaultLocale(
+  environment: CmsEnvironment,
+  locales = getCmsLocales(environment),
+): string {
+  return normalizeCmsDefaultLocale(environment.CMS_DEFAULT_LOCALE, locales);
 }

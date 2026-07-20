@@ -1,9 +1,8 @@
 ---
-import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
-import { getLegacyYearArchive } from '@/legacy/legacy-year-archives';
+import Legacy2018Page from '@/years/2018/components/Legacy2018Page.astro';
+import { getLegacy2018Page } from '@/years/2018/data/pages';
 
-const year = '2018';
-const page = getLegacyYearArchive(year);
+const page = getLegacy2018Page('/2018/');
 ---
 
-<LegacyYearArchivePage year={year} page={page} />
+<Legacy2018Page page={page} />

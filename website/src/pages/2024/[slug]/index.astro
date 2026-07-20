@@ -1,7 +1,10 @@
 ---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
 import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import LegacyVoyagoYearArchivePage from '@/legacy/LegacyVoyagoYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
 import { getHighlightsForEdition } from '@/legacy/year-highlights';
-import ArchiveArticle from '@/years/2024/components/ArchiveArticle.astro';
+import Legacy2024Page from '@/years/2024/components/Legacy2024Page.astro';
 import { legacy2024Pages } from '@/years/2024/data/pages';
 
 export function getStaticPaths() {
@@ -12,16 +15,33 @@ export function getStaticPaths() {
       params: { slug: page.slug },
       props: { archivePage: page },
     })),
-    ...highlights
-      .filter((highlight) => highlight.slug !== 'photos')
-      .map((highlight) => ({
-        params: { slug: highlight.slug },
-        props: { highlightPage: highlight.page },
-      })),
+    ...highlights.map((highlight) => ({
+      params: { slug: highlight.slug },
+      props: { highlightPage: highlight.page },
+    })),
+    ...archiveMonthsForYear('2024').map((archiveMonth) => ({
+      params: { slug: archiveMonth.month },
+      props: {
+        monthArchiveLabel: archiveMonth.label,
+        monthArchivePage: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+      },
+    })),
   ];
 }
 
-const { archivePage, highlightPage } = Astro.props;
+const { archivePage, highlightPage, monthArchiveLabel, monthArchivePage } = Astro.props;
 ---
 
-{highlightPage ? <LegacyHighlightPage page={highlightPage} /> : <ArchiveArticle page={archivePage} />}
+{
+  monthArchivePage ? (
+    <LegacyVoyagoYearArchivePage
+      page={monthArchivePage}
+      year="2024"
+      label={monthArchiveLabel}
+    />
+  ) : highlightPage ? (
+    <LegacyHighlightPage page={highlightPage} />
+  ) : (
+    <Legacy2024Page page={archivePage} />
+  )
+}

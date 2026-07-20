@@ -190,6 +190,60 @@ Related docs:
 - [ ] Mobile and desktop layouts are both validated.
 - [x] The public website application is cleanly rooted under top-level `website/`.
 
+## Simply Static Legacy Parity Review
+
+Source export: `/Users/alexau/Downloads/simply-static-1-1779119343`.
+Detailed agent ticket drafts: `output/playwright/year-style-audit/ticket-drafts/`.
+Treat these as review tickets, not all as approved work. Value is user-visible migration value; effort is a rough porting estimate.
+
+### High-Value Port Candidates
+
+- [x] `2018-MIG-001` `[High/M]` Fix 2018 legacy archive mobile navigation so `/2018/`, `/2018/page/1/`, and `/2018/page/2/` do not render with a huge expanded header on mobile.
+- [x] `PYCONHK-ASTRO-2020-2021-01` `[High/M]` Preserve 2020 Spring/Fall and 2021 encoded legacy slugs, including Cantonese and special-character titles, so raw and encoded URLs resolve to migrated pages.
+- [x] `PYCONHK-ASTRO-2020-2021-05` `[High/M]` Fix mobile header behavior on 2020-2021 legacy archive/detail pages so page titles are not pushed below an expanded WordPress-style menu.
+- [x] `PYHK-ASTRO-2022-2023-01` `[High/S]` Fix the 2023 Cantonese talk slug so `/2023/%E7%8E%A9%E8%BD%89-python-%E8%88%87-javascript/` renders the migrated page instead of a static-path error.
+- [x] `PYHK-ASTRO-2022-2023-03` `[High/M]` Fix 2022/2023 archive mobile navigation so `/2022/`, `/2023/`, and pagination routes start with collapsed header chrome.
+- [x] `2024-001` `[High/L]` Approximate the 2024 Voyago detail-page chrome, typography, spacing, and article shell across migrated 2024 routes without cloning the full WordPress theme.
+- [x] `2024-002` `[High/M]` Restore `/2024/schedule/` as an embedded Pretalx schedule page or static schedule snapshot, including the fallback link and desktop/mobile height checks.
+- [x] `2024-003` `[High/S]` Fix the 2024 Halloween meetup emoji-heavy slug so static preview and deployed Pages serve it with 200 status through encoded route handling or redirect.
+- [x] `CY-01` `[High/M]` Review conference highlight canonical URLs and make `/conference-highlights/*` plus year-local photo/recording aliases consistent in navigation and metadata.
+- [x] `CY-04` `[High/M]` Define and implement legacy root post archive pagination behavior so `/page/1/` and page-1 links do not accidentally resolve through the modern locale redirect.
+- [x] `CY-05` `[High/M]` Align Astro sitemap and robots output with the chosen legacy archive policy for year, category, author, tag, and highlight routes.
+
+### Medium-Value Port Candidates
+
+- [x] `2018-MIG-003` `[Medium/S]` Sanitize the 2018 CFP submission link by stripping hidden bidi/control characters so it no longer resolves as a nested `/2018/call-for-proposals-2018/` 404 path.
+- [x] `2018-MIG-004` `[Medium/S-M]` Adjust 2018 detail-page featured image rendering so portrait and square speaker images are not forced into a cropped wide hero ratio.
+- [x] `2018-MIG-005` `[Medium/M]` Content-QA 2018 schedule, sponsors, organisers, ticket, volunteers, and privacy pages for logos, links, tables, and mobile readability.
+- [x] `PYCONHK-ASTRO-2020-2021-02` `[Medium/S]` Explicitly preserve `/2020-spring/`, `/2020-fall/`, `/2021/`, and 2021 archive pagination routes even where child folders are absent from the export inventory.
+- [x] `PYCONHK-ASTRO-2020-2021-03` `[Medium/M]` Rebuild `/2020-spring/` and `/2020-fall/` with an Astro-owned legacy archive template that approximates old WordPress headings, spacing, and listing behavior.
+- [x] `PYCONHK-ASTRO-2020-2021-04` `[Medium/L]` Apply a shared Astro legacy article template to 2020 Spring/Fall and 2021 detail pages to approximate old WordPress typography, spacing, footer, and content flow.
+- [x] `PYCONHK-ASTRO-2020-2021-06` `[Medium/S]` Normalize 2020 Spring/Fall and 2021 document titles to the live/export `- PyCon HK` suffix instead of duplicating year-group suffixes.
+- [x] `PYHK-ASTRO-2022-2023-02` `[Medium/S]` Decide whether `/2023/about/code-of-conduct/` should redirect to `/2023/2023-code-of-conduct/` for legacy compatibility, then implement or mark out of scope.
+- [x] `PYHK-ASTRO-2022-2023-04` `[Medium/M]` Tighten mobile rendering for `/2022/2022-schedule/` and `/2023/2023-schedule/` so dense timetable tables stay scannable.
+- [x] `2024-004` `[Medium/S]` Expose 2024 Code of Conduct, enforcement procedure, and attendee reporting pages from the 2024 detail-page navigation or related-links area.
+- [x] `2024-005` `[Medium/M]` QA 2024 sponsor, community, organizer, patron, booth, and volunteer media layouts for logo counts, image sizing, captions, and mobile stacking.
+- [x] `2024-006` `[Medium/M]` Verify 2024 conference-day and sprint-day access guides preserve maps/media, bilingual sections, and event-notice cross-links.
+- [x] `2024-007` `[Medium/M]` QA notable 2024 event/news posts for content, media, CTA buttons, and internal links while deferring exact WordPress previous/next plugin chrome.
+- [x] `CY-02` `[Medium/M]` Decide sitemap/noindex policy for legacy category and tag archives, then make Astro sitemap and metadata match that policy.
+- [x] `CY-03` `[Medium/S]` Review legacy author archives and choose preserve, noindex, or redirect behavior for populated and empty author pages.
+- [x] `CY-06` `[Medium/M]` Verify migrated legacy archive assets and add targeted `/wp-content/uploads/*` compatibility redirects or copied assets where old media URLs still matter.
+
+### Low-Value Or Policy Decisions
+
+- [x] `2018-MIG-002` `[Medium/S]` Decide whether 2018 slug page titles should match the export/live `- PyCon HK` suffix or keep the current `- PyCon HK 2018` convention.
+- [x] `PYHK-ASTRO-2022-2023-05` `[Low/S]` Decide whether 2022/2023 migrated page titles should preserve the WordPress `- PyCon HK` suffix or accept the Astro `| PyCon HK` convention.
+- [x] `2024-008` `[Low/S]` Decide and document the 2024 archive title/canonical policy, avoiding `legacy.pycon.hk` canonicals while optionally matching the old title suffix.
+
+### Explicit Defer Unless Pixel Parity Becomes A Goal
+
+- [ ] `2015-MIG-008` `[Defer/M]` Decide whether 2015 photo-page pixel parity should prefer byte-identical WordPress upload images over Astro-cached optimized images; current mobile diff is about 7.9% after restoring WordPress-style captions, and exact raw-image parity trades against the requested smaller app bundle.
+- [ ] `2018-MIG-006` `[Defer/L]` Keep exact 2018 WordPress Marketingly chrome parity out of scope for detail pages; port content-critical behavior only.
+- [ ] `PYCONHK-ASTRO-2020-2021-07` `[Defer/L]` Defer exact WordPress Marketingly CSS/JS/theme cloning for 2020-2021 and document an Astro-owned approximate legacy-style acceptance target instead.
+- [ ] `PYHK-ASTRO-2022-2023-06` `[Defer/L]` Document the 2022/2023 decision to keep current Astro article styling and defer exact WordPress footer/sidebar/previous-next plugin parity.
+- [ ] `2024-009` `[Defer/S]` Review `/2024/` archive landing parity separately because `/2024/index.html` is absent from the scoped Simply Static export tree.
+- [ ] `CY-07` `[Defer/L]` Decide whether cross-year WordPress archive pages need exact Marketingly visual parity or whether modern Astro archive framing is accepted for launch.
+
 ## Open Questions To Track
 
 - [ ] What is the exact default locale when the cookie is missing, invalid, or blocked?

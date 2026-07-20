@@ -1,0 +1,27 @@
+---
+import {
+  repairLegacyWordPressHighlightNav,
+  repairLegacyWordPressHistoryLinks,
+} from '@/legacy/conference-archive-links';
+import { prepareLegacySearchableHtml } from '@/legacy/legacy-html';
+import { resolveLegacy2018HtmlAssets } from '@/years/2018/data/assets';
+import type { Legacy2018Page } from '@/years/2018/data/types';
+
+interface Props {
+  page: Legacy2018Page;
+}
+
+const { page } = Astro.props;
+const repairedHtml = repairLegacyWordPressHighlightNav(
+  repairLegacyWordPressHistoryLinks(page.fullHtml)
+);
+const html = prepareLegacySearchableHtml(
+  resolveLegacy2018HtmlAssets(repairedHtml),
+  {
+    route: page.route,
+    title: page.title,
+  }
+);
+---
+
+<Fragment set:html={html} />

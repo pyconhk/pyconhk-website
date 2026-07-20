@@ -1,5 +1,6 @@
 ---
 import LegacyShell from '@/legacy/LegacyShell.astro';
+import { canonicalLegacyHref, cleanLegacyHtml } from '@/legacy/legacy-html';
 import type { LegacyHighlight } from '@/legacy/legacy-indexes';
 
 interface Props {
@@ -7,6 +8,11 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const event = page.path.match(/^\/([^/]+)/u)?.[1] ?? '2024';
+const featuredImageSrc = page.featuredImage
+  ? canonicalLegacyHref(page.featuredImage.src, { event })
+  : undefined;
+const contentHtml = cleanLegacyHtml(page.contentHtml, { event });
 ---
 
 <LegacyShell title={page.title} description={page.description} eyebrow="Conference Highlights">
@@ -15,13 +21,13 @@ const { page } = Astro.props;
       {page.featuredImage && (
         <img
           class="mb-8 aspect-video w-full rounded-lg object-cover"
-          src={page.featuredImage.src}
+          src={featuredImageSrc}
           alt={page.featuredImage.alt}
           width={page.featuredImage.width}
           height={page.featuredImage.height}
         />
       )}
-      <div class="legacy-content rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-8" set:html={page.contentHtml} />
+      <div class="legacy-content rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-8" set:html={contentHtml} />
     </div>
 
     <aside class="lg:pt-1">

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="150" viewBox="0 0 480 150" role="img" aria-labelledby="title">
+  <title id="title">AXA Investment Managers</title>
+  <rect width="480" height="150" fill="#fff"/>
+  <rect x="36" y="28" width="94" height="94" fill="#003399"/>
+  <path d="M47 111 118 39" stroke="#e30613" stroke-width="6"/>
+  <text x="52" y="86" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">AXA</text>
+  <text x="154" y="70" fill="#222" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700">Investment</text>
+  <text x="154" y="108" fill="#222" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700">Managers</text>
+</svg>

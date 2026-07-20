@@ -1,0 +1,576 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { archiveMonths } from '@/legacy/archive-months';
+import { conferenceArchiveHistoryLinks } from '@/legacy/conference-archive-links';
+
+interface Props {
+  event: string;
+}
+
+const { event } = Astro.props;
+const eventHome = `/${event}/`;
+const eventSearch = `/${event}/search/`;
+const navLinks = [
+  { href: '/2024/', label: '2024' },
+  { href: '/2024/schedule/', label: 'Schedule' },
+  { href: '/2024/2024-sprint/', label: 'Sprint' },
+  { href: '/2024/2024-sponsors/', label: 'Sponsors' },
+  { href: '/2024/2024-patrons/', label: 'Patrons' },
+  { href: '/2024/2024-supporting-organizations/', label: 'Communities' },
+  { href: '/2024/2024-organizers/', label: 'Organizers' },
+  { href: '/2024/2024-volunteers/', label: 'Volunteers' },
+  { href: '/2024/', label: 'News' },
+  { href: '/2024/2024-about/', label: 'About' },
+  { href: '/2024/2024-code-of-conduct/', label: 'Code of Conduct' },
+];
+const socialLinks = [
+  { href: 'https://www.instagram.com/pyconhk/', label: 'Instagram', short: 'ig', className: 'instagram' },
+  { href: 'https://www.linkedin.com/company/pyconhk', label: 'LinkedIn', short: 'in', className: 'linkedin' },
+  { href: 'https://www.facebook.com/pyconhk', label: 'Facebook', short: 'f', className: 'facebook' },
+  { href: 'https://x.com/pyconhk', label: 'Twitter', short: 'x', className: 'twitter' },
+  { href: 'https://www.youtube.com/c/pyconhk', label: 'YouTube', short: 'yt', className: 'youtube' },
+  { href: 'https://github.com/pyconhk', label: 'GitHub', short: 'gh', className: 'github' },
+  { href: eventHome, label: 'Archive Home', short: 'home', className: 'feed' },
+];
+const historyLinks = conferenceArchiveHistoryLinks;
+---
+
+<BaseLayout
+  title={`Search - PyCon HK ${event}`}
+  description={`Search PyCon HK ${event} archive posts and pages.`}
+  htmlLang="en"
+  robots="noindex"
+>
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+
+  <div class="voyago-archive search search-results wp-embed-responsive wp-theme-voyago" data-pagefind-ignore="all">
+    <a id="wp-skip-link" class="skip-link screen-reader-text" href="#wp--skip-link--target">
+      Skip to content
+    </a>
+
+    <header class="wp-block-template-part voyago-header">
+      <div class="voyago-header-inner">
+        <a class="voyago-brand-mark" href={eventHome} aria-label="PyCon HK home">
+          <img src={`/${event}/assets/uploads/2024/09/logo_1200px-150x150.gif`} alt="" width="60" height="60" />
+        </a>
+        <a class="voyago-brand" href={eventHome}>PyCon HK</a>
+        <nav class="voyago-nav" aria-label="PyCon HK 2024 navigation">
+          {navLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main id="wp--skip-link--target" class="voyago-main">
+      <div class="voyago-grid">
+        <section class="voyago-search-results-column" aria-labelledby="legacy-search-title">
+          <p class="voyago-search-kicker">PyCon HK Archives</p>
+          <h1 id="legacy-search-title">Search</h1>
+          <div id="legacy-search"></div>
+        </section>
+
+        <aside class="voyago-sidebar">
+          <h4>Follow Us</h4>
+          <ul class="voyago-social-links">
+            {socialLinks.slice(0, 5).map((link) => (
+              <li class={link.className}>
+                <a href={link.href} aria-label={link.label}>{link.short}</a>
+              </li>
+            ))}
+          </ul>
+
+          <hr />
+
+          <h4>Search</h4>
+          <form method="get" class="voyago-search" action={eventSearch}>
+            <label class="screen-reader-text" for="voyago-search-input">Search</label>
+            <input id="voyago-search-input" type="search" name="s" />
+            <button type="submit">Search</button>
+          </form>
+
+          <hr />
+
+          <h4>Archives</h4>
+          <label class="screen-reader-text" for="voyago-archives">Archives</label>
+          <select id="voyago-archives" name="archive-dropdown">
+            <option value="">Select Month</option>
+            {archiveMonths.map(({ path, label }) => (
+              <option value={`/${path}/`}>{label}</option>
+            ))}
+          </select>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="voyago-footer">
+      <div class="voyago-footer-primary">
+        <div class="voyago-footer-inner">
+          <div>
+            <h4>Follow Us</h4>
+            <ul class="voyago-social-links">
+              {socialLinks.map((link) => (
+                <li class={link.className}>
+                  <a href={link.href} aria-label={link.label}>{link.short}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4>History</h4>
+            <p>
+              {historyLinks.map((link, index) => (
+                <>
+                  <a href={link.href}>{link.label}</a>
+                  {index === 4 && <br />}
+                  {index !== historyLinks.length - 1 && '  '}
+                </>
+              ))}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="voyago-copyright">
+        <div class="voyago-footer-inner">&copy;2024 PyCon Hong Kong</div>
+      </div>
+    </footer>
+  </div>
+
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    const setupLegacySearch = () => {
+      const searchRoot = document.querySelector('#legacy-search')
+
+      if (!(searchRoot instanceof HTMLElement)) {
+        return
+      }
+
+      const initKey = window.location.href
+
+      if (searchRoot.dataset.pagefindInitKey === initKey) {
+        return
+      }
+
+      searchRoot.dataset.pagefindInitKey = initKey
+      searchRoot.replaceChildren()
+
+      const archives = document.getElementById('voyago-archives')
+      archives?.addEventListener('change', (event) => {
+        const target = event.target
+
+        if (target instanceof HTMLSelectElement && target.value) {
+          document.location.href = target.value
+        }
+      })
+
+      const searchParams = new URLSearchParams(window.location.search)
+      const initialTerm = searchParams.get('s') || searchParams.get('q') || ''
+      const sidebarInput = document.querySelector('#voyago-search-input')
+
+      if (sidebarInput instanceof HTMLInputElement) {
+        sidebarInput.value = initialTerm
+      }
+
+      const applyInitialTerm = (attemptsLeft = 20) => {
+        const input = document.querySelector('#legacy-search .pagefind-ui__search-input')
+
+        if (!(input instanceof HTMLInputElement)) {
+          if (attemptsLeft > 0) {
+            window.setTimeout(() => applyInitialTerm(attemptsLeft - 1), 50)
+          }
+
+          return
+        }
+
+        input.value = initialTerm
+        input.dispatchEvent(new Event('input', { bubbles: true }))
+      }
+
+      const mountPagefind = (attemptsLeft = 20) => {
+        if (typeof PagefindUI !== 'function') {
+          if (attemptsLeft > 0) {
+            window.setTimeout(() => mountPagefind(attemptsLeft - 1), 50)
+          }
+
+          return
+        }
+
+        new PagefindUI({
+          element: '#legacy-search',
+          showImages: false,
+          showSubResults: true,
+          pageSize: 10,
+          resetStyles: false,
+          openFilters: ['year'],
+          translations: {
+            placeholder: 'Search PyCon HK archives',
+            zero_results: 'No PyCon HK archive results for [SEARCH_TERM]',
+          },
+        })
+
+        if (initialTerm) {
+          applyInitialTerm()
+        }
+      }
+
+      mountPagefind()
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', setupLegacySearch)
+    } else {
+      setupLegacySearch()
+    }
+
+    document.addEventListener('astro:page-load', setupLegacySearch)
+  </script>
+</BaseLayout>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+  .voyago-archive,
+  .voyago-archive * {
+    box-sizing: border-box;
+  }
+
+  .voyago-archive {
+    min-height: 100vh;
+    background: #fff;
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .voyago-archive a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .voyago-archive img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .voyago-archive .screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
+  .voyago-header {
+    padding: 24px 40px;
+  }
+
+  .voyago-header-inner {
+    display: flex;
+    width: 1180px;
+    max-width: 100%;
+    min-height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 0 auto;
+  }
+
+  .voyago-brand-mark {
+    display: inline-flex;
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .voyago-brand {
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .voyago-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0 22px;
+    margin-left: auto;
+    font-size: 16px;
+  }
+
+  .voyago-nav a {
+    color: #000;
+    line-height: 1.7;
+  }
+
+  .voyago-main {
+    padding: 24px 40px 54px;
+  }
+
+  .voyago-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 694px) minmax(320px, 426px);
+    gap: 60px;
+    width: 1180px;
+    max-width: 100%;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+
+  .voyago-search-results-column {
+    min-width: 0;
+    padding-top: 12px;
+  }
+
+  .voyago-search-kicker {
+    margin: 0 0 8px;
+    color: #666;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .voyago-search-results-column h1 {
+    margin: 0 0 28px;
+    color: #000;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  #legacy-search {
+    --pagefind-ui-primary: #000;
+    --pagefind-ui-text: #000;
+    --pagefind-ui-background: #fff;
+    --pagefind-ui-border: #d8d8d8;
+    --pagefind-ui-tag: #f5f5f5;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0;
+    --pagefind-ui-font: Montserrat, sans-serif;
+    width: 100%;
+  }
+
+  #legacy-search .pagefind-ui__search-input {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  #legacy-search .pagefind-ui__result-title {
+    font-size: 21px;
+    line-height: 1.35;
+  }
+
+  #legacy-search .pagefind-ui__result-link {
+    color: #000;
+  }
+
+  #legacy-search .pagefind-ui__result-excerpt mark {
+    background: #fff27a;
+  }
+
+  .voyago-sidebar {
+    min-height: 100%;
+    padding: 36px;
+    background: #002020;
+    color: #fff;
+  }
+
+  .voyago-sidebar h4,
+  .voyago-footer h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.65;
+  }
+
+  .voyago-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .voyago-social-links li {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+  }
+
+  .voyago-social-links a {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .voyago-social-links .instagram {
+    background: #f00075;
+  }
+
+  .voyago-social-links .linkedin {
+    background: #0d66c2;
+  }
+
+  .voyago-social-links .facebook {
+    background: #0866ff;
+  }
+
+  .voyago-social-links .twitter {
+    background: #1da1f2;
+  }
+
+  .voyago-social-links .youtube {
+    background: #f00;
+  }
+
+  .voyago-social-links .github {
+    background: #24292d;
+  }
+
+  .voyago-social-links .feed {
+    background: #f0f0f0;
+  }
+
+  .voyago-social-links .feed a {
+    color: #444;
+  }
+
+  .voyago-sidebar hr {
+    height: 1px;
+    margin: 24px 0 0;
+    border: 0;
+    background: rgba(165, 165, 165, 0.44);
+  }
+
+  .voyago-search {
+    display: flex;
+    width: 291px;
+    max-width: 100%;
+  }
+
+  .voyago-search input {
+    width: 179px;
+    min-width: 0;
+    padding: 8px;
+    border: 0;
+    background: #fff;
+    color: #000;
+  }
+
+  .voyago-search button {
+    margin-left: 10px;
+    padding: 12px 23px;
+    border: 0;
+    background: #000;
+    color: #fff;
+    font: inherit;
+  }
+
+  .voyago-sidebar select {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    background: #fff;
+    color: #000;
+  }
+
+  .voyago-sidebar h4 + .voyago-search,
+  .voyago-sidebar h4 + select {
+    margin-top: 24px;
+  }
+
+  .voyago-footer {
+    color: #fff;
+  }
+
+  .voyago-footer-primary {
+    padding: 80px 0;
+    background: #000;
+  }
+
+  .voyago-footer-inner {
+    display: flex;
+    width: 1180px;
+    max-width: calc(100% - 80px);
+    justify-content: space-between;
+    gap: 60px;
+    margin: 0 auto;
+  }
+
+  .voyago-archive .voyago-footer p {
+    margin: 24px 0 0;
+    color: #fff;
+  }
+
+  .voyago-footer a {
+    color: #fff;
+  }
+
+  .voyago-copyright {
+    padding: 36px 40px;
+    background: #002020;
+  }
+
+  .voyago-copyright .voyago-footer-inner {
+    display: block;
+    max-width: 1180px;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .voyago-header-inner,
+    .voyago-grid,
+    .voyago-footer-inner {
+      width: auto;
+      max-width: 100%;
+    }
+
+    .voyago-header-inner,
+    .voyago-footer-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .voyago-nav {
+      justify-content: flex-start;
+      margin-left: 0;
+    }
+
+    .voyago-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .voyago-header,
+    .voyago-main,
+    .voyago-copyright {
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+
+    .voyago-search-results-column h1 {
+      font-size: 32px;
+    }
+
+    .voyago-sidebar {
+      padding: 28px;
+    }
+  }
+</style>

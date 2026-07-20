@@ -1,6 +1,8 @@
 ---
-import LegacyArchiveLayout from '@/years/2018/components/LegacyArchiveLayout.astro';
-import { legacyArchivePages } from '@/years/2020-spring/data/pages';
+import Legacy2020Page from '@/years/2020/components/Legacy2020Page.astro';
+import { getLegacy2020Page } from '@/years/2020/data/pages';
+
+const page = getLegacy2020Page('/2020-spring/');
 ---
 
-<LegacyArchiveLayout editionLabel="PyCon HK 2020 Spring" pages={legacyArchivePages} />
+<Legacy2020Page page={page} />

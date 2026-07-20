@@ -2,25 +2,41 @@
 import { siteName } from '@/config/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { pageTitle } from '@/legacy/legacy-indexes';
+import { legacyHighlightNavLinks } from '@/legacy/year-highlights';
 
 interface Props {
   title: string;
   description: string;
   eyebrow?: string;
+  robots?: string;
 }
 
-const { title, description, eyebrow } = Astro.props;
+const { title, description, eyebrow, robots } = Astro.props;
+const navLinkClass =
+  'rounded-full px-3 py-1.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-950';
 ---
 
-<BaseLayout title={pageTitle(title)} description={description || siteName}>
+<BaseLayout title={pageTitle(title)} description={description || siteName} robots={robots}>
   <div class="min-h-screen bg-slate-50 text-slate-800">
     <header class="border-b border-slate-200 bg-white">
       <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-        <a href="/" class="text-xl font-bold text-slate-950">PyCon HK</a>
-        <nav class="flex flex-wrap gap-3 text-sm font-semibold text-slate-600">
-          <a class="rounded-full px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/2024/photos/">Highlights</a>
-          <a class="rounded-full px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/2024/">Archives</a>
-          <a class="rounded-full px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/2025/en/news/">News</a>
+        <a href="/2024/" class="text-xl font-bold text-slate-950">PyCon HK</a>
+        <nav class="flex flex-wrap gap-3">
+          <div class="group relative">
+            <a class={navLinkClass} href="/2024/photos">Conference Highlights</a>
+            <div class="absolute left-0 top-full z-20 hidden min-w-64 rounded-lg border border-slate-200 bg-white py-2 shadow-lg group-focus-within:block group-hover:block">
+              {legacyHighlightNavLinks.map((link) => (
+                <a
+                  class="block px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+                  href={link.href}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <a class={navLinkClass} href="/2024/">Archives</a>
+          <a class={navLinkClass} href="/2025/en/news/">News</a>
         </nav>
       </div>
     </header>

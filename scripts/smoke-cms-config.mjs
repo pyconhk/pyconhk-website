@@ -5,7 +5,18 @@ const expected = {
   repo: "pyconhk/pyconhk-website",
   mediaFolder: "website/public/outstatic/images",
   publicFolder: "/outstatic/images",
-  contentRoot: "website/outstatic/content",
+  postCollections: [
+    {
+      name: "posts",
+      label: "2026 Posts",
+      folder: "website/outstatic/content/2026-posts",
+    },
+    {
+      name: "posts_2025",
+      label: "2025 Posts",
+      folder: "website/outstatic/content/2025-posts",
+    },
+  ],
   locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja"],
   defaultLocale: "en",
 };
@@ -36,6 +47,67 @@ function findCollection(config, name) {
 
 function findField(collection, name) {
   return collection?.fields?.find((field) => field?.name === name);
+}
+
+function validatePostCollection(problems, config, expectedCollection) {
+  const collection = findCollection(config, expectedCollection.name);
+
+  if (!collection) {
+    problems.push(`${expectedCollection.name} collection is required`);
+    return;
+  }
+
+  requireEqual(
+    problems,
+    collection.label,
+    expectedCollection.label,
+    `${expectedCollection.name}.label`,
+  );
+  requireEqual(
+    problems,
+    collection.folder,
+    expectedCollection.folder,
+    `${expectedCollection.name}.folder`,
+  );
+  requireEqual(problems, collection.i18n, true, `${expectedCollection.name}.i18n`);
+  requireEqual(
+    problems,
+    collection.extension,
+    "mdx",
+    `${expectedCollection.name}.extension`,
+  );
+  requireEqual(
+    problems,
+    collection.format,
+    "frontmatter",
+    `${expectedCollection.name}.format`,
+  );
+  requireEqual(
+    problems,
+    collection.summary,
+    "{{title}}",
+    `${expectedCollection.name}.summary`,
+  );
+
+  if (collection.path !== undefined) {
+    problems.push(`${expectedCollection.name}.path must not be set`);
+  }
+
+  if (findField(collection, "collectionYear")) {
+    problems.push(`${expectedCollection.name} must not require a collectionYear field`);
+  }
+
+  if (findField(collection, "body")?.i18n !== true) {
+    problems.push(`${expectedCollection.name} body field must be locale-enabled`);
+  }
+
+  const tags = findField(collection, "tags");
+
+  if (tags?.widget !== "list" || tags?.i18n !== true) {
+    problems.push(
+      `${expectedCollection.name} tags field must use locale-enabled list semantics`,
+    );
+  }
 }
 
 export function buildConfigUrl(rawUrl) {
@@ -78,16 +150,8 @@ export function collectCmsConfigProblems(config) {
     "i18n.default_locale",
   );
 
-  const posts = findCollection(config, "posts");
-
-  requireEqual(problems, posts?.folder, expected.contentRoot, "posts.folder");
-  requireEqual(problems, posts?.path, "{{collectionYear}}-posts/{{slug}}", "posts.path");
-  requireEqual(problems, posts?.i18n, true, "posts.i18n");
-  requireEqual(problems, posts?.extension, "mdx", "posts.extension");
-  requireEqual(problems, posts?.format, "frontmatter", "posts.format");
-
-  if (findField(posts, "body")?.i18n !== true) {
-    problems.push("posts body field must be locale-enabled");
+  for (const postCollection of expected.postCollections) {
+    validatePostCollection(problems, config, postCollection);
   }
 
   return problems;

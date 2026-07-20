@@ -1,60 +1,62 @@
 ---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
 import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
-import { cleanLegacyHtml, cleanLegacyText } from '@/legacy/legacy-html';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
 import { getHighlightsForEdition } from '@/legacy/year-highlights';
-import LegacyArchiveShell from '@/years/2022/components/LegacyArchiveShell.astro';
-import archive from '@/years/2022/data/archive.json';
+import Legacy2022Page from '@/years/2022/components/Legacy2022Page.astro';
+import { legacy2022Pages } from '@/years/2022/data/pages';
 
 export function getStaticPaths() {
+  const editionPrefix = '/2022/';
+  const archivePaths = legacy2022Pages
+    .filter(
+      (page) =>
+        page.route.startsWith(editionPrefix) &&
+        page.route !== editionPrefix &&
+        !page.route.startsWith(`${editionPrefix}page/`)
+    )
+    .map((page) => ({
+      params: {
+        slug: decodeURI(page.route.replace(editionPrefix, '').replace(/\/$/u, '')),
+      },
+      props: { page },
+    }));
+  const archiveSlugs = new Set(archivePaths.map((path) => path.params.slug));
   const highlights = getHighlightsForEdition('2022');
 
   return [
-    ...archive.pages.map((page) => ({
-      params: { slug: page.slug },
-      props: { archivePage: page },
-    })),
-    ...highlights.map((highlight) => ({
-      params: { slug: highlight.slug },
-      props: { highlightPage: highlight.page },
+    ...archivePaths,
+    ...highlights
+      .filter((highlight) => !archiveSlugs.has(highlight.slug))
+      .map((highlight) => ({
+        params: { slug: highlight.slug },
+        props: { highlightPage: highlight.page },
+      })),
+    ...archiveMonthsForYear('2022').map((archiveMonth) => ({
+      params: { slug: archiveMonth.month },
+      props: {
+        monthArchiveLabel: archiveMonth.label,
+        monthArchivePage: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+      },
     })),
   ];
 }
 
-const { archivePage, highlightPage } = Astro.props;
-const displayArchivePage = archivePage
-  ? {
-      ...archivePage,
-      contentHtml: cleanLegacyHtml(archivePage.contentHtml),
-      description: cleanLegacyText(archivePage.description),
-    }
-  : undefined;
+const { page, highlightPage, monthArchiveLabel, monthArchivePage } = Astro.props;
 ---
 
 {
-  highlightPage ? (
+  monthArchivePage ? (
+    <LegacyYearArchivePage
+      headingKind="Month"
+      label={monthArchiveLabel}
+      page={monthArchivePage}
+      year="2022"
+    />
+  ) : highlightPage ? (
     <LegacyHighlightPage page={highlightPage} />
-  ) : displayArchivePage ? (
-    <LegacyArchiveShell
-      title={displayArchivePage.title}
-      description={displayArchivePage.description}
-      year={archive.year}
-      currentPath={displayArchivePage.url}
-    >
-      <article class="legacy-container">
-        <p class="legacy-kicker">PyCon Hong Kong {archive.year}</p>
-        <h1 class="legacy-title">{displayArchivePage.title}</h1>
-        {displayArchivePage.date?.label && <p class="legacy-date">{displayArchivePage.date.label}</p>}
-        {displayArchivePage.featuredImage?.src && (
-          <figure class="legacy-hero">
-            <img src={displayArchivePage.featuredImage.src} alt={displayArchivePage.featuredImage.alt || ''} />
-          </figure>
-        )}
-        <div class="legacy-panel">
-          <div class="legacy-content" set:html={displayArchivePage.contentHtml} />
-        </div>
-      </article>
-    </LegacyArchiveShell>
   ) : (
-    <p>Archive page not found.</p>
+    <Legacy2022Page page={page} />
   )
 }

@@ -1,17 +1,32 @@
 ---
 import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
 import { getHighlightsForEdition } from '@/legacy/year-highlights';
-import LegacyArchiveLayout from '@/years/2018/components/LegacyArchiveLayout.astro';
-import { legacyArchivePages } from '@/years/2020-spring/data/pages';
+import Legacy2020Page from '@/years/2020/components/Legacy2020Page.astro';
+import { legacy2020Pages } from '@/years/2020/data/pages';
 
 export function getStaticPaths() {
-  const highlights = getHighlightsForEdition('2020-spring');
+  const edition = '2020-spring';
+  const editionPrefix = '/2020-spring/';
+  const archivePaths = legacy2020Pages
+    .filter(
+      (page) =>
+        page.route.startsWith(editionPrefix) &&
+        page.route !== editionPrefix &&
+        !page.route.startsWith(`${editionPrefix}page/`)
+    )
+    .map((page) => ({
+      params: {
+        slug: decodeURI(page.route.replace(editionPrefix, '').replace(/\/$/u, '')),
+      },
+      props: { page },
+    }));
+  const archiveSlugs = new Set(archivePaths.map((path) => path.params.slug));
+  const highlights = getHighlightsForEdition(edition).filter(
+    (highlight) => !archiveSlugs.has(highlight.slug)
+  );
 
   return [
-    ...legacyArchivePages.map((page) => ({
-      params: { slug: page.slug },
-      props: { archivePage: page },
-    })),
+    ...archivePaths,
     ...highlights.map((highlight) => ({
       params: { slug: highlight.slug },
       props: { highlightPage: highlight.page },
@@ -19,13 +34,13 @@ export function getStaticPaths() {
   ];
 }
 
-const { archivePage, highlightPage } = Astro.props;
+const { page, highlightPage } = Astro.props;
 ---
 
 {
   highlightPage ? (
     <LegacyHighlightPage page={highlightPage} />
   ) : (
-    <LegacyArchiveLayout editionLabel="PyCon HK 2020 Spring" pages={legacyArchivePages} page={archivePage} />
+    <Legacy2020Page page={page} />
   )
 }

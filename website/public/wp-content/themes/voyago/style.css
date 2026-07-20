@@ -1,0 +1,149 @@
+/*
+Theme Name: Voyago
+Theme URI: https://effethemes.com/themes/voyago-wordpress-theme/
+Author: Effe Themes
+Author URI: https://effethemes.com/
+Description: Designed specifically for travel agencies, tour operators, and travel enthusiasts, this theme offers a seamless blend of functionality and style, allowing you to craft stunning websites that inspire exploration and adventure. Whether you’re promoting exotic destinations, curating custom itineraries, or managing bookings, this theme empowers you to do it all with ease. Fully compatible with the latest WordPress Full Site Editing (FSE) features, our theme gives you complete control over your site’s design. With a vast array of pre-designed block patterns, customizable templates, and intuitive drag-and-drop options, you can build a professional and engaging website in no time — no coding required.
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 5.7
+Version: 1.0.2
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: voyago
+Tags: blog, one-column, two-columns, left-sidebar, block-patterns, news, portfolio, custom-header, custom-background, custom-logo, custom-menu, featured-images, full-width-template, full-site-editing, editor-style, threaded-comments, block-styles, wide-blocks, translation-ready
+*/
+
+/* ================= > General Styles < ================= */
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+a {
+  color: inherit;
+  font-size: inherit !important;
+  -webkit-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+
+a:hover {
+  color: var(--wp--preset--color--custom-secondary) !important;
+}
+
+ul {
+  list-style: square inside;
+  padding: 0;
+}
+
+ul > li > a {
+  text-decoration: none;
+}
+
+:where(.wp-site-blocks) > * {
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
+}
+
+/* ================= > Header < ================= */
+
+.header-navigation > div > div > div > div > ul > ul > li > a:hover,
+.header-navigation > li > a:hover {
+  color: var(--wp--preset--color--custom-secondary) !important;
+  padding: 0 10px;
+}
+
+.header-search-icon > div > button {
+  background: transparent;
+  padding: 0;
+  color: inherit !important;
+}
+
+.header-search-icon:hover {
+  color: var(--wp--preset--color--custom-secondary) !important;
+}
+
+.wp-block-site-title > a {
+  text-decoration: none;
+}
+
+.wp-block-navigation__responsive-container-content {
+  -webkit-box-align: start !important;
+      -ms-flex-align: start !important;
+          align-items: start !important;
+}
+
+.wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container {
+  border: 0 !important;
+}
+
+/* ================= > Blog < ================= */
+
+.form-submit > input[type="submit"] {
+  background: var(--wp--preset--color--custom-primary) !important;
+}
+
+.form-submit > input[type="submit"]:hover {
+  opacity: 0.8;
+}
+
+/* ================= > Footer < ================= */
+
+.footer-links > p > a {
+  text-decoration: none;
+}
+
+
+/* ================= > Media Queries < ================= */
+
+@media (max-width: 1024px) {
+  .wp-block-columns {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+
+  .wp-block-post-template-is-layout-grid {
+    grid-template: none;
+  }
+
+  .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) .wp-block-navigation__responsive-container-close,
+  .wp-block-navigation__responsive-container-open:not(.always-shown),
+  .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+    display: none;
+  }
+
+  .wp-block-navigation__responsive-container-open:not(.always-shown) {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .wp-block-navigation__container {
+    --navigation-layout-justification-setting: flex-start !important;
+    --navigation-layout-justify: flex-start !important;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .copyright > div {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "requiredRoutes": [
+    "/2017/",
+    "/2017/about/",
+    "/2017/about/coc.html",
+    "/2017/about/staff.html",
+    "/2017/cfp/",
+    "/2017/photos/",
+    "/2017/recording/",
+    "/2017/schedule/",
+    "/2017/sponsor/",
+    "/2017/topics/ai-learn-to-Drive-introduction-to-reinforcement-learning-with-python/",
+    "/2017/topics/applying-serverless-architecture-pattern-to-distributed-data-processing/",
+    "/2017/topics/boosting-command-line-data-manipulation-with-python-and-awk/",
+    "/2017/topics/ha-capability-with-document-store-using-mysql-shell-running-python/",
+    "/2017/topics/how-i-battle-with-hong-kong-open-data-in-python/",
+    "/2017/topics/how-to-approach-a-machine-learning-problem-with-python-youtube-like-count-prediction/",
+    "/2017/topics/how-to-reinvent-the-wheel-and-build-the-most-popular-JSON-RPC-library/",
+    "/2017/topics/machine-learning-on-energy-consumption-prediction/",
+    "/2017/topics/matplotlib-2-by-example/",
+    "/2017/topics/micropython/",
+    "/2017/topics/python-blockchain-application-in-less-than-24hrs/",
+    "/2017/topics/python-for-data-analysis/",
+    "/2017/topics/python-is-not-always-slow/",
+    "/2017/topics/python-logging-in-production/",
+    "/2017/topics/recurrent-neural-networks-in-python-keras-and-tensorFlow-for-time-series-analysis/",
+    "/2017/topics/resurrecting-the-dead-with-deep-learning/",
+    "/2017/topics/ticketing-chatbot/",
+    "/2017/topics/using-gradient-boosting-machines-in-python/",
+    "/2017/venue/"
+  ],
+  "compatibilityRoutes": [
+    "/2017/0.js",
+    "/2017/app.css",
+    "/2017/app.js",
+    "/2017/data/langs.yml",
+    "/2017/data/sessions.yml",
+    "/2017/data/speakers.yml",
+    "/2017/data/sponsor.yml",
+    "/2017/data/staff.yml",
+    "/2017/data/timeslots.yml",
+    "/2017/data/topics.yml",
+    "/2017/data/venues.yml",
+    "/2017/manifest.json",
+    "/2017/staff.js",
+    "/2017/sw.js",
+    "/2017/timetable.js",
+    "/2017/venue.js"
+  ],
+  "migratedTopLevelRoutes": [
+    {
+      "from": "/conference-highlights/2017-photos/",
+      "to": "/2017/photos"
+    },
+    {
+      "from": "/conference-highlights/2017-recording/",
+      "to": "/2017/recording"
+    }
+  ]
+}

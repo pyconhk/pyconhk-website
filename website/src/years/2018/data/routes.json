@@ -1,0 +1,85 @@
+{
+  "requiredRoutes": [
+    "/2018/",
+    "/2018/08/",
+    "/2018/09/",
+    "/2018/10/",
+    "/2018/10/page/2/",
+    "/2018/11/",
+    "/2018/announcing-1st-round-of-sessions-in-2018/",
+    "/2018/big-data-journey-in-hk01/",
+    "/2018/breast-cancer-classification-in-digital-pathology-using-python-and-deep-learning/",
+    "/2018/call-for-proposals-2018/",
+    "/2018/call-for-sponsorship-2018/",
+    "/2018/call-for-volunteers-2018/",
+    "/2018/collaboration-hack-with-slackbot/",
+    "/2018/current-use-cases-for-machine-learning-in-the-industry/",
+    "/2018/deep-learning-in-python-image-recognition-for-anime-characters/",
+    "/2018/demystifying-speech-recognition-with-project-deepspeech/",
+    "/2018/deploying-django-app-on-aws-lambda-serverless-architecture/",
+    "/2018/deploying-machine-learning-models-in-python/",
+    "/2018/developments-of-super-resolution/",
+    "/2018/distributed-system-in-deep-learning/",
+    "/2018/early-bird-ticket-sales-is-now-extended/",
+    "/2018/enjoy-type-hinting-and-its-benefits/",
+    "/2018/exploiting-emotional-knowledge-from-emojis-and-hashtags/",
+    "/2018/heterogeneous-job-processing-with-apache-kafka/",
+    "/2018/honey-there-is-a-python-in-my-android-phone/",
+    "/2018/how-i-battle-with-hk-open-data-in-python/",
+    "/2018/how-to-evolve-life-using-python/",
+    "/2018/industrial-machine-learning-pipelines-with-python-airflow/",
+    "/2018/iot-in-home-building-a-toilet-vacancy-indicator/",
+    "/2018/neural-network-image-recognition-a-kong-girl-approach-to-diy-photo-sorting/",
+    "/2018/nosql-development-for-mysql-document-store-using-python/",
+    "/2018/organisers-and-partners-2018/",
+    "/2018/page/2/",
+    "/2018/photos/",
+    "/2018/privacy-statement-2018/",
+    "/2018/python-community-and-pycon-in-hong-kong-and-apac/",
+    "/2018/quant-trading-with-artificial-intelligence/",
+    "/2018/ready-get-set-go-development-sprints-in-python-community/",
+    "/2018/schedule-2018/",
+    "/2018/secure-yourself-your-apps-with-secretless/",
+    "/2018/sponsors-2018/",
+    "/2018/thumbor-a-smart-image-processing-pipeline/",
+    "/2018/ticket-pycon-hk-2018/",
+    "/2018/train-and-optimize-your-models-with-automated-machine-learning/",
+    "/2018/unlock-the-power-of-insurtech-a-case-study-of-digitizing-the-risk-assessment-in-insurance-using-powerful-python-libraries-and-optimise-performance-with-advanced-machine-learning-models/",
+    "/2018/volunteers-2018/"
+  ],
+  "compatibilityRoutes": [
+    "/legacy-assets/content/plugins/all-in-one-seo-pack/dist/Lite/assets/css/table-of-contents/global.e90f6d47.css",
+    "/legacy-assets/content/plugins/wpnextpreviouslink/assets/css/wpnextpreviouslink-public.css",
+    "/legacy-assets/content/plugins/wpnextpreviouslink/assets/js/wpnextpreviouslink-public.js",
+    "/legacy-assets/content/themes/marketingly/css/font-awesome.min.css",
+    "/legacy-assets/content/themes/marketingly/js/accessibility.js",
+    "/legacy-assets/content/themes/marketingly/js/jquery.flexslider.js",
+    "/legacy-assets/content/themes/marketingly/js/navigation.js",
+    "/legacy-assets/content/themes/marketingly/js/script.js",
+    "/legacy-assets/content/themes/marketingly/style.css",
+    "/legacy-assets/includes/css/dist/block-library/style.min.css",
+    "/legacy-assets/includes/js/jquery/jquery-migrate.min.js",
+    "/legacy-assets/includes/js/jquery/jquery.min.js",
+    "/legacy-assets/includes/js/wp-emoji-release.min.js"
+  ],
+  "migratedTopLevelRoutes": [
+    {
+      "from": "/conference-highlights/2018-photos/",
+      "to": "/2018/photos"
+    }
+  ],
+  "wordpressAliases": [
+    {
+      "from": "/2018/organisers/",
+      "to": "/2018/organisers-and-partners-2018"
+    },
+    {
+      "from": "/2018/sponsor/",
+      "to": "/2018/sponsors-2018"
+    },
+    {
+      "from": "/2018/sponsors/",
+      "to": "/2018/sponsors-2018"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 import { defaultLocale, getLocaleFallbackChain, type SiteLocale } from '@/config/site';
+import { cleanLegacyHtml } from '@/legacy/legacy-html';
 import {
   parseCollectionYearFromDirectoryName,
   parseLocalizedContentFilename,
@@ -346,7 +347,10 @@ export async function getPostBySlug(
     return null;
   }
 
-  const html = await renderNewsMarkdown(resolved.variant.body);
+  const html = await renderNewsMarkdown(
+    resolved.variant.body,
+    resolved.variant.collectionYear
+  );
 
   return {
     ...toSummary(resolved),
@@ -354,8 +358,17 @@ export async function getPostBySlug(
   } satisfies NewsPost;
 }
 
-export async function renderNewsMarkdown(markdown: string): Promise<string> {
-  return String(await remark().use(remarkHtml, { sanitize: true }).process(markdown));
+export async function renderNewsMarkdown(
+  markdown: string,
+  collectionYear?: number
+): Promise<string> {
+  const html = String(
+    await remark().use(remarkHtml, { sanitize: true }).process(markdown)
+  );
+
+  return collectionYear
+    ? cleanLegacyHtml(html, { event: String(collectionYear) })
+    : html;
 }
 
 export async function getPublishedPostSlugs(year: number): Promise<string[]> {

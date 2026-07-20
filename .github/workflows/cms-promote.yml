@@ -31,6 +31,9 @@ jobs:
         run: |
           git fetch origin "${PRODUCTION_BRANCH}" "${CMS_BRANCH}"
 
+      - name: Validate CMS branch locale files
+        run: node scripts/check-cms-content-locales.mjs "origin/${CMS_BRANCH}"
+
       - name: Check for CMS changes
         id: changes
         run: |
@@ -78,6 +81,10 @@ jobs:
       - name: Install website dependencies
         if: steps.changes.outputs.has_changes == 'true'
         run: mise run //website:install
+
+      - name: Validate CMS locale files
+        if: steps.changes.outputs.has_changes == 'true'
+        run: mise run check-cms-content
 
       - name: Validate website with promoted content
         if: steps.changes.outputs.has_changes == 'true'

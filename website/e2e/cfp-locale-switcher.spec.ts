@@ -1,6 +1,13 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 
-const expectedLocaleHrefs = ['/en', '/zh-hk', '/zh-hant', '/zh-hans', '/ko', '/ja'];
+const expectedLocaleHrefs = [
+  '/2026/en',
+  '/2026/zh-hk',
+  '/2026/zh-hant',
+  '/2026/zh-hans',
+  '/2026/ko',
+  '/2026/ja',
+];
 const localeLabels = ['EN', '粵', '繁', '简', 'KR', 'JA'];
 
 function cookieDomain(baseURL: string | undefined): string {
@@ -38,18 +45,46 @@ async function currentLocaleLabels(page: Page) {
   );
 }
 
+async function preferredLocaleCookie(context: BrowserContext) {
+  return (await context.cookies()).find((cookie) => cookie.name === 'preferredLocale');
+}
+
 test.describe('2026 CFP locale switcher', () => {
-  test('defaults cookie-less latest entry routes to top-level English', async ({
+  test('serves latest locale entry aliases without HTTP redirects', async ({ request }) => {
+    for (const path of ['/', '/2026/', '/privacy-policy/']) {
+      const response = await request.get(path, { maxRedirects: 0 });
+
+      expect(response.status(), path).toBe(200);
+      expect(response.headers().location, path).toBeUndefined();
+    }
+  });
+
+  test('defaults cookie-less latest entry routes to 2026 English', async ({
     context,
     page,
   }) => {
     await context.clearCookies();
     await page.goto('/');
-    expect(new URL(page.url()).pathname).toBe('/en');
+    expect(new URL(page.url()).pathname).toBe('/2026/en');
 
     await context.clearCookies();
     await page.goto('/2026');
-    expect(new URL(page.url()).pathname).toBe('/en');
+    expect(new URL(page.url()).pathname).toBe('/2026/en');
+  });
+
+  test('writes preferredLocale when latest entry routes choose a fallback locale', async ({
+    context,
+    page,
+  }) => {
+    await context.clearCookies();
+    await page.goto('/');
+
+    expect(new URL(page.url()).pathname).toBe('/2026/en');
+    expect(await preferredLocaleCookie(context)).toMatchObject({
+      name: 'preferredLocale',
+      path: '/',
+      value: 'en',
+    });
   });
 
   test('uses a supported preferred locale cookie on the latest entry route', async ({
@@ -69,7 +104,7 @@ test.describe('2026 CFP locale switcher', () => {
 
     await page.goto('/');
 
-    expect(new URL(page.url()).pathname).toBe('/zh-hk');
+    expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
     await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
   });
 
@@ -91,38 +126,58 @@ test.describe('2026 CFP locale switcher', () => {
 
       await page.goto('/');
 
-      expect(new URL(page.url()).pathname).toBe('/en');
+      expect(new URL(page.url()).pathname).toBe('/2026/en');
       await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
     }
   });
 
-  for (const path of ['/', '/en', '/zh-hk', '/2026', '/2026/en']) {
-    test(`uses top-level latest locale hrefs on ${path}`, async ({ page }) => {
+  test('persists locale preference from direct 2026 locale page visits', async ({
+    context,
+    page,
+  }) => {
+    await context.clearCookies();
+    await page.goto('/2026/ko');
+
+    expect(new URL(page.url()).pathname).toBe('/2026/ko');
+    expect(await preferredLocaleCookie(context)).toMatchObject({
+      name: 'preferredLocale',
+      path: '/',
+      value: 'ko',
+    });
+  });
+
+  for (const path of ['/', '/2026', '/2026/en', '/2026/zh-hk']) {
+    test(`uses 2026 locale hrefs on ${path}`, async ({ page }) => {
       await page.goto(path);
 
       expect(await collectLocaleHrefs(page)).toEqual(expectedLocaleHrefs);
     });
   }
 
-  test('clicks from latest entry pages keep visitors on top-level locale routes', async ({
+  test('clicks from latest entry pages keep visitors on 2026 locale routes', async ({
+    context,
     page,
   }) => {
+    await context.clearCookies();
     await page.goto('/');
     await page.locator('nav a', { hasText: '粵' }).first().click();
-    expect(new URL(page.url()).pathname).toBe('/zh-hk');
+    expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
     await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
+
+    await page.goto('/');
+    expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
 
     await page.goto('/2026');
     await page.locator('nav a', { hasText: 'EN' }).first().click();
-    expect(new URL(page.url()).pathname).toBe('/en');
+    expect(new URL(page.url()).pathname).toBe('/2026/en');
     await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
   });
 
-  test('shows the active current locale on top-level locale pages', async ({ page }) => {
-    await page.goto('/en');
+  test('shows the active current locale on 2026 locale pages', async ({ page }) => {
+    await page.goto('/2026/en');
     await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
 
-    await page.goto('/zh-hk');
+    await page.goto('/2026/zh-hk');
     await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-HK');
   });

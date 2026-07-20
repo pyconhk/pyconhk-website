@@ -23,14 +23,31 @@ const validConfig = {
   collections: [
     {
       name: "posts",
-      folder: "website/outstatic/content",
-      path: "{{collectionYear}}-posts/{{slug}}",
+      label: "2026 Posts",
+      folder: "website/outstatic/content/2026-posts",
       create: true,
       i18n: true,
       extension: "mdx",
       format: "frontmatter",
+      summary: "{{title}}",
       fields: [
         { label: "Title", name: "title", widget: "string", i18n: true },
+        { label: "Tags", name: "tags", widget: "list", i18n: true },
+        { label: "Body", name: "body", widget: "markdown", i18n: true },
+      ],
+    },
+    {
+      name: "posts_2025",
+      label: "2025 Posts",
+      folder: "website/outstatic/content/2025-posts",
+      create: true,
+      i18n: true,
+      extension: "mdx",
+      format: "frontmatter",
+      summary: "{{title}}",
+      fields: [
+        { label: "Title", name: "title", widget: "string", i18n: true },
+        { label: "Tags", name: "tags", widget: "list", i18n: true },
         { label: "Body", name: "body", widget: "markdown", i18n: true },
       ],
     },
@@ -69,6 +86,7 @@ describe("CMS hosted config smoke validation", () => {
           folder: "cms/content",
           fields: [{ name: "body", widget: "markdown", i18n: false }],
         },
+        validConfig.collections[1],
       ],
     });
 
@@ -76,8 +94,18 @@ describe("CMS hosted config smoke validation", () => {
       "backend.branch must be cms",
       "media_folder must be website/public/outstatic/images",
       "i18n.locales must be en, zh-hk, zh-hant, zh-hans, ja",
-      "posts.folder must be website/outstatic/content",
+      "posts.folder must be website/outstatic/content/2026-posts",
       "posts body field must be locale-enabled",
+      "posts tags field must use locale-enabled list semantics",
     ]);
+  });
+
+  test("requires the archive collection as well as the current collection", () => {
+    const problems = collectCmsConfigProblems({
+      ...validConfig,
+      collections: [validConfig.collections[0]],
+    });
+
+    assert.deepEqual(problems, ["posts_2025 collection is required"]);
   });
 });

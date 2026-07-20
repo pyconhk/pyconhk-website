@@ -1,12 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 
 const localeLinks = [
-  { label: 'EN', href: '/privacy-policy' },
-  { label: '粵', href: '/zh-hk/privacy-policy' },
-  { label: '繁', href: '/zh-hant/privacy-policy' },
-  { label: '简', href: '/zh-cn/privacy-policy' },
-  { label: 'KR', href: '/ko/privacy-policy' },
-  { label: 'JA', href: '/ja/privacy-policy' },
+  { label: 'EN', href: '/2026/en/privacy-policy' },
+  { label: '粵', href: '/2026/zh-hk/privacy-policy' },
+  { label: '繁', href: '/2026/zh-hant/privacy-policy' },
+  { label: '简', href: '/2026/zh-cn/privacy-policy' },
+  { label: 'KR', href: '/2026/ko/privacy-policy' },
+  { label: 'JA', href: '/2026/ja/privacy-policy' },
 ] as const;
 
 const privacyLocales = [
@@ -14,56 +14,56 @@ const privacyLocales = [
     activeLabel: 'EN',
     heading: 'PyCon Hong Kong Privacy Policy Statement',
     htmlLang: 'en',
-    landingHref: '/en',
+    landingHref: '/2026/en',
     path: '/privacy-policy',
   },
   {
     activeLabel: 'EN',
     heading: 'PyCon Hong Kong Privacy Policy Statement',
     htmlLang: 'en',
-    landingHref: '/en',
+    landingHref: '/2026/en',
     path: '/en/privacy-policy',
   },
   {
     activeLabel: '粵',
     heading: 'PyCon Hong Kong 私隱政策聲明',
     htmlLang: 'zh-HK',
-    landingHref: '/zh-hk',
+    landingHref: '/2026/zh-hk',
     path: '/zh-hk/privacy-policy',
   },
   {
     activeLabel: '繁',
     heading: 'PyCon Hong Kong 私隱政策聲明',
     htmlLang: 'zh-Hant',
-    landingHref: '/zh-hant',
+    landingHref: '/2026/zh-hant',
     path: '/zh-hant/privacy-policy',
   },
   {
     activeLabel: '简',
     heading: 'PyCon Hong Kong Privacy Policy Statement',
     htmlLang: 'zh-Hans',
-    landingHref: '/zh-hans',
+    landingHref: '/2026/zh-hans',
     path: '/zh-cn/privacy-policy',
   },
   {
     activeLabel: '简',
     heading: 'PyCon Hong Kong Privacy Policy Statement',
     htmlLang: 'zh-Hans',
-    landingHref: '/zh-hans',
+    landingHref: '/2026/zh-hans',
     path: '/zh-hans/privacy-policy',
   },
   {
     activeLabel: 'KR',
     heading: 'PyCon Hong Kong Privacy Policy Statement',
     htmlLang: 'ko',
-    landingHref: '/ko',
+    landingHref: '/2026/ko',
     path: '/ko/privacy-policy',
   },
   {
     activeLabel: 'JA',
     heading: 'PyCon Hong Kong プライバシーポリシー',
     htmlLang: 'ja',
-    landingHref: '/ja',
+    landingHref: '/2026/ja',
     path: '/ja/privacy-policy',
   },
 ] as const;
@@ -129,6 +129,29 @@ test.describe('2026 privacy policy i18n', () => {
       );
     }
     await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
+  });
+
+  test('uses preferredLocale for the latest privacy policy alias', async ({
+    baseURL,
+    context,
+    page,
+  }) => {
+    await context.clearCookies();
+    await context.addCookies([
+      {
+        domain: new URL(baseURL ?? 'http://127.0.0.1:8788').hostname,
+        name: 'preferredLocale',
+        path: '/',
+        value: 'zh-hk',
+      },
+    ]);
+
+    await page.goto('/privacy-policy');
+
+    await expect(page).toHaveURL('/2026/zh-hk/privacy-policy');
+    await expect(
+      page.getByRole('heading', { name: 'PyCon Hong Kong 私隱政策聲明' })
+    ).toBeVisible();
   });
 
   test('renders explicit English privacy route with English active in the CFP nav', async ({
@@ -203,10 +226,10 @@ test.describe('2026 privacy policy i18n', () => {
     const footer = await visibleFooter(page);
     await expect(footer.getByRole('link', { name: '私隱政策' })).toHaveAttribute(
       'href',
-      '/zh-hk/privacy-policy'
+      '/2026/zh-hk/privacy-policy'
     );
 
     await footer.getByRole('link', { name: '私隱政策' }).click();
-    await expect(page).toHaveURL('/zh-hk/privacy-policy');
+    await expect(page).toHaveURL('/2026/zh-hk/privacy-policy');
   });
 });

@@ -1,0 +1,19 @@
+---
+import BareMicrositePage2016 from '@/years/2016/components/BareMicrositePage2016.astro';
+import { legacy2016Pages } from '@/years/2016/data/pages';
+
+export function getStaticPaths() {
+  const programPages = legacy2016Pages.filter(
+    (page) => page.route.startsWith('/2016/program/') && page.route !== '/2016/program/'
+  );
+
+  return programPages.map((page) => ({
+    params: { slug: page.route.replace(/^\/2016\/program\/|\/$/gu, '') },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<BareMicrositePage2016 page={page} />

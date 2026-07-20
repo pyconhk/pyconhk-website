@@ -1,31 +1,62 @@
 ---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
 import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
 import { getHighlightsForEdition } from '@/legacy/year-highlights';
-import LegacyArchiveLayout from '@/years/2018/components/LegacyArchiveLayout.astro';
-import { legacyArchivePages } from '@/years/2021/data/pages';
+import Legacy2021Page from '@/years/2021/components/Legacy2021Page.astro';
+import { legacy2021Pages } from '@/years/2021/data/pages';
 
 export function getStaticPaths() {
+  const editionPrefix = '/2021/';
+  const archivePaths = legacy2021Pages
+    .filter(
+      (page) =>
+        page.route.startsWith(editionPrefix) &&
+        page.route !== editionPrefix &&
+        !page.route.startsWith(`${editionPrefix}page/`)
+    )
+    .map((page) => ({
+      params: {
+        slug: decodeURI(page.route.replace(editionPrefix, '').replace(/\/$/u, '')),
+      },
+      props: { page },
+    }));
+  const archiveSlugs = new Set(archivePaths.map((path) => path.params.slug));
   const highlights = getHighlightsForEdition('2021');
 
   return [
-    ...legacyArchivePages.map((page) => ({
-      params: { slug: page.slug },
-      props: { archivePage: page },
-    })),
-    ...highlights.map((highlight) => ({
-      params: { slug: highlight.slug },
-      props: { highlightPage: highlight.page },
+    ...archivePaths,
+    ...highlights
+      .filter((highlight) => !archiveSlugs.has(highlight.slug))
+      .map((highlight) => ({
+        params: { slug: highlight.slug },
+        props: { highlightPage: highlight.page },
+      })),
+    ...archiveMonthsForYear('2021').map((archiveMonth) => ({
+      params: { slug: archiveMonth.month },
+      props: {
+        monthArchiveLabel: archiveMonth.label,
+        monthArchivePage: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+      },
     })),
   ];
 }
 
-const { archivePage, highlightPage } = Astro.props;
+const { page, highlightPage, monthArchiveLabel, monthArchivePage } = Astro.props;
 ---
 
 {
-  highlightPage ? (
+  monthArchivePage ? (
+    <LegacyYearArchivePage
+      headingKind="Month"
+      label={monthArchiveLabel}
+      page={monthArchivePage}
+      year="2021"
+    />
+  ) : highlightPage ? (
     <LegacyHighlightPage page={highlightPage} />
   ) : (
-    <LegacyArchiveLayout editionLabel="PyCon HK 2021" pages={legacyArchivePages} page={archivePage} />
+    <Legacy2021Page page={page} />
   )
 }

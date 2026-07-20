@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="150" viewBox="0 0 420 150" role="img" aria-labelledby="title">
+  <title id="title">MySQL</title>
+  <rect width="420" height="150" fill="#fff"/>
+  <path d="M54 86c24-32 68-43 111-27 20 7 42 8 66 1-19 19-44 31-73 35-33 4-66 1-104-9z" fill="#00758f"/>
+  <path d="M205 61c25-22 59-24 96-10-16 7-36 10-58 8-15-1-27 0-38 2z" fill="#f29111"/>
+  <text x="72" y="118" fill="#00758f" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">MySQL</text>
+</svg>

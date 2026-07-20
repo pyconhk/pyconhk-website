@@ -18,7 +18,7 @@ const links = [
 ];
 ---
 
-<BaseLayout title={`${title} | PyCon HK`} description={description}>
+<BaseLayout title={`${title} - PyCon HK`} description={description}>
   <header class="legacy-header">
     <div class="legacy-header__inner">
       <a class="legacy-brand" href="/">PyCon HK</a>
@@ -192,10 +192,25 @@ const links = [
 
   .legacy-content table {
     border-collapse: collapse;
-    display: block;
     margin: 24px 0;
     max-width: 100%;
+    width: 100%;
+  }
+
+  .legacy-content .wp-block-table {
+    display: block;
+    max-width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .legacy-content .wp-block-table table {
+    display: table;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin: 0;
+    min-width: 44rem;
+    table-layout: fixed;
   }
 
   .legacy-content td,
@@ -203,6 +218,17 @@ const links = [
     border: 1px solid #dbe3ef;
     padding: 10px;
     vertical-align: top;
+  }
+
+  .legacy-content .wp-block-table td,
+  .legacy-content .wp-block-table th {
+    padding: 8px 10px;
+  }
+
+  .legacy-content .wp-block-table td:first-child,
+  .legacy-content .wp-block-table th:first-child {
+    width: 7.5rem;
+    white-space: nowrap;
   }
 
   .legacy-content ul,
@@ -282,5 +308,9 @@ const links = [
   .legacy-footer a {
     color: #0b6c9d;
     font-weight: 700;
+  }
+
+  .legacy-content .wp-block-table td p {
+    margin: 0;
   }
 </style>

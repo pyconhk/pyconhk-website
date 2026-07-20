@@ -1,11 +1,12 @@
-import vercel from "@astrojs/vercel";
+import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, sessionDrivers } from "astro/config";
 
 export default defineConfig({
   output: "server",
-  site: process.env.CMS_PUBLIC_URL || "http://localhost:4321",
-  adapter: vercel(),
+  adapter: cloudflare({ imageService: "passthrough" }),
+  // The CMS uses its own short-lived OAuth cookies, not Astro sessions.
+  session: { driver: sessionDrivers.lruCache() },
   vite: {
     plugins: [tailwindcss()],
   },

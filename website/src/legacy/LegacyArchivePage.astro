@@ -1,5 +1,6 @@
 ---
 import LegacyShell from '@/legacy/LegacyShell.astro';
+import { canonicalLegacyHref, cleanLegacyHtml } from '@/legacy/legacy-html';
 import type { LegacyArchiveRecord } from '@/legacy/legacy-indexes';
 
 interface Props {
@@ -7,10 +8,29 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const event = page.items
+  .map((item) => item.href.match(/^\/([^/]+)/u)?.[1])
+  .find(Boolean) ?? '2024';
 const eyebrow = page.type === 'page' ? 'Post Archive' : `${page.type[0].toUpperCase()}${page.type.slice(1)} Archive`;
+const robots = ['author', 'category', 'tag'].includes(page.type) ? 'noindex,follow' : undefined;
+const pageItems = page.items.map((item) => ({
+  ...item,
+  excerptHtml: cleanLegacyHtml(item.excerptHtml, { event }),
+  href: canonicalLegacyHref(item.href, { event }),
+  image: item.image
+    ? {
+        ...item.image,
+        src: canonicalLegacyHref(item.image.src, { event }),
+      }
+    : undefined,
+}));
+const paginationItems = page.pagination.map((item) => ({
+  ...item,
+  href: item.href ? canonicalLegacyHref(item.href, { event }) : undefined,
+}));
 ---
 
-<LegacyShell title={page.title} description={page.description} eyebrow={eyebrow}>
+<LegacyShell title={page.title} description={page.description} eyebrow={eyebrow} robots={robots}>
   <section class="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
     <div class="mb-8 flex flex-col gap-2 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
       <p class="text-sm font-semibold text-slate-500">
@@ -22,7 +42,7 @@ const eyebrow = page.type === 'page' ? 'Post Archive' : `${page.type[0].toUpperC
     </div>
 
     <div class="grid gap-5">
-      {page.items.map((item) => (
+      {pageItems.map((item) => (
         <article class="grid overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm md:grid-cols-[16rem_minmax(0,1fr)]">
           {item.image ? (
             <a href={item.href} class="block bg-slate-100">
@@ -60,7 +80,7 @@ const eyebrow = page.type === 'page' ? 'Post Archive' : `${page.type[0].toUpperC
 
     {page.pagination.length > 0 && (
       <nav class="mt-10 flex flex-wrap gap-2" aria-label="Archive pagination">
-        {page.pagination.map((item) => (
+        {paginationItems.map((item) => (
           item.href ? (
             <a
               class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-teal-700 hover:text-teal-700"

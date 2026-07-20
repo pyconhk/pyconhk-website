@@ -175,10 +175,7 @@ export const legacy2015Pages: Legacy2015Page[] = [
                 <td>Mr. Sammy Fung</td>
             </tr>
             <tr>
-                <td rowspan="5">Team</td>
-                <td>Dr. Haggen So</td>
-            </tr>
-            <tr>
+                <td rowspan="4">Team</td>
                 <td>Dr. Haggen So</td>
             </tr>
             <tr>
@@ -200,7 +197,7 @@ export const legacy2015Pages: Legacy2015Page[] = [
         <p>&copy; PyCON HK 2015</p>
       </footer>
     </div> <!-- /container -->`,
-    visibleText: `Staffs Position Name Conference Chair Mr. Sammy Fung Team Dr. Haggen So Dr. Haggen So Mr. Calvin Tsang Mr. Dick Tang Mr. Wan-leung Wong (c) PyCON HK 2015`,
+    visibleText: `Staffs Position Name Conference Chair Mr. Sammy Fung Team Dr. Haggen So Mr. Calvin Tsang Mr. Dick Tang Mr. Wan-leung Wong (c) PyCON HK 2015`,
   },
   {
     route: '/2015/about/what-is-pycon/',
@@ -2276,7 +2273,7 @@ Some of the languages i have learned so far is
               <li>Networking with highly capable IT professionals</li>
             </ul>
           <p>
-            The conference has proven to attract participants usually scattered in their own different groups. By becoming a sponsor, your organisation will be able to build relationships with them. Please refer to our event web site at http://2015.pycon.hk/ .
+            The conference has proven to attract participants usually scattered in their own different groups. By becoming a sponsor, your organisation will be able to build relationships with them. Please refer to our event web site at /2015/ .
           </p>
           <h2>Sponsor Packages</h2>
           <h3>Gold Sponsor - HK$30,000</h3>
@@ -2312,7 +2309,7 @@ Some of the languages i have learned so far is
         <p>&copy; PyCON HK 2015</p>
       </footer>
     </div> <!-- /container -->`,
-    visibleText: `Sponsor Prospectus [Sponsor, Last Call] PyCon HK 2015 is calling for sponsors till the end of next week (9/25 Fri). We are still looking for sponsorship to cover expenses of PyCon HK this year, so please contact with us at [email protected] asap if you think it is possible for your company to be one of PyCon sponsor. Thanks! For 2015, we are going to organize first PyCON in Hong Kong with the date on November 7-8 (Sat-Sun) after we visited PyCON APAC a couple times. We will have keynotes, talks and workdshops. We are expecting about 150 participants. In becoming a sponsor, we are offering to you: Matchmaking opportunities for companies with local enterprises; Marketing opportunities to be featured in conference materials and presented in media announcements; Networking with highly capable IT professionals The conference has proven to attract participants usually scattered in their own different groups. By becoming a sponsor, your organisation will be able to build relationships with them. Please refer to our event web site at http://2015.pycon.hk/ . Sponsor Packages Gold Sponsor - HK$30,000 A keynote, a booth, and others to gain exposure. (Maximum: 2 Gold Sponsors only) Silver Sponsor - HK$15,000 A talk, a booth, and others to gain exposure. (Maximum: 4 Silver Sponsors only) Bronze Sponsor - HK$8,000 A talk only and others to gain exposure. General Sponsor - HK$4,000 Logo display only and others to gain exposure. Other Sponsoriship Options (can be added to above packages) Conference Day Afternoon Tea Break Sponsorship, Sprint Sponsorship, Workshop Sponsorship, Travel & Accommodation Sponsorship, Lucky Draw Sponsorship, Other Sponsorship. Enquiry and Application Please contact us at [email protected] to obtain Call For Sponsorship document and further information. (c) PyCON HK 2015`,
+    visibleText: `Sponsor Prospectus [Sponsor, Last Call] PyCon HK 2015 is calling for sponsors till the end of next week (9/25 Fri). We are still looking for sponsorship to cover expenses of PyCon HK this year, so please contact with us at [email protected] asap if you think it is possible for your company to be one of PyCon sponsor. Thanks! For 2015, we are going to organize first PyCON in Hong Kong with the date on November 7-8 (Sat-Sun) after we visited PyCON APAC a couple times. We will have keynotes, talks and workdshops. We are expecting about 150 participants. In becoming a sponsor, we are offering to you: Matchmaking opportunities for companies with local enterprises; Marketing opportunities to be featured in conference materials and presented in media announcements; Networking with highly capable IT professionals The conference has proven to attract participants usually scattered in their own different groups. By becoming a sponsor, your organisation will be able to build relationships with them. Please refer to our event web site at /2015/ . Sponsor Packages Gold Sponsor - HK$30,000 A keynote, a booth, and others to gain exposure. (Maximum: 2 Gold Sponsors only) Silver Sponsor - HK$15,000 A talk, a booth, and others to gain exposure. (Maximum: 4 Silver Sponsors only) Bronze Sponsor - HK$8,000 A talk only and others to gain exposure. General Sponsor - HK$4,000 Logo display only and others to gain exposure. Other Sponsoriship Options (can be added to above packages) Conference Day Afternoon Tea Break Sponsorship, Sprint Sponsorship, Workshop Sponsorship, Travel & Accommodation Sponsorship, Lucky Draw Sponsorship, Other Sponsorship. Enquiry and Application Please contact us at [email protected] to obtain Call For Sponsorship document and further information. (c) PyCON HK 2015`,
   },
   {
     route: '/2015/style.css/',
@@ -2501,12 +2498,12 @@ h1.brand-green {
     status: 200,
     title: 'PyCon HK 2015 Photos',
     description:
-      'Date: November 7-8 (Saturday and Sunday), 2015 Time: 9:30am – 6:00pm Venue: Cyberport Website: http://2015.pycon.hk/',
+      'Date: November 7-8 (Saturday and Sunday), 2015 Time: 9:30am – 6:00pm Venue: Cyberport Website: /2015/',
     kind: 'html',
     capturedFile: '2015-photos.html',
     bodyHtml: `<article class="legacy-2015-photo-article"><h1 class="entry-title">PyCon HK 2015 Photos</h1><div class="entry-content">
 
-<p>Date: November 7-8 (Saturday and Sunday), 2015<br>Time: 9:30am – 6:00pm<br>Venue: Cyberport<br>Website: <a rel="noreferrer noopener" href="/2015/" target="_blank">http://2015.pycon.hk/</a></p>
+<p>Date: November 7-8 (Saturday and Sunday), 2015<br>Time: 9:30am – 6:00pm<br>Venue: Cyberport<br>Website: <a rel="noreferrer noopener" href="/2015/" target="_blank">/2015/</a></p>
 
 
 
@@ -2707,7 +2704,7 @@ h1.brand-green {
 </figure>
 
 				</div></article>`,
-    visibleText: `PyCon HK 2015 Photos Date: November 7-8 (Saturday and Sunday), 2015 Time: 9:30am – 6:00pm Venue: Cyberport Website: http://2015.pycon.hk/ PyCon-HK Tee Speaker Dinner Speaker Dinner Speaker Dinner Pycon in HK has just began! Enjoy it “ARTIQ: the Advanced Real-time Infrastructure for Quantum Physics” by Sèbastien Bourdeauducq, M-Labs Keynote “Monitoring the performance of Python web application” Lightning talk by PyCon Korea “Keep it Simple, Web Development Stack” by Eric Ahn “Chinese NLP with Open Source Tools in Python” by Albert Au Yeung. ”Microsoft and Python” by Samson Lee “Building an Adaptive Learning System using Bayesian Modelling in Python” by Albert Au Yeung “Scrape more with less codes” by Pili Hu “Building an Adaptive Learning System using Bayesian Modelling in Python” by Albert Au Yeung “Heading towards Continuous Delivery” by Steven Mak “The changing landscape of Python web application deployment” by Graham Dumpleton Coffee is ready! “Writing Fast Code” by Youngsuk Kim “Haxe , a statically-typed language that compiles to Python ” Andy Li “My Personal Take” by Austin G. Imperial and Andrew Imperial “Beyond the Style Guides” by Mosky “Introduction to aiohttp — asyncio-based web framework” by Andrew Svetlov) Workshop of Elastic : “Don’t be afraid to search” Developer Sprint Room Long is doing hacking on legco-watch project (scrapy and celery) at development sprints. And AIO web framework developer Andrew is also at dev Sprint too. “Use All the logs!” by Honza Kral “Web back ends Developement using Python” by Ayun Park Financial Technology “Financial Technology” by Dr. Joseph Wang “Let’s break some stuipd CAPTCHAs!” by Chung-hong chan Workshop: “Let’s break some stupid CAPCHA” “Using Python for Data Mining Projects” by Chris Choy “Functional and scale performance tests using zopkio” by Marcelo Araujo “Better type at Python” by Rick Mak Lightning Talks by PyCon Taiwan Lightning Talks at PyCon HK Lightning talk by Startup Weekend HK Thank you for Elastic being Gold Sponsor for PyCon Hong Kong 2015.`,
+    visibleText: `PyCon HK 2015 Photos Date: November 7-8 (Saturday and Sunday), 2015 Time: 9:30am – 6:00pm Venue: Cyberport Website: /2015/ PyCon-HK Tee Speaker Dinner Speaker Dinner Speaker Dinner Pycon in HK has just began! Enjoy it “ARTIQ: the Advanced Real-time Infrastructure for Quantum Physics” by Sèbastien Bourdeauducq, M-Labs Keynote “Monitoring the performance of Python web application” Lightning talk by PyCon Korea “Keep it Simple, Web Development Stack” by Eric Ahn “Chinese NLP with Open Source Tools in Python” by Albert Au Yeung. ”Microsoft and Python” by Samson Lee “Building an Adaptive Learning System using Bayesian Modelling in Python” by Albert Au Yeung “Scrape more with less codes” by Pili Hu “Building an Adaptive Learning System using Bayesian Modelling in Python” by Albert Au Yeung “Heading towards Continuous Delivery” by Steven Mak “The changing landscape of Python web application deployment” by Graham Dumpleton Coffee is ready! “Writing Fast Code” by Youngsuk Kim “Haxe , a statically-typed language that compiles to Python ” Andy Li “My Personal Take” by Austin G. Imperial and Andrew Imperial “Beyond the Style Guides” by Mosky “Introduction to aiohttp — asyncio-based web framework” by Andrew Svetlov) Workshop of Elastic : “Don’t be afraid to search” Developer Sprint Room Long is doing hacking on legco-watch project (scrapy and celery) at development sprints. And AIO web framework developer Andrew is also at dev Sprint too. “Use All the logs!” by Honza Kral “Web back ends Developement using Python” by Ayun Park Financial Technology “Financial Technology” by Dr. Joseph Wang “Let’s break some stuipd CAPTCHAs!” by Chung-hong chan Workshop: “Let’s break some stupid CAPCHA” “Using Python for Data Mining Projects” by Chris Choy “Functional and scale performance tests using zopkio” by Marcelo Araujo “Better type at Python” by Rick Mak Lightning Talks by PyCon Taiwan Lightning Talks at PyCon HK Lightning talk by Startup Weekend HK Thank you for Elastic being Gold Sponsor for PyCon Hong Kong 2015.`,
   },
 ];
 

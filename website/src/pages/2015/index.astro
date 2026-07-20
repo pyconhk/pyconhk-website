@@ -1,11 +1,8 @@
 ---
-import Layout2015 from '@/years/2015/components/Layout2015.astro';
-import PageContent2015 from '@/years/2015/components/PageContent2015.astro';
+import BareMicrositePage2015 from '@/years/2015/components/BareMicrositePage2015.astro';
 import { getLegacy2015Page } from '@/years/2015/data/pages';
 
 const page = getLegacy2015Page('/2015/');
 ---
 
-<Layout2015 title={page.title} description={page.description}>
-  <PageContent2015 page={page} />
-</Layout2015>
+<BareMicrositePage2015 page={page} />

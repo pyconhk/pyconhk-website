@@ -1,0 +1,19 @@
+---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
+
+export function getStaticPaths() {
+  return archiveMonthsForYear('2020').map((archiveMonth) => ({
+    params: { month: archiveMonth.month },
+    props: {
+      label: archiveMonth.label,
+      page: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+    },
+  }));
+}
+
+const { label, page } = Astro.props;
+---
+
+<LegacyYearArchivePage headingKind="Month" label={label} page={page} year="2020" />

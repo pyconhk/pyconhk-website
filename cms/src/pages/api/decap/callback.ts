@@ -5,6 +5,7 @@ import {
   getCmsSiteUrl,
   getRequiredEnv,
 } from "../../../lib/env";
+import { requireGithubWriteAccess } from "../../../lib/github";
 import {
   clearOauthCookie,
   getCallbackPath,
@@ -13,6 +14,7 @@ import {
   renderErrorHtml,
   renderSuccessHtml,
 } from "../../../lib/oauth";
+import { getRuntimeEnvironment } from "../../../lib/runtime-env";
 
 export const prerender = false;
 
@@ -29,6 +31,10 @@ function buildHeaders(url: URL): Headers {
   const headers = new Headers({
     "Content-Type": "text/html; charset=utf-8",
     "Cache-Control": "no-store",
+    "Content-Security-Policy":
+      "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
   });
 
   headers.append(
@@ -44,6 +50,8 @@ function buildHeaders(url: URL): Headers {
 }
 
 export const GET: APIRoute = async ({ request, url }) => {
+  const environment = getRuntimeEnvironment();
+  const siteUrl = getCmsSiteUrl(url, environment);
   const headers = buildHeaders(url);
 
   try {
@@ -83,14 +91,14 @@ export const GET: APIRoute = async ({ request, url }) => {
         body: JSON.stringify({
           client_id: getRequiredEnv(
             "CMS_GITHUB_CLIENT_ID",
-            import.meta.env.CMS_GITHUB_CLIENT_ID,
+            environment.CMS_GITHUB_CLIENT_ID,
           ),
           client_secret: getRequiredEnv(
             "CMS_GITHUB_CLIENT_SECRET",
-            import.meta.env.CMS_GITHUB_CLIENT_SECRET,
+            environment.CMS_GITHUB_CLIENT_SECRET,
           ),
           code,
-          redirect_uri: `${getCmsSiteUrl(url)}${getCallbackPath()}`,
+          redirect_uri: `${siteUrl}${getCallbackPath()}`,
           code_verifier: codeVerifier,
         }),
       },
@@ -115,32 +123,27 @@ export const GET: APIRoute = async ({ request, url }) => {
     }
 
     const githubHeaders = createGithubHeaders(tokenBody.access_token);
-    const userResponse = await fetch("https://api.github.com/user", {
-      headers: githubHeaders,
-    });
-
-    if (!userResponse.ok) {
-      throw new Error("GitHub user validation failed.");
-    }
-
+    const accessRepo = getCmsAccessRepo(environment);
     const accessRepoResponse = await fetch(
-      `https://api.github.com/repos/${getCmsAccessRepo()}`,
+      `https://api.github.com/repos/${accessRepo}`,
       {
         headers: githubHeaders,
       },
     );
 
     if (!accessRepoResponse.ok) {
-      throw new Error(
-        `GitHub user does not have access to ${getCmsAccessRepo()}.`,
-      );
+      throw new Error(`GitHub user does not have access to ${accessRepo}.`);
     }
 
-    return new Response(renderSuccessHtml(tokenBody.access_token), { headers });
+    requireGithubWriteAccess(await accessRepoResponse.json(), accessRepo);
+
+    return new Response(renderSuccessHtml(tokenBody.access_token, siteUrl), {
+      headers,
+    });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "GitHub authorization failed.";
-    return new Response(renderErrorHtml(message), {
+    return new Response(renderErrorHtml(message, siteUrl), {
       status: 400,
       headers,
     });

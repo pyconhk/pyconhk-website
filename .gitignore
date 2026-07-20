@@ -4,11 +4,13 @@ node_modules/
 # Build output
 dist/
 .astro/
+website/public/pagefind/
 
 # Coverage and caches
 coverage/
 test-results/
 playwright-report/
+output/
 .tmp-bun-cache/
 
 # Local environment files
@@ -45,3 +47,6 @@ yarn-error.log*
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+
+.tmp
+.playwright-cli

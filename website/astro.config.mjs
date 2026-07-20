@@ -94,14 +94,14 @@ export default defineConfig({
     // locale model remains in src/config/site.ts.
     locales: ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ko', 'ja'],
     defaultLocale: 'en',
-    routing: {
-      prefixDefaultLocale: true,
-      redirectToDefaultLocale: false,
-    },
+    routing: 'manual',
   },
   site: 'https://pycon.hk',
   trailingSlash: 'ignore',
   vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
     plugins: [noTrailingSlashRedirects(), tailwindcss()],
   },
 });

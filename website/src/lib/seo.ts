@@ -172,14 +172,15 @@ function getDefaultSocialImagePath(parsedPath: ParsedLocalizedPath | null): stri
 }
 
 export function buildCanonicalPath(pathname: string): string {
-  const parsedPath = parseLocalizedPath(pathname);
+  const normalizedPathname = normalizeAstroPathname(pathname);
+  const parsedPath = parseLocalizedPath(normalizedPathname);
 
   if (!parsedPath) {
-    return buildPath(pathname);
+    return buildPath(normalizedPathname);
   }
 
   if (parsedPath.year === currentConferenceYear) {
-    return buildPath(parsedPath.locale, parsedPath.suffix);
+    return buildPath(String(parsedPath.year), parsedPath.locale, parsedPath.suffix);
   }
 
   if (parsedPath.year === archiveConferenceYear) {
@@ -198,7 +199,7 @@ export function buildLocalizedCanonicalPath(
   const suffix = parsedPath?.suffix ?? '';
 
   if (year === currentConferenceYear) {
-    return buildPath(locale, suffix);
+    return buildPath(String(year), locale, suffix);
   }
 
   if (year === archiveConferenceYear) {

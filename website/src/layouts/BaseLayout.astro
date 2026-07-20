@@ -17,6 +17,7 @@ interface Props {
   htmlLang?: string;
   imagePath?: string;
   allowHorizontalOverflow?: boolean;
+  robots?: string;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   htmlLang = 'en-HK',
   imagePath,
   allowHorizontalOverflow = false,
+  robots,
 } = Astro.props;
 const seo = buildSeoMetadata({
   pathname: Astro.url.pathname,
@@ -45,6 +47,7 @@ const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironmen
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     <title>{title}</title>
     <link rel="canonical" href={seo.canonicalUrl} />
     {seo.alternates.map((alternate) => (

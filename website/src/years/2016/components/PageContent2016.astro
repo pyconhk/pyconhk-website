@@ -1,0 +1,16 @@
+---
+import { decodeCloudflareProtectedEmails } from '@/legacy/cloudflare-email';
+import { resolveLegacy2016HtmlAssets } from '@/years/2016/data/assets';
+import type { Legacy2016Page } from '@/years/2016/data/types';
+
+interface Props {
+  page: Legacy2016Page;
+}
+
+const { page } = Astro.props;
+const bodyHtml = resolveLegacy2016HtmlAssets(
+  decodeCloudflareProtectedEmails(page.bodyHtml)
+);
+---
+
+<Fragment set:html={bodyHtml} />
