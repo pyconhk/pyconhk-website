@@ -222,12 +222,15 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.doesNotMatch(home, /\shref="(?:2024-|schedule"|sprint"|sponsors"|volunteers"|[^"]+\/index\.html)/u);
   });
 
-  it('keeps the live 2024 archive dropdown and spaces navigation from the brand', () => {
+  it('keeps the live 2024 archive dropdown and a single-row desktop header', () => {
     const archive = readOutput('/2024/news/');
 
     assert.match(archive, /id="pyconhk-legacy-2024-nav-fix"/u);
     assert.match(archive, /\.wp-block-site-title\s*\{/u);
-    assert.match(archive, /margin-left:\s*clamp\(36px,\s*4vw,\s*72px\)\s*!important/u);
+    assert.match(archive, /@media \(min-width: 1200px\)/u);
+    assert.match(archive, /@media \(max-width: 1199px\)/u);
+    assert.match(archive, /margin-left:\s*0\s*!important/u);
+    assert.match(archive, /flex-wrap:\s*nowrap\s*!important/u);
     assert.match(archive, /--wp--preset--color--custom-background-secondary:\s*#002020/u);
     assert.match(
       archive,

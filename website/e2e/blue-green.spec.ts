@@ -942,6 +942,64 @@ test.describe('blue-green launch smoke', () => {
     }
   });
 
+  test('keeps the 2024 header on one row across its navigation breakpoint', async ({
+    page,
+  }) => {
+    for (const path of ['/2024/', '/2024/news/']) {
+      for (const viewport of [
+        { width: 1199, compact: true },
+        { width: 1200, compact: false },
+        { width: 1440, compact: false },
+      ]) {
+        await page.setViewportSize({ width: viewport.width, height: 900 });
+        const response = await page.goto(path);
+
+        expect(response?.status()).toBe(200);
+
+        const headerRow = page
+          .locator('header .wp-container-core-group-is-layout-9366075c')
+          .first();
+        const brand = page
+          .locator('header .wp-container-core-group-is-layout-fbcf6490')
+          .first();
+        const navigation = page
+          .locator('header .wp-container-core-group-is-layout-bc8e6f51')
+          .first();
+        const menuTrigger = page
+          .locator('header .wp-block-navigation__responsive-container-open')
+          .first();
+
+        if (viewport.compact) {
+          await expect(menuTrigger).toBeVisible();
+        } else {
+          await expect(menuTrigger).toBeHidden();
+        }
+
+        const [headerBox, brandBox, navigationBox] = await Promise.all([
+          headerRow.boundingBox(),
+          brand.boundingBox(),
+          navigation.boundingBox(),
+        ]);
+
+        expect(headerBox).not.toBeNull();
+        expect(brandBox).not.toBeNull();
+        expect(navigationBox).not.toBeNull();
+        expect(headerBox?.height).toBeLessThanOrEqual(80);
+        expect(brandBox?.y ?? 0).toBeLessThan(
+          (navigationBox?.y ?? 0) + (navigationBox?.height ?? 0)
+        );
+        expect(navigationBox?.y ?? 0).toBeLessThan(
+          (brandBox?.y ?? 0) + (brandBox?.height ?? 0)
+        );
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+          )
+        ).toBeLessThanOrEqual(4);
+      }
+    }
+  });
+
   test('renders 2024 schedule with exported Pretalx widget shell', async ({
     page,
     request,
