@@ -49,6 +49,11 @@ const criticalPages = [
   },
   {
     path: '/2024/',
+    title: /PyCon HK - The leading Python Conference in Hong Kong/,
+    text: /PyCon HK 2024/,
+  },
+  {
+    path: '/2024/news/',
     title: /2024 - PyCon HK/,
     text: /PyCon HK 2024 Photos/,
   },
@@ -892,6 +897,51 @@ test.describe('blue-green launch smoke', () => {
     await expect(menuTrigger).toHaveAttribute('aria-expanded', 'false');
   });
 
+  test('keeps the 2024 landing and news archive distinct on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    for (const check of [
+      {
+        path: '/2024/',
+        title: 'PyCon HK - The leading Python Conference in Hong Kong',
+        heading: 'PyCon HK 2024',
+      },
+      {
+        path: '/2024/news/',
+        title: '2024 - PyCon HK',
+        heading: 'PyCon HK 2024 Photos',
+      },
+    ]) {
+      const response = await page.goto(check.path);
+
+      expect(response?.status()).toBe(200);
+      await expect(page).toHaveTitle(check.title);
+      await expect(page.getByRole('heading', { name: check.heading }).first()).toBeVisible();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+        )
+      ).toBeLessThanOrEqual(4);
+
+      const menuTrigger = page
+        .locator('header .wp-block-navigation__responsive-container-open')
+        .first();
+      const menu = page.locator('header .wp-block-navigation__responsive-container').first();
+
+      await expect(menuTrigger).toBeVisible();
+      await menuTrigger.click();
+      await expect(menuTrigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(menu).toHaveClass(/is-menu-open/u);
+      await expect(menu.getByRole('link', { name: 'News' })).toHaveAttribute(
+        'href',
+        '/2024/news/'
+      );
+      await menu.locator('.wp-block-navigation__responsive-container-close').click();
+      await expect(menuTrigger).toHaveAttribute('aria-expanded', 'false');
+      await expect(menu).not.toHaveClass(/is-menu-open/u);
+    }
+  });
+
   test('renders 2024 schedule with exported Pretalx widget shell', async ({
     page,
     request,
@@ -1183,7 +1233,7 @@ test.describe('blue-green launch smoke', () => {
       }
     }
 
-    const response2024 = await page.goto('/2024/');
+    const response2024 = await page.goto('/2024/news/');
 
     expect(response2024?.status()).toBe(200);
     await expect(page).toHaveTitle('2024 - PyCon HK');
@@ -1227,7 +1277,7 @@ test.describe('blue-green launch smoke', () => {
 
     expect(pageTwo2024Response.status()).toBe(308);
     expect(normalizeRedirectLocation(pageTwo2024Response.headers().location)).toBe(
-      '/2024'
+      '/2024/news'
     );
   });
 
@@ -1339,6 +1389,8 @@ test.describe('blue-green launch smoke', () => {
       'https://pycon.hk/2018',
       'https://pycon.hk/2020-spring',
       'https://pycon.hk/2020-fall',
+      'https://pycon.hk/2024',
+      'https://pycon.hk/2024/news',
       'https://pycon.hk/2024/photos',
       'https://pycon.hk/2025',
       'https://pycon.hk/2025/news/pre-event-notice',
@@ -1363,7 +1415,7 @@ test.describe('blue-green launch smoke', () => {
     const category = await request.get('/category/2024/', { maxRedirects: 0 });
 
     expect(category.status()).toBe(308);
-    expect(normalizeRedirectLocation(category.headers().location)).toBe('/2024');
+    expect(normalizeRedirectLocation(category.headers().location)).toBe('/2024/news');
 
     for (const path of ['/tag/communities/', '/author/sammyfung/']) {
       const response = await request.get(path);

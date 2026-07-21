@@ -386,7 +386,14 @@ function repairLegacy2024Html(source: string): string {
     );
 
   return injectLegacy2024NavFixes(
-    repairVoyagoArchiveControls(repaired)
+    repairVoyagoNewsLinks(repairVoyagoArchiveControls(repaired))
+  );
+}
+
+function repairVoyagoNewsLinks(source: string): string {
+  return source.replace(
+    /(<a\b[^>]*\bhref=)(["'])\/2024\/?\2([^>]*>\s*<span\b[^>]*>\s*News\s*<\/span>\s*<\/a>)/giu,
+    '$1$2/2024/news/$2$3'
   );
 }
 
@@ -554,14 +561,14 @@ function local2024Alias(pathname: string): string | undefined {
     '/access-guide-development-sprint-day/': '/2024/2024-access-guide-development-sprint-day/',
     '/about/': '/2024/2024-about/',
     '/booths/': '/2024/2024-booths/',
-    '/category/2024/': '/2024/',
-    '/category/2024/page/1/': '/2024/',
+    '/category/2024/': '/2024/news/',
+    '/category/2024/page/1/': '/2024/news/',
     '/code-of-conduct/': '/2024/2024-code-of-conduct/',
     '/code-of-conduct/attendee-reporting/': '/2024/2024-attendee-reporting/',
     '/code-of-conduct/staff-procedure/': '/2024/2024-staff-procedure/',
     '/communities/': '/2024/2024-supporting-organizations/',
     '/conference-highlights/pycon-hk-2024-photos/': '/2024/photos/',
-    '/news/': '/2024/',
+    '/news/': '/2024/news/',
     '/organizers/': '/2024/2024-organizers/',
     '/post-2563/': '/2024/2024-agenda/',
     '/post-2582/': '/2024/2024-organizers/',

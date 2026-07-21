@@ -86,12 +86,10 @@
 /2024/python-thrills-and-chills-halloween-highlights-from-oshk-x-hkpug-meetup-%F0%9F%8E%83%F0%9F%90%8D/ /2024/python-thrills-and-chills-halloween-highlights-from-oshk-x-hkpug-meetup-%F0%9F%8E%83%F0%9F%90%8D 308
 /2024/2024/2024-sprint /2024/2024-sprint 308
 /2024/2024/2024-sprint/ /2024/2024-sprint 308
-/2024/news /2024 308
-/2024/news/ /2024 308
-/2024/page/2 /2024 308
-/2024/page/2/ /2024 308
-/category/2024/page/2 /2024 308
-/category/2024/page/2/ /2024 308
+/2024/page/2 /2024/news 308
+/2024/page/2/ /2024/news 308
+/category/2024/page/2 /2024/news 308
+/category/2024/page/2/ /2024/news 308
 /2025/about/ /2025/about 308
 /2025/access-guide/ /2025/access-guide 308
 /2025/catering-guide/ /2025/catering-guide 308
@@ -169,8 +167,8 @@
 /category/2022/ /2022 308
 /category/2023 /2023 308
 /category/2023/ /2023 308
-/category/2024 /2024 308
-/category/2024/ /2024 308
+/category/2024 /2024/news 308
+/category/2024/ /2024/news 308
 /2000 https://legacy.pycon.hk/2000 301
 /2001 https://legacy.pycon.hk/2001 301
 /2002 https://legacy.pycon.hk/2002 301

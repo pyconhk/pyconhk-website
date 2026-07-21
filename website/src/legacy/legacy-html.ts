@@ -534,7 +534,7 @@ const genericAliasMap: Record<string, string> = {
 
 const legacy2024AliasMap: Record<string, string> = {
   ...genericAliasMap,
-  '/news/': '/2024/',
+  '/news/': '/2024/news/',
 };
 
 const eventAliasMap: Record<string, Record<string, string>> = {

@@ -12,10 +12,10 @@ export interface Legacy2024SnapshotPage {
   url: string;
 }
 
-export const legacy2024HomePage: Legacy2024SnapshotPage = {
+export const legacy2024ArchivePage: Legacy2024SnapshotPage = {
   fullHtml: archivePage1Html,
-  title: '2024',
-  url: '/2024/',
+  title: '2024 News',
+  url: '/2024/news/',
 };
 
 export const legacy2024SearchPage: Legacy2024SnapshotPage = {

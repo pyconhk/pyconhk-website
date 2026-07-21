@@ -3,12 +3,17 @@ import { archiveMonthsForYear } from '@/legacy/archive-months';
 import Legacy2024Page from '@/years/2024/components/Legacy2024Page.astro';
 import { legacy2024Pages } from '@/years/2024/data/pages';
 import {
+  legacy2024ArchivePage,
   legacy2024MonthPages,
   legacy2024PhotosPage,
 } from '@/years/2024/data/snapshots';
 
 export function getStaticPaths() {
   return [
+    {
+      params: { slug: 'news' },
+      props: { snapshotPage: legacy2024ArchivePage },
+    },
     ...legacy2024Pages.map((page) => ({
       params: { slug: page.slug },
       props: { archivePage: page },
