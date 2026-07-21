@@ -15,9 +15,10 @@ interface Props {
     title?: string;
     url?: string;
   };
+  search?: boolean;
 }
 
-const { page } = Astro.props;
+const { page, search = false } = Astro.props;
 const legacy2024NavFixCss = `<style id="pyconhk-legacy-2024-nav-fix">
 @media (min-width: 782px) {
   .wp-site-blocks > .wp-block-cover:first-child header .wp-container-core-group-is-layout-9366075c {
@@ -42,42 +43,6 @@ const legacy2024NavFixCss = `<style id="pyconhk-legacy-2024-nav-fix">
   .wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation__container {
     column-gap: clamp(16px, 1.35vw, 24px) !important;
   }
-}
-
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .wp-block-navigation__submenu-container {
-  background: rgba(255, 255, 255, .96) !important;
-  border: 1px solid rgba(16, 36, 33, .16) !important;
-  border-radius: 8px;
-  box-shadow: 0 18px 42px rgba(13, 39, 37, .18);
-  color: #102421 !important;
-  min-width: max-content !important;
-  padding: 10px 0 !important;
-  top: calc(100% + 10px);
-}
-
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .has-child:hover > .wp-block-navigation__submenu-container,
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .has-child:focus-within > .wp-block-navigation__submenu-container,
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .has-child .wp-block-navigation-submenu__toggle[aria-expanded="true"] ~ .wp-block-navigation__submenu-container {
-  height: auto !important;
-  min-width: max-content !important;
-  opacity: 1 !important;
-  overflow: visible !important;
-  visibility: visible !important;
-  width: auto !important;
-}
-
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
-  color: #102421 !important;
-  line-height: 1.25;
-  padding: 12px 18px !important;
-  text-shadow: none !important;
-  white-space: nowrap;
-}
-
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover,
-.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible {
-  background: #f2f8f3;
-  color: #0b5d54 !important;
 }
 
 @media (max-width: 781px) {
@@ -185,7 +150,7 @@ const legacy2024NavFixCss = `<style id="pyconhk-legacy-2024-nav-fix">
 
 const legacy2024NavFixScript = `<script id="pyconhk-legacy-2024-nav-script">
 (() => {
-  const navigationSelector = '.wp-site-blocks > .wp-block-cover:first-child header .wp-block-navigation';
+  const navigationSelector = '.wp-site-blocks header .wp-block-navigation';
   const ready = (callback) => {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', callback, { once: true });
@@ -259,21 +224,135 @@ ${'</scr' + 'ipt>'}`;
 
 const legacy2024ScheduleScript = `<script id="pyconhk-legacy-2024-schedule-script" src="https://pretalx.com/democon/schedule/widget/v2.en.js"></${'scr' + 'ipt'}>`;
 
-const html = prepareLegacySearchableHtml(
-  repairLegacy2024Html(
-    repairVoyagoHistoryLinks(
-      stripLegacyScripts(
-        decodeCloudflareProtectedEmails(
-          repairLegacyWordPressHistoryLinks(page.fullHtml)
+const legacy2024SearchHead = `<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+<style id="pyconhk-legacy-2024-search-style">
+.pyconhk-legacy-search {
+  min-height: 36rem;
+  padding-top: 12px;
+}
+
+.pyconhk-legacy-search h1 {
+  font-size: 40px;
+  margin: 0 0 28px;
+}
+
+#legacy-search {
+  --pagefind-ui-primary: #000;
+  --pagefind-ui-text: #000;
+  --pagefind-ui-background: #fff;
+  --pagefind-ui-border: #d8d8d8;
+  --pagefind-ui-tag: #f5f5f5;
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 0;
+  --pagefind-ui-font: Montserrat, sans-serif;
+  width: 100%;
+}
+
+#legacy-search .pagefind-ui__search-input {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#legacy-search .pagefind-ui__result-title {
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+#legacy-search .pagefind-ui__result-link {
+  color: #000;
+}
+
+#legacy-search .pagefind-ui__result-excerpt mark {
+  background: #fff27a;
+}
+
+@media (max-width: 781px) {
+  .pyconhk-legacy-search h1 {
+    font-size: 32px;
+  }
+}
+</style>`;
+
+const legacy2024SearchScript = `<script src="/pagefind/pagefind-ui.js"></${'scr' + 'ipt'}>
+<script id="pyconhk-legacy-2024-search-script">
+(() => {
+  const ready = (callback) => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', callback, { once: true });
+      return;
+    }
+
+    callback();
+  };
+
+  ready(() => {
+    const searchRoot = document.querySelector('#legacy-search');
+
+    if (!(searchRoot instanceof HTMLElement) || typeof PagefindUI !== 'function') {
+      return;
+    }
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const initialTerm = searchParams.get('s') || searchParams.get('q') || '';
+    const sidebarInput = document.querySelector('#wp-block-search__input-2');
+
+    if (sidebarInput instanceof HTMLInputElement) {
+      sidebarInput.value = initialTerm;
+    }
+
+    new PagefindUI({
+      element: '#legacy-search',
+      showImages: false,
+      showSubResults: true,
+      pageSize: 10,
+      resetStyles: false,
+      openFilters: ['year'],
+      translations: {
+        placeholder: 'Search PyCon HK archives',
+        zero_results: 'No PyCon HK archive results for [SEARCH_TERM]',
+      },
+    });
+
+    if (!initialTerm) {
+      return;
+    }
+
+    const applyInitialTerm = (attemptsLeft = 20) => {
+      const input = document.querySelector('#legacy-search .pagefind-ui__search-input');
+
+      if (!(input instanceof HTMLInputElement)) {
+        if (attemptsLeft > 0) {
+          window.setTimeout(() => applyInitialTerm(attemptsLeft - 1), 50);
+        }
+        return;
+      }
+
+      input.value = initialTerm;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+
+    applyInitialTerm();
+  });
+})();
+${'</scr' + 'ipt>'}`;
+
+const repairedHtml = repairLegacy2024Html(
+  repairVoyagoHistoryLinks(
+    stripLegacyScripts(
+      decodeCloudflareProtectedEmails(
+        repairLegacyWordPressHistoryLinks(
+          search ? createLegacy2024SearchDocument(page.fullHtml) : page.fullHtml
         )
       )
     )
-  ),
-  {
-    route: page.url ?? '/2024/',
-    title: page.title,
-  }
+  )
 );
+const html = search
+  ? repairedHtml.replace(/<body\b/iu, '<body data-pagefind-ignore="all"')
+  : prepareLegacySearchableHtml(repairedHtml, {
+      route: page.url ?? '/2024/',
+      title: page.title,
+    });
 
 function repairLegacy2024Html(source: string): string {
   const repaired = source
@@ -288,7 +367,7 @@ function repairLegacy2024Html(source: string): string {
         `srcset=${quote}${rewriteSrcset(srcset)}${quote}`
     )
     .replace(
-      /\b(content|href|src|poster|action)=(["'])([^"']*)\2/giu,
+      /\b(content|href|src|poster|action|value)=(["'])([^"']*)\2/giu,
       (match, attribute: string, quote: string, value: string) => {
         const rewritten = rewriteUrlValue(value);
 
@@ -304,16 +383,17 @@ function repairLegacy2024Html(source: string): string {
 
         return rewritten === value ? match : `url(${quote}${rewritten}${quote})`;
       }
-    )
-    .replace(/\/legacy-wp\/2024\/wp-content\/uploads\//gu, '/legacy-wp/uploads/');
+    );
 
-  return injectLegacy2024NavFixes(repairVoyagoNewsLink(repaired));
+  return injectLegacy2024NavFixes(
+    repairVoyagoArchiveControls(repaired)
+  );
 }
 
-function repairVoyagoNewsLink(source: string): string {
+function repairVoyagoArchiveControls(source: string): string {
   return source.replace(
-    /(<a\b[^>]*\bhref=)(["'])\/2024\/\2([^>]*>\s*<span\b[^>]*>\s*News\s*<\/span>)/giu,
-    '$1$2/2024/news/$2$3'
+    /(<form\b(?=[^>]*\brole=["']search["'])[^>]*\baction=)(["'])[^"']*\2/giu,
+    '$1$2/2024/search/$2'
   );
 }
 
@@ -328,6 +408,14 @@ function injectLegacy2024NavFixes(source: string): string {
     html = html.replace(/<\/body>/iu, `${legacy2024NavFixScript}\n</body>`);
   }
 
+  if (search && !html.includes('id="pyconhk-legacy-2024-search-style"')) {
+    html = html.replace(/<\/head>/iu, `${legacy2024SearchHead}\n</head>`);
+  }
+
+  if (search && !html.includes('id="pyconhk-legacy-2024-search-script"')) {
+    html = html.replace(/<\/body>/iu, `${legacy2024SearchScript}\n</body>`);
+  }
+
   if (
     page.url === '/2024/schedule/' &&
     !html.includes('id="pyconhk-legacy-2024-schedule-script"')
@@ -336,6 +424,34 @@ function injectLegacy2024NavFixes(source: string): string {
   }
 
   return html;
+}
+
+function createLegacy2024SearchDocument(source: string): string {
+  const columnStart = source.indexOf(
+    '<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="padding-right:var(--wp--preset--spacing--60)">'
+  );
+  const contentStart = source.indexOf('>', columnStart) + 1;
+  const sidebarStart = source.indexOf(
+    '<div class="wp-block-column has-white-color has-custom-background-secondary-background-color',
+    contentStart
+  );
+  const contentEnd = source.lastIndexOf('</div>', sidebarStart);
+
+  if (columnStart < 0 || contentStart <= columnStart || sidebarStart < 0 || contentEnd < contentStart) {
+    throw new Error('Could not locate the 2024 archive content column for search.');
+  }
+
+  const searchMarkup = `<section class="pyconhk-legacy-search" data-pagefind-ignore="all">
+<h1>Search</h1>
+<div id="legacy-search"></div>
+</section>`;
+
+  return `${source.slice(0, contentStart)}${searchMarkup}${source.slice(contentEnd)}`
+    .replace(/<title>[\s\S]*?<\/title>/iu, '<title>Search - PyCon HK 2024</title>')
+    .replace(
+      /<meta\b(?=[^>]*\bname=["']robots["'])[^>]*>/iu,
+      '<meta name="robots" content="noindex">'
+    );
 }
 
 function repairVoyagoHistoryLinks(source: string): string {
@@ -373,10 +489,6 @@ function rewriteUrlValue(value: string): string {
     return value;
   }
 
-  if (value.startsWith('/legacy-wp/uploads/')) {
-    return value;
-  }
-
   let url: URL;
 
   try {
@@ -392,20 +504,24 @@ function rewriteUrlValue(value: string): string {
   const suffix = `${url.search}${url.hash}`;
   const pathname = url.pathname;
 
-  if (pathname.startsWith('/wp-content/uploads/')) {
-    return `/legacy-wp/uploads/${pathname.slice('/wp-content/uploads/'.length)}${suffix}`;
+  if (pathname.startsWith('/legacy-wp/uploads/')) {
+    return `/2024/assets/uploads/${pathname.slice('/legacy-wp/uploads/'.length)}${suffix}`;
   }
 
-  if (
-    pathname.startsWith('/wp-content/themes/voyago/') ||
-    pathname.startsWith('/wp-content/plugins/') ||
-    pathname.startsWith('/wp-includes/')
-  ) {
-    return `${pathname}${suffix}`;
+  if (pathname.startsWith('/wp-content/uploads/')) {
+    return `/2024/assets/uploads/${pathname.slice('/wp-content/uploads/'.length)}${suffix}`;
+  }
+
+  if (pathname.startsWith('/wp-content/')) {
+    return `/2024/assets/content/${pathname.slice('/wp-content/'.length)}${suffix}`;
+  }
+
+  if (pathname.startsWith('/wp-includes/')) {
+    return `/2024/assets/includes/${pathname.slice('/wp-includes/'.length)}${suffix}`;
   }
 
   if (pathname === '/feed/' || pathname === '/comments/feed/') {
-    return `https://pycon.hk${pathname}${suffix}`;
+    return `/2024/${url.hash}`;
   }
 
   const alias = local2024Alias(pathname);
@@ -445,7 +561,7 @@ function local2024Alias(pathname: string): string | undefined {
     '/code-of-conduct/staff-procedure/': '/2024/2024-staff-procedure/',
     '/communities/': '/2024/2024-supporting-organizations/',
     '/conference-highlights/pycon-hk-2024-photos/': '/2024/photos/',
-    '/news/': '/2024/news/',
+    '/news/': '/2024/',
     '/organizers/': '/2024/2024-organizers/',
     '/post-2563/': '/2024/2024-agenda/',
     '/post-2582/': '/2024/2024-organizers/',

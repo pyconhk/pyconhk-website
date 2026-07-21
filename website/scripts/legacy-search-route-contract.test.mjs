@@ -90,22 +90,26 @@ describe('legacy WordPress-style search contract', () => {
   it('emits event-scoped static search pages wired to the Pagefind browser bundle', () => {
     const html = readOutput('/2024/search/');
 
-    assert.match(html, /<html lang="en">/u);
+    assert.match(html, /<html dir="ltr" lang="en-US"/u);
     assert.match(html, /<title>Search - PyCon HK 2024<\/title>/u);
-    assert.match(html, /\bclass="[^"]*\bvoyago-archive\b/u);
-    assert.match(html, /\bclass="[^"]*\bvoyago-header\b/u);
-    assert.match(html, /\bclass="[^"]*\bvoyago-sidebar\b/u);
-    assert.match(html, /\bclass="[^"]*\bvoyago-search-results-column\b/u);
-    assert.doesNotMatch(html, /\bclass="[^"]*\blegacy-search-page\b/u);
+    assert.match(html, /\bclass="[^"]*\bwp-theme-voyago\b/u);
+    assert.match(html, /\bclass="[^"]*\bwp-site-blocks\b/u);
+    assert.match(html, /\bclass="[^"]*\bwp-block-navigation__container\b/u);
+    assert.match(html, /<h1>Search<\/h1>/u);
+    assert.match(html, /id="legacy-search"/u);
+    assert.doesNotMatch(
+      html,
+      /\bclass="[^"]*\b(?:voyago-archive|voyago-header|voyago-sidebar|voyago-search-results-column|legacy-search-page)\b/u
+    );
     assert.match(html, /href="\/pagefind\/pagefind-ui\.css"/u);
     assert.match(html, /src="\/pagefind\/pagefind-ui\.js"/u);
     assert.match(html, /new PagefindUI\(\{\s*element: '#legacy-search'/u);
-    assert.match(html, /astro:page-load/u);
     assert.match(html, /typeof PagefindUI/u);
     assert.match(html, /searchParams\.get\('s'\)/u);
     assert.match(html, /searchParams\.get\('q'\)/u);
     assert.match(html, /#legacy-search \.pagefind-ui__search-input/u);
     assert.doesNotMatch(html, /#legacy-search input\[type="search"\]/u);
+    assert.match(html, /data-pagefind-ignore="all"/u);
     assert.doesNotMatch(html, /data-pagefind-body/u);
   });
 

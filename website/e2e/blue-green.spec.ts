@@ -49,8 +49,8 @@ const criticalPages = [
   },
   {
     path: '/2024/',
-    title: /PyCon HK - The leading Python Conference in Hong Kong/,
-    text: /PyCon HK 2024/,
+    title: /2024 - PyCon HK/,
+    text: /PyCon HK 2024 Photos/,
   },
   {
     path: '/2024/photos/',
@@ -985,6 +985,29 @@ test.describe('blue-green launch smoke', () => {
     await expect(navigation.locator('a[href="/2024/2024-attendee-reporting/"]')).toHaveText(
       'Procedures for Reporting Incidents'
     );
+
+    await navigation.getByRole('link', { name: 'Sponsors' }).hover();
+    const sponsorsDropdown = navigation
+      .locator('.wp-block-navigation__submenu-container')
+      .first();
+
+    await expect(sponsorsDropdown).toBeVisible();
+    const sponsorsDropdownStyle = await sponsorsDropdown.evaluate((element) => {
+      const style = getComputedStyle(element);
+      const linkStyle = getComputedStyle(element.querySelector('a')!);
+
+      return {
+        backgroundColor: style.backgroundColor,
+        borderRadius: style.borderRadius,
+        color: linkStyle.color,
+        width: element.getBoundingClientRect().width,
+      };
+    });
+
+    expect(sponsorsDropdownStyle.backgroundColor).toBe('rgb(0, 32, 32)');
+    expect(sponsorsDropdownStyle.borderRadius).toBe('0px');
+    expect(sponsorsDropdownStyle.color).toBe('rgb(255, 255, 255)');
+    expect(sponsorsDropdownStyle.width).toBeGreaterThanOrEqual(200);
     await expect(page.getByRole('link', { name: 'Current site' })).toHaveCount(0);
     await expect(page.getByRole('link', { name: /Back to 2024 archive/u })).toHaveCount(0);
 
@@ -1029,6 +1052,7 @@ test.describe('blue-green launch smoke', () => {
 
   test('serves legacy year archives with live WordPress archive structure', async ({
     page,
+    request,
   }) => {
     const response2018 = await page.goto('/2018/');
 
@@ -1162,15 +1186,13 @@ test.describe('blue-green launch smoke', () => {
     const response2024 = await page.goto('/2024/');
 
     expect(response2024?.status()).toBe(200);
-    await expect(page).toHaveTitle('PyCon HK - The leading Python Conference in Hong Kong');
-    await expect(page.locator('body.home.wp-theme-voyago')).toBeVisible();
+    await expect(page).toHaveTitle('2024 - PyCon HK');
+    await expect(page.locator('body.archive.date.wp-theme-voyago')).toBeVisible();
     await expect(page.locator('header.wp-block-template-part')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'PyCon HK 2024', exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'About PyCon HK 2024' })).toBeVisible();
-    await expect(page.getByRole('link', { name: /PyCon HK 2024 Photos/u })).toHaveAttribute(
-      'href',
-      'https://bit.ly/pyconhk2024'
-    );
+    await expect(page.getByRole('heading', { name: 'PyCon HK 2024 Photos' })).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'PyCon HK 2024 Photos', exact: true }).first()
+    ).toHaveAttribute('href', '/2024/photos/');
     await expect(page.locator('footer.wp-block-template-part')).toBeVisible();
 
     const pageTwoResponse = await page.goto('/2018/page/2/');
@@ -1199,10 +1221,14 @@ test.describe('blue-green launch smoke', () => {
       expect(page.url()).toContain(path.slice(0, -1));
     }
 
-    const pageTwo2024Response = await page.goto('/2024/page/2/');
+    const pageTwo2024Response = await request.get('/2024/page/2/', {
+      maxRedirects: 0,
+    });
 
-    expect(pageTwo2024Response?.status()).toBe(404);
-    expect(page.url()).toContain('/2024/page/2');
+    expect(pageTwo2024Response.status()).toBe(308);
+    expect(normalizeRedirectLocation(pageTwo2024Response.headers().location)).toBe(
+      '/2024'
+    );
   });
 
   test('does not publish root legacy archive pagination', async ({ request }) => {

@@ -7,7 +7,6 @@ const sourceRoot = process.env.LEGACY_2024_SOURCE_ROOT ?? '/Users/alexau/Downloa
 const fallbackSourceRoot = process.env.LEGACY_2024_FALLBACK_ROOT ?? '/Users/alexau/Downloads/simply-static-1-1779119343';
 const repoRoot = process.cwd();
 const dataFile = path.join(repoRoot, 'src/years/2024/data/pages.ts');
-const homeDataFile = path.join(repoRoot, 'src/years/2024/data/home.ts');
 const sourceUploadsRoot = path.join(sourceRoot, 'wp-content/uploads');
 const publicUploadsRoot = path.join(repoRoot, 'public/legacy-wp/uploads');
 const legacyNestedUploads = path.join(repoRoot, 'public/legacy-wp/2024');
@@ -443,8 +442,6 @@ function sortByDateDesc(a, b) {
 
 const archiveBaseUrl = sourceUrl('/2024/');
 const archiveHtml = await fetchText(archiveBaseUrl);
-const homeBaseUrl = sourceUrl('/');
-const homeHtml = await fetchText(homeBaseUrl);
 const listingSources = uniqueByUrl(extractListing(archiveHtml, archiveBaseUrl)).sort(sortByDateDesc);
 const pageSources = uniqueByUrl([
   ...listingSources.filter((item) => item.slug && item.url !== '/2024/photos/'),
@@ -495,26 +492,6 @@ export const legacy2024Listing: Legacy2024ListingItem[] = ${JSON.stringify(listi
 `,
 );
 
-writeFileSync(
-  homeDataFile,
-  `export interface Legacy2024HomePage {
-  url: string;
-  title: string;
-  fullHtml: string;
-}
-
-export const legacy2024HomePage: Legacy2024HomePage = ${JSON.stringify(
-    {
-      url: '/2024/',
-      title: stripTags(matchFirst(homeHtml, [/<title>([\s\S]*?)<\/title>/i])),
-      fullHtml: rewriteUrls(homeHtml, homeBaseUrl),
-    },
-    null,
-  2,
-)};
-`,
-);
-
 rmSync(legacyNestedUploads, { force: true, recursive: true });
 for (const year of uploadYears) {
   const sourceUploads = path.join(sourceUploadsRoot, year);
@@ -532,7 +509,6 @@ await cachePublicAssets(wordpressCoreAssets);
 await cachePublicAssets(wordpressPluginAssets);
 
 console.log(`Migrated ${pages.length} pages and ${listing.length} listing items.`);
-console.log(`Wrote live landing HTML to ${homeDataFile}.`);
 console.log(`Copied ${uploadYears.join(', ')} uploads to ${publicUploadsRoot}.`);
 console.log('Cached Voyago theme, WordPress core, and plugin assets.');
 

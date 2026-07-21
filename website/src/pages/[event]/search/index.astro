@@ -1,5 +1,7 @@
 ---
 import LegacySearchPage from '@/legacy/LegacySearchPage.astro';
+import Legacy2024Page from '@/years/2024/components/Legacy2024Page.astro';
+import { legacy2024SearchPage } from '@/years/2024/data/snapshots';
 
 export function getStaticPaths() {
   const events = [
@@ -27,4 +29,10 @@ export function getStaticPaths() {
 const { event } = Astro.props;
 ---
 
-<LegacySearchPage event={event} />
+{
+  event === '2024' ? (
+    <Legacy2024Page page={legacy2024SearchPage} search />
+  ) : (
+    <LegacySearchPage event={event} />
+  )
+}

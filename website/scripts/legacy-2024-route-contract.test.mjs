@@ -74,7 +74,7 @@ describe('PyCon HK 2024 archive contract', () => {
   });
 
   it('emits the 2024 archive route and every migrated 2024 page', () => {
-    const routes = ['/', '/2024/news/', ...legacy2024Pages.map((page) => page.url)];
+    const routes = ['/', ...legacy2024Pages.map((page) => page.url)];
     const missing = routes
       .map((route) => [`/2024${route === '/' ? '/' : route.replace(/^\/2024/u, '')}`, outputFileForRoute(route === '/' ? '/2024/' : route)])
       .filter(([, filePath]) => !fs.existsSync(filePath));
@@ -82,33 +82,27 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.deepEqual(missing, []);
   });
 
-  it('renders the 2024 landing homepage with the Voyago shell and local history links', () => {
+  it('renders the live 2024 archive at the year root', () => {
     const home = readOutput('/2024/');
+    const postTitles = home.match(/class="wp-block-post-title"/gu);
 
-    assert.match(home, /<title>PyCon HK - The leading Python Conference in Hong Kong<\/title>/u);
+    assert.match(home, /<title>2024 - PyCon HK<\/title>/u);
     assert.match(home, /wp-theme-voyago/u);
     assert.match(home, /class="wp-site-blocks"/u);
     assert.match(home, /wp-block-navigation__container/u);
-    assert.match(home, /<h1\b[^>]*>PyCon HK 2024<\/h1>/u);
-    assert.match(home, /16<sup>th<\/sup>\s*(?:&nbsp;|\u00a0)?November \(Sat\), 2024/u);
-    assert.match(home, /17<sup>th<\/sup>\s*(?:&nbsp;|\u00a0)?November \(Sun\), 2024/u);
+    assert.match(home, /wp-block-post-template/u);
     assert.match(home, /PyCon HK 2024 Photos/u);
-    assert.match(home, /<h1\b[^>]*>About PyCon HK 2024<\/h1>/u);
-    assert.match(home, /10 Years of History/u);
-    assert.match(home, /has-background-dim-30/u);
-    assert.doesNotMatch(home, /PyCon HK 2025 Call for Proposal NOW!/u);
-    assert.doesNotMatch(home, /id="pycon-local-hero-polish"/u);
-    assert.doesNotMatch(home, /wp-block-post-template/u);
-    assert.doesNotMatch(home, /<title>2024 - PyCon HK<\/title>/u);
-    assert.doesNotMatch(home, /voyago-archive/u);
+    assert.match(home, /PyCon HK 2024 Pre-Event Notice/u);
+    assert.match(home, /PyCon HK 2024 (?:-|–) Call For Proposal/u);
+    assert.equal(postTitles?.length, 21);
     assert.doesNotMatch(home, /https:\/\/legacy\.pycon\.hk/u);
     assert.doesNotMatch(home, /href="\/feed\/"/u);
     assertAllConferenceArchiveHrefs(home, '2024 history links');
     assertNoExternalConferenceArchiveHrefs(home, '2024 history links');
   });
 
-  it('routes every 2024 News control to a dedicated archive page', () => {
-    const newsLink = /href="\/2024\/news\/"[^>]*>(?:\s*<span\b[^>]*>)?\s*News(?:\s*<\/span>)?/u;
+  it('routes every 2024 News control to the live archive root', () => {
+    const newsLink = /href="\/2024\/"[^>]*>(?:\s*<span\b[^>]*>)?\s*News(?:\s*<\/span>)?/u;
     const pages = [
       readOutput('/2024/'),
       readOutput('/2024/2024-volunteers/'),
@@ -121,15 +115,12 @@ describe('PyCon HK 2024 archive contract', () => {
       assert.match(page, newsLink);
     }
 
-    const news = readOutput('/2024/news/');
-    const postTitles = news.match(/class="wp-block-post-title"/gu);
+    const redirects = readDistFile('_redirects');
     const sitemap = readDistFile('sitemap.xml');
 
-    assert.match(news, /<title>2024 News - PyCon HK<\/title>/u);
-    assert.match(news, /PyCon HK 2024 Pre-Event Notice/u);
-    assert.match(news, /PyCon HK 2024 (?:-|–) Call For Proposal/u);
-    assert.equal(postTitles?.length, 21);
-    assert.match(sitemap, /<loc>https:\/\/pycon\.hk\/2024\/news<\/loc>/u);
+    assert.match(redirects, /^\/2024\/news\/? \/2024 308$/mu);
+    assert.match(sitemap, /<loc>https:\/\/pycon\.hk\/2024<\/loc>/u);
+    assert.doesNotMatch(sitemap, /<loc>https:\/\/pycon\.hk\/2024\/news<\/loc>/u);
   });
 
   it('renders 2024 articles with the exact Voyago block-theme shell', () => {
@@ -154,7 +145,7 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.doesNotMatch(html, /\bsrc="\.\/\//u);
     assert.match(
       html,
-      /src="\/2024\/assets\/uploads\/2024\/10\/031-YangSoo-Yoon-square\.jpg"/u
+      /src="\/2024\/assets\/uploads\/2025\/07\/6178999587549856536\.jpg"/u
     );
   });
 
@@ -173,7 +164,7 @@ describe('PyCon HK 2024 archive contract', () => {
   it('lists the 2024 photos card once in the November archive', () => {
     const archive = readOutput('/2024/11/');
     const photoHeadings = archive.match(
-      /<h3\b[^>]*><a href="\/2024\/photos\/?">PyCon HK 2024 Photos<\/a><\/h3>/gu
+      /<h3\b[^>]*>\s*<a\b[^>]*href="\/2024\/photos\/"[^>]*>PyCon HK 2024 Photos<\/a>\s*<\/h3>/gu
     );
 
     assert.equal(photoHeadings?.length, 1);
@@ -201,7 +192,7 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.doesNotMatch(page, /\shref="\/"/u);
   });
 
-  it('normalizes live 2024 landing links to canonical 2024 routes', () => {
+  it('normalizes live 2024 archive links to canonical 2024 routes', () => {
     const home = readOutput('/2024/');
 
     assert.match(home, /\shref="\/2024\/2024-access-guide-conference-day\/?"/u);
@@ -219,20 +210,21 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.doesNotMatch(home, /\shref="(?:2024-|schedule"|sprint"|sponsors"|volunteers"|[^"]+\/index\.html)/u);
   });
 
-  it('keeps the 2024 landing header dropdown readable and spaced from the brand', () => {
+  it('keeps the live 2024 archive dropdown and spaces navigation from the brand', () => {
     const home = readOutput('/2024/');
 
     assert.match(home, /id="pyconhk-legacy-2024-nav-fix"/u);
     assert.match(home, /\.wp-block-site-title\s*\{/u);
     assert.match(home, /margin-left:\s*clamp\(36px,\s*4vw,\s*72px\)\s*!important/u);
-    assert.match(home, /background:\s*rgba\(255,\s*255,\s*255,\s*\.96\)\s*!important/u);
-    assert.match(home, /\.has-child:focus-within\s*>\s*\.wp-block-navigation__submenu-container/u);
-    assert.match(home, /visibility:\s*visible\s*!important/u);
-    assert.match(home, /text-shadow:\s*none\s*!important/u);
-    assert.match(home, /white-space:\s*nowrap/u);
+    assert.match(home, /--wp--preset--color--custom-background-secondary:\s*#002020/u);
+    assert.match(
+      home,
+      /wp-block-navigation__submenu-container has-text-color has-white-color has-background has-custom-background-secondary-background-color/u
+    );
+    assert.doesNotMatch(home, /background:\s*rgba\(255,\s*255,\s*255,\s*\.96\)\s*!important/u);
   });
 
-  it('ships static mobile navigation controls for the 2024 landing header', () => {
+  it('ships static mobile navigation controls for the 2024 archive header', () => {
     const home = readOutput('/2024/');
 
     assert.match(home, /id="pyconhk-legacy-2024-nav-script"/u);
@@ -265,23 +257,6 @@ describe('PyCon HK 2024 archive contract', () => {
       schedule,
       /src="https:\/\/pretalx\.com\/democon\/schedule\/widget\/v2\.en\.js"/u
     );
-  });
-
-  it('centers the 2024 mobile landing hero inside the first viewport', () => {
-    const home = readOutput('/2024/');
-
-    assert.match(home, /\.wp-block-cover__inner-container\s*>\s*\.wp-block-group\s*\{/u);
-    assert.match(home, /box-sizing:\s*border-box\s*!important/u);
-    assert.match(home, /justify-content:\s*center\s*!important/u);
-    assert.match(home, /max-width:\s*100%\s*!important/u);
-    assert.match(home, /padding-left:\s*0\s*!important/u);
-    assert.match(home, /padding-right:\s*0\s*!important/u);
-    assert.match(home, /padding-top:\s*0\s*!important/u);
-    assert.match(home, /padding-bottom:\s*0\s*!important/u);
-    assert.match(home, /width:\s*100%\s*!important/u);
-    assert.match(home, /\.wp-block-buttons\s*\+\s*\.wp-block-spacer/u);
-    assert.match(home, /display:\s*none\s*!important/u);
-    assert.match(home, /height:\s*0\s*!important/u);
   });
 
   it('references only local 2024 assets that exist on disk', () => {

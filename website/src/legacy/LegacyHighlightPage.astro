@@ -9,7 +9,7 @@ interface Props {
 
 const { page } = Astro.props;
 const event = page.path.match(/^\/([^/]+)/u)?.[1] ?? '2024';
-const newsHref = event === '2024' ? '/2024/news/' : '/2025/news/';
+const newsHref = event === '2024' ? '/2024/' : '/2025/news/';
 const featuredImageSrc = page.featuredImage
   ? canonicalLegacyHref(page.featuredImage.src, { event })
   : undefined;
