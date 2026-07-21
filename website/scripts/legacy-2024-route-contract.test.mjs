@@ -92,6 +92,15 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.match(home, /<h1\b[^>]*>PyCon HK 2024<\/h1>/u);
     assert.match(home, /16<sup>th<\/sup>\s*(?:&nbsp;|\u00a0)?November \(Sat\), 2024/u);
     assert.match(home, /17<sup>th<\/sup>\s*(?:&nbsp;|\u00a0)?November \(Sun\), 2024/u);
+    assert.match(
+      home,
+      /href="\/2024\/2024-access-guide-conference-day\/?"[^>]*>Access Guide<\/a>/u
+    );
+    assert.match(
+      home,
+      /href="\/2024\/2024-access-guide-development-sprint-day\/?"[^>]*>Access Guide<\/a>/u
+    );
+    assert.doesNotMatch(home, />Access Guid<\/a>/u);
     assert.match(home, /PyCon HK 2024 Photos/u);
     assert.match(home, /<h1\b[^>]*>About PyCon HK 2024<\/h1>/u);
     assert.match(home, /10 Years of History/u);
