@@ -74,7 +74,7 @@ describe('PyCon HK 2024 archive contract', () => {
   });
 
   it('emits the 2024 archive route and every migrated 2024 page', () => {
-    const routes = ['/', ...legacy2024Pages.map((page) => page.url)];
+    const routes = ['/', '/2024/news/', ...legacy2024Pages.map((page) => page.url)];
     const missing = routes
       .map((route) => [`/2024${route === '/' ? '/' : route.replace(/^\/2024/u, '')}`, outputFileForRoute(route === '/' ? '/2024/' : route)])
       .filter(([, filePath]) => !fs.existsSync(filePath));
@@ -107,6 +107,31 @@ describe('PyCon HK 2024 archive contract', () => {
     assertNoExternalConferenceArchiveHrefs(home, '2024 history links');
   });
 
+  it('routes every 2024 News control to a dedicated archive page', () => {
+    const newsLink = /href="\/2024\/news\/"[^>]*>(?:\s*<span\b[^>]*>)?\s*News(?:\s*<\/span>)?/u;
+    const pages = [
+      readOutput('/2024/'),
+      readOutput('/2024/2024-volunteers/'),
+      readOutput('/2024/11/'),
+      readOutput('/2024/search/'),
+      readOutput('/2024/photos/'),
+    ];
+
+    for (const page of pages) {
+      assert.match(page, newsLink);
+    }
+
+    const news = readOutput('/2024/news/');
+    const postTitles = news.match(/class="wp-block-post-title"/gu);
+    const sitemap = readDistFile('sitemap.xml');
+
+    assert.match(news, /<title>2024 News - PyCon HK<\/title>/u);
+    assert.match(news, /PyCon HK 2024 Pre-Event Notice/u);
+    assert.match(news, /PyCon HK 2024 (?:-|–) Call For Proposal/u);
+    assert.equal(postTitles?.length, 21);
+    assert.match(sitemap, /<loc>https:\/\/pycon\.hk\/2024\/news<\/loc>/u);
+  });
+
   it('renders 2024 articles with the exact Voyago block-theme shell', () => {
     const page = readOutput('/2024/2024-volunteers/');
 
@@ -126,6 +151,32 @@ describe('PyCon HK 2024 archive contract', () => {
     assert.doesNotMatch(html, /\/legacy-wp\//u);
     assert.doesNotMatch(html, /\s(?:content|href|src|srcset)="(?:https:\/\/pycon\.hk)?\/wp-content\//u);
     assert.doesNotMatch(html, /\/src\/years\//u);
+    assert.doesNotMatch(html, /\bsrc="\.\/\//u);
+    assert.match(
+      html,
+      /src="\/2024\/assets\/uploads\/2024\/10\/031-YangSoo-Yoon-square\.jpg"/u
+    );
+  });
+
+  it('keeps 2024 Sprint links in the year scope', () => {
+    const html = legacy2024Pages.map((page) => readOutput(page.url)).join('\n');
+    const redirects = readDistFile('_redirects');
+
+    assert.match(html, /href="\/2024\/2024-sprint\/?"/u);
+    assert.doesNotMatch(html, /\/2024\/2024\/2024-sprint/u);
+    assert.match(
+      redirects,
+      /^\/2024\/2024\/2024-sprint\/? \/2024\/2024-sprint 308$/mu
+    );
+  });
+
+  it('lists the 2024 photos card once in the November archive', () => {
+    const archive = readOutput('/2024/11/');
+    const photoHeadings = archive.match(
+      /<h3\b[^>]*><a href="\/2024\/photos\/?">PyCon HK 2024 Photos<\/a><\/h3>/gu
+    );
+
+    assert.equal(photoHeadings?.length, 1);
   });
 
   it('decodes Cloudflare-protected 2024 email links before rendering', () => {

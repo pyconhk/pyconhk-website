@@ -48,6 +48,7 @@ const legacyYearPaths = [
   '/2022',
   '/2023',
   '/2024',
+  '/2024/news',
 ];
 const legacy2016MicrositePaths = routeContract2016.requiredRoutes.map((route) =>
   route.replace(/\/$/u, '')
@@ -179,8 +180,10 @@ export const GET: APIRoute = async () => {
     code: locale.code,
     htmlLang: locale.htmlLang,
   })) satisfies SiteSitemapLocale[];
-  const currentYearEntries = currentYearLocales.map((locale) =>
-    buildEntry(currentConferenceYear, locale.code, '', currentYearLocales)
+  const currentYearEntries = currentYearLocales.flatMap((locale) =>
+    ['', 'privacy-policy'].map((suffix) =>
+      buildEntry(currentConferenceYear, locale.code, suffix, currentYearLocales)
+    )
   );
   const archiveYearSuffixes = [
     '',

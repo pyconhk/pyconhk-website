@@ -12,7 +12,6 @@ interface Props {
   locale: SiteLocale;
   currentSection?: SiteSectionSlug;
   imagePath?: string;
-  allowHorizontalOverflow?: boolean;
 }
 
 const {
@@ -22,7 +21,6 @@ const {
   locale,
   currentSection,
   imagePath,
-  allowHorizontalOverflow = false,
 } = Astro.props;
 const localeDefinition = getLocaleDefinition(locale);
 const currentPathname = Astro.url.pathname;
@@ -33,7 +31,6 @@ const currentPathname = Astro.url.pathname;
   description={description}
   htmlLang={localeDefinition.htmlLang}
   imagePath={imagePath}
-  allowHorizontalOverflow={allowHorizontalOverflow}
 >
   <SiteHeader
     year={year}
@@ -42,7 +39,7 @@ const currentPathname = Astro.url.pathname;
     currentPathname={currentPathname}
   />
   <main
-    class:list={['w-full', !allowHorizontalOverflow && 'overflow-x-clip']}
+    class="w-full overflow-x-clip"
     data-pagefind-body
     data-pagefind-filter={`year:${year}`}
     data-pagefind-meta={`year:${year}`}

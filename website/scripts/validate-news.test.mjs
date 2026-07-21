@@ -39,7 +39,7 @@ tags:
   - announcement
 ---
 
-Read the [schedule](/2025/en/schedule/).
+Read the [schedule](/2025/schedule/).
 `;
 
 test('accepts complete localized news content', async () => {
@@ -92,33 +92,33 @@ Read the [missing page](/missing-page/).
   }
 });
 
-test('reports broken year-aware internal routes', async () => {
+test('reports locale-prefixed 2025 routes that Astro does not emit', async () => {
   const fixture = await createFixture({
     'valid-post.en.mdx': validPost.replace(
-      'Read the [schedule](/2025/en/schedule/).',
-      'Read the [missing archive page](/2025/en/not-real/).'
+      'Read the [schedule](/2025/schedule/).',
+      'Read the [missing localized schedule](/2025/en/schedule/).'
     ),
   });
 
   try {
     const result = await validateNewsContent(fixture);
-    assert.match(result.errors.join('\n'), /broken internal link \/2025\/en\/not-real\//);
+    assert.match(result.errors.join('\n'), /broken internal link \/2025\/en\/schedule\//);
   } finally {
     await fixture.cleanup();
   }
 });
 
-test('accepts known 2025 internal routes and localized news articles', async () => {
+test('accepts known 2025 routes and emitted sprint Q&A locales', async () => {
   const fixture = await createFixture({
     'valid-post.en.mdx': validPost.replace(
-      'Read the [schedule](/2025/en/schedule/).',
+      'Read the [schedule](/2025/schedule/).',
       [
-        'Read the [localized schedule](/2025/en/schedule/).',
         'Read the [default schedule](/2025/schedule/).',
         'Read the [live schedule alias](https://pycon.hk/schedule).',
         'Read the [live sprint alias](https://pycon.hk/sprint).',
-        'Read the [sprint Q&A](/2025/en/sprint/qna/).',
-        'Read the [localized article](/2025/zh-hk/news/valid-post/).',
+        'Read the [English sprint Q&A](/2025/sprint/qna/en).',
+        'Read the [Cantonese sprint Q&A](/2025/sprint/qna/zh-hk).',
+        'Read the [default article](/2025/news/valid-post/).',
       ].join('\n')
     ),
   });
@@ -134,7 +134,7 @@ test('accepts known 2025 internal routes and localized news articles', async () 
 test('reports raw HTML that is unsafe for CMS-authored markdown', async () => {
   const fixture = await createFixture({
     'valid-post.en.mdx': validPost.replace(
-      'Read the [schedule](/2025/en/schedule/).',
+      'Read the [schedule](/2025/schedule/).',
       [
         '<script>alert("xss")</script>',
         '<img src="/outstatic/images/cover.webp" onerror="alert(1)">',

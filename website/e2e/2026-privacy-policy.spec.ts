@@ -4,7 +4,7 @@ const localeLinks = [
   { label: 'EN', href: '/2026/en/privacy-policy' },
   { label: '粵', href: '/2026/zh-hk/privacy-policy' },
   { label: '繁', href: '/2026/zh-hant/privacy-policy' },
-  { label: '简', href: '/2026/zh-cn/privacy-policy' },
+  { label: '简', href: '/2026/zh-hans/privacy-policy' },
   { label: 'KR', href: '/2026/ko/privacy-policy' },
   { label: 'JA', href: '/2026/ja/privacy-policy' },
 ] as const;

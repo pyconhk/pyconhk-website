@@ -13,7 +13,6 @@ interface Props {
   englishOnly?: boolean;
   compact?: boolean;
   bare?: boolean;
-  allowHorizontalOverflow?: boolean;
 }
 
 const {
@@ -25,7 +24,6 @@ const {
   englishOnly = false,
   compact = false,
   bare = false,
-  allowHorizontalOverflow = false,
 } = Astro.props;
 
 const t = getTranslations(locale, 'home');
@@ -37,7 +35,6 @@ const t = getTranslations(locale, 'home');
   year={year}
   locale={locale}
   currentSection={currentSection}
-  allowHorizontalOverflow={allowHorizontalOverflow}
 >
   {
     bare ? (

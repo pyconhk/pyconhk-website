@@ -45,7 +45,7 @@ const compactSections = new Set<SiteSectionSlug>([
 ---
 
 <InnerPageFrame
-  title={`${siteName} ${year}`}
+  title={`${sectionCopy.title} | ${siteName} ${year}`}
   description={sectionCopy.blurb}
   year={year}
   locale={locale}
@@ -53,7 +53,6 @@ const compactSections = new Set<SiteSectionSlug>([
   englishOnly={englishOnly}
   compact={compactSections.has(section)}
   bare={section === 'schedule'}
-  allowHorizontalOverflow={section === 'schedule'}
 >
   {section === 'about' && <AboutPage locale={locale} />}
   {section === 'schedule' && <SchedulePage year={year} locale={locale} />}

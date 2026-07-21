@@ -297,7 +297,7 @@ export function repairLegacySearchForms(html: string, context: LegacyHrefContext
 }
 
 function canonicalLegacyUrlValue(value: string, context: LegacyHrefContext) {
-  const cleanValue = stripLegacyFormatControls(value);
+  const cleanValue = stripLegacyFormatControls(value).replace(/^\.\/\//u, '/');
 
   if (!cleanValue || skippableUrl(cleanValue)) {
     return cleanValue;
@@ -532,6 +532,11 @@ const genericAliasMap: Record<string, string> = {
   '/volunteers/': '/2024/2024-volunteers/',
 };
 
+const legacy2024AliasMap: Record<string, string> = {
+  ...genericAliasMap,
+  '/news/': '/2024/news/',
+};
+
 const eventAliasMap: Record<string, Record<string, string>> = {
   '2015': {
     '/conference-highlights/': '/2015/photos/',
@@ -560,6 +565,14 @@ const eventAliasMap: Record<string, Record<string, string>> = {
     '/volunteers/': '/2018/volunteers-2018/',
   },
   '2020-spring': {
+    '/2020/sessions-2020-spring/': '/2020-spring/sessions-2020-spring/',
+    '/2020/2020-spring/the-development-sprint-of-online-pycon-hk-2020-spring/':
+      '/2020-spring/the-development-sprint-of-online-pycon-hk-2020-spring/',
+    '/2020/2020-spring/unconference/': '/2020-spring/unconference/',
+    '/2020/2020-spring/%E5%BB%A3%E6%9D%B1%E8%A9%B1%E9%A6%99%E6%B8%AFpython%E7%A4%BE%E7%BE%A4%E8%81%9A%E6%9C%83/':
+      '/2020-spring/%E5%BB%A3%E6%9D%B1%E8%A9%B1%E9%A6%99%E6%B8%AFpython%E7%A4%BE%E7%BE%A4%E8%81%9A%E6%9C%83/',
+    '/2020/2020-spring/what-can-we-do-for-the-python-community-in-hong-kong-in-2020/':
+      '/2020-spring/what-can-we-do-for-the-python-community-in-hong-kong-in-2020/',
     '/conference-highlights/': '/2020-spring/photos/',
     '/schedule/': '/2020-spring/2020-spring-schedule/',
   },
@@ -579,7 +592,6 @@ const eventAliasMap: Record<string, Record<string, string>> = {
     '/volunteers/': '/2021/2021-staff/',
   },
   '2022': {
-    '/booths/': '/2022/2022-booths/',
     '/communities/': '/2022/2022-supporting-organizations/',
     '/conference-highlights/': '/2022/photos/',
     '/organizers/': '/2022/2022-organizers/',
@@ -596,7 +608,7 @@ const eventAliasMap: Record<string, Record<string, string>> = {
     '/sponsors/': '/2023/2023-sponsors/',
     '/volunteers/': '/2023/2023-volunteers/',
   },
-  '2024': genericAliasMap,
+  '2024': legacy2024AliasMap,
   '2025': {
     '/access-guide/': '/2025/access-guide/',
     '/catering-guide/': '/2025/catering-guide/',

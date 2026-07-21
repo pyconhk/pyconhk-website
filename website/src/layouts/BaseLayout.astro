@@ -16,7 +16,6 @@ interface Props {
   description?: string;
   htmlLang?: string;
   imagePath?: string;
-  allowHorizontalOverflow?: boolean;
   robots?: string;
 }
 
@@ -25,7 +24,6 @@ const {
   description = defaultSeoDescription,
   htmlLang = 'en-HK',
   imagePath,
-  allowHorizontalOverflow = false,
   robots,
 } = Astro.props;
 const seo = buildSeoMetadata({
@@ -93,13 +91,8 @@ const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironmen
       )
     }
   </head>
-  <body
-    class:list={[
-      'min-h-screen bg-white font-sans text-slate-700 antialiased',
-      !allowHorizontalOverflow && 'overflow-x-clip',
-    ]}
-  >
-    <div class:list={['min-h-screen', !allowHorizontalOverflow && 'overflow-x-clip']}>
+  <body class="min-h-screen overflow-x-clip bg-white font-sans text-slate-700 antialiased">
+    <div class="min-h-screen overflow-x-clip">
       <slot />
     </div>
   </body>

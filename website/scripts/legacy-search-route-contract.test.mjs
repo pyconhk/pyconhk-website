@@ -24,7 +24,11 @@ const searchableEditions = [
   { route: '/2026/en/', year: '2026' },
 ];
 const searchFormRoutes = searchableEditions.filter(
-  ({ route }) => !route.startsWith('/2025/') && !route.startsWith('/2026/') && route !== '/2024/2024-volunteers/'
+  ({ route }) =>
+    !route.startsWith('/2025/') &&
+    !route.startsWith('/2026/') &&
+    route !== '/2024/' &&
+    route !== '/2024/2024-volunteers/'
 );
 const archiveMonthRoutes = [
   '/2024/11/',

@@ -154,4 +154,30 @@ describe('PyCon HK 2020 edition archive contract', () => {
     );
     assert.doesNotMatch(schedulePost, /href="\/2020-springthe-development-sprint/u);
   });
+
+  it('repairs the old nested 2020 Spring article links', () => {
+    const announcement = readOutput(
+      '/2020-spring/announcing-all-sessions-of-pycon-hk-2020-spring/'
+    );
+
+    for (const route of [
+      '/2020-spring/sessions-2020-spring/',
+      '/2020-spring/the-development-sprint-of-online-pycon-hk-2020-spring/',
+      '/2020-spring/unconference/',
+      '/2020-spring/%E5%BB%A3%E6%9D%B1%E8%A9%B1%E9%A6%99%E6%B8%AFpython%E7%A4%BE%E7%BE%A4%E8%81%9A%E6%9C%83/',
+      '/2020-spring/what-can-we-do-for-the-python-community-in-hong-kong-in-2020/',
+    ]) {
+      assert.ok(fs.existsSync(outputFileForRoute(route)));
+      assert.match(announcement, new RegExp(`href="${escapedPattern(route)}"`, 'u'));
+    }
+
+    assert.doesNotMatch(announcement, /href="\/2020\/(?:2020-spring\/|sessions-2020-spring)/u);
+  });
+
+  it('links the shared highlights navigation to the published news route', () => {
+    const coverage = readOutput('/2020-spring/conference-coverage/');
+
+    assert.match(coverage, /href="\/2025\/news\/"[^>]*>News<\/a>/u);
+    assert.doesNotMatch(coverage, /href="\/2025\/en\/news\//u);
+  });
 });

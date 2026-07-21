@@ -26,13 +26,14 @@
     "test:legacy-2018": "bun run build && bun test scripts/legacy-2018-route-contract.test.mjs scripts/legacy-2018-link-contract.test.mjs",
     "test:legacy-2024": "bun run build && bun test scripts/legacy-2024-route-contract.test.mjs",
     "test:legacy-search": "bun run build && bun test scripts/legacy-search-route-contract.test.mjs",
+    "test:archive-contracts": "bun run build && bun test scripts/legacy-2015-route-contract.test.mjs scripts/legacy-2015-pixel-diff.test.mjs scripts/legacy-2016-route-contract.test.mjs scripts/legacy-2016-pixel-diff.test.mjs scripts/legacy-2017-route-contract.test.mjs scripts/legacy-2018-route-contract.test.mjs scripts/legacy-2018-link-contract.test.mjs scripts/legacy-2020-route-contract.test.mjs scripts/legacy-2024-route-contract.test.mjs scripts/event-scope-contract.test.mjs scripts/legacy-search-route-contract.test.mjs",
     "audit:legacy-2018": "bun scripts/legacy-2018-no-404-audit.mjs",
     "audit:legacy-2018-links": "bun scripts/legacy-2018-link-click-audit.mjs",
     "audit:event-pages": "node scripts/event-page-load-audit.mjs",
     "parity:2015": "bun scripts/legacy-2015-live-parity.mjs",
     "diff:2015": "bun scripts/legacy-2015-pixel-diff.mjs",
     "diff:2016": "bun scripts/legacy-2016-pixel-diff.mjs",
-    "check": "astro check && bun run lint && bun run test:news && bun run test:legacy-html && bun run test:legacy-2015 && bun run test:legacy-2016 && bun run test:legacy-2017 && bun run test:legacy-2018 && bun run test:legacy-2024 && bun run validate:news"
+    "check": "astro check && bun run lint && bun run test:news && bun run test:legacy-html && bun run test:archive-contracts && bun run validate:news"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

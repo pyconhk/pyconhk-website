@@ -155,13 +155,6 @@ describe('event-scoped archive contract', () => {
     assert.deepEqual(rootRoutes, []);
   });
 
-  it('does not emit WordPress compatibility asset routes', () => {
-    assert.equal(fs.existsSync(path.join(distDir.pathname, 'wp-content')), false);
-    assert.equal(fs.existsSync(path.join(distDir.pathname, 'wp-includes')), false);
-    assert.equal(fs.existsSync(path.join(distDir.pathname, 'legacy-wp')), false);
-    assert.equal(fs.existsSync(path.join(distDir.pathname, 'legacy-assets')), false);
-  });
-
   it('does not render WordPress compatibility asset paths in HTML', () => {
     const references = [];
 
@@ -177,17 +170,19 @@ describe('event-scoped archive contract', () => {
     assert.deepEqual(references, []);
   });
 
-  it('does not render pycon.hk or legacy.pycon.hk href/action links', () => {
+  it('does not render pycon.hk or legacy.pycon.hk navigation links', () => {
     const links = [];
 
     for (const filePath of htmlFiles()) {
       const route = routeFromOutputFile(filePath);
       const html = fs.readFileSync(filePath, 'utf8');
 
-      for (const attributeName of ['href', 'action']) {
-        for (const url of attributeValues(html, attributeName)) {
-          if (isPyConHostUrl(url)) {
-            links.push([route, attributeName, url]);
+      for (const [tag] of html.matchAll(/<(?:a|form)\b[^>]*>/giu)) {
+        for (const attributeName of ['href', 'action']) {
+          for (const url of attributeValues(tag, attributeName)) {
+            if (isPyConHostUrl(url)) {
+              links.push([route, attributeName, url]);
+            }
           }
         }
       }

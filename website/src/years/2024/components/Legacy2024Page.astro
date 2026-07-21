@@ -307,7 +307,14 @@ function repairLegacy2024Html(source: string): string {
     )
     .replace(/\/legacy-wp\/2024\/wp-content\/uploads\//gu, '/legacy-wp/uploads/');
 
-  return injectLegacy2024NavFixes(repaired);
+  return injectLegacy2024NavFixes(repairVoyagoNewsLink(repaired));
+}
+
+function repairVoyagoNewsLink(source: string): string {
+  return source.replace(
+    /(<a\b[^>]*\bhref=)(["'])\/2024\/\2([^>]*>\s*<span\b[^>]*>\s*News\s*<\/span>)/giu,
+    '$1$2/2024/news/$2$3'
+  );
 }
 
 function injectLegacy2024NavFixes(source: string): string {
@@ -438,6 +445,7 @@ function local2024Alias(pathname: string): string | undefined {
     '/code-of-conduct/staff-procedure/': '/2024/2024-staff-procedure/',
     '/communities/': '/2024/2024-supporting-organizations/',
     '/conference-highlights/pycon-hk-2024-photos/': '/2024/photos/',
+    '/news/': '/2024/news/',
     '/organizers/': '/2024/2024-organizers/',
     '/post-2563/': '/2024/2024-agenda/',
     '/post-2582/': '/2024/2024-organizers/',

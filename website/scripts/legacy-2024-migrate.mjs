@@ -149,6 +149,8 @@ function normalizeInternalUrl(url, baseUrl = sourceUrl('/2024/')) {
     return url;
   }
 
+  url = url.replace(/^\.\/\//u, '/');
+
   if (url.startsWith('/legacy-wp/uploads/')) {
     return url;
   }
@@ -212,7 +214,10 @@ function normalizeInternalUrl(url, baseUrl = sourceUrl('/2024/')) {
 }
 
 function canonicalRouteForPath(pathname) {
-  const normalizedPath = normalizePathname(pathname);
+  const normalizedPath = normalizePathname(pathname).replace(
+    /^\/2024\/2024\//u,
+    '/2024/'
+  );
 
   if (
     normalizedPath === '/conference-highlights/pycon-hk-2024-photos' ||

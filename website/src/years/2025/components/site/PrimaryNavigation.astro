@@ -14,6 +14,7 @@ interface Props {
 }
 
 const { year, locale, currentSection, currentPathname = Astro.url.pathname, mobile = false } = Astro.props;
+const navigationLabelLocale = 'en';
 
 type ResolvedNavigationLink = {
   kind: 'link';
@@ -52,7 +53,7 @@ const resolvedNavigationItems: ResolvedNavigationItem[] = navigationItems.map((i
 
       return {
         kind: 'link' as const,
-        label: resolveRequiredLocalizedValue(child.label, locale),
+        label: resolveRequiredLocalizedValue(child.label, navigationLabelLocale),
         href,
         active: isCurrentNavigationHref(href),
       };
@@ -60,7 +61,7 @@ const resolvedNavigationItems: ResolvedNavigationItem[] = navigationItems.map((i
 
     return {
       kind: 'group' as const,
-      label: resolveRequiredLocalizedValue(item.label, locale),
+      label: resolveRequiredLocalizedValue(item.label, navigationLabelLocale),
       active:
         children.some((child) => child.active) ||
         item.children.some((child) => child.activeSection === currentSection),
@@ -72,7 +73,7 @@ const resolvedNavigationItems: ResolvedNavigationItem[] = navigationItems.map((i
 
   return {
     kind: 'link' as const,
-    label: resolveRequiredLocalizedValue(item.label, locale),
+    label: resolveRequiredLocalizedValue(item.label, navigationLabelLocale),
     href,
     active:
       isCurrentNavigationHref(href) ||

@@ -59,7 +59,7 @@ test.describe('site footers', () => {
 
     await expect(footer.getByRole('link', { name: '隐私政策' })).toHaveAttribute(
       'href',
-      '/2026/zh-cn/privacy-policy'
+      '/2026/zh-hans/privacy-policy'
     );
   });
 });

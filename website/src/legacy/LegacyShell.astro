@@ -8,10 +8,11 @@ interface Props {
   title: string;
   description: string;
   eyebrow?: string;
+  newsHref?: string;
   robots?: string;
 }
 
-const { title, description, eyebrow, robots } = Astro.props;
+const { title, description, eyebrow, newsHref = '/2025/news/', robots } = Astro.props;
 const navLinkClass =
   'rounded-full px-3 py-1.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-950';
 ---
@@ -36,7 +37,7 @@ const navLinkClass =
             </div>
           </div>
           <a class={navLinkClass} href="/2024/">Archives</a>
-          <a class={navLinkClass} href="/2025/en/news/">News</a>
+          <a class={navLinkClass} href={newsHref}>News</a>
         </nav>
       </div>
     </header>

@@ -18,6 +18,27 @@ async function highlightedLabels(links: Locator): Promise<string[]> {
 }
 
 test.describe('2025 primary navigation', () => {
+  test('keeps navigation in English on Chinese content pages', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/2025/sprint/qna/zh-hk');
+
+    const desktopNavigation = page.locator('[data-site-header] .hidden.items-center');
+
+    await expect(page.getByRole('heading', { name: 'Sprint Q&A' })).toBeVisible();
+    await expect(desktopNavigation).toContainText('News');
+    await expect(desktopNavigation).toContainText('Conference');
+    await expect(desktopNavigation).toContainText('Organizers');
+    await expect(desktopNavigation).toContainText('Code of Conduct');
+    await expect(desktopNavigation).not.toContainText('最新消息');
+    await expect(desktopNavigation).not.toContainText('會議資訊');
+    await expect(desktopNavigation).not.toContainText('籌辦團隊');
+    const chineseQnaLink = desktopNavigation
+      .locator('a[href="/2025/sprint/qna/zh-hk"]')
+      .filter({ hasText: /^Sprint Q&A \(Chinese\)$/u });
+
+    await expect(chineseQnaLink).toHaveText('Sprint Q&A (Chinese)');
+  });
+
   test('keeps dropdown item highlighting scoped to the hovered or focused link', async ({
     page,
   }) => {

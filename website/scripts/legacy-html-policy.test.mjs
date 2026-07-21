@@ -30,6 +30,15 @@ test('legacy HTML sanitizer strips hidden bidi controls from links and text', ()
   );
 });
 
+test('legacy HTML sanitizer repairs dot-prefixed archive asset paths', () => {
+  assert.equal(
+    cleanLegacyHtml('<img src=".//legacy-wp/uploads/2024/10/speaker.jpg">', {
+      route: '/2024/',
+    }),
+    '<img src="/2024/assets/uploads/2024/10/speaker.jpg">'
+  );
+});
+
 test('legacy page shells use the canonical production URL for their route', () => {
   const html =
     '<html><head><link rel="canonical" href="https://legacy.pycon.hk/photos/"></head><body><main>Photos</main></body></html>';

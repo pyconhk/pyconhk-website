@@ -9,13 +9,14 @@ interface Props {
 
 const { page } = Astro.props;
 const event = page.path.match(/^\/([^/]+)/u)?.[1] ?? '2024';
+const newsHref = event === '2024' ? '/2024/news/' : '/2025/news/';
 const featuredImageSrc = page.featuredImage
   ? canonicalLegacyHref(page.featuredImage.src, { event })
   : undefined;
 const contentHtml = cleanLegacyHtml(page.contentHtml, { event });
 ---
 
-<LegacyShell title={page.title} description={page.description} eyebrow="Conference Highlights">
+<LegacyShell title={page.title} description={page.description} eyebrow="Conference Highlights" newsHref={newsHref}>
   <article class="mx-auto grid max-w-6xl gap-10 px-5 py-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:px-8 lg:py-14">
     <div class="min-w-0">
       {page.featuredImage && (

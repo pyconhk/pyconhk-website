@@ -117,7 +117,10 @@ const widgetScriptUrl = `https://pretalx.com/pyconhk2025/schedule/widget/v2.${pr
   </div>
 </div>
 
-<div id="schedule-container" class="w-full bg-white/70 lg:bg-white/0">
+<div
+  id="schedule-container"
+  class="w-full overflow-x-auto overscroll-x-contain bg-white/70 lg:bg-white/0"
+>
   <p class="px-4 py-8 text-center text-base text-slate-500">{content.loading}</p>
   <noscript>
     <p class="px-4 py-8 text-center text-base text-slate-500">{content.noscript}</p>

@@ -96,7 +96,9 @@ function allLegacyArchiveItems() {
     ...canonicalLegacyHighlights.map(archiveItemFromHighlight),
   ]) {
     const href = canonicalLegacyHref(item.href);
-    items.set(href, {
+    const key = href.endsWith('/') ? href.slice(0, -1) : href;
+
+    items.set(key, {
       ...item,
       href,
     });

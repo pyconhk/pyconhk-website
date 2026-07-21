@@ -49,6 +49,7 @@ const known2025Subpages = new Set([
   'sponsorships/patrons',
   'sprint/qna',
 ]);
+const known2025QnaLocales = new Set(['en', 'zh-hk']);
 
 function isBlank(value) {
   return typeof value !== 'string' || value.trim() === '';
@@ -171,9 +172,11 @@ function isKnown2025Route(urlPath, knownPostRoutes) {
     return false;
   }
 
-  const routeSegments = supportedLocales.has(segments[1])
-    ? segments.slice(2)
-    : segments.slice(1);
+  if (supportedLocales.has(segments[1])) {
+    return false;
+  }
+
+  const routeSegments = segments.slice(1);
 
   if (routeSegments.length === 0) {
     return true;
@@ -195,6 +198,14 @@ function isKnown2025Route(urlPath, knownPostRoutes) {
 
   if (routeSegments.length === 2) {
     return known2025Subpages.has(`${section}/${routeSegments[1]}`);
+  }
+
+  if (
+    routeSegments.length === 3 &&
+    section === 'sprint' &&
+    routeSegments[1] === 'qna'
+  ) {
+    return known2025QnaLocales.has(routeSegments[2]);
   }
 
   return false;
@@ -325,10 +336,6 @@ function addKnownPostRoutes(knownPostRoutes, { slug, year }) {
 
   knownPostRoutes.add(normalizeRoutePath(`/news/${slug}`));
   knownPostRoutes.add(normalizeRoutePath(`/2025/news/${slug}`));
-
-  for (const locale of supportedLocales) {
-    knownPostRoutes.add(normalizeRoutePath(`/2025/${locale}/news/${slug}`));
-  }
 }
 
 function validateInternalLinks({ content, errors, fileLabel, knownPostRoutes, publicRoot }) {
