@@ -1,5 +1,4 @@
 import fs from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 
 const projectRoot = path.resolve(new URL('..', import.meta.url).pathname);
@@ -7,10 +6,9 @@ const distRoot = path.join(projectRoot, 'dist');
 const bundledLegacyAssetRoot = path.join(projectRoot, 'src', 'legacy', 'assets');
 const legacyWpRoot = path.join(bundledLegacyAssetRoot, 'legacy-wp');
 const legacySharedRoot = path.join(bundledLegacyAssetRoot, 'legacy-assets');
-const crawlRoot = path.resolve(
-  process.env.LEGACY_SOURCE ||
-    path.join(os.homedir(), 'Downloads', 'simply-static-1-1779119343')
-);
+const crawlRoot = process.env.LEGACY_SOURCE
+  ? path.resolve(process.env.LEGACY_SOURCE)
+  : undefined;
 
 const eventPrefixes = [
   '2020-spring',
@@ -121,6 +119,10 @@ function candidateSourcePaths(event, assetRelativePath) {
   const liveRoot = liveAssetRootForEvent(event);
   const candidates = [];
   const add = (root, relativePath) => {
+    if (!root) {
+      return;
+    }
+
     const filePath = safeJoin(root, relativePath);
 
     if (filePath) {
@@ -253,10 +255,12 @@ async function copySharedWordPressAssets(events) {
       path.join(liveRoot, 'wp-content', 'themes'),
       path.join(distRoot, event, 'assets', 'content', 'themes')
     );
-    copied += await copyDirectory(
-      path.join(crawlRoot, 'wp-content', 'themes'),
-      path.join(distRoot, event, 'assets', 'content', 'themes')
-    );
+    if (crawlRoot) {
+      copied += await copyDirectory(
+        path.join(crawlRoot, 'wp-content', 'themes'),
+        path.join(distRoot, event, 'assets', 'content', 'themes')
+      );
+    }
   }
 
   return copied;
