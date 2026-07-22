@@ -1,0 +1,14 @@
+---
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/data/cfp';
+import CfpPrivacyPolicyPage from '@/years/2026/routes/CfpPrivacyPolicyPage.astro';
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+
+<CfpPrivacyPolicyPage locale={locale} />

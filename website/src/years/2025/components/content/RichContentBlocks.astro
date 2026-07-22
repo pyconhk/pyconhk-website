@@ -1,0 +1,39 @@
+---
+import type { ContentBlock } from '@/years/2025/data/content-blocks';
+
+interface Props {
+  blocks: readonly ContentBlock[];
+}
+
+const { blocks } = Astro.props;
+---
+
+<div class="space-y-4">
+  {blocks.map((block) => {
+    if (block.type === 'paragraph') {
+      return <p>{block.text}</p>;
+    }
+
+    if (block.type === 'heading') {
+      return <h4 class="text-base font-bold text-slate-900 md:text-lg">{block.text}</h4>;
+    }
+
+    if (block.ordered) {
+      return (
+        <ol class="ml-6 list-decimal space-y-2">
+          {block.items.map((item) => (
+            <li class="pl-1">{item}</li>
+          ))}
+        </ol>
+      );
+    }
+
+    return (
+      <ul class="ml-6 list-disc space-y-2">
+        {block.items.map((item) => (
+          <li class="pl-1">{item}</li>
+        ))}
+      </ul>
+    );
+  })}
+</div>

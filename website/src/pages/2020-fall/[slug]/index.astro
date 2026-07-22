@@ -1,0 +1,46 @@
+---
+import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import { getHighlightsForEdition } from '@/legacy/year-highlights';
+import Legacy2020Page from '@/years/2020/components/Legacy2020Page.astro';
+import { legacy2020Pages } from '@/years/2020/data/pages';
+
+export function getStaticPaths() {
+  const edition = '2020-fall';
+  const editionPrefix = '/2020-fall/';
+  const archivePaths = legacy2020Pages
+    .filter(
+      (page) =>
+        page.route.startsWith(editionPrefix) &&
+        page.route !== editionPrefix &&
+        !page.route.startsWith(`${editionPrefix}page/`)
+    )
+    .map((page) => ({
+      params: {
+        slug: decodeURI(page.route.replace(editionPrefix, '').replace(/\/$/u, '')),
+      },
+      props: { page },
+    }));
+  const archiveSlugs = new Set(archivePaths.map((path) => path.params.slug));
+  const highlights = getHighlightsForEdition(edition).filter(
+    (highlight) => !archiveSlugs.has(highlight.slug)
+  );
+
+  return [
+    ...archivePaths,
+    ...highlights.map((highlight) => ({
+      params: { slug: highlight.slug },
+      props: { highlightPage: highlight.page },
+    })),
+  ];
+}
+
+const { page, highlightPage } = Astro.props;
+---
+
+{
+  highlightPage ? (
+    <LegacyHighlightPage page={highlightPage} />
+  ) : (
+    <Legacy2020Page page={page} />
+  )
+}

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const currentPathname = Astro.url.pathname;
+const navItems = [
+  { href: '/2024/news/', label: 'News' },
+  { href: '/2024/schedule/', label: 'Schedule' },
+  { href: '/2024/2024-sprint/', label: 'Sprint' },
+  { href: '/2024/2024-sponsors/', label: 'Sponsors' },
+  { href: '/2024/2024-supporting-organizations/', label: 'Communities' },
+  { href: '/2024/2024-organizers/', label: 'Organizers' },
+  { href: '/2024/2024-about/', label: 'About' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <header class="border-b border-slate-200 bg-white/95">
+    <div class="container mx-auto flex flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <a href="/2024/" class="font-display text-2xl font-bold text-brand-black">
+          PyCon HK 2024
+        </a>
+        <a
+          href="/2026/en"
+          class="w-fit rounded-md border border-brand-blue/30 px-3 py-2 text-sm font-semibold text-brand-blue-dark transition hover:bg-brand-blue-soft"
+        >
+          Current site
+        </a>
+      </div>
+      <nav aria-label="PyCon HK 2024 archive navigation" class="flex flex-wrap gap-2">
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              aria-current={currentPathname === item.href ? 'page' : undefined}
+              class:list={[
+                'rounded-md px-3 py-2 text-sm font-semibold transition',
+                currentPathname === item.href
+                  ? 'bg-brand-blue text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-brand-blue-soft hover:text-brand-blue-dark',
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </header>
+  <main class="min-h-screen bg-slate-50">
+    <slot />
+  </main>
+  <footer class="border-t border-slate-200 bg-brand-black px-4 py-8 text-center text-sm text-white sm:px-6 lg:px-8">
+    <p>©2024 PyCon Hong Kong</p>
+  </footer>
+</BaseLayout>

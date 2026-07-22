@@ -1,0 +1,8 @@
+---
+import Legacy2017Page from '@/years/2017/components/Legacy2017Page.astro';
+import { getLegacy2017Page } from '@/years/2017/data/pages';
+
+const page = getLegacy2017Page('/2017/');
+---
+
+<Legacy2017Page page={page} />

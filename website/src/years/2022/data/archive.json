@@ -1,0 +1,794 @@
+{
+  "year": "2022",
+  "pages": [
+    {
+      "slug": "2022-aws",
+      "url": "/2022/2022-aws/",
+      "title": "Have a conversation with AWS at PyCon Hong Kong 2022",
+      "description": "About Amazon Web Services For over 15 years, Amazon Web Services has been the world’s most comprehensive and broadly adopted cloud offering. AWS has been continually expanding its services to support virtually any cloud workload, and it now has more than 200 fully featured services for compute, storage, databases, networking, analytics, machine learning and artificial",
+      "date": {
+        "datetime": "2022-10-01T05:00:24+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p><img class=\"size-full wp-image-1725 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/AWS.png\" alt=\"\" width=\"600\" height=\"374\" srcset=\"/legacy-wp/2022/uploads/2022/10/AWS.png 600w, /legacy-wp/2022/uploads/2022/10/AWS-300x187.png 300w\" sizes=\"(max-width: 600px) 100vw, 600px\"></p>\n<h2>About Amazon Web Services</h2>\n<p>For over 15 years, Amazon Web Services has been the world’s most comprehensive and broadly adopted cloud offering. AWS has been continually expanding its services to support virtually any cloud workload, and it now has more than 200 fully featured services for compute, storage, databases, networking, analytics, machine learning and artificial intelligence (AI), Internet of Things (IoT), mobile, security, hybrid, virtual and augmented reality (VR and AR), media, and application development, deployment, and management from 87 Availability Zones within 27 geographic regions, with announced plans for 21 more Availability Zones and seven more AWS Regions in Australia, Canada, India, Israel, New Zealand, Spain, and Switzerland. Millions of customers—including the fastest-growing startups, largest enterprises, and leading government agencies—trust AWS to power their infrastructure, become more agile, and lower costs. To learn more about AWS, visit aws.amazon.com.</p>"
+    },
+    {
+      "slug": "2022-microsoft",
+      "url": "/2022/2022-microsoft/",
+      "title": "Have a conversation with Microsoft at PyCon Hong Kong 2022",
+      "description": "Microsoft (Nasdaq “MSFT” @microsoft) enables digital transformation for the era of an intelligent cloud and an intelligent edge. Its mission is to empower every person and every organization on the planet to achieve more.",
+      "date": {
+        "datetime": "2022-10-01T02:00:37+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p><img class=\"size-full wp-image-1729 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/MS.png\" alt=\"\" width=\"2008\" height=\"900\" srcset=\"/legacy-wp/2022/uploads/2022/10/MS.png 2008w, /legacy-wp/2022/uploads/2022/10/MS-300x134.png 300w, /legacy-wp/2022/uploads/2022/10/MS-1024x459.png 1024w, /legacy-wp/2022/uploads/2022/10/MS-768x344.png 768w, /legacy-wp/2022/uploads/2022/10/MS-1536x688.png 1536w, /legacy-wp/2022/uploads/2022/10/MS-850x381.png 850w\" sizes=\"(max-width: 2008px) 100vw, 2008px\"></p>\n<p>Microsoft (Nasdaq “MSFT” @microsoft) enables digital transformation for the era of an intelligent cloud and an intelligent edge. Its mission is to empower every person and every organization on the planet to achieve more.</p>\n<p>Python on Azure: Build and deploy your Python apps in the cloud—and go further with AI and data science.</p>"
+    },
+    {
+      "slug": "2022-mysql",
+      "url": "/2022/2022-mysql/",
+      "title": "Have a conversation with MySQL at PyCon Hong Kong 2022",
+      "description": "MySQL is the world’s most popular OS database. With its proven performance, reliability and ease-of-use, MySQL has become the leading database choice for web-based applications, used by high profile web properties including Facebook, Twitter, YouTube, Yahoo! and many more. Additionally, it is an extremely popular choice as embedded database, distributed by over 3,000 ISVs & OEMs. To organizations in need of an open source, ACID-compliant transactional database delivering real-time in-memory performance and 99.999 percent availability, Oracle offers MySQL Cluster.",
+      "date": {
+        "datetime": "2022-10-01T03:00:46+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p><img class=\"alignnone size-full wp-image-1407\" src=\"/legacy-wp/2022/uploads/2021/09/MYSQL.png\" alt=\"\" width=\"3000\" height=\"2000\" srcset=\"/legacy-wp/2022/uploads/2021/09/MYSQL.png 3000w, /legacy-wp/2022/uploads/2021/09/MYSQL-300x200.png 300w, /legacy-wp/2022/uploads/2021/09/MYSQL-1024x683.png 1024w, /legacy-wp/2022/uploads/2021/09/MYSQL-768x512.png 768w, /legacy-wp/2022/uploads/2021/09/MYSQL-1536x1024.png 1536w, /legacy-wp/2022/uploads/2021/09/MYSQL-2048x1365.png 2048w, /legacy-wp/2022/uploads/2021/09/MYSQL-850x567.png 850w\" sizes=\"(max-width: 3000px) 100vw, 3000px\"></p>\n<p>MySQL is the world’s most popular OS database. With its proven performance, reliability and ease-of-use, MySQL has become the leading database choice for web-based applications, used by high profile web properties including Facebook, Twitter, YouTube, Yahoo! and many more. Additionally, it is an extremely popular choice as embedded database, distributed by over 3,000 ISVs &amp; OEMs. To organizations in need of an open source, ACID-compliant transactional database delivering real-time in-memory performance and 99.999 percent availability, Oracle offers MySQL Cluster.</p>\n<p>MySQL Enterprise Edition is a commercial offering comprised of the MySQL database with security, encryption, auditing, high availability and scalability extensions, online backup, monitoring, management, and visual database design and SQL development tools. MySQL Enterprise Edition is backed by Oracle Premier support for organizations delivering highly available, business critical applications and services. Oracle MySQL Cloud Service delivers a secure, cost-effective and enterprise-grade MySQL database service. Built on MySQL Enterprise Edition and powered by the Oracle Cloud, it provides a simple, automated, integrated and enterprise ready MySQL cloud service, enabling organizations to increase business agility and reduce costs.</p>\n<p>Oracle drives MySQL innovation, constantly improving MySQL solutions and delivering new capabilities to power next generation web, cloud, mobile and embedded applications.</p>"
+    },
+    {
+      "slug": "2022-organizers",
+      "url": "/2022/2022-organizers/",
+      "title": "Organizers – PyCon Hong Kong 2022",
+      "description": "Hong Kong Creative Open Technology Association 香港創意開放科技協會 Open Source Hong Kong 開源香港 Python User Group Hong Kong (HKPUG)",
+      "date": {
+        "datetime": "2022-10-01T08:00:06+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Organizers-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<h2>Hong Kong Creative Open Technology Association 香港創意開放科技協會</h2>\n<p><a href=\"https://cota.hk/\"><img class=\"aligncenter wp-image-1767 size-full\" src=\"/legacy-wp/2022/uploads/2022/10/COTA.png\" alt=\"\" width=\"300\" height=\"300\" srcset=\"/legacy-wp/2022/uploads/2022/10/COTA.png 300w, /legacy-wp/2022/uploads/2022/10/COTA-150x150.png 150w\" sizes=\"(max-width: 300px) 100vw, 300px\"></a></p>\n<h2>Open Source Hong Kong 開源香港</h2>\n<p>\n</p>\n<p><a href=\"https://opensource.hk/zh/\"><img class=\"aligncenter wp-image-1768 size-large\" src=\"/legacy-wp/2022/uploads/2022/10/OSHK-1024x231.png\" alt=\"\" width=\"640\" height=\"144\" srcset=\"/legacy-wp/2022/uploads/2022/10/OSHK-1024x231.png 1024w, /legacy-wp/2022/uploads/2022/10/OSHK-300x68.png 300w, /legacy-wp/2022/uploads/2022/10/OSHK-768x173.png 768w, /legacy-wp/2022/uploads/2022/10/OSHK-1536x346.png 1536w, /legacy-wp/2022/uploads/2022/10/OSHK-2048x461.png 2048w, /legacy-wp/2022/uploads/2022/10/OSHK-850x191.png 850w\" sizes=\"(max-width: 640px) 100vw, 640px\"></a></p>\n<p>\n</p>\n<h2>Python User Group Hong Kong (HKPUG)</h2>\n<p><a href=\"https://www.facebook.com/groups/hkpug\"><img class=\"aligncenter wp-image-1835 size-medium\" src=\"/legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-300x300.png\" alt=\"\" width=\"300\" height=\"300\" srcset=\"/legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-300x300.png 300w, /legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-1024x1024.png 1024w, /legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-150x150.png 150w, /legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-768x768.png 768w, /legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-1536x1536.png 1536w, /legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-2048x2048.png 2048w, /legacy-wp/2022/uploads/2022/10/HKPUG_Logo_512x512-850x850.png 850w\" sizes=\"auto, (max-width: 300px) 100vw, 300px\"></a></p>"
+    },
+    {
+      "slug": "2022-pccw-hkt",
+      "url": "/2022/2022-pccw-hkt/",
+      "title": "Have a conversation with PCCW-HKT at PyCon Hong Kong 2022",
+      "description": "PCCW Limited (SEHK: 0008) is a global company headquartered in Hong Kong which holds interests in telecommunications, media, IT solutions, property development and investment, and other businesses. The Company holds a majority stake in the HKT Trust and HKT Limited.",
+      "date": {
+        "datetime": "2022-10-01T04:00:23+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p><img class=\"size-full wp-image-1732 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/PCCW.png\" alt=\"\" width=\"2419\" height=\"361\" srcset=\"/legacy-wp/2022/uploads/2022/10/PCCW.png 2419w, /legacy-wp/2022/uploads/2022/10/PCCW-300x45.png 300w, /legacy-wp/2022/uploads/2022/10/PCCW-1024x153.png 1024w, /legacy-wp/2022/uploads/2022/10/PCCW-768x115.png 768w, /legacy-wp/2022/uploads/2022/10/PCCW-1536x229.png 1536w, /legacy-wp/2022/uploads/2022/10/PCCW-2048x306.png 2048w, /legacy-wp/2022/uploads/2022/10/PCCW-850x127.png 850w\" sizes=\"(max-width: 2419px) 100vw, 2419px\"></p>\n<p>PCCW Limited (SEHK: 0008) is a global company headquartered in Hong Kong which holds interests in telecommunications, media, IT solutions, property development and investment, and other businesses. The Company holds a majority stake in the HKT Trust and HKT Limited.</p>\n<p>HKT (SEHK: 6823) is Hong Kong’s premier telecommunications service provider and a leading innovator. Its fixed-line, broadband, mobile communication and media entertainment services offer a unique quadruple-play experience. HKT meets the needs of the Hong Kong public and local and international businesses with a wide range of services including local telephony, local data and broadband, international telecommunications, mobile, media entertainment, enterprise solutions and other telecommunications businesses such as customer premises equipment sales, outsourcing, consulting and contact centers.HKT delivers end-to-end integrated solutions employing emerging technologies to assist enterprises in transforming their businesses. HKT has also built a digital ecosystem integrating its loyalty program, e-commerce, travel, insurance, FinTech and HealthTech services to deepen its relationship with customers.</p>"
+    },
+    {
+      "slug": "2022-schedule",
+      "url": "/2022/2022-schedule/",
+      "title": "Schedule – PyCon HK 2022",
+      "description": "November 5, 2022 (Saturday) Zoom Meetinghttps://us06web.zoom.us/j/83928780464?pwd=UmlTTmt2TGprRGEvWElMYnZ1RTZBZz09Meeting ID: 839 2878 0464Passcode: 997549 October 29, 2022 (Saturday) 8/F., The Hong Kong Federation of Youth Groups Building, 21 Pak Fuk Road, North Point, Hong Kong [Google Map]",
+      "date": {
+        "datetime": "2022-10-30T20:00:00+08:00",
+        "label": "October 30, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/11/PyCon-HK-x-COSCUP-TW-2022-Online-Special-Track-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<h2 class=\"wp-block-heading\">November 5, 2022 (Saturday)</h2>\n<p>Zoom Meeting<br><a href=\"https://us06web.zoom.us/j/83928780464?pwd=UmlTTmt2TGprRGEvWElMYnZ1RTZBZz09\" target=\"_blank\" rel=\"noopener\">https://us06web.zoom.us/j/83928780464?pwd=UmlTTmt2TGprRGEvWElMYnZ1RTZBZz09</a><br>Meeting ID: 839 2878 0464<br>Passcode: 997549</p>\n<figure class=\"wp-block-table\"><table><tbody><tr><td><strong>Time (UTC+8)</strong></td><td><strong>Track 1</strong></td></tr><tr><td>14:00 – 14:15</td><td>Opening</td></tr><tr><td>14:15 – 14:45</td><td><a href=\"/2022/pycon-hk-x-coscup-2022-online-special-track-triton-as-nlp-model-inference-back-end/\">Triton As NLP Model Inference Back-end</a><br>Mr. Ko Ko@Chatbot Developers<br>🇹🇼 /🎙English</td></tr><tr><td>15:00 – 15:30</td><td><a href=\"/2022/pycon-hk-x-coscup-2022-online-special-track-deep-learning-with-pytorch-from-beginner-to-research/\">Deep Learning with PyTorch: From Beginner to Research</a><br>Mr. Ted Lu@Taiwan Open Education Develop Unit<br>🇹🇼 /🎙English</td></tr><tr><td>15:45 – 16:15</td><td><a href=\"/2022/pycon-hk-x-coscup-2022-online-special-track-introduction-to-kedro-building-data-pipeline-with-python/\">Introduction to Kedro – Building Data Pipeline with Python</a><br>Mr. Nok Lam Chan@QuantumBlack<br>🇭🇰 /🎙English</td></tr><tr><td>16:45 – 17:00</td><td>Closing</td></tr></tbody></table></figure>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">October 29, 2022 (Saturday)</h2>\n<p>8/F., The Hong Kong Federation of Youth Groups Building, <br>21 Pak Fuk Road, North Point, Hong Kong [<a href=\"https://goo.gl/maps/zibPDfK4JDNsszRy5\" target=\"_blank\" rel=\"noopener\">Google Map</a>]</p>\n<figure class=\"wp-block-table\"><table><tbody><tr><td><strong>Time (UTC+8)</strong></td><td><strong>Track 1</strong></td><td><strong>Track 2</strong></td></tr><tr><td>09:00 – 10:00</td><td>Reception</td><td>\n</td></tr><tr><td>10:00 – 10:15</td><td>Opening<br>Sammy Fung</td><td>\n</td></tr><tr><td>10:15 – 10:45</td><td><a href=\"/2022/3d-visualization-with-spatial-data-for-5g-planning-websites-auto-tagging-algorithm/\">3D Visualization with Spatial Data for 5G Planning + Websites auto-tagging algorithm</a><br>Dr. Chung Ng, Mr. Alex Zhang, Mr. Ho-Wa Wong@HKT ( PCCW )<br>🇭🇰 /🎙English</td><td>[👩‍🎓Track] <a href=\"/2022/education-track-a-journey-to-be-a-python-angel/\">A Journey to be a Python Angel</a><br>Mr. Ka Tim Chu@Hong Kong True Light College / The Hong Kong Association for Computer Education<br>🇭🇰 /🎙Cantonese</td></tr><tr><td>11:00 – 11:30</td><td><a href=\"/2022/what-ifpython-azure/\">What if…Python + Azure</a><br>Mr. Eason Lai@Microsoft<br>🇭🇰 /🎙English</td><td><a href=\"/2022/automation-and-monitoring-in-wealthtech/\">Automation and Monitoring in WealthTech</a><br>Ms. Rebecca Lim@AutoML Capital Limited<br>🇭🇰 /🎙English</td></tr><tr><td>11:45 – 12:15</td><td><a href=\"/2022/exploration-of-mysql-operator-for-kubernetes-in-python/\">Exploration of MySQL Operator for Kubernetes in Python</a><br>Mr. Ivan Ma@Oracle ( MySQL )<br>🇭🇰 /🎙English</td><td>\n<p><a href=\"/2022/airflow-v2-using-airflow-to-manage-etl-workflows/\"><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Airflow v2 - Using Airflow to manage ETL workflows&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:769,&quot;3&quot;:{&quot;1&quot;:0},&quot;11&quot;:4,&quot;12&quot;:0}\">Airflow v2 – Using Airflow to manage ETL workflows</span></a><br>Mr. MJ Tung@ActusRayPartners<br>🇭🇰 /🎙English</p>\n</td></tr><tr><td>12:30 – 14:00</td><td>Lunch</td><td>\n</td></tr><tr><td>14:00 – 14:30</td><td><a href=\"/2022/accelerate-data-preparation-with-pandas-and-aws-glue-databrew/\">Accelerate data preparation with Pandas and AWS Glue DataBrew</a><br>Mr. Fortune Hui@AWS<br>🇭🇰 /🎙English</td><td><a href=\"/2022/healthy-machine-learning-from-theory-to-practice/\">Healthy Machine Learning: From Theory to Practice</a><br>Mr. Warrington Hsu@ComboKid<br>🇭🇰 /🎙Cantonese</td></tr><tr><td>14:45 – 15:15</td><td><a href=\"/2022/taking-machine-learning-models-to-production-using-python-and-fastapi/\">Taking machine learning models to production using Python and FastAPI</a><br>Mr. Utkarsh Goel@Deploifai<br>🇭🇰 /🎙English</td><td>\n<p><a href=\"/2022/managing-r-and-matlab-gui-environments-in-jupyter/\">Managing R and MATLAB GUI environments in Jupyter</a><br>Dr. Vinci Chow@CUHK ( Department of Economics )<br>🇭🇰 /🎙English</p>\n</td></tr><tr><td>15:30 – 15:45</td><td>Break</td><td>\n</td></tr><tr><td>15:45 – 16:15</td><td><a href=\"/2022/how-python-is-applying-in-architecture-engineering-construction-industry/\">How Python is applying in Architecture, Engineering &amp; Construction Industry</a><br>Mr. Cho Ka Chun@Osarch <br>🇭🇰 /🎙Cantonese</td><td><a href=\"/2022/healthcare-by-a-pythonista/\">Healthcare by a Pythonista</a><br>Ms. Shilpa Karkeraa@Myraa Technologies<br>🇸🇬 /🎙English</td></tr><tr><td>16:30 – 17:00</td><td><a href=\"/2022/django-apps-at-scale-mistakes-to-avoid/\">Django Apps at Scale: Mistakes to Avoid</a><br>Kushal Vijay@Microsoft<br>🇮🇳 /🎙English</td><td>\n</td></tr><tr><td>17:15 – 17:30</td><td>Closing<br>Sammy Fung</td><td>\n</td></tr><tr><td>17:35</td><td>Happy Hour</td><td>\n</td></tr></tbody></table></figure>\n<p></p>"
+    },
+    {
+      "slug": "2022-sponsors",
+      "url": "/2022/2022-sponsors/",
+      "title": "Sponsors – PyCon Hong Kong 2022",
+      "description": "PyCon Hong Kong 2022 sincerely thanks our sponsors for supporting our mission and making the Annual Conference possible! Please click on sponsor logos for further sponsor messages. Gold Sponsors AWS Microsoft Silver Sponsors MYSQL PCCW-HKT",
+      "date": {
+        "datetime": "2022-10-01T06:00:33+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>PyCon Hong Kong 2022 sincerely thanks our sponsors for supporting our mission and making the Annual Conference possible!</p>\n<p>Please click on sponsor logos for further sponsor messages.</p>\n<h1>Gold Sponsors</h1>\n<h2>AWS</h2>\n<p><a href=\"/2022/2022-aws/\"><img class=\"size-full wp-image-1725 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/AWS.png\" alt=\"\" width=\"600\" height=\"374\" srcset=\"/legacy-wp/2022/uploads/2022/10/AWS.png 600w, /legacy-wp/2022/uploads/2022/10/AWS-300x187.png 300w\" sizes=\"(max-width: 600px) 100vw, 600px\"></a></p>\n<h2>Microsoft</h2>\n<p><a href=\"/2022/2022-microsoft/\"><img class=\"size-full wp-image-1729 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/MS.png\" alt=\"\" width=\"2008\" height=\"900\" srcset=\"/legacy-wp/2022/uploads/2022/10/MS.png 2008w, /legacy-wp/2022/uploads/2022/10/MS-300x134.png 300w, /legacy-wp/2022/uploads/2022/10/MS-1024x459.png 1024w, /legacy-wp/2022/uploads/2022/10/MS-768x344.png 768w, /legacy-wp/2022/uploads/2022/10/MS-1536x688.png 1536w, /legacy-wp/2022/uploads/2022/10/MS-850x381.png 850w\" sizes=\"(max-width: 2008px) 100vw, 2008px\"></a></p>\n<h1>Silver Sponsors</h1>\n<h2>MYSQL</h2>\n<p><a href=\"/2022/2022-mysql/\"><img class=\"alignnone size-full wp-image-1407\" src=\"/legacy-wp/2022/uploads/2021/09/MYSQL.png\" alt=\"\" width=\"3000\" height=\"2000\" srcset=\"/legacy-wp/2022/uploads/2021/09/MYSQL.png 3000w, /legacy-wp/2022/uploads/2021/09/MYSQL-300x200.png 300w, /legacy-wp/2022/uploads/2021/09/MYSQL-1024x683.png 1024w, /legacy-wp/2022/uploads/2021/09/MYSQL-768x512.png 768w, /legacy-wp/2022/uploads/2021/09/MYSQL-1536x1024.png 1536w, /legacy-wp/2022/uploads/2021/09/MYSQL-2048x1365.png 2048w, /legacy-wp/2022/uploads/2021/09/MYSQL-850x567.png 850w\" sizes=\"auto, (max-width: 3000px) 100vw, 3000px\"></a></p>\n<h2>PCCW-HKT</h2>\n<p><a href=\"/2022/2022-pccw-hkt/\"><img class=\"size-full wp-image-1732 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/PCCW.png\" alt=\"\" width=\"2419\" height=\"361\" srcset=\"/legacy-wp/2022/uploads/2022/10/PCCW.png 2419w, /legacy-wp/2022/uploads/2022/10/PCCW-300x45.png 300w, /legacy-wp/2022/uploads/2022/10/PCCW-1024x153.png 1024w, /legacy-wp/2022/uploads/2022/10/PCCW-768x115.png 768w, /legacy-wp/2022/uploads/2022/10/PCCW-1536x229.png 1536w, /legacy-wp/2022/uploads/2022/10/PCCW-2048x306.png 2048w, /legacy-wp/2022/uploads/2022/10/PCCW-850x127.png 850w\" sizes=\"auto, (max-width: 2419px) 100vw, 2419px\"></a></p>\n<p>\n</p>"
+    },
+    {
+      "slug": "2022-supporting-organizations",
+      "url": "/2022/2022-supporting-organizations/",
+      "title": "Supporting Organizations – PyCon Hong Kong 2022",
+      "description": "The Hong Kong Association for Computer Education 香港電腦教育學會 Internet Society Hong Kong 香港互聯網協會",
+      "date": {
+        "datetime": "2022-10-01T07:00:12+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Supporting-Organizations-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<h2>The Hong Kong Association for Computer Education 香港電腦教育學會</h2>\n<p><a href=\"https://www.hkace.org.hk/\"><img class=\"size-full wp-image-1762 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/HKACE.png\" alt=\"\" width=\"785\" height=\"350\" srcset=\"/legacy-wp/2022/uploads/2022/10/HKACE.png 785w, /legacy-wp/2022/uploads/2022/10/HKACE-300x134.png 300w, /legacy-wp/2022/uploads/2022/10/HKACE-768x342.png 768w\" sizes=\"(max-width: 785px) 100vw, 785px\"></a></p>\n<h2>Internet Society Hong Kong 香港互聯網協會</h2>\n<p>\n</p>\n<p><a href=\"https://www.isoc.hk/\"><img class=\"size-full wp-image-1763 aligncenter\" src=\"/legacy-wp/2022/uploads/2022/10/ISOC-scaled.jpg\" alt=\"\" width=\"2560\" height=\"682\" srcset=\"/legacy-wp/2022/uploads/2022/10/ISOC-scaled.jpg 2560w, /legacy-wp/2022/uploads/2022/10/ISOC-300x80.jpg 300w, /legacy-wp/2022/uploads/2022/10/ISOC-1024x273.jpg 1024w, /legacy-wp/2022/uploads/2022/10/ISOC-768x205.jpg 768w, /legacy-wp/2022/uploads/2022/10/ISOC-1536x409.jpg 1536w, /legacy-wp/2022/uploads/2022/10/ISOC-2048x545.jpg 2048w, /legacy-wp/2022/uploads/2022/10/ISOC-850x226.jpg 850w\" sizes=\"(max-width: 2560px) 100vw, 2560px\"></a></p>"
+    },
+    {
+      "slug": "2022-ticket",
+      "url": "/2022/2022-ticket/",
+      "title": "Ticket – PyCon Hong Kong 2022",
+      "description": "PYCON HK physical conference is back! Our theme this year is “Delight Yourself in Python”, Don’t miss this chance to meet others in person.",
+      "date": {
+        "datetime": "2022-10-01T20:00:44+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Ticket-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<h2 class=\"wp-block-heading\">November 5, 2022</h2>\n<h3 class=\"wp-block-heading\">PyCon HK x COSCUP 2022 Online Special Track</h3>\n<p>Free of Charge.</p>\n<p></p>\n<h2 class=\"wp-block-heading\">October 29, 2022</h2>\n<h3 class=\"wp-block-heading\">PyCon HK Physical Conference</h3>\n<p>PYCON HK physical conference is back! Our theme this year is “Delight Yourself in Python”, Don’t miss this chance to meet others in person.</p>\n<p>Tickets are on sale now. Multiple promotional offers are available from HK$148-498 Sponsor ticket that includes a T-shirt and other goodies.</p>\n<p>Remark: In case of any situation that does not allow in-person conferencing, it will be changed to an online conference.</p>\n<p>Following the HKSARG’s implementation of Vaccine Pass, all visitors to the PyCon Hong Kong 2022 will be required to show their COVID-19 vaccination record before entering. For more information about the requirement, please refer to the <a href=\"https://www.coronavirus.gov.hk/eng/vaccine-pass.html\">HKSAR website</a>.</p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button is-style-fill\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\">GET TICKET NOW!</a></div>\n</div>\n<p>\n</p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button is-style-fill\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\" href=\"/2022/2022-schedule/\" target=\"_blank\" rel=\"noreferrer noopener\">SCHEDULE</a></div>\n</div>\n<p>\n</p>\n<figure class=\"wp-block-table is-style-stripes\"><table><thead><tr><th>Ticket Type</th><th>Price</th><th>Sales End</th></tr></thead><tbody><tr><td>Academics</td><td>HK$148.00</td><td>October 29, 2022</td></tr><tr><td>PySupporter</td><td>HK$498.00</td><td>October 29, 2022</td></tr><tr><td>PyConference</td><td>HK$398.00</td><td>October 29, 2022</td></tr><tr><td>Financial Assistance Program</td><td>HK$0.00</td><td>October 29, 2022</td></tr><tr><td>PySupporter ( Early Bird )</td><td>HK$398.00</td><td>October 6, 2022</td></tr><tr><td>PyConference ( Early Bird )</td><td>HK$298.00</td><td>October 6, 2022</td></tr></tbody></table></figure>"
+    },
+    {
+      "slug": "2022-volunteers",
+      "url": "/2022/2022-volunteers/",
+      "title": "Volunteers – PyCon Hong Kong 2022",
+      "description": "Volunteers of PyCon Hong Kong 2022 (In alphabetical order): Arnold ChanCalvin Y.K. ChongClaire WongDaisy Maris FungFiona LamGordon ChoiHaggen SoHenry LawIvan IpJoe ChanKen ChiuKen ChuRonald HungSam ChiuSammy FungScotty KwokTing Ka KiTommy Han",
+      "date": {
+        "datetime": "2022-10-01T01:00:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Staff-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Volunteers of PyCon Hong Kong 2022 (In alphabetical order):</p>\n<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Arnold Chan&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:513,&quot;3&quot;:{&quot;1&quot;:0},&quot;12&quot;:0}\">Arnold Chan</span><br>Calvin Y.K. Chong<br>Claire Wong<br>Daisy Maris Fung<br>Fiona Lam<br>Gordon Choi<br>Haggen So<br>Henry Law<br>Ivan Ip<br>Joe Chan<br>Ken Chiu<br>Ken Chu<br>Ronald Hung<br>Sam Chiu<br>Sammy Fung<br>Scotty Kwok<br>Ting Ka Ki<br>Tommy Han</p>"
+    },
+    {
+      "slug": "3d-visualization-with-spatial-data-for-5g-planning-websites-auto-tagging-algorithm",
+      "url": "/2022/3d-visualization-with-spatial-data-for-5g-planning-websites-auto-tagging-algorithm/",
+      "title": "3D Visualization with Spatial Data for 5G Planning + Websites auto-tagging algorithm",
+      "description": "While Hong Kong is progressing with the next-gen 5G network (e.g. mmWave), 3D-visualization with spatial data published by HKGov’s Smart City initiative could offer a unique angle in our next-gen 5G rollout which is expected to include more dense cells with even higher throughput but weaker in coverage. We’ll demonstrate how we use Python libraries",
+      "date": {
+        "datetime": "2022-10-01T10:15:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Chung-Ng-Alex-Zhang-Ho-Wa-Wong-1-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>While Hong Kong is progressing with the next-gen 5G network (e.g. mmWave), 3D-visualization with spatial data published by HKGov’s Smart City initiative could offer a unique angle in our next-gen 5G rollout which is expected to include more dense cells with even higher throughput but weaker in coverage. We’ll demonstrate how we use Python libraries &amp; Jupiter Notebook to facilitate such analysis.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 10:15-10:45 ( UTC+8 ) Language : English Speaker : Dr. Chung Ng, Mr. Alex Zhang, Mr. Ho-Wa Wong / HKT ( PCCW ) / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Dr. Chung Ng</h3>\n<p><a href=\"https://www.linkedin.com/in/chungnghk/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"http://www.hkt.com/?locale=zh\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/web.png\"></a></p>\n<p></p>\n<p>Dr. Chung is a SVP at Group CTO Office of the HKT/PCCW Group, where he’s responsible for leading the group’s product and technology roadmap and strategic development. He also represents the group as board members of Lynx Analytics and Bindo Labs.</p>\n<p>Before HKT/PCCW, Chung contributed to the Big Data/AI strategy at Telstra as well as its international growth strategy. Prior to Telstra, Chung was an Associate Partner of Cluster Technology Limited which serves the Greater China market with professional services and solutions in high-performance computing, machine learning, big data, and public cloud.</p>\n<p></p><p>In 2008, Chung joined McKinsey &amp; Company in the Hong Kong office. He received his DPhil in Information Engineering from the University of Oxford and held the Croucher Foundation Scholarship to work toward his research degree in wireless ad-hoc networks. Chung also received BEng and MPhil in Information Engineering from the Chinese University of Hong Kong.</p>\n<h3>Mr. Alex Zhang, The Club’s Head of Data Science</h3>\n<p>Alex Zhang joined HKT in March 2021 as Head of Data Science in HKT’s loyalty program and digital ventures arm, The Club. He is responsible for developing new analytic products and platforms to support The Club’s business partners within the loyalty and digital ecosystem by utilizing both telecom and partners’ data asset.</p>\n<p>Prior to joining HKT, Alex was the Associate Director of BCG GAMMA where he delivered data science projects to clients in the Greater China Region. With over 25 years of experience in Financial Services, FMCG, Retail, and e-commerce industries, Alex has held data science and analytics leadership roles at Citibank, JPMorgan Chase, OCBC, Standard Chartered Bank, and Prudential in both US and APAC.</p>\n<p>Alex received a BA of applied mathematics from City University of New York in the US.</p>\n<h3>Mr. Ho-Wa Wong</h3>\n<p>Ho-Wa Wong joined HKT in May 2022 as Senior Data Scientist in HKT’s loyalty program and digital ventures arm, The Club. He is responsible for end-to-end development of analytics solutions.</p>\n<p>Prior to joining HKT, Ho-Wa was a data scientist of Lane Crawford and Joyce Group where he delivered customer journey data science solutions to both internal and external parties. Ho-Wa had also been software engineer at startups and FAANG.</p>\n<p>Ho-Wa received a BEng of Computer Science from Hong Kong University of Science and Technology.</p>"
+    },
+    {
+      "slug": "accelerate-data-preparation-with-pandas-and-aws-glue-databrew",
+      "url": "/2022/accelerate-data-preparation-with-pandas-and-aws-glue-databrew/",
+      "title": "Accelerate data preparation with Pandas and AWS Glue DataBrew",
+      "description": "Data preparation takes up to 80% of time for a Data Scientist role. Nonetheless, it is still a necessary step to identify and fix errors, duplicates and irrelevant data and run effective analysis. In this talk, I will talk about how data preparation could be made easy with AWS Python SDK for Pandas, an open-source",
+      "date": {
+        "datetime": "2022-10-01T18:00:17+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Fortune-Hui-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Data preparation takes up to 80% of time for a Data Scientist role. Nonetheless, it is still a necessary step to identify and fix errors, duplicates and irrelevant data and run effective analysis.</p>\n<p>In this talk, I will talk about how data preparation could be made easy with AWS Python SDK for Pandas, an open-source python library, and AWS Glue DataBrew, a visual data preparation tool. AWS Python SDK for Pandas lets you load data into your dataframes from various AWS data stores like Opensearch, DynamoDB, Redshift, etc with just one line of code. And with Glue DataBrew, you can choose from over 250 pre-built transformations to automate data preparation tasks, all without the need to write any code. The talk will include live demonstration.</p>\n<pre>Date and Time : October 29, 2022 / 14:00-14:30 ( UTC+8 ) Language : English Speaker : Mr. Fortune Hui / AWS / Hong Kong</pre>\n<h2>Speaker Introduction</h2>\n<h3>Mr. Fortune Hui</h3>\n<p>Fortune Hui is a Solutions Architect @ Amazon Web Services specializing in Data Analytics, designing Serverless Data Platform, Data Warehouse, Text analytics platform and etc. Prior to joining AWS, he engineered data pipelines in various industries including Retail, Aviation and Insurance.</p>"
+    },
+    {
+      "slug": "airflow-v2-using-airflow-to-manage-etl-workflows",
+      "url": "/2022/airflow-v2-using-airflow-to-manage-etl-workflows/",
+      "title": "Airflow v2 – Using Airflow to manage ETL workflows",
+      "description": "In this talk, MJ will share his experiences of translating a traditional scripted workflow to using Airflow as a framework, and introduce some tips and common gotchas for Airflow. Date and Time : October 29, 2022 / 11:45-12:15 ( UTC+8 ) Language : English Speaker : Mr. MJ Tung / ActusRayPartners / Hong Kong Speaker",
+      "date": {
+        "datetime": "2022-10-01T11:46:24+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/MJ_Tung-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;In this talk, MJ will share his experiences of translating a traditional scripted workflow to using Airflow as a framework, and introduce some tips and common gotchas for Airflow.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:769,&quot;3&quot;:{&quot;1&quot;:0},&quot;11&quot;:4,&quot;12&quot;:0}\">In this talk, MJ will share his experiences of translating a traditional scripted workflow to using Airflow as a framework, and introduce some tips and common gotchas for Airflow.</span></p>\n<pre>Date and Time : October 29, 2022 / 11:45-12:15 ( UTC+8 ) Language : English Speaker : Mr. MJ Tung / ActusRayPartners / Hong Kong</pre>\n<h2>Speaker Introduction</h2>\n<h3>Mr. MJ Tung</h3>\n<p><a href=\"https://www.linkedin.com/in/mjtung/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a></p>\n<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;MJ is a data engineer &amp; quant analyst with over 10 years of experience working in the hedge fund industry. Having built data pipelines from scratch, and also having used data to analyse trading strategies to look for alpha signals, he has experience in data processing from both the engineering and the business user perspectives. MJ is currently working as a Senior Research Analyst at ActusRayPartners.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:769,&quot;3&quot;:{&quot;1&quot;:0},&quot;11&quot;:4,&quot;12&quot;:0}\">MJ is a data engineer &amp; quant analyst with over 10 years of experience working in the hedge fund industry. Having built data pipelines from scratch, and also having used data to analyse trading strategies to look for alpha signals, he has experience in data processing from both the engineering and the business user perspectives. MJ is currently working as a Senior Research Analyst at ActusRayPartners.</span></p>"
+    },
+    {
+      "slug": "automation-and-monitoring-in-wealthtech",
+      "url": "/2022/automation-and-monitoring-in-wealthtech/",
+      "title": "Automation and Monitoring in WealthTech",
+      "description": "WealthTech changes how individuals and companies manage their finances. However it is not as much of a rocket science as it may sound. There are some tools and methods that can help us perform market analysis / performance analysis in a quick easy way. We will cover a few simple methodology for beginner / intermediate",
+      "date": {
+        "datetime": "2022-10-01T11:01:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Rebecca-Lim-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>WealthTech changes how individuals and companies manage their finances. However it is not as much of a rocket science as it may sound. There are some tools and methods that can help us perform market analysis / performance analysis in a quick easy way. We will cover a few simple methodology for beginner / intermediate coders:</p>\n<ul class=\"wp-block-list\">\n<li>Excel &amp; python integration</li>\n<li>Monitoring dashboard</li>\n<li>Portfolio Analysis</li>\n</ul>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 11:00-11:30 ( UTC+8 ) Language : English Speaker : Ms. Rebecca Lim / AutoML Capital Limited / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Ms. Rebecca Lim</h3>\n<p><a href=\"https://www.linkedin.com/company/13371886/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"http://www.automlcapital.com/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/web.png\"></a></p>\n<p></p>\n<p>Rebecca is the founder and CEO of AutoML Capital, a WealthTech company that leverages its proprietary machine learning algorithm to perform Asset Management and Investment Services.</p>\n<p>She obtained her undergraduate and master degree in Physics from the University of Oxford. She then pursued a career in Banking and Finance in Sales&amp;Trading and Private Banking in Hong Kong and London across market risks, derivative pricing and portfolio management. She co-founded Automated Machine Learning in 2017 and developed the self-learning AI Engine “ML Brain” that was later used by AutoML Capital.</p>\n<p>She is a recent awardee of the Hong Kong Professional Elite Ladies Selection 2022, a prestigious award for women displaying exemplary professionalism and achievements in their work and contribution to their communities.</p>"
+    },
+    {
+      "slug": "django-apps-at-scale-mistakes-to-avoid",
+      "url": "/2022/django-apps-at-scale-mistakes-to-avoid/",
+      "title": "Django Apps at Scale: Mistakes to Avoid",
+      "description": "History I started using Python when I was in school and kickstarted my development with Django in 2018 with Django. To enhance my experience and learnings in Django I also interned at an Infrastructure as Code Platform StackGuardian. It’s an OpenSource robust and scalable Project built with Django. I & the Team wrote everything from",
+      "date": {
+        "datetime": "2022-10-01T16:30:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Kushal-Vijay-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<h3 class=\"wp-block-heading\">History</h3>\n<p>I started using Python when I was in school and kickstarted my development with Django in 2018 with Django. To enhance my experience and learnings in Django I also interned at an Infrastructure as Code Platform StackGuardian. It’s an OpenSource robust and scalable Project built with Django. I &amp; the Team wrote everything from scratch and in the process, I did a lot of research and experiments to build scalable Django Apps with Microservice Architecture. I’ve learned a lot about what works well and what doesn’t with Django, and hope I can share some useful tips on how to work with this popular web framework.</p>\n<h3 class=\"wp-block-heading\">Agenda for the Talk</h3>\n<h4 class=\"wp-block-heading\">–&gt; Monoliths Overview</h4>\n<p>I’ll start with a layman’s introduction to Monoliths so that even beginners get the idea about the terminologies which will be used later.</p>\n<h4 class=\"wp-block-heading\">–&gt; Moving away from Monolith</h4>\n<p>Under this, I’ll be discussing problems with Monolith Architecture or monolith Django Apps. Examples of companies that moved from Monolith to Microservice architecture.</p>\n<h4 class=\"wp-block-heading\">–&gt; Microservices: What &amp; Why?</h4>\n<p>Here I’ll be sharing the benefits that microservice architecture adds to the product. The need for microservices with the ever-growing users globally and how microservices are able to solve scalability issues.</p>\n<h4 class=\"wp-block-heading\">–&gt; Microservices in Django</h4>\n<p>Python Frameworks for building apps. Understanding Microservice Architecture in Django via Code walkthrough. How to transition your Django App from a Monolith App to a Microservices-based app.</p>\n<h4 class=\"wp-block-heading\">–&gt; What not to do? Or Good Practices</h4>\n<p>Under this, I will discuss the problems we faced while building StackGuardian, Things that I have learned from others, and a better way to overcome those problems.</p>\n<h4 class=\"wp-block-heading\">–&gt; Key Takeaway &amp; Django Trivia/QnA</h4>\n<p>I’ll conclude the talk with key takeaways &amp; a fun Django Trivia.</p>\n<h4 class=\"wp-block-heading\">Audience</h4>\n<p>The target audience for the talk ranges from Beginner to Intermediate Programmers.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 16:30-17:00 ( UTC+8 ) Language : English Speaker : Mr. Kushal Vijay / Microsoft / India</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Mr. Kushal Vijay</h3>\n<p><a href=\"https://www.linkedin.com/in/kushalvijay/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"https://github.com/KushalVijay\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/github.png\"></a>\n<a href=\"https://twitter.com/KushalVijay_\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/twit.png\"></a></p>\n<p>I’m Kushal Vijay, A Software Engineer @Microsoft &amp; a Content Creator on YouTube &amp; LinkedIn serving an audience of over 100,000. Previously, I have done Internships at Microsoft and StackGuardian. I’m an ACM ICPC’19 Regionalist and also mentored students in Google Code-In’19 for TensorFlow Organization. I have taken 30+ Webinars during my Career in Computer Science and judged multiple hackathons across Engineering Colleges in India.</p>"
+    },
+    {
+      "slug": "education-track-a-journey-to-be-a-python-angel",
+      "url": "/2022/education-track-a-journey-to-be-a-python-angel/",
+      "title": "Education Track | A Journey to be a Python Angel",
+      "description": "Our sharing will share the practical experiences on curriculum planning, lesson implementation, assessment and resources used in Python teaching. We develop a school-based Python curriculum in S3 to build up students' computational thinking through different pedagogies. Different types of assessments are also carried out to measure students’ competence and standard on Python learning. To keep",
+      "date": {
+        "datetime": "2022-10-01T10:16:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Ka-Tim-Chu-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Our sharing will share the practical experiences on curriculum planning, lesson implementation, assessment and resources used in Python teaching. We develop a school-based Python curriculum in S3 to build up students’ computational thinking through different pedagogies. Different types of assessments are also carried out to measure students’ competence and standard on Python learning. To keep the momentum of learning Python programming, we use an online self-directed learning platform to engage and keep track of their learning.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 10:15-10:45 ( UTC+8 ) Language : Cantonese Speaker : Mr. Ka Tim Chu / Hong Kong True Light College / The Hong Kong Association for Computer Education / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Mr. Ka Tim Chu</h3>\n<p>Ka Tim Chu is the vice-principal of Hong Kong True Light College and the chairman of the Hong Kong Association for Computer Education. He is passionate about ICT, coding, e-learning and STEM. In addition to nearly 20 years of experience in the school sector, he organises a lot of activities to empower students, especially girls to learn coding and STEM education.</p>\n<p>He is an award-winning teacher including Outstanding IT Teacher award and teaching award on information literacy and led his school teams to win several International Outstanding E-learning Awards for STEM, Coding and Computational Thinking.</p>"
+    },
+    {
+      "slug": "exploration-of-mysql-operator-for-kubernetes-in-python",
+      "url": "/2022/exploration-of-mysql-operator-for-kubernetes-in-python/",
+      "title": "Exploration of MySQL Operator for Kubernetes in Python",
+      "description": "MySQL Operator is written using Python- https://github.com/mysql/mysql-operator/tree/trunk/mysqloperator, for those interested in Kubernetes/Container deployment for MySQL and application, you can join us to explore the operation and how MySQL operator work Date and Time : October 29, 2022 / 11:45-12:15 ( UTC+8 ) Language : English Speaker : Mr. Ivan Ma / Oracle / MySQL /",
+      "date": {
+        "datetime": "2022-10-01T11:45:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Ivan-Ma-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>MySQL Operator is written using Python- <a href=\"https://github.com/mysql/mysql-operator/tree/trunk/mysqloperator,\" target=\"_blank\" rel=\"noreferrer noopener\">https://github.com/mysql/mysql-operator/tree/trunk/mysqloperator,</a> for those interested in Kubernetes/Container deployment for MySQL and application, you can join us to explore the operation and how MySQL operator work</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 11:45-12:15 ( UTC+8 ) Language : English Speaker : Mr. Ivan Ma / Oracle / MySQL / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Mr. Ivan Ma</h3>\n<p><a href=\"https://mysqlhk.blogspot.com/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/web.png\"></a></p>\n<p></p>\n<p>Ivan Ma is the MySQL User Group Lead in Hong Kong. He has over 20+ years of experience in enterprise system infrastructure and software technologies. He has certification on MySQL, Java, Solaris, Sybase.</p>\n<p>He is from MySQL Team as Master Principal Solution Engineer, Asia Pacific with Oracle, responsible for pre-sales /community activites, and product promotions.</p>\n<p>Prior to joining MySQL team, he joined Oracle in System Team from Sun Mircosystems acquisition. Prior to Sun Microsystems, he was Principal Solution Architect with Sybase APAC covering APAC regions.</p>"
+    },
+    {
+      "slug": "healthcare-by-a-pythonista",
+      "url": "/2022/healthcare-by-a-pythonista/",
+      "title": "Healthcare by a Pythonista",
+      "description": "Leverage Python for Healthcare Applications for Accelerated Data Discovery. Every Human Body is different. Similarities are in the patterns of demographic, environmental factors & habits. The need for today is to have customized Health Profiling & Diagnostics for so many chronic & complex health issues. Being a Python coder, I saw this pain point closely",
+      "date": {
+        "datetime": "2022-10-01T15:46:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Shilpa-Karkeraa-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Leverage Python for Healthcare Applications for Accelerated Data Discovery.</p>\n<p>Every Human Body is different. Similarities are in the patterns of demographic, environmental factors &amp; habits. The need for today is to have customized Health Profiling &amp; Diagnostics for so many chronic &amp; complex health issues.</p>\n<p>Being a Python coder, I saw this pain point closely of lack of personalized healthcare. A broad classification system for Diagnostics sometimes leads to Side effects or reactions that cannot be predicted. Can Technology help here?</p>\n<p>This talk walks through python implementations of Health Profile Clustering, Graph Database Queries, AI applications to index Healthcare research papers on a large scale.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 15:45-16:15 ( UTC+8 ) Language : English Speaker : Ms. Shilpa Karkeraa / Myraa Technologies | Usha Renal Care Foundation / Singapore</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Ms. Shilpa Karkeraa</h3>\n<p><a href=\"https://www.linkedin.com/in/shilpa-karkeraa/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"https://twitter.com/ShilpaKarkeraa\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/twit.png\"></a>\n<a href=\"https://www.facebook.com/shilpa.karkera/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/facebook.png\"></a>\n<a href=\"https://www.myraatechnologies.com/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/web.png\"></a></p>\n<p></p>\n<p>Shilpa Karkeraa, the CEO of Myraa Technologies, HQ’d in Singapore running AI &amp; Blockchain innovations across 7 Countries &amp; 11 Industries. She is committed to Pay it Forward with Usha Renal Care Foundation to accelerate better Healthcare.</p>\n<p>She is the</p>\n<ul class=\"wp-block-list\">\n<li>Global Top 20 Growth Fellow by Goldman Sachs.</li>\n<li>Author of Unlocking Blockchains on Azure &amp; a passionate Global Technology Speaker.</li>\n<li>Neo4j’s Graphie Awardee for Medical Breakthroughs.</li>\n</ul>\n<p>She aims to bring a Billion People Social Impact with her works.</p>"
+    },
+    {
+      "slug": "healthy-machine-learning-from-theory-to-practice",
+      "url": "/2022/healthy-machine-learning-from-theory-to-practice/",
+      "title": "Healthy Machine Learning: From Theory to Practice",
+      "description": "Cluster analysis is a machine learning technique designed to group similar objects or data points together. It has wide applications from customer segmentation to the development of recommendation engines. This talk will cover the basis of clustering and offer a practical guide on how to implement it. There's a saying that 80% of a data",
+      "date": {
+        "datetime": "2022-10-01T14:01:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Warrington-Hsu-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Cluster analysis is a machine learning technique designed to group similar objects or data points together. It has wide applications from customer segmentation to the development of recommendation engines. This talk will cover the basis of clustering and offer a practical guide on how to implement it.</p>\n<p>There’s a saying that 80% of a data scientist’s time is spent on data preprocessing, and only 20% is on modeling and analysis. Therefore, this talk will also cover the practical considerations and data challenges a machine learning practitioner faces, using a case study developed based on my data science projects in healthcare.</p>\n<p>The following will be covered in this talk:</p>\n<ul class=\"wp-block-list\">\n<li>An introduction of what cluster analysis (and unsupervised machine learning) is, and some examples of its general applications.</li>\n<li>Practical considerations related to ML projects in general, including challenges associated with data cleaning and feature engineering.</li>\n<li>A ML case study in healthcare: to showcase problems that data scientists encounter, from getting the raw data to transforming it into the form ready for modeling.</li>\n</ul>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 14:00-14:30 ( UTC+8 ) Language : Cantonese Speaker : Mr. Warrington Hsu / ComboKid / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Mr. Warrington Hsu</h3>\n<p><a href=\"https://www.linkedin.com/in/wdata\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"https://www.combokid.com/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/web.png\"></a></p>\n<p></p>\n<p>Warrington is a data scientist specializing in the application of machine learning and big data in healthcare. He has 10+ years of experience in machine learning, computational statistics and bioinformatics. Warrington is the co-founder of ComboKid, a startup that helps parents track and improve the developmental health of their children using machine learning. He has built machine learning applications and generated medical knowledge using data sources ranging from free-text clinical notes written by doctors, to the centralized electronic health record databases covering the Hong Kong population. Warrington’s research in health data science has been published in peer-reviewed academic journals.</p>"
+    },
+    {
+      "slug": "how-python-is-applying-in-architecture-engineering-construction-industry",
+      "url": "/2022/how-python-is-applying-in-architecture-engineering-construction-industry/",
+      "title": "How Python is applying in Architecture, Engineering & Construction Industry",
+      "description": "It is well-known that Python is normally using in developing software, automating task, data analysis & data visualisation. However, the application of Python in AEC has becoming popular thanks to the technological advancement and open source software. Architecture Designers and Engineers are start using visual programming with Python to create their design with higher efficiency.",
+      "date": {
+        "datetime": "2022-10-01T15:45:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Cho-Ka-Chun-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>It is well-known that Python is normally using in developing software, automating task, data analysis &amp; data visualisation. However, the application of Python in AEC has becoming popular thanks to the technological advancement and open source software. Architecture Designers and Engineers are start using visual programming with Python to create their design with higher efficiency.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 15:45-16:15 ( UTC+8 )<br>Language : Cantonese<br>Speaker : Mr. Cho Ka Chun / OSarch / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Mr. Cho Ka Chun</h3>\n<p><a href=\"https://www.linkedin.com/in/chunchk/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"https://github.com/chunchk\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/github.png\"></a></p>\n<p></p>\n<p>Chun is a BIM Specialist based in Hong Kong providing BIM services and automating solutions to multiple projects. As someone feeling struggles about their current workflow, he is able to provide an automation proposal to ease their workload.</p>\n<p>He is also a open-source technology supporter willing to contributes his knowledge and skills to the open-source community for building a better tools for AEC industry.</p>"
+    },
+    {
+      "slug": "managing-r-and-matlab-gui-environments-in-jupyter",
+      "url": "/2022/managing-r-and-matlab-gui-environments-in-jupyter/",
+      "title": "Managing R and MATLAB GUI environments in Jupyter",
+      "description": "You probably know it is possible to write R and MATLAB notebooks in Jupyter , but did you know you can run their graphic user interface through Jupyter? This talk shows you how to do so through the use of jupyter-server-proxy, particularly in a multi-user JupyterHub setting. If you are willing to do a bit",
+      "date": {
+        "datetime": "2022-10-01T14:46:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Vinci-Chow-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>You probably know it is possible to write R and MATLAB notebooks in Jupyter , but did you know you can run their graphic user interface through Jupyter? This talk shows you how to do so through the use of jupyter-server-proxy, particularly in a multi-user JupyterHub setting. If you are willing to do a bit of modification, you can even concurrently run multiple versions of these software.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 14:45-15:15 ( UTC+8 ) Language : English Speaker : Dr. Vinci Chow / Department of Economics, The Chinese University of Hong Kong / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<p><a href=\"https://www.linkedin.com/in/vinci-chow-60552a71/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\"></a>\n<a href=\"https://github.com/scrp-cuhk/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/github.png\"></a>\n<a href=\"https://twitter.com/ticoneva\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/twit.png\"></a>\n<a href=\"https://scrp.econ.cuhk.edu.hk/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/web.png\" alt=\"\" width=\"40\" height=\"40\"></a></p>\n<p></p>\n<h3 class=\"wp-block-heading\">Dr. Vinci Chow</h3>\n<p>Dr. Vinci Chow is the Director of Economic Computing Services and Senior Lecturer in Department of Economics of The Chinese University of Hong Kong. These days he split his time between teaching, managing a computing cluster and taking care of his two young kids. He holds a Ph.D. in Economics from UC Berkeley.</p>"
+    },
+    {
+      "slug": "pycon-hk-2022-calls-for-proposals-is-now-open",
+      "url": "/2022/pycon-hk-2022-calls-for-proposals-is-now-open/",
+      "title": "PYCON HK 2022 Calls For Proposals is now open!",
+      "description": "PYCON HK physical conference is back! Our theme this year is \"Delight Yourself in Python\", you are cordially invited to submit your proposed topics! Don't miss this chance to speak to our python community in person! Conference Date: 29 Oct 2022 (SAT)Conference Venue: 8/F , The Hong Kong Federation of Youth Groups Building, 21 Pak",
+      "date": {
+        "datetime": "2022-08-17T12:36:34+08:00",
+        "label": "August 17, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-850x850.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<figure class=\"wp-block-image size-large\"><img width=\"1024\" height=\"1024\" src=\"/legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1-1024x1024.jpg\" alt=\"\" class=\"wp-image-1603\" srcset=\"/legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1-1024x1024.jpg 1024w, /legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1-300x300.jpg 300w, /legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1-150x150.jpg 150w, /legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1-768x768.jpg 768w, /legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1-850x850.jpg 850w, /legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-1.jpg 1080w\" sizes=\"(max-width: 1024px) 100vw, 1024px\"></figure>\n<p>PYCON HK physical conference is back! Our theme this year is “Delight Yourself in Python”, you are cordially invited to submit your proposed topics! Don’t miss this chance to speak to our python community in person!</p>\n<p>Conference Date: 29 Oct 2022 (SAT)<br>Conference Venue: 8/F , The Hong Kong Federation of Youth Groups Building, 21 Pak Fuk Road, North Point, Hong Kong.<br>CFP Submission: <a href=\"https://forms.gle/QAaY5hpgkN3ARfV17\" target=\"_blank\" rel=\"noreferrer noopener\">https://forms.gle/QAaY5hpgkN3ARfV17</a><br>CFP Deadline: 5 Sep 2022<br>Hashtags: <a href=\"https://pythonhk.slack.com/archives/C10TKNQ0L\">#pyconhk</a>\n</p>\n<p>是咁的 … 香港人嘅實體 PYCON 返嚟啦！今年主題係「Delight Yourself in Python」。誠邀各行各業各有專長嘅你，同大家分享你嘅 Python topics！正所謂 #有咩留返PYCON 先講，今次唔講仲等幾時呀？ 9月5號截稿啦！</p>\n<p>會議日期: 2022年 10月29日 (星期六)<br>會議地址: 香港北角百福道21號 香港青年協會大廈8樓提交講題: <a href=\"https://forms.gle/QAaY5hpgkN3ARfV17\" target=\"_blank\" rel=\"noreferrer noopener\">https://forms.gle/QAaY5hpgkN3ARfV17</a><br>講題截稿: 2022年 9月5日<br>Hashtags: #有咩留返pycon先講 <a href=\"https://pythonhk.slack.com/archives/C10TKNQ0L\">#pyconhk</a> #香港人嘅pycon </p>"
+    },
+    {
+      "slug": "pycon-hk-x-coscup-2022-online-special-track-deep-learning-with-pytorch-from-beginner-to-research",
+      "url": "/2022/pycon-hk-x-coscup-2022-online-special-track-deep-learning-with-pytorch-from-beginner-to-research/",
+      "title": "[PyCon HK x COSCUP 2022 Online Special Track] Deep Learning with PyTorch: From Beginner to Research",
+      "description": "Machine learning (ML) / deep learning (DL) projects and techniques have been increasing rapidly in the past few years. With the diffusion of technology, more people get to approach ML/DL. In this session, we will have a discussion of how to learn ML/DL by model re-implementation and open source projects, and the experience of medical",
+      "date": {
+        "datetime": "2022-10-30T15:00:14+08:00",
+        "label": "October 30, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyCon-HK-x-COSCUP-2022-Online-Special-Track-1-1545-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Machine learning (ML) / deep learning (DL) projects and techniques have been increasing rapidly in the past few years. With the diffusion of technology, more people get to approach ML/DL. In this session, we will have a discussion of how to learn ML/DL by model re-implementation and open source projects, and the experience of medical imaging research.</p>\n<pre>Date and Time : November 5, 2022 / 15:00-15:30 ( UTC+8 ) Language : English Speaker : Mr. Ted Lu / Taiwan Open Education Develop Unit / Taiwan</pre>\n<h2>Speaker Introduction</h2>\n<h3>Mr. Ted Lu（呂顥天）</h3>\n<p><a href=\"https://github.com/Sax-Ted\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/github.png\" alt=\"\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/ted_lu_tw\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/twit.png\" alt=\"\" width=\"40\" height=\"40\"></a></p>\n<p>Ted Lu is a 14 y.o. civic hacker in g0v, also the founder/data engineer of Taiwan Open Education Develop Unit, medical imaging researcher. Self studying clinical neurology.</p>"
+    },
+    {
+      "slug": "pycon-hk-x-coscup-2022-online-special-track-introduction-to-kedro-building-data-pipeline-with-python",
+      "url": "/2022/pycon-hk-x-coscup-2022-online-special-track-introduction-to-kedro-building-data-pipeline-with-python/",
+      "title": "[PyCon HK x COSCUP 2022 Online Special Track] Introduction to Kedro – Building Data Pipeline with Python",
+      "description": "Introduction to \"kedro\", which is an open-source Python framework for creating reproducible, maintainable, and modular data science code. Kedro is an incubation-stage project of the LF AI & Data Foundation. Why it is useful and why you may want to use it as a data engineer, data scientist, or Product Manager. Date and Time :",
+      "date": {
+        "datetime": "2022-10-30T15:45:14+08:00",
+        "label": "October 30, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyCon-HK-x-COSCUP-2022-Online-Special-Track-1-1500-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Introduction to “kedro”, which is an open-source Python framework for creating reproducible, maintainable, and modular data science code. Kedro is an incubation-stage project of the LF AI &amp; Data Foundation. Why it is useful and why you may want to use it as a data engineer, data scientist, or Product Manager.</p>\n<pre>Date and Time : November 5, 2022 / 15:45-16:15 ( UTC+8 ) Language : English Speaker : Mr. Nok Lam Chan / QuantumBlack / Hong Kong</pre>\n<h2>Speaker Introduction</h2>\n<h3>Mr. Nok Lam Chan</h3>\n<p><a href=\"https://www.linkedin.com/in/noklamchan/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\" alt=\"\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/noklam\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/github.png\" alt=\"\" width=\"40\" height=\"40\"></a></p>\n<p>A former data scientist in HK, now a software engineer in London, maintainer of Kedro.</p>\n<p>香港做左幾年data science，而家係 London 做緊 software engineer，kedro 其中一個 maintainer。</p>"
+    },
+    {
+      "slug": "pycon-hk-x-coscup-2022-online-special-track-triton-as-nlp-model-inference-back-end",
+      "url": "/2022/pycon-hk-x-coscup-2022-online-special-track-triton-as-nlp-model-inference-back-end/",
+      "title": "[PyCon HK x COSCUP 2022 Online Special Track] Triton As NLP Model Inference Back-end",
+      "description": "If there is a Chatbot with massive users and uses your own NLP model, it might face a bottleneck that back-end service is not easy to handle such NLP concurrency. To solve this kind problem, Nvidia has introduced an open-source inference server, Triton, which allowed to deploy AI model on GPU or CPU. It will",
+      "date": {
+        "datetime": "2022-10-30T14:15:35+08:00",
+        "label": "October 30, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/PyCon-HK-x-COSCUP-2022-Online-Special-Track-1-1415-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>If there is a Chatbot with massive users and uses your own NLP model, it might face a bottleneck that back-end service is not easy to handle such NLP concurrency. To solve this kind problem, Nvidia has introduced an open-source inference server, Triton, which allowed to deploy AI model on GPU or CPU. It will maximize utilization of GPU/CPU for faster inference.<br> In this session, I will introduce Triton Inference Server and deploy NLP model Triton with a practical sample.</p>\n<pre>Date and Time : November 5, 2022 / 14:15-14:45 ( UTC+8 ) Language : English Speaker : Mr. Ko Ko / Chatbot Developers Taiwan / Taiwan</pre>\n<h2>Speaker Introduction</h2>\n<h3>Mr. Ko Ko</h3>\n<p><a href=\"https://www.linkedin.com/in/ko-ko-b12a3474/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\" alt=\"\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/Ko-Ko-Kirk\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/github.png\" alt=\"\" width=\"40\" height=\"40\"></a></p>\n<p>Ko Ko is a Microsoft AI MVP. He is dedicated to sharing AI and Chatbot related technology. He is a famous technical lecturer and got invited by many large conferences, such as COSCUP, .NET CONF, PyCon APAC and so on. And Ko Ko is also a core member in Chatbot Developers Taiwan.</p>"
+    },
+    {
+      "slug": "taking-machine-learning-models-to-production-using-python-and-fastapi",
+      "url": "/2022/taking-machine-learning-models-to-production-using-python-and-fastapi/",
+      "title": "Taking machine learning models to production using Python and FastAPI",
+      "description": "The talk will focus on building a FastAPI application to serve simple NLP and object detection models aimed for production use-cases. Beginning with a brief introduction to building servers using Python covering the basics for beginners, then exploring/discussing alternatives to using REST (such as gRPC), and finally a live coding for building out the application",
+      "date": {
+        "datetime": "2022-10-01T14:45:00+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Utkarsh-Goel-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>The talk will focus on building a FastAPI application to serve simple NLP and object detection models aimed for production use-cases. Beginning with a brief introduction to building servers using Python covering the basics for beginners, then exploring/discussing alternatives to using REST (such as gRPC), and finally a live coding for building out the application itself. At the end, a short intro to cloud deployment using Deploifai. Details on building the machine learning model will be out of scope, but can be discussed if people are interested!</p>\n<p>Disclaimer: I have co-founded Deploifai that is a developer tool for machine learning engineers. The tool is free to use for developers, with some modules going open-source.</p>\n<pre class=\"wp-block-preformatted\">Date and Time : October 29, 2022 / 14:45-15:15 ( UTC+8 ) Language : English Speaker : Mr. Utkarsh Goel / Deploifai / Hong Kong</pre>\n<h2 class=\"wp-block-heading\">Speaker Introduction</h2>\n<h3 class=\"wp-block-heading\">Mr. Utkarsh Goel</h3>\n<p><a href=\"https://github.com/utkarsh867\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/github.png\"></a>\n<a href=\"https://twitter.com/javachipd\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/twit.png\"></a>\n<a href=\"https://utkarshgoel.dev/\" target=\"_blank\" rel=\"noopener\"><img src=\"/legacy-wp/2022/uploads/2022/10/web.png\"></a></p>\n<p></p>\n<p>Utkarsh graduated from HKU and is currently the Co-founder and Head of Technology at Clearbot which is a robotics company in Hong Kong. Utkarsh is also building Deploifai which is an MLOps platform for developers.</p>"
+    },
+    {
+      "slug": "what-ifpython-azure",
+      "url": "/2022/what-ifpython-azure/",
+      "title": "What if…Python + Azure",
+      "description": "Python. Azure. Innovation. It’s more than a linear path. It’s a prism of endless possibilities where a single choice can branch out to limitless innovation with Python. In this session, Eason will be the mastermind to showcase different use-case scenarios of implementing Python in various industries and domains. Join him to discover the new possibilities",
+      "date": {
+        "datetime": "2022-10-01T17:00:58+08:00",
+        "label": "October 1, 2022"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2022/uploads/2022/10/Eason-Lai-850x478.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Python. Azure. Innovation. It’s more than a linear path. It’s a prism of endless possibilities where a single choice can branch out to limitless innovation with Python. In this session, Eason will be the mastermind to showcase different use-case scenarios of implementing Python in various industries and domains. Join him to discover the new possibilities with Azure + Python – let’s ponder the question of “what if…” together.</p>\n<pre>Date and Time : October 29, 2022 / 11:00-11:30 ( UTC+8 ) Language : English Speaker : Mr. Eason Lai / Microsoft / Hong Kong</pre>\n<h2>Speaker Introduction</h2>\n<h3>Mr. Eason Lai</h3>\n<p><a href=\"https://www.linkedin.com/in/eason-lai-8618a235/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/linkedin.png\" alt=\"\" width=\"40\" height=\"40\"></a><a href=\"https://github.com/easonlai\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/github.png\" alt=\"\" width=\"40\" height=\"40\"></a><a href=\"https://twitter.com/easonlaiwork\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/twit.png\" alt=\"\" width=\"40\" height=\"40\"></a><a href=\"https://oneinaminionhk.wordpress.com/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2022/uploads/2022/10/web.png\" alt=\"\" width=\"40\" height=\"40\"></a></p>\n<p>A seasoned Principle Digital Solution Architect with over 20 years of experience in application development, cloud technologies, digital solutions, big data solutions, data analytics &amp; science, and experiences in supporting various industries enterprises. Working experience includes multinational technology giant companies &amp; financial institutions, Microsoft &amp; IBM, and AIA Hong Kong &amp; Macau.</p>\n<p>As a technical evangelist and strategist, he is very active on public speech, webinars, and contribution of technical articles, and open-source code repositories, whose topics include Artificial Intelligence, Machine Learning, Data Analytics &amp; Science, Solution Design &amp; Best Practices with Microsoft Azure, Azure Cognitive Services, Azure Machine Learning, and Azure Databricks. Also, he mentored data analytics and science specialization courses in Coursera (Deeplearning.ai).</p>"
+    }
+  ],
+  "landing": {
+    "title": "PyCon Hong Kong 2022 Archive",
+    "description": "Archived PyCon Hong Kong 2022 pages migrated from the legacy WordPress site.",
+    "cards": [
+      {
+        "slug": "2022-schedule",
+        "url": "/2022/2022-schedule/",
+        "title": "Schedule – PyCon HK 2022",
+        "description": "November 5, 2022 (Saturday) Zoom Meetinghttps://us06web.zoom.us/j/83928780464?pwd=UmlTTmt2TGprRGEvWElMYnZ1RTZBZz09Meeting ID: 839 2878 0464Passcode: 997549 Time (UTC+8) Track 1 14:00 – 14:15 Opening 14:15 – 14:45 Triton...",
+        "date": {
+          "datetime": "2022-10-30T20:00:00+08:00",
+          "label": "October 30, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/11/PyCon-HK-x-COSCUP-TW-2022-Online-Special-Track-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "pycon-hk-x-coscup-2022-online-special-track-introduction-to-kedro-building-data-pipeline-with-python",
+        "url": "/2022/pycon-hk-x-coscup-2022-online-special-track-introduction-to-kedro-building-data-pipeline-with-python/",
+        "title": "[PyCon HK x COSCUP 2022 Online Special Track] Introduction to Kedro – Building Data Pipeline with Python",
+        "description": "Introduction to “kedro”, which is an open-source Python framework for creating reproducible, maintainable, and modular data science code. Kedro is an incubation-stage project of the LF AI & Data Foundation. Why it is us...",
+        "date": {
+          "datetime": "2022-10-30T15:45:14+08:00",
+          "label": "October 30, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyCon-HK-x-COSCUP-2022-Online-Special-Track-1-1500-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "pycon-hk-x-coscup-2022-online-special-track-deep-learning-with-pytorch-from-beginner-to-research",
+        "url": "/2022/pycon-hk-x-coscup-2022-online-special-track-deep-learning-with-pytorch-from-beginner-to-research/",
+        "title": "[PyCon HK x COSCUP 2022 Online Special Track] Deep Learning with PyTorch: From Beginner to Research",
+        "description": "Machine learning (ML) / deep learning (DL) projects and techniques have been increasing rapidly in the past few years. With the diffusion of technology, more people get to approach ML/DL. In this session, we will have a...",
+        "date": {
+          "datetime": "2022-10-30T15:00:14+08:00",
+          "label": "October 30, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyCon-HK-x-COSCUP-2022-Online-Special-Track-1-1545-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "pycon-hk-x-coscup-2022-online-special-track-triton-as-nlp-model-inference-back-end",
+        "url": "/2022/pycon-hk-x-coscup-2022-online-special-track-triton-as-nlp-model-inference-back-end/",
+        "title": "[PyCon HK x COSCUP 2022 Online Special Track] Triton As NLP Model Inference Back-end",
+        "description": "If there is a Chatbot with massive users and uses your own NLP model, it might face a bottleneck that back-end service is not easy to handle such NLP concurrency. To solve this kind problem, Nvidia has introduced an ope...",
+        "date": {
+          "datetime": "2022-10-30T14:15:35+08:00",
+          "label": "October 30, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyCon-HK-x-COSCUP-2022-Online-Special-Track-1-1415-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-ticket",
+        "url": "/2022/2022-ticket/",
+        "title": "Ticket – PyCon Hong Kong 2022",
+        "description": "PYCON HK physical conference is back! Our theme this year is “Delight Yourself in Python”, Don’t miss this chance to meet others in person. Read More",
+        "date": {
+          "datetime": "2022-10-01T20:00:44+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Ticket-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "accelerate-data-preparation-with-pandas-and-aws-glue-databrew",
+        "url": "/2022/accelerate-data-preparation-with-pandas-and-aws-glue-databrew/",
+        "title": "Accelerate data preparation with Pandas and AWS Glue DataBrew",
+        "description": "Data preparation takes up to 80% of time for a Data Scientist role. Nonetheless, it is still a necessary step to identify and fix errors, duplicates and irrelevant data and run effective analysis. In this talk, I will t...",
+        "date": {
+          "datetime": "2022-10-01T18:00:17+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Fortune-Hui-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "what-ifpython-azure",
+        "url": "/2022/what-ifpython-azure/",
+        "title": "What if…Python + Azure",
+        "description": "Python. Azure. Innovation. It’s more than a linear path. It’s a prism of endless possibilities where a single choice can branch out to limitless innovation with Python. In this session, Eason will be the mastermind to s...",
+        "date": {
+          "datetime": "2022-10-01T17:00:58+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Eason-Lai-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "django-apps-at-scale-mistakes-to-avoid",
+        "url": "/2022/django-apps-at-scale-mistakes-to-avoid/",
+        "title": "Django Apps at Scale: Mistakes to Avoid",
+        "description": "History I started using Python when I was in school and kickstarted my development with Django in 2018 with Django. To enhance my experience and learnings in Django I also interned at an Infrastructure as Code Platform...",
+        "date": {
+          "datetime": "2022-10-01T16:30:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Kushal-Vijay-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "healthcare-by-a-pythonista",
+        "url": "/2022/healthcare-by-a-pythonista/",
+        "title": "Healthcare by a Pythonista",
+        "description": "Leverage Python for Healthcare Applications for Accelerated Data Discovery. Every Human Body is different. Similarities are in the patterns of demographic, environmental factors & habits. The need for today is to have c...",
+        "date": {
+          "datetime": "2022-10-01T15:46:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Shilpa-Karkeraa-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "how-python-is-applying-in-architecture-engineering-construction-industry",
+        "url": "/2022/how-python-is-applying-in-architecture-engineering-construction-industry/",
+        "title": "How Python is applying in Architecture, Engineering & Construction Industry",
+        "description": "It is well-known that Python is normally using in developing software, automating task, data analysis & data visualisation. However, the application of Python in AEC has becoming popular thanks to the technological adva...",
+        "date": {
+          "datetime": "2022-10-01T15:45:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Cho-Ka-Chun-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "managing-r-and-matlab-gui-environments-in-jupyter",
+        "url": "/2022/managing-r-and-matlab-gui-environments-in-jupyter/",
+        "title": "Managing R and MATLAB GUI environments in Jupyter",
+        "description": "You probably know it is possible to write R and MATLAB notebooks in Jupyter , but did you know you can run their graphic user interface through Jupyter? This talk shows you how to do so through the use of jupyter-server...",
+        "date": {
+          "datetime": "2022-10-01T14:46:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Vinci-Chow-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "taking-machine-learning-models-to-production-using-python-and-fastapi",
+        "url": "/2022/taking-machine-learning-models-to-production-using-python-and-fastapi/",
+        "title": "Taking machine learning models to production using Python and FastAPI",
+        "description": "The talk will focus on building a FastAPI application to serve simple NLP and object detection models aimed for production use-cases. Beginning with a brief introduction to building servers using Python covering the bas...",
+        "date": {
+          "datetime": "2022-10-01T14:45:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Utkarsh-Goel-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "healthy-machine-learning-from-theory-to-practice",
+        "url": "/2022/healthy-machine-learning-from-theory-to-practice/",
+        "title": "Healthy Machine Learning: From Theory to Practice",
+        "description": "Cluster analysis is a machine learning technique designed to group similar objects or data points together. It has wide applications from customer segmentation to the development of recommendation engines. This talk wil...",
+        "date": {
+          "datetime": "2022-10-01T14:01:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Warrington-Hsu-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "airflow-v2-using-airflow-to-manage-etl-workflows",
+        "url": "/2022/airflow-v2-using-airflow-to-manage-etl-workflows/",
+        "title": "Airflow v2 – Using Airflow to manage ETL workflows",
+        "description": "In this talk, MJ will share his experiences of translating a traditional scripted workflow to using Airflow as a framework, and introduce some tips and common gotchas for Airflow. Date and Time : October 29, 2022 / 11:4...",
+        "date": {
+          "datetime": "2022-10-01T11:46:24+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/MJ_Tung-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "exploration-of-mysql-operator-for-kubernetes-in-python",
+        "url": "/2022/exploration-of-mysql-operator-for-kubernetes-in-python/",
+        "title": "Exploration of MySQL Operator for Kubernetes in Python",
+        "description": "MySQL Operator is written using Python- https://github.com/mysql/mysql-operator/tree/trunk/mysqloperator, for those interested in Kubernetes/Container deployment for MySQL and application, you can join us to explore the...",
+        "date": {
+          "datetime": "2022-10-01T11:45:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Ivan-Ma-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "automation-and-monitoring-in-wealthtech",
+        "url": "/2022/automation-and-monitoring-in-wealthtech/",
+        "title": "Automation and Monitoring in WealthTech",
+        "description": "WealthTech changes how individuals and companies manage their finances. However it is not as much of a rocket science as it may sound. There are some tools and methods that can help us perform market analysis / performa...",
+        "date": {
+          "datetime": "2022-10-01T11:01:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Rebecca-Lim-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "education-track-a-journey-to-be-a-python-angel",
+        "url": "/2022/education-track-a-journey-to-be-a-python-angel/",
+        "title": "Education Track | A Journey to be a Python Angel",
+        "description": "Our sharing will share the practical experiences on curriculum planning, lesson implementation, assessment and resources used in Python teaching. We develop a school-based Python curriculum in S3 to build up students’ c...",
+        "date": {
+          "datetime": "2022-10-01T10:16:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Ka-Tim-Chu-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "3d-visualization-with-spatial-data-for-5g-planning-websites-auto-tagging-algorithm",
+        "url": "/2022/3d-visualization-with-spatial-data-for-5g-planning-websites-auto-tagging-algorithm/",
+        "title": "3D Visualization with Spatial Data for 5G Planning + Websites auto-tagging algorithm",
+        "description": "While Hong Kong is progressing with the next-gen 5G network (e.g. mmWave), 3D-visualization with spatial data published by HKGov’s Smart City initiative could offer a unique angle in our next-gen 5G rollout which is exp...",
+        "date": {
+          "datetime": "2022-10-01T10:15:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/Chung-Ng-Alex-Zhang-Ho-Wa-Wong-1-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-organizers",
+        "url": "/2022/2022-organizers/",
+        "title": "Organizers – PyCon Hong Kong 2022",
+        "description": "Hong Kong Creative Open Technology Association 香港創意開放科技協會 Open Source Hong Kong 開源香港 Python User Group Hong Kong (HKPUG) Read More",
+        "date": {
+          "datetime": "2022-10-01T08:00:06+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Organizers-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-supporting-organizations",
+        "url": "/2022/2022-supporting-organizations/",
+        "title": "Supporting Organizations – PyCon Hong Kong 2022",
+        "description": "The Hong Kong Association for Computer Education 香港電腦教育學會 Internet Society Hong Kong 香港互聯網協會 Read More",
+        "date": {
+          "datetime": "2022-10-01T07:00:12+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Supporting-Organizations-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-sponsors",
+        "url": "/2022/2022-sponsors/",
+        "title": "Sponsors – PyCon Hong Kong 2022",
+        "description": "PyCon Hong Kong 2022 sincerely thanks our sponsors for supporting our mission and making the Annual Conference possible! Please click on sponsor logos for further sponsor messages. Gold Sponsors AWS Microsoft Silver Spo...",
+        "date": {
+          "datetime": "2022-10-01T06:00:33+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-aws",
+        "url": "/2022/2022-aws/",
+        "title": "Have a conversation with AWS at PyCon Hong Kong 2022",
+        "description": "About Amazon Web Services For over 15 years, Amazon Web Services has been the world’s most comprehensive and broadly adopted cloud offering. AWS has been continually expanding its services to support virtually any cloud...",
+        "date": {
+          "datetime": "2022-10-01T05:00:24+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-pccw-hkt",
+        "url": "/2022/2022-pccw-hkt/",
+        "title": "Have a conversation with PCCW-HKT at PyCon Hong Kong 2022",
+        "description": "PCCW Limited (SEHK: 0008) is a global company headquartered in Hong Kong which holds interests in telecommunications, media, IT solutions, property development and investment, and other businesses. The Company holds a m...",
+        "date": {
+          "datetime": "2022-10-01T04:00:23+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-mysql",
+        "url": "/2022/2022-mysql/",
+        "title": "Have a conversation with MySQL at PyCon Hong Kong 2022",
+        "description": "MySQL is the world’s most popular OS database. With its proven performance, reliability and ease-of-use, MySQL has become the leading database choice for web-based applications, used by high profile web properties inclu...",
+        "date": {
+          "datetime": "2022-10-01T03:00:46+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-microsoft",
+        "url": "/2022/2022-microsoft/",
+        "title": "Have a conversation with Microsoft at PyCon Hong Kong 2022",
+        "description": "Microsoft (Nasdaq “MSFT” @microsoft) enables digital transformation for the era of an intelligent cloud and an intelligent edge. Its mission is to empower every person and every organization on the planet to achieve mor...",
+        "date": {
+          "datetime": "2022-10-01T02:00:37+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Sponsors-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2022-volunteers",
+        "url": "/2022/2022-volunteers/",
+        "title": "Volunteers – PyCon Hong Kong 2022",
+        "description": "Volunteers of PyCon Hong Kong 2022 (In alphabetical order): Arnold ChanCalvin Y.K. ChongClaire WongDaisy Maris FungFiona LamGordon ChoiHaggen SoHenry LawIvan IpJoe ChanKen ChiuKen ChuRonald HungSam ChiuSammy FungScotty...",
+        "date": {
+          "datetime": "2022-10-01T01:00:00+08:00",
+          "label": "October 1, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/10/PyConHK-2022-Staff-850x478.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "pycon-hk-2022-calls-for-proposals-is-now-open",
+        "url": "/2022/pycon-hk-2022-calls-for-proposals-is-now-open/",
+        "title": "PYCON HK 2022 Calls For Proposals is now open!",
+        "description": "PYCON HK physical conference is back! Our theme this year is “Delight Yourself in Python”, you are cordially invited to submit your proposed topics! Don’t miss this chance to speak to our python community in person! Con...",
+        "date": {
+          "datetime": "2022-08-17T12:36:34+08:00",
+          "label": "August 17, 2022"
+        },
+        "image": {
+          "src": "/legacy-wp/2022/uploads/2022/08/PyCon-HK-2022-CFP-1-850x850.jpg",
+          "alt": ""
+        }
+      }
+    ]
+  }
+}

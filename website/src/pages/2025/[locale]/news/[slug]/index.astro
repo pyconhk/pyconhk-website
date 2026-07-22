@@ -1,0 +1,18 @@
+---
+import { type SiteYear } from '@/config/site';
+import { resolveLocaleParam } from '@/lib/routing';
+import NewsArticlePage from '@/years/2025/routes/NewsArticlePage.astro';
+
+type StaticPath = { params: { locale: string; slug: string } };
+
+export async function getStaticPaths(): Promise<StaticPath[]> {
+  return [];
+}
+
+const year: SiteYear = 2025;
+const params = Astro.params as { locale?: string; slug?: string };
+const locale = resolveLocaleParam(params.locale);
+const slug = params.slug || '';
+---
+
+<NewsArticlePage year={year} locale={locale} slug={slug} />

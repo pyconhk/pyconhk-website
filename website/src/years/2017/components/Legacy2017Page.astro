@@ -1,0 +1,33 @@
+---
+import { decodeCloudflareProtectedEmails } from '@/legacy/cloudflare-email';
+import { repairLegacy2017ArchiveSidebar } from '@/legacy/conference-archive-links';
+import { prepareLegacySearchableHtml } from '@/legacy/legacy-html';
+import { resolveLegacy2017HtmlAssets } from '@/years/2017/data/assets';
+import type { Legacy2017Page } from '@/years/2017/data/types';
+
+interface Props {
+  page: Legacy2017Page;
+}
+
+const { page } = Astro.props;
+const html = prepareLegacySearchableHtml(
+  resolveLegacy2017HtmlAssets(
+    stripInactiveLegacyScripts(
+      repairLegacy2017ArchiveSidebar(decodeCloudflareProtectedEmails(page.fullHtml))
+    )
+  ),
+  {
+    route: page.route,
+    title: page.title,
+  }
+);
+
+function stripInactiveLegacyScripts(html: string) {
+  return html.replace(
+    /<script\b[^>]*\bsrc=(["'])(?:\/cdn-cgi\/scripts\/5c5dd728\/cloudflare-static\/email-decode\.min\.js|\/js\/ga\.js)\1[^>]*>\s*<\/script>/giu,
+    ''
+  );
+}
+---
+
+<Fragment set:html={html} />

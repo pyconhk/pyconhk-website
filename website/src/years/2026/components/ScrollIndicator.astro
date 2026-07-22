@@ -1,0 +1,36 @@
+---
+import Icon from '@/years/2025/components/ui/Icon.astro';
+
+interface Props {
+  label: string;
+  targetId: string;
+}
+
+const { label, targetId } = Astro.props;
+---
+
+<a
+  href={`#${targetId}`}
+  aria-label={label}
+  class="absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center rounded-full border-2 border-[#172033] bg-white/90 p-3 text-[#2b5b84] shadow-[4px_5px_0_#17203322] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2b5b84] min-[1292px]:flex"
+  data-scroll-target={targetId}
+>
+  <Icon name="chevron-down" className="h-5 w-5 animate-bounce" />
+</a>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-scroll-target]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const targetId = link.dataset.scrollTarget;
+      const target = targetId ? document.getElementById(targetId) : null;
+
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.pushState(null, '', `#${targetId}`);
+    });
+  });
+</script>

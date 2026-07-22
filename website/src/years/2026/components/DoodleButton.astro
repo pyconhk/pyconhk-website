@@ -1,0 +1,24 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { href, label, variant = 'primary' } = Astro.props;
+const isPrimary = variant === 'primary';
+const opensNewTab = !href.startsWith('mailto:');
+---
+
+<a
+  href={href}
+  aria-label={label}
+  target={opensNewTab ? '_blank' : undefined}
+  rel={opensNewTab ? 'noreferrer' : undefined}
+  class:list={[
+    'inline-flex min-h-12 w-full items-center justify-center rounded-xl border-2 border-[#172033] px-5 py-3 font-mono text-sm font-black text-[#172033] shadow-[4px_5px_0_#17203322] transition hover:-translate-y-0.5 hover:shadow-[6px_7px_0_#17203326] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2b5b84] sm:w-auto md:text-base',
+    isPrimary ? '-rotate-1 bg-[#ffd343]' : 'rotate-1 bg-white [border-style:dashed]',
+  ]}
+>
+  <slot />
+</a>

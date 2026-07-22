@@ -1,0 +1,8 @@
+---
+import Legacy2021Page from '@/years/2021/components/Legacy2021Page.astro';
+import { getLegacy2021Page } from '@/years/2021/data/pages';
+
+const page = getLegacy2021Page('/2021/');
+---
+
+<Legacy2021Page page={page} />

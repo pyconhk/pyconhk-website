@@ -1,0 +1,6 @@
+# Copy to .dev.vars for local Workerd development.
+CMS_GITHUB_CLIENT_ID=YOUR_GITHUB_OAUTH_APP_CLIENT_ID
+CMS_GITHUB_CLIENT_SECRET=YOUR_GITHUB_OAUTH_APP_CLIENT_SECRET
+
+# Optional. Leave unset to use the current request origin.
+# CMS_PUBLIC_URL=http://localhost:4321

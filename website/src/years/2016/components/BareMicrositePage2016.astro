@@ -1,0 +1,159 @@
+---
+import PageContent2016 from '@/years/2016/components/PageContent2016.astro';
+import { resolveLegacy2016AssetUrl } from '@/years/2016/data/assets';
+import {
+  legacy2016Brand,
+  legacy2016NavGroups,
+  legacy2016TicketHref,
+} from '@/years/2016/data/navigation';
+import type { Legacy2016Page } from '@/years/2016/data/types';
+
+interface Props {
+  page: Legacy2016Page;
+}
+
+const { page } = Astro.props;
+const faviconSrc =
+  resolveLegacy2016AssetUrl('/2016/images/favicon.png') || '/2016/images/favicon.png';
+const legacyBootstrapDropdownHref = '#';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={page.description} />
+    <title>{page.title}</title>
+    <link rel="icon" href={faviconSrc} />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="/2016/css/jumbotron.css" rel="stylesheet" />
+    <link href="/2016/css/style.css" rel="stylesheet" />
+    <link
+      href="https://2016.opensource.hk/statics/genericons/genericons.css?v=QN3ADN"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-expanded="false"
+            aria-controls="navbar"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href={legacy2016Brand.href}>{legacy2016Brand.label}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            {
+              legacy2016NavGroups.map((group) => (
+                <li class="dropdown">
+                  {/* biome-ignore lint/a11y/useSemanticElements: Legacy Bootstrap 3 markup mirrors live PyCon HK 2016. */}
+                  <a
+                    href={legacyBootstrapDropdownHref}
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-expanded="false"
+                  >
+                    {group.label} <span class="caret" />
+                  </a>
+                  {/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Legacy Bootstrap 3 markup mirrors live PyCon HK 2016. */}
+                  <ul class="dropdown-menu" role="menu">
+                    {group.items.map((item) => (
+                      <li>
+                        <a href={item.href}>{item.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-highlight"><a href={legacy2016TicketHref}>Get Ticket</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <PageContent2016 page={page} />
+    <script is:inline data-legacy-2016-dropdowns>
+      (() => {
+        const navbar = document.querySelector('.navbar');
+        const collapse = navbar?.querySelector('.navbar-collapse');
+
+        if (!navbar) {
+          return;
+        }
+
+        const closeDropdowns = (except) => {
+          navbar.querySelectorAll('.dropdown.open').forEach((dropdown) => {
+            if (dropdown === except) {
+              return;
+            }
+
+            dropdown.classList.remove('open');
+            dropdown.querySelector('[data-toggle="dropdown"]')?.setAttribute('aria-expanded', 'false');
+          });
+        };
+
+        navbar.addEventListener('click', (event) => {
+          const navToggle = event.target.closest('.navbar-toggle');
+          if (navToggle && navbar.contains(navToggle) && collapse) {
+            event.preventDefault();
+            const shouldOpen = navToggle.getAttribute('aria-expanded') !== 'true';
+
+            navToggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+            navToggle.classList.toggle('collapsed', !shouldOpen);
+            collapse.classList.toggle('in', shouldOpen);
+            return;
+          }
+
+          const dropdownToggle = event.target.closest('[data-toggle="dropdown"]');
+          if (!dropdownToggle || !navbar.contains(dropdownToggle)) {
+            return;
+          }
+
+          event.preventDefault();
+
+          const dropdown = dropdownToggle.closest('.dropdown');
+          const shouldOpen = !dropdown.classList.contains('open');
+
+          closeDropdowns(dropdown);
+          dropdown.classList.toggle('open', shouldOpen);
+          dropdownToggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!navbar.contains(event.target)) {
+            closeDropdowns();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            closeDropdowns();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

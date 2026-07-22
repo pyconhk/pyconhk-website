@@ -1,0 +1,42 @@
+---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
+import BareMicrositePage2016 from '@/years/2016/components/BareMicrositePage2016.astro';
+import { legacy2016Pages } from '@/years/2016/data/pages';
+
+export function getStaticPaths() {
+  const micrositePages = legacy2016Pages.filter((page) =>
+    /^\/2016\/[^/]+\/$/u.test(page.route)
+  );
+
+  return [
+    ...micrositePages.map((page) => ({
+      params: { slug: page.route.replace(/^\/2016\/|\/$/gu, '') },
+      props: { page },
+    })),
+    ...archiveMonthsForYear('2016').map((archiveMonth) => ({
+      params: { slug: archiveMonth.month },
+      props: {
+        monthArchiveLabel: archiveMonth.label,
+        monthArchivePage: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+      },
+    })),
+  ];
+}
+
+const { monthArchiveLabel, monthArchivePage, page } = Astro.props;
+---
+
+{
+  monthArchivePage ? (
+    <LegacyYearArchivePage
+      headingKind="Month"
+      label={monthArchiveLabel}
+      page={monthArchivePage}
+      year="2016"
+    />
+  ) : (
+    <BareMicrositePage2016 page={page} />
+  )
+}

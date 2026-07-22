@@ -1,0 +1,26 @@
+---
+import { isSupportedLocale, type SiteLocale, type SiteYear } from '@/config/site';
+import SubpagePage from '@/years/2025/routes/SubpagePage.astro';
+
+const year: SiteYear = 2025;
+const section = 'sprint';
+const subsection = 'qna';
+
+export function getStaticPaths() {
+  const liveLocales = ['en', 'zh-hk'] satisfies SiteLocale[];
+
+  return liveLocales.map((locale) => ({
+    params: { locale },
+    props: { locale },
+  }));
+}
+
+const locale = isSupportedLocale(Astro.props.locale) ? Astro.props.locale : 'en';
+---
+
+<SubpagePage
+  year={year}
+  locale={locale}
+  section={section}
+  subsection={subsection}
+/>

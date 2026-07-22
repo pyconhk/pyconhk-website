@@ -1,0 +1,56 @@
+---
+import {
+  decodeCloudflareProtectedEmails,
+  stripCloudflareChallengeScripts,
+} from '@/legacy/cloudflare-email';
+import { repairLegacyWordPressHistoryLinks } from '@/legacy/conference-archive-links';
+import { prepareLegacySearchableHtml } from '@/legacy/legacy-html';
+import { resolveLegacy2020HtmlAssets } from '@/years/2020/data/assets';
+import type { Legacy2023Page } from '@/years/2023/data/types';
+
+interface Props {
+  page: Legacy2023Page;
+}
+
+const { page } = Astro.props;
+
+const legacy2023LayoutFixes = `<style id="legacy-2023-layout-fixes">
+body.wp-theme-marketingly .entry-content a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+</style>`;
+
+function injectLegacy2023LayoutFixes(html: string): string {
+  return html.replace('</head>', `${legacy2023LayoutFixes}</head>`);
+}
+
+function repairLegacy2023Routes(html: string): string {
+  return html
+    .replace(/(["'])\/2023\/page\/1\/?\1/gu, '$1/2023/$1')
+    .replace(/(["'])\/2023\/photos\/\/wp-content\//gu, '$1/wp-content/')
+    .replace(
+      /(["'])\/conference-highlights\/pycon-hk-2023-photos\/\1/gu,
+      '$1/2023/photos/$1'
+    );
+}
+
+const html = injectLegacy2023LayoutFixes(
+  prepareLegacySearchableHtml(
+    resolveLegacy2020HtmlAssets(
+      stripCloudflareChallengeScripts(
+        repairLegacy2023Routes(
+          decodeCloudflareProtectedEmails(repairLegacyWordPressHistoryLinks(page.fullHtml))
+        )
+      ),
+      '2023'
+    ),
+    {
+      route: page.route,
+      title: page.title,
+    }
+  )
+);
+---
+
+<Fragment set:html={html} />

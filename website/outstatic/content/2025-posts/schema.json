@@ -2,12 +2,26 @@
   "title": "2025-posts",
   "type": "object",
   "properties": {
+    "description": {
+      "description": "Short summary used for cards, meta descriptions, and social previews",
+      "required": true,
+      "fieldType": "Text",
+      "dataType": "text",
+      "title": "Description"
+    },
     "coverImage": {
       "description": "Image for the Post",
-      "required": false,
+      "required": true,
       "fieldType": "Image",
       "dataType": "image",
       "title": "Cover Image"
+    },
+    "tags": {
+      "description": "Tags used for filtering and validation",
+      "required": true,
+      "fieldType": "List",
+      "dataType": "list",
+      "title": "Tags"
     }
   }
 }

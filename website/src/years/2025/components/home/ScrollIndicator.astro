@@ -1,0 +1,32 @@
+---
+import type { SiteLocale } from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { getTranslations } from '@/years/2025/i18n';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale, 'home');
+---
+
+<div
+  data-scroll-target="latest-news"
+  class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer"
+>
+  <div class="flex cursor-pointer items-center justify-center rounded-full border border-[#016735]/40 bg-white/70 p-3">
+    <div class="flex items-center justify-center gap-2 text-[#016735]">
+      <span>{t('tertiaryCta')}</span>
+      <span aria-hidden="true" class="inline-flex items-center justify-center">
+        <Icon name="chevron-down" className="h-5 w-5" />
+      </span>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.querySelector('[data-scroll-target="latest-news"]')?.addEventListener('click', () => {
+    document.getElementById('latest-news')?.scrollIntoView({ behavior: 'smooth' })
+  })
+</script>

@@ -1,0 +1,20 @@
+---
+import { defaultLocale, type SiteYear } from '@/config/site';
+import {
+  getDefaultLocaleSubpageStaticPaths,
+  resolveSectionParam,
+  resolveSubpageParam,
+} from '@/lib/routing';
+import SubpagePage from '@/years/2025/routes/SubpagePage.astro';
+
+export function getStaticPaths() {
+  return getDefaultLocaleSubpageStaticPaths();
+}
+
+const year: SiteYear = 2025;
+const locale = defaultLocale;
+const section = resolveSectionParam(Astro.params.section);
+const subsection = resolveSubpageParam(section, Astro.params.subsection);
+---
+
+<SubpagePage year={year} locale={locale} section={section} subsection={subsection} />

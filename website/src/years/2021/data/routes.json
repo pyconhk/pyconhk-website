@@ -1,0 +1,49 @@
+{
+  "requiredRoutes": [
+    "/2021/",
+    "/2021/2021-edu-aws-survey/",
+    "/2021/2021-live/",
+    "/2021/2021-microsoft/",
+    "/2021/2021-mysql/",
+    "/2021/2021-pccw-hkt/",
+    "/2021/2021-qa-prize/",
+    "/2021/2021-schedule/",
+    "/2021/2021-sponsors/",
+    "/2021/2021-staff/",
+    "/2021/2021-ticket/",
+    "/2021/applying-ml-models-to-cooling-load-prediction-for-higher-energy-efficiency-in-buildings-a-case-study/",
+    "/2021/bridging-the-data-science-gap-in-production-ml-with-tempo/",
+    "/2021/building-simple-transformer-model-for-custom-data/",
+    "/2021/financial-data-forecaster/",
+    "/2021/from-zero-to-hero-my-python-journey-to-the-west/",
+    "/2021/guide-your-children-into-the-realm-of-ai-with-coding/",
+    "/2021/how-azure-machine-learning-and-cognitive-services-can-make-your-life-easier/",
+    "/2021/intelligent-pricing-for-an-e-commerce-platform/",
+    "/2021/introduction-to-koalas/",
+    "/2021/is-the-news-media-polarized-or-are-we-conditioned-to-think-it-is/",
+    "/2021/metaclasses-the-realm-of-metaprogramming/",
+    "/2021/mysql-operator-for-kubernetes/",
+    "/2021/mysql-shell-is-your-python-friend-2/",
+    "/2021/neural-prophet-a-powerful-ai-framework-for-time-series-models/",
+    "/2021/page/2/",
+    "/2021/photos/",
+    "/2021/privacy-statement-2021/",
+    "/2021/pycon-hk-2021-calls-for-proposals/",
+    "/2021/pycon-hk-2021-will-be-back-in-october/",
+    "/2021/pycon-hong-kong-2021-conference-is-coming-again-this-oct/",
+    "/2021/pycon-hong-kong-2021-conference-is-coming-in-2-weeks/",
+    "/2021/python-versions-and-dependencies-made-easy/",
+    "/2021/securing-django-applications/",
+    "/2021/student-journey-in-python/",
+    "/2021/unmasking-the-neglected-crowd-in-the-genome/",
+    "/2021/using-aws-ai-and-amazon-sumerian-in-it-education/",
+    "/2021/using-pyside2-and-qt-quick-as-gui-for-iot-project-on-raspberry-pi/",
+    "/2021/廣東話自肥企画-cantonese-selfish-project/"
+  ],
+  "migratedTopLevelRoutes": [
+    {
+      "from": "/conference-highlights/pycon-hk-2021-photos/",
+      "to": "/2021/photos"
+    }
+  ]
+}

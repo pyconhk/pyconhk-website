@@ -1,0 +1,91 @@
+{
+  "requiredRoutes": [
+    "/2015/",
+    "/2015/about/code-of-conducts/",
+    "/2015/about/staffs/",
+    "/2015/about/what-is-pycon/",
+    "/2015/css/bootstrap.min.css/",
+    "/2015/js/bootstrap.min.js/",
+    "/2015/js/ga.js/",
+    "/2015/jumbotron.css/",
+    "/2015/schedule/",
+    "/2015/schedule/topics/",
+    "/2015/schedule/topics/%E7%B6%B2%E5%AA%92%E4%B9%8B%E9%96%93%E6%96%87%E7%AB%A0%E6%9C%89%E4%B9%9C%E5%88%86%E5%88%A5/",
+    "/2015/schedule/topics/artiq-the-advanced-real-time-infrastructure-for-quantum-physics/",
+    "/2015/schedule/topics/better-type-at-python/",
+    "/2015/schedule/topics/beyond-the-style-guides/",
+    "/2015/schedule/topics/building-an-adaptive-learning-system-using-bayesian-modelling-in-python/",
+    "/2015/schedule/topics/chinese-nlp-with-open-source-tools-in-python/",
+    "/2015/schedule/topics/decoding-the-language-of-cereal-box-design-with-scikit-learn/",
+    "/2015/schedule/topics/dont-be-afraid-to-search/",
+    "/2015/schedule/topics/explore-your-data-with-elasticsearch/",
+    "/2015/schedule/topics/financial-technology/",
+    "/2015/schedule/topics/functional-and-scale-performance-tests-using-zopkio/",
+    "/2015/schedule/topics/haxe-a-statically-typed-language-that-compiles-to-python-and-more/",
+    "/2015/schedule/topics/heading-towards-continuous-delivery/",
+    "/2015/schedule/topics/introduction-to-aiohttp-asyncio-based-web-framework/",
+    "/2015/schedule/topics/keep-it-simple-web-development-stack/",
+    "/2015/schedule/topics/lets-break-some-stupid-captchas/",
+    "/2015/schedule/topics/microsoft-and-python/",
+    "/2015/schedule/topics/monitoring-the-performance-of-python-web-applications/",
+    "/2015/schedule/topics/my-personal-take/",
+    "/2015/schedule/topics/scrape-more-with-less-codes/",
+    "/2015/schedule/topics/the-changing-landscape-of-python-web-application-deployment/",
+    "/2015/schedule/topics/use-all-the-logs/",
+    "/2015/schedule/topics/using-python-for-data-mining-projects/",
+    "/2015/schedule/topics/web-backends-development-using-python/",
+    "/2015/schedule/topics/what-exactly-is-plastics-on-hong-kong-golden-forum-a-text-mining-analysis/",
+    "/2015/schedule/topics/writing-fast-code/",
+    "/2015/sponsor/",
+    "/2015/sponsor/prospectus/",
+    "/2015/style.css/",
+    "/2015/style.js/",
+    "/2015/venue/",
+    "/2015/venue/hotels/",
+    "/2015/photos/"
+  ],
+  "htmlRoutes": [
+    "/2015/",
+    "/2015/about/code-of-conducts/",
+    "/2015/about/staffs/",
+    "/2015/about/what-is-pycon/",
+    "/2015/schedule/",
+    "/2015/schedule/topics/",
+    "/2015/sponsor/",
+    "/2015/sponsor/prospectus/",
+    "/2015/venue/",
+    "/2015/venue/hotels/",
+    "/2015/photos/"
+  ],
+  "compatibilityRoutes": [
+    "/2015/css/bootstrap.min.css/",
+    "/2015/js/bootstrap.min.js/",
+    "/2015/js/ga.js/",
+    "/2015/jumbotron.css/",
+    "/2015/style.css/",
+    "/2015/style.js/"
+  ],
+  "visualSampleRoutes": [
+    "/2015/",
+    "/2015/schedule/",
+    "/2015/schedule/topics/better-type-at-python/",
+    "/2015/schedule/topics/%E7%B6%B2%E5%AA%92%E4%B9%8B%E9%96%93%E6%96%87%E7%AB%A0%E6%9C%89%E4%B9%9C%E5%88%86%E5%88%A5/",
+    "/2015/sponsor/",
+    "/2015/venue/",
+    "/2015/photos/",
+    "/2015/style.css/",
+    "/2015/js/bootstrap.min.js/"
+  ],
+  "internalRouteRewrites": [
+    {
+      "from": "/2015/schedule/topics/%E7%B6%B2%E5%AA%92%E4%B9%8B%E9%96%93%E6%96%87%E7%AB%A0%E6%9C%89%E4%B9%9C%E5%88%86%E5%88%A5/",
+      "to": "/2015/legacy-internal/schedule/topics/e7-b6-b2-e5-aa-92-e4-b9-8b-e9-96-93-e6-96-87-e7-ab-a0-e6-9c-89-e4-b9-9c-e5-88-86-e5-88-a5"
+    }
+  ],
+  "migratedTopLevelRoutes": [
+    {
+      "from": "/conference-highlights/2015-photos/",
+      "to": "/2015/photos"
+    }
+  ]
+}

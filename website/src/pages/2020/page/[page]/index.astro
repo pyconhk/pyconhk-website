@@ -1,0 +1,20 @@
+---
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import {
+  getLegacyYearArchive,
+  getLegacyYearArchivePageNumbers,
+} from '@/legacy/legacy-year-archives';
+
+const year = '2020';
+
+export function getStaticPaths() {
+  return getLegacyYearArchivePageNumbers('2020').map((pageNumber) => ({
+    params: { page: String(pageNumber) },
+    props: { page: getLegacyYearArchive('2020', pageNumber) },
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<LegacyYearArchivePage year={year} page={page} />

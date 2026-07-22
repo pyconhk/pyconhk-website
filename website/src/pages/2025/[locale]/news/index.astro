@@ -1,0 +1,17 @@
+---
+import { type SiteYear } from '@/config/site';
+import { resolveLocaleParam } from '@/lib/routing';
+import NewsIndexPage from '@/years/2025/routes/NewsIndexPage.astro';
+
+type StaticPath = { params: { locale: string } };
+
+export function getStaticPaths(): StaticPath[] {
+  return [];
+}
+
+const year: SiteYear = 2025;
+const params = Astro.params as { locale?: string };
+const locale = resolveLocaleParam(params.locale);
+---
+
+<NewsIndexPage year={year} locale={locale} />

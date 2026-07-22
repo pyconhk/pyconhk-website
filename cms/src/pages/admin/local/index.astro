@@ -1,0 +1,26 @@
+---
+export const prerender = true;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>PyCon HK CMS Local Sandbox</title>
+    <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+    <link
+      rel="cms-config-url"
+      type="text/yaml"
+      href="/admin/config.yml?backend=local"
+    />
+  </head>
+  <body>
+    <script>
+      import CMS from "decap-cms-app";
+
+      CMS.init();
+    </script>
+  </body>
+</html>

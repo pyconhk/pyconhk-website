@@ -1,0 +1,461 @@
+---
+import type { SiteLocale } from '@/config/site';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale }: Props = Astro.props;
+---
+
+{
+  locale === 'zh-hk' ? (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold md:text-3xl lg:text-4xl">
+        PyCon Hong Kong 私隱政策聲明
+      </h1>
+
+      <section id="introduction" class="mt-4">
+        <p class="mt-4">
+          PyCon Hong Kong（下稱「PyCon HK」、「我們」或「本會」）非常重視個人私隱。本聲明說明我們的政策與做法，適用於你在瀏覽及使用 www.pycon.hk（「本網站」）及相關第三方服務期間的資料收集與使用。
+        </p>
+        <p class="mt-4">
+          作為適用資料保障法例下的資料控制者及／或資料使用者（包括但不限於香港及歐盟地區），PyCon HK 會按本私隱政策聲明所述收集、保存、處理及使用參加者的個人資料。本聲明亦構成本網站使用條款的一部分，說明我們會收集哪些資料、在何時及如何分享，以及相關用途。
+        </p>
+      </section>
+
+      <div class="mt-8 space-y-8">
+        <section id="information-we-collect">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">1. 我們收集的資料</h2>
+          <p class="mt-4">
+            PyCon HK 可能會收集及處理參加者的各類資料，包括但不限於在提供服務或產品過程中取得的資料，以提升服務質素及使用者體驗。相關資料可包括：
+          </p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">全名</li>
+            <li class="md:pl-2">電話號碼</li>
+            <li class="md:pl-2">電郵地址</li>
+            <li class="md:pl-2">其他聯絡資料</li>
+            <li class="md:pl-2">付款資料</li>
+            <li class="md:pl-2">公司、機構、組織、部門或其他實體資料</li>
+            <li class="md:pl-2">照片</li>
+            <li class="md:pl-2">個人簡介</li>
+            <li class="md:pl-2">偏好資料，例如你希望接收哪些通訊內容</li>
+            <li class="md:pl-2">飲食偏好及要求</li>
+            <li class="md:pl-2">你為參與會議、活動、網上研討會及其他項目而提供的資料</li>
+            <li class="md:pl-2">任何其他由你提供、與你或其他人士有關的資料</li>
+          </ul>
+          <p class="mt-4">我們只會在達成收集該等個人資料的特定目的所需期間內保留有關資料。</p>
+          <p class="mt-4">
+            當你瀏覽本網站時，我們亦會透過 cookies 及其他常見技術，自動收集瀏覽器傳送的標準技術資料，包括瀏覽器類型及語言、存取時間、引薦網站地址、IP 位址及點擊流資料，以改善本網站功能。有關 cookies 的更多詳情見下文。
+          </p>
+        </section>
+
+        <section id="how-we-use-personal-information">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">2. 我們如何使用所收集的個人資料</h2>
+          <p class="mt-2">我們會按以下方式使用你提供的資料：</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">向你提供 PyCon HK 網站服務</li>
+            <li class="md:pl-2">為你登記接收與 PyCon HK 有關的郵件</li>
+            <li class="md:pl-2">為你辦理活動、教學課程及其他服務的報名</li>
+            <li class="md:pl-2">向你提供有關 Python、PyCon HK 及其活動的資訊</li>
+            <li class="md:pl-2">在你明確同意的情況下，讓你與 PyCon HK 贊助商建立聯繫</li>
+            <li class="md:pl-2">與你溝通，回應你的問題、查詢或關注事項</li>
+            <li class="md:pl-2">管理及改進 PyCon HK，包括網站、活動、教學課程及其他服務</li>
+            <li class="md:pl-2">處理你就 PyCon HK 服務及活動作出的付款</li>
+            <li class="md:pl-2">防止及偵測欺詐行為</li>
+            <li class="md:pl-2">保障及執行我們的合法權利</li>
+            <li class="md:pl-2">遵守香港或其他地區適用的法律、規例或實務守則</li>
+          </ul>
+        </section>
+
+        <section id="who-we-share-your-personal-information-with">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">3. 我們會與誰分享你的個人資料</h2>
+          <p class="mt-4">
+            如果你在 Eventbrite 報名期間同意與贊助商分享資料，PyCon HK 會向贊助商披露部分資料，包括名字、姓氏、電郵地址、報名時提供的職位及僱主名稱，以及居住國家／地區。
+          </p>
+          <p class="mt-4">
+            在法律要求或允許的情況下，我們可能為配合法律程序（例如傳票、政府要求）或基於真誠相信披露資料屬保障我們的權利與財產、或他人權利、財產或安全所必需，而披露你的個人資料。
+          </p>
+          <p class="mt-4">
+            為保障活動安全與保安，以及防止和偵查罪行，我們亦可能在香港執法機關依法提出要求時，向其提供你的個人身份資料。
+          </p>
+        </section>
+
+        <section id="use-of-third-party-services">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">4. 使用第三方服務</h2>
+          <p class="mt-4">
+            PyCon HK 使用部分第三方服務，以協助籌辦活動及支援相關網上服務，包括：
+          </p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">
+              Eventbrite
+              <a href="https://www.eventbrite.com/help/en-us/articles/460838/eventbrite-privacy-policy/" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+                Eventbrite Privacy Policy
+              </a>
+            </li>
+            <li class="md:pl-2">
+              UDomain
+              <a href="https://www.udomain.hk/en/privacy" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+                UDomain Privacy Policy
+              </a>
+            </li>
+            <li class="md:pl-2">
+              GitHub
+              <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+                GitHub Privacy Statement
+              </a>
+            </li>
+            <li class="md:pl-2">
+              Pretalx
+              <a href="https://pretalx.com/p/privacy" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+                Pretalx Privacy
+              </a>
+            </li>
+            <li class="md:pl-2">
+              Substack
+              <a href="https://substack.com/privacy" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+                Substack Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section id="cookies">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">5. Cookies</h2>
+          <p class="mt-4">
+            Cookies 是網站在你瀏覽時儲存在裝置上的小型文字檔案，通常會經過加密，用以提升瀏覽效率，並協助網站持有人了解網站使用情況。
+          </p>
+          <p class="mt-4">
+            大部分網頁瀏覽器均容許你刪除現有 cookies、阻止 cookies 的使用，或在 cookies 被設定時向你發出通知。
+          </p>
+        </section>
+
+        <section id="hyperlinks">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">6. 超連結</h2>
+          <p class="mt-4">
+            當你點擊廣告或連往外部網站的超連結時，你將離開本網站並前往其他網站。我們不對該等網站的私隱、保安措施或內容負責。
+          </p>
+        </section>
+
+        <section id="your-data-privacy-rights">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">7. 你的資料私隱權利</h2>
+          <p class="mt-4">
+            使用我們的服務即表示你同意我們按本私隱聲明所述收集及使用你的個人資料。
+          </p>
+          <p class="mt-4">你有權：</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">查詢我們是否持有你的個人資料，並存取該等資料；</li>
+            <li class="md:pl-2">要求我們更正不準確的資料；</li>
+            <li class="md:pl-2">了解我們有關個人資料的政策與做法；</li>
+            <li class="md:pl-2">要求查閱、更正或刪除你的個人資料；</li>
+            <li class="md:pl-2">要求限制處理或反對我們處理你的個人資料；</li>
+            <li class="md:pl-2">向本地主管機關就個人資料處理提出投訴。</li>
+          </ul>
+          <p class="mt-4">
+            如欲行使上述權利、停止接收市場推廣通訊、提出問題或投訴，或要求刪除個人資料，請聯絡：
+          </p>
+          <p class="mt-4">
+            Data Privacy Officer
+            <br />
+            PyCon HK
+            <br />
+            E-mail:
+            <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+          </p>
+          <p class="mt-4">在法律允許的情況下，我們可能就處理資料查閱要求收取合理費用。</p>
+        </section>
+      </div>
+    </div>
+  ) : locale === 'ja' ? (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold md:text-3xl lg:text-4xl">
+        PyCon Hong Kong プライバシーポリシー
+      </h1>
+
+      <section id="introduction" class="mt-4">
+        <p class="mt-4">
+          PyCon Hong Kong（以下「PyCon HK」「当会」「当サイト」）は、個人情報の保護を重視しています。本声明は、www.pycon.hk および関連する第三者サービスの利用時における情報の収集と利用について説明するものです。
+        </p>
+        <p class="mt-4">
+          PyCon HK は、香港や欧州連合などで適用されるデータ保護法に基づくデータ管理者またはデータ利用者として、本ポリシーに記載された範囲で、参加者の個人情報を収集、保管、処理、利用します。
+        </p>
+      </section>
+
+      <div class="mt-8 space-y-8">
+        <section id="information-we-collect">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">1. 収集する情報</h2>
+          <p class="mt-4">
+            PyCon HK は、サービス提供やイベント運営のために、次のような個人情報を収集・処理する場合があります。
+          </p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">氏名</li>
+            <li class="md:pl-2">電話番号</li>
+            <li class="md:pl-2">メールアドレス</li>
+            <li class="md:pl-2">その他の連絡先情報</li>
+            <li class="md:pl-2">支払い情報</li>
+            <li class="md:pl-2">会社・組織・所属部署などの情報</li>
+            <li class="md:pl-2">写真</li>
+            <li class="md:pl-2">プロフィール・略歴</li>
+            <li class="md:pl-2">受け取りを希望する案内などの設定情報</li>
+            <li class="md:pl-2">食事制限や嗜好</li>
+            <li class="md:pl-2">会議、イベント、ウェビナー等への参加に関連して提供された情報</li>
+            <li class="md:pl-2">その他、本人または第三者に関して提供された情報</li>
+          </ul>
+          <p class="mt-4">個人情報は、収集目的の達成に必要な期間に限って保持します。</p>
+          <p class="mt-4">
+            また、当サイトの利用時には、Cookie などの一般的な技術を通じて、ブラウザ種別、言語、アクセス時刻、参照元 URL、IP アドレス、クリックストリーム情報などの技術情報を自動的に収集する場合があります。
+          </p>
+        </section>
+
+        <section id="how-we-use-personal-information">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">2. 個人情報の利用目的</h2>
+          <p class="mt-2">当会は、収集した情報を次の目的で利用します。</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">PyCon HK のウェブサイトや関連サービスの提供</li>
+            <li class="md:pl-2">PyCon HK 関連のお知らせ配信への登録</li>
+            <li class="md:pl-2">イベント、チュートリアル、その他サービスへの登録処理</li>
+            <li class="md:pl-2">Python や PyCon HK に関する情報提供</li>
+            <li class="md:pl-2">本人の同意に基づくスポンサーとの接点の提供</li>
+            <li class="md:pl-2">問い合わせや懸念事項への対応</li>
+            <li class="md:pl-2">ウェブサイトやイベント運営の改善</li>
+            <li class="md:pl-2">支払い処理</li>
+            <li class="md:pl-2">不正の防止と検知</li>
+            <li class="md:pl-2">法的権利の保護と行使</li>
+            <li class="md:pl-2">香港内外で適用される法令・規則・実務規範への対応</li>
+          </ul>
+        </section>
+
+        <section id="who-we-share-your-personal-information-with">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">3. 個人情報の共有先</h2>
+          <p class="mt-4">
+            Eventbrite での登録時に同意がある場合、PyCon HK は、氏名、メールアドレス、役職、勤務先、居住国・地域などの一部情報をスポンサーと共有することがあります。
+          </p>
+          <p class="mt-4">
+            また、召喚状や政府機関からの要請などの法的手続きに対応するため、または当会や他者の権利・財産・安全を守るために必要と誠実に判断した場合、法令に基づき個人情報を開示する場合があります。
+          </p>
+          <p class="mt-4">
+            イベントの安全確保および犯罪防止・検知のため、香港の法執行機関から適法な要請があった場合に、必要な個人識別情報を提供することがあります。
+          </p>
+        </section>
+
+        <section id="use-of-third-party-services">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">4. 第三者サービスの利用</h2>
+          <p class="mt-4">
+            PyCon HK はイベント運営およびオンラインサービス提供のため、以下の第三者サービスを利用しています。
+          </p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">Eventbrite</li>
+            <li class="md:pl-2">UDomain</li>
+            <li class="md:pl-2">GitHub</li>
+            <li class="md:pl-2">Pretalx</li>
+            <li class="md:pl-2">Substack</li>
+          </ul>
+        </section>
+
+        <section id="cookies">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">5. Cookie</h2>
+          <p class="mt-4">
+            Cookie は、ウェブサイト閲覧時にデバイスへ保存される小さなテキストファイルです。閲覧効率の向上や、サイト利用状況の把握に利用されます。
+          </p>
+          <p class="mt-4">
+            多くのブラウザでは、既存 Cookie の削除、Cookie の拒否、設定時の通知などを行うことができます。
+          </p>
+        </section>
+
+        <section id="hyperlinks">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">6. 外部リンク</h2>
+          <p class="mt-4">
+            広告や外部ウェブサイトへのリンクをクリックすると、当サイトを離れて別のサイトへ移動します。移動先サイトのプライバシー方針、セキュリティ、内容について当会は責任を負いません。
+          </p>
+        </section>
+
+        <section id="your-data-privacy-rights">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">7. あなたの権利</h2>
+          <p class="mt-4">
+            当サービスを利用することで、本声明に記載された個人情報の収集と利用に同意したものとみなされます。
+          </p>
+          <p class="mt-4">あなたには次の権利があります。</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">自分に関する個人情報を当会が保有しているか確認し、アクセスする権利</li>
+            <li class="md:pl-2">不正確な情報の訂正を求める権利</li>
+            <li class="md:pl-2">個人情報に関する方針や実務を確認する権利</li>
+            <li class="md:pl-2">個人情報の開示、訂正、削除を求める権利</li>
+            <li class="md:pl-2">処理の制限や異議申立てを求める権利</li>
+            <li class="md:pl-2">所管当局へ苦情を申し立てる権利</li>
+          </ul>
+          <p class="mt-4">
+            権利行使、マーケティング配信停止、質問・苦情、または個人情報削除の依頼については、以下までご連絡ください。
+          </p>
+          <p class="mt-4">
+            Data Privacy Officer
+            <br />
+            PyCon HK
+            <br />
+            E-mail:
+            <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+          </p>
+          <p class="mt-4">
+            法令上許される範囲で、情報開示請求の処理に合理的な手数料を請求する場合があります。
+          </p>
+        </section>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <h1 class="mb-8 text-center text-2xl font-bold md:text-3xl lg:text-4xl">
+        PyCon Hong Kong Privacy Policy Statement
+      </h1>
+
+      <section id="introduction" class="mt-4">
+    <p class="mt-4">
+      The PyCon Hong Kong (referred to as "PyCon HK", "we", "us" and "our") takes individuals&apos; privacy seriously. This Statement explains our policies and practices and applies to information collection and use including but not limited to while you are visiting and using www.pycon.hk (the "Site") and related third party services.
+    </p>
+    <p class="mt-4">
+      PyCon HK as a data controller and/or data user under relevant data protection laws in regions including but not limited to Hong Kong and the European Union, collects, holds, processes, and uses personal information from participants, as outlined in this privacy policy statment, which forms part of our Terms of Use for the Site, detailing what data is collected, when and how it is shared, and the purposes behind these actions.
+    </p>
+      </section>
+
+      <div class="mt-8 space-y-8">
+    <section id="information-we-collect">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">1. Information We Collect</h2>
+      <p class="mt-4">
+        PyCon HK may collect and process various information from participants, including but not limited to details gathered in the course of providing our services or products, to enhance the quality of service and user experience, as outlined in this privacy notice:
+      </p>
+      <ul class="ml-6 mt-4 list-disc space-y-2">
+        <li class="md:pl-2">Full name</li>
+        <li class="md:pl-2">Phone numbers</li>
+        <li class="md:pl-2">Email addresses</li>
+        <li class="md:pl-2">Other contact information</li>
+        <li class="md:pl-2">Payment information</li>
+        <li class="md:pl-2">Company, firm, organization, agency, or other entity information</li>
+        <li class="md:pl-2">Photograph</li>
+        <li class="md:pl-2">Biography</li>
+        <li class="md:pl-2">Preference information, such as communications that you receive from us</li>
+        <li class="md:pl-2">Dietary preferences and requirements</li>
+        <li class="md:pl-2">Information that you provide for the purposes of attending meetings, events, webinars, and other programs</li>
+        <li class="md:pl-2">Any other information relating to you (or other individuals) which you may provide to us</li>
+      </ul>
+      <p class="mt-4">We retain personal data only for as long as necessary to fulfill the specific purpose for which it was collected.</p>
+      <p class="mt-4">
+        When you visit our Site, we collect standard technical information sent by your browser, including browser type and language, access times, referring website address, IP address, and clickstream data, using automated tools like cookies and other common technologies to enhance the Site&apos;s functionality, with further details on cookies provided below.
+      </p>
+    </section>
+
+    <section id="how-we-use-personal-information">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">2. How Do We Use The Personal Information We Collect</h2>
+      <p class="mt-2">We use the information you provide in the following ways:</p>
+      <ul class="ml-6 mt-4 list-disc space-y-2">
+        <li class="md:pl-2">Provide the PyCon HK website to you</li>
+        <li class="md:pl-2">To enroll you for PyCon HK-related mailings</li>
+        <li class="md:pl-2">To register you for events, tutorials, and other services</li>
+        <li class="md:pl-2">To provide you with information about Python, PyCon HK, and events within PyCon HK</li>
+        <li class="md:pl-2">To allow you to connect with PyCon HK sponsors (opt-in only)</li>
+        <li class="md:pl-2">To communicate with you and to respond to your questions, inquiries, or concerns</li>
+        <li class="md:pl-2">To administer and improve the PyCon HK, including the websites, events, tutorials, and other services</li>
+        <li class="md:pl-2">To process your payment for the PyCon HK services and events</li>
+        <li class="md:pl-2">To prevent and detect fraud</li>
+        <li class="md:pl-2">To protect and enforce our legal rights</li>
+        <li class="md:pl-2">Complying with laws, regulations or codes of practice in or outside Hong Kong</li>
+      </ul>
+    </section>
+
+    <section id="who-we-share-your-personal-information-with">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">3. Who Do We Share Your Personal Information With?</h2>
+      <p class="mt-4">
+        The PyCon HK shares certain information (first name, last name, email address, job title and employer as provided at registration, and country of residence provided during registration) with sponsors if you have consented to having this information shared with those sponsors during Eventbrite registration.
+      </p>
+      <p class="mt-4">
+        We may disclose your personal data as required or permitted by law to comply with legal processes such as summons or subpoenas, government requests, or when we believe in good faith that disclosure is necessary to protect our rights and property, or the rights, property, or safety of others.
+      </p>
+      <p class="mt-4">
+        To ensure the safety and security of our events and to prevent and detect crimes, we may share your personal identification details with Hong Kong law enforcement authorities upon their lawful request.
+      </p>
+    </section>
+
+    <section id="use-of-third-party-services">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">4. Use of Third Party Services</h2>
+      <p class="mt-4">
+        The PyCon HK uses some third party services to assist with producing PyCon HK and operating online services supporting PyCon HK. Specifically, we use:
+      </p>
+      <ul class="ml-6 mt-4 list-disc space-y-2">
+        <li class="md:pl-2">
+          Eventbrite
+          <a href="https://www.eventbrite.com/help/en-us/articles/460838/eventbrite-privacy-policy/" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+            Eventbrite Privacy Policy
+          </a>
+        </li>
+        <li class="md:pl-2">
+          UDomain
+          <a href="https://www.udomain.hk/en/privacy" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+            UDomain Privacy Policy
+          </a>
+        </li>
+        <li class="md:pl-2">
+          GitHub
+          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+            GitHub Privacy Statement
+          </a>
+        </li>
+        <li class="md:pl-2">
+          Pretalx
+          <a href="https://pretalx.com/p/privacy" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+            Pretalx Privacy
+          </a>
+        </li>
+        <li class="md:pl-2">
+          Substack
+          <a href="https://substack.com/privacy" target="_blank" rel="noopener noreferrer" class="ml-2 text-sky-600 hover:text-sky-800">
+            Substack Privacy Policy
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section id="cookies">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">5. Cookies</h2>
+      <p class="mt-4">
+        Cookies are small, often encrypted text files stored on your device by websites you visit, designed to enhance navigation efficiency and provide website owners with usage data.
+      </p>
+      <p class="mt-4">
+        Most web browsers allow you to delete existing cookies, block their use, or receive notifications when cookies are set.
+      </p>
+    </section>
+
+    <section id="hyperlinks">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">6. Hyperlinks</h2>
+      <p class="mt-4">
+        When you click on an advertisement or hyperlink directing to an external website, you will exit our Site to another destination. We are not responsible for the privacy, security practices, or content of those websites.
+      </p>
+    </section>
+
+    <section id="your-data-privacy-rights">
+      <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">7. Your Data Privacy Rights</h2>
+      <p class="mt-4">
+        By accessing our service, you consent to the collection and use of your personal data as described in this Privacy Statement.
+      </p>
+      <p class="mt-4">You have the right:</p>
+      <ul class="ml-6 mt-4 list-disc space-y-2">
+        <li class="md:pl-2">to check whether we hold personal data about you and to access such data;</li>
+        <li class="md:pl-2">to require us to correct inaccurate data;</li>
+        <li class="md:pl-2">to ascertain our policies and practices in relation to personal data;</li>
+        <li class="md:pl-2">to request access to and rectification or erasure of your personal data;</li>
+        <li class="md:pl-2">to obtain restriction of processing or to object to processing of your personal data;</li>
+        <li class="md:pl-2">to lodge a complaint about the processing of personal data with local authorities.</li>
+      </ul>
+      <p class="mt-4">
+        To exercise your rights, opt out of marketing communications, raise questions or complaints, or request the deletion of your personal data, please contact us at:
+      </p>
+      <p class="mt-4">
+        Data Privacy Officer
+        <br />
+        PyCon HK
+        <br />
+        E-mail:
+        <a href="mailto:pycon@pycon.hk" class="text-sky-600 hover:text-sky-800">pycon@pycon.hk</a>
+      </p>
+      <p class="mt-4">Where legally permitted, we may impose a reasonable fee for processing a data access request.</p>
+    </section>
+      </div>
+    </div>
+  )
+}
