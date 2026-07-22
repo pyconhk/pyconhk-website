@@ -1,19 +1,7 @@
-// CFP-only locale set. Keep this separate from the site-wide SiteLocale model until
-// Korean is supported across the full public site.
-export const supportedLocales = [
-  'en',
-  'zh-hk',
-  'zh-hant',
-  'zh-hans',
-  'ko',
-  'ja',
-] as const;
+import type { CfpLocale } from '@/years/2026/locales';
 
-export type CfpLocale = (typeof supportedLocales)[number];
-
-export function resolveCfpLocale(locale?: string): CfpLocale {
-  return supportedLocales.includes(locale as CfpLocale) ? (locale as CfpLocale) : 'en';
-}
+export type { CfpLocale } from '@/years/2026/locales';
+export { resolveCfpLocale, supportedLocales } from '@/years/2026/locales';
 
 export const submitProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/cfp';
 export const editProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/me/submissions/';

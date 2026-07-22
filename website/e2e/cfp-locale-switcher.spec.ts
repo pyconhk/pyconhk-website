@@ -50,13 +50,62 @@ async function preferredLocaleCookie(context: BrowserContext) {
 }
 
 test.describe('2026 CFP locale switcher', () => {
-  test('serves latest locale entry aliases without HTTP redirects', async ({ request }) => {
-    for (const path of ['/', '/2026/', '/privacy-policy/']) {
-      const response = await request.get(path, { maxRedirects: 0 });
+  test('redirects latest locale entry aliases before rendering HTML', async ({
+    request,
+  }) => {
+    for (const [path, location] of [
+      ['/', '/2026/en'],
+      ['/2026/', '/2026/en'],
+      ['/privacy-policy/', '/2026/en/privacy-policy'],
+    ]) {
+      const response = await request.get(path, {
+        headers: { 'Accept-Language': 'en-US,en;q=0.9' },
+        maxRedirects: 0,
+      });
 
-      expect(response.status(), path).toBe(200);
-      expect(response.headers().location, path).toBeUndefined();
+      expect(response.status(), path).toBe(302);
+      expect(response.headers().location, path).toBe(location);
+      expect(response.headers()['cache-control'], path).toContain('no-store');
+      expect(await response.body(), path).toHaveLength(0);
     }
+  });
+
+  test('chooses the edge redirect locale from the cookie before the browser language', async ({
+    baseURL,
+    context,
+  }) => {
+    await context.clearCookies();
+    await context.addCookies([
+      {
+        domain: cookieDomain(baseURL),
+        name: 'preferredLocale',
+        path: '/',
+        value: 'ja',
+      },
+    ]);
+
+    const response = await context.request.get('/2026', {
+      headers: { 'Accept-Language': 'zh-HK,zh;q=0.9' },
+      maxRedirects: 0,
+    });
+
+    expect(response.status()).toBe(302);
+    expect(response.headers().location).toBe('/2026/ja');
+  });
+
+  test('uses the weighted browser language when no preferred locale exists', async ({
+    context,
+  }) => {
+    await context.clearCookies();
+
+    const response = await context.request.get('/', {
+      headers: { 'Accept-Language': 'en;q=0.7,zh-HK;q=0.9' },
+      maxRedirects: 0,
+    });
+
+    expect(response.status()).toBe(302);
+    expect(response.headers().location).toBe('/2026/zh-hk');
+    expect(response.headers()['set-cookie']).toContain('preferredLocale=zh-hk');
   });
 
   test('defaults cookie-less latest entry routes to 2026 English', async ({
