@@ -217,7 +217,7 @@ const legacyHighlightRedirectChecks = [
   {
     from: '/conference-highlights/pycon-hk-2024-photos/',
     to: '/2024/photos',
-    title: 'PyCon HK 2024 Photos | PyCon HK',
+    title: 'PyCon HK 2024 Photos - PyCon HK',
   },
 ];
 

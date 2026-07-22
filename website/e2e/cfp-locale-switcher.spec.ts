@@ -181,4 +181,25 @@ test.describe('2026 CFP locale switcher', () => {
     await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-HK');
   });
+
+  test('keeps the final Japanese and Korean CFP wording', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.goto('/2026/ja');
+    await expect(page.getByText('プロポーザル', { exact: true })).toBeVisible();
+    await expect(
+      page.getByText(
+        'よいプロポーザルは、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
+        { exact: true }
+      )
+    ).toBeVisible();
+
+    await page.goto('/2026/ko');
+    await expect(
+      page.getByText(
+        '좋은 제안서는 대상, 취득 가능한 사항, 세션 진행 방식을 분명히 보여 줍니다.',
+        { exact: true }
+      )
+    ).toBeVisible();
+  });
 });
