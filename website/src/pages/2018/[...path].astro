@@ -1,0 +1,32 @@
+---
+import Legacy2018Page from '@/years/2018/components/Legacy2018Page.astro';
+import { getLegacy2018Page, legacy2018Pages } from '@/years/2018/data/pages';
+import routeContract from '@/years/2018/data/routes.json';
+import type { Legacy2018Page as Legacy2018PageData } from '@/years/2018/data/types';
+
+interface Props {
+  page: Legacy2018PageData;
+}
+
+export function getStaticPaths() {
+  const requiredPaths = legacy2018Pages
+    .filter((page) => page.route !== '/2018/')
+    .map((page) => ({
+      params: { path: decodeURI(page.route.replace(/^\/2018\/?/u, '').replace(/\/$/u, '')) },
+      props: { page },
+    }));
+
+  const aliasPaths = routeContract.wordpressAliases
+    .filter((alias) => alias.from.startsWith('/2018/'))
+    .map((alias) => ({
+      params: { path: decodeURI(alias.from.replace(/^\/2018\/?/u, '').replace(/\/$/u, '')) },
+      props: { page: getLegacy2018Page(alias.to) },
+    }));
+
+  return [...requiredPaths, ...aliasPaths];
+}
+
+const { page } = Astro.props;
+---
+
+<Legacy2018Page page={page} />

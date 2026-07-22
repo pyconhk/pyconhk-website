@@ -1,0 +1,64 @@
+---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
+import BareMicrositePage2015 from '@/years/2015/components/BareMicrositePage2015.astro';
+import { legacy2015Pages } from '@/years/2015/data/pages';
+import routeContract from '@/years/2015/data/routes.json';
+import type { Legacy2015Page } from '@/years/2015/data/types';
+
+interface Props {
+  monthArchiveLabel?: string;
+  monthArchivePage?: ReturnType<typeof getLegacyArchiveMonth>;
+  page?: Legacy2015Page;
+}
+
+export function getStaticPaths() {
+  const internallyRewrittenRoutes = new Set(
+    routeContract.internalRouteRewrites.map(({ from }) => from)
+  );
+
+  function pathParamFromRoute(route: string): string {
+    return decodeURI(route.replace(/^\/2015\//u, '').replace(/\/$/u, ''));
+  }
+
+  const micrositePages = legacy2015Pages
+    .filter(
+      (page) =>
+        page.kind === 'html' &&
+        page.route !== '/2015/' &&
+        page.route !== '/2015/photos/' &&
+        !internallyRewrittenRoutes.has(page.route)
+    )
+    .map((page) => ({
+      params: { path: pathParamFromRoute(page.route) },
+      props: { page },
+    }));
+
+  return [
+    ...micrositePages,
+    ...archiveMonthsForYear('2015').map((archiveMonth) => ({
+      params: { path: archiveMonth.month },
+      props: {
+        monthArchiveLabel: archiveMonth.label,
+        monthArchivePage: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+      },
+    })),
+  ];
+}
+
+const { monthArchiveLabel, monthArchivePage, page } = Astro.props as Props;
+---
+
+{
+  monthArchivePage ? (
+    <LegacyYearArchivePage
+      headingKind="Month"
+      label={monthArchiveLabel ?? monthArchivePage.label}
+      page={monthArchivePage}
+      year="2015"
+    />
+  ) : (
+    page && <BareMicrositePage2015 page={page} />
+  )
+}

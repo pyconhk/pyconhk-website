@@ -1,0 +1,85 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import { featuredSpeakers } from '@/years/2025/data/speakers';
+import { getTranslations } from '@/years/2025/i18n';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale, 'home');
+
+const formatLabels = {
+  en: {
+    talk: 'Talk',
+    workshop: 'Workshop',
+  },
+  'zh-hk': {
+    talk: 'Talk',
+    workshop: 'Workshop',
+  },
+  'zh-hant': {
+    talk: 'Talk',
+    workshop: 'Workshop',
+  },
+  'zh-hans': {
+    talk: 'Talk',
+    workshop: 'Workshop',
+  },
+  ja: {
+    talk: 'Talk',
+    workshop: 'Workshop',
+  },
+} as const satisfies LocalizedValue<{ talk: string; workshop: string }>;
+
+const localizedFormatLabels = resolveRequiredLocalizedValue(formatLabels, locale);
+---
+
+<div class="container mx-auto max-w-6xl px-4">
+  <div class="mb-12 text-center">
+    <h2 class="mb-6 text-3xl font-bold text-slate-600 sm:text-4xl md:text-5xl">
+      {t('speakersHeading')}
+    </h2>
+    <div class="mx-auto h-1 w-24 bg-blue-400"></div>
+    <p class="mx-auto mt-4 max-w-2xl text-base text-gray-600 sm:text-lg md:text-xl">
+      {t('speakersIntro')}
+    </p>
+  </div>
+
+  <div class="flex flex-col items-center gap-8 lg:flex-row lg:justify-around lg:gap-16">
+    {featuredSpeakers.map((speaker) => (
+      <div class="h-full w-full max-w-80 min-h-48 px-4 lg:max-w-96 lg:px-0">
+        <article class="min-h-52 min-w-64 overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg">
+          <div class="h-2 bg-sky-400"></div>
+          <div class="flex h-full w-full gap-4 p-6">
+            <div class="shrink-0">
+              <div class="relative h-16 w-16 overflow-hidden rounded-full border-2 border-gray-200 bg-gray-100">
+                <img
+                  src={speaker.imagePath}
+                  alt={speaker.name}
+                  width="160"
+                  height="160"
+                  loading="lazy"
+                  class="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-gray-800">{speaker.name}</h3>
+              <div class="mt-1 inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                {localizedFormatLabels[speaker.format]}
+              </div>
+              <h4 class="mt-4 font-medium leading-snug text-gray-700">{speaker.sessionTitle}</h4>
+            </div>
+          </div>
+        </article>
+      </div>
+    ))}
+  </div>
+</div>

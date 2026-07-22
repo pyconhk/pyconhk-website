@@ -1,0 +1,63 @@
+monorepo_root = true
+
+[tools]
+bun = "1.3.10"
+node = "24.18.0"
+
+[monorepo]
+config_roots = [
+  "website",
+  "cms",
+]
+
+[tasks.install]
+description = "Install dependencies for all apps sequentially"
+run = """
+mise //website:install
+mise //cms:install
+"""
+
+[tasks.dev]
+description = "Start the public website dev server"
+run = "mise //website:dev"
+
+[tasks.ci]
+description = "Check and build all apps"
+run = """
+mise run validate-cms-ops
+mise //...:check
+mise //website:build
+mise //cms:deploy-dry-run
+"""
+
+[tasks.validate-cms-ops]
+description = "Validate CMS branch, workflow, and Decap content ownership policy"
+run = """
+node scripts/validate-cms-ops.mjs
+node scripts/check-cms-content-locales.mjs
+node --test scripts/*.test.mjs
+"""
+
+[tasks.check-cms-content]
+description = "Validate locale-coded Decap content in the working tree or a git ref"
+run = "node scripts/check-cms-content-locales.mjs"
+
+[tasks.check-cms-release]
+description = "Fetch and validate the CMS branch before deployment"
+run = "node scripts/check-cms-release.mjs"
+
+[tasks.smoke-cms-config]
+description = "Validate a hosted Decap config.yml against CMS branch, path, and locale policy"
+run = "node scripts/smoke-cms-config.mjs"
+
+[tasks.preview]
+description = "Build and preview the public website locally"
+run = "mise //website:preview"
+
+[tasks.e2e]
+description = "Run public website Playwright e2e tests"
+run = "mise //website:e2e"
+
+[tasks.cloudflare-preview]
+description = "Preview with Wrangler Pages for Cloudflare redirect/runtime checks"
+run = "mise //website:cloudflare-preview"

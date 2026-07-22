@@ -1,0 +1,9 @@
+---
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyYearArchive } from '@/legacy/legacy-year-archives';
+
+const year = '2020';
+const page = getLegacyYearArchive(year);
+---
+
+<LegacyYearArchivePage year={year} page={page} />

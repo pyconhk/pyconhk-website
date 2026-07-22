@@ -1,0 +1,68 @@
+---
+import { archiveMonthsForYear } from '@/legacy/archive-months';
+import LegacyHighlightPage from '@/legacy/LegacyHighlightPage.astro';
+import LegacyYearArchivePage from '@/legacy/LegacyYearArchivePage.astro';
+import { getLegacyArchiveMonth } from '@/legacy/legacy-year-archives';
+import type { CanonicalLegacyHighlight } from '@/legacy/year-highlights';
+import { getHighlightsForEdition } from '@/legacy/year-highlights';
+import Legacy2017Page from '@/years/2017/components/Legacy2017Page.astro';
+import { legacy2017Pages } from '@/years/2017/data/pages';
+import type { Legacy2017Page as Legacy2017PageData } from '@/years/2017/data/types';
+
+type PageProps =
+  | {
+      kind: 'microsite';
+      page: Legacy2017PageData;
+    }
+  | {
+      kind: 'highlight';
+      page: CanonicalLegacyHighlight['page'];
+    }
+  | {
+      kind: 'month';
+      label: string;
+      page: ReturnType<typeof getLegacyArchiveMonth>;
+    };
+
+export function getStaticPaths() {
+  const pathParamFromRoute = (route: string) =>
+    decodeURI(route.replace(/^\/2017\/?/u, '').replace(/\/$/u, ''));
+  const micrositePages = legacy2017Pages
+    .filter((page) => page.route !== '/2017/' && !page.route.endsWith('.html'))
+    .map((page) => ({
+      params: { path: pathParamFromRoute(page.route) },
+      props: { kind: 'microsite', page },
+    }));
+  const highlightPages = getHighlightsForEdition('2017').map((highlight) => ({
+    params: { path: highlight.slug },
+    props: { kind: 'highlight', page: highlight.page },
+  }));
+  const monthPages = archiveMonthsForYear('2017').map((archiveMonth) => ({
+    params: { path: archiveMonth.month },
+    props: {
+      kind: 'month',
+      label: archiveMonth.label,
+      page: getLegacyArchiveMonth(archiveMonth.year, archiveMonth.month),
+    },
+  }));
+
+  return [...micrositePages, ...highlightPages, ...monthPages];
+}
+
+const props = Astro.props as PageProps;
+---
+
+{
+  props.kind === 'microsite' ? (
+    <Legacy2017Page page={props.page} />
+  ) : props.kind === 'month' ? (
+    <LegacyYearArchivePage
+      headingKind="Month"
+      label={props.label}
+      page={props.page}
+      year="2017"
+    />
+  ) : (
+    <LegacyHighlightPage page={props.page} />
+  )
+}

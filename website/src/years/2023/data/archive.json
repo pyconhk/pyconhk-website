@@ -1,0 +1,1176 @@
+{
+  "year": "2023",
+  "pages": [
+    {
+      "slug": "2023-aws",
+      "url": "/2023/2023-aws/",
+      "title": "Discover the Future with Our Valued Gold Sponsor AWS – PyCon HK 2023",
+      "description": "About Amazon Web Services Since 2006, Amazon Web Services has been the world’s most comprehensive and broadly adopted cloud. AWS has been continually expanding its services to support virtually any workload, and it now has more than 240 fully featured services for compute, storage, databases, networking, analytics, machine learning and artificial intelligence (AI), Internet of",
+      "date": {
+        "datetime": "2023-10-10T01:02:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Gold-Sponsor-AWS-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-large is-resized\"><img src=\"/legacy-wp/2023/uploads/2023/10/2023_AWS.png\" alt=\"\" class=\"wp-image-2184\" style=\"width:600px\" width=\"600\"></figure></div>\n<p></p>\n<h2 class=\"wp-block-heading\">About Amazon Web Services</h2>\n<p>Since 2006, Amazon Web Services has been the world’s most comprehensive and broadly adopted cloud. AWS has been continually expanding its services to support virtually any workload, and it now has more than 240 fully featured services for compute, storage, databases, networking, analytics, machine learning and artificial intelligence (AI), Internet of Things (IoT), mobile, security, hybrid, virtual and augmented reality (VR and AR), media, and application development, deployment, and management from 102 Availability Zones within 32 geographic regions, with announced plans for 12 more Availability Zones and four more AWS Regions in Canada, Malaysia, New Zealand, and Thailand. Millions of customers—including the fastest-growing startups, largest enterprises, and leading government agencies—trust AWS to power their infrastructure, become more agile, and lower costs. To learn more about AWS, visit <a href=\"https://aws.amazon.com/\">aws.am</a><a href=\"https://aws.amazon.com/\" target=\"_blank\" rel=\"noreferrer noopener\">a</a><a href=\"https://aws.amazon.com/\">zon.com</a>.</p>\n<h2 class=\"wp-block-heading\">關於Amazon Web Services</h2>\n<p>自2006年來，Amazon Web Services一直在提供世界上服務最豐富、應用廣泛的雲端服務。AWS為客戶提供超過240種功能全面的雲端服務，包括運算、儲存、數據庫、網絡、分析、機器學習與人工智能、物聯網、流動、安全、混合雲、虛擬和擴增實境(VR 和AR)、媒體，以及應用開發、部署和管理等方面，遍及32個地理區域內的102個可用區域(Availability Zones)，並已公佈計畫在加拿大、馬來西亞、紐西蘭和泰國建立4個AWS地理區域、12個可用區域。AWS的服務獲得全球超過百萬客戶的信任，包括發展迅速的初創公司、大型企業和政府機構。通過AWS的服務，客戶能夠有效強化自身基礎設施，提高營運上的彈性與應變能力，同時降低成本。欲了解更多有關AWS的資訊，請瀏覽：<a href=\"https://aws.amazon.com/\" target=\"_blank\" rel=\"noreferrer noopener\">https://aws.amazon.com</a>。</p>"
+    },
+    {
+      "slug": "2023-booths",
+      "url": "/2023/2023-booths/",
+      "title": "Booths – PyCon HK 2023",
+      "description": "Booths at PyCon HK 2023 are organized by the following sponsors and supporting organization. Visit them for networking and knowledge sharing. Red Hat AWS PSF PCCW-HKT MySQL Open Source Hong Kong HKCOTA IVE PyLadies Tokyo Japanese Raspberry Pi Users Group",
+      "date": {
+        "datetime": "2023-10-10T00:34:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/BOOTHS-850x478.jpg",
+        "alt": "Booths - PyCon HK 2023"
+      },
+      "contentHtml": "<p>Booths at PyCon HK 2023 are organized by the following sponsors and supporting organization. Visit them for networking and knowledge sharing.</p>\n<ul class=\"wp-block-list\">\n<li><a href=\"/2023/2023-red-hat/\">Red Hat</a></li>\n<li><a href=\"/2023/2023-aws/\">AWS</a></li>\n<li><a href=\"/2023/2023-psf/\">PSF</a></li>\n<li><a href=\"/2023/2023-pccw-hkt/\">PCCW-HKT</a></li>\n<li><a href=\"/2023/simplifying-machine-learning-pipeline-using-mysql-heatwave/\">MySQL</a></li>\n<li><a href=\"https://opensource.hk/\">Open Source Hong Kong</a></li>\n<li><a href=\"https://hkcota.org/\">HKCOTA</a></li>\n<li><a href=\"http://lwit.vtc.edu.hk/\">IVE</a></li>\n<li><a href=\"https://tokyo.pyladies.com/\">PyLadies Tokyo</a></li>\n<li><a href=\"https://www.raspi.jp/\">Japanese Raspberry Pi Users Group</a></li>\n</ul>"
+    },
+    {
+      "slug": "2023-code-of-conduct",
+      "url": "/2023/2023-code-of-conduct/",
+      "title": "Code of Conduct – As of 2023",
+      "description": "PyCon Hong Kong is a community conference intended for networking and collaboration in the developer community. We value the participation of each member of the Python community and want all attendees to have an enjoyable and fulfilling experience. Accordingly, all attendees are expected to show respect and courtesy to other attendees throughout the conference and",
+      "date": {
+        "datetime": "2023-04-01T12:23:12+08:00",
+        "label": "April 1, 2023"
+      },
+      "featuredImage": null,
+      "contentHtml": "<p>PyCon Hong Kong is a community conference intended for networking and collaboration in the developer community.</p>\n<p>We value the participation of each member of the Python community and want all attendees to have an enjoyable and fulfilling experience. Accordingly, all attendees are expected to show respect and courtesy to other attendees throughout the conference and at all conference events, whether officially sponsored by the PyCon Hong Kong organisers or not.</p>\n<p>To make clear what is expected, all staff, attendees, speakers, exhibitors, organizers, and volunteers at any PyCon event are required to conform to the following Code of Conduct. Organizers will enforce this code throughout the event.</p>\n<h5 class=\"wp-block-heading\">Our Standards</h5>\n<p>PyCon is dedicated to providing a positive conference experience for everyone, regardless of age, gender identity and expression, sexual orientation, disability, physical appearance, body size, ethnicity, nationality, race, or religion (or lack thereof), education, or socio-economic status.</p>\n<p>Examples of behavior that contributes to creating a positive environment include:</p>\n<ul class=\"wp-block-list\">\n<li>Being kind to others</li>\n<li>Behaving professionally</li>\n<li>Using welcoming and inclusive language</li>\n<li>Being respectful of differing viewpoints and experiences</li>\n<li>Gracefully accepting constructive criticism</li>\n<li>Focusing on what is best for the community</li>\n<li>Showing empathy towards other community members</li>\n</ul>\n<p>Examples of unacceptable behavior by participants include:</p>\n<ul class=\"wp-block-list\">\n<li>Harassment of conference participants in any form</li>\n<li>Deliberate intimidation, stalking, or following</li>\n<li>Violent threats or language directed against another person</li>\n<li>Sexual language and imagery in any conference venue, including talks</li>\n<li>Insults or put downs</li>\n<li>Sexist, racist, homophobic, transphobic, ableist, or exclusionary jokes</li>\n<li>Excessive swearing</li>\n<li>Unwelcome sexual attention or advances</li>\n<li>Unwelcome physical contact</li>\n<li>Sustained disruption of talks or other events</li>\n<li>Other conduct that is inappropriate for a professional audience including people of many different backgrounds</li>\n</ul>\n<p>Participants asked to stop any inappropriate behavior are expected to comply immediately.</p>\n<p>If a participant engages in behavior that violates this code of conduct, the conference organizers may take any action they deem appropriate, including warning the offender or expulsion from the conference with no refund.</p>\n<p>Thank you for helping make this a welcoming, friendly event for all.</p>\n<h5 class=\"wp-block-heading\">Weapons Policy</h5>\n<p>No weapons are allowed at conference venues, including but not limited to explosives (including fireworks), guns, and large knives such as those used for hunting or display, as well as any other item used for the purpose of causing injury or harm to others. Anyone seen in possession of one of these items will be asked to leave immediately, and will only be allowed to return without the weapon.</p>\n<p>Attendees are further expected to comply with all state and local laws on this matter.</p>\n<h5 class=\"wp-block-heading\">Scope</h5>\n<p>All PyCon Hong Kong attendees are subject to the Code of Conduct. This includes PyCon Hong Kong staff and volunteers, as well as attendees of the tutorials, workshops, summits, poster sessions, receptions, conference, sprints, and sponsored or unofficial events.</p>\n<p>Exhibitors in the expo hall, sponsor or vendor booths, or similar activities are also subject to the Code of Conduct. In particular, exhibitors should not use sexualized images, activities, or other material. Booth staff (including volunteers) should not use sexualized clothing/uniforms/costumes, or otherwise create a sexualized environment.</p>\n<h5 class=\"wp-block-heading\">Contact Information</h5>\n<p>If you believe that someone is violating the code of conduct during a PyCon event, or have any other concerns, please contact a member of the event staff immediately.</p>\n<ul class=\"wp-block-list\">\n<li>PyCon Hong Kong <ul class=\"wp-block-list\">\n<li>Email: <a href=\"/cdn-cgi/l/email-protection#2f5f564c40416f5f564c4041014744\"><span class=\"__cf_email__\" data-cfemail=\"c2b2bba1adac82b2bba1adacecaaa9\">[email protected]</span></a></li>\n</ul>\n</li>\n</ul>\n<p>In case of a conflict of interest, you can individually contact:</p>\n<ul class=\"wp-block-list\">\n<li>Mr. Sammy Fung <ul class=\"wp-block-list\">\n<li>President, Open Source Hong Kong.</li>\n<li>Email: <a href=\"/cdn-cgi/l/email-protection#8efdefe3e3f7cee1feebe0fde1fbfcedeba0e6e5\"><span class=\"__cf_email__\" data-cfemail=\"5122303c3c28113e21343f223e242332347f393a\">[email protected]</span></a></li>\n<li>Twitter: <a href=\"https://twitter.com/sammyfung\">@sammyfung</a></li>\n</ul>\n</li>\n</ul>\n<p>Conference staff will be happy to help participants contact hotel/venue security or local law enforcement, provide escorts, or otherwise assist any attendee to feel safe for the duration of the conference. We value your attendance.</p>\n<h5 class=\"wp-block-heading\">Procedure for Handling Incidents</h5>\n<ul class=\"wp-block-list\">\n<li><a href=\"/2023/2023-procedures-for-reporting-incidents/\" title=\"\">Procedures for Reporting Incidents</a></li>\n</ul>\n<ul class=\"wp-block-list\">\n<li><a href=\"/2023/2023-enforcement-procedures/\" title=\"\">Enforcement Procedures</a></li>\n</ul>\n<h5 class=\"wp-block-heading\">License</h5>\n<p>This Code of Conduct was forked from PyCon US from the <a href=\"https://github.com/python/pycon-code-of-conduct\">Python GitHub</a>.</p>\n<p>The PyCon Code of Conduct is licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution 3.0 Unported License</a>.</p>"
+    },
+    {
+      "slug": "2023-enforcement-procedures",
+      "url": "/2023/2023-enforcement-procedures/",
+      "title": "Enforcement Procedures – As of 2023",
+      "description": "This document summarizes the procedures the PyCon US staff uses to enforce the Code of Conduct. Summary of processes When the work group receives a report of a possible Code of Conduct violation, it will: Acknowledge the receipt of the report. Evaluate conflicts of interest. Call a meeting of Code of Conduct responders who do",
+      "date": {
+        "datetime": "2023-04-01T12:23:40+08:00",
+        "label": "April 1, 2023"
+      },
+      "featuredImage": null,
+      "contentHtml": "<p>This document summarizes the procedures the PyCon US staff uses to enforce the Code of Conduct.</p>\n<h2 class=\"wp-block-heading\">Summary of processes</h2>\n<p>When the work group receives a report of a possible Code of Conduct violation, it will:</p>\n<ol class=\"wp-block-list\">\n<li>Acknowledge the receipt of the report.</li>\n<li>Evaluate conflicts of interest.</li>\n<li>Call a meeting of Code of Conduct responders who do not have a conflict of interest.</li>\n<li>Evaluate the reported incident.</li>\n<li>Propose a behavioral modification plan.</li>\n<li>Propose consequences for the reported behavior.</li>\n<li>Vote on behavioral modification plan and consequences for the reported person.</li>\n<li>Contact online community administrators/moderators to approve the behavioral modification plan and consequences.</li>\n<li>Follow up with the reported person.</li>\n<li>Decide further responses.</li>\n<li>Follow up with the reporter.</li>\n</ol>\n<h2 class=\"wp-block-heading\">Acknowledge the report</h2>\n<p>Reporters should receive an emailed acknowledgment of the receipt of their report within 24 hours.</p>\n<h2 class=\"wp-block-heading\">Conflict of interest policy</h2>\n<p>Examples of conflicts of interest include:</p>\n<ul class=\"wp-block-list\">\n<li>The reporter or reported person is your manager</li>\n<li>You have a romantic or platonic relationship with either the reporter or the reported person. It’s fine to participate if they are an acquaintance.</li>\n<li>The reporter or reported person is your metamour. (This is a term used in the poly community; the short definition is <a href=\"https://www.urbandictionary.com/define.php?term=Metamour\"><strong>here</strong></a>, and a longer description is <a href=\"https://solopoly.net/2012/09/29/whats-a-metamour-on-my-terms/\"><strong>here</strong></a>).</li>\n<li>The reporter or reported person is your family member</li>\n<li>The reporter or reported person is your direct client</li>\n<li>The reporter or reported person is someone you work closely with. This could be someone on your team or someone who works on the same project as you.</li>\n<li>The reporter or reported person is a maintainer who regularly reviews your contributions</li>\n</ul>\n<p>Committee members do not need to state why they have a conflict of interest, only that one exists. Other work group members should not ask why the person has a conflict of interest.</p>\n<p>Anyone who has a conflict of interest will remove themselves from the discussion of the incident, and recuse themselves from voting on a response to the report.</p>\n<h2 class=\"wp-block-heading\">Evaluating a report</h2>\n<p><strong>JURISDICTION</strong></p>\n<ul class=\"wp-block-list\">\n<li><em>Is this a Code of Conduct violation?</em> Is this behavior on our list of inappropriate behavior? Is it borderline inappropriate behavior? Does it violate our community norms?</li>\n<li><em>Did this occur in a space that is within our Code of Conduct’s scope?</em> If the incident occurred outside the community, but a community member’s mental health or physical safety may be negatively impacted if no action is taken, the incident may be in scope. Private conversations in community spaces are also in scope.</li>\n</ul>\n<p><strong>IMPACT</strong></p>\n<ul class=\"wp-block-list\">\n<li><em>Did this incident occur in a private conversation or in a public space?</em> Incidents that all community members can see will have more negative impact.</li>\n<li><em>Does this behavior negatively impact a marginalized group in our community?</em> Is the reporter a person from a marginalized group in our community? How is the reporter being negatively impacted by the reported person’s behavior? Are members of the marginalized group likely to disengage with the community if no action was taken on this report?</li>\n<li><em>Does this incident involve a community leader?</em> Community members often look up to community leaders to set the standard of acceptable behavior.</li>\n</ul>\n<p><strong>RISK</strong></p>\n<ul class=\"wp-block-list\">\n<li><em>Does this incident include sexual harrasment?</em></li>\n<li><em>Does this pose a safety risk?</em> Does the behavior put a person’s physical safety at risk? Will this incident severely negatively impact someone’s mental health?</li>\n<li><em>Is there a risk of this behavior being repeated?</em> Does the reported person understand why their behavior was inappropriate? Is there an established pattern of behavior from past reports?</li>\n</ul>\n<p>Reports which involve higher risk or higher impact may face more severe consequences than reports which involve lower risk or lower impact.</p>\n<h2 class=\"wp-block-heading\"><strong>Propose a behavioral modification plan</strong></h2>\n<p>The event staff will determine a concrete behavioral modification plan that ensures the inappropriate behavior is not repeated. The event staff will also discuss what actions may need to be taken if the reported person does not agree to the behavioral modification plan.</p>\n<p>What follows are examples of possible behavioral modification plans for incidents that occur in online spaces under the scope of this Code of Conduct. This behavioral modification list is not inclusive, and the event staff reserves the right to take any action it deems necessary.</p>\n<ul class=\"wp-block-list\">\n<li>Requiring that the reported person not use specific language</li>\n<li>Requiring that the reported person not join in on specific types of discussions</li>\n<li>Requiring that the reported person not send private messages to a community member</li>\n<li>Requiring that the reported person not join specific communication channels</li>\n<li>Removing the reported person from administrator or moderator rights to community infrastructure</li>\n<li>Removing a volunteer from their duties and responsibilities</li>\n<li>Removing a person from leadership of relevant organizations</li>\n<li>Removing a person from membership of relevant organizations</li>\n</ul>\n<h2 class=\"wp-block-heading\">Propose consequences</h2>\n<p>What follows are examples of possible consequences to an incident report. This consequences list is not inclusive, and the event staff reserves the right to take any action it deems necessary.</p>\n<p>Possible private responses to an incident include:</p>\n<ul class=\"wp-block-list\">\n<li>Nothing, if the behavior was determined to not be a Code of Conduct violation</li>\n<li>A verbal or emailed warning</li>\n<li>A final warning</li>\n<li>Temporarily removing the reported person from the online community</li>\n<li>Permanently removing the reported person from the online community</li>\n<li>Publishing an account of the incident</li>\n</ul>\n<h2 class=\"wp-block-heading\">Follow up with the reported person</h2>\n<p>The event staff will work with online community administrators/moderators to draft a response to the reported person. The email should contain:</p>\n<ul class=\"wp-block-list\">\n<li>A description of the person’s behavior in neutral language</li>\n<li>The negative impact of that behavior</li>\n<li>A concrete behavioral modification plan</li>\n<li>Any consequences of their behavior</li>\n</ul>\n<p>The work group should not state who reported this incident. They should attempt to anonymize any identifying information from the report. The reported person should be discouraged from contacting the reporter to discuss the report. If they wish to apologize to the reporter, the work group can accept the apology on behalf of the reporter.</p>\n<p>Decide further responses</p>\n<p>If the reported person provides additional context, the event staff may need to re-evaluate the behavioral modification plan and consequences.</p>\n<h2 class=\"wp-block-heading\">Follow up with the reporter</h2>\n<p>A person who makes a report should receive a follow up email stating what action was taken in response to the report. If the work group decided no response was needed, they should provide an email explaining why it was not a Code of Conduct violation. Reports that are not made in good faith (such as “reverse sexism” or “reverse racism”) may receive no response.</p>\n<p>The follow up email should be sent no later than one week after the receipt of the report. If deliberation or follow up with the reported person takes longer than one week, the work group should send a status email to the reporter.</p>\n<p><strong>Attribution</strong></p>\n<ul class=\"wp-block-list\">\n<li>The <a href=\"/2023/about/code-of-conduct/\"><strong>PyCon Code of Conduct</strong></a> is licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\"><strong>Creative Commons Attribution 3.0 Unported License</strong></a>.</li>\n<li>Ada Initiative’s guide titled “<a href=\"http://geekfeminism.wikia.com/wiki/Conference_anti-harassment/Responding_to_reports\"><strong>Conference anti-harassment/Responding to Reports</strong></a>” is licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\"><strong>Creative Commons Attribution 3.0 Unported License</strong></a></li>\n<li>Audrey Eschright of <a href=\"http://safetyfirstpdx.org/\"><strong>Safety First PDX</strong></a> provided the impact vs risk assessment framework, which is licensed under a <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\"><strong>Creative Commons Attribution Share-Alike 3.0 Unported License</strong></a> by Audrey Eschright of <a href=\"http://safetyfirstpdx.org/\"><strong>Safety First PDX</strong></a></li>\n<li><a href=\"https://github.com/sagesharp/code-of-conduct-template/\"><strong>Code of Conduct template</strong></a> was created by <a href=\"https://otter.technology/code-of-conduct-training\"><strong>Otter Tech</strong></a> and is licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\"><strong>Creative Commons Attribution 3.0 Unported License</strong></a></li>\n</ul>"
+    },
+    {
+      "slug": "2023-jetbrains",
+      "url": "/2023/2023-jetbrains/",
+      "title": "Discover the Future with Our Valued Prize Sponsor JetBrains – PyCon HK 2023",
+      "description": "JetBrains is the creator of IntelliJ IDEA, ReSharper, GoLand, PyCharm, WebStorm, PhpStorm and Kotlin. We create industry leading software development tools. For over 20 years we have strived to make the strongest, most effective developer tools on Earth. By automating routine checks and corrections, our products speed up production, freeing developers to grow, discover and",
+      "date": {
+        "datetime": "2023-10-10T01:07:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Prize-Sponsor-JetBrains-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<figure class=\"wp-block-image size-full\"><img width=\"828\" height=\"828\" src=\"/legacy-wp/2023/uploads/2023/10/2023JetBrains.png\" alt=\"\" class=\"wp-image-2361\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023JetBrains.png 828w, /legacy-wp/2023/uploads/2023/10/2023JetBrains-300x300.png 300w, /legacy-wp/2023/uploads/2023/10/2023JetBrains-150x150.png 150w, /legacy-wp/2023/uploads/2023/10/2023JetBrains-768x768.png 768w\" sizes=\"(max-width: 828px) 100vw, 828px\"></figure>\n<p><a href=\"https://www.jetbrains.com/\" target=\"_blank\" rel=\"noreferrer noopener\">JetBrains</a> is the creator of IntelliJ IDEA, ReSharper, GoLand, PyCharm, WebStorm, PhpStorm and Kotlin. We create industry leading software development tools. For over 20 years we have strived to make the strongest, most effective developer tools on Earth. By automating routine checks and corrections, our products speed up production, freeing developers to grow, discover and create. Today, eight million customers in 225 countries trust our tools.</p>"
+    },
+    {
+      "slug": "2023-microsoft",
+      "url": "/2023/2023-microsoft/",
+      "title": "Discover the Future with Our Valued Bronze Sponsor Microsoft – PyCon HK 2023",
+      "description": "",
+      "date": {
+        "datetime": "2023-10-10T01:06:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Bronze-Sponsor-Microsoft-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<figure class=\"wp-block-image size-large\"><img width=\"1024\" height=\"257\" src=\"/legacy-wp/2023/uploads/2023/10/2023Microsoft-1024x257.png\" alt=\"\" class=\"wp-image-2190\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023Microsoft-1024x257.png 1024w, /legacy-wp/2023/uploads/2023/10/2023Microsoft-300x75.png 300w, /legacy-wp/2023/uploads/2023/10/2023Microsoft-768x193.png 768w, /legacy-wp/2023/uploads/2023/10/2023Microsoft-850x214.png 850w, /legacy-wp/2023/uploads/2023/10/2023Microsoft.png 1456w\" sizes=\"(max-width: 1024px) 100vw, 1024px\"></figure>\n<figure class=\"wp-block-image size-large\"><img width=\"1024\" height=\"521\" src=\"/legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-1024x521.png\" alt=\"\" class=\"wp-image-2174\" srcset=\"/legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-1024x521.png 1024w, /legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-300x153.png 300w, /legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-768x391.png 768w, /legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-1536x782.png 1536w, /legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-2048x1042.png 2048w, /legacy-wp/2023/uploads/2023/10/microsoft-brand-identity-850x432.png 850w\" sizes=\"(max-width: 1024px) 100vw, 1024px\"></figure>"
+    },
+    {
+      "slug": "2023-mysql",
+      "url": "/2023/2023-mysql/",
+      "title": "Discover the Future with Our Valued Silver Sponsor MySQL – PyCon HK 2023",
+      "description": "MySQL is the World’s Most Popular Open Source Database. It powers the most innovative companies including Facebook, Booking, Uber, and Tesla. It is available on-premises and as the MySQL Database Service on Oracle Cloud. For developers, it’s an easy to use, reliable and high-performance database with NoSQL and SQL support. SaaS, ecommerce, financial, telecom, and",
+      "date": {
+        "datetime": "2023-10-10T01:04:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Silver-Sponsor-MySQL-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><img width=\"401\" height=\"270\" src=\"/legacy-wp/2023/uploads/2023/10/2023MySQL.png\" alt=\"\" class=\"wp-image-2188\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023MySQL.png 401w, /legacy-wp/2023/uploads/2023/10/2023MySQL-300x202.png 300w\" sizes=\"(max-width: 401px) 100vw, 401px\"></figure></div>\n<p></p>\n<p><a href=\"https://www.mysql.com/\">MySQL</a> is the World’s Most Popular Open Source Database. It powers the most innovative companies including Facebook, Booking, Uber, and Tesla. It is available on-premises and as the MySQL Database Service on Oracle Cloud. For developers, it’s an easy to use, reliable and high-performance database with NoSQL and SQL support. SaaS, ecommerce, financial, telecom, and Fortune 1000 companies rely on the MySQL Enterprise edition advanced security features to protect the privacy of information, prevent data breaches and help meet regulatory requirements such as GDPR, PCI, HIPAA. MySQL High Availability has native HA, fully integrated into the MySQL Server for 99.99% uptime.</p>"
+    },
+    {
+      "slug": "2023-openssf",
+      "url": "/2023/2023-openssf/",
+      "title": "Discover the Future with Our Networking Hour Partner OpenSSF – PyCon HK 2023",
+      "description": "The OpenSSF is a cross-industry organization that brings together the industry's most important open source security initiatives and the individuals and companies that support them. The OpenSSF is committed to collaboration and working both upstream and with existing communities to advance open source security for all.",
+      "date": {
+        "datetime": "2023-10-10T01:08:18+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Networking-Hour-Partner-OpenSSF-850x478.jpg",
+        "alt": "Discover the Future with Our Networking Hour Partner OpenSSF - PyCon HK 2023"
+      },
+      "contentHtml": "<figure class=\"wp-block-image size-full\"><img width=\"1000\" height=\"385\" src=\"/legacy-wp/2023/uploads/2023/10/2023OpenSSF.png\" alt=\"\" class=\"wp-image-2367\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023OpenSSF.png 1000w, /legacy-wp/2023/uploads/2023/10/2023OpenSSF-300x116.png 300w, /legacy-wp/2023/uploads/2023/10/2023OpenSSF-768x296.png 768w, /legacy-wp/2023/uploads/2023/10/2023OpenSSF-850x327.png 850w\" sizes=\"(max-width: 1000px) 100vw, 1000px\"></figure>\n<p>The <a href=\"https://openssf.org/about/\" target=\"_blank\" rel=\"noreferrer noopener\">OpenSSF</a> is a cross-industry organization that brings together the industry’s most important open source security initiatives and the individuals and companies that support them. The OpenSSF is committed to collaboration and working both upstream and with existing communities to advance open source security for all. </p>"
+    },
+    {
+      "slug": "2023-organizers",
+      "url": "/2023/2023-organizers/",
+      "title": "Organizers – PyCon HK 2023",
+      "description": "Open Source Hong Kong 開源香港 Python User Group Hong Kong (HKPUG) Hong Kong Creative Open Technology Association 香港創意開放科技協會",
+      "date": {
+        "datetime": "2023-10-10T00:30:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/ORGANIZERS-850x478.jpg",
+        "alt": "Organizers – PyCon Hong Kong 2023"
+      },
+      "contentHtml": "<h2 class=\"wp-block-heading\">Open Source Hong Kong 開源香港</h2>\n<div class=\"wp-block-image is-style-default\">\n<figure class=\"aligncenter is-resized\"><a href=\"https://opensource.hk/zh/\" target=\"_blank\" rel=\"noreferrer noopener\"><img src=\"/legacy-wp/2023/uploads/2022/10/OSHK-1024x231.png\" alt=\"\" class=\"wp-image-1768\" style=\"width:600px\" width=\"600\" srcset=\"/legacy-wp/2023/uploads/2022/10/OSHK-1024x231.png 1024w, /legacy-wp/2023/uploads/2022/10/OSHK-300x68.png 300w, /legacy-wp/2023/uploads/2022/10/OSHK-768x173.png 768w, /legacy-wp/2023/uploads/2022/10/OSHK-1536x346.png 1536w, /legacy-wp/2023/uploads/2022/10/OSHK-2048x461.png 2048w, /legacy-wp/2023/uploads/2022/10/OSHK-850x191.png 850w\" sizes=\"(max-width: 1024px) 100vw, 1024px\"></a></figure></div>\n<p></p>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Python User Group Hong Kong (HKPUG)</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter is-resized\"><a href=\"https://www.facebook.com/groups/hkpug\" target=\"_blank\" rel=\"noreferrer noopener\"><img src=\"/legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-300x300.png\" alt=\"\" class=\"wp-image-1835\" style=\"object-fit:cover;width:250px;height:250px\" width=\"250\" height=\"250\" srcset=\"/legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-300x300.png 300w, /legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-1024x1024.png 1024w, /legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-150x150.png 150w, /legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-768x768.png 768w, /legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-1536x1536.png 1536w, /legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-2048x2048.png 2048w, /legacy-wp/2023/uploads/2022/10/HKPUG_Logo_512x512-850x850.png 850w\" sizes=\"(max-width: 250px) 100vw, 250px\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Hong Kong Creative Open Technology Association 香港創意開放科技協會</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"https://hkcota.org/\" target=\"_blank\" rel=\"noreferrer noopener\"><img src=\"/legacy-wp/2023/uploads/2023/10/HKCOTAofficiallogo.png\" alt=\"\" class=\"wp-image-2243\" style=\"width:250px\" width=\"250\" srcset=\"/legacy-wp/2023/uploads/2023/10/HKCOTAofficiallogo.png 460w, /legacy-wp/2023/uploads/2023/10/HKCOTAofficiallogo-300x186.png 300w\" sizes=\"(max-width: 460px) 100vw, 460px\"></a></figure>"
+    },
+    {
+      "slug": "2023-pccw-hkt",
+      "url": "/2023/2023-pccw-hkt/",
+      "title": "Discover the Future with Our Valued Silver Sponsor PCCW-HKT – PyCon HK 2023",
+      "description": "PCCW PCCW Limited (SEHK: 0008) is a global company headquartered in Hong Kong which holds interests in telecommunications, media, IT solutions, property development and investment, and other businesses. The Company holds a majority stake in the HKT Trust and HKT Limited*, Hong Kong’s premier telecommunications service provider and leading operator of fixed-line, broadband, mobile communication",
+      "date": {
+        "datetime": "2023-10-10T01:05:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Silver-Sponsor-PCCW-HKT-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<figure class=\"wp-block-image size-full\"><img width=\"719\" height=\"125\" src=\"/legacy-wp/2023/uploads/2023/10/2023PCCW-HKT.png\" alt=\"\" class=\"wp-image-2186\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023PCCW-HKT.png 719w, /legacy-wp/2023/uploads/2023/10/2023PCCW-HKT-300x52.png 300w\" sizes=\"(max-width: 719px) 100vw, 719px\"></figure>\n<h2 class=\"wp-block-heading\">PCCW</h2>\n<p>PCCW Limited (SEHK: 0008) is a global company headquartered in Hong Kong which holds interests in telecommunications, media, IT solutions, property development and investment, and other businesses. The Company holds a majority stake in the HKT Trust and HKT Limited*, Hong Kong’s premier telecommunications service provider and leading operator of fixed-line, broadband, mobile communication and media entertainment services. HKT delivers end-to-end integrated solutions employing emerging technologies to assist enterprises in transforming their businesses. HKT has also built a digital ecosystem integrating its loyalty program, e-commerce, travel, insurance, FinTech and HealthTech services to deepen its relationship with customers. PCCW owns a fully integrated multimedia and entertainment group in Hong Kong engaged in the provision of OTT video service locally and in other places in the region. Through HK Television Entertainment Company Limited, PCCW also operates a domestic free TV service in Hong Kong. Also wholly-owned by the Group, PCCW Solutions is a leading IT and business process outsourcing provider in Hong Kong, mainland China and Southeast Asia. In addition, PCCW holds a stake in Pacific Century Premium Developments Limited and other overseas investments. *HKT Limited is a company incorporated in the Cayman Islands with limited liability.</p>\n<h2 class=\"wp-block-heading\">HKT</h2>\n<p>HKT is a technology, media, and telecommunication leader with more than 150 years of history in Hong Kong. As the city’s true 5G provider, HKT connects businesses and people locally and globally. Our end-to-end enterprise solutions make us a market-leading digital transformation partner of choice for businesses; whereas our comprehensive mobile communication and smart living offerings enrich people‘s lives and cater for their diverse needs for work, entertainment, education, well-being, and even a sustainable low-carbon lifestyle. Together with our digital ventures which support digital economy development and help connect Hong Kong to the world as an international financial centre, HKT endeavours to contribute to smart city development and help our community tech forward.</p>"
+    },
+    {
+      "slug": "2023-procedures-for-reporting-incidents",
+      "url": "/2023/2023-procedures-for-reporting-incidents/",
+      "title": "Procedures for Reporting Incidents – As of 2023",
+      "description": "If you believe someone is in physical danger, including from themselves, the most important thing is to get that person help. Please contact the appropriate crisis number, non-emergency number, or police number. If you are a PyCon HK attendee, you can consult with a volunteer or staff member to help find an appropriate number. If",
+      "date": {
+        "datetime": "2023-04-01T12:24:37+08:00",
+        "label": "April 1, 2023"
+      },
+      "featuredImage": null,
+      "contentHtml": "<p><strong>If you believe someone is in physical danger, including from themselves</strong>, the most important thing is to get that person help. Please contact the appropriate crisis number, non-emergency number, or police number. If you are a PyCon HK attendee, you can consult with a volunteer or staff member to help find an appropriate number.</p>\n<p>If you believe someone has violated the <strong>Code of Conduct</strong>, we encourage you to report it. If you are unsure whether the incident is a violation, or whether the space where it happened is covered by the Code of Conduct, we encourage you to still report it. We are fine with receiving reports where we decide to take no action for the sake of creating a safer space.</p>\n<p>If you find that you need to make a report, and you cannot find the appropriate Code of Conduct reporting contact, you may report to the PyCon HK Code of Conduct email alias below. PyCon HK event staff will handle your report. If this happens, please also mention that you could not find specific reporting information so that we can improve.</p>\n<h2 class=\"wp-block-heading\">General Reporting Procedure</h2>\n<p>The best way to contact the PyCon HK Code of Conduct event staff is by email at <a href=\"/cdn-cgi/l/email-protection#57272e34383917272e343839793f3c\"><span class=\"__cf_email__\" data-cfemail=\"ff8f869c9091bf8f869c9091d19794\">[email protected]</span></a>. The members of the PyCon HK event staff who monitor this account are:</p>\n<ul class=\"wp-block-list\">\n<li>Sammy Fung</li>\n<li>Calvin Tsang</li>\n</ul>\n<p>In the event of a <strong>conflict of interest</strong>, you may directly contact any of the lead incident responders:</p>\n<ul class=\"wp-block-list\">\n<li>Sammy Fung <ul class=\"wp-block-list\">\n<li>President, Open Source Hong Kong</li>\n<li><a href=\"/cdn-cgi/l/email-protection\" class=\"__cf_email__\" data-cfemail=\"681b090505112807180d061b071d1a0b0d460003\">[email protected]</a></li>\n</ul>\n</li>\n</ul>\n<h2 class=\"wp-block-heading\">Report Data</h2>\n<p>When you make a report via email or phone, please include:</p>\n<ul class=\"wp-block-list\">\n<li>Your contact info (so we can get in touch with you if we need to follow up)</li>\n<li>Date and time of the incident</li>\n<li>Location of incident</li>\n<li>Whether the incident is ongoing</li>\n<li>Description of the incident</li>\n<li>Identifying information of the reported person: name, physical appearance, height, clothing, voice accent, identifying badge information such as company name, ribbons, or badge number</li>\n<li>Additional circumstances surrounding the incident</li>\n<li>Other people involved in or witnesses to the incident and their contact information or description</li>\n</ul>\n<p>Please provide as much information as possible.</p>\n<h2 class=\"wp-block-heading\">Confidentiality</h2>\n<p><strong>All reports will be kept confidential</strong>. When we discuss incidents with people who are reported, we will anonymize details as much as we can to protect reporter privacy.</p>\n<p>However, some incidents happen in one-on-one interactions, and even if the details are anonymized, the reported person may be able to guess who made the report. If you have concerns about retaliation or your personal safety, please note those in your report. We still encourage you to report, so that we can support you while keeping our conference attendees safe. In some cases, we can compile several anonymized reports into a pattern of behavior, and take action on that pattern.</p>\n<p>In some cases, we may determine that a public statement will need to be made. If that’s the case, the identities of all victims and reporters will remain confidential unless those individuals instruct us otherwise.</p>\n<h2 class=\"wp-block-heading\">Report Handling Procedure</h2>\n<p>When you make a report to an incident responder, they will gather information about the incident according to the <a href=\"/2023/about/code-of-conduct/staff-procedure/\"><strong>Procedure For Incident Response</strong></a>.</p>\n<p>After an incident responder takes the report, they will immediately consult with the PyCon HK event staff, unless there is a conflict of interest, in which case any non-interested parties will be contacted.</p>\n<p>If the incident is ongoing and needs to be immediately addressed, any lead incident responder may take appropriate action to ensure the safety of everyone involved. If the situation requires it, this may take the form of a referral to an appropriate non-PyCon HK agency, including the local police. PyCon HK is not equipped to handle emergency situations.</p>\n<p>If the incident is less urgent, the report will be discussed by the event staff, who will meet to determine an appropriate response. Examples of possible incident responses are outlined in the <a href=\"/2023/about/code-of-conduct/staff-procedure/\"><strong>Procedure For Incident Response</strong></a>.</p>\n<p>Before any large in-person gathering conference, staff will have a mandatory meeting where incident response procedures will be outlined. After the conference, all incident responders will attend a debriefing session with the lead responders to discuss all incidents and determine any necessary follow-up actions.</p>\n<h2 class=\"wp-block-heading\">Following up with Reporters</h2>\n<p>Within one week of an incident report, a member of the event staff, or one of the lead responders, will follow up with the person who made the report and provided their contact information. The follow up may include:</p>\n<ul class=\"wp-block-list\">\n<li>An acknowledgment that the Code of Conduct responders discussed the situation</li>\n<li>Whether or not the report was determined to be a violation of the Code of Conduct</li>\n<li>What actions (if any) were taken to correct the reported behavior</li>\n</ul>\n<p>In some cases, the lead responders may need to ask additional questions about the incident in order to identify the reported person.</p>\n<h2 class=\"wp-block-heading\">Conflicts of Interest</h2>\n<p>If an incident responder has a conflict of interest for a report, they will recuse themselves from the discussion and handling of the incident. The incident documentation will not be available to them, and they will excuse themselves from any conversations involving handling the incident.</p>\n<p>Should more than two of the PyCon HK lead incident responders need to recuse themselves, another PyCon HK staff member will step in as a temporary lead incident responder.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<p>This procedure was adapted from the Ada Initiative’s guide titled “<a href=\"http://geekfeminism.wikia.com/wiki/Conference_anti-harassment/Responding_to_reports\"><strong>Conference anti-harassment/Responding to Reports</strong></a>”, the <a href=\"https://www.djangoproject.com/conduct/reporting/\"><strong>Django Project reporting guidelines</strong></a> (CC BY 3.0), with additions by <a href=\"https://otter.technology/\"><strong>Otter Tech</strong></a>.</p>"
+    },
+    {
+      "slug": "2023-psf",
+      "url": "/2023/2023-psf/",
+      "title": "Discover the Future with Our Valued Gold Sponsor PSF – PyCon HK 2023",
+      "description": "The Python Software Foundation is the organization behind Python. Become a member of the PSF and help advance the software and our mission.",
+      "date": {
+        "datetime": "2023-10-10T01:03:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Gold-Sponsor-PSF-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><img src=\"/legacy-wp/2023/uploads/2023/10/psf-logo-372x84-alpha.png\" alt=\"\" class=\"wp-image-2252\" style=\"width:600px\" width=\"600\" srcset=\"/legacy-wp/2023/uploads/2023/10/psf-logo-372x84-alpha.png 372w, /legacy-wp/2023/uploads/2023/10/psf-logo-372x84-alpha-300x68.png 300w\" sizes=\"(max-width: 372px) 100vw, 372px\"></figure></div>\n<p></p>\n<p>The <a href=\"https://www.python.org/psf-landing/\" target=\"_blank\" rel=\"noreferrer noopener\">Python Software Foundation</a> is the organization behind Python. Become a member of the PSF and help advance the software and our mission.</p>"
+    },
+    {
+      "slug": "2023-red-hat",
+      "url": "/2023/2023-red-hat/",
+      "title": "Discover the Future with Our Valued Platinum Sponsor Red Hat – PyCon HK 2023",
+      "description": "Red Hat is the world’s leading provider of enterprise open source solutions—including Linux, cloud, container, and Kubernetes. Red Hat delivers hardened solutions that make it easier for enterprises to work across platforms and environments, from the core datacenter to the network edge.",
+      "date": {
+        "datetime": "2023-10-10T01:01:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Platinum-Sponsor-Red-Hat-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<figure class=\"wp-block-image size-full\"><img width=\"776\" height=\"500\" src=\"/legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB.png\" alt=\"\" class=\"wp-image-2220\" srcset=\"/legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB.png 776w, /legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB-300x193.png 300w, /legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB-768x495.png 768w\" sizes=\"(max-width: 776px) 100vw, 776px\"></figure>\n<p><a href=\"https://www.redhat.com/en\" target=\"_blank\" rel=\"noreferrer noopener\">Red Hat</a> is the world’s leading provider of enterprise open source solutions—including Linux, cloud, container, and Kubernetes. Red Hat delivers hardened solutions that make it easier for enterprises to work across platforms and environments, from the core datacenter to the network edge.</p>"
+    },
+    {
+      "slug": "2023-schedule",
+      "url": "/2023/2023-schedule/",
+      "title": "Schedule – PyCon HK 2023",
+      "description": "Date: November 11, 2023Venue: 8/F., The Hong Kong Federation of Youth Groups Building, 21 Pak Fuk Road, North Point, Hong Kong ( Quarry Bay MTR station Exit C, Entrance on Model Lane ), Google Map GET Ticket NOW!",
+      "date": {
+        "datetime": "2023-10-20T00:35:00+08:00",
+        "label": "October 20, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/SCHEDULE-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<p><strong>Date</strong>: November 11, 2023<br><strong>Venue</strong>: 8/F., The Hong Kong Federation of Youth Groups Building, 21 Pak Fuk Road, North Point, Hong Kong ( Quarry Bay MTR station Exit C, Entrance on Model Lane ), <a href=\"https://maps.app.goo.gl/q974rQrSnMrnE9k39\" target=\"_blank\" rel=\"noreferrer noopener\">Google Map</a></p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-white-color has-vivid-green-cyan-background-color has-text-color has-background wp-element-button\" href=\"https://pyconhk2023.eventbrite.com/\" target=\"_blank\" rel=\"noreferrer noopener\">GET Ticket NOW!</a></div>\n</div>\n<figure class=\"wp-block-table is-style-regular\"><table><thead><tr><th class=\"has-text-align-left\" data-align=\"left\"><strong>Time</strong></th><th class=\"has-text-align-left\" data-align=\"left\"><strong>Track 1 (Main Hall)</strong></th><th class=\"has-text-align-left\" data-align=\"left\"><strong>Track 2 (Room)</strong></th></tr></thead><tbody><tr><td class=\"has-text-align-left\" data-align=\"left\">09:00-09:50</td><td class=\"has-text-align-left\" data-align=\"left\">Reception</td><td class=\"has-text-align-left\" data-align=\"left\"></td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">09:50-10:00</td><td class=\"has-text-align-left\" data-align=\"left\">Opening Remarks<br>Mr. Sammy Fung</td><td class=\"has-text-align-left\" data-align=\"left\"></td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">10:00-10:10</td><td class=\"has-text-align-left\" data-align=\"left\">Program briefing + Group Photos<br>Mr. Scotty Kwok</td><td class=\"has-text-align-left\" data-align=\"left\"></td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">10:10-10:20</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\"></td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">10:20-10:50</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/accelerating-networkx-fast-graph-analytics-with-python/\">Accelerating NetworkX: Fast Graph Analytics with Python</a> | English<br>🇺🇸 Mr. Erik Welch | NVIDIA</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/introduce-to-you-about-pyladies-tokyo/\">Introduce to you! about PyLadies Tokyo</a> | English<br>🇯🇵 Ms. Maaya Ishida | Microsoft Japan / PyLadies Tokyo / PyCon JP Association</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">10:50-11:00</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">11:00-11:30</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/streamlit-creating-interactive-websites-with-ease/\">Streamlit — Creating Interactive Websites with Ease</a> | English<br>🇭🇰 Mr. Lee Sheung Chit Ethan | Sebit Company Limited</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/automate-the-boring-stuff-with-slackbotver-2/\">Automate the Boring Stuff with Slackbot(ver.2)</a> | English<br>🇯🇵 Mr. Takanori Suzuki | PyCon JP Association</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">11:30-11:40</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">11:40-12:10</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/pyscript-empowering-rich-python-applications-in-the-browser/\">PyScript: Empowering Rich Python Applications in the Browser</a> | English<br>🇺🇸 Dr. Sophia Yang | Anaconda</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/polars-vs-pandas-whats-the-difference/\">Polars vs Pandas – what’s the difference?</a> | English<br>🇬🇧 Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">12:10-12:20</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">12:20-12:50</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/mlops-on-kubernetes-a-quick-tour-using-python-and-kubeflow/\">MLOps on Kubernetes: A Quick Tour Using Python and Kubeflow</a> | English<br>🇭🇰 Mr. Peter Ho | Red Hat</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/playing-with-pipico/\">Playing with PiPico</a> | English<br>🇯🇵 Mr. Masafumi Ohta | Japanese Raspberry Pi Users Group</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">12:50-14:00</td><td class=\"has-text-align-left\" data-align=\"left\">Lunch</td><td class=\"has-text-align-left\" data-align=\"left\">Lunch</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">14:00-14:30</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/empowering-educators-automated-assignment-scoring-via-generative-ai-with-python/\">Empowering Educators: Automated Assignment Scoring via Generative AI with Python</a> | Cantonese<br>🇭🇰 Mr. Cyrus Wong | Department of Information Technology at the Hong Kong Institute of Vocational Education (Lee Wai Lee)</td><td class=\"has-text-align-left\" data-align=\"left\"><strong>Canceled due to no show!</strong><br><s><a href=\"/2023/building-iot-applications-with-python-and-embedded-systems/\">Building IoT Applications with Python and Embedded Systems</a> | English<br>🇳🇬 Mr. Olaniyan Adewale Hafeez | RobotKraft Africa</s></td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">14:30-14:40</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">14:40-15:10</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/automating-business-tasks-with-langchain-and-python/\">Automating Business Tasks with Langchain and Python</a> | English<br>🇭🇰 Dr. Chung Ng | PCCW-HKT</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/innovations-and-cross-domain-applications-of-python-and-machine-learning-in-the-smart-logistics-field/\">Innovations and Cross-domain Applications of Python and Machine Learning in the Smart Logistics Field</a> | English<br>🇨🇳 Mr. Kang Hao</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">15:10-15:20</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">10 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">15:20-15:50</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/玩轉-python-與-javascript/\">玩轉 Python 與 Javascript</a> | Cantonese<br>🇭🇰 Mr. Scotty Kwok | Sebit Company Limited</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/automating-victory-beating-browser-games-with-accessible-python/\">Automating Victory: Beating browser games with accessible Python</a> | English<br>🇯🇵 Mr. Jon Gaul | HENNGE K.K.</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">15:50-16:20</td><td class=\"has-text-align-left\" data-align=\"left\">30 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">30 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">16:20-16:35</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/large-language-model-deployment-and-fine-tuning-with-python/\">Large Language Model Deployment and Fine-tuning with Python</a> | English<br>🇭🇰 Mr. Haowen Huang | AWS</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/as-soft-as-ever-changing-clean-architecture-in-python/\">As Soft as Ever Changing — Clean Architecture in Python</a> | English<br>🇭🇰 Mr. Alex, Au Cheuk Ming</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">16:35-16:40</td><td class=\"has-text-align-left\" data-align=\"left\">5 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/as-soft-as-ever-changing-clean-architecture-in-python/\">As Soft as Ever Changing — Clean Architecture in Python</a>\n</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">16:40-16:55</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/security-101-for-package-maintainers/\">Security 101 for package maintainers</a> | English<br>🇬🇧 Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/as-soft-as-ever-changing-clean-architecture-in-python/\">As Soft as Ever Changing — Clean Architecture in Python</a></td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">16:55-17:00</td><td class=\"has-text-align-left\" data-align=\"left\">5 minutes break</td><td class=\"has-text-align-left\" data-align=\"left\">5 minutes break</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">17:00-17:30</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/simplifying-machine-learning-pipeline-using-mysql-heatwave/\">Simplifying Machine Learning pipeline using MySQL HeatWave</a> | English<br>🇭🇰 Mr. Ivan Ma | Oracle Systems Hong Kong Ltd</td><td class=\"has-text-align-left\" data-align=\"left\"><a href=\"/2023/zkml-turning-your-ml-model-into-a-zk-circuit/\">ZKML: turning your ML model into a ZK circuit</a> | Cantonese<br>🇭🇰 Dr. Cathie So | Privacy &amp; Scaling Explorations Team (Ethereum Foundation)</td></tr><tr><td class=\"has-text-align-left\" data-align=\"left\">17:30-17:45</td><td class=\"has-text-align-left\" data-align=\"left\">Closing Remarks<br>Mr. Sammy Fung</td><td class=\"has-text-align-left\" data-align=\"left\"></td></tr></tbody></table></figure>"
+    },
+    {
+      "slug": "2023-sponsors",
+      "url": "/2023/2023-sponsors/",
+      "title": "Sponsors – PyCon HK 2023",
+      "description": "PyCon Hong Kong 2023 extends our heartfelt gratitude to our sponsors for their unwavering support. Their contributions are invaluable in spreading Python and championing the open-source cause. Please click on sponsor logos for further sponsor messages: Platinum Sponsor Gold Sponsor Silver Sponsor Bronze Sponsor Prize Sponsor Networking Hour Partner",
+      "date": {
+        "datetime": "2023-10-10T01:00:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/SPONSORS-850x478.jpg",
+        "alt": "Sponsors – PyCon Hong Kong 2023"
+      },
+      "contentHtml": "<p>PyCon Hong Kong 2023 extends our heartfelt gratitude to our sponsors for their unwavering support. Their contributions are invaluable in spreading Python and championing the open-source cause.</p>\n<p>Please click on sponsor logos for further sponsor messages:</p>\n<h1 class=\"wp-block-heading has-text-align-center\">Platinum Sponsor</h1>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"/2023/2023-red-hat/\"><img width=\"776\" height=\"500\" src=\"/legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB.png\" alt=\"\" class=\"wp-image-2220\" srcset=\"/legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB.png 776w, /legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB-300x193.png 300w, /legacy-wp/2023/uploads/2023/10/Logo-Red_Hat-B-Standard-RGB-768x495.png 768w\" sizes=\"(max-width: 776px) 100vw, 776px\"></a></figure></div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h1 class=\"wp-block-heading has-text-align-center\">Gold Sponsor</h1>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"/2023/2023-aws/\"><img width=\"1000\" height=\"598\" src=\"/legacy-wp/2023/uploads/2023/10/2023_AWS.png\" alt=\"\" class=\"wp-image-2360\" style=\"width:550px;height:undefinedpx\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023_AWS.png 1000w, /legacy-wp/2023/uploads/2023/10/2023_AWS-300x180.png 300w, /legacy-wp/2023/uploads/2023/10/2023_AWS-768x459.png 768w, /legacy-wp/2023/uploads/2023/10/2023_AWS-850x508.png 850w\" sizes=\"(max-width: 1000px) 100vw, 1000px\"></a></figure></div>\n<p></p>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"/2023/2023-psf/\"><img width=\"372\" height=\"84\" src=\"/legacy-wp/2023/uploads/2023/10/psf-logo-372x84-alpha.png\" alt=\"\" class=\"wp-image-2252\" style=\"width:550px;height:undefinedpx\" srcset=\"/legacy-wp/2023/uploads/2023/10/psf-logo-372x84-alpha.png 372w, /legacy-wp/2023/uploads/2023/10/psf-logo-372x84-alpha-300x68.png 300w\" sizes=\"auto, (max-width: 372px) 100vw, 372px\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h1 class=\"wp-block-heading has-text-align-center\">Silver Sponsor</h1>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"/2023/2023-mysql/\"><img width=\"401\" height=\"270\" src=\"/legacy-wp/2023/uploads/2023/10/2023MySQL.png\" alt=\"\" class=\"wp-image-2188\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023MySQL.png 401w, /legacy-wp/2023/uploads/2023/10/2023MySQL-300x202.png 300w\" sizes=\"auto, (max-width: 401px) 100vw, 401px\"></a></figure></div>\n<p></p>\n<p></p>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"/2023/2023-pccw-hkt/\"><img width=\"719\" height=\"125\" src=\"/legacy-wp/2023/uploads/2023/10/2023PCCW-HKT.png\" alt=\"\" class=\"wp-image-2186\" style=\"width:400px;height:undefinedpx\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023PCCW-HKT.png 719w, /legacy-wp/2023/uploads/2023/10/2023PCCW-HKT-300x52.png 300w\" sizes=\"auto, (max-width: 719px) 100vw, 719px\"></a></figure></div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h1 class=\"wp-block-heading has-text-align-center\">Bronze Sponsor</h1>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-large is-resized\"><a href=\"/2023/2023-microsoft/\"><img width=\"1024\" height=\"257\" src=\"/legacy-wp/2023/uploads/2023/10/2023Microsoft-1024x257.png\" alt=\"\" class=\"wp-image-2190\" style=\"width:360px;height:undefinedpx\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023Microsoft-1024x257.png 1024w, /legacy-wp/2023/uploads/2023/10/2023Microsoft-300x75.png 300w, /legacy-wp/2023/uploads/2023/10/2023Microsoft-768x193.png 768w, /legacy-wp/2023/uploads/2023/10/2023Microsoft-850x214.png 850w, /legacy-wp/2023/uploads/2023/10/2023Microsoft.png 1456w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\"></a></figure></div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h1 class=\"wp-block-heading has-text-align-center\">Prize Sponsor</h1>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"/2023/2023-jetbrains/\"><img width=\"828\" height=\"828\" src=\"/legacy-wp/2023/uploads/2023/10/2023JetBrains.png\" alt=\"\" class=\"wp-image-2361\" style=\"width:360px;height:undefinedpx\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023JetBrains.png 828w, /legacy-wp/2023/uploads/2023/10/2023JetBrains-300x300.png 300w, /legacy-wp/2023/uploads/2023/10/2023JetBrains-150x150.png 150w, /legacy-wp/2023/uploads/2023/10/2023JetBrains-768x768.png 768w\" sizes=\"auto, (max-width: 828px) 100vw, 828px\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h1 class=\"wp-block-heading has-text-align-center\"> Networking Hour Partner</h1>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"/2023/2023-openssf/\"><img width=\"1000\" height=\"385\" src=\"/legacy-wp/2023/uploads/2023/10/2023OpenSSF.png\" alt=\"\" class=\"wp-image-2367\" style=\"width:360px;height:undefinedpx\" srcset=\"/legacy-wp/2023/uploads/2023/10/2023OpenSSF.png 1000w, /legacy-wp/2023/uploads/2023/10/2023OpenSSF-300x116.png 300w, /legacy-wp/2023/uploads/2023/10/2023OpenSSF-768x296.png 768w, /legacy-wp/2023/uploads/2023/10/2023OpenSSF-850x327.png 850w\" sizes=\"auto, (max-width: 1000px) 100vw, 1000px\"></a></figure>"
+    },
+    {
+      "slug": "2023-supporting-organizations",
+      "url": "/2023/2023-supporting-organizations/",
+      "title": "Supporting Organizations – PyCon HK 2023",
+      "description": "Special thanks to our esteemed counterparts for helping us spread the word and actively participating in PyCon Hong Kong 2023: 852Dev Cyberport AWS User Group HK Girls in Tech - Macau Google Developer Group Cloud HK HKACE Hong Kong Machine Learning Meetup HKU AI Society Hour of Code Hong Kong IVE Japanese Raspberry Pi Users",
+      "date": {
+        "datetime": "2023-10-10T00:33:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/SUPPORTING-1-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<p>Special thanks to our esteemed counterparts for helping us spread the word and actively participating in PyCon Hong Kong 2023:</p>\n<h2 class=\"wp-block-heading has-text-align-center\">852Dev</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://linktr.ee/852devxyz\"><img width=\"300\" height=\"207\" src=\"/legacy-wp/2023/uploads/2023/10/Logo_withname_H_B.png\" alt=\"\" class=\"wp-image-2268\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">Cyberport</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"https://cyberport.hk/en\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"932\" height=\"353\" src=\"/legacy-wp/2023/uploads/2023/11/Cyberport.png\" alt=\"\" class=\"wp-image-2394\" style=\"width:300px\" srcset=\"/legacy-wp/2023/uploads/2023/11/Cyberport.png 932w, /legacy-wp/2023/uploads/2023/11/Cyberport-300x114.png 300w, /legacy-wp/2023/uploads/2023/11/Cyberport-768x291.png 768w, /legacy-wp/2023/uploads/2023/11/Cyberport-850x322.png 850w\" sizes=\"(max-width: 932px) 100vw, 932px\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">AWS User Group HK</h2>\n<div class=\"wp-block-image is-style-default\">\n<figure class=\"aligncenter size-full\"><a href=\"https://www.facebook.com/groups/146633205522239\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"300\" src=\"/legacy-wp/2023/uploads/2023/10/user-group-icon-white-background2.png\" alt=\"\" class=\"wp-image-2272\" style=\"aspect-ratio:16/9;object-fit:cover\" srcset=\"/legacy-wp/2023/uploads/2023/10/user-group-icon-white-background2.png 300w, /legacy-wp/2023/uploads/2023/10/user-group-icon-white-background2-150x150.png 150w\" sizes=\"auto, (max-width: 300px) 100vw, 300px\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">Girls in Tech – Macau</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full is-resized\"><a href=\"https://macau.girlsintech.org/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"137\" src=\"/legacy-wp/2023/uploads/2023/10/IMG_5843.jpg\" alt=\"\" class=\"wp-image-2266\" style=\"width:300px\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">Google Developer Group Cloud HK</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://gdg.community.dev/gdg-cloud-hong-kong/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"150\" src=\"/legacy-wp/2023/uploads/2023/10/Google-Developer-Group-Cloud-HongKong-Centered_logo.png\" alt=\"\" class=\"wp-image-2263\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">HKACE</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://www.hkace.org.hk/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"126\" src=\"/legacy-wp/2023/uploads/2023/10/HKACE-logo-CHIENG-rev.png\" alt=\"\" class=\"wp-image-2264\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">Hong Kong Machine Learning Meetup</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://www.meetup.com/hong-kong-machine-learning-meetup/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"171\" src=\"/legacy-wp/2023/uploads/2023/10/HKML-Meetup-logo.png\" alt=\"\" class=\"wp-image-2337\"></a></figure></div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">HKU AI Society</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://www.instagram.com/hku.ai.soc/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"300\" src=\"/legacy-wp/2023/uploads/2023/10/AIS_logo.png\" alt=\"\" class=\"wp-image-2262\" srcset=\"/legacy-wp/2023/uploads/2023/10/AIS_logo.png 300w, /legacy-wp/2023/uploads/2023/10/AIS_logo-150x150.png 150w\" sizes=\"auto, (max-width: 300px) 100vw, 300px\"></a></figure></div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">Hour of Code Hong Kong</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://www.meetup.com/hong-kong-hour-of-code-meetup-group/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"198\" src=\"/legacy-wp/2023/uploads/2023/10/hochk_logo-01.png\" alt=\"\" class=\"wp-image-2265\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">IVE</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"http://lwit.vtc.edu.hk/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"267\" src=\"/legacy-wp/2023/uploads/2023/10/IVE_logo_with_VTC.png\" alt=\"\" class=\"wp-image-2267\"></a></figure></div>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\"><a href=\"https://www.raspi.jp/\" target=\"_blank\" rel=\"noreferrer noopener\">Japanese Raspberry Pi Users Group</a></h2>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">Lingnan University</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://www.ln.edu.hk/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"55\" src=\"/legacy-wp/2023/uploads/2023/10/LU_standard-full-colour.png\" alt=\"\" class=\"wp-image-2269\"></a></figure></div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading has-text-align-center\">PyLadies Tokyo</h2>\n<div class=\"wp-block-image\">\n<figure class=\"aligncenter size-full\"><a href=\"https://tokyo.pyladies.com/\" target=\"_blank\" rel=\"noreferrer noopener\"><img width=\"300\" height=\"300\" src=\"/legacy-wp/2023/uploads/2023/10/pyladies-tokyo.png\" alt=\"\" class=\"wp-image-2270\" srcset=\"/legacy-wp/2023/uploads/2023/10/pyladies-tokyo.png 300w, /legacy-wp/2023/uploads/2023/10/pyladies-tokyo-150x150.png 150w\" sizes=\"auto, (max-width: 300px) 100vw, 300px\"></a></figure>"
+    },
+    {
+      "slug": "2023-volunteers",
+      "url": "/2023/2023-volunteers/",
+      "title": "Volunteers – PyCon HK 2023",
+      "description": "Volunteers for PyCon Hong Kong 2023 are the essential builders of this conference. We deeply appreciate their countless months of hard work, making all of this possible.",
+      "date": {
+        "datetime": "2023-10-10T00:32:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/09/VOLUNTEERS-850x478.png",
+        "alt": "Volunteers – PyCon Hong Kong 2023"
+      },
+      "contentHtml": "<p>Volunteers for PyCon Hong Kong 2023 are the essential builders of this conference. We deeply appreciate their countless months of hard work, making all of this possible (listed in alphabetical order by last name) :</p>\n<h2 class=\"wp-block-heading\">Executive Committee</h2>\n<p>Mr. Arnold Chan<br>Mr. Calvin Chong<br>Ms. Daisy Maris Fung<br>Mr. Sammy Fung<br>Ms. Ho, Cheuk Ting (Cherrie)<br>Mr. Ivan Ip<br>Mr. Scotty Kwok<br>Mr. Henry Law<br>Mr. Kingman Leung<br>Mr. Adrian Tam<br>Mr. Kaki Ting<br>Mr. Calvin Tsang<br>Ms. Peggy Wong<br>Mr. Ronald Yick<br>Mr. Ted Yuen</p>\n<h2 class=\"wp-block-heading\">Programme Vetting Committee</h2>\n<p>Mr. Albert Au Yeung<br>Mr. Arnold Chan<br>Mr. Calvin Chong<br>Mr. Scotty Kwok<br>Mr. Adrian Tam<br>Mr. James Tang<br>Mr. Calvin Tsang<br>Ms. Winnie Yeung</p>\n<h2 class=\"wp-block-heading\">On-Site Volunteers</h2>\n<p>Mr. Tommy Han<br>Mr. Ronald Hung<br>Mr. Sam, Lam Hok Man<br>Mr. Leo Kwok<br>Mr. Charles Paul<br>Mr. Wilson Yau<br>Mr. Kelvin Yiu<br>Ms. Judy Wong<br>Mr. Wilson</p>"
+    },
+    {
+      "slug": "accelerating-networkx-fast-graph-analytics-with-python",
+      "url": "/2023/accelerating-networkx-fast-graph-analytics-with-python/",
+      "title": "Accelerating NetworkX: Fast Graph Analytics with Python",
+      "description": "Time Slot: Track 1 10:20-10:50 Language: English Speaker: Mr. Erik Welch | NVIDIA | USA Have you ever wondered how those data scientists at Facebook and LinkedIn make friend recommendations? Or how epidemiologists track down patient zero in an outbreak? Or how to make graph algorithms really, really fast? If so, then this talk is for you.",
+      "date": {
+        "datetime": "2023-10-10T10:20:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Erik-Welch-850x478.jpg",
+        "alt": "Accelerating NetworkX: Fast Graph Analytics with Python"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 10:20-10:50 Language: English Speaker: Mr. Erik Welch | NVIDIA | USA</pre>\n<p>Have you ever wondered how those data scientists at Facebook and LinkedIn make friend recommendations? Or how epidemiologists track down patient zero in an outbreak? Or how to make graph algorithms really, really fast? If so, then this talk is for you.</p>\n<p>NetworkX is the most popular library in Python for graph theory and applied networkx science thanks to its extensive API and beginner-friendly documentation. You should use it. However, what should you do when your graph data becomes too large or NetworkX becomes too slow? Simple: use an accelerated NetworkX backend!</p>\n<p>NetworkX 3 can now be used with other highly-tuned graph libraries:</p>\n<ul class=\"wp-block-list\">\n<li>cuGraph, which is part of NVIDIA RAPIDS to accelerate data science on GPUs</li>\n<li>python-graphblas, which uses linear algebra to write elegent, efficient graph algorithms for the CPU and GPU</li>\n</ul>\n<p>We will show workflows that achieve 100 to 10000+ times speedup using these backends!</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Erik Welch </h2>\n<a href=\"https://github.com/eriknw\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/eriknwelch\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/eriknwelch/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>I work on open-source at NVIDIA: cuGraph, NetworkX, python-graphblas, Dask, RAPIDS, toolz, etc.</p>"
+    },
+    {
+      "slug": "as-soft-as-ever-changing-clean-architecture-in-python",
+      "url": "/2023/as-soft-as-ever-changing-clean-architecture-in-python/",
+      "title": "As Soft as Ever Changing — Clean Architecture in Python",
+      "description": "Time Slot: Track 2 16:20-16:50 Language: English Speaker: Mr. Alex, Au Cheuk Ming | Hong Kong As a general purpose language, Python has a great community and lots of integration with many services and softwares. In the era of microservice development, a number of Python programs are writen as \"disposable-scripts\" where the code quality has not",
+      "date": {
+        "datetime": "2023-10-10T16:21:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Alex-Au-Cheuk-Ming-850x478.jpg",
+        "alt": "As Soft as Ever Changing -- Clean Architecture in Python"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 16:20-16:50 Language: English Speaker: Mr. Alex, Au Cheuk Ming | Hong Kong</pre>\n<p>As a general purpose language, Python has a great community and lots of integration with many services and softwares. In the era of microservice development, a number of Python programs are writen as “disposable-scripts” where the code quality has not been in consideration. This talk is introducing the use of Clean Architecture (Uncle Bob) in Python, which may be a good solution for the ever-changing software development world where dependent services and software libraries are changing over and over. By introducing the Clean Architecture, we hope that audience may reflect more on the object-oriented feature of Python and how can they promote soft and changeable code.</p>\n<p>This talk will show case the use of Clean Architecture on cloud environment, where a semantic search program (vector embedding) reflecting a typical enterprise microservice will be demonstrated. A brief background of Clean Architecture will also be included.</p>\n<h2 class=\"wp-block-heading\">Mr. Alex, Au Cheuk Ming</h2>\n<a href=\"https://www.linkedin.com/in/alex-au-606901206/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>I am an AI and backend engineer with 3 years of experience in Python. I have been working on AI / recommender systems and cloud computing with python in my past experiences. I like to explore topics in AI and system designs in my leisure time. Currently my topic of interest is Reinforcement Learning, and I hope to apply it one day in my microservice production.</p>"
+    },
+    {
+      "slug": "automate-the-boring-stuff-with-slackbotver-2",
+      "url": "/2023/automate-the-boring-stuff-with-slackbotver-2/",
+      "title": "Automate the Boring Stuff with Slackbot(ver.2)",
+      "description": "Time Slot: Track 2 11:00-11:30 Language: English Speaker: Mr. Takanori Suzuki | PyCon JP Association | Japan Today, there are many tasks to repeat in the company/community.In addition, we often use chat such as Slack for daily communication.So, I created a chatbot [PyCon JP Bot] to automate various boring tasks related to holding PyCon JP. In this",
+      "date": {
+        "datetime": "2023-10-10T11:01:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Takanori-Suzuki-850x478.jpg",
+        "alt": "Automate the Boring Stuff with Slackbot(ver.2) "
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 11:00-11:30 Language: English Speaker: Mr. Takanori Suzuki | PyCon JP Association | Japan</pre>\n<p>Today, there are many tasks to repeat in the company/community.<br>In addition, we often use chat such as Slack for daily communication.<br>So, I created a chatbot [<a href=\"https://github.com/pyconjp/pyconjpbot\">PyCon JP Bot</a>] to automate various boring tasks related to holding PyCon JP.</p>\n<p>In this talk, I will first explain how to create a chatbot using [<a href=\"https://slack.dev/bolt-python/concepts\">Bolt for Python</a>].<br>I will tell you how to registers bot’s integration on Slack and how to create a simple bot in Python that responds to specific keywords.</p>\n<p>In addition, we often use chat such as Slack for daily communication.<br>So, I created a chatbot [<a href=\"https://github.com/pyconjp/pyconjpbot\">PyCon JP Bot</a>] to automate various boring tasks related to holding PyCon JP.</p>\n<p>In this talk, I will first explain how to create a chatbot using [<a href=\"https://slack.dev/bolt-python/concepts\">Bolt for Python</a>].<br>I will tell you how to registers bot’s integration on Slack and how to create a simple bot in Python that responds to specific keywords.</p>\n<p>And as a specific case, I will explain how to make a bot command to perform the following operations and technical problems.</p>\n<ul class=\"wp-block-list\">\n<li>Emoji reaction</li>\n<li>Calculator: SymPy</li>\n<li>Karma(plusplus): Peewee</li>\n<li>Search issues, display issue details: JIRA API</li>\n<li>Create multiple issues from a template: JIRA API, Sheets Spreadsheet API</li>\n<li>Search files from Google Drive: Google Drive API</li>\n<li>ccount management of G Suite(user, alias, group and member): G Suite API…etc</li>\n</ul>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Takanori Suzuki </h2>\n<a href=\"https://slides.takanory.net/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/takanory/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/takanory/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/takanory/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.facebook.com/takanory.net\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/facebook.png\" alt=\"Facebook\" width=\"40\" height=\"40\"></a>\n<p>Takanori is a Chairperson of <a href=\"http://www.pycon.jp/\">PyCon JP Association</a>.</p>\n<p>He is also a director of <a href=\"https://www.beproud.jp/\">BeProud Inc.</a>, and his title is “Python Climber”.</p>\n<p>Takanori held PyCon JP 2014 to 2016 as the chairperson.</p>\n<p>Currently he teaches Python to beginners as a lecturer at Python Boot Camp(pycamp.pycon.jp) all over Japan.</p>\n<p>In addition, he published several Python books.</p>\n<p>Tananori plays trumpet, climbs boulder, loves Lego, ferrets and beer.</p>"
+    },
+    {
+      "slug": "automating-business-tasks-with-langchain-and-python",
+      "url": "/2023/automating-business-tasks-with-langchain-and-python/",
+      "title": "Automating Business Tasks with Langchain and Python",
+      "description": "Time Slot: Track 1 14:40-15:10 Language: English Speaker: Dr. Chung Ng | PCCW-HKT | Hong Kong As modern businesses endeavor to improve efficiency and streamline operations, automation has taken center stage. This presentation will focus on how Langchain, in conjunction with Python, can automate complex tasks and foster significant process improvements. The presentation will unfold a four-level",
+      "date": {
+        "datetime": "2023-10-10T14:40:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Dr.-Chung-Ng-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 14:40-15:10 Language: English Speaker: Dr. Chung Ng | PCCW-HKT | Hong Kong</pre>\n<p>As modern businesses endeavor to improve efficiency and streamline operations, automation has taken center stage. This presentation will focus on how Langchain, in conjunction with Python, can automate complex tasks and foster significant process improvements.</p>\n<p>The presentation will unfold a four-level approach, explaining how Langchain can be utilized in different scenarios, with varying degrees of complexity and requirements:<br><br>1. Pre-set Knowledge with Langchain: In the first level, we’ll discuss how to leverage Langchain’s pre-set knowledge for automating routine tasks. We will delve into its default capabilities and demonstrate how these can be harnessed effectively to drive automation.</p>\n<p>2. Incorporating New Topics and Styles: Level two will demonstrate how to enrich Langchain’s performance by integrating new topics and styles into its knowledge base. This addition broadens the range of tasks Langchain can handle, making it a versatile tool for diverse automation needs.</p>\n<p>3. Complex Automation with Multiple Steps: Moving on to the third level, we’ll examine how Langchain can manage multi-step tasks that require advanced logic and sequence. We’ll showcase examples of such tasks and how Langchain’s capabilities can be extended to tackle them.</p>\n<p>4. Output Formatting and Automation Plug-ins: Lastly, we will focus on Langchain’s output management features. We’ll discuss how to customize output formats and integrate automation plug-ins, enhancing both the versatility and usability of Langchain-powered solutions.</p>\n<p>This presentation aims to illustrate how the convergence of Langchain and Python can bring about significant automation benefits. Attendees will gain valuable insights into practical implementations of this methodology and how it can be leveraged to improve operational efficiency in their respective organizations.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Dr. Chung Ng</h2>\n<a href=\"https://www.linkedin.com/in/chungnghk/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Dr. Chung is a SVP at Group CTO Office of the HKT/PCCW Group, where he’s responsible for leading the group’s product and technology roadmap and strategic development. He also represents the group as board members of Lynx Analytics and Bindo Labs.</p>\n<p>Before HKT/PCCW, Chung contributed to the Big Data/AI strategy at Telstra as well as its international growth strategy. Prior to Telstra, Chung was an Associate Partner of Cluster Technology Limited which serves the Greater China market with professional services and solutions in high-performance computing, machine learning, big data, and public cloud.</p>\n<p>In 2008, Chung joined McKinsey &amp; Company in the Hong Kong office. He received his DPhil in Information Engineering from the University of Oxford and held the Croucher Foundation Scholarship to work toward his research degree in wireless ad-hoc networks. Chung also received BEng and MPhil in Information Engineering from the Chinese University of Hong Kong.</p>"
+    },
+    {
+      "slug": "automating-victory-beating-browser-games-with-accessible-python",
+      "url": "/2023/automating-victory-beating-browser-games-with-accessible-python/",
+      "title": "Automating Victory: Beating browser games with accessible Python",
+      "description": "Time Slot: Track 2 15:20-15:50 Language: English Speaker: Mr. Jon Gaul | HENNGE K.K. | Japan Whether your task is data entry or playing a video game, Python has the power to automate it. In this talk we'll explore the power of intuitive Python libraries for I/O, then use them to automatically beat an in-browser video game",
+      "date": {
+        "datetime": "2023-10-10T15:21:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Jon-Gaul-850x478.jpg",
+        "alt": "Automating Victory: Beating browser games with accessible Python"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 15:20-15:50 Language: English Speaker: Mr. Jon Gaul | HENNGE K.K. | Japan</pre>\n<p><em>Whether your task is data entry or playing a video game, Python has the power to automate it. In this talk we’ll explore the power of intuitive Python libraries for I/O, then use them to automatically beat an in-browser video game using the same strategies and inputs as a human. We’ll also discuss applying project management skills to take personal projects from ideas to successes.</em></p>\n<p>Even though many beginner programmers are motivated by solving day-to-day problems, many tutorials are disconnected from the real world. Automation is easy when inputs and outputs are consistent and locally stored, but how do you handle situations where that’s not the case? Using Python to automate beating a browser game is a great example of a real-world problem that’s uniquely hard to solve without Python libraries. The steps for solving this problem as a human map one-to-one with the steps for solving it programmatically and each step gives a simple and useful example of key automation libraries. Beyond highlighting some automation examples, I’ll also talk about factors that led to this project’s success rather than staying an eternal work-in-progress.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Jon Gaul</h2>\n<a href=\"https://afraidalot.com/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/jgaul3\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/jon-gaul-84a195150/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Graduating from Georgia Tech with a dual degree in Computer Science and Chemical Engineering, Jon has long held a passion for investigating how the world works and how theory transforms into practice.</p>\n<p>With interests in computer vision, cryptography, and high-performance computing, he has worked at companies ranging from a three-person AI startup to a billion-dollar POS company on both coasts of the US and is excited to bring this experience to his role as a software engineer at HENNGE.</p>"
+    },
+    {
+      "slug": "building-iot-applications-with-python-and-embedded-systems",
+      "url": "/2023/building-iot-applications-with-python-and-embedded-systems/",
+      "title": "[CANCELED] Building IoT Applications with Python and Embedded Systems",
+      "description": "Canceled due to no show. Time Slot: Track 2 14:00-14:30Language: EnglishSpeaker: Mr. Olaniyan Adewale Hafeez | RobotKraft Africa | Nigeria The Internet of Things (IoT) has transformed the way we interact with our surroundings, enabling connectivity and data exchange between physical devices and the digital world. Python, with its simplicity and versatility, has emerged as a popular",
+      "date": {
+        "datetime": "2023-10-10T14:01:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Olaniyan-Adewale-Hafeez-850x478.jpg",
+        "alt": "Building IoT Applications with Python and Embedded Systems"
+      },
+      "contentHtml": "<h1 class=\"wp-block-heading\">Canceled due to no show.</h1>\n<p>Time Slot: Track 2 14:00-14:30<br>Language: English<br>Speaker: Mr. Olaniyan Adewale Hafeez | RobotKraft Africa | Nigeria</p>\n<p>The Internet of Things (IoT) has transformed the way we interact with our surroundings, enabling connectivity and data exchange between physical devices and the digital world. Python, with its simplicity and versatility, has emerged as a popular programming language for developing IoT applications. This conference session will explore how Python can be used with embedded systems to build powerful and scalable IoT applications.</p>\n<p>In this session, I will explore the key components of building IoT applications with Python and embedded systems. We will explore the fundamentals of embedded systems and their role in connecting devices to the Internet. Participants will gain insights into the various types of embedded systems, such as microcontrollers and single-board computers, and learn how to program them using Python.</p>\n<p>Throughout the session, I will cover the essentials of Python programming for embedded systems, including GPIO control, sensor integration, and data communication protocols. Participants will learn how to leverage Python libraries and frameworks to interact with sensors, collect data, and control actuators in their IoT applications.</p>\n<p>Furthermore, I will discuss the integration of embedded systems with cloud platforms. This will enable participants to store and analyze data, implement remote control functionalities, and enable seamless connectivity with other devices. We will showcase examples of real-world IoT applications built with Python and embedded systems.</p>\n<p>By the end of this session, participants will have a solid understanding of the principles and techniques involved in building IoT applications with Python and embedded systems. They will be equipped to embark on their own IoT projects. They will leverage Python and embedded systems for data collection, analysis, and device control.</p>\n<p>This session is suitable for developers, engineers, and enthusiasts interested in IoT and its intersection with embedded systems and Python programming. Participants should have a basic understanding of Python, but no prior experience with embedded systems is required.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Olaniyan Adewale Hafeez</h2>\n<a href=\"https://github.com/abdulhafeez1432\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/couonetech1440\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/olaniyan-adewale-68452892\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Olaniyan Adewale Hafeez is a trained civil engineer but chose IT as a career and built his reputation at home and abroad. He was a computer technician and network administrator at the beginning of his IT career until he switched to programming. He has over ten years of experience with Python &amp; PHP.</p>\n<p>Adewale has developed various applications in Python for both private and government organizations. He has wide knowledge in HTML5, JavaScript, JQuery, PHP, Python, Magneto, MySQL, Twitter, Bootstraps, Scratch, Codeigniter, Python, Flask, Django Framework, Vuejs, Dart and Flutter. He is a Full-Stack Developer, Data Scientist, and Embedded Engineer.</p>\n<p>He has trained thousands of students in the Open Source field. He spent most of his time promoting Open Source technologies. He has organized free Open-Source Seminars for different organizations and communities like the Nigeria Computer Society of Nigeria, Universities and the like.</p>\n<p>He is the founder of Couone Technology Limited, an IT consultancy firm. He also founded TechWorld Academy, Nigeriware Enterprise and Techware Innovation Bahrain. He teaches kids aged 8 to 16 robotics, cartooning and animation.</p>"
+    },
+    {
+      "slug": "closed-pycon-hk-2023-call-for-proposal",
+      "url": "/2023/closed-pycon-hk-2023-call-for-proposal/",
+      "title": "[Closed] PyCon HK 2023 – Call For Proposal",
+      "description": "The Call for Proposal (CFP) of PyCon Hong Kong 2023 is now closed!",
+      "date": {
+        "datetime": "2023-07-18T12:16:09+08:00",
+        "label": "July 18, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/07/Closed-PyCon-HK-2023-–-Call-For-Proposal.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>The Call for Proposal (CFP) of PyCon Hong Kong 2023 is now closed!</p>\n<span id=\"more-1972\"></span>\n<p>With the overwhelming responses we received this year: receiving almost 60 proposals. There are a lot of high-quality submissions covering a wide spectrum of Python topics. The program committee members are all excited to go through such an impressive list of proposals!</p>\n<p>In the coming month, the program committee will carefully review each submission and curate the program schedule for PyCon Hong Kong 2023, which will take place on November 11! Please stay tuned for further updates and details about the program!</p>"
+    },
+    {
+      "slug": "covid-policy",
+      "url": "/2023/covid-policy/",
+      "title": "COVID Policy",
+      "description": "Please refer to COVID website of the Hong Kong Government.",
+      "date": {
+        "datetime": "2023-09-26T12:26:09+08:00",
+        "label": "September 26, 2023"
+      },
+      "featuredImage": null,
+      "contentHtml": "<p>Please refer to <a href=\"https://www.coronavirus.gov.hk/eng/index.html\">COVID website</a> of the Hong Kong Government.</p>"
+    },
+    {
+      "slug": "empowering-educators-automated-assignment-scoring-via-generative-ai-with-python",
+      "url": "/2023/empowering-educators-automated-assignment-scoring-via-generative-ai-with-python/",
+      "title": "Empowering Educators: Automated Assignment Scoring via Generative AI with Python",
+      "description": "Time Slot: Track 1 14:00-14:30 Language: Cantonese Speaker: Mr. Cyrus Wong | Department of Information Technology at the Hong Kong Institute of Vocational Education (Lee Wai Lee) | Hong Kong Problem:As an educator, particularly in Asia, it is often necessary to assign a significant amount of homework to students in order to satisfy parental expectations and",
+      "date": {
+        "datetime": "2023-10-10T14:00:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Cyrus-Wong-850x478.jpg",
+        "alt": "Empowering Educators: Automated Assignment Scoring via Generative AI with Python"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 14:00-14:30 Language: Cantonese Speaker: Mr. Cyrus Wong | Department of Information Technology at the Hong Kong Institute of Vocational Education (Lee Wai Lee) | Hong Kong</pre>\n<p><strong>Problem:</strong><br>As an educator, particularly in Asia, it is often necessary to assign a significant amount of homework to students in order to satisfy parental expectations and maintain a school’s reputation. While I won’t delve into the implications of this cultural norm, I must admit that being a teacher in this environment can be challenging due to the immense workload involved in grading and providing feedback on countless assignments. This situation essentially multiplies the workload a hundredfold, akin to a self-Distributed Denial of Service (DDoS) attack.</p>\n<p>Educators often find themselves preoccupied with grading assignments, leaving little time to enhance the quality of their teaching. Instead of focusing primarily on assessment, it is crucial for teachers to allocate time for devising engaging and meaningful educational experiences for their students.<br><br><strong>Solution:</strong><br>Educators should consider utilizing AI technology, such as Amazon Bedrock, Azure OpenAI Service ChatGPT and Google Vertex AI LLM, to assist with or automate grading tasks. This AI demonstrates consistent and reliable reasoning and processing capabilities, delivering impressive results in automatic assignment evaluation. Furthermore, it can analyze student responses, providing valuable insights to help enhance their learning experience.</p>\n<p>Here is one use case where Generative AI and Python can be employed for automated assignment assessment.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Cyrus Wong</h2>\n<a href=\"//github.com/wongcyrus\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/wongcyrus\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/cyruswong/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.facebook.com/cywong.vtc\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/facebook.png\" alt=\"Facebook\" width=\"40\" height=\"40\"></a>\n<p>Cyrus Wong is a Senior Lecturer at the Department of Information Technology at the Hong Kong Institute of Vocational Education (Lee Wai Lee), an AWS Machine Learning Hero, Microsoft MVP – Azure and Google Developer Experts – Google Cloud Platform. He’s a passionate advocate for cloud technology and actively promotes its use through various media and events.</p>"
+    },
+    {
+      "slug": "innovations-and-cross-domain-applications-of-python-and-machine-learning-in-the-smart-logistics-field",
+      "url": "/2023/innovations-and-cross-domain-applications-of-python-and-machine-learning-in-the-smart-logistics-field/",
+      "title": "Innovations and Cross-domain Applications of Python and Machine Learning in the Smart Logistics Field",
+      "description": "Time Slot: Track 2 14:40-15:10 Language: English Speaker: Mr. Kang Hao | ShenZhen, China Objective: In this talk, we will delve into the latest advancements, cross-industry applications, and development trends of Python and its ecosystem in the smart logistics field. We will focus on the following aspects: Latest advancements in AMR scheduling optimization: Share the latest",
+      "date": {
+        "datetime": "2023-10-10T14:41:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Kang-Hao-850x478.jpg",
+        "alt": "Innovations and Cross-domain Applications of Python and Machine Learning in the Smart Logistics Field"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 14:40-15:10 Language: English Speaker: Mr. Kang Hao | ShenZhen, China</pre>\n<p>Objective: In this talk, we will delve into the latest advancements, cross-industry applications, and development trends of Python and its ecosystem in the smart logistics field. We will focus on the following aspects:</p>\n<p>Latest advancements in AMR scheduling optimization: Share the latest discoveries, technologies, and methods in using Python and machine learning to optimize AMR intelligent scheduling/simulation systems since last year. Demonstrate how to further improve task execution efficiency and reduce the likelihood of vehicle conflicts.</p>\n<p>Cross-industry applications of Python in smart logistics: Explore how Python and machine learning technologies are widely applied in logistics-related fields, such as warehousing and distribution, to expand their application scope in smart logistics. Share practical cases to showcase innovative solutions and their resulting achievements in different scenarios.</p>\n<p>Development trends of Python ecosystem in smart logistics: Analyze and predict the development trends of the Python ecosystem in the smart logistics field, and discuss potential new technologies and applications. Additionally, discuss how to further promote the development of the Python ecosystem in the smart logistics field to meet the constantly changing demands of the industry.</p>\n<p>Through this talk, we hope to provide attendees with a comprehensive understanding of innovations and cross-domain applications of Python and machine learning in the smart logistics field, inspiring more people to explore and innovate in this domain.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Kang Hao</h2>\n<a href=\"https://nemo.cool/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<p>Kang Hao, a Master of Mechanical and Electronic Engineering, is currently working at a logistics research center focusing on innovations and cross-domain applications in the smart logistics field. Leveraging Python and its rich ecosystem, he specializes in optimizing AMR scheduling systems and applying machine learning technologies in logistics-related industries, such as warehousing and distribution. Throughout his research, he has successfully achieved the goal of completing large-scale scheduling systems and scenario simulations with minimal manpower input and explored development trends in the smart logistics field.</p>"
+    },
+    {
+      "slug": "introduce-to-you-about-pyladies-tokyo",
+      "url": "/2023/introduce-to-you-about-pyladies-tokyo/",
+      "title": "Introduce to you! about PyLadies Tokyo",
+      "description": "Time Slot: Track 2 10:20-10:50 Language: English Speaker: Ms. Maaya Ishida | Microsoft Japan / PyLadies Tokyo / PyCon JP Association | Japan This session is my community's activity reports. Start to \"what's the PyLadies Tokyo\" , introduce to activity such as annual event and other women tech communities or PyCon JP Association collaborate event. And I would",
+      "date": {
+        "datetime": "2023-10-10T10:21:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Maaya-Ishida-850x478.jpg",
+        "alt": "Introduce to you! about PyLadies Tokyo"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 10:20-10:50 Language: English Speaker: Ms. Maaya Ishida | Microsoft Japan / PyLadies Tokyo / PyCon JP Association | Japan</pre>\n<p>This session is my community’s activity reports.</p>\n<p>Start to “what’s the <a href=\"https://tokyo.pyladies.com/\" target=\"_blank\" rel=\"noreferrer noopener\">PyLadies Tokyo</a>” , introduce to activity such as annual event and other women tech communities or PyCon JP Association collaborate event.</p>\n<p>And I would like to talk about how we are organizing and the mindset of the organizing team.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Ms. Maaya Ishida</h2>\n<a href=\"https://hotchpotchj37.wordpress.com/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/mahya8585\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/maaya8585\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/maaya-ishida-5486b7109/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.facebook.com/maaya.ishida\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/facebook.png\" alt=\"Facebook\" width=\"40\" height=\"40\"></a>\n<p>I’m leader of PyLadies Tokyo. I’ve also been helping PyLadies Caravan, which is for live in outside of Tokyo area run by PyCon JP Association. We have been on hiatus since 2019, but I was leader of Geek Women Japan conference, which is an event featuring only women engineers as speakers. This conference attracted about 300 attendees.</p>"
+    },
+    {
+      "slug": "large-language-model-deployment-and-fine-tuning-with-python",
+      "url": "/2023/large-language-model-deployment-and-fine-tuning-with-python/",
+      "title": "Large Language Model Deployment and Fine-tuning with Python",
+      "description": "Time Slot: Track 1 16:20-16:35 Language: English Speaker: Mr. Haowen Huang | AWS | Hong Kong The wave of Generative AI and large language models (LLMs) is sweeping the world, revolutionising various industries. This interesting talk will focus on how to efficiently and easily deploy and fine-tune various open-source large language models (LLMs) using Python.",
+      "date": {
+        "datetime": "2023-10-10T16:20:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Haowen-Huang-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 16:20-16:35 Language: English Speaker: Mr. Haowen Huang | AWS | Hong Kong</pre>\n<p>The wave of Generative AI and large language models (LLMs) is sweeping the world, revolutionising various industries. This interesting talk will focus on how to efficiently and easily deploy and fine-tune various open-source large language models (LLMs) using Python.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Haowen Huang</h2>\n<p>Haowen Huang, a senior developer advocate at AWS based in Hong Kong, brings over 20 years of experience in cloud computing, internet, and telecommunications industries. His research focuses on Generative AI, Large Language Models (LLMs), machine learning, and data science.</p>"
+    },
+    {
+      "slug": "mlops-on-kubernetes-a-quick-tour-using-python-and-kubeflow",
+      "url": "/2023/mlops-on-kubernetes-a-quick-tour-using-python-and-kubeflow/",
+      "title": "MLOps on Kubernetes: A Quick Tour Using Python and Kubeflow",
+      "description": "Time Slot: Track 1 12:20-12:50Language: EnglishSpeaker: Mr. Peter Ho | Red Hat | Hong Kong While Python's application in developing machine learning models is currently one of the most popular subjects, transforming a machine learning prototype into a production-grade system is complicated. Many people tends to concentrate on the machine learning algorithm itself, while other",
+      "date": {
+        "datetime": "2023-10-10T12:20:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Peter-Ho-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 12:20-12:50<br>Language: English<br>Speaker: Mr. Peter Ho | Red Hat | Hong Kong</pre>\n<p>While Python’s application in developing machine learning models is currently one of the most popular subjects, transforming a machine learning prototype into a production-grade system is complicated. Many people tends to concentrate on the machine learning algorithm itself, while other critical technical aspects, such as automated training pipelines, model performance tracking, model versioning, and model deployment, often get overlooked when trying to transition a machine learning model into production. This has led to numerous machine learning ideas not making it past the concept stage and into practical, real-world use. </p>\n<p>MLOps is a paradigm to address these challenges. In this introductory section, we will talk about the very basics of MLOps. We’ll also introduce Kubeflow, a Kubernetes-based MLOps platform that puts MLOps into practice. Furthermore, we’ll explain the fundamentals of the Kubeflow Pipeline Python SDK, demonstrating how Python and Kubeflow can work together to help you get started with MLOps.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Peter Ho</h2>\n<p>Peter Ho is one of the Specialist Solution Architects at Red Hat Hong Kong. He has extensive experience in working with Kubernetes, web development and public cloud technologies, with certificates received from Red Hat, Linux Foundations, Microsoft Azure and Amazon Web Services. Peter is passionate about new technologies, and enthusiastic to share any knowledge that he has gained from his application development and public cloud adoption projects.</p>"
+    },
+    {
+      "slug": "playing-with-pipico",
+      "url": "/2023/playing-with-pipico/",
+      "title": "Playing with PiPico",
+      "description": "Time Slot: Track 2 12:20-12:50 Language: English Speaker: Mr. Masafumi Ohta | Japanese Raspberry Pi Users Group | Japan Raspberry Pi Pico(PiPico) is now one of the famous microcontrollers run by Python. It is made for kid's programming and is useful for learning Python programming with DIY hobbies and more. In this talk, Masafumi will look into",
+      "date": {
+        "datetime": "2023-10-10T12:21:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Masafumi-Ohta-850x478.jpg",
+        "alt": "Playing with PiPico"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 12:20-12:50 Language: English Speaker: Mr. Masafumi Ohta | Japanese Raspberry Pi Users Group | Japan</pre>\n<p>Raspberry Pi Pico(PiPico) is now one of the famous microcontrollers run by Python. It is made for kid’s programming and is useful for learning Python programming with DIY hobbies and more.</p>\n<p>In this talk, Masafumi will look into some PiPico use cases and discuss how to learn Python programming by PiPico with ‘fun”.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Masafumi Ohta</h2>\n<a href=\"https://raspi.jp/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/masafumiohta\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/masafumiohta\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/ohtamasafumi/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.facebook.com/masafumi.ohta/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/facebook.png\" alt=\"Facebook\" width=\"40\" height=\"40\"></a>\n<p>Masafumi is now leading the Raspberry Pi community in Japan and has been volunteering Raspberry Pi Foundation since 2012 from the far east country, Japan. He moderates the Japanese language category on Raspberry Pi’s official forum and helps businesses in the Asian area. For more information, please visit my website https://masafumi.me</p>"
+    },
+    {
+      "slug": "polars-vs-pandas-whats-the-difference",
+      "url": "/2023/polars-vs-pandas-whats-the-difference/",
+      "title": "Polars vs Pandas – what’s the difference?",
+      "description": "Time Slot: Track 2 11:40-12:10 Language: English Speaker: Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation | UK Have you heard about Polars? What are the differences? Is Polars replacing Pandas? In this talk, we are going to demystify these questions about Polars. Compares the differences between Polars and Pandas, and explains the pros and cons",
+      "date": {
+        "datetime": "2023-10-10T11:41:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Cheuk-Ting-Ho-何卓婷-850x478.jpg",
+        "alt": "Polars vs Pandas - what's the difference?"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 11:40-12:10 Language: English Speaker: Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation | UK</pre>\n<p>Have you heard about Polars? What are the differences? Is Polars replacing Pandas? In this talk, we are going to demystify these questions about Polars. Compares the differences between Polars and Pandas, and explains the pros and cons of both of them.</p>\n<p>In this talk, we will explore what is Polars, a new tabular data management package that is written in Rust and used Arrow. Many people compare it to Pandas, the goto package for tabular data management for years. However, there is still some confusion regarding what Polars really is, whether or not it is more efficient than Pandas and if you can just replace Pandas with Polars. Hopefully, by the end of the talk, all of these questions will be answered and for people new to Polars, they will feel encouraged to try it out and more confident to make the switch.</p>\n<p><strong>## Goal</strong></p>\n<p>This talk is for data scientists who have been using Pandas and have only heard of the name Polars to understand more about the difference and similarities between the two libraries and can make a better decision of which one to use when they start their next project.<br><br><strong>## Outline</strong></p>\n<ul class=\"wp-block-list\">\n<li>Introduction: why I am talking about this (5 mins)</li>\n<li>Polars is not Pandas 2.0 (5 mins)</li>\n<li>If you do this in Pandas, do that in Polars (10 mins)</li>\n<li>Performance comparison (5 mins)</li>\n<li>Which one should I use? (5 mins)</li>\n</ul>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Ms. Cheuk Ting Ho (何卓婷) </h2>\n<a href=\"https://cheuk.dev/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/Cheukting\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/cheukting_ho\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/cheukting-ho\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Before working in Developer Relations, Cheuk has been a Data Scientist in various companies which demands high numerical and programmatical skills, especially in Python. To follow her passion for the tech community, Cheuk is now the Developer Advocate. Cheuk also contributes to multiple Open Source libraries like Hypothesis, Pandas and Django.</p>\n<p>Besides her work, Cheuk enjoys talking about Python on personal streaming platforms and podcasts. Cheuk has also been a speaker at Universities and various conferences. Besides speaking at conferences, Cheuk also organises events for developers. Conferences that Cheuk has organized include EuroPython (which she is a board member), PyData Global and Pyjamas Conf. Believing in Tech Diversity and Inclusion, Cheuk constantly organizes workshops and mentored sprints for minority groups. In 2021, Cheuk has become a Python Software Foundation fellow.</p>"
+    },
+    {
+      "slug": "pycon-hk-2023-blind-bird-ticket",
+      "url": "/2023/pycon-hk-2023-blind-bird-ticket/",
+      "title": "Get Ready for the Blind Bird Ticket of PyCon HK 2023!",
+      "description": "Mark your calendars! On August 8, 2023, at 8:00 PM, the Blind Bird Tickets for PyCon HK 2023 will go on sale! 🎉",
+      "date": {
+        "datetime": "2023-07-21T13:08:40+08:00",
+        "label": "July 21, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/07/Blind-Bird-850x486.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>Mark your calendars! On August 8, 2023, at 8:00 PM, the Blind Bird Tickets for PyCon HK 2023 will go on sale! 🎉</p>\n<span id=\"more-1975\"></span>\n<h2 class=\"wp-block-heading\">🕊️ What is a Blind Bird Ticket? 🕊️</h2>\n<p>Snatch this exclusive opportunity to secure your spot at PyCon HK 2023 with a Blind Bird Ticket! Enjoy a fabulous discount, just like our Early Bird Tickets, for an event that’s packed with surprises – from captivating speakers to extraordinary sessions. Buy your ticket early, and you’ll be soaring with joy throughout the conference. Who knows, there might be some amazing special perks awaiting you too! 🌟</p>\n<h2 class=\"wp-block-heading\">🔥 Why is the Blind Bird Ticket so special? 🔥</h2>\n<p>Act fast! The number of Blind Bird Tickets is incredibly limited, available on a first-come, first-serve basis. Don’t miss out on this golden opportunity to grab your spot at one of the hottest tech conferences of the year! 🎟️</p>\n<h2 class=\"wp-block-heading\">🚀 Don’t Delay, Seize Your Chance! 🚀</h2>\n<p>Join us at PyCon HK 2023 and immerse yourself in a world of innovation, inspiration, and open source wonders. Be part of a vibrant community that’s pushing boundaries, exchanging ideas, and shaping the future of technology. Get ready to elevate your skills, network with brilliant minds, and experience an unforgettable conference that will leave you inspired and motivated.</p>\n<p>Stay tuned for the ticket release, and don’t let this fantastic opportunity fly away. Mark your calendars for August 8, 2023, at 8:00 PM, and be one of the first to grab your Blind Bird Ticket for PyCon HK 2023! 🎟️🌟</p>\n<p>See you at the conference! 🤝</p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\" href=\"https://pyconhk2023.eventbrite.hk/\" target=\"_blank\" rel=\"noreferrer noopener\">Get Blind Bird Ticket on 2023/8/8 </a></div>\n</div>\n<p></p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h1 class=\"wp-block-heading\"> 準備好了嗎？PyCon HK 2023 盲鳥票即將開賣！</h1>\n<p>2023 年 8 月 8 日晚上 8 時，PyCon HK 2023 盲鳥票將正式開始售賣！🎉</p>\n<h2 class=\"wp-block-heading\">🕊️ 什麼是盲鳥票？🕊️</h2>\n<p>抓住這個獨家機會，享受驚人折扣，就像早鳥票一樣，參加 PyCon HK 2023 這個充滿驚喜的活動——從引人入勝的演講者到精彩的議程。越早購票，在整個大會中的樂趣也就越多：更可能會有一些特別福利等著你！🌟</p>\n<h2 class=\"wp-block-heading\">🔥 為什麼盲鳥票如此特別？🔥</h2>\n<p>行動要快！盲鳥票數量非常有限，先到先得。別錯過難得機會，在一年一度的頂級科技盛會上，確保你的位置！🎟️</p>\n<h2 class=\"wp-block-heading\">🚀 不要猶豫，把握機會！🚀</h2>\n<p>加入我們，參加 PyCon HK 2023，沉浸於創新、充滿靈感及奇思妙想的開源世界。成為這個充滿活力社群的一員，探索潛能，交流想法，塑造科技的未來。快快準備提升你的技能，與卓越的友好賢達建立聯繫，體驗難忘的大會，讓你充滿靈感與動力。</p>\n<p>請密切留意開售時間：2023 年 8 月 8 日晚上 8 時，成為第一批搶購 PyCon HK 2023 盲鳥票的人！🎟️🌟</p>\n<p>我們在大會見！🤝</p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\" href=\"https://pyconhk2023.eventbrite.hk/\" target=\"_blank\" rel=\"noreferrer noopener\">2023/8/8 搶盲鳥票 </a>"
+    },
+    {
+      "slug": "pycon-hk-2023-cfp",
+      "url": "/2023/pycon-hk-2023-cfp/",
+      "title": "PyCon HK 2023 – Call For Proposal",
+      "description": "he Call for Proposals for PyCon HK 2023 has now started!",
+      "date": {
+        "datetime": "2023-04-19T13:05:13+08:00",
+        "label": "April 19, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/04/PYCON-HK-2023-CFP.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>The Call for Proposals for PyCon HK 2023 has now started! </p>\n<span id=\"more-1954\"></span>\n<p>This year, the organizing committee will offer coaching to presenters who are speaking at PyCon HK for the first time. The help can include fine-tuning ideas, rearranging the flow of a presentation, and online rehearsals. If you wish to speak at PyCon HK for the first time, let us know your idea and we’ll make it work together.</p>\n<h2 class=\"wp-block-heading\">Date &amp; Venue</h2>\n<p>CFP Open: 11 Apr, 2023<br>CFP Deadline: 16 Jul, 2023<br>Result Notification: By Aug, 2023<br>Conference Date: 10 – 11 Nov, 2023 (tentative)</p>\n<p></p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\" href=\"https://docs.google.com/forms/d/e/1FAIpQLSfHEoNk3jfuUc_aQbnaMghnSw7cUcWaH_cQjxtGMgklL0rWGQ/viewform\" target=\"_blank\" rel=\"noreferrer noopener\">Submit your Proposal for PyCon HK 2023 NOW!</a>"
+    },
+    {
+      "slug": "pycon-hk-2023-early-bird-ticket",
+      "url": "/2023/pycon-hk-2023-early-bird-ticket/",
+      "title": "PyCon HK 2023: Get Your Early Bird Ticket Now!",
+      "description": "The annual Python conference, PyCon HK 2023 on 20231111 is heating up🔥, and Early Bird tickets are now available!",
+      "date": {
+        "datetime": "2023-09-25T20:16:39+08:00",
+        "label": "September 25, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/09/pyconhk2023-bg-850x584.png",
+        "alt": ""
+      },
+      "contentHtml": "<p>The annual Python conference, PyCon HK 2023 on 20231111 is heating up🔥, and Early Bird tickets are now available! Here are the ticket options:</p>\n<span id=\"more-1996\"></span>\n<p>🎟️ Early Bird Ticket: HK$299<br>🎟️ Early Bird Ticket + T-Shirt: HK$349<br>🎟️ Student Ticket: HK$100</p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\" href=\"https://pyconhk2023.eventbrite.com/\"><strong>Get Your Early Bird Ticket Now!</strong></a></div>\n</div>\n<p></p>\n<p>Are you wondering what awaits you at PyCon HK 2023? Here’s a sneak peek at some of the captivating topics:</p>\n<p>✨Keynote – Accelerating NetworkX: Fast Graph Analytics with Python<br>✨Keynote – Introduce to you! about PyLadies Tokyo<br>✨Simplifying Machine Learning pipeline using MySQL HeatWave<br>✨MLOps on Kubernetes: A Quick Tour Using Python and Kubeflow<br>✨Streamlit — Creating Interactive Websites with Ease<br>✨Automating Business Tasks with Langchain and Python<br>✨Empowering Educators: Automated Assignment Scoring via Generative AI with Python<br>✨PyScript: Empowering Rich Python Applications in the Browser<br>✨Automate the Boring Stuff with Slackbot(ver.2)<br>✨Polars vs Pandas – what’s the difference?<br>✨Playing with PiPico<br>✨Building IoT Applications with Python and Embedded Systems<br>✨Innovations and Cross-domain Applications of Python and Machine Learning in the Smart Logistics Field<br>✨Automating Victory: Beating browser games with accessible Python<br>✨As Soft as Ever Changing — Clean Architecture in Python<br>✨ZKML: turning your ML model into a ZK circuit<br>✨玩轉 Python 與 Javascript</p>\n<p>And these are only part of them, the full list is still going to amaze you. Don’t miss the chance to buy the early bird ticket and enjoy the fabulous feast of Python.</p>\n<h2 class=\"wp-block-heading\">PyCon HK 2023</h2>\n<p>Date: November 11, 2023<br>Venue: 8/F., The Hong Kong Federation of Youth Groups Building, 21 Pak Fuk Road, North Point, Hong Kong ( Entrance on Model Lane )</p>\n<div class=\"wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex\">\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-luminous-vivid-amber-background-color has-background wp-element-button\" href=\"https://pyconhk2023.eventbrite.com/\"><strong>Get Your Early Bird Ticket Now!</strong></a>"
+    },
+    {
+      "slug": "pyscript-empowering-rich-python-applications-in-the-browser",
+      "url": "/2023/pyscript-empowering-rich-python-applications-in-the-browser/",
+      "title": "PyScript: Empowering Rich Python Applications in the Browser",
+      "description": "Time Slot: Track 1 11:40-12:10 Language: English Speaker: Dr. Sophia Yang | Anaconda | USA PyScript is a groundbreaking open-source framework that empowers users to create feature-rich Python applications in the browser, harnessing the potential of HTML's interface and leveraging the power of Pyodide, WebAssembly, and cutting-edge web technologies. In this talk, we will explore the",
+      "date": {
+        "datetime": "2023-10-10T11:40:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Dr.-Sophia_Yang-850x478.jpg",
+        "alt": "PyScript: Empowering Rich Python Applications in the Browser"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 11:40-12:10 Language: English Speaker: Dr. Sophia Yang | Anaconda | USA</pre>\n<p>PyScript is a groundbreaking open-source framework that empowers users to create feature-rich Python applications in the browser, harnessing the potential of HTML’s interface and leveraging the power of Pyodide, WebAssembly, and cutting-edge web technologies. In this talk, we will explore the capabilities of the PyScript framework, showcasing its ability to provide users, regardless of their experience level, with an expressive and easily graspable programming language. With PyScript, developers can unlock countless applications and tap into the vast potential of Python within the browser environment. Join us to discover how PyScript empowers data scientists and developers to write data-driven applications in Python, transforming the data science workflow and expanding the horizon of web development.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Dr. Sophia Yang</h2>\n<a href=\"https://medium.com/@sophiamyang\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/sophiamyang\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/sophiamyang\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/sophiamyang/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Sophia Yang is a Senior Data Scientist and a Developer Advocate at Anaconda. She is passionate about the data science community and the Python open-source community. She is the author of multiple Python open-source libraries such as condastats, cranlogs, PyPowerUp, intake-stripe, and intake-salesforce. She serves on the Steering Committee and the Code of Conduct Committee of the Python open-source visualization system HoloViz. She also volunteers at NumFOCUS, PyData, and SciPy conferences. She holds an M.S. in Computer Science, an M.S. in Statistics, and a Ph.D. in Educational Psychology from The University of Texas at Austin.</p>"
+    },
+    {
+      "slug": "security-101-for-package-maintainers",
+      "url": "/2023/security-101-for-package-maintainers/",
+      "title": "Security 101 for package maintainers",
+      "description": "Time Slot: Track 1 16:40-16:55 Language: English Speaker: Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation | UK Are you a package maintainer? Whether you are a maintainer or not, there are security practices that can make you and the software that you work on safer for folks to use. In this short talk, we will",
+      "date": {
+        "datetime": "2023-10-10T12:40:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Cheuk-Ting-Ho-何卓婷-2-850x478.jpg",
+        "alt": ""
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 16:40-16:55 Language: English Speaker: Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation | UK</pre>\n<p>Are you a package maintainer? Whether you are a maintainer or not, there are security practices that can make you and the software that you work on safer for folks to use. In this short talk, we will go over some of these practices and you can check how many of them you are doing right now, and how many of them you are going to practice after this talk.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Ms. Cheuk Ting Ho (何卓婷) </h2>\n<a href=\"https://cheuk.dev/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/Cheukting\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/cheukting_ho\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/cheukting-ho\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Before working in Developer Relations, Cheuk has been a Data Scientist in various companies which demands high numerical and programmatical skills, especially in Python. To follow her passion for the tech community, Cheuk is now the Developer Advocate. Cheuk also contributes to multiple Open Source libraries like Hypothesis, Pandas and Django.</p>\n<p>Besides her work, Cheuk enjoys talking about Python on personal streaming platforms and podcasts. Cheuk has also been a speaker at Universities and various conferences. Besides speaking at conferences, Cheuk also organises events for developers. Conferences that Cheuk has organized include EuroPython (which she is a board member), PyData Global and Pyjamas Conf. Believing in Tech Diversity and Inclusion, Cheuk constantly organizes workshops and mentored sprints for minority groups. In 2021, Cheuk has become a Python Software Foundation fellow.</p>"
+    },
+    {
+      "slug": "simplifying-machine-learning-pipeline-using-mysql-heatwave",
+      "url": "/2023/simplifying-machine-learning-pipeline-using-mysql-heatwave/",
+      "title": "Simplifying Machine Learning pipeline using MySQL HeatWave",
+      "description": "Time Slot: Track 1 17:00-17:30 Language: English Speaker: Mr. Ivan Ma | Oracle Systems Hong Kong Ltd | Hong Kong Machine Learning allows prediction, recommendation based on model which is built from dataset. Data preparation, sampling, algorithms selection, hyper parameter tuning can be complex in order to build a model. The session will cover the what",
+      "date": {
+        "datetime": "2023-10-10T17:00:41+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Ivan-Ma-850x478.jpg",
+        "alt": "Simplifying Machine Learning pipeline using MySQL HeatWave"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 17:00-17:30 Language: English Speaker: Mr. Ivan Ma | Oracle Systems Hong Kong Ltd | Hong Kong</pre>\n<p>Machine Learning allows prediction, recommendation based on model which is built from dataset. Data preparation, sampling, algorithms selection, hyper parameter tuning can be complex in order to build a model. The session will cover the what MySQL HeatWave AutoML can help to simplify the complexity of ML pipeline. Data is really easy with database, what it is great if it is embedded with ML capability. Come and join us to share your experience and discuss.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Ivan Ma</h2>\n<p>Ivan Ma has over 20+ years with IT technologies around Databases, Infrastructure and projects development. He is leading the Hong Kong MySQL User Group. His career started as developer and as Consultant/Principal Solution Architect in Sybase for over 10 years. He joined Oracle from the Sun Microsystems acquisition and now he is working in MySQL Team as Master Principal Solutions Engineer.</p>"
+    },
+    {
+      "slug": "streamlit-creating-interactive-websites-with-ease",
+      "url": "/2023/streamlit-creating-interactive-websites-with-ease/",
+      "title": "Streamlit — Creating Interactive Websites with Ease",
+      "description": "Time Slot: Track 1 11:00-11:30 Language: English Speaker: Mr. Lee Sheung Chit Ethan | Sebit Company Limited | Hong Kong Streamlit is a Python library for creating interactive web applications with ease. It provides built-in tools and widgets for adding interactivity, integrates with popular data science libraries like pandas and scikit-learn, and allows for the deployment of",
+      "date": {
+        "datetime": "2023-10-10T11:00:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Lee-Sheung-Chit-Ethan-850x478.jpg",
+        "alt": "Streamlit — Creating Interactive Websites with Ease"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 11:00-11:30 Language: English Speaker: Mr. Lee Sheung Chit Ethan | Sebit Company Limited | Hong Kong</pre>\n<p>Streamlit is a Python library for creating interactive web applications with ease. It provides built-in tools and widgets for adding interactivity, integrates with popular data science libraries like pandas and scikit-learn, and allows for the deployment of web apps with just a few lines of code.</p>\n<p>This talk will explore the different potentials of using Streamlit with three examples: creating a static page, a page for data visualization, and a page for real-time computer vision applications. First, we will discuss the basics of Streamlit by building a static page, which is suitable even for Python beginners. It aims to illustrate the convenience of Streamlit by showing how one can create a styled, responsive self-introduction page in minutes.</p>\n<p>For data visualization, we will create an interactive page of Monte-Carlo Simulation on the stock market, which aims to illustrate the integration between Streamlit and some popular data science libraries. Lastly, we will utilize the open-source library streamlit-webrtc, which allows users to easily use real-time video/audio streams on Streamlit apps, to build a real-time computer vision application.</p>\n<p>In short, this talk introduces an emerging Python library—Streamlit. It is a powerful tool for data scientists and machine learning engineers for research and development.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Lee Sheung Chit Ethan</h2>\n<p>Mr. Ethan S.C. LEE is currently a computer vision engineer at Sebit Company Limited. He has over four years of programming experience, which he has applied in astrophysics research at university and developing artificial intelligence software at Sebit. He has been active in developing machine learning and computer vision solutions, including implementation of deep learning solutions in edge AI devices. Mr. LEE received a BSc in Physics from the Chinese University of Hong Kong.</p>"
+    },
+    {
+      "slug": "zkml-turning-your-ml-model-into-a-zk-circuit",
+      "url": "/2023/zkml-turning-your-ml-model-into-a-zk-circuit/",
+      "title": "ZKML: turning your ML model into a ZK circuit",
+      "description": "Time Slot: Track 2 17:00-1730 Language: Cantonese Speaker: Dr. Cathie So | Privacy & Scaling Explorations Team (Ethereum Foundation) | Hong Kong In this hands-on workshop, participants will gain practical experience in building ZKML circuits using the keras2circom and/or EZKL transpiler. We will begin with an overview of the current state of zero-knowledge machine learning and its",
+      "date": {
+        "datetime": "2023-10-10T17:01:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Dr.-Cathie-So-850x478.jpg",
+        "alt": "ZKML: turning your ML model into a ZK circuit"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 2 17:00-1730 Language: Cantonese Speaker: Dr. Cathie So | Privacy &amp; Scaling Explorations Team (Ethereum Foundation) | Hong Kong</pre>\n<p>In this hands-on workshop, participants will gain practical experience in building ZKML circuits using the keras2circom and/or EZKL transpiler. We will begin with an overview of the current state of zero-knowledge machine learning and its practical applications in protecting sensitive data and models. Then, using the keras2circom/EZKL library, we will walk through the process of converting a machine learning model in Python to a ZK circuit. Participants will have the opportunity to modify the circuit for specific use cases, such as IPFS CID matching and hash commitment, to enhance data and model integrity. By the end of the workshop, participants will have a better understanding of how to build zero-knowledge machine learning circuits and apply them to protect sensitive data and models. No prior experience with ZK is necessary, but familiarity with machine learning libraries is recommended.</p>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Dr. Cathie So</h2>\n<a href=\"https://linktr.ee/drCathieSo.eth\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/web.png\" alt=\"Website\" width=\"40\" height=\"40\"></a>\n<a href=\"https://github.com/socathie\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://twitter.com/drCathieSo_eth\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/twit.png\" alt=\"Twitter\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/cathieso/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Cathie is a ZKML researcher at Privacy &amp; Scaling Explorations Team (Ethereum Foundation), exploring the potential of verifiable computation with privacy in the blockchain. A serial hackathon winner, she believes ZKML is key to transitioning from Web2 to Web3.</p>"
+    },
+    {
+      "slug": "玩轉-python-與-javascript",
+      "url": "/2023/玩轉-python-與-javascript/",
+      "title": "玩轉 Python 與 Javascript",
+      "description": "Time Slot: Track 1 15:20 - 15:50 Language: Cantonese Speaker: Mr. Scotty Kwok | Sebit Company Limited | Hong Kong Python 同 Javascript 從來都存在喺兩個平行時空，這兩大程式語言各自有大量開發者社群：做 data science 嘅人學寫 Python，做 web 嘅人學寫 Javascript，幾乎係定律。如果有一日兩者可以互通互用，咁應該幾好玩！ Pyodide/PyScript 嘅出現，就正好就提供咗一個初型，讓兩者可以有某程度上嘅 interoperability。今次我哋會展示 Python 點樣可以同瀏覽器互動，如何操作 DOM，如何利用坊間各種 Javascript libraries。我哋會用幾個例子去試吓玩轉 Python 同 Javascript 之間的無限可能性： 如何使用 Python 與 Web frontend/DOM tree 互動 如何使用 Python 在瀏覽器上產生 SVG animated graphics 使用",
+      "date": {
+        "datetime": "2023-10-10T15:20:00+08:00",
+        "label": "October 10, 2023"
+      },
+      "featuredImage": {
+        "src": "/legacy-wp/2023/uploads/2023/10/Scotty-Kwok-850x478.jpg",
+        "alt": "玩轉 Python 與 Javascript"
+      },
+      "contentHtml": "<pre class=\"wp-block-preformatted\">Time Slot: Track 1 15:20 - 15:50 Language: Cantonese Speaker: Mr. Scotty Kwok | Sebit Company Limited | Hong Kong</pre>\n<p>Python 同 Javascript 從來都存在喺兩個平行時空，這兩大程式語言各自有大量開發者社群：做 data science 嘅人學寫 Python，做 web 嘅人學寫 Javascript，幾乎係定律。如果有一日兩者可以互通互用，咁應該幾好玩！</p>\n<p>Pyodide/PyScript 嘅出現，就正好就提供咗一個初型，讓兩者可以有某程度上嘅 interoperability。今次我哋會展示 Python 點樣可以同瀏覽器互動，如何操作 DOM，如何利用坊間各種 Javascript libraries。我哋會用幾個例子去試吓玩轉 Python 同 Javascript 之間的無限可能性：</p>\n<ul class=\"wp-block-list\">\n<li>如何使用 Python 與 Web frontend/DOM tree 互動</li>\n<li>如何使用 Python 在瀏覽器上產生 SVG animated graphics</li>\n<li>使用 Python 和 ThreeJS 在瀏覽器上玩 3D</li>\n<li>將你的 Python 程序變成 Chrome Extension</li>\n<li>使用 Electron 將你的 Python 程序打包成跨平台應用程式…等</li>\n</ul>\n<p>Python and Javascript have been the two most popular programming language, but they are like existence in their own universe: data scientist/ML developers learn to write Python, whereas web developers learn to write Javascript. But what if the two languages become interoperable? Wouldn’t it be fun?</p>\n<p>Pyodide/PyScript is probably by far the closest attempt to exploit this opportunity.</p>\n<p>In this talk, by using Pyodide/Pyscript, we will illustrate how Python can interact with the browser, how Python can manipulate the DOM, and how Python can leverage the power of existing Javascript libraries. With some funny examples, we will dive into the many possibilities between Python and Javascript:</p>\n<ul class=\"wp-block-list\">\n<li>How to interact with Web frontend/DOM tree using Python</li>\n<li>How to create interactive SVG graphics on browsers using Python</li>\n<li>Use Python and ThreeJS to play with 3D objects on browsers.</li>\n<li>Run your Python program as Chrome Extension.</li>\n<li>Package your Python project into cross-platform app using Electron…etc</li>\n</ul>\n<hr class=\"wp-block-separator has-alpha-channel-opacity\">\n<h2 class=\"wp-block-heading\">Mr. Scotty Kwok</h2>\n<a href=\"https://github.com/scottykwok\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/github.png\" alt=\"GitHub\" width=\"40\" height=\"40\"></a>\n<a href=\"https://www.linkedin.com/in/scottykwok/\" target=\"_blank\" rel=\"noopener\"><img class=\"alignnone\" src=\"/legacy-wp/2023/uploads/2022/10/linkedin.png\" alt=\"Linkedin\" width=\"40\" height=\"40\"></a>\n<p>Scotty Kwok is a software developer and startup founder. He enjoys writing software and building hardware to solve problem in his job and leisure time. He is currently working in Sebit Company Limited (www.sebit.world) as the CTO and founder, specialised in Al/computer vision. Scotty is a frequent speaker in PyCons (PyCon Hong Kong 2018 &amp; 2021 and PyCon APAC 2021) and also program committee in PyCon Hong Kong 2020,2022,2023.</p>"
+    }
+  ],
+  "landing": {
+    "title": "PyCon Hong Kong 2023 Archive",
+    "description": "Archived PyCon Hong Kong 2023 pages migrated from the legacy WordPress site.",
+    "cards": [
+      {
+        "slug": "2023-schedule",
+        "url": "/2023/2023-schedule/",
+        "title": "Schedule – PyCon HK 2023",
+        "description": "Date: November 11, 2023Venue: 8/F., The Hong Kong Federation of Youth Groups Building, 21 Pak Fuk Road, North Point, Hong Kong ( Quarry Bay MTR station Exit C, Entrance on Model Lane ), Google Map Time Track 1 (Main Hal...",
+        "date": {
+          "datetime": "2023-10-20T00:35:00+08:00",
+          "label": "October 20, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/SCHEDULE-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "zkml-turning-your-ml-model-into-a-zk-circuit",
+        "url": "/2023/zkml-turning-your-ml-model-into-a-zk-circuit/",
+        "title": "ZKML: turning your ML model into a ZK circuit",
+        "description": "Time Slot: Track 2 17:00-1730 Language: Cantonese Speaker: Dr. Cathie So | Privacy & Scaling Explorations Team (Ethereum Foundation) | Hong Kong In this hands-on workshop, participants will gain practical experience in...",
+        "date": {
+          "datetime": "2023-10-10T17:01:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Dr.-Cathie-So-850x478.jpg",
+          "alt": "ZKML: turning your ML model into a ZK circuit"
+        }
+      },
+      {
+        "slug": "simplifying-machine-learning-pipeline-using-mysql-heatwave",
+        "url": "/2023/simplifying-machine-learning-pipeline-using-mysql-heatwave/",
+        "title": "Simplifying Machine Learning pipeline using MySQL HeatWave",
+        "description": "Time Slot: Track 1 17:00-17:30 Language: English Speaker: Mr. Ivan Ma | Oracle Systems Hong Kong Ltd | Hong Kong Machine Learning allows prediction, recommendation based on model which is built from dataset. Data prepar...",
+        "date": {
+          "datetime": "2023-10-10T17:00:41+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Ivan-Ma-850x478.jpg",
+          "alt": "Simplifying Machine Learning pipeline using MySQL HeatWave"
+        }
+      },
+      {
+        "slug": "as-soft-as-ever-changing-clean-architecture-in-python",
+        "url": "/2023/as-soft-as-ever-changing-clean-architecture-in-python/",
+        "title": "As Soft as Ever Changing — Clean Architecture in Python",
+        "description": "Time Slot: Track 2 16:20-16:50 Language: English Speaker: Mr. Alex, Au Cheuk Ming | Hong Kong As a general purpose language, Python has a great community and lots of integration with many services and softwares. In the...",
+        "date": {
+          "datetime": "2023-10-10T16:21:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Alex-Au-Cheuk-Ming-850x478.jpg",
+          "alt": "As Soft as Ever Changing -- Clean Architecture in Python"
+        }
+      },
+      {
+        "slug": "large-language-model-deployment-and-fine-tuning-with-python",
+        "url": "/2023/large-language-model-deployment-and-fine-tuning-with-python/",
+        "title": "Large Language Model Deployment and Fine-tuning with Python",
+        "description": "Time Slot: Track 1 16:20-16:35 Language: English Speaker: Mr. Haowen Huang | AWS | Hong Kong The wave of Generative AI and large language models (LLMs) is sweeping the world, revolutionising various industries. This int...",
+        "date": {
+          "datetime": "2023-10-10T16:20:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Haowen-Huang-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "automating-victory-beating-browser-games-with-accessible-python",
+        "url": "/2023/automating-victory-beating-browser-games-with-accessible-python/",
+        "title": "Automating Victory: Beating browser games with accessible Python",
+        "description": "Time Slot: Track 2 15:20-15:50 Language: English Speaker: Mr. Jon Gaul | HENNGE K.K. | Japan Whether your task is data entry or playing a video game, Python has the power to automate it. In this talk we’ll explore the p...",
+        "date": {
+          "datetime": "2023-10-10T15:21:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Jon-Gaul-850x478.jpg",
+          "alt": "Automating Victory: Beating browser games with accessible Python"
+        }
+      },
+      {
+        "slug": "玩轉-python-與-javascript",
+        "url": "/2023/玩轉-python-與-javascript/",
+        "title": "玩轉 Python 與 Javascript",
+        "description": "Time Slot: Track 1 15:20 – 15:50 Language: Cantonese Speaker: Mr. Scotty Kwok | Sebit Company Limited | Hong Kong Python 同 Javascript 從來都存在喺兩個平行時空，這兩大程式語言各自有大量開發者社群：做 data science 嘅人學寫 Python，做 web 嘅人學寫 Javascript，幾乎係定律...",
+        "date": {
+          "datetime": "2023-10-10T15:20:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Scotty-Kwok-850x478.jpg",
+          "alt": "玩轉 Python 與 Javascript"
+        }
+      },
+      {
+        "slug": "innovations-and-cross-domain-applications-of-python-and-machine-learning-in-the-smart-logistics-field",
+        "url": "/2023/innovations-and-cross-domain-applications-of-python-and-machine-learning-in-the-smart-logistics-field/",
+        "title": "Innovations and Cross-domain Applications of Python and Machine Learning in the Smart Logistics Field",
+        "description": "Time Slot: Track 2 14:40-15:10 Language: English Speaker: Mr. Kang Hao | ShenZhen, China Objective: In this talk, we will delve into the latest advancements, cross-industry applications, and development trends of Python...",
+        "date": {
+          "datetime": "2023-10-10T14:41:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Kang-Hao-850x478.jpg",
+          "alt": "Innovations and Cross-domain Applications of Python and Machine Learning in the Smart Logistics Field"
+        }
+      },
+      {
+        "slug": "automating-business-tasks-with-langchain-and-python",
+        "url": "/2023/automating-business-tasks-with-langchain-and-python/",
+        "title": "Automating Business Tasks with Langchain and Python",
+        "description": "Time Slot: Track 1 14:40-15:10 Language: English Speaker: Dr. Chung Ng | PCCW-HKT | Hong Kong As modern businesses endeavor to improve efficiency and streamline operations, automation has taken center stage. This presen...",
+        "date": {
+          "datetime": "2023-10-10T14:40:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Dr.-Chung-Ng-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "building-iot-applications-with-python-and-embedded-systems",
+        "url": "/2023/building-iot-applications-with-python-and-embedded-systems/",
+        "title": "[CANCELED] Building IoT Applications with Python and Embedded Systems",
+        "description": "Canceled due to no show. Time Slot: Track 2 14:00-14:30Language: EnglishSpeaker: Mr. Olaniyan Adewale Hafeez | RobotKraft Africa | Nigeria The Internet of Things (IoT) has transformed the way we interact with our surrou...",
+        "date": {
+          "datetime": "2023-10-10T14:01:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Olaniyan-Adewale-Hafeez-850x478.jpg",
+          "alt": "Building IoT Applications with Python and Embedded Systems"
+        }
+      },
+      {
+        "slug": "empowering-educators-automated-assignment-scoring-via-generative-ai-with-python",
+        "url": "/2023/empowering-educators-automated-assignment-scoring-via-generative-ai-with-python/",
+        "title": "Empowering Educators: Automated Assignment Scoring via Generative AI with Python",
+        "description": "Time Slot: Track 1 14:00-14:30 Language: Cantonese Speaker: Mr. Cyrus Wong | Department of Information Technology at the Hong Kong Institute of Vocational Education (Lee Wai Lee) | Hong Kong Problem:As an educator, part...",
+        "date": {
+          "datetime": "2023-10-10T14:00:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Cyrus-Wong-850x478.jpg",
+          "alt": "Empowering Educators: Automated Assignment Scoring via Generative AI with Python"
+        }
+      },
+      {
+        "slug": "security-101-for-package-maintainers",
+        "url": "/2023/security-101-for-package-maintainers/",
+        "title": "Security 101 for package maintainers",
+        "description": "Time Slot: Track 1 16:40-16:55 Language: English Speaker: Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation | UK Are you a package maintainer? Whether you are a maintainer or not, there are security practices that ca...",
+        "date": {
+          "datetime": "2023-10-10T12:40:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Cheuk-Ting-Ho-何卓婷-2-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "playing-with-pipico",
+        "url": "/2023/playing-with-pipico/",
+        "title": "Playing with PiPico",
+        "description": "Time Slot: Track 2 12:20-12:50 Language: English Speaker: Mr. Masafumi Ohta | Japanese Raspberry Pi Users Group | Japan Raspberry Pi Pico(PiPico) is now one of the famous microcontrollers run by Python. It is made for k...",
+        "date": {
+          "datetime": "2023-10-10T12:21:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Masafumi-Ohta-850x478.jpg",
+          "alt": "Playing with PiPico"
+        }
+      },
+      {
+        "slug": "mlops-on-kubernetes-a-quick-tour-using-python-and-kubeflow",
+        "url": "/2023/mlops-on-kubernetes-a-quick-tour-using-python-and-kubeflow/",
+        "title": "MLOps on Kubernetes: A Quick Tour Using Python and Kubeflow",
+        "description": "Time Slot: Track 1 12:20-12:50Language: EnglishSpeaker: Mr. Peter Ho | Red Hat | Hong Kong While Python’s application in developing machine learning models is currently one of the most popular subjects, transforming a m...",
+        "date": {
+          "datetime": "2023-10-10T12:20:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Peter-Ho-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "polars-vs-pandas-whats-the-difference",
+        "url": "/2023/polars-vs-pandas-whats-the-difference/",
+        "title": "Polars vs Pandas – what’s the difference?",
+        "description": "Time Slot: Track 2 11:40-12:10 Language: English Speaker: Ms. Cheuk Ting Ho (何卓婷) | Python Software Foundation | UK Have you heard about Polars? What are the differences? Is Polars replacing Pandas? In this talk, we are...",
+        "date": {
+          "datetime": "2023-10-10T11:41:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Cheuk-Ting-Ho-何卓婷-850x478.jpg",
+          "alt": "Polars vs Pandas - what's the difference?"
+        }
+      },
+      {
+        "slug": "pyscript-empowering-rich-python-applications-in-the-browser",
+        "url": "/2023/pyscript-empowering-rich-python-applications-in-the-browser/",
+        "title": "PyScript: Empowering Rich Python Applications in the Browser",
+        "description": "Time Slot: Track 1 11:40-12:10 Language: English Speaker: Dr. Sophia Yang | Anaconda | USA PyScript is a groundbreaking open-source framework that empowers users to create feature-rich Python applications in the browser...",
+        "date": {
+          "datetime": "2023-10-10T11:40:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Dr.-Sophia_Yang-850x478.jpg",
+          "alt": "PyScript: Empowering Rich Python Applications in the Browser"
+        }
+      },
+      {
+        "slug": "automate-the-boring-stuff-with-slackbotver-2",
+        "url": "/2023/automate-the-boring-stuff-with-slackbotver-2/",
+        "title": "Automate the Boring Stuff with Slackbot(ver.2)",
+        "description": "Time Slot: Track 2 11:00-11:30 Language: English Speaker: Mr. Takanori Suzuki | PyCon JP Association | Japan Today, there are many tasks to repeat in the company/community.In addition, we often use chat such as Slack fo...",
+        "date": {
+          "datetime": "2023-10-10T11:01:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Takanori-Suzuki-850x478.jpg",
+          "alt": "Automate the Boring Stuff with Slackbot(ver.2) "
+        }
+      },
+      {
+        "slug": "streamlit-creating-interactive-websites-with-ease",
+        "url": "/2023/streamlit-creating-interactive-websites-with-ease/",
+        "title": "Streamlit — Creating Interactive Websites with Ease",
+        "description": "Time Slot: Track 1 11:00-11:30 Language: English Speaker: Mr. Lee Sheung Chit Ethan | Sebit Company Limited | Hong Kong Streamlit is a Python library for creating interactive web applications with ease. It provides buil...",
+        "date": {
+          "datetime": "2023-10-10T11:00:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Lee-Sheung-Chit-Ethan-850x478.jpg",
+          "alt": "Streamlit — Creating Interactive Websites with Ease"
+        }
+      },
+      {
+        "slug": "introduce-to-you-about-pyladies-tokyo",
+        "url": "/2023/introduce-to-you-about-pyladies-tokyo/",
+        "title": "Introduce to you! about PyLadies Tokyo",
+        "description": "Time Slot: Track 2 10:20-10:50 Language: English Speaker: Ms. Maaya Ishida | Microsoft Japan / PyLadies Tokyo / PyCon JP Association | Japan This session is my community’s activity reports. Start to “what’s the PyLadies...",
+        "date": {
+          "datetime": "2023-10-10T10:21:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Maaya-Ishida-850x478.jpg",
+          "alt": "Introduce to you! about PyLadies Tokyo"
+        }
+      },
+      {
+        "slug": "accelerating-networkx-fast-graph-analytics-with-python",
+        "url": "/2023/accelerating-networkx-fast-graph-analytics-with-python/",
+        "title": "Accelerating NetworkX: Fast Graph Analytics with Python",
+        "description": "Time Slot: Track 1 10:20-10:50 Language: English Speaker: Mr. Erik Welch | NVIDIA | USA Have you ever wondered how those data scientists at Facebook and LinkedIn make friend recommendations? Or how epidemiologists track...",
+        "date": {
+          "datetime": "2023-10-10T10:20:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Erik-Welch-850x478.jpg",
+          "alt": "Accelerating NetworkX: Fast Graph Analytics with Python"
+        }
+      },
+      {
+        "slug": "2023-openssf",
+        "url": "/2023/2023-openssf/",
+        "title": "Discover the Future with Our Networking Hour Partner OpenSSF – PyCon HK 2023",
+        "description": "The OpenSSF is a cross-industry organization that brings together the industry’s most important open source security initiatives and the individuals and companies that support them. The OpenSSF is committed to collabora...",
+        "date": {
+          "datetime": "2023-10-10T01:08:18+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Networking-Hour-Partner-OpenSSF-850x478.jpg",
+          "alt": "Discover the Future with Our Networking Hour Partner OpenSSF - PyCon HK 2023"
+        }
+      },
+      {
+        "slug": "2023-jetbrains",
+        "url": "/2023/2023-jetbrains/",
+        "title": "Discover the Future with Our Valued Prize Sponsor JetBrains – PyCon HK 2023",
+        "description": "JetBrains is the creator of IntelliJ IDEA, ReSharper, GoLand, PyCharm, WebStorm, PhpStorm and Kotlin. We create industry leading software development tools. For over 20 years we have strived to make the strongest, most...",
+        "date": {
+          "datetime": "2023-10-10T01:07:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Prize-Sponsor-JetBrains-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-microsoft",
+        "url": "/2023/2023-microsoft/",
+        "title": "Discover the Future with Our Valued Bronze Sponsor Microsoft – PyCon HK 2023",
+        "description": "Read More",
+        "date": {
+          "datetime": "2023-10-10T01:06:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Bronze-Sponsor-Microsoft-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-pccw-hkt",
+        "url": "/2023/2023-pccw-hkt/",
+        "title": "Discover the Future with Our Valued Silver Sponsor PCCW-HKT – PyCon HK 2023",
+        "description": "PCCW PCCW Limited (SEHK: 0008) is a global company headquartered in Hong Kong which holds interests in telecommunications, media, IT solutions, property development and investment, and other businesses. The Company hold...",
+        "date": {
+          "datetime": "2023-10-10T01:05:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Silver-Sponsor-PCCW-HKT-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-mysql",
+        "url": "/2023/2023-mysql/",
+        "title": "Discover the Future with Our Valued Silver Sponsor MySQL – PyCon HK 2023",
+        "description": "MySQL is the World’s Most Popular Open Source Database. It powers the most innovative companies including Facebook, Booking, Uber, and Tesla. It is available on-premises and as the MySQL Database Service on Oracle Cloud...",
+        "date": {
+          "datetime": "2023-10-10T01:04:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Silver-Sponsor-MySQL-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-psf",
+        "url": "/2023/2023-psf/",
+        "title": "Discover the Future with Our Valued Gold Sponsor PSF – PyCon HK 2023",
+        "description": "The Python Software Foundation is the organization behind Python. Become a member of the PSF and help advance the software and our mission. Read More",
+        "date": {
+          "datetime": "2023-10-10T01:03:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Gold-Sponsor-PSF-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-aws",
+        "url": "/2023/2023-aws/",
+        "title": "Discover the Future with Our Valued Gold Sponsor AWS – PyCon HK 2023",
+        "description": "About Amazon Web Services Since 2006, Amazon Web Services has been the world’s most comprehensive and broadly adopted cloud. AWS has been continually expanding its services to support virtually any workload, and it now...",
+        "date": {
+          "datetime": "2023-10-10T01:02:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Gold-Sponsor-AWS-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-red-hat",
+        "url": "/2023/2023-red-hat/",
+        "title": "Discover the Future with Our Valued Platinum Sponsor Red Hat – PyCon HK 2023",
+        "description": "Red Hat is the world’s leading provider of enterprise open source solutions—including Linux, cloud, container, and Kubernetes. Red Hat delivers hardened solutions that make it easier for enterprises to work across platf...",
+        "date": {
+          "datetime": "2023-10-10T01:01:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/Platinum-Sponsor-Red-Hat-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-sponsors",
+        "url": "/2023/2023-sponsors/",
+        "title": "Sponsors – PyCon HK 2023",
+        "description": "PyCon Hong Kong 2023 extends our heartfelt gratitude to our sponsors for their unwavering support. Their contributions are invaluable in spreading Python and championing the open-source cause. Please click on sponsor lo...",
+        "date": {
+          "datetime": "2023-10-10T01:00:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/SPONSORS-850x478.jpg",
+          "alt": "Sponsors – PyCon Hong Kong 2023"
+        }
+      },
+      {
+        "slug": "2023-booths",
+        "url": "/2023/2023-booths/",
+        "title": "Booths – PyCon HK 2023",
+        "description": "Booths at PyCon HK 2023 are organized by the following sponsors and supporting organization. Visit them for networking and knowledge sharing. Read More",
+        "date": {
+          "datetime": "2023-10-10T00:34:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/BOOTHS-850x478.jpg",
+          "alt": "Booths - PyCon HK 2023"
+        }
+      },
+      {
+        "slug": "2023-supporting-organizations",
+        "url": "/2023/2023-supporting-organizations/",
+        "title": "Supporting Organizations – PyCon HK 2023",
+        "description": "Special thanks to our esteemed counterparts for helping us spread the word and actively participating in PyCon Hong Kong 2023: 852Dev Cyberport AWS User Group HK Girls in Tech – Macau Google Developer Group Cloud HK HKA...",
+        "date": {
+          "datetime": "2023-10-10T00:33:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/SUPPORTING-1-850x478.jpg",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-volunteers",
+        "url": "/2023/2023-volunteers/",
+        "title": "Volunteers – PyCon HK 2023",
+        "description": "Volunteers for PyCon Hong Kong 2023 are the essential builders of this conference. We deeply appreciate their countless months of hard work, making all of this possible. Read More",
+        "date": {
+          "datetime": "2023-10-10T00:32:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/09/VOLUNTEERS-850x478.png",
+          "alt": "Volunteers – PyCon Hong Kong 2023"
+        }
+      },
+      {
+        "slug": "2023-organizers",
+        "url": "/2023/2023-organizers/",
+        "title": "Organizers – PyCon HK 2023",
+        "description": "Open Source Hong Kong 開源香港 Python User Group Hong Kong (HKPUG) Hong Kong Creative Open Technology Association 香港創意開放科技協會 Read More",
+        "date": {
+          "datetime": "2023-10-10T00:30:00+08:00",
+          "label": "October 10, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/10/ORGANIZERS-850x478.jpg",
+          "alt": "Organizers – PyCon Hong Kong 2023"
+        }
+      },
+      {
+        "slug": "covid-policy",
+        "url": "/2023/covid-policy/",
+        "title": "COVID Policy",
+        "description": "Please refer to COVID website of the Hong Kong Government. Read More",
+        "date": {
+          "datetime": "2023-09-26T12:26:09+08:00",
+          "label": "September 26, 2023"
+        },
+        "image": null
+      },
+      {
+        "slug": "pycon-hk-2023-early-bird-ticket",
+        "url": "/2023/pycon-hk-2023-early-bird-ticket/",
+        "title": "PyCon HK 2023: Get Your Early Bird Ticket Now!",
+        "description": "The annual Python conference, PyCon HK 2023 on 20231111 is heating up🔥, and Early Bird tickets are now available! Read More",
+        "date": {
+          "datetime": "2023-09-25T20:16:39+08:00",
+          "label": "September 25, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/09/pyconhk2023-bg-850x584.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "pycon-hk-2023-blind-bird-ticket",
+        "url": "/2023/pycon-hk-2023-blind-bird-ticket/",
+        "title": "Get Ready for the Blind Bird Ticket of PyCon HK 2023!",
+        "description": "Mark your calendars! On August 8, 2023, at 8:00 PM, the Blind Bird Tickets for PyCon HK 2023 will go on sale! 🎉 Read More",
+        "date": {
+          "datetime": "2023-07-21T13:08:40+08:00",
+          "label": "July 21, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/07/Blind-Bird-850x486.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "closed-pycon-hk-2023-call-for-proposal",
+        "url": "/2023/closed-pycon-hk-2023-call-for-proposal/",
+        "title": "[Closed] PyCon HK 2023 – Call For Proposal",
+        "description": "The Call for Proposal (CFP) of PyCon Hong Kong 2023 is now closed! Read More",
+        "date": {
+          "datetime": "2023-07-18T12:16:09+08:00",
+          "label": "July 18, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/07/Closed-PyCon-HK-2023-–-Call-For-Proposal.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "pycon-hk-2023-cfp",
+        "url": "/2023/pycon-hk-2023-cfp/",
+        "title": "PyCon HK 2023 – Call For Proposal",
+        "description": "he Call for Proposals for PyCon HK 2023 has now started! Read More",
+        "date": {
+          "datetime": "2023-04-19T13:05:13+08:00",
+          "label": "April 19, 2023"
+        },
+        "image": {
+          "src": "/legacy-wp/2023/uploads/2023/04/PYCON-HK-2023-CFP.png",
+          "alt": ""
+        }
+      },
+      {
+        "slug": "2023-procedures-for-reporting-incidents",
+        "url": "/2023/2023-procedures-for-reporting-incidents/",
+        "title": "Procedures for Reporting Incidents – As of 2023",
+        "description": "If you believe someone is in physical danger, including from themselves, the most important thing is to get that person help. Please contact the appropriate crisis number, non-emergency number, or police number. If you...",
+        "date": {
+          "datetime": "2023-04-01T12:24:37+08:00",
+          "label": "April 1, 2023"
+        },
+        "image": null
+      },
+      {
+        "slug": "2023-enforcement-procedures",
+        "url": "/2023/2023-enforcement-procedures/",
+        "title": "Enforcement Procedures – As of 2023",
+        "description": "This document summarizes the procedures the PyCon US staff uses to enforce the Code of Conduct. Summary of processes When the work group receives a report of a possible Code of Conduct violation, it will: Acknowledge th...",
+        "date": {
+          "datetime": "2023-04-01T12:23:40+08:00",
+          "label": "April 1, 2023"
+        },
+        "image": null
+      },
+      {
+        "slug": "2023-code-of-conduct",
+        "url": "/2023/2023-code-of-conduct/",
+        "title": "Code of Conduct – As of 2023",
+        "description": "PyCon Hong Kong is a community conference intended for networking and collaboration in the developer community. We value the participation of each member of the Python community and want all attendees to have an enjoyab...",
+        "date": {
+          "datetime": "2023-04-01T12:23:12+08:00",
+          "label": "April 1, 2023"
+        },
+        "image": null
+      }
+    ]
+  }
+}

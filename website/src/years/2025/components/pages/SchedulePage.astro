@@ -1,0 +1,149 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+  type SiteYear,
+} from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+type SchedulePageCopy = {
+  title: string;
+  updateTitle: string;
+  updateIntro: string;
+  updateVirtual: string;
+  updateCancelled: string;
+  updateOutro: string;
+  loading: string;
+  noscript: string;
+};
+
+const { locale } = Astro.props;
+
+const copy: LocalizedValue<SchedulePageCopy> = {
+  en: {
+    title: 'Conference Schedule',
+    updateTitle: 'Important Schedule Update',
+    updateIntro: 'Please note the following last-minute changes to our Day 1 schedule:',
+    updateVirtual:
+      'The talk "The graph capture mechanisms in PyTorch" by Xuanteng Huang will now be a virtual/online session. It will be streamed live in the scheduled room.',
+    updateCancelled:
+      'Due to unforeseen circumstances, the talk "Memory Efficient Iteration with Python\'s itertools - A Deep Dive" by Kaylan has been cancelled.',
+    updateOutro:
+      'The interactive schedule below has been updated to reflect these changes. We thank you for your understanding and apologize for any inconvenience.',
+    loading: 'Loading schedule...',
+    noscript: 'JavaScript is required to view the interactive schedule.',
+  },
+  'zh-hk': {
+    title: '會議議程',
+    updateTitle: '議程更新',
+    updateIntro: '請留意第一日議程的以下最新調整：',
+    updateVirtual:
+      'Xuanteng Huang 的講題 "The graph capture mechanisms in PyTorch" 將改為線上形式進行，並會在原定房間同步播放。',
+    updateCancelled:
+      '由於突發情況，Kaylan 的講題 "Memory Efficient Iteration with Python\'s itertools - A Deep Dive" 已取消。',
+    updateOutro: '感謝你的理解。',
+    loading: '正在載入議程...',
+    noscript: '需要 JavaScript 才能查看互動議程。',
+  },
+  'zh-hant': {
+    title: '會議議程',
+    updateTitle: '議程更新',
+    updateIntro: '請留意第一日議程的以下最新調整：',
+    updateVirtual:
+      'Xuanteng Huang 的講題 "The graph capture mechanisms in PyTorch" 將改為線上形式進行，並會在原定房間同步播放。',
+    updateCancelled:
+      '由於突發情況，Kaylan 的講題 "Memory Efficient Iteration with Python\'s itertools - A Deep Dive" 已取消。',
+    updateOutro: '感謝你的理解。',
+    loading: '正在載入議程...',
+    noscript: '需要 JavaScript 才能查看互動議程。',
+  },
+  'zh-hans': {
+    title: '会议议程',
+    updateTitle: '议程更新',
+    updateIntro: '请留意第一天议程的以下最新调整：',
+    updateVirtual:
+      'Xuanteng Huang 的讲题 "The graph capture mechanisms in PyTorch" 将改为线上形式进行，并会在原定房间同步播放。',
+    updateCancelled:
+      '由于突发情况，Kaylan 的讲题 "Memory Efficient Iteration with Python\'s itertools - A Deep Dive" 已取消。',
+    updateOutro: '感谢你的理解。',
+    loading: '正在加载议程...',
+    noscript: '需要 JavaScript 才能查看互动议程。',
+  },
+  ja: {
+    title: 'カンファレンススケジュール',
+    updateTitle: 'スケジュール更新',
+    updateIntro: '1日目のスケジュールについて、直前の変更がありますのでご確認ください。',
+    updateVirtual:
+      'Xuanteng Huang による "The graph capture mechanisms in PyTorch" は、オンライン登壇に変更となりました。予定どおりの会場で同時配信されます。',
+    updateCancelled:
+      'やむを得ない事情により、Kaylan の講演 "Memory Efficient Iteration with Python\'s itertools - A Deep Dive" は中止となりました。',
+    updateOutro: 'ご理解ありがとうございます。',
+    loading: 'スケジュールを読み込んでいます...',
+    noscript: 'インタラクティブなスケジュールを表示するには JavaScript が必要です。',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+const pretalxLocale = locale === 'en' ? 'en' : locale;
+const widgetScriptUrl = `https://pretalx.com/pyconhk2025/schedule/widget/v2.${pretalxLocale}.js`;
+---
+
+<div class="pb-8 pt-24 text-center lg:pt-32">
+  <h1 class="mb-8 text-center text-2xl font-bold text-gray-700 md:text-3xl lg:text-4xl">
+    {content.title}
+  </h1>
+</div>
+
+<div class="mx-auto w-full max-w-4xl px-4 py-0 sm:px-6 sm:py-4 lg:px-8 lg:py-6">
+  <div class="mb-12 rounded-lg border-l-4 border-amber-400 bg-amber-50 p-6">
+    <h2 class="mb-3 flex items-center text-xl font-bold text-amber-800">
+      <Icon name="information-circle-outline" className="mr-3 h-6 w-6 flex-shrink-0" />
+      {content.updateTitle}
+    </h2>
+    <div class="space-y-3 pl-9 text-sm/relaxed text-amber-900/90 md:text-base/relaxed">
+      <p>{content.updateIntro}</p>
+      <ul class="list-outside list-disc space-y-2 pl-5">
+        <li>{content.updateVirtual}</li>
+        <li>{content.updateCancelled}</li>
+      </ul>
+      <p>{content.updateOutro}</p>
+    </div>
+  </div>
+</div>
+
+<div
+  id="schedule-container"
+  class="w-full overflow-x-auto overscroll-x-contain bg-white/70 lg:bg-white/0"
+>
+  <p class="px-4 py-8 text-center text-base text-slate-500">{content.loading}</p>
+  <noscript>
+    <p class="px-4 py-8 text-center text-base text-slate-500">{content.noscript}</p>
+  </noscript>
+</div>
+
+<script is:inline src={widgetScriptUrl}></script>
+<script
+  is:inline
+  data-astro-rerun
+  define:vars={{
+    locale: pretalxLocale,
+  }}
+>
+  const scheduleContainer = document.getElementById('schedule-container');
+
+  if (scheduleContainer && !scheduleContainer.querySelector('pretalx-schedule')) {
+    scheduleContainer.innerHTML = '';
+
+    const schedule = document.createElement('pretalx-schedule');
+    schedule.setAttribute('event-url', 'https://pretalx.com/pyconhk2025/');
+    schedule.setAttribute('locale', locale);
+    schedule.setAttribute('style', '--pretalx-clr-primary: #0ea5e9;');
+    scheduleContainer.append(schedule);
+  }
+</script>

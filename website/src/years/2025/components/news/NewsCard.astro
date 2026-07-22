@@ -1,0 +1,55 @@
+---
+import type { SiteLocale } from '@/config/site';
+import { formatCompactDate } from '@/lib/date';
+import type { NewsSummary } from '@/lib/news';
+
+interface Props {
+  post: NewsSummary;
+  locale: SiteLocale;
+  href: string;
+  compact?: boolean;
+}
+
+const { post, locale, href, compact = false } = Astro.props;
+const displayHref = href.replace(/\/$/u, '');
+---
+
+{
+  compact ? (
+    <a href={displayHref} class="group block">
+      <h3 class="text-base font-semibold text-gray-700 transition-colors group-hover:text-blue-600 md:text-xl">
+        {post.title}
+      </h3>
+      <div class="mt-4">
+        <time datetime={post.publishedAt} class="text-sm text-gray-500">
+          {formatCompactDate(post.publishedAt, locale)}
+        </time>
+      </div>
+    </a>
+  ) : (
+    <a href={displayHref} class="group block">
+      <div class="overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 group-hover:shadow-lg">
+        <div class="h-48 overflow-hidden bg-gray-100">
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            width="960"
+            height="540"
+            loading="lazy"
+            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+
+        <div class="p-5">
+          <h3 class="mb-2 text-base font-bold text-gray-700 transition-colors group-hover:text-blue-600 md:text-xl">
+            {post.title}
+          </h3>
+
+          <div class="mb-3 text-xs text-gray-500 md:text-sm">
+            <time datetime={post.publishedAt}>{formatCompactDate(post.publishedAt, locale)}</time>
+          </div>
+        </div>
+      </div>
+    </a>
+  )
+}

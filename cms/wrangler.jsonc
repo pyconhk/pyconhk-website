@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "pyconhk-cms",
+  "account_id": "043801e2f5b9cf2685593bd9098e98b1",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-07-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "secrets": {
+    "required": [
+      "CMS_GITHUB_CLIENT_ID",
+      "CMS_GITHUB_CLIENT_SECRET"
+    ]
+  },
+  "vars": {
+    "CMS_GITHUB_REPO": "pyconhk/pyconhk-website",
+    "CMS_GITHUB_BRANCH": "cms",
+    "CMS_GITHUB_OAUTH_SCOPE": "public_repo",
+    "CMS_ACCESS_REPO": "pyconhk/pyconhk-website",
+    "CMS_CONTENT_ROOT": "website/outstatic/content",
+    "CMS_MEDIA_FOLDER": "website/public/outstatic/images",
+    "CMS_PUBLIC_FOLDER": "/outstatic/images",
+    "CMS_LOCALES": "en,zh-hk,zh-hant,zh-hans,ja",
+    "CMS_DEFAULT_LOCALE": "en"
+  }
+}

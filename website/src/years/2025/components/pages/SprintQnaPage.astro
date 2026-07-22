@@ -1,0 +1,526 @@
+---
+import type { SiteLocale } from '@/config/site';
+import { callForSprintUrl } from '@/years/2025/external-links';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div>
+  <h1 class="mb-8 text-center text-xl font-bold leading-tight md:text-3xl lg:text-4xl">Sprint Q&amp;A</h1>
+
+  {
+    locale === 'zh-hk' ? (
+      <>
+        <section id="what-is-sprint-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint 是什麼？</h2>
+          <p class="mt-4">
+            <strong>Sprint</strong> 全名為 <strong>Development Sprint</strong>，在台灣翻譯為「衝刺開發」。簡單來說，Sprint 是一個集體開發程式碼的活動，匯聚參與開放原始碼專案（Open Source Project）的負責人與貢獻者，包括新手與有經驗的專案負責人。參加者於指定時間內共同努力完成特定任務，無論是想學習如何參與的新手，還是尋找協作者的專案負責人，Sprint 都是一個絕佳的機會。
+          </p>
+        </section>
+
+        <section id="procedures-of-sprint-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint 當天會發生什麼？</h2>
+          <ol class="ml-6 mt-4 list-decimal space-y-2">
+            <li class="md:pl-2">
+              <strong>專案介紹</strong>：由 Sprint Lead 逐一介紹各自的開放原始碼專案，包括專案概況與目標。
+            </li>
+            <li class="md:pl-2">
+              <strong>自由組隊</strong>：參加者根據興趣與能力選擇加入不同小組，並貢獻所長，例如：
+              <ul class="ml-6 mt-4 list-disc space-y-2">
+                <li class="md:pl-4">修復程式錯誤（Bugfix）</li>
+                <li class="md:pl-4">撰寫測試案例（Test Case）</li>
+                <li class="md:pl-4">開發新功能（Enhancement）</li>
+                <li class="md:pl-4">整理數據或進行文本翻譯</li>
+                <li class="md:pl-4">籌辦社群活動</li>
+              </ul>
+            </li>
+            <li class="md:pl-2">
+              <strong>動手實作</strong>：大家一起合作完成任務，無論是開發一個 Python Library 並上傳至 PyPI，還是幫忙修改一兩個字的小任務，都有其價值。
+            </li>
+            <li class="md:pl-2">
+              <strong>邊做邊學</strong>：過程中可能會遇到困難，但現場有經驗豐富的參加者可以提供指導，學習效率遠超自行研究書籍或影片。
+            </li>
+          </ol>
+        </section>
+
+        <section id="sprint-vs-conference-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint 與 Conference 有什麼不同？</h2>
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full border-collapse text-left">
+              <thead>
+                <tr>
+                  <th class="border px-4 py-2">Sprint</th>
+                  <th class="border px-4 py-2">Conference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-4 py-2">強調動手參與，共同協作完成專案</td>
+                  <td class="border px-4 py-2">主要以聆聽講座為主，知識由講者傳遞</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">互動性高，技術交流頻繁，結識更多夥伴</td>
+                  <td class="border px-4 py-2">互動較少，通常為單向學習</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">場地為協作環境，參加者可自由走動</td>
+                  <td class="border px-4 py-2">通常需固定座位聆聽演講</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="who-should-attend-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">誰適合參加？</h2>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">喜歡一起動手實作的人</li>
+            <li class="md:pl-2">對開放原碼專案有興趣的人</li>
+            <li class="md:pl-2">希望與其他開發者交流、學習的人</li>
+          </ul>
+        </section>
+
+        <section id="beginners-suitable-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Python 初學者適合參加嗎？</h2>
+          <p class="mt-4">
+            非常適合！初學者可以親眼觀察開放原始碼專案的運作方式。當天有不同分工，會寫程式的人可以參與程式碼撰寫，不熟悉程式碼的人可以協助整理數據、翻譯文本等其他工作，總有適合你的貢獻方式！
+          </p>
+        </section>
+
+        <section id="preparations-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">需要準備什麼？</h2>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2"><strong>設備</strong>：攜帶一台可運行 Python 的電腦。</li>
+            <li class="md:pl-2"><strong>帳號</strong>：建議事先準備好 GitHub、Bitbucket 或 Gitlab 帳號，以便上傳程式碼或文件。</li>
+            <li class="md:pl-2"><strong>心態</strong>：帶著學習與參與的熱情，準備與大家交流！</li>
+          </ul>
+        </section>
+
+        <section id="can-observe-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">可以只來旁觀嗎？</h2>
+          <p class="mt-4">可以！歡迎你來觀摩與交流，現場氛圍輕鬆，隨時參與討論。</p>
+        </section>
+
+        <section id="can-join-leave-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">可以中途加入或離開活動嗎？</h2>
+          <p class="mt-4">可以，活動安排靈活，參加者可隨時加入或離開。</p>
+        </section>
+
+        <section id="participation-fee-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">參加費用多少？</h2>
+          <p class="mt-4">完全免費！無需任何費用，放心參加！</p>
+        </section>
+
+        <section id="projects-validity-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">什麼樣的專案可以參加 Sprint?</h2>
+          <p>我們歡迎各種開放原始碼專案參與，但若報名數量過多，將優先選擇：</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">與 Python 或 Python 社群相關的專案</li>
+            <li class="md:pl-2">與香港本地文化或語言相關的專案（因為這是香港 PyCon.hk）</li>
+          </ul>
+        </section>
+
+        <section id="sprint-lead-validity-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">誰可以擔任 Sprint Lead?</h2>
+          <p>任何有熱情的人都可以擔任 Sprint Lead! 主要職責包括:</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">向參加者介紹你的專案</li>
+            <li class="md:pl-2">協助大家共同完成任務</li>
+          </ul>
+        </section>
+
+        <section id="resources-chinese" class="mt-16">
+          <p>新手可參考以下資源：</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">
+              <a
+                href="https://github.com/numfocus/getting-started-with-open-source/blob/master/how_to_organize_an_open_source_sprint.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                How to Organize an Open Source Sprint
+              </a>
+            </li>
+            <li class="md:pl-2">
+              <a
+                href="https://opensourceevents.github.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                The In-Person Event Handbook
+              </a>
+            </li>
+            <li class="md:pl-2">
+              <a
+                href="https://us.pycon.org/2024/events/dev-sprints/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                Sprint in PyCon US 2024
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section id="projects-chinese" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">今年會有哪些專案？</h2>
+          <p class="mt-4">
+            目前正公開招募 Sprint 專案與 Sprint Lead! 歡迎
+            <a href={callForSprintUrl} target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-800">
+              <span>提交你的開放原始碼專案，或報名成為 Sprint Lead</span>
+            </a>
+            ，分享你的想法!
+          </p>
+        </section>
+      </>
+    ) : locale === 'ja' ? (
+      <>
+        <section id="what-is-sprint-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint とは？</h2>
+          <p class="mt-4">
+            <strong>Sprint</strong> は正式には <strong>Development Sprint</strong> と呼ばれ、オープンソースプロジェクトのメンテナーやコントリビューター、新規参加者が一緒に集まって協力する開発イベントです。決められた時間の中で特定の課題に取り組み、コントリビューションの始め方を学びたい人にも、協力者を探しているプロジェクトリードにも、とても良い機会になります。
+          </p>
+        </section>
+
+        <section id="procedures-of-sprint-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint 当日は何をするの？</h2>
+          <ol class="ml-6 mt-4 list-decimal space-y-2">
+            <li class="md:pl-2">
+              <strong>プロジェクト紹介</strong>：各 Sprint Lead が、自分のオープンソースプロジェクトの概要と目的を紹介します。
+            </li>
+            <li class="md:pl-2">
+              <strong>チーム分け</strong>：参加者は興味や得意分野に応じてチームに分かれ、たとえば次のような形で貢献します。
+              <ul class="ml-6 mt-4 list-disc space-y-2">
+                <li class="md:pl-4">バグ修正（Bugfix）</li>
+                <li class="md:pl-4">テストケース作成</li>
+                <li class="md:pl-4">新機能開発（Enhancement）</li>
+                <li class="md:pl-4">データ整理や翻訳</li>
+                <li class="md:pl-4">コミュニティ活動の企画</li>
+              </ul>
+            </li>
+            <li class="md:pl-2">
+              <strong>実際に手を動かす</strong>：PyPI に公開する Python ライブラリを作るような大きな作業から、小さな修正まで、あらゆる貢献に価値があります。
+            </li>
+            <li class="md:pl-2">
+              <strong>やりながら学ぶ</strong>：途中でつまずいても、経験ある参加者がサポートしてくれるため、一人で学ぶより効率よく理解できます。
+            </li>
+          </ol>
+        </section>
+
+        <section id="sprint-vs-conference-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint と Conference の違いは？</h2>
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full border-collapse text-left">
+              <thead>
+                <tr>
+                  <th class="border px-4 py-2">Sprint</th>
+                  <th class="border px-4 py-2">Conference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-4 py-2">実際に手を動かし、協力してプロジェクトを進めることが中心</td>
+                  <td class="border px-4 py-2">講演を聞き、登壇者から知識を得ることが中心</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">交流や技術的な対話が多く、参加者同士の距離が近い</td>
+                  <td class="border px-4 py-2">比較的インタラクションが少なく、一方向の学習になりやすい</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">協働のための空間で、自由に移動しながら参加できる</td>
+                  <td class="border px-4 py-2">基本的には着席してセッションを聞く形式</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="who-should-attend-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">どんな人に向いていますか？</h2>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">手を動かしながら協力するのが好きな人</li>
+            <li class="md:pl-2">オープンソースプロジェクトに興味がある人</li>
+            <li class="md:pl-2">ほかの開発者と交流しながら学びたい人</li>
+          </ul>
+        </section>
+
+        <section id="beginners-suitable-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Python 初心者でも参加できますか？</h2>
+          <p class="mt-4">
+            もちろんです。初心者でもオープンソースプロジェクトがどのように動いているかを間近で見られます。コードを書く以外にも、データ整理や翻訳など、さまざまな形で参加できます。
+          </p>
+        </section>
+
+        <section id="preparations-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">何を準備すればいいですか？</h2>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2"><strong>機材</strong>：Python が動くノートPCを持参してください。</li>
+            <li class="md:pl-2"><strong>アカウント</strong>：コードや資料を共有しやすいよう、GitHub、Bitbucket、GitLab のいずれかのアカウントを事前に用意しておくことをおすすめします。</li>
+            <li class="md:pl-2"><strong>気持ち</strong>：学びたい気持ちと、みんなで協力する姿勢を持ってきてください。</li>
+          </ul>
+        </section>
+
+        <section id="can-observe-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">見学だけでも大丈夫ですか？</h2>
+          <p class="mt-4">はい、大丈夫です。気軽に見学し、議論に加わってください。会場はリラックスした雰囲気で、途中からの参加もしやすいです。</p>
+        </section>
+
+        <section id="can-join-leave-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">途中参加や途中退出はできますか？</h2>
+          <p class="mt-4">はい。イベントは柔軟に参加できる形式なので、途中参加・途中退出のどちらも可能です。</p>
+        </section>
+
+        <section id="participation-fee-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">参加費はいくらですか？</h2>
+          <p class="mt-4">完全無料です。安心してご参加ください。</p>
+        </section>
+
+        <section id="projects-validity-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">どんなプロジェクトが Sprint に参加できますか？</h2>
+          <p>オープンソースプロジェクトであれば歓迎ですが、応募が多い場合は次の条件に近いものを優先します。</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">Python または Python コミュニティに関連するプロジェクト</li>
+            <li class="md:pl-2">香港の文化や言語に関わるプロジェクト（PyCon HK であるため）</li>
+          </ul>
+        </section>
+
+        <section id="sprint-lead-validity-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Sprint Lead になれるのは誰ですか？</h2>
+          <p>情熱があれば誰でも Sprint Lead になれます。主な役割は次の通りです。</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">参加者に自分のプロジェクトを紹介する</li>
+            <li class="md:pl-2">グループで課題を進められるようサポートする</li>
+          </ul>
+        </section>
+
+        <section id="resources-ja" class="mt-16">
+          <p>初めての方は、次の資料も参考になります。</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">
+              <a
+                href="https://github.com/numfocus/getting-started-with-open-source/blob/master/how_to_organize_an_open_source_sprint.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                How to Organize an Open Source Sprint
+              </a>
+            </li>
+            <li class="md:pl-2">
+              <a
+                href="https://opensourceevents.github.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                The In-Person Event Handbook
+              </a>
+            </li>
+            <li class="md:pl-2">
+              <a
+                href="https://us.pycon.org/2024/events/dev-sprints/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                Sprint in PyCon US 2024
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section id="projects-ja" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">今年はどんなプロジェクトがありますか？</h2>
+          <p class="mt-4">
+            現在、Sprint Project と Sprint Lead を募集しています。ぜひ
+            <a href={callForSprintUrl} target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-800">
+              <span>オープンソースプロジェクトを応募するか、Sprint Lead として参加登録してください</span>
+            </a>
+            。あなたのアイデアを共有しましょう。
+          </p>
+        </section>
+      </>
+    ) : (
+      <>
+        <section id="what-is-sprint" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">What is a Sprint?</h2>
+          <p class="mt-4">
+            A <strong>Sprint</strong>, fully named <strong>Development Sprint</strong>, is translated in Taiwan as "衝刺開發" (Sprint Development). In simple terms, a Sprint is a collaborative coding event that brings together maintainers and contributors of Open Source Projects, including both newcomers and experienced project leaders.
+          </p>
+          <p class="mt-4">
+            Participants work together within a designated time frame to complete specific tasks. Whether you&apos;re a beginner looking to learn how to contribute or a project lead seeking collaborators, a Sprint is an excellent opportunity.
+          </p>
+        </section>
+
+        <section id="procedures-of-sprint" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">What Happens on Sprint Day?</h2>
+          <ol class="ml-6 mt-4 list-decimal space-y-2">
+            <li class="md:pl-2">
+              <strong>Project Introductions</strong>: Sprint Leads take turns introducing their Open Source Projects, including an overview and objectives.
+            </li>
+            <li class="md:pl-2">
+              <strong>Team Formation</strong>: Participants join groups based on their interests and skills, contributing in areas such as:
+              <ul class="ml-6 mt-4 list-disc space-y-2">
+                <li class="md:pl-4">Fixing bugs (Bugfix)</li>
+                <li class="md:pl-4">Writing test cases (Test Case)</li>
+                <li class="md:pl-4">Developing new features (Enhancement)</li>
+                <li class="md:pl-4">Organizing data or translating text</li>
+                <li class="md:pl-4">Planning community events</li>
+              </ul>
+            </li>
+            <li class="md:pl-2">
+              <strong>Hands-On Work</strong>: Everyone collaborates to complete tasks, whether it&apos;s developing a Python Library to upload to PyPI or making small edits like fixing a typo - every contribution counts.
+            </li>
+            <li class="md:pl-2">
+              <strong>Learn by Doing</strong>: Challenges may arise, but experienced participants are on hand to offer guidance, making learning far more efficient than studying books or videos alone.
+            </li>
+          </ol>
+        </section>
+
+        <section id="sprint-vs-conference" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">How is a Sprint Different from a Conference?</h2>
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full border-collapse text-left">
+              <thead>
+                <tr>
+                  <th class="border px-4 py-2">Sprint</th>
+                  <th class="border px-4 py-2">Conference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-4 py-2">Emphasizes hands-on participation and collaborative project work</td>
+                  <td class="border px-4 py-2">Focuses on listening to talks, with knowledge delivered by speakers</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">Highly interactive, with frequent technical exchanges and networking</td>
+                  <td class="border px-4 py-2">Less interactive, typically one-way learning</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">Held in a co-working environment, allowing free movement</td>
+                  <td class="border px-4 py-2">Usually requires staying seated for presentations</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="who-should-attend" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Who Should Attend?</h2>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">People who enjoy hands-on collaboration</li>
+            <li class="md:pl-2">Those interested in Open Source Projects</li>
+            <li class="md:pl-2">Individuals eager to connect and learn from other developers</li>
+          </ul>
+        </section>
+
+        <section id="beginners-suitable" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Is It Suitable for Python Beginners?</h2>
+          <p class="mt-4">
+            Absolutely! Beginners can observe how Open Source Projects operate firsthand. The day offers various tasks: those who can code can contribute to programming, while those less familiar with coding can assist with data organization, text translation, or other tasks - there&apos;s always a way to contribute!
+          </p>
+        </section>
+
+        <section id="preparations" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">What Should I Prepare?</h2>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2"><strong>Equipment</strong>: Bring a computer capable of running Python.</li>
+            <li class="md:pl-2"><strong>Accounts</strong>: It&apos;s recommended to set up a GitHub, Bitbucket, or Gitlab account in advance to upload code or documents.</li>
+            <li class="md:pl-2"><strong>Mindset</strong>: Come with enthusiasm for learning and collaborating!</li>
+          </ul>
+        </section>
+
+        <section id="can-observe" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Can I Just Observe?</h2>
+          <p class="mt-4">
+            Yes! You&apos;re welcome to come, observe, and engage in discussions. The atmosphere is relaxed and open to participation.
+          </p>
+        </section>
+
+        <section id="can-join-leave" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Can I Join or Leave Mid-Event?</h2>
+          <p class="mt-4">Yes, the event is flexible, allowing participants to join or leave at any time.</p>
+        </section>
+
+        <section id="participation-fee" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">How Much is the Participation Fee?</h2>
+          <p class="mt-4">Completely free! No fees are required, so join with confidence!</p>
+        </section>
+
+        <section id="projects-validity" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">
+            What Kind of Projects Can Participate in the Sprint?
+          </h2>
+          <p>We welcome all Open Source Projects, but if there are too many submissions, priority will be given to:</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">Projects related to Python or the Python Community</li>
+            <li class="md:pl-2">Projects connected to Hong Kong&apos;s local culture or language (as this is PyCon HK)</li>
+          </ul>
+        </section>
+
+        <section id="sprint-lead-validity" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">Who Can Be a Sprint Lead?</h2>
+          <p>Anyone with passion can be a Sprint Lead! Responsibilities include:</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">Introducing your project to participants</li>
+            <li class="md:pl-2">Assisting the group in completing tasks</li>
+          </ul>
+        </section>
+
+        <section id="resources" class="mt-16">
+          <p>Newcomers can refer to these resources:</p>
+          <ul class="ml-6 mt-4 list-disc space-y-2">
+            <li class="md:pl-2">
+              <a
+                href="https://github.com/numfocus/getting-started-with-open-source/blob/master/how_to_organize_an_open_source_sprint.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                How to Organize an Open Source Sprint
+              </a>
+            </li>
+            <li class="md:pl-2">
+              <a
+                href="https://opensourceevents.github.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                The In-Person Event Handbook
+              </a>
+            </li>
+            <li class="md:pl-2">
+              <a
+                href="https://us.pycon.org/2024/events/dev-sprints/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sky-600 hover:text-sky-800"
+              >
+                Sprint in PyCon US 2024
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section id="projects" class="mt-16">
+          <h2 class="mb-4 text-xl font-bold text-sky-600 md:text-2xl">What Projects Will Be Featured This Year?</h2>
+          <p class="mt-4">
+            We are currently recruiting Sprint Projects and Sprint Leads! You&apos;re welcome to
+            <a href={callForSprintUrl} target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-800">
+              <span>submit your Open Source Project or sign up to be a Sprint Lead</span>
+            </a>
+            to share your ideas!
+          </p>
+        </section>
+      </>
+    )
+  }
+</div>

@@ -1,0 +1,316 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  year: string;
+  currentPath: string;
+}
+
+const { title, description, year, currentPath } = Astro.props;
+const links = [
+  { href: `/${year}/`, label: `${year} Home` },
+  { href: `/${year}/${year}-schedule/`, label: 'Schedule' },
+  { href: `/${year}/${year}-sponsors/`, label: 'Sponsors' },
+  { href: `/${year}/${year}-organizers/`, label: 'Organizers' },
+  { href: `/${year}/${year}-volunteers/`, label: 'Volunteers' },
+];
+---
+
+<BaseLayout title={`${title} - PyCon HK`} description={description}>
+  <header class="legacy-header">
+    <div class="legacy-header__inner">
+      <a class="legacy-brand" href="/">PyCon HK</a>
+      <nav class="legacy-nav" aria-label={`${year} archive navigation`}>
+        {
+          links.map((link) => (
+            <a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </header>
+  <main class="legacy-main">
+    <slot />
+  </main>
+  <footer class="legacy-footer">
+    <p>PyCon Hong Kong {year} archive</p>
+    <p><a href="/2022/">2022</a><span aria-hidden="true"> / </span><a href="/2023/">2023</a></p>
+  </footer>
+</BaseLayout>
+
+<style is:global>
+  .legacy-header {
+    background: #0e3a5b;
+    border-bottom: 1px solid #dbe3ef;
+    color: #ffffff;
+  }
+
+  .legacy-header__inner {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 18px 24px;
+  }
+
+  .legacy-brand {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .legacy-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .legacy-nav a {
+    border: 1px solid rgb(255 255 255 / 24%);
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 8px 10px;
+    text-decoration: none;
+  }
+
+  .legacy-nav a:hover,
+  .legacy-nav a[aria-current='page'] {
+    background: #ffffff;
+    color: #0e3a5b;
+  }
+
+  .legacy-main {
+    background: #f6f8fb;
+    min-height: 70vh;
+    padding: 48px 24px 64px;
+  }
+
+  .legacy-container {
+    margin: 0 auto;
+    max-width: 980px;
+  }
+
+  .legacy-kicker {
+    color: #2d718e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+
+  .legacy-title {
+    color: #10243e;
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 1.05;
+    margin: 0;
+  }
+
+  .legacy-description,
+  .legacy-date {
+    color: #59687c;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 16px 0 0;
+  }
+
+  .legacy-hero {
+    margin: 32px 0 0;
+  }
+
+  .legacy-hero img {
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .legacy-panel {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    box-shadow: 0 16px 36px rgb(16 36 62 / 8%);
+    margin-top: 32px;
+    padding: clamp(24px, 5vw, 48px);
+  }
+
+  .legacy-content {
+    color: #26364d;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .legacy-content > *:first-child {
+    margin-top: 0;
+  }
+
+  .legacy-content h1,
+  .legacy-content h2,
+  .legacy-content h3,
+  .legacy-content h4 {
+    color: #10243e;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1.6em 0 0.65em;
+  }
+
+  .legacy-content h1 {
+    font-size: 2rem;
+  }
+
+  .legacy-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .legacy-content a {
+    color: #0b6c9d;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .legacy-content img {
+    display: block;
+    height: auto;
+    margin: 20px auto;
+    max-width: 100%;
+  }
+
+  .legacy-content figure {
+    margin: 24px 0;
+  }
+
+  .legacy-content table {
+    border-collapse: collapse;
+    margin: 24px 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .legacy-content .wp-block-table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .legacy-content .wp-block-table table {
+    display: table;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin: 0;
+    min-width: 44rem;
+    table-layout: fixed;
+  }
+
+  .legacy-content td,
+  .legacy-content th {
+    border: 1px solid #dbe3ef;
+    padding: 10px;
+    vertical-align: top;
+  }
+
+  .legacy-content .wp-block-table td,
+  .legacy-content .wp-block-table th {
+    padding: 8px 10px;
+  }
+
+  .legacy-content .wp-block-table td:first-child,
+  .legacy-content .wp-block-table th:first-child {
+    width: 7.5rem;
+    white-space: nowrap;
+  }
+
+  .legacy-content ul,
+  .legacy-content ol {
+    padding-left: 1.4rem;
+  }
+
+  .legacy-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    margin-top: 32px;
+  }
+
+  .legacy-card {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .legacy-card:hover {
+    border-color: #0b6c9d;
+  }
+
+  .legacy-card img {
+    aspect-ratio: 16 / 9;
+    display: block;
+    height: auto;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .legacy-card__body {
+    padding: 20px;
+  }
+
+  .legacy-card__date {
+    color: #2d718e;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  .legacy-card h2 {
+    color: #10243e;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  .legacy-card p {
+    color: #59687c;
+    line-height: 1.6;
+    margin: 12px 0 0;
+  }
+
+  .legacy-footer {
+    align-items: center;
+    border-top: 1px solid #dbe3ef;
+    color: #59687c;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 20px 24px;
+  }
+
+  .legacy-footer p {
+    margin: 0;
+  }
+
+  .legacy-footer a {
+    color: #0b6c9d;
+    font-weight: 700;
+  }
+
+  .legacy-content .wp-block-table td p {
+    margin: 0;
+  }
+</style>

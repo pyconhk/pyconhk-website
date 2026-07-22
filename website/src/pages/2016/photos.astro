@@ -1,0 +1,12 @@
+---
+import { getHighlightsForEdition } from '@/legacy/year-highlights';
+import PhotosPage2016 from '@/years/2016/components/PhotosPage2016.astro';
+
+const highlight = getHighlightsForEdition('2016').find(({ slug }) => slug === 'photos');
+
+if (!highlight) {
+  throw new Error('Missing PyCon HK 2016 photos highlight');
+}
+---
+
+<PhotosPage2016 page={highlight.page} />

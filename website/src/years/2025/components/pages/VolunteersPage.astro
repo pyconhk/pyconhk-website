@@ -1,0 +1,115 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import PersonCard from '@/years/2025/components/content/PersonCard.astro';
+import {
+  conferenceChair,
+  conferenceCoChairs,
+  organizingCommitteeMembers,
+} from '@/years/2025/data/volunteers';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+
+type VolunteersCopy = {
+  title: string;
+  intro: string;
+  committeeHeading: string;
+  chairHeading: string;
+  coChairsHeading: string;
+  membersHeading: string;
+};
+
+const copy: LocalizedValue<VolunteersCopy> = {
+  en: {
+    title: 'Volunteers',
+    intro:
+      'Volunteers are the heart of PyCon Hong Kong 2025. We sincerely thank them for their months of tireless effort, making this conference a reality. Below is a list of our committed volunteers.',
+    committeeHeading: 'Executive Committee',
+    chairHeading: 'Conference Chair',
+    coChairsHeading: 'Conference Co-Chairs',
+    membersHeading: 'Organizing Committee Members',
+  },
+  'zh-hk': {
+    title: '義工團隊',
+    intro:
+      '義工是 PyCon Hong Kong 2025 的核心力量。感謝他們在過去數月默默付出，讓這場會議得以成形。以下是本屆大會的義工名單。',
+    committeeHeading: '執行委員會',
+    chairHeading: '大會主席',
+    coChairsHeading: '大會副主席',
+    membersHeading: '籌委會成員',
+  },
+  'zh-hant': {
+    title: '義工團隊',
+    intro:
+      '義工是 PyCon Hong Kong 2025 的核心力量。感謝他們在過去數月默默付出，讓這場會議得以成形。以下是本屆大會的義工名單。',
+    committeeHeading: '執行委員會',
+    chairHeading: '大會主席',
+    coChairsHeading: '大會副主席',
+    membersHeading: '籌委會成員',
+  },
+  'zh-hans': {
+    title: '志愿者团队',
+    intro:
+      '志愿者是 PyCon Hong Kong 2025 的核心力量。感谢他们在过去数月默默付出，让这场会议得以成形。以下是本届大会的志愿者名单。',
+    committeeHeading: '执行委员会',
+    chairHeading: '大会主席',
+    coChairsHeading: '大会副主席',
+    membersHeading: '筹委会成员',
+  },
+  ja: {
+    title: 'ボランティア',
+    intro:
+      'PyCon Hong Kong 2025 を支えているのは、ボランティアの皆さんです。ここ数か月にわたる尽力に心から感謝します。以下に、本大会を支えるメンバーをご紹介します。',
+    committeeHeading: '実行委員会',
+    chairHeading: '大会長',
+    coChairsHeading: '共同チェア',
+    membersHeading: '運営委員',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+---
+
+<div class="mx-auto max-w-7xl">
+  <h1 class="text-center text-4xl font-bold text-gray-900">{content.title}</h1>
+
+  <p class="mt-4">{content.intro}</p>
+
+  <h2 class="mt-16 text-center text-3xl font-bold text-gray-800">{content.committeeHeading}</h2>
+
+  <section class="mt-16">
+    <h3 class="text-center text-2xl font-bold text-gray-800">{content.chairHeading}</h3>
+    <div class="mt-12 flex justify-center">
+      <PersonCard {...conferenceChair} />
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h3 class="text-center text-2xl font-bold text-gray-800">{content.coChairsHeading}</h3>
+    <div class="mx-auto mt-12 flex flex-wrap justify-center gap-8 gap-y-16">
+      {conferenceCoChairs.map((chair) => (
+        <div class="flex justify-center sm:w-1/2 md:w-1/3 lg:w-1/4">
+          <PersonCard {...chair} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h3 class="text-center text-2xl font-bold text-gray-800">{content.membersHeading}</h3>
+    <div class="mx-auto mt-12 flex flex-wrap justify-center gap-8 gap-y-16">
+      {organizingCommitteeMembers.map((member) => (
+        <div class="flex justify-center sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+          <PersonCard {...member} />
+        </div>
+      ))}
+    </div>
+  </section>
+</div>

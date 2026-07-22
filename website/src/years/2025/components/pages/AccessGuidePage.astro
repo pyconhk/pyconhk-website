@@ -1,0 +1,383 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+} from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+
+interface Props {
+  locale: SiteLocale;
+}
+
+const { locale } = Astro.props;
+
+type AccessGuideCopy = {
+  title: string;
+  dateHighlight: string;
+  venueHighlight: string;
+  mapButtonLabel: string;
+  intro: string;
+  usefulInformationHeading: string;
+  gettingToCityuHeading: string;
+  cityuEntranceDescription: string;
+  byMtrHeading: string;
+  byMtrDescription: string;
+  byTaxiHeading: string;
+  byTaxiDescription: string;
+  keyLocationsHeading: string;
+  wifiHeading: string;
+  wifiIntro: string;
+  wifiSteps: readonly string[];
+  conferenceMapAlt: string;
+  mtrExitGuideAlt: string;
+  mtrAccessGuideAlt: string;
+  taxiCardAlt: string;
+  buildingMapAlt: string;
+  wifiImageAlt: string;
+};
+
+const copy: LocalizedValue<AccessGuideCopy> = {
+  en: {
+    title: 'Access Guide - Conference & Sprint Day',
+    dateHighlight: '11th - 12th October (Sat), 2025',
+    venueHighlight: 'Yeung Kin Man Academic Building, CityU',
+    mapButtonLabel: 'Open in Google Maps',
+    intro: 'This document will guide you to the various key locations of the conference.',
+    usefulInformationHeading: 'Useful Information',
+    gettingToCityuHeading: '1. Getting to City University of Hong Kong (CityU)',
+    cityuEntranceDescription:
+      'The best way to go to Yeung Kin Man Academic Building, City University of Hong Kong (CityU) is to take the Tat Chee Avenue entrance.',
+    byMtrHeading: 'By MTR',
+    byMtrDescription:
+      'CityU is located adjacent to MTR Kowloon Tong Station and Festival Walk Shopping Centre. It is just a 5-minute walk from MTR station via Festival Walk to the campus. When you arrive at MTR Kowloon Tong Station, please follow the instructions below to reach CityU.',
+    byTaxiHeading: 'By Taxi',
+    byTaxiDescription:
+      'Please ask the taxi driver to drop you off at Tat Chee Avenue entrance next to a pair of Kirin statues or show the following CityU taxi card to the driver. Walk down the steps on the left side of the Kirin statues and you will reach the CityU campus guard house.',
+    keyLocationsHeading: '2. Getting to Key Locations in Yeung Kin Man Academic Building',
+    wifiHeading: '3. Wi-Fi Access',
+    wifiIntro:
+      'CityU has joined the initiative of the Government of Hong Kong Special Administration Region to provide free Wi-Fi service to visitors on campus since 2014. No prior registration is required, however, the "Acceptable Use Policy" must be observed and accepted before a connection can be established.',
+    wifiSteps: [
+      'Connect the Wi-Fi network with SSID "Wi-Fi.HK via CityU".',
+      'Open your web browser, and you will be directed to the Wi-Fi.HK via CityU page.',
+      'Please read the "Acceptable Use Policy" carefully before using Wi-Fi.HK via CityU service.',
+      'If you agree to all the conditions, click "ACCEPT & CONNECT" to start using the Wi-Fi service.',
+    ],
+    conferenceMapAlt: 'Conference and Sprint Day building map',
+    mtrExitGuideAlt: 'MTR exit guide',
+    mtrAccessGuideAlt: 'MTR access guide',
+    taxiCardAlt: 'CityU taxi card',
+    buildingMapAlt: 'Building map',
+    wifiImageAlt: 'Wi-Fi instructions',
+  },
+  'zh-hk': {
+    title: '前往會場 - Conference Day 同 Sprint Day',
+    dateHighlight: '2025 年 10 月 11 至 12 日（星期六、日）',
+    venueHighlight: '香港城市大學楊建文學術樓',
+    mapButtonLabel: '用 Google 地圖開啟',
+    intro: '呢份指南會帶你去會議期間幾個最重要嘅位置。',
+    usefulInformationHeading: '實用資訊',
+    gettingToCityuHeading: '1. 點樣去香港城市大學（CityU）',
+    cityuEntranceDescription: '去楊建文學術樓最方便嘅方法，係由達之路入口進入香港城市大學。',
+    byMtrHeading: '乘搭港鐵',
+    byMtrDescription:
+      '城大就喺港鐵九龍塘站同又一城旁邊。由港鐵站經又一城行去校園，大約 5 分鐘就到。去到九龍塘站之後，可以跟住下面指示去城大。',
+    byTaxiHeading: '乘搭的士',
+    byTaxiDescription:
+      '你可以請司機喺達之路入口、麒麟雕像旁邊落車，或者直接向司機出示下面嘅城大的士卡。落車之後沿住雕像左邊樓梯行落去，就會到城大校園保安亭入口。',
+    keyLocationsHeading: '2. 點樣去楊建文學術樓入面幾個重要位置',
+    wifiHeading: '3. Wi-Fi 連接方式',
+    wifiIntro:
+      '城大自 2014 年起參與香港特區政府計劃，為訪客提供免費校園 Wi-Fi。唔使預先登記，但連線前要先閱讀並接受可接受使用政策。',
+    wifiSteps: [
+      '連上 SSID「Wi-Fi.HK via CityU」網絡。',
+      '打開瀏覽器後，系統會自動帶你去 Wi-Fi.HK via CityU 登入頁面。',
+      '使用服務前，請先細閱可接受使用政策。',
+      '如果同意條款，按「ACCEPT & CONNECT」就可以開始用 Wi-Fi。',
+    ],
+    conferenceMapAlt: '會議與 Sprint Day 大樓地圖',
+    mtrExitGuideAlt: '港鐵出口指引',
+    mtrAccessGuideAlt: '港鐵前往會場指引',
+    taxiCardAlt: '城大的士卡',
+    buildingMapAlt: '大樓地圖',
+    wifiImageAlt: 'Wi-Fi 指引',
+  },
+  'zh-hant': {
+    title: '前往會場 - Conference Day 與 Sprint Day',
+    dateHighlight: '2025 年 10 月 11 至 12 日（星期六、日）',
+    venueHighlight: '香港城市大學楊建文學術樓',
+    mapButtonLabel: '用 Google 地圖開啟',
+    intro: '這份指南會帶你前往會議期間幾個最重要的位置。',
+    usefulInformationHeading: '實用資訊',
+    gettingToCityuHeading: '1. 如何前往香港城市大學（CityU）',
+    cityuEntranceDescription:
+      '前往楊建文學術樓最方便的方法，是從達之路入口進入香港城市大學。',
+    byMtrHeading: '乘搭港鐵',
+    byMtrDescription:
+      '城大位於港鐵九龍塘站與又一城旁邊。由港鐵站經又一城步行前往校園，大約只需 5 分鐘。抵達九龍塘站後，可依照下方指示前往城大。',
+    byTaxiHeading: '乘搭計程車',
+    byTaxiDescription:
+      '你可以請司機在達之路入口、麒麟雕像旁邊下車，或直接向司機出示下方的城大計程車卡。下車後沿著雕像左側樓梯往下走，就會到達城大校園保安亭入口。',
+    keyLocationsHeading: '2. 如何前往楊建文學術樓內幾個重要位置',
+    wifiHeading: '3. Wi-Fi 連接方式',
+    wifiIntro:
+      '城大自 2014 年起參與香港特區政府計劃，為訪客提供免費校園 Wi-Fi。無需事先登記，但連線前須先閱讀並接受可接受使用政策。',
+    wifiSteps: [
+      '連上 SSID「Wi-Fi.HK via CityU」網路。',
+      '打開瀏覽器後，系統會自動帶你前往 Wi-Fi.HK via CityU 登入頁面。',
+      '使用服務前，請先詳閱可接受使用政策。',
+      '若同意所有條款，按下「ACCEPT & CONNECT」即可開始使用 Wi-Fi。',
+    ],
+    conferenceMapAlt: '會議與 Sprint Day 大樓地圖',
+    mtrExitGuideAlt: '港鐵出口指引',
+    mtrAccessGuideAlt: '港鐵前往會場指引',
+    taxiCardAlt: '城大計程車卡',
+    buildingMapAlt: '大樓地圖',
+    wifiImageAlt: 'Wi-Fi 指引',
+  },
+  'zh-hans': {
+    title: '前往会场 - Conference Day 与 Sprint Day',
+    dateHighlight: '2025 年 10 月 11 至 12 日（星期六、日）',
+    venueHighlight: '香港城市大学杨建文学术楼',
+    mapButtonLabel: '用 Google 地图打开',
+    intro: '这份指南会带你前往会议期间几个最重要的位置。',
+    usefulInformationHeading: '实用信息',
+    gettingToCityuHeading: '1. 如何前往香港城市大学（CityU）',
+    cityuEntranceDescription:
+      '前往杨建文学术楼最方便的方法，是从达之路入口进入香港城市大学。',
+    byMtrHeading: '乘搭港铁',
+    byMtrDescription:
+      '城大位于港铁九龙塘站与又一城旁边。由港铁站经又一城步行前往校园，大约只需 5 分钟。抵达九龙塘站后，可依照下方指示前往城大。',
+    byTaxiHeading: '乘搭出租车',
+    byTaxiDescription:
+      '你可以请司机在达之路入口、麒麟雕像旁边下车，或直接向司机出示下方的城大出租车卡。下车后沿着雕像左侧楼梯往下走，就会到达城大校园保安亭入口。',
+    keyLocationsHeading: '2. 如何前往杨建文学术楼内几个重要位置',
+    wifiHeading: '3. Wi-Fi 连接方式',
+    wifiIntro:
+      '城大自 2014 年起参与香港特区政府计划，为访客提供免费校园 Wi-Fi。无需预先登记，但连线前须先阅读并接受可接受使用政策。',
+    wifiSteps: [
+      '连接 SSID 为「Wi-Fi.HK via CityU」的网络。',
+      '打开浏览器后，系统会自动带你前往 Wi-Fi.HK via CityU 登录页面。',
+      '使用服务前，请先仔细阅读可接受使用政策。',
+      '若同意所有条款，点击「ACCEPT & CONNECT」即可开始使用 Wi-Fi。',
+    ],
+    conferenceMapAlt: '会议与 Sprint Day 大楼地图',
+    mtrExitGuideAlt: '港铁出口指引',
+    mtrAccessGuideAlt: '港铁前往会场指引',
+    taxiCardAlt: '城大出租车卡',
+    buildingMapAlt: '大楼地图',
+    wifiImageAlt: 'Wi-Fi 指引',
+  },
+  ja: {
+    title: 'アクセスガイド - Conference & Sprint Day',
+    dateHighlight: '2025年10月11日〜12日（土・日）',
+    venueHighlight: 'CityU 楊建文アカデミックビル',
+    mapButtonLabel: 'Google マップで開く',
+    intro: 'このガイドでは、カンファレンス期間中に使う主要な場所への行き方を案内します。',
+    usefulInformationHeading: '便利な情報',
+    gettingToCityuHeading: '1. 香港城市大学（CityU）への行き方',
+    cityuEntranceDescription:
+      '楊建文アカデミックビルへ行くには、Tat Chee Avenue の入口から香港城市大学に入るのがいちばん便利です。',
+    byMtrHeading: 'MTR を利用する場合',
+    byMtrDescription:
+      'CityU は MTR 九龍塘駅と Festival Walk に隣接しています。駅から Festival Walk を通ってキャンパスまでは徒歩約 5 分です。九龍塘駅に着いたら、以下の案内に従って CityU へ向かってください。',
+    byTaxiHeading: 'タクシーを利用する場合',
+    byTaxiDescription:
+      'タクシーをご利用の場合は、Tat Chee Avenue 入口の麒麟像付近で降車するよう運転手に伝えるか、以下の CityU タクシーカードを見せてください。降車後、麒麟像の左側の階段を下ると、CityU キャンパスの守衛所入口に着きます。',
+    keyLocationsHeading: '2. 楊建文アカデミックビル内の主要場所への行き方',
+    wifiHeading: '3. Wi-Fi 接続方法',
+    wifiIntro:
+      'CityU は 2014 年より香港特別行政区政府の取り組みに参加し、来訪者向けにキャンパス内無料 Wi-Fi を提供しています。事前登録は不要ですが、接続前に利用規約を確認し、同意する必要があります。',
+    wifiSteps: [
+      'SSID「Wi-Fi.HK via CityU」のネットワークに接続します。',
+      'ブラウザを開くと、自動的に Wi-Fi.HK via CityU のログインページへ移動します。',
+      '利用前に「Acceptable Use Policy」をよく確認してください。',
+      '内容に同意したら「ACCEPT & CONNECT」を押して Wi-Fi を使い始めます。',
+    ],
+    conferenceMapAlt: 'Conference Day と Sprint Day の建物案内図',
+    mtrExitGuideAlt: 'MTR 出口案内',
+    mtrAccessGuideAlt: 'MTR からのアクセス案内',
+    taxiCardAlt: 'CityU タクシーカード',
+    buildingMapAlt: '建物案内図',
+    wifiImageAlt: 'Wi-Fi 接続案内',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+
+const eventHighlights = [
+  {
+    icon: 'calendar-outline',
+    value: content.dateHighlight,
+    shellClass: 'bg-fuchsia-50',
+    iconClass: 'bg-fuchsia-100 text-fuchsia-600',
+  },
+  {
+    icon: 'location-marker-outline',
+    value: content.venueHighlight,
+    shellClass: 'bg-blue-50',
+    iconClass: 'bg-blue-100 text-blue-600',
+  },
+] as const;
+
+const wifiSteps = content.wifiSteps;
+---
+
+<div class="mx-auto max-w-4xl md:px-4">
+  <h1 class="text-center text-xl font-bold leading-tight text-gray-700 sm:text-2xl md:text-3xl lg:text-4xl">
+    {content.title}
+  </h1>
+
+  <div class="mt-8 flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:flex-wrap">
+    {eventHighlights.map((item) => (
+      <div class:list={['inline-flex items-center gap-2 rounded-full px-4 py-2 shadow-sm', item.shellClass]}>
+        <div class:list={['rounded-full p-1.5', item.iconClass]}>
+          <Icon name={item.icon} className="h-4 w-4" />
+        </div>
+        <span class="text-sm font-medium text-gray-700 md:text-base lg:text-lg">{item.value}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-8 flex justify-center text-sm md:text-base lg:text-lg">
+    <a
+      href="https://maps.app.goo.gl/Gb42LuDSMv4YcZXd6"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 font-medium text-white shadow-md transition-colors duration-300 hover:bg-blue-700"
+    >
+      <Icon name="map-marked-alt" className="h-5 w-5 flex-shrink-0" />
+      <span>{content.mapButtonLabel}</span>
+    </a>
+  </div>
+
+  <div class="mt-8 rounded-lg bg-white px-4 pt-6 pb-2 shadow-md sm:px-8 sm:pt-8 sm:pb-4 lg:px-12 lg:pt-16 lg:pb-8">
+    <p class="text-sm text-gray-700 md:text-base lg:text-lg">
+      {content.intro}
+    </p>
+
+    <div class="mt-6 flex justify-center py-2 md:px-6 md:py-6 lg:px-24">
+      <div class="w-full overflow-hidden rounded-lg shadow-md">
+        <img
+          src="/2025/access-guides/map-1.jpg"
+          alt={content.conferenceMapAlt}
+          class="h-auto w-full"
+        />
+      </div>
+    </div>
+  </div>
+
+  <h2 class="mt-12 flex items-center text-xl font-bold text-gray-700 md:text-2xl">
+    <Icon name="information-circle-outline" className="mr-4 h-7 w-7 flex-shrink-0 text-blue-600" />
+    <span>{content.usefulInformationHeading}</span>
+  </h2>
+
+  <div class="mt-6 rounded-lg bg-white px-4 py-8 shadow-md sm:px-6 md:px-10 lg:px-12 lg:py-16">
+    <h3 class="mb-4 grid grid-cols-5 items-center gap-4 text-xl font-semibold text-blue-700 md:flex">
+      <Icon name="map-marked-alt" className="col-span-1 w-full md:mr-2 md:h-6 md:w-6 lg:mr-4 lg:h-8 lg:w-8" />
+      <span class="col-span-4 text-base sm:text-lg lg:text-xl">
+        {content.gettingToCityuHeading}
+      </span>
+    </h3>
+
+    <p class="mt-4 text-sm text-gray-700 md:text-base lg:text-lg">
+      {content.cityuEntranceDescription}
+    </p>
+
+    <div class="mt-6">
+      <h4 class="mb-2 flex items-center text-base font-semibold text-gray-800 md:text-lg">
+        <Icon name="subway" className="mr-4 h-5 w-5 flex-shrink-0 text-fuchsia-600" />
+        {content.byMtrHeading}
+      </h4>
+
+      <div class="rounded-md bg-gray-50 p-6 text-sm/6 md:text-base/7 xl:text-lg/8">
+        <p class="mb-4 text-gray-700">
+          {content.byMtrDescription}
+        </p>
+
+        <div class="mb-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <img
+            src="/2025/access-guides/map-2.jpg"
+            alt={content.mtrExitGuideAlt}
+            class="h-auto w-full rounded-md shadow-sm"
+          />
+          <img
+            src="/2025/access-guides/access-guide-mtr.jpg"
+            alt={content.mtrAccessGuideAlt}
+            class="h-auto w-full rounded-md shadow-sm"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <h4 class="flex items-center text-base font-semibold text-gray-800 md:text-lg">
+        <Icon name="taxi" className="mr-4 h-5 w-5 flex-shrink-0 text-amber-500" />
+        {content.byTaxiHeading}
+      </h4>
+
+      <div class="mt-2 rounded-md bg-gray-50 p-6 text-sm/6 md:text-base/7 xl:text-lg/8">
+        <p class="mb-4 text-gray-700">
+          {content.byTaxiDescription}
+        </p>
+
+        <div class="flex justify-center">
+          <img
+            src="/2025/access-guides/map-4.jpg"
+            alt={content.taxiCardAlt}
+            class="h-auto w-full max-w-sm rounded-md shadow-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-12 rounded-lg bg-white px-5 py-8 shadow-md sm:px-8 md:px-10 lg:px-12 lg:py-16">
+    <h3 class="mb-4 grid grid-cols-5 items-center gap-4 text-xl font-semibold text-blue-700 md:flex">
+      <Icon name="location-marker-outline" className="col-span-1 w-full md:mr-2 md:h-6 md:w-6 lg:mr-4 lg:h-8 lg:w-8" />
+      <span class="col-span-4 text-base sm:text-lg lg:text-xl">
+        {content.keyLocationsHeading}
+      </span>
+    </h3>
+
+    <div class="flex justify-center">
+      <img
+        src="/2025/access-guides/map-3.png"
+        alt={content.buildingMapAlt}
+        class="h-auto w-full max-w-2xl rounded-md shadow-sm"
+      />
+    </div>
+  </div>
+
+  <div class="mt-12 rounded-lg bg-white px-5 py-8 shadow-md sm:px-8 md:px-10 lg:px-12 lg:py-16">
+    <h3 class="mb-4 grid grid-cols-5 items-center gap-4 text-xl font-semibold text-blue-700 md:flex">
+      <Icon name="wifi-outline" className="col-span-1 w-full md:mr-2 md:h-6 md:w-6 lg:mr-4 lg:h-8 lg:w-8" />
+      <span class="col-span-4 text-base sm:text-lg lg:text-xl">
+        {content.wifiHeading}
+      </span>
+    </h3>
+
+    <div class="text-sm/6 md:flex md:text-base/7 xl:text-lg/8">
+      <div class="mb-4 md:mb-0 md:w-2/3 md:pr-6">
+        <p class="mb-4 text-gray-700">
+          {content.wifiIntro}
+        </p>
+
+        <ol class="list-inside list-decimal space-y-4 text-gray-700">
+          {wifiSteps.map((step) => (
+            <li>{step}</li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="flex justify-center md:w-1/3">
+        <img
+          src="/2025/access-guides/cityu-wifi.jpg"
+          alt={content.wifiImageAlt}
+          class="h-auto w-full max-w-xs rounded-md shadow-sm"
+        />
+      </div>
+    </div>
+  </div>
+</div>

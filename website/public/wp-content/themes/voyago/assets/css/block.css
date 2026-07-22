@@ -1,0 +1,125 @@
+/* ================= > Button Hover < ================= */
+
+.wp-block-button.is-style-button-hover-opacity > a:hover {
+  opacity: 0.8 !important;
+}
+
+.wp-block-button.is-style-button-hover-white-fill > a:hover {
+  color: #333 !important;
+  background: #fff !important;
+  border-color: var(--wp--preset--color--custom-primary) !important;
+  border: 1px solid;
+}
+
+.wp-block-button.is-style-button-hover-primary-fill > a:hover {
+  color: #fff !important;
+  background: var(--wp--preset--color--custom-primary) !important;
+}
+
+/* ================= > Animations < ================= */
+
+.wp-block-group:is(
+    .is-style-slide-up-fade-in.animate,
+    .is-style-slide-down-fade-in.animate,
+    .is-style-slide-left-fade-in.animate,
+    .is-style-slide-right-fade-in.animate
+  ) {
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+  animation-fill-mode: forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.is-style-slide-up-fade-in.animate {
+  animation: slide-up-fade-in ease 1s;
+}
+
+@keyframes slide-up-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(0px, 40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+.is-style-slide-down-fade-in.animate {
+  animation: slide-down-fade-in ease 1s;
+}
+
+@keyframes slide-down-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(0px, -40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+.is-style-slide-left-fade-in.animate {
+  animation: slide-left-fade-in ease 1s;
+}
+
+@keyframes slide-left-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(-40px, 0px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+.is-style-slide-right-fade-in.animate {
+  animation: slide-right-fade-in ease 1s;
+}
+
+@keyframes slide-right-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(40px, 0px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+.is-style-clipIn.animate {
+  animation: clipIn;
+  transition-duration: 0.75s;
+  transition-delay: 0.5s;
+  animation-duration: 0.75s;
+  transition-timing-function: ease;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes clipIn {
+  0% {
+    clip-path: polygon(0 0, 10% 0, 0% 100%, 0% 100%);
+  }
+
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+}
+
+.preClip {
+  clip-path: ellipse(0% 100% at 0 0);
+  -webkit-clip-path: ellipse(0% 100% at 0 0);
+  transition-property:
+    clip-path,
+    -webkit-clip-path;
+  transform: translatez(0);
+}

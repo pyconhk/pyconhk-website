@@ -1,0 +1,19 @@
+---
+import { decodeCloudflareProtectedEmails } from '@/legacy/cloudflare-email';
+import { cleanLegacyHtml } from '@/legacy/legacy-html';
+import { resolveLegacy2015HtmlImages } from '@/years/2015/data/assets';
+import type { Legacy2015Page } from '@/years/2015/data/types';
+
+interface Props {
+  page: Legacy2015Page;
+}
+
+const { page } = Astro.props;
+const bodyHtml = await resolveLegacy2015HtmlImages(
+  cleanLegacyHtml(decodeCloudflareProtectedEmails(page.bodyHtml), {
+    route: page.route,
+  })
+);
+---
+
+<Fragment set:html={bodyHtml} />

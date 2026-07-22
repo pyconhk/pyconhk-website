@@ -1,0 +1,8 @@
+---
+import { defaultLocale, type SiteYear } from '@/config/site';
+import HomePage from '@/years/2025/routes/HomePage.astro';
+
+const year: SiteYear = 2025;
+---
+
+<HomePage year={year} locale={defaultLocale} />

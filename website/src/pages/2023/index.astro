@@ -1,0 +1,8 @@
+---
+import Legacy2023Page from '@/years/2023/components/Legacy2023Page.astro';
+import { getLegacy2023Page } from '@/years/2023/data/pages';
+
+const page = getLegacy2023Page('/2023/');
+---
+
+<Legacy2023Page page={page} />

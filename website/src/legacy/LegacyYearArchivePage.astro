@@ -1,0 +1,893 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { archiveMonths } from '@/legacy/archive-months';
+import { conferenceArchiveHistoryLinks } from '@/legacy/conference-archive-links';
+import { canonicalLegacyHref, cleanLegacyHtml } from '@/legacy/legacy-html';
+import type { LegacyArchiveRecord } from '@/legacy/legacy-indexes';
+import { legacyHighlightNavLinks } from '@/legacy/year-highlights';
+
+interface Props {
+  page: LegacyArchiveRecord;
+  year: string;
+  headingKind?: 'Category' | 'Month' | 'Year';
+  label?: string;
+}
+
+const { headingKind = 'Year', label: labelProp, page, year } = Astro.props;
+const label = labelProp ?? year;
+const title =
+  page.pageNumber > 1
+    ? `${label} - PyCon HK - Page ${page.pageNumber}`
+    : `${label} - PyCon HK`;
+const description = page.description || `PyCon HK ${label} archive.`;
+const pageItems = page.items.map((item) => ({
+  ...item,
+  excerptHtml: cleanLegacyHtml(item.excerptHtml, { event: year }),
+  href: canonicalLegacyHref(item.href, { event: year }),
+  image: item.image
+    ? {
+        ...item.image,
+        src: canonicalLegacyHref(item.image.src, { event: year }),
+      }
+    : undefined,
+}));
+const paginationItems = page.pagination.map((item) => ({
+  ...item,
+  href: item.href ? canonicalLegacyHref(item.href, { event: year }) : undefined,
+}));
+const navGroups = [
+  {
+    href: '/2024/photos',
+    label: 'Conference Highlights',
+    links: legacyHighlightNavLinks,
+  },
+  {
+    href: '/2024/schedule/',
+    label: 'Schedule',
+    links: [
+      { href: '/2024/schedule/', label: '2024' },
+      { href: '/2023/2023-schedule/', label: '2023' },
+      { href: '/2022/2022-schedule/', label: '2022' },
+      { href: '/2021/2021-schedule/', label: '2021' },
+      { href: '/2020-fall/2020-fall-schedule/', label: '2020 Fall' },
+      { href: '/2020-spring/2020-spring-schedule/', label: '2020 Spring' },
+      { href: '/2018/schedule-2018/', label: '2018' },
+    ],
+  },
+  {
+    href: '/2024/2024-sponsors/',
+    label: 'Sponsors',
+    links: [
+      { href: '/2024/2024-sponsors/', label: '2024' },
+      { href: '/2023/2023-sponsors/', label: '2023' },
+      { href: '/2022/2022-sponsors/', label: '2022' },
+      { href: '/2021/2021-sponsors/', label: '2021' },
+      { href: '/2020-fall/sponsors-2020-fall/', label: '2020 Fall' },
+      { href: '/2018/sponsors-2018/', label: '2018' },
+    ],
+  },
+  {
+    href: '/2024/2024-supporting-organizations/',
+    label: 'Communities',
+    links: [
+      { href: '/2024/2024-supporting-organizations/', label: '2024' },
+      { href: '/2023/2023-supporting-organizations/', label: '2023' },
+      { href: '/2022/2022-supporting-organizations/', label: '2022' },
+    ],
+  },
+  {
+    href: '/2024/2024-booths/',
+    label: 'Booths',
+    links: [
+      { href: '/2024/2024-booths/', label: '2024' },
+      { href: '/2023/2023-booths/', label: '2023' },
+    ],
+  },
+  {
+    href: '/2024/2024-organizers/',
+    label: 'Organizers',
+    links: [
+      { href: '/2024/2024-organizers/', label: '2024' },
+      { href: '/2023/2023-organizers/', label: '2023' },
+      { href: '/2022/2022-organizers/', label: '2022' },
+    ],
+  },
+  {
+    href: '/2024/2024-volunteers/',
+    label: 'Volunteers',
+    links: [
+      { href: '/2024/2024-volunteers/', label: '2024' },
+      { href: '/2023/2023-volunteers/', label: '2023' },
+      { href: '/2022/2022-volunteers/', label: '2022' },
+      { href: '/2021/2021-staff/', label: '2021' },
+      { href: '/2020-fall/staff/', label: '2020 Fall' },
+      { href: '/2018/volunteers-2018/', label: '2018' },
+    ],
+  },
+];
+const historyLinks = conferenceArchiveHistoryLinks;
+const socialLinks = [
+  { href: 'https://www.instagram.com/pyconhk/', label: 'Instagram', short: 'ig' },
+  { href: 'https://www.linkedin.com/company/pyconhk', label: 'LinkedIn', short: 'in' },
+  { href: 'https://www.facebook.com/pyconhk', label: 'Facebook', short: 'f' },
+  { href: 'https://x.com/pyconhk', label: 'Twitter', short: 'x' },
+  { href: 'https://www.youtube.com/c/pyconhk', label: 'YouTube', short: 'yt' },
+];
+---
+
+<BaseLayout title={title} description={description} htmlLang="en-US">
+  <div class="legacy-year-site archive category hfeed header-image">
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+    <header id="masthead" class="sheader site-header clearfix">
+      <nav id="primary-site-navigation" class="primary-menu main-navigation clearfix">
+        <div class="top-nav-wrapper">
+          <div class="content-wrap nav-content">
+            <div class="logo-container">
+              <a class="logofont" href={`/${year}/`} rel="home">PyCon HK</a>
+            </div>
+            <div class="center-main-menu">
+              <ul id="primary-menu" class="pmenu">
+                {navGroups.map((group) => (
+                  <li class:list={['menu-item', group.links.length > 0 && 'menu-item-has-children']}>
+                    <a href={group.href}>{group.label}</a>
+                    {group.links.length > 0 && (
+                      <ul class="sub-menu">
+                        {group.links.map((link) => (
+                          <li class="menu-item">
+                            <a href={link.href}>{link.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <button class="mobile-menu-toggle" type="button" aria-label="Menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div id="content" class="site-content clearfix">
+      <div class="content-wrap">
+        <div id="primary" class="featured-content content-area">
+          <main
+            id="main"
+            class="site-main all-blog-articles"
+            data-pagefind-body
+            data-pagefind-filter={`year:${year}`}
+            data-pagefind-meta={`year:${year}`}
+          >
+            <header class="fbox page-header">
+              <h1 class="page-title">{headingKind}: <span>{label}</span></h1>
+            </header>
+
+            {pageItems.map((item) => (
+              <article class="posts-entry fbox blogposts-list post type-post status-publish format-standard has-post-thumbnail hentry">
+                <div class="featured-img-box">
+                  {item.image && (
+                    <a href={item.href} class="featured-thumbnail" rel="bookmark">
+                      <img
+                        width={item.image.width}
+                        height={item.image.height}
+                        src={item.image.src}
+                        class="attachment-marketingly-slider size-marketingly-slider wp-post-image"
+                        alt={item.image.alt}
+                        loading="lazy"
+                      />
+                    </a>
+                  )}
+                  <div class="content-wrapper">
+                    <header class="entry-header">
+                      <h2 class="entry-title">
+                        <a href={item.href} rel="bookmark">{item.title}</a>
+                      </h2>
+                      <div class="entry-meta">
+                        <div class="post-data-text">
+                          <span class="posted-on">
+                            Posted on{' '}
+                            <a href={item.href} rel="bookmark">
+                              <time class="entry-date published" datetime={item.isoDate}>{item.date}</time>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </header>
+
+                    <div class="entry-content">
+                      <div class="legacy-excerpt" set:html={item.excerptHtml} />
+                      <div class="text-center continuereading-wrap">
+                        <a href={item.href} class="continuereading" rel="bookmark">
+                          Read More
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+
+            {page.pagination.length > 0 && (
+              <div class="text-center pag-wrapper">
+                <ul class="page-numbers">
+                  {paginationItems.map((item) => (
+                    <li>
+                      {item.href ? (
+                        <a
+                          class:list={[
+                            'page-numbers',
+                            item.rel === 'prev' && 'prev',
+                            item.rel === 'next' && 'next',
+                          ]}
+                          href={item.href}
+                          rel={item.rel}
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <span
+                          class:list={['page-numbers', item.current && 'current']}
+                          aria-current={item.current ? 'page' : undefined}
+                        >
+                          {item.label}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </main>
+        </div>
+
+        <aside id="secondary" class="featured-sidebar widget-area">
+          <section class="fbox swidgets-wrap widget widget_block">
+            <ul class="wp-block-social-links aligncenter">
+              {socialLinks.map((link) => (
+                <li class="wp-social-link">
+                  <a href={link.href} aria-label={link.label}>{link.short}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section id="search-2" class="fbox swidgets-wrap widget widget_search">
+            <search>
+              <form method="get" class="search-form" action={`/${year}/search/`}>
+                <label>
+                  <span class="screen-reader-text">Search for:</span>
+                  <input type="search" class="search-field" placeholder="Search ..." value="" name="s" />
+                </label>
+                <input type="submit" class="search-submit" value="Search" />
+              </form>
+            </search>
+          </section>
+
+          <section id="archives-2" class="fbox swidgets-wrap widget widget_archive">
+            <div class="sidebar-headline-wrapper"><h4 class="widget-title">Archives</h4></div>
+            <label class="screen-reader-text" for="archives-dropdown-2">Archives</label>
+            <select id="archives-dropdown-2" name="archive-dropdown">
+              <option value="">Select Month</option>
+              {archiveMonths.map(({ path, label }) => (
+                <option value={`/${path}/`}>{label}</option>
+              ))}
+            </select>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <footer id="colophon" class="site-footer clearfix">
+      <div class="content-wrap">
+        <div class="footer-column-wrapper">
+          <div class="footer-column-three footer-column-left">
+            <section class="fbox widget widget_block">
+              <h3>History</h3>
+              <p>
+                {historyLinks.map((link, index) => (
+                  <>
+                    <a href={link.href}>{link.label}</a>
+                    {index === 4 && <br />}
+                    {index !== historyLinks.length - 1 && '  '}
+                  </>
+                ))}
+              </p>
+            </section>
+          </div>
+        </div>
+        <div class="site-info">
+          &copy;2026 PyCon HK
+          <span class="footer-info-right">
+            {' | Powered by '}
+            <a href="https://superbthemes.com/" rel="nofollow noopener">SuperbThemes!</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script is:inline>
+    const archiveDropdown = document.getElementById('archives-dropdown-2')
+    archiveDropdown?.addEventListener('change', (event) => {
+      const target = event.target
+
+      if (target instanceof HTMLSelectElement && target.value) {
+        document.location.href = target.value
+      }
+    })
+  </script>
+</BaseLayout>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+
+  .legacy-year-site,
+  .legacy-year-site * {
+    box-sizing: border-box;
+  }
+
+  .legacy-year-site {
+    min-height: 100vh;
+    background: #eee;
+    color: #000;
+    font-family: Lato, 'helvetica neue', helvetica, arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.625;
+  }
+
+  .legacy-year-site a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  .legacy-year-site img {
+    max-width: 100%;
+    height: auto;
+    border: 0;
+  }
+
+  .legacy-year-site .clearfix::after,
+  .legacy-year-site .site-content::after,
+  .legacy-year-site .site-footer::after,
+  .legacy-year-site .site-header::after,
+  .legacy-year-site .entry-content::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+
+  .legacy-year-site .screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
+  .legacy-year-site .content-wrap {
+    width: 1180px;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .legacy-year-site .sheader {
+    width: 100%;
+    margin: 0;
+  }
+
+  .legacy-year-site .top-nav-wrapper,
+  .legacy-year-site .primary-menu .pmenu,
+  .legacy-year-site .primary-menu ul li ul.sub-menu {
+    background: #232323;
+  }
+
+  .legacy-year-site .top-nav-wrapper {
+    display: block;
+    float: left;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  }
+
+  .legacy-year-site .nav-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .legacy-year-site .logo-container {
+    float: left;
+    padding: 0;
+  }
+
+  .legacy-year-site .logofont {
+    display: inline-block;
+    padding: 16px 0;
+    color: #fff;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .legacy-year-site .center-main-menu {
+    min-width: 0;
+  }
+
+  .legacy-year-site .primary-menu .pmenu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+  }
+
+  .legacy-year-site .primary-menu li {
+    position: relative;
+    list-style: none;
+  }
+
+  .legacy-year-site .main-navigation ul li a {
+    display: block;
+    padding: 18px 10px;
+    color: #c7c7c7;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .legacy-year-site .main-navigation ul li a:hover,
+  .legacy-year-site .main-navigation ul li:focus-within > a {
+    color: #fff;
+  }
+
+  .legacy-year-site .sub-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 20;
+    display: none;
+    min-width: 240px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .legacy-year-site .menu-item-has-children:hover > .sub-menu,
+  .legacy-year-site .menu-item-has-children:focus-within > .sub-menu {
+    display: block;
+  }
+
+  .legacy-year-site .sub-menu a {
+    padding: 13px 18px;
+    text-align: left;
+  }
+
+  .legacy-year-site .mobile-menu-toggle {
+    display: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .legacy-year-site .mobile-menu-toggle span {
+    display: block;
+    width: 27px;
+    height: 4px;
+    margin: 4px 0;
+    border-radius: 1px;
+    background: #bbb;
+  }
+
+  .legacy-year-site .site-content {
+    display: block;
+    width: 100%;
+    padding: 55px 0 25px;
+  }
+
+  .legacy-year-site .featured-content {
+    float: left;
+    width: 66%;
+    margin-right: 4%;
+  }
+
+  .legacy-year-site .featured-sidebar {
+    float: left;
+    width: 30%;
+  }
+
+  .legacy-year-site .fbox {
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  }
+
+  .legacy-year-site header.fbox.page-header {
+    margin: 0 0 30px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .legacy-year-site .page-header h1 {
+    margin: 0 0 10px;
+    color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 150%;
+    text-align: center;
+  }
+
+  .legacy-year-site article.blogposts-list {
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 55px;
+    overflow: hidden;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  }
+
+  .legacy-year-site .featured-img-box {
+    display: block;
+  }
+
+  .legacy-year-site .featured-thumbnail {
+    position: relative;
+    display: inline-block;
+    float: left;
+    width: 100%;
+    min-width: 100%;
+    text-align: center;
+  }
+
+  .legacy-year-site .featured-thumbnail img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .legacy-year-site .content-wrapper {
+    position: relative;
+    float: left;
+    width: 100%;
+    padding: 10px 30px 30px;
+  }
+
+  .legacy-year-site .content-wrapper h2.entry-title {
+    margin: 0 0 5px;
+    color: #212121;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 110%;
+    text-align: center;
+  }
+
+  .legacy-year-site .content-wrapper h2.entry-title a {
+    color: #212121;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 110%;
+    text-decoration: none;
+  }
+
+  .legacy-year-site .entry-meta {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 5px;
+    padding: 0;
+    color: #000;
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .legacy-year-site .content-wrapper .post-data-text {
+    float: none;
+    margin: 3px 0 20px;
+    padding: 0;
+    color: #6f6f6f;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .legacy-year-site .content-wrapper .post-data-text * {
+    color: #6f6f6f;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .legacy-year-site article .entry-content {
+    color: rgba(0, 0, 0, 0.84);
+    font-family: Lato, 'helvetica neue', helvetica, arial, sans-serif;
+    font-size: 17px;
+    line-height: 140%;
+  }
+
+  .legacy-year-site .content-wrapper p {
+    margin: 0;
+    color: #797979;
+    font-size: 15px;
+    line-height: 140%;
+  }
+
+  .legacy-year-site .posts-entry .entry-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .legacy-year-site .continuereading-wrap {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .legacy-year-site a.continuereading {
+    display: inline-block;
+    margin: auto;
+    padding: 10px 25px;
+    border-radius: 3px;
+    background: #cca252;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .legacy-year-site .pag-wrapper {
+    display: inline-block;
+    float: left;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .legacy-year-site ul.page-numbers {
+    display: inline-block;
+    height: auto;
+    margin: 10px auto 20px;
+    padding: 0;
+  }
+
+  .legacy-year-site .page-numbers li {
+    display: inline-block;
+    list-style: none;
+  }
+
+  .legacy-year-site .page-numbers li a,
+  .legacy-year-site .page-numbers.current {
+    display: inline-block;
+    float: left;
+    margin: 0 5px;
+    padding: 10px 17px;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    color: #cca352;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.4s;
+  }
+
+  .legacy-year-site .page-numbers.current {
+    opacity: 0.5;
+  }
+
+  .legacy-year-site .widget {
+    float: left;
+    clear: both;
+    width: 100%;
+    padding: 8.8%;
+  }
+
+  .legacy-year-site .swidgets-wrap {
+    margin-bottom: 20px;
+  }
+
+  .legacy-year-site .wp-block-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .legacy-year-site .wp-social-link {
+    display: inline-flex;
+  }
+
+  .legacy-year-site .wp-social-link a {
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .legacy-year-site .search-form label {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .legacy-year-site #secondary .widget input.search-field {
+    width: 100%;
+    height: 46px;
+    padding: 16px;
+    border: 2px solid #eee;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0);
+    color: #333;
+    line-height: 46px;
+  }
+
+  .legacy-year-site .featured-sidebar .search-submit {
+    display: none;
+  }
+
+  .legacy-year-site #secondary .sidebar-headline-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .legacy-year-site #secondary .widget-title {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .legacy-year-site #secondary select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eee;
+    border-radius: 3px;
+    background: #fff;
+    color: #333;
+  }
+
+  .legacy-year-site .site-footer {
+    float: left;
+    width: 100%;
+    padding: 35px 0;
+    background: #232323;
+  }
+
+  .legacy-year-site .footer-column-wrapper {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  .legacy-year-site .footer-column-three {
+    width: 33.333%;
+    min-width: 260px;
+    padding-right: 10px;
+  }
+
+  .legacy-year-site .footer-column-three h3 {
+    margin: 0 0 15px;
+    padding: 0;
+    color: #fff;
+    font-family: Lato, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .legacy-year-site .footer-column-three h3::after {
+    display: block;
+    width: 40px;
+    height: 2px;
+    margin-top: 7px;
+    background: rgba(255, 255, 255, 0.24);
+    content: ' ';
+  }
+
+  .legacy-year-site .footer-column-three p {
+    margin: 0;
+    color: #e5e5e5;
+    font-size: 14px;
+  }
+
+  .legacy-year-site .footer-column-three a {
+    color: #fff;
+  }
+
+  .legacy-year-site .site-info {
+    float: left;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .legacy-year-site .site-info a {
+    color: #fff;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .legacy-year-site .nav-content {
+      display: flex;
+      min-height: 50px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .legacy-year-site .logofont {
+      padding-top: 14px;
+      padding-bottom: 13px;
+    }
+
+    .legacy-year-site .center-main-menu {
+      display: none;
+    }
+
+    .legacy-year-site .mobile-menu-toggle {
+      display: block;
+    }
+
+    .legacy-year-site .featured-content,
+    .legacy-year-site .featured-sidebar {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    .legacy-year-site ul.page-numbers {
+      margin-bottom: 50px;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .legacy-year-site .page-header h1 {
+      font-size: 25px;
+    }
+
+    .legacy-year-site .content-wrapper h2.entry-title a {
+      font-size: 20px;
+    }
+
+    .legacy-year-site article .entry-content {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .legacy-year-site .page-numbers li {
+      display: inline;
+    }
+
+    .legacy-year-site .page-numbers li a,
+    .legacy-year-site span.page-numbers.current {
+      display: none;
+    }
+
+    .legacy-year-site .page-numbers li a.prev,
+    .legacy-year-site .page-numbers li a.next {
+      display: inline-block;
+    }
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+import Legacy2022Page from '@/years/2022/components/Legacy2022Page.astro';
+import { legacy2022Pages } from '@/years/2022/data/pages';
+
+export function getStaticPaths() {
+  return legacy2022Pages
+    .filter((page) => page.route.startsWith('/2022/page/'))
+    .map((page) => ({
+      params: { page: page.route.replace('/2022/page/', '').replace(/\/$/u, '') },
+      props: { page },
+    }));
+}
+
+const { page } = Astro.props;
+---
+
+<Legacy2022Page page={page} />

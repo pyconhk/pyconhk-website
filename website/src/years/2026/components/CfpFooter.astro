@@ -1,0 +1,140 @@
+---
+import { currentConferenceYear } from '@/config/site';
+import Icon from '@/years/2025/components/ui/Icon.astro';
+import { socialLinks } from '@/years/2025/data/about';
+import { archiveLinks } from '@/years/2025/data/footer';
+import type { CfpLocale } from '@/years/2026/data/cfp';
+import { privacyPolicyPath } from '@/years/2026/site';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+type FooterIconName = 'x' | 'linkedin' | 'youtube' | 'facebook' | 'instagram' | 'threads';
+
+const { locale } = Astro.props;
+
+const footerCopy: Record<
+  CfpLocale,
+  {
+    followUsHeading: string;
+    historyHeading: string;
+    privacyPolicyLabel: string;
+    rightsReserved: string;
+  }
+> = {
+  en: {
+    followUsHeading: 'Follow Us',
+    historyHeading: 'History',
+    privacyPolicyLabel: 'Privacy Policy',
+    rightsReserved: 'All rights reserved.',
+  },
+  'zh-hk': {
+    followUsHeading: '追蹤我們',
+    historyHeading: '歷史',
+    privacyPolicyLabel: '私隱政策',
+    rightsReserved: '保留所有權利。',
+  },
+  'zh-hant': {
+    followUsHeading: '追蹤我們',
+    historyHeading: '歷史',
+    privacyPolicyLabel: '隱私政策',
+    rightsReserved: '保留所有權利。',
+  },
+  'zh-hans': {
+    followUsHeading: '关注我们',
+    historyHeading: '历年活动',
+    privacyPolicyLabel: '隐私政策',
+    rightsReserved: '保留所有权利。',
+  },
+  ko: {
+    followUsHeading: '팔로우',
+    historyHeading: '지난 행사',
+    privacyPolicyLabel: 'Privacy Policy',
+    rightsReserved: 'All rights reserved.',
+  },
+  ja: {
+    followUsHeading: 'フォローする',
+    historyHeading: '過去開催',
+    privacyPolicyLabel: 'プライバシーポリシー',
+    rightsReserved: 'All rights reserved.',
+  },
+};
+
+const footerSiteName = 'PyCon Hong Kong';
+const privacyPolicyHref = privacyPolicyPath(locale);
+const socialHrefByLabel = new Map(socialLinks.map((link) => [link.label, link.href]));
+const footerSocialLinkDefs = [
+  { label: 'X', icon: 'x' },
+  { label: 'LinkedIn', icon: 'linkedin' },
+  { label: 'YouTube', icon: 'youtube' },
+  { label: 'Facebook', icon: 'facebook' },
+  { label: 'Instagram', icon: 'instagram' },
+  { label: 'Threads', icon: 'threads' },
+] as const satisfies readonly { label: string; icon: FooterIconName }[];
+
+const footerSocialLinks = footerSocialLinkDefs.map((item) => ({
+  ...item,
+  href: socialHrefByLabel.get(item.label),
+}));
+
+const copy = footerCopy[locale];
+---
+
+<footer class="w-full bg-slate-700 text-white">
+  <div class="container mx-auto px-8 pt-12 pb-6">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div>
+        <h3 class="mb-4 text-xl font-bold">{copy.followUsHeading}</h3>
+        <div class="flex items-center gap-6">
+          {
+            footerSocialLinks.map((item) =>
+              item.href ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-white transition-colors duration-300 hover:text-gray-400"
+                  aria-label={item.label}
+                >
+                  <span class="sr-only">{item.label}</span>
+                  <Icon name={item.icon} className="h-6 w-6" />
+                </a>
+              ) : null
+            )
+          }
+        </div>
+      </div>
+
+      <div>
+        <h3 class="mb-4 text-xl font-bold">{copy.historyHeading}</h3>
+        <div class="flex flex-wrap gap-4">
+          {
+            archiveLinks.map((archiveLink) => (
+              <a
+                href={archiveLink.href}
+                class="whitespace-nowrap text-white transition-colors duration-300 hover:text-gray-400"
+              >
+                {archiveLink.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-auto px-4">
+    <div class="mx-auto my-2 h-px max-w-full bg-[linear-gradient(to_right,rgba(75,85,99,0),rgba(75,85,99,1)_30%,rgba(75,85,99,1)_70%,rgba(75,85,99,0)_100%)]"></div>
+  </div>
+
+  <div class="container mx-auto flex items-center justify-center px-4 py-4 text-center text-sm font-semibold text-gray-200">
+    © {currentConferenceYear} {footerSiteName}. {copy.rightsReserved}
+  </div>
+
+  <div class="pb-8 text-center text-sm text-gray-300">
+    <a href={privacyPolicyHref} class="transition-colors duration-300 hover:text-white">
+      {copy.privacyPolicyLabel}
+    </a>
+  </div>
+</footer>

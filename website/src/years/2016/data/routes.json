@@ -1,0 +1,37 @@
+{
+  "requiredRoutes": [
+    "/2016/",
+    "/2016/about/",
+    "/2016/code-of-conducts/",
+    "/2016/dev-sprint/",
+    "/2016/participate/",
+    "/2016/program/",
+    "/2016/program/the-pandas-project-and-its-future/",
+    "/2016/program/developing-python-applications-on-cloud/",
+    "/2016/program/building-ai-chat-bot-using-python-3-and-tensorflow/",
+    "/2016/program/deepwhale-recognizing-and-localizing-endangered-right-whales-with-extremely-deep-neural-networks/",
+    "/2016/program/creating-python-application-with-mysql-using-mysql-connector-and-mysql-router/",
+    "/2016/program/reproducible-data-analysis-in-python/",
+    "/2016/program/unlocking-pdfs-by-machine-learning/",
+    "/2016/program/make-your-computer-see-listen-speak-and-predict-with-python/",
+    "/2016/program/using-python-to-work-with-document-in-mysql/",
+    "/2016/program/panel-discussion-hk-education-and-python/",
+    "/2016/program/a-girls-guide-to-growing-a-moustache/",
+    "/2016/program/how-to-use-coroutine-to-build-a-socket-server/",
+    "/2016/program/decorators-demystified/",
+    "/2016/program/analyze-camera-images-with-deep-learning-in-python/",
+    "/2016/program/massive-open-online-course-architecture-using-python-and-web-platform/",
+    "/2016/program/sci-kit-learn-babystep/",
+    "/2016/program/aIorchestra-lesson-learn-while-using-asyncio-coroutines-on-dynamic-sequenced-tasks/",
+    "/2016/sponsor/",
+    "/2016/venue/",
+    "/2016/volunteer/",
+    "/2016/photos/"
+  ],
+  "visualSampleRoutes": ["/2016/", "/2016/program/", "/2016/sponsor/", "/2016/photos/"],
+  "migratedTopLevelRoutes": [
+    { "from": "/conference-highlights/2016-photos/", "to": "/2016/photos" }
+  ],
+  "internalRouteRewrites": [],
+  "compatibilityRoutes": []
+}

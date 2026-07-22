@@ -1,0 +1,441 @@
+---
+import {
+  type LocalizedValue,
+  resolveRequiredLocalizedValue,
+  type SiteLocale,
+  type SiteYear,
+} from '@/config/site';
+import { buildLocalizedPath } from '@/lib/routing';
+import {
+  getLocalizedText,
+  getLocalizedTextList,
+  getSprintLevelLabel,
+  type SprintProject,
+  sprintFacts,
+  sprintProjects,
+  sprintSchedule,
+} from '@/years/2025/data/sprint';
+import { callForSprintUrl } from '@/years/2025/external-links';
+
+interface Props {
+  year: SiteYear;
+  locale: SiteLocale;
+}
+
+const { year, locale } = Astro.props;
+
+type SprintPageCopy = {
+  title: string;
+  prepEyebrow: string;
+  prepTitle: string;
+  prepDescription: string;
+  laptopTitle: string;
+  laptopDescription: string;
+  discordTitle: string;
+  discordDescription: string;
+  testTitle: string;
+  testDescription: string;
+  testWarning: string;
+  warningLabel: string;
+  scheduleHeading: string;
+  timeLabel: string;
+  itemLabel: string;
+  projectsHeading: string;
+  projectBadge: string;
+  leadLabel: string;
+  githubLabel: string;
+  discordLabel: string;
+  goalsLabel: string;
+  openBadge: string;
+  submitProjects: string;
+  faqBadge: string;
+  qnaLabel: string;
+};
+
+const copy: LocalizedValue<SprintPageCopy> = {
+  en: {
+    title: 'Sprint Day',
+    prepEyebrow: 'Preparation',
+    prepTitle: 'Get Prepared for a Productive Sprint!',
+    prepDescription:
+      'To ensure everyone has a smooth and productive experience, please read the following preparation steps carefully. A little setup beforehand makes a huge difference.',
+    laptopTitle: 'Laptop & System Requirements',
+    laptopDescription:
+      "Please bring a laptop with a minimum of 2 CPU cores & 8 GB RAM. Don't forget your charger.",
+    discordTitle: 'Join the Discord Channels',
+    discordDescription:
+      'Our dedicated Discord channels are your primary resource for pre-event communication. By joining, you can get a head start, interact with sprint leaders, and meet fellow participants.',
+    testTitle: 'Mandatory: The Installation Test',
+    testDescription:
+      'Our sprint leaders have prepared an installation test or setup guide for their projects. Completing this before you arrive is crucial to verify your environment has all necessary dependencies.',
+    testWarning:
+      'To ensure the productivity of the group, sprint leaders may not be able to accommodate participants whose systems do not pass the installation test. A successful setup guarantees you can participate fully.',
+    warningLabel: 'Please be aware:',
+    scheduleHeading: 'Schedule',
+    timeLabel: 'Time',
+    itemLabel: 'Item',
+    projectsHeading: 'Sprint Projects',
+    projectBadge: 'Sprint Project',
+    leadLabel: 'Lead',
+    githubLabel: 'GitHub',
+    discordLabel: 'Discord Channel',
+    goalsLabel: 'Goals',
+    openBadge: 'Open',
+    submitProjects: 'Submit your Sprint Projects',
+    faqBadge: 'FAQ',
+    qnaLabel: 'Sprint Q&A',
+  },
+  'zh-hk': {
+    title: 'Sprint Day',
+    prepEyebrow: '活動前準備',
+    prepTitle: '先準備好，Sprint 當日會順好多',
+    prepDescription:
+      '想大家到場之後可以即刻投入，以下幾樣請先睇清楚。提早做少少 setup，當日就會順好多。',
+    laptopTitle: '電腦與系統需求',
+    laptopDescription:
+      '請攜帶一部至少具備 2 個 CPU 核心及 8 GB RAM 的手提電腦，並記得帶備充電器。',
+    discordTitle: '加入 Discord 頻道',
+    discordDescription:
+      '專屬 Discord 頻道會係活動前最主要嘅溝通地方。早啲加入，你可以先同 Sprint Lead 傾下專案內容，亦可以先識其他參加者。',
+    testTitle: '必須完成：安裝測試',
+    testDescription:
+      '每位 Sprint Lead 都已經為自己個專案準備咗安裝測試或者 setup 指引。請務必喺到場前完成，確認你部機已經裝齊所需依賴。',
+    testWarning:
+      '為咗唔影響小組進度，如果系統未通過安裝測試，Sprint Lead 未必可以即場幫你搞掂。預先做好設定，先可以由頭到尾投入參與。',
+    warningLabel: '請注意：',
+    scheduleHeading: '當日流程',
+    timeLabel: '時間',
+    itemLabel: '項目',
+    projectsHeading: 'Sprint 專案',
+    projectBadge: 'Sprint 專案',
+    leadLabel: 'Lead',
+    githubLabel: 'GitHub',
+    discordLabel: 'Discord 頻道',
+    goalsLabel: '目標',
+    openBadge: '招募中',
+    submitProjects: '提交你的 Sprint 專案',
+    faqBadge: '常見問題',
+    qnaLabel: 'Sprint Q&A',
+  },
+  'zh-hant': {
+    title: 'Sprint Day',
+    prepEyebrow: '活動前準備',
+    prepTitle: '先準備好，Sprint 當日會更順暢',
+    prepDescription:
+      '希望大家到場後可以立刻投入，以下幾項請先確認。事前做好一點設定，當天就會更順利。',
+    laptopTitle: '電腦與系統需求',
+    laptopDescription:
+      '請攜帶一部至少具備 2 個 CPU 核心與 8 GB RAM 的筆記型電腦，並記得帶上充電器。',
+    discordTitle: '加入 Discord 頻道',
+    discordDescription:
+      '專屬 Discord 頻道會是活動前最主要的溝通空間。提早加入後，你可以先和 Sprint Lead 交流專案內容，也能先認識其他參加者。',
+    testTitle: '必做事項：安裝測試',
+    testDescription:
+      '每位 Sprint Lead 都已為自己的專案準備安裝測試或 setup 指引。請務必在到場前完成，確認你的電腦已安裝所需依賴。',
+    testWarning:
+      '為避免影響小組進度，如果系統未通過安裝測試，Sprint Lead 未必能在現場協助完成設定。事前準備好，才能從頭到尾投入參與。',
+    warningLabel: '請注意：',
+    scheduleHeading: '當日流程',
+    timeLabel: '時間',
+    itemLabel: '項目',
+    projectsHeading: 'Sprint 專案',
+    projectBadge: 'Sprint 專案',
+    leadLabel: 'Lead',
+    githubLabel: 'GitHub',
+    discordLabel: 'Discord 頻道',
+    goalsLabel: '目標',
+    openBadge: '招募中',
+    submitProjects: '提交你的 Sprint 專案',
+    faqBadge: '常見問題',
+    qnaLabel: 'Sprint Q&A',
+  },
+  'zh-hans': {
+    title: 'Sprint Day',
+    prepEyebrow: '活动前准备',
+    prepTitle: '先准备好，Sprint 当天会更顺畅',
+    prepDescription:
+      '希望大家到场后可以立刻投入，以下几项请先确认。提前做一点 setup，当天就会顺利很多。',
+    laptopTitle: '电脑与系统需求',
+    laptopDescription:
+      '请携带一部至少具备 2 个 CPU 核心与 8 GB RAM 的笔记本电脑，并记得带上充电器。',
+    discordTitle: '加入 Discord 频道',
+    discordDescription:
+      '专属 Discord 频道会是活动前最主要的沟通空间。提早加入后，你可以先和 Sprint Lead 交流项目内容，也能先认识其他参与者。',
+    testTitle: '必做事项：安装测试',
+    testDescription:
+      '每位 Sprint Lead 都已为自己的项目准备安装测试或 setup 指引。请务必在到场前完成，确认你的电脑已安装所需依赖。',
+    testWarning:
+      '为避免影响小组进度，如果系统未通过安装测试，Sprint Lead 未必能在现场协助完成设置。事前准备好，才能从头到尾投入参与。',
+    warningLabel: '请注意：',
+    scheduleHeading: '当天流程',
+    timeLabel: '时间',
+    itemLabel: '项目',
+    projectsHeading: 'Sprint 项目',
+    projectBadge: 'Sprint 项目',
+    leadLabel: 'Lead',
+    githubLabel: 'GitHub',
+    discordLabel: 'Discord 频道',
+    goalsLabel: '目标',
+    openBadge: '招募中',
+    submitProjects: '提交你的 Sprint 项目',
+    faqBadge: '常见问题',
+    qnaLabel: 'Sprint Q&A',
+  },
+  ja: {
+    title: 'スプリント開発デー',
+    prepEyebrow: '事前準備',
+    prepTitle: 'Sprint Day を気持ちよく始めるために',
+    prepDescription:
+      '当日すぐに作業へ入れるよう、以下の準備事項を事前に確認してください。少しセットアップしておくだけで、当日の進行がずっとスムーズになります。',
+    laptopTitle: 'PC と動作環境',
+    laptopDescription:
+      'CPU 2コア以上、メモリ 8 GB 以上のノートPCをご持参ください。充電器もお忘れなく。',
+    discordTitle: 'Discord チャンネルに参加',
+    discordDescription:
+      '専用 Discord チャンネルは、イベント前の主な連絡手段です。早めに参加しておくと、Sprint Lead に相談したり、ほかの参加者と先に交流したりできます。',
+    testTitle: '必須: インストールテスト',
+    testDescription:
+      '各 Sprint Lead が、担当プロジェクト向けのインストールテストまたはセットアップ手順を用意しています。来場前に必ず完了し、必要な依存関係がそろっていることを確認してください。',
+    testWarning:
+      'グループ全体の進行を守るため、インストールテストを通過していない環境については、Sprint Lead が当日に個別対応できない場合があります。事前準備ができていれば、最初から最後までしっかり参加できます。',
+    warningLabel: 'ご注意:',
+    scheduleHeading: 'スケジュール',
+    timeLabel: '時間',
+    itemLabel: '内容',
+    projectsHeading: 'Sprint プロジェクト',
+    projectBadge: 'Sprint Project',
+    leadLabel: 'Lead',
+    githubLabel: 'GitHub',
+    discordLabel: 'Discord チャンネル',
+    goalsLabel: '目標',
+    openBadge: '募集中',
+    submitProjects: 'Sprint プロジェクトを提出',
+    faqBadge: 'FAQ',
+    qnaLabel: 'スプリント開発 Q&A',
+  },
+};
+
+const content = resolveRequiredLocalizedValue(copy, locale);
+
+function getProjectDescription(project: SprintProject): readonly string[] {
+  return getLocalizedTextList(project.description, locale);
+}
+
+function getProjectGoals(project: SprintProject): readonly string[] {
+  return getLocalizedTextList(project.goals, locale);
+}
+
+const sprintQnaHref = buildLocalizedPath(year, locale, 'sprint/qna');
+
+function getFactClasses(tone: 'amber' | 'blue'): string[] {
+  return tone === 'amber'
+    ? ['bg-amber-50 text-amber-700 ring-amber-100']
+    : ['bg-blue-50 text-blue-700 ring-blue-100'];
+}
+
+function getLevelClasses(level: SprintProject['level']): string[] {
+  return level === 'all-levels'
+    ? ['bg-blue-100 text-blue-700']
+    : ['bg-yellow-100 text-yellow-700'];
+}
+---
+
+<div class="mx-auto max-w-4xl">
+  <h1 class="mb-8 text-center text-xl font-bold leading-tight text-gray-700 sm:text-2xl md:text-3xl lg:text-4xl">
+    {content.title}
+  </h1>
+
+  <div class="mb-12 rounded-2xl border-l-4 border-amber-400 bg-amber-50 p-6 shadow-sm">
+    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-700">
+          {content.prepEyebrow}
+        </p>
+        <h2 class="mt-2 text-xl font-bold text-amber-800">{content.prepTitle}</h2>
+      </div>
+      <p class="max-w-2xl text-sm/relaxed text-amber-900/90 md:text-base/relaxed">
+        {content.prepDescription}
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <article class="rounded-xl bg-white/80 p-5 shadow-sm ring-1 ring-amber-100">
+        <span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+          01
+        </span>
+        <h3 class="mt-4 font-bold text-gray-800">{content.laptopTitle}</h3>
+        <p class="mt-2 text-sm text-gray-700 md:text-base">{content.laptopDescription}</p>
+      </article>
+
+      <article class="rounded-xl bg-white/80 p-5 shadow-sm ring-1 ring-indigo-100 md:col-span-2">
+        <span class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-indigo-700">
+          02
+        </span>
+        <h3 class="mt-4 font-bold text-gray-800">{content.discordTitle}</h3>
+        <p class="mt-2 text-sm text-gray-700 md:text-base">{content.discordDescription}</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          {sprintProjects.map((project) => (
+            <div class="rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200">
+              <p class="text-sm font-medium text-slate-800">{project.title}</p>
+              <a
+                href={project.discordChannel}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block text-sm font-semibold text-blue-600 hover:underline"
+              >
+                #{project.discordChannelDisplay}
+              </a>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article class="rounded-xl bg-white/80 p-5 shadow-sm ring-1 ring-rose-100 md:col-span-3">
+        <span class="inline-flex rounded-full bg-rose-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-rose-700">
+          03
+        </span>
+        <h3 class="mt-4 font-bold text-gray-800">{content.testTitle}</h3>
+        <p class="mt-2 text-sm text-gray-700 md:text-base">{content.testDescription}</p>
+        <p class="mt-2 text-sm text-gray-700 md:text-base">
+          <strong>{content.warningLabel}</strong>
+          {' '}{content.testWarning}
+        </p>
+      </article>
+    </div>
+  </div>
+
+  <div class="rounded-2xl bg-white p-4 shadow-md md:p-6">
+    <div class="mt-2 grid gap-4 md:grid-cols-2">
+      {sprintFacts.map((fact) => (
+        <div class:list={['rounded-xl px-5 py-4 shadow-sm ring-1', ...getFactClasses(fact.tone)]}>
+          <p class="text-xs font-bold uppercase tracking-[0.16em]">
+            {getLocalizedText(fact.label, locale)}
+          </p>
+          <p class="mt-2 text-base font-semibold md:text-lg">
+            {getLocalizedText(fact.value, locale)}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-4 md:mt-6">
+      <h2 class="mb-4 text-xl font-bold text-gray-700">{content.scheduleHeading}</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full rounded-xl border border-gray-200 bg-white">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border-b px-4 py-2 text-left">{content.timeLabel}</th>
+              <th class="border-b px-4 py-2 text-left">{content.itemLabel}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sprintSchedule.map((schedule, index) => (
+              <tr class={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <td class="border-b px-4 py-2">{schedule.startTime} - {schedule.endTime}</td>
+                <td class="border-b px-4 py-2">{getLocalizedText(schedule.item, locale)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <h2 class="mb-4 text-xl font-bold text-gray-700">{content.projectsHeading}</h2>
+
+      {sprintProjects.map((project) => (
+        <div class="mb-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6">
+          <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class:list={[
+                  'rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.16em]',
+                  ...getLevelClasses(project.level),
+                ]}>
+                  {getSprintLevelLabel(project.level, locale)}
+                </span>
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
+                  {content.projectBadge}
+                </span>
+              </div>
+              <h3 class="mt-4 text-lg font-bold text-purple-600 md:text-xl">{project.title}</h3>
+            </div>
+
+            <div class="rounded-full bg-slate-50 px-4 py-2 text-sm text-slate-600 ring-1 ring-slate-200">
+              <span class="font-medium">{content.leadLabel}:</span> {project.sprintLead}
+            </div>
+          </div>
+
+          {getProjectDescription(project).length > 0 && (
+            <div class="mt-4 space-y-4 text-sm/relaxed text-gray-700 md:text-base lg:text-lg">
+              {getProjectDescription(project).map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          )}
+
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <div class="rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                {content.githubLabel}
+              </p>
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-2 inline-block break-all text-sm font-medium text-blue-600 hover:underline md:text-base"
+              >
+                {project.githubLinkDisplay}
+              </a>
+            </div>
+
+            <div class="rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                {content.discordLabel}
+              </p>
+              <a
+                href={project.discordChannel}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-2 inline-block break-all text-sm font-medium text-blue-600 hover:underline md:text-base"
+              >
+                #{project.discordChannelDisplay}
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-4 rounded-xl bg-purple-50 p-4 ring-1 ring-purple-100">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-purple-700">
+              {content.goalsLabel}
+            </p>
+            <ul class="mt-3 list-disc pl-5 text-sm/relaxed text-gray-700 md:text-base lg:text-lg">
+              {getProjectGoals(project).map((goal) => <li>{goal}</li>)}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-4 flex flex-col justify-center gap-4 md:mt-8 md:flex-row">
+      <a
+        href={callForSprintUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center justify-center rounded-md bg-purple-600 px-6 py-3 text-center font-medium text-white transition-colors duration-300 hover:bg-purple-700"
+      >
+        <span class="mr-2 rounded-full bg-white/15 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.16em]">
+          {content.openBadge}
+        </span>
+        {content.submitProjects}
+      </a>
+
+      <a
+        href={sprintQnaHref}
+        class="flex items-center justify-center rounded-md border-2 border-gray-300 bg-white px-6 py-3 text-center font-medium text-gray-700 transition-colors duration-300 hover:bg-gray-50"
+      >
+        <span class="mr-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.16em] text-blue-700">
+          {content.faqBadge}
+        </span>
+        {content.qnaLabel}
+      </a>
+    </div>
+  </div>
+</div>
