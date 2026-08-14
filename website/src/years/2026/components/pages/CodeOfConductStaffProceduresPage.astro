@@ -1,0 +1,87 @@
+---
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const cocHref = `/2026/${locale}/code-of-conduct/`;
+const attendeeReportingHref = `/2026/${locale}/code-of-conduct/attendee-reporting/`;
+
+const pageTitle =
+  locale === 'zh-hk' || locale === 'zh-hant'
+    ? '行為準則執行程序 | PyCon HK 2026'
+    : locale === 'zh-hans'
+      ? '行为准则执行程序 | PyCon HK 2026'
+      : locale === 'ja'
+        ? '行動規範の執行手順 | PyCon HK 2026'
+        : 'Code of Conduct Enforcement Procedures | PyCon HK 2026';
+
+const pageDescription =
+  locale === 'zh-hk' || locale === 'zh-hant'
+    ? 'PyCon HK 工作人員執行行為準則時所採用的程序。'
+    : 'Procedures used by PyCon HK staff to enforce the Code of Conduct.';
+---
+
+<ConferenceLayout title={pageTitle} description={pageDescription} locale={locale}>
+  <section class="py-12 sm:py-16 lg:py-20 bg-[#FAF7F0]">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="mb-6">
+        <a href={cocHref} class="inline-flex items-center gap-1 text-xs font-bold text-[#2f559a] hover:text-[#d71920]">
+          ← {locale === 'zh-hk' || locale === 'zh-hant' ? '返回行為準則總覽' : 'Back to Code of Conduct Overview'}
+        </a>
+      </div>
+
+      <div class="rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 lg:p-12 shadow-[8px_8px_0_#172033]">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#172033] text-center tracking-tight mb-8">
+          {locale === 'zh-hk' || locale === 'zh-hant' ? '執行程序' : locale === 'zh-hans' ? '执行程序' : 'Enforcement Procedures'}
+        </h1>
+
+        <div class="space-y-6 text-slate-700 leading-relaxed font-medium">
+          <p>
+            {locale === 'zh-hk' || locale === 'zh-hant'
+              ? '本文件概述 PyCon HK 工作人員執行行為準則時所採用的程序。'
+              : 'This document outlines the procedures used by PyCon HK staff when enforcing the Code of Conduct.'}
+          </p>
+
+          <h2 class="text-xl sm:text-2xl font-black text-[#2f559a] pt-4">
+            {locale === 'zh-hk' || locale === 'zh-hant' ? '流程摘要' : 'Process Summary'}
+          </h2>
+          <p>
+            {locale === 'zh-hk' || locale === 'zh-hant'
+              ? '當工作小組收到可能違反行為準則的報告時，將會：'
+              : 'When a report is received, the team will:'}
+          </p>
+          <ul class="list-disc ml-6 space-y-2">
+            <li>{locale === 'zh-hk' || locale === 'zh-hant' ? '確認已收到報告。' : 'Acknowledge receipt of the report.'}</li>
+            <li>{locale === 'zh-hk' || locale === 'zh-hant' ? '評估是否存在利益衝突。' : 'Evaluate conflicts of interest.'}</li>
+            <li>{locale === 'zh-hk' || locale === 'zh-hant' ? '召開事件回應人員會議。' : 'Convene non-conflicted responders.'}</li>
+            <li>{locale === 'zh-hk' || locale === 'zh-hant' ? '評估被舉報事件與影響。' : 'Evaluate the incident and its impact.'}</li>
+            <li>{locale === 'zh-hk' || locale === 'zh-hant' ? '提出行為修正方案與相應後果。' : 'Propose corrective actions and consequences.'}</li>
+            <li>{locale === 'zh-hk' || locale === 'zh-hant' ? '向被舉報者及舉報人跟進。' : 'Follow up with involved parties.'}</li>
+          </ul>
+
+          <h2 class="text-xl sm:text-2xl font-black text-[#2f559a] pt-4">
+            {locale === 'zh-hk' || locale === 'zh-hant' ? '利益衝突政策' : 'Conflicts of Interest'}
+          </h2>
+          <p>
+            {locale === 'zh-hk' || locale === 'zh-hant'
+              ? '任何存在利益衝突的委員會或工作人員將退出討論並不得參與處分投票。'
+              : 'Any committee member with a conflict of interest will recuse themselves from deliberations.'}
+          </p>
+
+          <div class="pt-6 border-t border-slate-200 flex flex-wrap gap-4">
+            <a href={cocHref} class="font-bold text-[#2f559a] underline">
+              {locale === 'zh-hk' || locale === 'zh-hant' ? '行為準則總覽' : 'Code of Conduct Overview'}
+            </a>
+            <a href={attendeeReportingHref} class="font-bold text-[#d71920] underline">
+              {locale === 'zh-hk' || locale === 'zh-hant' ? '事件舉報程序' : 'Incident Reporting Procedures'}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ConferenceLayout>

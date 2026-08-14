@@ -1,6 +1,7 @@
 ---
 import LanguageSwitcher from '@/years/2026/components/ui/LanguageSwitcher.astro';
 import WovenRibbon from '@/years/2026/components/ui/WovenRibbon.astro';
+import { headerNavigation } from '@/years/2026/data/navigation';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
 import { registrationUrl } from '@/years/2026/site';
@@ -14,53 +15,100 @@ const t = getTranslations(locale);
 const homeHref = `/2026/${locale}/`;
 ---
 
-<header class="sticky top-0 z-50 w-full bg-[#FAF7F0]/95 backdrop-blur-md transition-all border-b border-[#172033]/10" data-site-header>
-  <!-- Top Heritage Woven Ribbon -->
-  <WovenRibbon heightClass="h-2.5 sm:h-3" />
+<header class="sticky top-0 z-50 w-full bg-[#FAF7F0]/95 backdrop-blur-md transition-all border-b border-[#172033]/10 overflow-x-clip" data-site-header>
+  <!-- Top Authentic Red-White-Blue Woven Ribbon -->
+  <WovenRibbon heightClass="h-2.5 sm:h-3.5" />
 
-  <div class="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-    <!-- Brand Logo -->
-    <a
-      href={homeHref}
-      class="group flex items-center gap-2.5 sm:gap-3 transition-transform hover:scale-[1.02]"
-      aria-label={t.nav.brand}
-    >
-      <div class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-[#2f559a] text-white shadow-[2px_2px_0_#172033] border-2 border-[#172033] transition-transform group-hover:rotate-6">
-        <svg class="h-6 w-6" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <title>PyCon HK Crest</title>
-          <path d="M54.5 9C37.8 9 29.5 16.5 29.5 24v11h25v3.8H18.8C10.7 38.8 4 45.9 4 58.7c0 13.5 7.1 20.3 19.3 20.3h7.2v-10.4c0-11.4 9.8-20.8 21.6-20.8h25c8.3 0 14.9-6.8 14.9-15.1v-8.2c0-11.9-9.5-20.5-27.5-20.5zM41 19.5c3.2 0 5.8 2.6 5.8 5.8s-2.6 5.8-5.8 5.8-5.8-2.6-5.8-5.8 2.6-5.8 5.8-5.8z" fill="#ffd343"/>
-          <path d="M55.5 101c16.7 0 25-7.5 25-15V75H55.5v-3.8h35.7c8.1 0 14.8-7.1 14.8-19.9 0-13.5-7.1-20.3-19.3-20.3h-7.2v10.4c0 11.4-9.8 20.8-21.6 20.8h-25c-8.3 0-14.9 6.8-14.9 15.1v8.2c0 11.9 9.5 20.5 27.5 20.5zM69 90.5c-3.2 0-5.8-2.6-5.8-5.8s2.6-5.8 5.8-5.8 5.8 2.6 5.8 5.8-2.6 5.8-5.8 5.8z" fill="#ffffff"/>
-        </svg>
-      </div>
-      <span class="font-black tracking-tight text-lg sm:text-xl text-[#172033]">
-        {t.nav.brand}
-      </span>
-    </a>
+  <div class="mx-auto flex h-16 sm:h-20 max-w-[1700px] w-full items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10">
+    <!-- Brand Logo (Always shrink-0) -->
+    <div class="flex items-center shrink-0">
+      <a
+        href={homeHref}
+        class="group flex shrink-0 items-center gap-2.5 sm:gap-3 transition-transform hover:scale-[1.02]"
+        aria-label={t.nav.brand}
+      >
+        <img
+          src="/2026/logos/logo.svg"
+          alt="PyCon HK 2026 Logo"
+          width="40"
+          height="40"
+          class="h-9 w-9 sm:h-10 sm:w-10 object-contain transition-transform group-hover:rotate-6"
+        />
+        <span class="font-black tracking-tight text-lg sm:text-xl text-[#172033] hidden min-[400px]:inline-block whitespace-nowrap">
+          {t.nav.brand}
+        </span>
+      </a>
+    </div>
 
-    <!-- Desktop Navigation Links -->
-    <nav class="hidden md:flex items-center gap-6 lg:gap-8 font-bold text-sm text-[#172033]" aria-label="Main Navigation">
-      <a href="#about" class="transition-colors hover:text-[#d71920]">{t.nav.about}</a>
-      <a href="#programme" class="transition-colors hover:text-[#d71920]">{t.nav.programme}</a>
-      <a href="#venue" class="transition-colors hover:text-[#d71920]">{t.nav.venue}</a>
-      <a href="#sponsors" class="transition-colors hover:text-[#d71920]">{t.nav.sponsors}</a>
+    <!-- Desktop Navigation Links (Centered, fluid spacing, never overlapping) -->
+    <nav class="hidden min-[1240px]:flex items-center justify-center gap-3 min-[1360px]:gap-4 min-[1480px]:gap-5 2xl:gap-6 font-bold text-xs min-[1400px]:text-[0.82rem] min-[1560px]:text-[0.875rem] text-[#172033] px-2" aria-label="Main Navigation">
+      {headerNavigation.map((item) => {
+        if (item.kind === 'link') {
+          return (
+            <a
+              href={item.href(locale)}
+              target={item.isExternal ? '_blank' : undefined}
+              rel={item.isExternal ? 'noopener noreferrer' : undefined}
+              class="group relative shrink-0 py-2 transition-colors hover:text-[#d71920] whitespace-nowrap"
+            >
+              <span>{item.label[locale] ?? item.label.en}</span>
+              <span class="absolute bottom-0 left-0 h-[2.5px] w-full origin-left scale-x-0 bg-[#d71920] transition-transform duration-250 ease-out group-hover:scale-x-100" />
+            </a>
+          );
+        }
+
+        return (
+          <div class="group relative shrink-0 py-2">
+            <button
+              type="button"
+              class="group/btn relative flex items-center gap-1 py-1 text-left transition-colors hover:text-[#d71920] focus:outline-none whitespace-nowrap"
+              aria-haspopup="true"
+            >
+              <span>{item.label[locale] ?? item.label.en}</span>
+              <svg class="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                <title>Expand dropdown</title>
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+              <span class="absolute bottom-0 left-0 h-[2.5px] w-full origin-left scale-x-0 bg-[#d71920] transition-transform duration-250 ease-out group-hover:scale-x-100" />
+            </button>
+
+            {/* Dropdown Menu Box */}
+            <div class="invisible absolute left-1/2 top-full z-50 mt-1.5 w-64 -translate-x-1/2 rounded-2xl border-2 border-[#172033] bg-white p-2 shadow-[4px_4px_0_#172033] opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              <div class="flex flex-col space-y-1">
+                {item.children.map((child) => (
+                  <a
+                    href={child.href(locale)}
+                    target={child.isExternal ? '_blank' : undefined}
+                    rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                    class="group/sub relative rounded-xl px-3 py-2 text-xs font-bold text-[#172033] transition-colors hover:bg-slate-50 hover:text-[#d71920] whitespace-nowrap"
+                  >
+                    <span>{child.label[locale] ?? child.label.en}</span>
+                    <span class="absolute bottom-1 left-3 h-[1.5px] w-[calc(100%-1.5rem)] origin-left scale-x-0 bg-[#d71920] transition-transform duration-200 group-hover/sub:scale-x-100" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </nav>
 
-    <!-- Desktop Actions & Switcher -->
-    <div class="hidden sm:flex items-center gap-3 lg:gap-4">
+    <!-- Desktop Actions & Switcher (Always shrink-0 and fully visible on the right) -->
+    <div class="hidden sm:flex items-center gap-3 lg:gap-4 shrink-0">
       <LanguageSwitcher locale={locale} />
       
       <a
         href={registrationUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center justify-center rounded-full bg-[#d71920] px-5 py-2 text-xs lg:text-sm font-bold text-white shadow-[2px_2px_0_#172033] border-2 border-[#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#c0151c]"
+        class="inline-flex shrink-0 items-center justify-center rounded-full bg-[#d71920] px-4 min-[1480px]:px-5 py-2 text-xs min-[1480px]:text-sm font-bold text-white shadow-[2px_2px_0_#172033] border-2 border-[#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#c0151c] whitespace-nowrap"
       >
         {t.nav.register}
       </a>
     </div>
 
-    <!-- Mobile Menu Trigger -->
-    <div class="flex items-center gap-2 sm:hidden">
+    <!-- Mobile / Compact Viewport Menu Trigger (< 1240px) -->
+    <div class="flex items-center gap-2 min-[1240px]:hidden">
       <button
         type="button"
         class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033] active:translate-x-0.5 active:translate-y-0.5"
@@ -87,7 +135,7 @@ const homeHref = `/2026/${locale}/`;
     ></button>
 
     <div
-      class="fixed right-0 top-0 flex h-dvh w-80 max-w-[85vw] translate-x-full flex-col overflow-y-auto bg-[#FAF7F0] border-l-2 border-[#172033] p-5 text-[#172033] shadow-2xl transition-transform duration-200"
+      class="fixed right-0 top-0 flex h-dvh w-84 max-w-[88vw] translate-x-full flex-col overflow-y-auto bg-[#FAF7F0] border-l-2 border-[#172033] p-5 text-[#172033] shadow-2xl transition-transform duration-200"
       data-mobile-nav-panel
     >
       <div class="flex items-center justify-between pb-4 border-b border-[#172033]/15">
@@ -105,14 +153,47 @@ const homeHref = `/2026/${locale}/`;
         </button>
       </div>
 
-      <nav class="flex flex-col gap-3 py-6 font-black text-lg border-b border-[#172033]/15">
-        <a href="#about" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.about}</a>
-        <a href="#programme" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.programme}</a>
-        <a href="#venue" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.venue}</a>
-        <a href="#sponsors" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.sponsors}</a>
+      <!-- Mobile Navigation List -->
+      <nav class="flex flex-col gap-2 py-4 border-b border-[#172033]/15 text-sm font-bold">
+        {headerNavigation.map((item) => {
+          if (item.kind === 'link') {
+            return (
+              <a
+                href={item.href(locale)}
+                class="rounded-xl px-3 py-2.5 transition-colors hover:bg-white hover:text-[#d71920]"
+                data-mobile-nav-link
+              >
+                {item.label[locale] ?? item.label.en}
+              </a>
+            );
+          }
+
+          return (
+            <details class="group/m rounded-xl border border-transparent transition-all open:border-[#172033]/10 open:bg-white/60">
+              <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2.5 hover:bg-white hover:text-[#d71920] [&::-webkit-details-marker]:hidden">
+                <span>{item.label[locale] ?? item.label.en}</span>
+                <svg class="h-4 w-4 transition-transform duration-200 group-open/m:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                  <title>Toggle group</title>
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </summary>
+              <div class="space-y-1 pb-2 pl-4 pr-2">
+                {item.children.map((child) => (
+                  <a
+                    href={child.href(locale)}
+                    class="block rounded-lg px-3 py-2 text-xs text-slate-700 hover:bg-white hover:text-[#d71920]"
+                    data-mobile-nav-link
+                  >
+                    {child.label[locale] ?? child.label.en}
+                  </a>
+                ))}
+              </div>
+            </details>
+          );
+        })}
       </nav>
 
-      <div class="py-5 space-y-4">
+      <div class="py-4 space-y-4">
         <a
           href={registrationUrl}
           target="_blank"
