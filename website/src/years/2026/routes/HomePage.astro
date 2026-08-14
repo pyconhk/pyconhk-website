@@ -1,0 +1,31 @@
+---
+import HighlightsBar from '@/years/2026/components/home/HighlightsBar.astro';
+import HomeHero from '@/years/2026/components/home/HomeHero.astro';
+import HongKongThreadSection from '@/years/2026/components/home/HongKongThreadSection.astro';
+import JoinUsSection from '@/years/2026/components/home/JoinUsSection.astro';
+import ProgrammeSection from '@/years/2026/components/home/ProgrammeSection.astro';
+import SponsorsSection from '@/years/2026/components/home/SponsorsSection.astro';
+import { getTranslations } from '@/years/2026/i18n';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+---
+
+<ConferenceLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  locale={locale}
+>
+  <HomeHero locale={locale} />
+  <HighlightsBar locale={locale} />
+  <ProgrammeSection locale={locale} />
+  <HongKongThreadSection locale={locale} />
+  <JoinUsSection locale={locale} />
+  <SponsorsSection locale={locale} />
+</ConferenceLayout>

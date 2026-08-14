@@ -1,0 +1,176 @@
+---
+import LanguageSwitcher from '@/years/2026/components/ui/LanguageSwitcher.astro';
+import WovenRibbon from '@/years/2026/components/ui/WovenRibbon.astro';
+import { getTranslations } from '@/years/2026/i18n';
+import type { CfpLocale } from '@/years/2026/locales';
+import { registrationUrl } from '@/years/2026/site';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const homeHref = `/2026/${locale}/`;
+---
+
+<header class="sticky top-0 z-50 w-full bg-[#FAF7F0]/95 backdrop-blur-md transition-all border-b border-[#172033]/10" data-site-header>
+  <!-- Top Heritage Woven Ribbon -->
+  <WovenRibbon heightClass="h-2.5 sm:h-3" />
+
+  <div class="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <!-- Brand Logo -->
+    <a
+      href={homeHref}
+      class="group flex items-center gap-2.5 sm:gap-3 transition-transform hover:scale-[1.02]"
+      aria-label={t.nav.brand}
+    >
+      <div class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-[#2f559a] text-white shadow-[2px_2px_0_#172033] border-2 border-[#172033] transition-transform group-hover:rotate-6">
+        <svg class="h-6 w-6" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <title>PyCon HK Crest</title>
+          <path d="M54.5 9C37.8 9 29.5 16.5 29.5 24v11h25v3.8H18.8C10.7 38.8 4 45.9 4 58.7c0 13.5 7.1 20.3 19.3 20.3h7.2v-10.4c0-11.4 9.8-20.8 21.6-20.8h25c8.3 0 14.9-6.8 14.9-15.1v-8.2c0-11.9-9.5-20.5-27.5-20.5zM41 19.5c3.2 0 5.8 2.6 5.8 5.8s-2.6 5.8-5.8 5.8-5.8-2.6-5.8-5.8 2.6-5.8 5.8-5.8z" fill="#ffd343"/>
+          <path d="M55.5 101c16.7 0 25-7.5 25-15V75H55.5v-3.8h35.7c8.1 0 14.8-7.1 14.8-19.9 0-13.5-7.1-20.3-19.3-20.3h-7.2v10.4c0 11.4-9.8 20.8-21.6 20.8h-25c-8.3 0-14.9 6.8-14.9 15.1v8.2c0 11.9 9.5 20.5 27.5 20.5zM69 90.5c-3.2 0-5.8-2.6-5.8-5.8s2.6-5.8 5.8-5.8 5.8 2.6 5.8 5.8-2.6 5.8-5.8 5.8z" fill="#ffffff"/>
+        </svg>
+      </div>
+      <span class="font-black tracking-tight text-lg sm:text-xl text-[#172033]">
+        {t.nav.brand}
+      </span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden md:flex items-center gap-6 lg:gap-8 font-bold text-sm text-[#172033]" aria-label="Main Navigation">
+      <a href="#about" class="transition-colors hover:text-[#d71920]">{t.nav.about}</a>
+      <a href="#programme" class="transition-colors hover:text-[#d71920]">{t.nav.programme}</a>
+      <a href="#venue" class="transition-colors hover:text-[#d71920]">{t.nav.venue}</a>
+      <a href="#sponsors" class="transition-colors hover:text-[#d71920]">{t.nav.sponsors}</a>
+    </nav>
+
+    <!-- Desktop Actions & Switcher -->
+    <div class="hidden sm:flex items-center gap-3 lg:gap-4">
+      <LanguageSwitcher locale={locale} />
+      
+      <a
+        href={registrationUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center rounded-full bg-[#d71920] px-5 py-2 text-xs lg:text-sm font-bold text-white shadow-[2px_2px_0_#172033] border-2 border-[#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#c0151c]"
+      >
+        {t.nav.register}
+      </a>
+    </div>
+
+    <!-- Mobile Menu Trigger -->
+    <div class="flex items-center gap-2 sm:hidden">
+      <button
+        type="button"
+        class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033] active:translate-x-0.5 active:translate-y-0.5"
+        aria-label={t.nav.menuLabel}
+        aria-expanded="false"
+        data-mobile-nav-trigger
+      >
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <title>Open Menu</title>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200" data-mobile-nav-drawer>
+    <button
+      type="button"
+      class="absolute inset-0 bg-slate-900/60 backdrop-blur-xs opacity-0 transition-opacity duration-200"
+      aria-label={t.nav.closeMenu}
+      data-mobile-nav-close
+      data-mobile-nav-backdrop
+    ></button>
+
+    <div
+      class="fixed right-0 top-0 flex h-dvh w-80 max-w-[85vw] translate-x-full flex-col overflow-y-auto bg-[#FAF7F0] border-l-2 border-[#172033] p-5 text-[#172033] shadow-2xl transition-transform duration-200"
+      data-mobile-nav-panel
+    >
+      <div class="flex items-center justify-between pb-4 border-b border-[#172033]/15">
+        <span class="font-black text-lg text-[#172033]">{t.nav.brand}</span>
+        <button
+          type="button"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033]"
+          aria-label={t.nav.closeMenu}
+          data-mobile-nav-close
+        >
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <title>Close Menu</title>
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-3 py-6 font-black text-lg border-b border-[#172033]/15">
+        <a href="#about" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.about}</a>
+        <a href="#programme" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.programme}</a>
+        <a href="#venue" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.venue}</a>
+        <a href="#sponsors" class="rounded-xl px-3 py-2 transition-colors hover:bg-white hover:text-[#d71920]" data-mobile-nav-link>{t.nav.sponsors}</a>
+      </nav>
+
+      <div class="py-5 space-y-4">
+        <a
+          href={registrationUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex w-full items-center justify-center rounded-full bg-[#d71920] py-3 text-center text-sm font-bold text-white border-2 border-[#172033] shadow-[3px_3px_0_#172033]"
+          data-mobile-nav-link
+        >
+          {t.nav.register}
+        </a>
+
+        <div class="pt-2">
+          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">Language / 語言</p>
+          <LanguageSwitcher locale={locale} mobile={true} />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script is:inline data-astro-rerun>
+  for (const header of document.querySelectorAll('[data-site-header]')) {
+    if (!(header instanceof HTMLElement) || header.dataset.mobileNavReady === 'true') {
+      continue;
+    }
+    header.dataset.mobileNavReady = 'true';
+
+    const trigger = header.querySelector('[data-mobile-nav-trigger]');
+    const drawer = header.querySelector('[data-mobile-nav-drawer]');
+    const backdrop = header.querySelector('[data-mobile-nav-backdrop]');
+    const panel = header.querySelector('[data-mobile-nav-panel]');
+    const closeButtons = header.querySelectorAll('[data-mobile-nav-close]');
+    const links = header.querySelectorAll('[data-mobile-nav-link]');
+
+    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+      continue;
+    }
+
+    const setOpen = (isOpen) => {
+      trigger.setAttribute('aria-expanded', String(isOpen));
+      drawer.classList.toggle('pointer-events-none', !isOpen);
+      drawer.classList.toggle('pointer-events-auto', isOpen);
+      drawer.classList.toggle('opacity-0', !isOpen);
+      drawer.classList.toggle('opacity-100', isOpen);
+      panel.classList.toggle('translate-x-full', !isOpen);
+      panel.classList.toggle('translate-x-0', isOpen);
+
+      if (backdrop instanceof HTMLElement) {
+        backdrop.classList.toggle('opacity-0', !isOpen);
+        backdrop.classList.toggle('opacity-100', isOpen);
+      }
+      document.documentElement.classList.toggle('overflow-hidden', isOpen);
+    };
+
+    trigger.addEventListener('click', () => setOpen(true));
+    for (const btn of closeButtons) btn.addEventListener('click', () => setOpen(false));
+    for (const link of links) link.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+</script>

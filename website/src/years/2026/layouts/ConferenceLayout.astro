@@ -1,0 +1,53 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteFooter from '@/years/2026/components/site/SiteFooter.astro';
+import SiteHeader from '@/years/2026/components/site/SiteHeader.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: CfpLocale;
+  imagePath?: string;
+}
+
+const {
+  title,
+  description,
+  locale,
+  imagePath = '/2026/open-graph.webp',
+} = Astro.props;
+
+const htmlLangByLocale: Record<CfpLocale, string> = {
+  en: 'en',
+  'zh-hk': 'zh-Hant-HK',
+  'zh-hant': 'zh-Hant',
+  'zh-hans': 'zh-Hans',
+  ja: 'ja-JP',
+  ko: 'ko-KR',
+};
+
+const htmlLang = htmlLangByLocale[locale] ?? 'en';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  htmlLang={htmlLang}
+  imagePath={imagePath}
+>
+  <div class="min-h-screen bg-[#FAF7F0] text-[#172033] flex flex-col selection:bg-[#ffd343] selection:text-[#172033]">
+    <SiteHeader locale={locale} />
+    
+    <main
+      class="w-full flex-1 overflow-x-clip"
+      data-pagefind-body
+      data-pagefind-filter="year:2026"
+      data-pagefind-meta="year:2026"
+    >
+      <slot />
+    </main>
+
+    <SiteFooter locale={locale} />
+  </div>
+</BaseLayout>

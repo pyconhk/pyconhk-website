@@ -1,0 +1,120 @@
+---
+import { preferredLocaleCookie } from '@/config/site';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+  mobile?: boolean;
+}
+
+const { locale, mobile = false } = Astro.props;
+
+const supportedLocalesList: Array<{
+  code: CfpLocale;
+  label: string;
+  nativeLabel: string;
+  htmlLang: string;
+}> = [
+  { code: 'en', label: 'English', nativeLabel: 'English', htmlLang: 'en' },
+  { code: 'zh-hk', label: 'Cantonese', nativeLabel: '廣東話', htmlLang: 'zh-Hant-HK' },
+  { code: 'zh-hant', label: 'Traditional Chinese', nativeLabel: '繁體中文', htmlLang: 'zh-Hant' },
+  { code: 'zh-hans', label: 'Simplified Chinese', nativeLabel: '简体中文', htmlLang: 'zh-Hans' },
+  { code: 'ja', label: 'Japanese', nativeLabel: '日本語', htmlLang: 'ja-JP' },
+  { code: 'ko', label: 'Korean', nativeLabel: '한국어', htmlLang: 'ko-KR' },
+];
+
+const items = supportedLocalesList.map((item) => ({
+  ...item,
+  href: `/2026/${item.code}/`,
+  active: item.code === locale,
+}));
+
+const activeItem = items.find((item) => item.active) ?? items[0];
+---
+
+{
+  mobile ? (
+    <nav class="grid grid-cols-2 gap-2" aria-label="Language selector">
+      {items.map((item) => (
+        <a
+          href={item.href}
+          data-base-href={item.href}
+          class:list={[
+            'min-w-0 rounded-xl border px-3 py-2 text-left transition-colors duration-200',
+            item.active
+              ? 'border-[#2f559a] bg-[#2f559a] text-white shadow-sm font-semibold'
+              : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-50',
+          ]}
+          data-locale-switch={item.code}
+          data-mobile-nav-link="true"
+          aria-current={item.active ? 'page' : undefined}
+          lang={item.htmlLang}
+        >
+          <span class="block text-sm font-bold leading-tight">{item.nativeLabel}</span>
+          <span
+            class:list={[
+              'mt-0.5 block text-[0.7rem] leading-snug',
+              item.active ? 'text-white/80' : 'text-slate-500',
+            ]}
+          >
+            {item.label}
+          </span>
+        </a>
+      ))}
+    </nav>
+  ) : (
+    <details class="group relative">
+      <summary class="inline-flex min-h-10 min-w-[7.5rem] cursor-pointer list-none items-center justify-between gap-2 rounded-full border-2 border-[#172033] bg-white px-3.5 py-1.5 text-xs font-bold text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:bg-slate-50 [&::-webkit-details-marker]:hidden">
+        <span class="truncate" lang={activeItem.htmlLang}>🌐 {activeItem.nativeLabel}</span>
+        <svg class="h-3.5 w-3.5 shrink-0 text-[#172033] transition-transform duration-200 group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <title>Dropdown arrow</title>
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </summary>
+
+      <div class="absolute right-0 top-full z-40 mt-2 w-52 rounded-2xl border-2 border-[#172033] bg-white p-1.5 shadow-[4px_4px_0_#172033]">
+        <nav class="space-y-1" aria-label="Language selector">
+          {items.map((item) => (
+            <a
+              href={item.href}
+              data-base-href={item.href}
+              class:list={[
+                'flex items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors duration-150',
+                item.active
+                  ? 'bg-[#2f559a] font-bold text-white shadow-xs'
+                  : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900',
+              ]}
+              data-locale-switch={item.code}
+              aria-current={item.active ? 'page' : undefined}
+              lang={item.htmlLang}
+            >
+              <span class="font-bold">{item.nativeLabel}</span>
+              <span class:list={['text-[0.7rem]', item.active ? 'text-white/80' : 'text-slate-400']}>
+                {item.label}
+              </span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </details>
+  )
+}
+
+<script is:inline data-astro-rerun define:vars={{ cookieName: preferredLocaleCookie }}>
+  for (const link of document.querySelectorAll('[data-locale-switch]')) {
+    if (link instanceof HTMLAnchorElement) {
+      const baseHref = link.dataset.baseHref;
+      if (baseHref) {
+        link.href = `${baseHref}${window.location.search}${window.location.hash}`;
+      }
+    }
+
+    link.addEventListener('click', (event) => {
+      const target = event.currentTarget;
+      if (!(target instanceof HTMLElement)) return;
+      const nextLocale = target.dataset.localeSwitch;
+      if (!nextLocale) return;
+      document.cookie = `${cookieName}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; SameSite=Lax`;
+    });
+  }
+</script>

@@ -1,0 +1,59 @@
+---
+import { getTranslations } from '@/years/2026/i18n';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+---
+
+<section class="w-full bg-[#1D4486] py-16 sm:py-24 text-white overflow-hidden" id="venue">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <!-- Left Column Text -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-block rounded-full bg-white/15 px-3.5 py-1 text-xs font-black uppercase tracking-widest text-[#ffd343] border border-white/20">
+          {t.hongKongThread.eyebrow}
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+          {t.hongKongThread.title}
+        </h2>
+
+        <p class="text-base sm:text-lg text-blue-100 leading-relaxed font-normal">
+          {t.hongKongThread.description}
+        </p>
+
+        <div class="flex items-center gap-2 text-sm font-bold text-white/90 pt-2">
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-[#ffd343]">
+            📍
+          </span>
+          <span>{t.hongKongThread.location}</span>
+        </div>
+      </div>
+
+      <!-- Right Column Framed Card -->
+      <div class="lg:col-span-6 flex justify-center">
+        <div class="relative w-full max-w-xl group">
+          <!-- Background Offset Shadow Card in Red -->
+          <div class="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 rounded-3xl bg-[#d71920] border-2 border-[#172033]" />
+          
+          <!-- Foreground Card -->
+          <div class="relative rounded-3xl border-2 border-[#172033] bg-white p-2.5 sm:p-4 shadow-xl transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1">
+            <img
+              src="/2026/logos/pyconlogo.png"
+              alt="Hong Kong Woven Weave PyCon HK 2026 Logo Frame"
+              width="960"
+              height="540"
+              class="w-full h-auto rounded-2xl object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
