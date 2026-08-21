@@ -1,0 +1,215 @@
+---
+import { getNewsArticleBySlug } from '@/years/2026/data/news';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+import { registrationUrl } from '@/years/2026/site';
+
+interface Props {
+  locale: CfpLocale;
+  slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const article = getNewsArticleBySlug(slug);
+
+if (!article) {
+  throw new Error(`Missing news article for slug: ${slug}`);
+}
+
+const articleTitle = article.title[locale] ?? article.title.en;
+const articleCategory = article.category[locale] ?? article.category.en;
+const articleDate = article.formattedDate[locale] ?? article.formattedDate.en;
+const articleExcerpt = article.excerpt[locale] ?? article.excerpt.en;
+const authorRole = article.author.role[locale] ?? article.author.role.en;
+const backHref = `/2026/${locale}/news/`;
+---
+
+<ConferenceLayout
+  title={`${articleTitle} | PyCon HK 2026`}
+  description={articleExcerpt}
+  locale={locale}
+  imagePath={article.coverImage}
+>
+  <main class="w-full bg-[#FAF7F0] py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      
+      <!-- Elevated Container Box matching 2025 structure with 2026 Design Language -->
+      <div class="rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 md:p-14 shadow-[8px_8px_0_#172033] overflow-hidden">
+        
+        <!-- Top Banner Hero (pyconlogo.png) -->
+        <div class="rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] p-6 sm:p-10 flex items-center justify-center shadow-[4px_4px_0_#172033] mb-8 sm:mb-10">
+          <img
+            src={article.coverImage}
+            alt={articleTitle}
+            width="640"
+            height="320"
+            class="max-h-56 sm:max-h-72 w-auto object-contain"
+          />
+        </div>
+
+        <!-- Back Navigation Link (Top) -->
+        <div class="mb-6">
+          <a
+            href={backHref}
+            class="inline-flex items-center gap-2 rounded-xl border-2 border-[#172033] bg-white px-3.5 py-1.5 text-xs sm:text-sm font-bold text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-slate-50"
+          >
+            <span>&larr;</span>
+            <span>Back to News</span>
+          </a>
+        </div>
+
+        <!-- Article Header Header Information -->
+        <header class="space-y-4 pb-8 border-b-2 border-[#172033]/15">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="inline-flex items-center rounded-lg border-2 border-[#172033] bg-[#d71920] px-2.5 py-0.5 text-xs font-black uppercase text-white shadow-[2px_2px_0_#172033]">
+              {articleCategory}
+            </span>
+            <span class="text-xs text-slate-500 font-bold">
+              <time datetime={article.publishedAt}>{articleDate}</time>
+            </span>
+          </div>
+
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-[#172033] leading-tight tracking-tight">
+            {articleTitle}
+          </h1>
+
+          <div class="flex items-center gap-3 pt-2 text-xs sm:text-sm font-bold text-slate-600">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#172033] text-xs font-black text-white">
+              HK
+            </span>
+            <div>
+              <p class="text-[#172033] font-black">{article.author.name}</p>
+              <p class="text-[0.75rem] text-slate-500">{authorRole}</p>
+            </div>
+          </div>
+        </header>
+
+        <!-- Article Structured Body -->
+        <article class="prose prose-slate max-w-none py-8 space-y-8 text-slate-700 leading-relaxed font-medium">
+          
+          <!-- TL;DR Highlight Card -->
+          <div class="rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] p-5 sm:p-7 shadow-[4px_4px_0_#2f559a] not-prose space-y-4">
+            <h2 class="text-base sm:text-lg font-black uppercase text-[#172033] flex items-center gap-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-[#2f559a]"></span>
+              <span>TL;DR: PyCon HK 2026</span>
+            </h2>
+
+            <div class="space-y-2.5 text-xs sm:text-sm text-[#172033]">
+              <p>
+                <strong>Venue:</strong> {article.tldr.venue[locale] ?? article.tldr.venue.en}
+              </p>
+              <p>
+                <strong>Day 1 - Conference Day:</strong> {article.tldr.day1[locale] ?? article.tldr.day1.en}{' '}
+                <a href={registrationUrl} target="_blank" rel="noopener noreferrer" class="font-black text-[#d71920] underline hover:text-[#c0151c]">
+                  [Register NOW]
+                </a>
+              </p>
+              <p>
+                <strong>Day 2 - Development Sprint:</strong> {article.tldr.day2[locale] ?? article.tldr.day2.en}{' '}
+                <a href={`/2026/${locale}/#programme`} class="font-black text-[#2f559a] underline hover:text-[#172033]">
+                  [Learn More]
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <!-- Introductory Paragraphs -->
+          <div class="space-y-4 text-sm sm:text-base">
+            {(article.paragraphs[locale] ?? article.paragraphs.en).map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+
+          <!-- Day 1 Details -->
+          <div class="space-y-4 pt-4 border-t border-[#172033]/15 not-prose">
+            <h3 class="text-xl sm:text-2xl font-black text-[#172033]">
+              Day 1 – Conference Day
+            </h3>
+
+            <div class="grid gap-4 sm:gap-5">
+              {(article.day1Highlights[locale] ?? article.day1Highlights.en).map((highlight) => (
+                <div class="rounded-xl border-2 border-[#172033] bg-white p-4 sm:p-5 shadow-[3px_3px_0_#172033]">
+                  <h4 class="text-sm sm:text-base font-black text-[#172033]">
+                    {highlight.title}
+                  </h4>
+                  <p class="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {highlight.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 pt-2">
+              View the full program lineup at{' '}
+              <a href={`/2026/${locale}/schedule/`} class="font-bold text-[#d71920] underline">
+                Conference Schedule
+              </a>.
+            </p>
+          </div>
+
+          <!-- Day 2 Details -->
+          <div class="space-y-4 pt-4 border-t border-[#172033]/15 not-prose">
+            <h3 class="text-xl sm:text-2xl font-black text-[#172033]">
+              Day 2 – Development Sprint
+            </h3>
+
+            <div class="space-y-2 text-sm sm:text-base text-slate-700">
+              {(article.day2Info[locale] ?? article.day2Info.en).map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </div>
+
+          <!-- Tickets Section -->
+          <div class="space-y-4 pt-4 border-t border-[#172033]/15 not-prose">
+            <h3 class="text-xl sm:text-2xl font-black text-[#172033]">
+              Get your ticket and support PyCon Hong Kong!
+            </h3>
+
+            <div class="space-y-2 text-sm sm:text-base text-slate-700">
+              {(article.ticketsInfo[locale] ?? article.ticketsInfo.en).map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+
+            <div class="pt-2">
+              <a
+                href={registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center rounded-full bg-[#d71920] px-6 py-3 text-sm font-black text-white shadow-[3px_3px_0_#172033] border-2 border-[#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#c0151c]"
+              >
+                Register for your Ticket NOW!
+              </a>
+            </div>
+          </div>
+
+          <!-- Sponsorship Section -->
+          <div class="space-y-4 pt-4 border-t border-[#172033]/15 not-prose">
+            <h3 class="text-xl sm:text-2xl font-black text-[#172033]">
+              Sponsorship and Volunteer Opportunities
+            </h3>
+
+            <div class="space-y-2 text-sm sm:text-base text-slate-700">
+              {(article.sponsorInfo[locale] ?? article.sponsorInfo.en).map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <!-- Back Navigation Link (Bottom) -->
+        <div class="pt-8 border-t-2 border-[#172033]/15">
+          <a
+            href={backHref}
+            class="inline-flex items-center gap-2 rounded-xl border-2 border-[#172033] bg-white px-4 py-2 text-sm font-bold text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-slate-50"
+          >
+            <span>&larr;</span>
+            <span>Back to News</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</ConferenceLayout>

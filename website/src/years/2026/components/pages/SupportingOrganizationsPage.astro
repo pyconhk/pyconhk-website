@@ -1,0 +1,107 @@
+---
+import {
+  pageCopyByLocale,
+  supportingOrganizations,
+} from '@/years/2026/data/supporting-organizations';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const pageCopy = pageCopyByLocale[locale] ?? pageCopyByLocale.en;
+---
+
+<ConferenceLayout
+  title={`${pageCopy.title} | PyCon HK 2026`}
+  description={pageCopy.intro}
+  locale={locale}
+>
+  <main class="w-full bg-[#FAF7F0] py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      
+      <div class="rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 md:p-14 shadow-[8px_8px_0_#172033] space-y-16">
+        
+        <!-- Header Section -->
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <div class="inline-flex items-center gap-2 rounded-full border-2 border-[#172033] bg-[#FAF7F0] px-3.5 py-1 text-xs font-black uppercase text-[#172033] shadow-[2px_2px_0_#172033]">
+            <span class="h-2 w-2 rounded-full bg-[#d71920]"></span>
+            <span>{pageCopy.subtitle}</span>
+          </div>
+
+          <h1 class="font-operetta-32 text-3xl sm:text-4xl md:text-5xl text-[#172033] font-black uppercase tracking-tight">
+            {pageCopy.title}
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-700 font-medium leading-relaxed max-w-2xl mx-auto">
+            {pageCopy.intro}
+          </p>
+        </div>
+
+        <!-- 18 Supporting Organizations Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-4">
+          {supportingOrganizations.map((org) => {
+            const orgName = org.name[locale] ?? org.name.en;
+            const orgSummary = org.summary[locale] ?? org.summary.en;
+
+            return (
+              <div class="group relative flex flex-col justify-between rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] p-6 shadow-[4px_4px_0_#172033] transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0_#d71920]">
+                
+                <div>
+                  <a
+                    href={org.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex h-44 w-full items-center justify-center rounded-xl border-2 border-[#172033] bg-white p-4 shadow-[2px_2px_0_#172033] overflow-hidden"
+                    aria-label={`Visit ${orgName}`}
+                  >
+                    <img
+                      src={org.imagePath}
+                      alt={org.logoAlt}
+                      width="240"
+                      height="140"
+                      class="max-h-28 max-w-[200px] w-auto h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </a>
+
+                  <h2 class="mt-4 text-center text-base sm:text-lg font-black text-[#172033] group-hover:text-[#d71920] transition-colors leading-snug">
+                    <a
+                      href={org.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {orgName}
+                    </a>
+                  </h2>
+
+                  <p class="mt-2 text-center text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                    {orgSummary}
+                  </p>
+                </div>
+
+                <div class="mt-5 flex justify-center pt-3 border-t border-[#172033]/10">
+                  <a
+                    href={org.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 rounded-full border-2 border-[#172033] bg-white px-4 py-1.5 text-xs font-black text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#d71920] hover:text-white"
+                  >
+                    <span>{pageCopy.visitWebsite}</span>
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+    </div>
+  </main>
+</ConferenceLayout>

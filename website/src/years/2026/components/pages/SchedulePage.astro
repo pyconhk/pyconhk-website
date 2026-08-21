@@ -1,0 +1,869 @@
+---
+import ScheduleModal from '@/years/2026/components/schedule/ScheduleModal.astro';
+import {
+  allScheduleItems,
+  getContinuousTimeMarkers,
+  getSessionsForRoom,
+  getTimeSlotGroups,
+  roomColumns,
+  TIMELINE_TOTAL_HEIGHT,
+} from '@/years/2026/data/schedule';
+import { getTranslations } from '@/years/2026/i18n';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+
+const timeMarkers = getContinuousTimeMarkers();
+const timeSlotGroups = getTimeSlotGroups('day-1');
+---
+
+<ConferenceLayout
+  title={t.schedule.pageTitle}
+  description={t.schedule.pageDescription}
+  locale={locale}
+>
+  <div class="sticky top-16 sm:top-20 z-40 bg-[#FAF7F0]">
+    <div class="mx-auto max-w-[1700px] px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-xl border-2 border-[#172033] bg-white px-3.5 py-1.5 text-xs sm:text-sm font-black text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none cursor-pointer"
+          data-filter-modal-open
+        >
+          <svg class="h-4 w-4 text-[#d71920]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          <span>Filter</span>
+          <span class="hidden rounded-full bg-[#0284c7] px-1.5 py-0.2 text-[0.65rem] font-black text-white" data-active-filter-count>0</span>
+        </button>
+
+        <button
+          type="button"
+          class="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#172033] bg-white px-3 py-1.5 text-xs sm:text-sm font-bold text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none cursor-pointer"
+          data-starred-toggle
+          aria-pressed="false"
+        >
+          <svg class="h-4 w-4 text-amber-500 fill-amber-400" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+          </svg>
+          <span class="hidden sm:inline">Starred</span>
+          <span class="rounded-full bg-[#d71920] px-1.5 py-0.2 text-[0.65rem] font-black text-white" data-starred-count>0</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-6 font-black text-xs sm:text-sm">
+        <button
+          type="button"
+          class="relative py-1.5 sm:py-2 px-2.5 sm:px-4 rounded-xl border-2 border-[#172033] bg-[#d71920] text-white shadow-[2px_2px_0_#172033] uppercase transition-transform cursor-pointer"
+          aria-current="page"
+        >
+          SAT, OCT 11
+        </button>
+        <button
+          type="button"
+          class="py-1.5 sm:py-2 px-2.5 sm:px-4 rounded-xl border-2 border-transparent text-slate-500 font-bold uppercase hover:text-[#172033] transition-colors cursor-pointer"
+        >
+          SUN, OCT 12
+        </button>
+      </div>
+
+      <div class="text-right text-xs text-slate-600 font-bold hidden md:block">
+        <span class="inline-flex items-center gap-1.5 rounded-lg border border-[#172033]/20 bg-white px-2.5 py-1">
+          <span class="h-2 w-2 rounded-full bg-[#0f6a49]"></span>
+          <span>Hongkong (UTC+8)</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="hidden lg:block overflow-x-auto">
+      <div class="min-w-[1380px] max-w-[1700px] mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-13 bg-[#FAF7F0] border-3 border-b-3 border-[#172033] rounded-t-2xl text-center">
+          <div class="col-span-1 border-r-2 border-[#172033] p-3 flex flex-col items-center justify-center bg-white rounded-tl-[0.85rem]">
+            <span class="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500">Sat</span>
+            <span class="text-xs sm:text-sm font-black text-[#172033]">Oct 11</span>
+          </div>
+
+          {roomColumns.map((room) => (
+            <div class="col-span-2 border-r-2 border-[#172033] last:border-r-0 p-3 flex flex-col items-center justify-center relative bg-white last:rounded-tr-[0.85rem]">
+              <span class:list={['absolute top-0 left-0 right-0 h-1.5', room.trackKey === 'main' ? 'bg-[#d71920]' : room.trackKey === 'track-a' ? 'bg-[#2f559a]' : room.trackKey === 'track-b' ? 'bg-[#0f6a49]' : 'bg-[#b45309]']} />
+              <span class="text-xs sm:text-sm font-black text-[#172033] leading-tight text-center">
+                {room.label}
+              </span>
+              <span class="text-[0.7rem] font-bold text-slate-500 mt-0.5">
+                ({room.subtitle})
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile / Small-Screen Feed View (Chronological Cards with Time Marks) -->
+  <div class="block lg:hidden w-full bg-[#FAF7F0] px-4 py-6 pb-20">
+    <div class="max-w-xl mx-auto space-y-6">
+      {timeSlotGroups.map((group) => (
+        <div class="space-y-3" data-timeslot-group={group.slotKey}>
+          <div class="flex items-center gap-3">
+            <div class="inline-flex items-center gap-1.5 rounded-full border-2 border-[#172033] bg-white px-3 py-1 text-xs font-black text-[#172033] shadow-[2px_2px_0_#172033]">
+              <span class="h-2 w-2 rounded-full bg-[#d71920]"></span>
+              <span>{group.timeLabel}</span>
+            </div>
+            <div class="h-0.5 flex-1 bg-[#172033]/15"></div>
+          </div>
+
+          <div class="space-y-3">
+            {group.sessions.map((session) => {
+              const isBreak = session.isBreak;
+              const isWorkshop = session.sessionType.toLowerCase().includes('workshop');
+              const isLightning = session.sessionType.toLowerCase().includes('lightning');
+              const firstSpeaker = session.speakers[0] || '';
+
+              const langLabel = session.language === 'en'
+                ? 'English'
+                : session.language === 'zh-hant' || session.language === 'zh-hk'
+                  ? 'Traditional Chinese'
+                  : session.language;
+
+              return (
+                <div
+                  class:list={[
+                    'rounded-2xl border-2 border-[#172033] select-none transition-all duration-150 cursor-pointer overflow-hidden',
+                    isBreak
+                      ? 'bg-slate-100 border-[#172033]/40 text-slate-700 shadow-[2px_2px_0_#172033]/20 p-3 flex items-center justify-between'
+                      : isWorkshop
+                        ? 'bg-amber-50 shadow-[3px_3px_0_#b45309] p-4 space-y-3'
+                        : isLightning
+                          ? 'bg-red-50/80 shadow-[3px_3px_0_#d71920] p-4 space-y-3'
+                          : 'bg-white shadow-[3px_3px_0_#172033] p-4 space-y-3'
+                  ]}
+                  data-mobile-session-card
+                  data-session-id={session.id}
+                  data-room-key={session.roomKey}
+                  data-language={session.language}
+                  data-is-break={isBreak ? 'true' : 'false'}
+                  data-search={`${session.title} ${session.speakers.join(' ')} ${session.room} ${session.tags.join(' ')}`.toLowerCase()}
+                >
+                  {isBreak ? (
+                    <div class="flex items-center gap-2.5 w-full">
+                      <span class="inline-flex items-center rounded-md bg-slate-600 px-2 py-0.5 text-[0.68rem] font-black uppercase text-white shrink-0">
+                        {session.startTime} · {session.duration}m
+                      </span>
+                      <span class="font-bold text-[#172033] text-xs sm:text-sm leading-tight">
+                        {session.title}
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <div class="flex items-center justify-between gap-2">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                          <span class:list={[
+                            'inline-flex items-center rounded-md px-2 py-0.5 text-[0.68rem] font-black uppercase text-white',
+                            session.badgeBg
+                          ]}>
+                            {session.room}
+                          </span>
+
+                          {session.language !== 'ALL' && (
+                            <span class="inline-flex items-center rounded-md border border-[#172033]/20 bg-[#FAF7F0] px-2 py-0.5 text-[0.68rem] font-bold text-[#172033]">
+                              {langLabel}
+                            </span>
+                          )}
+
+                          <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[0.68rem] font-bold text-slate-700">
+                            {session.startTime}–{session.endTime} ({session.duration}m)
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          class="text-slate-300 hover:text-amber-400 p-1 transition-transform hover:scale-110 cursor-pointer"
+                          data-card-star={session.id}
+                          title="Star talk"
+                          aria-label="Star talk"
+                        >
+                          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <h4 class="font-black text-[#172033] text-sm sm:text-base leading-snug mt-2">
+                        {session.title}
+                      </h4>
+
+                      <div class="flex items-center justify-between gap-2 pt-2 mt-3 border-t border-[#172033]/10">
+                        {firstSpeaker ? (
+                          <div class="flex items-center gap-1.5 text-xs text-[#172033] font-bold truncate">
+                            <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#172033] text-[0.62rem] font-black text-white shrink-0">
+                              {firstSpeaker.slice(0, 1).toUpperCase()}
+                            </span>
+                            <span class="truncate">{session.speakers.join(', ')}</span>
+                          </div>
+                        ) : <div />}
+
+                        <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[0.68rem] font-black text-[#172033] uppercase">
+                          {session.sessionType}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Desktop Timeline Canvas (Continuous Grid) -->
+  <main class="hidden lg:block w-full bg-[#FAF7F0] overflow-x-auto pb-16">
+    <div class="min-w-[1380px] max-w-[1700px] mx-auto px-4 sm:px-6">
+      <div class="border-3 border-t-0 border-[#172033] bg-white rounded-b-2xl shadow-[8px_8px_0_#172033] relative">
+        <div class="relative grid grid-cols-13 bg-white rounded-b-2xl" style={`height: ${TIMELINE_TOTAL_HEIGHT}px;`}>
+          <div class="pointer-events-none absolute inset-0 col-span-13">
+            {timeMarkers.map((marker) => (
+              <div
+                class="absolute left-0 right-0 border-t border-[#172033]/10"
+                style={`top: ${marker.topPx}px;`}
+              />
+            ))}
+          </div>
+
+          <div class="col-span-1 border-r-2 border-[#172033]/20 relative bg-[#FAF7F0]/60 select-none z-10 rounded-bl-[0.85rem]">
+            {timeMarkers.map((marker) => (
+              <div
+                class="absolute left-1 right-1 text-right pr-2 text-[0.72rem] font-black text-[#172033] -translate-y-1/2"
+                style={`top: ${marker.topPx}px;`}
+              >
+                {marker.time12}
+              </div>
+            ))}
+          </div>
+
+          {roomColumns.map((room) => {
+            const sessions = getSessionsForRoom(room.key);
+
+            return (
+              <div class="col-span-2 relative z-20 px-1.5">
+                {sessions.map((session) => {
+                  const isBreak = session.isBreak;
+                  const isWorkshop = session.sessionType.toLowerCase().includes('workshop');
+                  const isLightning = session.sessionType.toLowerCase().includes('lightning');
+                  const firstSpeaker = session.speakers[0] || '';
+
+                  return (
+                    <div
+                      class:list={[
+                        'absolute left-1.5 right-1.5 rounded-2xl border-2 border-[#172033] select-none transition-all duration-150 cursor-pointer overflow-hidden',
+                        isBreak
+                          ? 'bg-slate-100 border-[#172033]/40 text-slate-700 shadow-[2px_2px_0_#172033]/30 p-2.5 flex items-center justify-between'
+                          : isWorkshop
+                            ? 'bg-amber-50 border-[#172033] shadow-[4px_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#b45309] p-3.5 flex flex-col justify-between'
+                            : isLightning
+                              ? 'bg-red-50/80 border-[#d71920] shadow-[3px_3px_0_#d71920] hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#d71920] p-2.5 flex flex-col justify-between'
+                              : 'bg-white border-[#172033] shadow-[3px_3px_0_#172033] hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#172033] p-3 flex flex-col justify-between'
+                      ]}
+                      style={`top: ${session.topPx}px; height: ${session.heightPx}px;`}
+                      data-session-card
+                      data-session-id={session.id}
+                      data-room-key={session.roomKey}
+                      data-language={session.language}
+                      data-is-break={isBreak ? 'true' : 'false'}
+                      data-search={`${session.title} ${session.speakers.join(' ')} ${session.room} ${session.tags.join(' ')}`.toLowerCase()}
+                    >
+                      {isBreak ? (
+                        <div class="flex items-center gap-2 w-full">
+                          <span class="inline-flex items-center rounded-md bg-slate-600 px-1.5 py-0.5 text-[0.62rem] font-black uppercase text-white shrink-0">
+                            {session.startTime} · {session.duration}m
+                          </span>
+                          <span class="font-bold text-[#172033] text-[0.72rem] leading-tight">
+                            {session.title}
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          <div class="space-y-1.5">
+                            <div class="flex items-center justify-between gap-1">
+                              <span class:list={[
+                                'inline-flex items-center rounded-md px-1.5 py-0.5 text-[0.68rem] font-black uppercase text-white',
+                                session.badgeBg
+                              ]}>
+                                {session.startTime} · {session.duration}m
+                              </span>
+
+                              <button
+                                type="button"
+                                class="text-slate-300 hover:text-amber-400 p-0.5 transition-transform hover:scale-110 cursor-pointer"
+                                data-card-star={session.id}
+                                title="Star talk"
+                                aria-label="Star talk"
+                              >
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+
+                            <h4
+                              class:list={[
+                                'font-black text-[#172033] group-hover:text-[#d71920] transition-colors leading-snug',
+                                isLightning ? 'text-[0.76rem]' : isWorkshop ? 'text-sm' : 'text-xs sm:text-[0.82rem]'
+                              ]}
+                            >
+                              {session.title}
+                            </h4>
+
+                            {isWorkshop && (
+                              <span class="inline-flex items-center rounded-md bg-amber-200 text-amber-950 px-1.5 py-0.2 text-[0.65rem] font-black uppercase">
+                                Workshop (90 mins)
+                              </span>
+                            )}
+                          </div>
+
+                          {firstSpeaker && (
+                            <div class="flex items-center gap-1.5 pt-1.5 mt-auto text-[0.72rem] text-[#172033] font-bold truncate border-t border-[#172033]/10">
+                              <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#172033] text-[0.55rem] font-black text-white shrink-0">
+                                {firstSpeaker.slice(0, 1).toUpperCase()}
+                              </span>
+                              <span class="truncate">{session.speakers.join(', ')}</span>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Complete Filters Modal with Rooms, Languages, Search, and Action buttons -->
+  <div
+    id="filter-modal"
+    class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-200"
+    data-filter-modal
+  >
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-2xs" data-filter-backdrop></div>
+    
+    <div
+      class="relative w-full max-w-lg rounded-3xl border-3 border-[#172033] bg-[#FAF7F0] p-6 sm:p-8 shadow-[8px_8px_0_#172033] space-y-6 scale-95 transition-transform duration-200 max-h-[90vh] overflow-y-auto"
+      data-filter-panel
+    >
+      <div class="flex items-center justify-between border-b-2 border-[#172033]/15 pb-4">
+        <h3 class="font-operetta-32 text-2xl font-black text-[#172033] uppercase">
+          Filters
+        </h3>
+        <button
+          type="button"
+          class="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none cursor-pointer"
+          data-filter-close
+          aria-label="Close filters"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="text-xs font-black uppercase tracking-wider text-slate-600">
+          Rooms
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          {roomColumns.map((room) => (
+            <button
+              type="button"
+              class="rounded-full border-2 border-slate-300 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 transition-all cursor-pointer hover:border-[#172033]"
+              data-filter-room={room.key}
+            >
+              {room.label} ({room.subtitle})
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="text-xs font-black uppercase tracking-wider text-slate-600">
+          Languages
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="rounded-full border-2 border-slate-300 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 transition-all cursor-pointer hover:border-[#172033]"
+            data-filter-lang="en"
+          >
+            English
+          </button>
+          <button
+            type="button"
+            class="rounded-full border-2 border-slate-300 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 transition-all cursor-pointer hover:border-[#172033]"
+            data-filter-lang="zh-hant"
+          >
+            Traditional Chinese
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <label for="filter-search-input" class="block text-xs font-black uppercase tracking-wider text-slate-600">
+          Search
+        </label>
+        <div class="relative">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+            <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input
+            id="filter-search-input"
+            type="text"
+            placeholder="Search topic, speaker, room, or tag..."
+            class="w-full rounded-2xl border-2 border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm font-medium text-[#172033] shadow-xs focus:border-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30"
+            data-search-input
+          />
+        </div>
+      </div>
+
+      <div class="pt-4 border-t-2 border-[#172033]/15 space-y-3">
+        <button
+          type="button"
+          class="w-full py-3 rounded-2xl bg-[#0284c7] text-white font-black text-sm border-2 border-[#172033] shadow-[3px_3px_0_#172033] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all cursor-pointer"
+          data-filter-close
+        >
+          Show results
+        </button>
+
+        <button
+          type="button"
+          class="w-full py-2.5 rounded-2xl bg-white text-[#0284c7] font-black text-sm border-2 border-[#0284c7] hover:bg-[#0284c7]/10 transition-all cursor-pointer"
+          data-filter-reset
+        >
+          Clear filters
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <ScheduleModal locale={locale} />
+</ConferenceLayout>
+
+<script is:inline define:vars={{ rawSessionsData: allScheduleItems }}>
+  window.__PYCONHK_SESSIONS__ = rawSessionsData;
+</script>
+
+<script is:inline data-astro-rerun>
+  (() => {
+    const sessions = window.__PYCONHK_SESSIONS__ || [];
+    const sessionsMap = new Map(sessions.map((s) => [s.id, s]));
+
+    let searchQuery = '';
+    let showOnlyStarred = false;
+    const selectedRooms = new Set();
+    const selectedLanguages = new Set();
+
+    const getStarred = () => {
+      try {
+        const saved = localStorage.getItem('pyconhk-2026-starred-sessions');
+        return saved ? JSON.parse(saved) : [];
+      } catch (_) {
+        return [];
+      }
+    };
+
+    const setStarred = (arr) => {
+      try {
+        localStorage.setItem('pyconhk-2026-starred-sessions', JSON.stringify(arr));
+      } catch (_) {}
+      updateStarUI();
+      filterSessions();
+    };
+
+    const isStarred = (id) => getStarred().includes(id);
+
+    const toggleStar = (id) => {
+      const current = getStarred();
+      const updated = current.includes(id)
+        ? current.filter((x) => x !== id)
+        : [...current, id];
+      setStarred(updated);
+    };
+
+    const updateStarUI = () => {
+      const starred = getStarred();
+      for (const el of document.querySelectorAll('[data-starred-count]')) {
+        el.textContent = String(starred.length);
+      }
+
+      for (const btn of document.querySelectorAll('[data-card-star]')) {
+        const id = btn.getAttribute('data-card-star');
+        const active = starred.includes(id);
+        const icon = btn.querySelector('svg');
+        if (icon) {
+          if (active) {
+            icon.classList.add('text-amber-400', 'fill-amber-400');
+            icon.classList.remove('text-slate-300', 'fill-none');
+          } else {
+            icon.classList.remove('text-amber-400', 'fill-amber-400');
+            icon.classList.add('text-slate-300', 'fill-none');
+          }
+        }
+      }
+    };
+
+    const updateFilterCountUI = () => {
+      let count = selectedRooms.size + selectedLanguages.size + (searchQuery ? 1 : 0);
+      const countEl = document.querySelector('[data-active-filter-count]');
+      if (countEl) {
+        if (count > 0) {
+          countEl.textContent = String(count);
+          countEl.classList.remove('hidden');
+        } else {
+          countEl.classList.add('hidden');
+        }
+      }
+    };
+
+    const filterSessions = () => {
+      const desktopCards = document.querySelectorAll('[data-session-card]');
+      const mobileCards = document.querySelectorAll('[data-mobile-session-card]');
+
+      const applyFiltersToCard = (card) => {
+        const id = card.getAttribute('data-session-id');
+        const isBreak = card.getAttribute('data-is-break') === 'true';
+        const searchContent = card.getAttribute('data-search') || '';
+        const roomKey = card.getAttribute('data-room-key') || '';
+        const lang = card.getAttribute('data-language') || '';
+
+        // 1. Search Query
+        const matchSearch = !searchQuery || searchContent.includes(searchQuery.toLowerCase());
+
+        // 2. Starred
+        const matchStarred = !showOnlyStarred || (!isBreak && isStarred(id));
+
+        // 3. Room filter
+        let matchRoom = true;
+        if (selectedRooms.size > 0) {
+          matchRoom = selectedRooms.has(roomKey);
+        }
+
+        // 4. Language filter: Check JSON language attribute ('en' vs 'zh-hant'). Breaks have no language attribute and are hidden when filtering by language.
+        let matchLang = true;
+        if (selectedLanguages.size > 0) {
+          if (isBreak) {
+            matchLang = false;
+          } else {
+            const rawLang = (lang || '').toLowerCase().trim();
+            const isZh = rawLang === 'zh-hant' || rawLang === 'zh-hk' || rawLang === 'zh' || rawLang.includes('chinese');
+            const isEn = rawLang === 'en' || rawLang.includes('english');
+
+            matchLang = (selectedLanguages.has('zh-hant') && isZh) || (selectedLanguages.has('en') && isEn);
+          }
+        }
+
+        const visible = matchSearch && matchStarred && matchRoom && matchLang;
+        card.style.display = visible ? '' : 'none';
+        return visible;
+      };
+
+      for (const card of desktopCards) {
+        applyFiltersToCard(card);
+      }
+
+      for (const card of mobileCards) {
+        applyFiltersToCard(card);
+      }
+
+      const timeSlotGroups = document.querySelectorAll('[data-timeslot-group]');
+      for (const group of timeSlotGroups) {
+        const cardsInGroup = Array.from(group.querySelectorAll('[data-mobile-session-card]'));
+        const hasVisible = cardsInGroup.some((c) => c.style.display !== 'none');
+        group.style.display = hasVisible ? '' : 'none';
+      }
+
+      updateFilterCountUI();
+    };
+
+    const filterModal = document.querySelector('[data-filter-modal]');
+    const filterPanel = filterModal?.querySelector('[data-filter-panel]');
+    const filterBackdrop = filterModal?.querySelector('[data-filter-backdrop]');
+    const openModalBtns = document.querySelectorAll('[data-filter-modal-open]');
+    const closeModalBtns = document.querySelectorAll('[data-filter-close]');
+    const resetFilterBtn = document.querySelector('[data-filter-reset]');
+    const searchInput = document.querySelector('[data-search-input]');
+
+    const openFilterModal = () => {
+      if (!filterModal || !filterPanel) return;
+      filterModal.classList.remove('pointer-events-none', 'opacity-0');
+      filterModal.classList.add('pointer-events-auto', 'opacity-100');
+      filterPanel.classList.remove('scale-95');
+      filterPanel.classList.add('scale-100');
+      document.documentElement.classList.add('overflow-hidden');
+    };
+
+    const closeFilterModal = () => {
+      if (!filterModal || !filterPanel) return;
+      filterModal.classList.remove('pointer-events-auto', 'opacity-100');
+      filterModal.classList.add('pointer-events-none', 'opacity-0');
+      filterPanel.classList.remove('scale-100');
+      filterPanel.classList.add('scale-95');
+      document.documentElement.classList.remove('overflow-hidden');
+    };
+
+    for (const b of openModalBtns) b.addEventListener('click', openFilterModal);
+    for (const b of closeModalBtns) b.addEventListener('click', closeFilterModal);
+    if (filterBackdrop) filterBackdrop.addEventListener('click', closeFilterModal);
+
+    const roomButtons = document.querySelectorAll('[data-filter-room]');
+    roomButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const roomKey = btn.getAttribute('data-filter-room');
+        if (!roomKey) return;
+
+        if (selectedRooms.has(roomKey)) {
+          selectedRooms.delete(roomKey);
+          btn.classList.remove('bg-[#0284c7]', 'text-white', 'border-[#172033]', 'shadow-[2px_2px_0_#172033]');
+          btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+        } else {
+          selectedRooms.add(roomKey);
+          btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
+          btn.classList.add('bg-[#0284c7]', 'text-white', 'border-[#172033]', 'shadow-[2px_2px_0_#172033]');
+        }
+        filterSessions();
+      });
+    });
+
+    const langButtons = document.querySelectorAll('[data-filter-lang]');
+    langButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const langKey = btn.getAttribute('data-filter-lang');
+        if (!langKey) return;
+
+        if (selectedLanguages.has(langKey)) {
+          selectedLanguages.delete(langKey);
+          btn.classList.remove('bg-[#0284c7]', 'text-white', 'border-[#172033]', 'shadow-[2px_2px_0_#172033]');
+          btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+        } else {
+          selectedLanguages.add(langKey);
+          btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
+          btn.classList.add('bg-[#0284c7]', 'text-white', 'border-[#172033]', 'shadow-[2px_2px_0_#172033]');
+        }
+        filterSessions();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim();
+        filterSessions();
+      });
+    }
+
+    if (resetFilterBtn) {
+      resetFilterBtn.addEventListener('click', () => {
+        selectedRooms.clear();
+        selectedLanguages.clear();
+        searchQuery = '';
+        if (searchInput) searchInput.value = '';
+
+        roomButtons.forEach((btn) => {
+          btn.classList.remove('bg-[#0284c7]', 'text-white', 'border-[#172033]', 'shadow-[2px_2px_0_#172033]');
+          btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+        });
+
+        langButtons.forEach((btn) => {
+          btn.classList.remove('bg-[#0284c7]', 'text-white', 'border-[#172033]', 'shadow-[2px_2px_0_#172033]');
+          btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+        });
+
+        filterSessions();
+      });
+    }
+
+    const quickStarredToggle = document.querySelector('[data-starred-toggle]');
+    if (quickStarredToggle) {
+      quickStarredToggle.addEventListener('click', () => {
+        showOnlyStarred = !showOnlyStarred;
+        quickStarredToggle.setAttribute('aria-pressed', String(showOnlyStarred));
+        quickStarredToggle.classList.toggle('bg-amber-100', showOnlyStarred);
+        quickStarredToggle.classList.toggle('border-amber-400', showOnlyStarred);
+        filterSessions();
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const starBtn = e.target.closest('[data-card-star]');
+      if (starBtn) {
+        e.stopPropagation();
+        const id = starBtn.getAttribute('data-card-star');
+        if (id) toggleStar(id);
+      }
+    });
+
+    const modal = document.querySelector('[data-session-modal]');
+    const modalBox = modal?.querySelector('[data-modal-box]');
+    const modalBackdrop = modal?.querySelector('[data-modal-backdrop]');
+    const modalCloseBtns = modal?.querySelectorAll('[data-modal-close]');
+    const modalStarBtn = modal?.querySelector('[data-modal-star]');
+    let activeModalSessionId = null;
+
+    const openModal = (session) => {
+      if (!modal || !session || session.isBreak) return;
+      activeModalSessionId = session.id;
+
+      const titleEl = document.getElementById('modal-session-title');
+      const trackBadge = document.getElementById('modal-track-badge');
+      const typeBadge = document.getElementById('modal-type-badge');
+      const langBadge = document.getElementById('modal-lang-badge');
+
+      if (titleEl) titleEl.textContent = session.title;
+      if (trackBadge) {
+        trackBadge.textContent = session.room;
+        trackBadge.className = `inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-black uppercase text-white ${session.badgeBg}`;
+      }
+      if (typeBadge) typeBadge.textContent = session.sessionType;
+      if (langBadge) {
+        langBadge.textContent = session.language === 'en'
+          ? 'English'
+          : session.language === 'zh-hant' || session.language === 'zh-hk'
+            ? 'Traditional Chinese'
+            : session.language;
+      }
+
+      const timeEl = document.getElementById('modal-time');
+      const roomEl = document.getElementById('modal-room');
+      const durationEl = document.getElementById('modal-duration');
+
+      if (timeEl) timeEl.textContent = `${session.startTime} – ${session.endTime}`;
+      if (roomEl) roomEl.textContent = session.room;
+      if (durationEl) durationEl.textContent = `${session.duration} mins`;
+
+      const speakersList = document.getElementById('modal-speakers-list');
+      if (speakersList) {
+        speakersList.innerHTML = '';
+        for (const spk of session.speakers) {
+          const badge = document.createElement('span');
+          badge.className = 'inline-flex items-center gap-1.5 rounded-xl border-2 border-[#172033] bg-white px-3 py-1.5 shadow-[2px_2px_0_#172033]';
+          badge.innerHTML = `<span class="h-2 w-2 rounded-full bg-[#d71920]"></span><span>${spk}</span>`;
+          speakersList.appendChild(badge);
+        }
+      }
+
+      const abstractEl = document.getElementById('modal-abstract');
+      if (abstractEl) abstractEl.textContent = session.abstract || session.description || 'No description provided.';
+
+      const tagsContainer = document.getElementById('modal-tags');
+      if (tagsContainer) {
+        tagsContainer.innerHTML = '';
+        for (const tag of session.tags) {
+          const tPill = document.createElement('span');
+          tPill.className = 'rounded-md bg-slate-100 px-2 py-0.5 text-xs font-bold text-[#172033] border border-[#172033]/15';
+          tPill.textContent = tag;
+          tagsContainer.appendChild(tPill);
+        }
+      }
+
+      const calLink = document.getElementById('modal-calendar-link');
+      if (calLink) {
+        const startIso = `${session.dateString.replace(/-/g, '')}T${session.startTime.replace(/:/g, '')}00`;
+        const endIso = `${session.dateString.replace(/-/g, '')}T${session.endTime.replace(/:/g, '')}00`;
+        const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(session.title)}&dates=${startIso}/${endIso}&details=${encodeURIComponent(session.abstract)}&location=${encodeURIComponent(`${session.room}, PyCon HK`)}`;
+        calLink.setAttribute('href', calUrl);
+      }
+
+      updateModalStarBtn(session.id);
+
+      modal.classList.remove('pointer-events-none', 'opacity-0');
+      modal.classList.add('pointer-events-auto', 'opacity-100');
+      if (modalBox) {
+        modalBox.classList.remove('scale-95');
+        modalBox.classList.add('scale-100');
+      }
+      document.documentElement.classList.add('overflow-hidden');
+    };
+
+    const updateModalStarBtn = (id) => {
+      if (!modalStarBtn) return;
+      const starred = isStarred(id);
+      const icon = modalStarBtn.querySelector('[data-star-icon]');
+      const label = modalStarBtn.querySelector('[data-star-label]');
+
+      if (icon) {
+        if (starred) {
+          icon.classList.add('fill-amber-400', 'text-amber-400');
+          icon.classList.remove('fill-none', 'text-slate-400');
+        } else {
+          icon.classList.remove('fill-amber-400', 'text-amber-400');
+          icon.classList.add('fill-none', 'text-slate-400');
+        }
+      }
+      if (label) {
+        label.textContent = starred ? 'Starred in My Schedule' : 'Star Talk';
+      }
+    };
+
+    const closeModal = () => {
+      if (!modal) return;
+      modal.classList.remove('pointer-events-auto', 'opacity-100');
+      modal.classList.add('pointer-events-none', 'opacity-0');
+      if (modalBox) {
+        modalBox.classList.remove('scale-100');
+        modalBox.classList.add('scale-95');
+      }
+      document.documentElement.classList.remove('overflow-hidden');
+      activeModalSessionId = null;
+    };
+
+    if (modalStarBtn) {
+      modalStarBtn.addEventListener('click', () => {
+        if (activeModalSessionId) {
+          toggleStar(activeModalSessionId);
+          updateModalStarBtn(activeModalSessionId);
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('[data-session-card], [data-mobile-session-card]');
+      if (card && !e.target.closest('[data-card-star]')) {
+        const id = card.getAttribute('data-session-id');
+        const session = sessionsMap.get(id);
+        if (session && !session.isBreak) openModal(session);
+      }
+    });
+
+    for (const btn of modalCloseBtns || []) btn.addEventListener('click', closeModal);
+    if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeFilterModal();
+      }
+    });
+
+    updateStarUI();
+    filterSessions();
+  })();
+</script>

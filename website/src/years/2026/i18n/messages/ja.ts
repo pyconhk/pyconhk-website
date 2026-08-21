@@ -125,4 +125,30 @@ export const ja: HomeMessages = {
     termsAndSupport: '利用規約・サポート',
     privacyPolicy: 'プライバシーポリシー',
   },
+  schedule: {
+    pageTitle: 'スケジュール | PyCon HK 2026',
+    pageDescription:
+      'PyCon Hong Kong 2026 のセッション、ワークショップ、基調講演のスケジュールです。',
+    heroTitle: 'カンファレンススケジュール',
+    heroSubtitle:
+      '2日間にわたる基調講演、テクニカルトラック、実践ワークショップをご覧ください。',
+    day1: '1日目 (11月14日 土)',
+    day2: '2日目 (11月15日 日)',
+    allTracks: 'すべてのトラック',
+    searchPlaceholder: 'セッション、登壇者、キーワードで検索...',
+    mySchedule: 'ブックマークしたセッション',
+    myScheduleEmpty:
+      'まだブックマークがありません。セッションの星アイコンをクリックしてお気に入りに追加してください！',
+    noResults: '条件に一致するセッションが見つかりませんでした。',
+    details: 'セッション詳細',
+    addToCalendar: 'カレンダーに追加',
+    speaker: '登壇者',
+    speakers: '登壇者',
+    room: '会場・教室',
+    time: '時間',
+    duration: '所要時間',
+    language: '言語',
+    abstract: '概要',
+    close: '閉じる',
+  },
 };

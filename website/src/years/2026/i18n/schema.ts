@@ -94,6 +94,29 @@ export type HomeMessages = {
     termsAndSupport: string;
     privacyPolicy: string;
   };
+  schedule: {
+    pageTitle: string;
+    pageDescription: string;
+    heroTitle: string;
+    heroSubtitle: string;
+    day1: string;
+    day2: string;
+    allTracks: string;
+    searchPlaceholder: string;
+    mySchedule: string;
+    myScheduleEmpty: string;
+    noResults: string;
+    details: string;
+    addToCalendar: string;
+    speaker: string;
+    speakers: string;
+    room: string;
+    time: string;
+    duration: string;
+    language: string;
+    abstract: string;
+    close: string;
+  };
 };
 
 export type TranslationMessages = {

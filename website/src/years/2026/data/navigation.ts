@@ -30,7 +30,7 @@ export const headerNavigation: NavigationItem[] = [
       ja: 'ニュース',
       ko: '뉴스',
     },
-    href: (locale) => `/2026/${locale}/#about`,
+    href: (locale) => `/2026/${locale}/news/`,
   },
   {
     kind: 'group',
@@ -52,7 +52,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'スケジュール',
           ko: '컨퍼런스 일정',
         },
-        href: (locale) => `/2026/${locale}/#programme`,
+        href: (locale) => `/2026/${locale}/schedule/`,
       },
       {
         label: {
@@ -133,7 +133,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: '主催団体',
           ko: '주최 단체',
         },
-        href: (locale) => `/2026/${locale}/#about`,
+        href: (locale) => `/2026/${locale}/organizers/`,
       },
       {
         label: {
@@ -190,7 +190,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: '協賛募集',
           ko: '후원 기회',
         },
-        href: (locale) => `/2026/${locale}/#sponsors`,
+        href: (locale) => `/2026/${locale}/sponsorships/opportunities/`,
       },
     ],
   },
@@ -204,7 +204,7 @@ export const headerNavigation: NavigationItem[] = [
       ja: 'コミュニティ',
       ko: '커뮤니티',
     },
-    href: (locale) => `/2026/${locale}/#sponsors`,
+    href: (locale) => `/2026/${locale}/supporting-organizations/`,
   },
   {
     kind: 'link',
@@ -216,7 +216,7 @@ export const headerNavigation: NavigationItem[] = [
       ja: '概要',
       ko: '소개',
     },
-    href: (locale) => `/2026/${locale}/#about`,
+    href: (locale) => `/2026/${locale}/about/`,
   },
   {
     kind: 'group',

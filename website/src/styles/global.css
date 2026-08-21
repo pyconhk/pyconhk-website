@@ -40,6 +40,19 @@
   }
 }
 
+.font-operetta,
+.font-operetta-32 {
+  font-family:
+    "Operetta 32", "Operetta-32", "Operetta32-Black", "Operetta32-Bold", "Operetta32",
+    "Operetta", "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
+  font-weight: 900;
+  font-variation-settings: "opsz" 32;
+  font-feature-settings: "liga", "clig";
+  letter-spacing: 0.035em;
+  text-shadow: 0 0 0.5px currentColor;
+  -webkit-text-stroke: 0.35px currentColor;
+}
+
 @keyframes header-opacity-jitter {
   0% {
     opacity: 0.44;

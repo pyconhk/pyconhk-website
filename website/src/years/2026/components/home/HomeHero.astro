@@ -64,7 +64,7 @@ const t = getTranslations(locale);
       <!-- 2. Center Elevated Hero Logo Card (Fade Entrance Step 2) -->
       <div class="hero-fade-2 w-full rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 shadow-[10px_10px_0_#2f559a] transition-transform hover:-translate-y-1 hover:shadow-[12px_12px_0_#2f559a]">
         <img
-          src="/2026/logos/pyconlogo.svg"
+          src="/2026/logos/logo.png"
           alt="PyCon HK 2026 Logo"
           width="608"
           height="276"
@@ -106,8 +106,8 @@ const t = getTranslations(locale);
       </a>
 
       <a
-        href="#about"
-        class="group flex h-13 w-13 items-center justify-center rounded-full bg-white text-[#172033] border-2 border-[#172033] shadow-[4px_4px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-slate-50"
+        href={`/2026/${locale}/schedule/`}
+        class="group flex h-13 w-13 items-center justify-center rounded-full bg-white dark:bg-[#131b2e] text-[#172033] dark:text-white border-2 border-[#172033] dark:border-slate-700 shadow-[4px_4px_0_#172033] dark:shadow-[4px_4px_0_#38bdf8] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-slate-50 dark:hover:bg-slate-800"
         aria-label={t.hero.calendarCta}
         title={t.hero.calendarCta}
       >

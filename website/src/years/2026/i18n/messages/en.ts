@@ -127,4 +127,30 @@ export const en: HomeMessages = {
     termsAndSupport: 'Terms & Support',
     privacyPolicy: 'Privacy Policy',
   },
+  schedule: {
+    pageTitle: 'Conference Schedule | PyCon HK 2026',
+    pageDescription:
+      'Explore the complete PyCon Hong Kong 2026 conference schedule, sessions, workshops, and keynotes.',
+    heroTitle: 'Conference Schedule',
+    heroSubtitle:
+      'Explore keynote talks, technical tracks, and workshops across two full days.',
+    day1: 'Day 1 (Nov 14, Sat)',
+    day2: 'Day 2 (Nov 15, Sun)',
+    allTracks: 'All Tracks',
+    searchPlaceholder: 'Search talks, speakers, or topics...',
+    mySchedule: 'My Starred Talks',
+    myScheduleEmpty:
+      'No starred talks yet. Click the star icon on any talk to add it to your personal schedule!',
+    noResults: 'No sessions found matching your filter criteria.',
+    details: 'Session Details',
+    addToCalendar: 'Add to Calendar',
+    speaker: 'Speaker',
+    speakers: 'Speakers',
+    room: 'Room',
+    time: 'Time',
+    duration: 'Duration',
+    language: 'Language',
+    abstract: 'Abstract',
+    close: 'Close',
+  },
 };
