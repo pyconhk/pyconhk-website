@@ -1,101 +1,23 @@
 ---
 interface Props {
-  /** Optional custom Tailwind height class (default: h-4) */
+  /** Optional custom Tailwind height class (default: h-5 sm:h-7) */
   heightClass?: string;
   /** Optional custom class name */
   className?: string;
-  /** Unique ID prefix if using multiple instances on one page */
-  idPrefix?: string;
 }
 
 const {
-  heightClass = 'h-4',
+  heightClass = 'h-5 sm:h-7',
   className = '',
-  idPrefix = `rwb-${Math.random().toString(36).substring(2, 7)}`,
 } = Astro.props;
-
-const checkerId = `${idPrefix}-checker`;
-const redBlueCheckerId = `${idPrefix}-rb-checker`;
-const mainPatternId = `${idPrefix}-pattern`;
 ---
 
 <div
-  class:list={['w-full overflow-hidden shrink-0 select-none bg-white', heightClass, className]}
+  class:list={[
+    'w-full shrink-0 select-none bg-repeat-x bg-center',
+    heightClass,
+    className,
+  ]}
+  style="background-image: url('/2026/header/top-0817.svg'); background-size: auto 100%;"
   aria-hidden="true"
->
-  <svg
-    class="w-full h-full block"
-    xmlns="http://www.w3.org/2000/svg"
-    shape-rendering="crispEdges"
-    aria-hidden="true"
-  >
-    <title>Hong Kong Red-White-Blue Ribbon</title>
-    <defs>
-      <!-- Base 2x2 Unit Red & White Checkered Texture (4x4px tile) -->
-      <pattern
-        id={checkerId}
-        width="4"
-        height="4"
-        patternUnits="userSpaceOnUse"
-      >
-        <rect width="4" height="4" fill="#ffffff" />
-        <rect x="0" y="0" width="2" height="2" fill="#d21c23" />
-        <rect x="2" y="2" width="2" height="2" fill="#d21c23" />
-      </pattern>
-
-      <!-- 2x2 Unit Red & Blue Checkered Texture (4x4px tile) -->
-      <pattern
-        id={redBlueCheckerId}
-        width="4"
-        height="4"
-        patternUnits="userSpaceOnUse"
-      >
-        <rect width="4" height="4" fill="#1f519b" />
-        <rect x="0" y="0" width="2" height="2" fill="#d21c23" />
-        <rect x="2" y="2" width="2" height="2" fill="#d21c23" />
-      </pattern>
-
-      <!-- Full Hong Kong Red-White-Blue Ribbon Repeat Unit (144px × 16px) -->
-      <pattern
-        id={mainPatternId}
-        width="144"
-        height="16"
-        patternUnits="userSpaceOnUse"
-      >
-        <!-- Background: Seamless Red & White Checkerboard Field -->
-        <rect width="144" height="16" fill={`url(#${checkerId})`} />
-
-        <!-- ================= LEFT STRIPE GROUP ================= -->
-        <!-- 3 units (6px) Solid Red Bar -->
-        <rect x="16" y="0" width="6" height="16" fill="#d21c23" />
-
-        <!-- 2 units (4px) Red & White texture: x=22..26 (reveals background checker) -->
-
-        <!-- 2 units (4px) Red & Blue texture: x=26..30 -->
-        <rect x="26" y="0" width="4" height="16" fill={`url(#${redBlueCheckerId})`} />
-
-        <!-- 2 units (4px) Red & White texture: x=30..34 (reveals background checker) -->
-
-        <!-- 2 units (4px) Red & Blue texture: x=34..38 -->
-        <rect x="34" y="0" width="4" height="16" fill={`url(#${redBlueCheckerId})`} />
-
-        <!-- ================= RIGHT STRIPE GROUP ================= -->
-        <!-- 2 units (4px) Red & Blue texture: x=106..110 -->
-        <rect x="106" y="0" width="4" height="16" fill={`url(#${redBlueCheckerId})`} />
-
-        <!-- 2 units (4px) Red & White texture: x=110..114 (reveals background checker) -->
-
-        <!-- 2 units (4px) Red & Blue texture: x=114..118 -->
-        <rect x="114" y="0" width="4" height="16" fill={`url(#${redBlueCheckerId})`} />
-
-        <!-- 2 units (4px) Red & White texture: x=118..122 (reveals background checker) -->
-
-        <!-- 3 units (6px) Solid Red Bar: x=122..128 -->
-        <rect x="122" y="0" width="6" height="16" fill="#d21c23" />
-      </pattern>
-    </defs>
-
-    <!-- Infinite horizontal canvas fill -->
-    <rect width="100%" height="100%" fill={`url(#${mainPatternId})`} />
-  </svg>
-</div>
+/>
