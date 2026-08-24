@@ -16,17 +16,19 @@
   --color-brand-blue-soft-strong: #d3f4f5;
   --color-brand-yellow: #fece00;
   --font-sans:
-    "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Microsoft JhengHei", sans-serif;
+  --font-roboto:
+    "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
     "Microsoft JhengHei", sans-serif;
   --font-display:
-    "Lexend", "Montserrat", ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", "PingFang HK", "PingFang TC",
-    "Hiragino Sans GB", "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
+    "Operetta 32", "Operetta-32", "Operetta32-Black", "Operetta32-Bold", "Operetta32",
+    "Operetta", "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
   --font-serif:
-    "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
-    "Microsoft JhengHei", sans-serif;
+    "Operetta 32", "Operetta-32", "Operetta32-Black", "Operetta32-Bold", "Operetta32",
+    "Operetta", "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
   --animate-scroll: scroll 40s linear infinite;
 
   @keyframes scroll {
@@ -51,6 +53,22 @@
   letter-spacing: 0.035em;
   text-shadow: 0 0 0.5px currentColor;
   -webkit-text-stroke: 0.35px currentColor;
+}
+
+.font-roboto {
+  font-family:
+    "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Microsoft JhengHei", sans-serif;
+}
+
+p,
+li,
+dd,
+dt,
+blockquote,
+figcaption {
+  font-family: var(--font-sans);
 }
 
 @keyframes header-opacity-jitter {
