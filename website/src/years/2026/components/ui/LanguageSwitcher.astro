@@ -23,9 +23,13 @@ const supportedLocalesList: Array<{
   { code: 'ko', label: 'Korean', nativeLabel: '한국어', htmlLang: 'ko-KR' },
 ];
 
+const pathname = Astro.url.pathname;
+const subpathMatch = pathname.match(/^\/2026\/[^/]+(\/.*)?$/);
+const subpath = subpathMatch && subpathMatch[1] ? subpathMatch[1] : '/';
+
 const items = supportedLocalesList.map((item) => ({
   ...item,
-  href: `/2026/${item.code}/`,
+  href: `/2026/${item.code}${subpath}`,
   active: item.code === locale,
 }));
 
@@ -101,14 +105,29 @@ const activeItem = items.find((item) => item.active) ?? items[0];
 }
 
 <script is:inline data-astro-rerun define:vars={{ cookieName: preferredLocaleCookie }}>
-  for (const link of document.querySelectorAll('[data-locale-switch]')) {
-    if (link instanceof HTMLAnchorElement) {
-      const baseHref = link.dataset.baseHref;
-      if (baseHref) {
-        link.href = `${baseHref}${window.location.search}${window.location.hash}`;
+  function updateLanguageSwitchLinks() {
+    const currentPath = window.location.pathname;
+    const currentSearch = window.location.search;
+    const currentHash = window.location.hash;
+
+    const match = currentPath.match(/^\/2026\/[^/]+(\/.*)?$/);
+    const subpath = match && match[1] ? match[1] : '/';
+
+    for (const link of document.querySelectorAll('[data-locale-switch]')) {
+      if (link instanceof HTMLAnchorElement) {
+        const nextLocale = link.dataset.localeSwitch;
+        if (nextLocale) {
+          link.href = `/2026/${nextLocale}${subpath}${currentSearch}${currentHash}`;
+        }
       }
     }
+  }
 
+  updateLanguageSwitchLinks();
+  window.addEventListener('hashchange', updateLanguageSwitchLinks);
+  document.addEventListener('astro:page-load', updateLanguageSwitchLinks);
+
+  for (const link of document.querySelectorAll('[data-locale-switch]')) {
     link.addEventListener('click', (event) => {
       const target = event.currentTarget;
       if (!(target instanceof HTMLElement)) return;

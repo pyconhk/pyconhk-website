@@ -42,6 +42,21 @@
   }
 }
 
+.ideal-heading,
+.font-ideal {
+  font-family:
+    "Fraunces", "Besley", "Lora", "Merriweather", "Bitter", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
+  font-weight: 800;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.03em;
+  color: rgb(20, 23, 24);
+  --canva-color: #141718ff;
+  caret-color: rgb(20, 23, 24);
+  overflow-wrap: normal;
+}
+
 .font-operetta,
 .font-operetta-32 {
   font-family:
@@ -50,9 +65,7 @@
   font-weight: 900;
   font-variation-settings: "opsz" 32;
   font-feature-settings: "liga", "clig";
-  letter-spacing: 0.035em;
-  text-shadow: 0 0 0.5px currentColor;
-  -webkit-text-stroke: 0.35px currentColor;
+  letter-spacing: 0.02em;
 }
 
 .font-roboto {
