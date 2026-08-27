@@ -60,12 +60,17 @@
 .font-operetta,
 .font-operetta-32 {
   font-family:
-    "Operetta 32", "Operetta-32", "Operetta32-Black", "Operetta32-Bold", "Operetta32",
-    "Operetta", "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
+    "Operetta 32", "Operetta-32", "Operetta 32 Heavy", "Operetta 32 Black",
+    "Operetta32-Black", "Operetta32-Heavy", "Operetta32-Bold", "Operetta 12", "Operetta 8", "Operetta",
+    "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
   font-weight: 900;
-  font-variation-settings: "opsz" 32;
+  font-variation-settings:
+    "opsz" 6,
+    "wght" 900;
   font-feature-settings: "liga", "clig";
   letter-spacing: 0.02em;
+  -webkit-text-stroke: 0.45px currentColor;
+  text-rendering: optimizeLegibility;
 }
 
 .font-roboto {

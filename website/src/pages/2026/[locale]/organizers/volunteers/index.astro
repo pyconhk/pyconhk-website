@@ -1,0 +1,14 @@
+---
+import VolunteersPage from '@/years/2026/components/pages/VolunteersPage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/data/cfp';
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+
+<VolunteersPage locale={locale} />

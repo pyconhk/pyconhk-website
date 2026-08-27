@@ -144,7 +144,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'ボランティア',
           ko: '자원봉사자',
         },
-        href: (locale) => `/2026/${locale}/#about`,
+        href: (locale) => `/2026/${locale}/volunteers/`,
       },
     ],
   },
