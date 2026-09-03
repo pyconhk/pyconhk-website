@@ -16,17 +16,19 @@
   --color-brand-blue-soft-strong: #d3f4f5;
   --color-brand-yellow: #fece00;
   --font-sans:
-    "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Microsoft JhengHei", sans-serif;
+  --font-roboto:
+    "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
     "Microsoft JhengHei", sans-serif;
   --font-display:
-    "Lexend", "Montserrat", ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", "PingFang HK", "PingFang TC",
-    "Hiragino Sans GB", "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
+    "Operetta 32", "Operetta-32", "Operetta32-Black", "Operetta32-Bold", "Operetta32",
+    "Operetta", "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
   --font-serif:
-    "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
-    "Microsoft JhengHei", sans-serif;
+    "Operetta 32", "Operetta-32", "Operetta32-Black", "Operetta32-Bold", "Operetta32",
+    "Operetta", "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
   --animate-scroll: scroll 40s linear infinite;
 
   @keyframes scroll {
@@ -38,6 +40,53 @@
       transform: translateX(calc(-200px * 9));
     }
   }
+}
+
+.ideal-heading,
+.font-ideal {
+  font-family:
+    "Fraunces", "Besley", "Lora", "Merriweather", "Bitter", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
+  font-weight: 800;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.03em;
+  color: rgb(20, 23, 24);
+  --canva-color: #141718ff;
+  caret-color: rgb(20, 23, 24);
+  overflow-wrap: normal;
+}
+
+.font-operetta,
+.font-operetta-32 {
+  font-family:
+    "Operetta 32", "Operetta-32", "Operetta 32 Heavy", "Operetta 32 Black",
+    "Operetta32-Black", "Operetta32-Heavy", "Operetta32-Bold", "Operetta 12", "Operetta 8", "Operetta",
+    "Bodoni Moda", "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
+  font-weight: 900;
+  font-variation-settings:
+    "opsz" 6,
+    "wght" 900;
+  font-feature-settings: "liga", "clig";
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 0.45px currentColor;
+  text-rendering: optimizeLegibility;
+}
+
+.font-roboto {
+  font-family:
+    "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Microsoft JhengHei", sans-serif;
+}
+
+p,
+li,
+dd,
+dt,
+blockquote,
+figcaption {
+  font-family: var(--font-sans);
 }
 
 @keyframes header-opacity-jitter {

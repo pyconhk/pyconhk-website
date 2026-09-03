@@ -1,0 +1,23 @@
+---
+import NewsArticlePage from '@/years/2026/components/pages/NewsArticlePage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/data/cfp';
+import { getNewsArticles } from '@/years/2026/data/news';
+
+export function getStaticPaths() {
+  const articles = getNewsArticles();
+
+  return supportedLocales.flatMap((locale) =>
+    articles.map((article) => ({
+      params: {
+        locale,
+        slug: article.slug,
+      },
+    }))
+  );
+}
+
+const locale = resolveCfpLocale(Astro.params.locale);
+const slug = Astro.params.slug || '';
+---
+
+<NewsArticlePage locale={locale} slug={slug} />

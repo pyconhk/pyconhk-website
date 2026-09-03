@@ -1,11 +1,12 @@
 export const siteName = 'PyCon HK';
 export const siteUrl = 'https://pycon.hk';
 export const currentConferenceYear = 2026 as const;
-export const defaultSeoTitle = 'PyCon HK 2026 CFP | Many Voices, One Python Story';
+export const defaultSeoTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
 export const defaultSeoDescription =
-  'Submit a proposal for PyCon Hong Kong 2026. Many voices, one Python story.';
-export const defaultOpenGraphTitle = 'PyCon HK 2026 CFP';
-export const defaultOpenGraphDescription = 'Many Voices, One Python Story';
+  'PyCon Hong Kong 2026 — A spirited gathering for Python people, ideas, and open-source possibility right in the heart of Hong Kong.';
+export const defaultOpenGraphTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
+export const defaultOpenGraphDescription =
+  'Ride and Leverage with AI — 14–15 November 2026';
 export const socialImagePath = '/2026/open-graph.webp';
 export const archiveSocialImagePaths = {
   2025: '/2025/landing-pages/open-graph.webp',

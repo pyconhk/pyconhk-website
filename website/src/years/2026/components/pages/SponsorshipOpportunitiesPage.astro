@@ -1,0 +1,346 @@
+---
+import {
+  featureLabels,
+  featureSections,
+  maxSlotsLabel,
+  pageCopyByLocale,
+  type SponsorshipPlan,
+  sponsorBenefits,
+  sponsorshipPlans,
+} from '@/years/2026/data/sponsorships';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const pageCopy = pageCopyByLocale[locale] ?? pageCopyByLocale.en;
+const contactHref = 'mailto:pycon@pycon.hk?cc=calvin@opensource.hk';
+
+function getFeatureDisplay(
+  plan: SponsorshipPlan,
+  featureKey: string,
+  currentLocale: CfpLocale
+): { kind: 'text'; value: string } | { kind: 'boolean'; value: boolean } {
+  const raw = plan.features[featureKey as keyof typeof plan.features];
+  if (typeof raw === 'boolean') {
+    return { kind: 'boolean', value: raw };
+  }
+  if (raw && typeof raw === 'object') {
+    const record = raw as Record<string, string>;
+    const locVal = record[currentLocale] ?? record.en;
+    if (locVal) {
+      return { kind: 'text', value: locVal };
+    }
+  }
+  return { kind: 'boolean', value: false };
+}
+---
+
+<ConferenceLayout
+  title={`${pageCopy.title} | PyCon HK 2026`}
+  description={pageCopy.introParagraphs[0]}
+  locale={locale}
+>
+  <main class="w-full bg-[#FAF7F0] py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      
+      <div class="rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 md:p-14 shadow-[8px_8px_0_#172033] space-y-16">
+        
+        <!-- Header & Intro Section -->
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <div class="inline-flex items-center gap-2 rounded-full border-2 border-[#172033] bg-[#FAF7F0] px-3.5 py-1 text-xs font-black uppercase text-[#172033] shadow-[2px_2px_0_#172033]">
+            <span class="h-2 w-2 rounded-full bg-[#d71920]"></span>
+            <span>{pageCopy.subtitle}</span>
+          </div>
+
+          <h1 class="font-operetta-32 text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#172033] font-black uppercase tracking-tight">
+            {pageCopy.title}
+          </h1>
+
+          <div class="space-y-3.5 text-sm sm:text-base text-slate-700 font-medium leading-relaxed text-left sm:text-justify pt-2">
+            {pageCopy.introParagraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </div>
+
+        <!-- Why Sponsor? Section -->
+        <div class="pt-8 border-t-2 border-[#172033]/15 space-y-8">
+          <h2 class="text-center font-operetta-32 text-2xl sm:text-3xl md:text-4xl text-[#172033] font-black uppercase tracking-tight">
+            {pageCopy.whySponsorTitle}
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {sponsorBenefits.map((benefit) => {
+              const benefitTitle = benefit.title[locale] ?? benefit.title.en;
+              const benefitDesc = benefit.description[locale] ?? benefit.description.en;
+
+              return (
+                <div class="rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] p-6 shadow-[4px_4px_0_#172033] flex flex-col items-center text-center space-y-3 transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0_#d71920]">
+                  <div class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033]">
+                    {benefit.icon === 'eye' && (
+                      <svg class="h-7 w-7 text-[#2f559a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                    {benefit.icon === 'users' && (
+                      <svg class="h-7 w-7 text-[#0d9488]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    )}
+                    {benefit.icon === 'heart' && (
+                      <svg class="h-7 w-7 text-[#d71920]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    )}
+                  </div>
+
+                  <h3 class="text-lg font-black text-[#172033]">{benefitTitle}</h3>
+                  <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                    {benefitDesc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- Sponsorship Plans Section -->
+        <div class="pt-8 border-t-2 border-[#172033]/15 space-y-8">
+          <div class="text-center max-w-2xl mx-auto space-y-2">
+            <h2 class="font-operetta-32 text-2xl sm:text-3xl md:text-4xl text-[#172033] font-black uppercase tracking-tight">
+              {pageCopy.plansTitle}
+            </h2>
+            <p class="text-sm text-slate-600 font-medium">
+              {pageCopy.plansDescription}
+            </p>
+          </div>
+
+          <!-- Carousel Track: Exactly 3 full blocks on desktop with zero cropping -->
+          <div class="relative" data-sponsorship-carousel>
+            <div
+              class="scrollbar-hide flex gap-5 sm:gap-6 overflow-x-auto overscroll-none pb-6 scroll-smooth snap-x snap-mandatory px-0.5"
+              data-sponsorship-track
+            >
+              {sponsorshipPlans.map((plan, index) => {
+                const planName = plan.name[locale] ?? plan.name.en;
+
+                return (
+                  <div
+                    class="w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] flex-none snap-start"
+                    data-plan-card={index}
+                  >
+                    <div class="relative flex flex-col rounded-2xl border-2 border-[#172033] bg-white shadow-[4px_4px_0_#172033] overflow-hidden h-full">
+                      
+                      <div class={`relative ${plan.headerBg} ${plan.headerText} p-5 border-b-2 border-[#172033]`}>
+                        {plan.isPopular && (
+                          <div class="absolute top-3 right-3 rounded-lg border-2 border-[#172033] bg-[#d71920] px-2 py-0.5 text-[0.68rem] font-black uppercase text-white shadow-[2px_2px_0_#172033]">
+                            {pageCopy.popularLabel}
+                          </div>
+                        )}
+
+                        <h3 class="text-xl font-black">{planName}</h3>
+                        <p class="mt-1 text-xs font-bold opacity-90">
+                          {pageCopy.sponsorshipFeeLabel}: <span class="font-black">{plan.fee}</span>
+                        </p>
+                      </div>
+
+                      <div class="p-5 flex-1 flex flex-col justify-between space-y-5 bg-[#FAF7F0]">
+                        
+                        <div>
+                          <span class="inline-block rounded-lg border-2 border-[#172033] bg-white px-2.5 py-1 text-xs font-black text-[#172033] shadow-[2px_2px_0_#172033]">
+                            {maxSlotsLabel(plan.maxSlots, locale)}
+                          </span>
+                        </div>
+
+                        <div class="space-y-4 text-xs font-medium">
+                          {featureSections.map((section) => (
+                            <div class="space-y-1.5 pt-2 first:pt-0 border-t border-[#172033]/10 first:border-t-0">
+                              <h4 class="font-black text-[#172033] uppercase text-[0.72rem] tracking-wider">
+                                {pageCopy[section.headingKey]}
+                              </h4>
+
+                              <div class="space-y-1">
+                                {section.items.map((item) => {
+                                  const display = getFeatureDisplay(plan, item.key, locale);
+                                  const label = featureLabels[item.key]?.[locale] ?? featureLabels[item.key]?.en ?? item.key;
+                                  const isHighlight = item.highlight && display.kind === 'text';
+
+                                  return (
+                                    <div class={`flex items-center justify-between py-1 px-1.5 rounded-lg ${isHighlight ? 'bg-white border border-[#172033]/20 font-bold' : ''}`}>
+                                      <span class="text-slate-700">{label}</span>
+
+                                      {display.kind === 'text' ? (
+                                        <span class={`font-black ${isHighlight ? 'text-[#d71920]' : 'text-[#172033]'}`}>
+                                          {display.value}
+                                        </span>
+                                      ) : display.value ? (
+                                        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-600 text-white font-black text-[0.7rem]">
+                                          ✓
+                                        </span>
+                                      ) : (
+                                        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-200 text-slate-500 font-black text-xs">
+                                          ×
+                                        </span>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <!-- One-by-one Carousel Controls: Smooth single-step navigation on mobile & desktop -->
+            <div class="mt-6 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#d71920] hover:text-white cursor-pointer"
+                data-sponsorship-scroll="prev"
+                aria-label="Previous sponsorship plan"
+              >
+                <span class="font-black">&larr;</span>
+              </button>
+
+              <div class="flex items-center gap-2 px-2" data-sponsorship-dots>
+                {sponsorshipPlans.map((plan, idx) => (
+                  <button
+                    type="button"
+                    class={`h-2.5 rounded-full border-2 border-[#172033] transition-all cursor-pointer ${idx === 0 ? 'w-6 bg-[#d71920] shadow-[1px_1px_0_#172033]' : 'w-2.5 bg-white shadow-[1px_1px_0_#172033] hover:bg-slate-200'}`}
+                    data-plan-dot={idx}
+                    aria-label={`View plan ${plan.name.en}`}
+                  ></button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#d71920] hover:text-white cursor-pointer"
+                data-sponsorship-scroll="next"
+                aria-label="Next sponsorship plan"
+              >
+                <span class="font-black">&rarr;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ready to Sponsor? CTA Card -->
+        <div class="rounded-3xl border-3 border-[#172033] bg-[#ffd343] p-8 sm:p-12 text-center shadow-[6px_6px_0_#172033] space-y-4">
+          <h2 class="font-operetta-32 text-2xl sm:text-3xl md:text-4xl text-[#172033] font-black uppercase tracking-tight">
+            {pageCopy.ctaTitle}
+          </h2>
+          <p class="text-sm sm:text-base text-[#172033] font-bold max-w-xl mx-auto">
+            {pageCopy.ctaDescription}
+          </p>
+          <div class="pt-2">
+            <a
+              href={contactHref}
+              class="inline-flex items-center justify-center rounded-full bg-[#d71920] px-8 py-3.5 text-sm font-black text-white shadow-[3px_3px_0_#172033] border-2 border-[#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#c0151c]"
+            >
+              {pageCopy.ctaButtonLabel}
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</ConferenceLayout>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  for (const carousel of document.querySelectorAll('[data-sponsorship-carousel]')) {
+    if (carousel.dataset.ready === 'true') continue;
+    carousel.dataset.ready = 'true';
+
+    const track = carousel.querySelector('[data-sponsorship-track]');
+    const prevBtn = carousel.querySelector('[data-sponsorship-scroll="prev"]');
+    const nextBtn = carousel.querySelector('[data-sponsorship-scroll="next"]');
+    const dots = Array.from(carousel.querySelectorAll('[data-plan-dot]'));
+
+    if (!(track instanceof HTMLElement)) continue;
+
+    const cards = Array.from(track.querySelectorAll('[data-plan-card]'));
+
+    const updateDots = (activeIndex) => {
+      dots.forEach((dot, idx) => {
+        if (idx === activeIndex) {
+          dot.classList.remove('w-2.5', 'bg-white');
+          dot.classList.add('w-6', 'bg-[#d71920]');
+        } else {
+          dot.classList.remove('w-6', 'bg-[#d71920]');
+          dot.classList.add('w-2.5', 'bg-white');
+        }
+      });
+    };
+
+    const getStepSize = () => {
+      if (cards.length > 1 && cards[0] instanceof HTMLElement && cards[1] instanceof HTMLElement) {
+        return cards[1].offsetLeft - cards[0].offsetLeft;
+      }
+      return (cards[0] instanceof HTMLElement ? cards[0].offsetWidth : 320) + 24;
+    };
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const step = getStepSize();
+        track.scrollBy({ left: -step, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const step = getStepSize();
+        track.scrollBy({ left: step, behavior: 'smooth' });
+      });
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        const targetCard = cards[idx];
+        if (targetCard instanceof HTMLElement) {
+          track.scrollTo({ left: targetCard.offsetLeft, behavior: 'smooth' });
+        }
+      });
+    });
+
+    track.addEventListener('scroll', () => {
+      const scrollPos = track.scrollLeft;
+      let activeIndex = 0;
+      let minDiff = Infinity;
+
+      cards.forEach((card, idx) => {
+        if (card instanceof HTMLElement) {
+          const diff = Math.abs(card.offsetLeft - scrollPos);
+          if (diff < minDiff) {
+            minDiff = diff;
+            activeIndex = idx;
+          }
+        }
+      });
+
+      updateDots(activeIndex);
+    }, { passive: true });
+  }
+</script>
