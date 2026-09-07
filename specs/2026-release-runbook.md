@@ -103,14 +103,19 @@ Read-only audit on 2026-09-08 identified the following resources:
    preview auto-builds for both Pages projects using their existing Git deployment
    settings, as described in [Cloudflare's documentation](https://developers.cloudflare.com/pages/configuration/git-integration/#disable-automatic-deployments).
    Keep project names, production branches, domains, Functions and redirects.
-5. Reconcile the historical CMS content merge, preserving its 14 locale-link
-   corrections. Bring the CMS branch forward to the released code/schema without
+5. Retain the resolved CMS merge ancestry and subsequent archive URL corrections.
+   Bring the CMS branch forward to the released code/schema without
    losing draft content so the new editorial workflow and conference seeds exist.
 
-The historical conflict reconciliation was verified in merge commit `bb7289a`:
-exactly 14 localized MDX files, 30 link corrections, no prose/frontmatter loss.
-Its parents are the inspected `test` and `cms` revisions. Integrate that ancestry
-with the code release so future CMS promotions share the resolved history.
+Merge commit `bb7289a` resolved conflicts in 14 localized MDX files while preserving
+the incoming CMS prose and frontmatter. Final CI then identified 30 incoming
+locale-prefixed hrefs that the 2025 archive does not emit. Those hrefs and 21
+visible URL labels were corrected to the actual canonical archive routes:
+`/2025/schedule/`, `/2025/sprint/`, `/2025/access-guide/` and
+`/2025/catering-guide/`. The correction preserves all other prose and frontmatter;
+news validation passes and all four targets exist in the built archive.
+The merge's parents are the inspected `test` and `cms` revisions. Integrate that
+ancestry with the code release so future CMS promotions share the resolved history.
 
 Live ingestion checks succeeded: the 2025 feed returned version `0.15`, 35
 sessions and six room groups; a second scrape with the same baseline returned
