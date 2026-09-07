@@ -607,7 +607,7 @@ test.describe('blue-green launch smoke', () => {
       expect(redirect.status()).toBe(308);
       expect(normalizeRedirectLocation(redirect.headers().location)).toBe(check.to);
 
-      const response = await page.goto(check.to);
+      const response = await page.goto(check.to, { waitUntil: 'domcontentloaded' });
 
       expect(response?.status()).toBe(200);
       await expect(page).toHaveTitle(check.title);

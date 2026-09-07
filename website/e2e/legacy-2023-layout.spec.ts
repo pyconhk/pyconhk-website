@@ -170,6 +170,8 @@ test('legacy 2023 same-year rendered links resolve locally', async ({
 test('legacy 2023 pages do not emit same-origin 404s', async ({
   browser,
 }, testInfo) => {
+  // Each route needs a 500 ms idle window as well as its local asset loads.
+  test.setTimeout(legacy2023Routes.length * 2_000);
   const baseURL = String(testInfo.project.use.baseURL ?? '');
   const baseOrigin = new URL(baseURL).origin;
   const context = await browser.newContext({ baseURL });
@@ -192,7 +194,7 @@ test('legacy 2023 pages do not emit same-origin 404s', async ({
 
   for (const route of legacy2023Routes) {
     await page.goto(route, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('networkidle').catch(() => undefined);
+    await page.waitForLoadState('networkidle', { timeout: 10_000 });
   }
 
   await context.close();
