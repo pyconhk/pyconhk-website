@@ -5,11 +5,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { validateNewsContent } from './validate-news.mjs';
 
-async function createFixture(files) {
+async function createFixture(files, year = 2025) {
   const root = await mkdtemp(path.join(tmpdir(), 'pyconhk-news-validation-'));
   const contentRoot = path.join(root, 'content');
   const publicRoot = path.join(root, 'public');
-  const postsRoot = path.join(contentRoot, '2025-posts');
+  const postsRoot = path.join(contentRoot, `${year}-posts`);
 
   await mkdir(postsRoot, { recursive: true });
   await mkdir(path.join(publicRoot, 'outstatic/images'), { recursive: true });
@@ -55,6 +55,36 @@ test('accepts complete localized news content', async () => {
   }
 });
 
+test('accepts partial drafts and Korean 2026 metadata and section links', async () => {
+  const fixture = await createFixture(
+    {
+      'draft.en.mdx': '---\nstatus: draft\nslug: draft\ntags: []\n---\n',
+      'valid-post.ko.mdx': validPost.replace(
+        'Read the [schedule](/2025/schedule/).',
+        'Read the [schedule](/2026/ko/schedule/) and [article](/2026/ko/news/valid-post/).'
+      ),
+    },
+    2026
+  );
+
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.deepEqual(result.errors, []);
+  } finally {
+    await fixture.cleanup();
+  }
+});
+
+test('rejects Korean content in the five-locale 2025 archive', async () => {
+  const fixture = await createFixture({ 'valid-post.ko.mdx': validPost });
+  try {
+    const result = await validateNewsContent(fixture);
+    assert.match(result.errors.join('\n'), /supported locale for 2025/);
+  } finally {
+    await fixture.cleanup();
+  }
+});
+
 test('reports malformed metadata, duplicate slugs, missing assets, and broken internal links', async () => {
   const fixture = await createFixture({
     'broken-post.en.mdx': `---
@@ -68,8 +98,14 @@ tags: []
 
 Read the [missing page](/missing-page/).
 `,
-    'duplicate-one.en.mdx': validPost.replace('slug: "valid-post"', 'slug: "duplicate"'),
-    'duplicate-two.en.mdx': validPost.replace('slug: "valid-post"', 'slug: "duplicate"'),
+    'duplicate-one.en.mdx': validPost.replace(
+      'slug: "valid-post"',
+      'slug: "duplicate"'
+    ),
+    'duplicate-two.en.mdx': validPost.replace(
+      'slug: "valid-post"',
+      'slug: "duplicate"'
+    ),
     'bad-description.en.mdx': validPost
       .replace('slug: "valid-post"', 'slug: "bad-description"')
       .replace(
@@ -85,7 +121,10 @@ Read the [missing page](/missing-page/).
     assert.match(result.errors.join('\n'), /missing local cover image/);
     assert.match(result.errors.join('\n'), /broken internal link \/missing-page\//);
     assert.match(result.errors.join('\n'), /invalid publishedAt/);
-    assert.match(result.errors.join('\n'), /description must be 240 characters or fewer/);
+    assert.match(
+      result.errors.join('\n'),
+      /description must be 240 characters or fewer/
+    );
     assert.match(result.errors.join('\n'), /description must not end with an ellipsis/);
   } finally {
     await fixture.cleanup();
@@ -102,7 +141,10 @@ test('reports locale-prefixed 2025 routes that Astro does not emit', async () =>
 
   try {
     const result = await validateNewsContent(fixture);
-    assert.match(result.errors.join('\n'), /broken internal link \/2025\/en\/schedule\//);
+    assert.match(
+      result.errors.join('\n'),
+      /broken internal link \/2025\/en\/schedule\//
+    );
   } finally {
     await fixture.cleanup();
   }
@@ -146,7 +188,10 @@ test('reports raw HTML that is unsafe for CMS-authored markdown', async () => {
   try {
     const result = await validateNewsContent(fixture);
     assert.match(result.errors.join('\n'), /raw HTML tag <script> is not allowed/);
-    assert.match(result.errors.join('\n'), /raw HTML event handler onerror is not allowed/);
+    assert.match(
+      result.errors.join('\n'),
+      /raw HTML event handler onerror is not allowed/
+    );
     assert.match(result.errors.join('\n'), /raw HTML javascript URL is not allowed/);
   } finally {
     await fixture.cleanup();

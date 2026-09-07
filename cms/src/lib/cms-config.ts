@@ -1,3 +1,4 @@
+import { createConferenceFields } from "./conference-fields";
 import {
   type CmsEnvironment,
   getCmsContentRoot,
@@ -18,11 +19,18 @@ type CmsConfigOptions = {
 
 function createPostFields(): CmsField[] {
   return [
-    { label: "Title", name: "title", widget: "string", i18n: true },
+    {
+      label: "Title",
+      name: "title",
+      widget: "string",
+      required: false,
+      i18n: true,
+    },
     {
       label: "Description",
       name: "description",
       widget: "text",
+      required: false,
       hint: "Short summary used for cards, meta descriptions, and social previews.",
       i18n: true,
     },
@@ -30,6 +38,7 @@ function createPostFields(): CmsField[] {
       label: "Publish Date",
       name: "publishedAt",
       widget: "datetime",
+      required: false,
       i18n: "duplicate",
     },
     {
@@ -82,10 +91,16 @@ function createPostFields(): CmsField[] {
       name: "tags",
       widget: "list",
       field: { label: "Tag", name: "tag", widget: "string" },
-      min: 1,
+      required: false,
       i18n: true,
     },
-    { label: "Body", name: "body", widget: "markdown", i18n: true },
+    {
+      label: "Body",
+      name: "body",
+      widget: "markdown",
+      required: false,
+      i18n: true,
+    },
   ];
 }
 
@@ -115,7 +130,13 @@ function createPostCollection(
     label,
     folder: `${contentRoot}/${year}-posts`,
     create: true,
-    i18n: true,
+    i18n:
+      year === 2025
+        ? {
+            locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja"],
+            default_locale: "en",
+          }
+        : true,
     extension: "mdx",
     format: "frontmatter",
     identifier_field: "slug",
@@ -140,8 +161,25 @@ export function createCmsConfig(
     publicFolder: options.publicFolder || getCmsPublicFolder(environment),
     locales,
     defaultLocale: getCmsDefaultLocale(environment, locales),
-    collections: postCollectionDefinitions.map((definition) =>
-      createPostCollection(contentRoot, definition),
-    ),
+    collections: [
+      ...postCollectionDefinitions.map((definition) =>
+        createPostCollection(contentRoot, definition),
+      ),
+      {
+        name: "conference_2026",
+        label: "2026 Conference",
+        folder: `${contentRoot}/2026-conference`,
+        create: false,
+        delete: false,
+        i18n: true,
+        extension: "json",
+        format: "json",
+        identifier_field: "slug",
+        slug: "{{slug}}",
+        summary: "Conference settings",
+        editor: { preview: false },
+        fields: createConferenceFields(),
+      },
+    ],
   };
 }

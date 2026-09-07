@@ -25,7 +25,7 @@ const supportedLocalesList: Array<{
 
 const pathname = Astro.url.pathname;
 const subpathMatch = pathname.match(/^\/2026\/[^/]+(\/.*)?$/);
-const subpath = subpathMatch && subpathMatch[1] ? subpathMatch[1] : '/';
+const subpath = subpathMatch?.[1] || '/';
 
 const items = supportedLocalesList.map((item) => ({
   ...item,
@@ -104,14 +104,19 @@ const activeItem = items.find((item) => item.active) ?? items[0];
   )
 }
 
-<script is:inline data-astro-rerun define:vars={{ cookieName: preferredLocaleCookie }}>
+<script is:inline data-astro-rerun define:vars={{ cookieName: preferredLocaleCookie, localeCodes: supportedLocalesList.map((item) => item.code) }}>
   function updateLanguageSwitchLinks() {
     const currentPath = window.location.pathname;
     const currentSearch = window.location.search;
     const currentHash = window.location.hash;
+    const localeMatch = currentPath.match(/^\/2026\/([^/]+)(?:\/|$)/);
+    const currentLocale = localeMatch?.[1];
+    if (currentLocale && localeCodes.includes(currentLocale)) {
+      document.cookie = `${cookieName}=${encodeURIComponent(currentLocale)}; path=/; max-age=31536000; SameSite=Lax`;
+    }
 
     const match = currentPath.match(/^\/2026\/[^/]+(\/.*)?$/);
-    const subpath = match && match[1] ? match[1] : '/';
+    const subpath = match?.[1] || '/';
 
     for (const link of document.querySelectorAll('[data-locale-switch]')) {
       if (link instanceof HTMLAnchorElement) {
@@ -132,7 +137,7 @@ const activeItem = items.find((item) => item.active) ?? items[0];
       const target = event.currentTarget;
       if (!(target instanceof HTMLElement)) return;
       const nextLocale = target.dataset.localeSwitch;
-      if (!nextLocale) return;
+      if (!nextLocale || !localeCodes.includes(nextLocale)) return;
       document.cookie = `${cookieName}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; SameSite=Lax`;
     });
   }

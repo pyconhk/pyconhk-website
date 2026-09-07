@@ -5,10 +5,9 @@ const expectedLocaleHrefs = [
   '/2026/zh-hk',
   '/2026/zh-hant',
   '/2026/zh-hans',
-  '/2026/ko',
   '/2026/ja',
+  '/2026/ko',
 ];
-const localeLabels = ['EN', '粵', '繁', '简', 'KR', 'JA'];
 
 function cookieDomain(baseURL: string | undefined): string {
   if (!baseURL) {
@@ -20,36 +19,32 @@ function cookieDomain(baseURL: string | undefined): string {
 
 async function collectLocaleHrefs(page: Page) {
   const hrefs = await page
-    .locator('nav a')
-    .evaluateAll((anchors, labels) =>
-      anchors
-        .map((anchor) => ({
-          href: anchor.getAttribute('href') ?? '',
-          label: anchor.textContent?.trim() ?? '',
-        }))
-        .filter((link) => (labels as string[]).includes(link.label))
-        .map((link) => link.href),
-      localeLabels
+    .locator('[data-site-header] [data-locale-switch]')
+    .evaluateAll((anchors) =>
+      anchors.map((anchor) => (anchor.getAttribute('href') ?? '').replace(/\/$/u, ''))
     );
 
   return [...new Set(hrefs)];
 }
 
 async function currentLocaleLabels(page: Page) {
-  return page.locator('nav a[aria-current="page"]').evaluateAll(
-    (links, labels) =>
-      links
-        .map((link) => link.textContent?.trim() ?? '')
-        .filter((label) => (labels as string[]).includes(label)),
-    localeLabels
-  );
+  return page
+    .locator('[data-site-header] [data-locale-switch][aria-current="page"] > span:first-child')
+    .allTextContents();
+}
+
+async function selectLocale(page: Page, locale: string) {
+  const header = page.locator('[data-site-header]');
+  await header.locator('summary').first().click();
+  await header.locator(`[data-locale-switch="${locale}"]`).first().click();
+  await expect(page).toHaveURL(new RegExp(`/2026/${locale}/?$`));
 }
 
 async function preferredLocaleCookie(context: BrowserContext) {
   return (await context.cookies()).find((cookie) => cookie.name === 'preferredLocale');
 }
 
-test.describe('2026 CFP locale switcher', () => {
+test.describe('2026 conference locale switcher', () => {
   test('redirects latest locale entry aliases before rendering HTML', async ({
     request,
   }) => {
@@ -114,11 +109,11 @@ test.describe('2026 CFP locale switcher', () => {
   }) => {
     await context.clearCookies();
     await page.goto('/');
-    expect(new URL(page.url()).pathname).toBe('/2026/en');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/en');
 
     await context.clearCookies();
     await page.goto('/2026');
-    expect(new URL(page.url()).pathname).toBe('/2026/en');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/en');
   });
 
   test('writes preferredLocale when latest entry routes choose a fallback locale', async ({
@@ -128,7 +123,7 @@ test.describe('2026 CFP locale switcher', () => {
     await context.clearCookies();
     await page.goto('/');
 
-    expect(new URL(page.url()).pathname).toBe('/2026/en');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/en');
     expect(await preferredLocaleCookie(context)).toMatchObject({
       name: 'preferredLocale',
       path: '/',
@@ -153,8 +148,8 @@ test.describe('2026 CFP locale switcher', () => {
 
     await page.goto('/');
 
-    expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
-    await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/zh-hk');
+    await expect.poll(() => currentLocaleLabels(page)).toContain('廣東話');
   });
 
   test('falls back to English for unsupported or malformed preferred locale cookies', async ({
@@ -175,8 +170,8 @@ test.describe('2026 CFP locale switcher', () => {
 
       await page.goto('/');
 
-      expect(new URL(page.url()).pathname).toBe('/2026/en');
-      await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
+      expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/en');
+      await expect.poll(() => currentLocaleLabels(page)).toContain('English');
     }
   });
 
@@ -184,15 +179,22 @@ test.describe('2026 CFP locale switcher', () => {
     context,
     page,
   }) => {
-    await context.clearCookies();
-    await page.goto('/2026/ko');
-
-    expect(new URL(page.url()).pathname).toBe('/2026/ko');
-    expect(await preferredLocaleCookie(context)).toMatchObject({
-      name: 'preferredLocale',
-      path: '/',
-      value: 'ko',
-    });
+    for (const path of expectedLocaleHrefs) {
+      await context.clearCookies();
+      await page.goto(path);
+      expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe(path);
+      const cookie = await preferredLocaleCookie(context);
+      expect(cookie).toMatchObject({
+        name: 'preferredLocale',
+        path: '/',
+        sameSite: 'Lax',
+        value: path.split('/')[2],
+      });
+      expect(cookie?.expires).toBeGreaterThan(Date.now() / 1000 + 31_535_900);
+      expect(cookie?.expires).toBeLessThan(Date.now() / 1000 + 31_536_010);
+      await page.goto('/');
+      expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe(path);
+    }
   });
 
   for (const path of ['/', '/2026', '/2026/en', '/2026/zh-hk']) {
@@ -209,33 +211,35 @@ test.describe('2026 CFP locale switcher', () => {
   }) => {
     await context.clearCookies();
     await page.goto('/');
-    await page.locator('nav a', { hasText: '粵' }).first().click();
-    expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
-    await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
+    await selectLocale(page, 'zh-hk');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/zh-hk');
+    await expect.poll(() => currentLocaleLabels(page)).toContain('廣東話');
 
     await page.goto('/');
-    expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/zh-hk');
 
     await page.goto('/2026');
-    await page.locator('nav a', { hasText: 'EN' }).first().click();
-    expect(new URL(page.url()).pathname).toBe('/2026/en');
-    await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
+    await selectLocale(page, 'en');
+    expect(new URL(page.url()).pathname.replace(/\/$/u, '')).toBe('/2026/en');
+    await expect.poll(() => currentLocaleLabels(page)).toContain('English');
   });
 
   test('shows the active current locale on 2026 locale pages', async ({ page }) => {
     await page.goto('/2026/en');
-    await expect.poll(() => currentLocaleLabels(page)).toContain('EN');
+    await expect.poll(() => currentLocaleLabels(page)).toContain('English');
 
     await page.goto('/2026/zh-hk');
-    await expect.poll(() => currentLocaleLabels(page)).toContain('粵');
-    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-HK');
+    await expect.poll(() => currentLocaleLabels(page)).toContain('廣東話');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant-HK');
   });
 
-  test('keeps the final Japanese and Korean CFP wording', async ({ page }) => {
+  test('keeps Japanese and Korean CFP guidance with the closed status and current theme', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
-    await page.goto('/2026/ja');
-    await expect(page.getByText('プロポーザル', { exact: true })).toBeVisible();
+    await page.goto('/2026/ja/cfp');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ride and Leverage with AI');
+    await expect(page.locator('[data-cfp-closed]').first()).toHaveText('プロポーザル募集は終了しました');
+    await expect(page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')).toHaveCount(0);
     await expect(
       page.getByText(
         'よいプロポーザルは、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
@@ -243,7 +247,10 @@ test.describe('2026 CFP locale switcher', () => {
       )
     ).toBeVisible();
 
-    await page.goto('/2026/ko');
+    await page.goto('/2026/ko/cfp');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ride and Leverage with AI');
+    await expect(page.locator('[data-cfp-closed]').first()).toHaveText('발표 제안 모집 마감');
+    await expect(page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')).toHaveCount(0);
     await expect(
       page.getByText(
         '좋은 제안서는 대상, 취득 가능한 사항, 세션 진행 방식을 분명히 보여 줍니다.',

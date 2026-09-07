@@ -3,7 +3,12 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
-import { defaultLocale, getLocaleFallbackChain, type SiteLocale } from '@/config/site';
+import {
+  defaultLocale,
+  getLocaleFallbackChain,
+  getLocalesForYear,
+  type SiteLocale,
+} from '@/config/site';
 import { cleanLegacyHtml } from '@/legacy/legacy-html';
 import {
   parseCollectionYearFromDirectoryName,
@@ -88,7 +93,10 @@ function normalizeCoverImage(
   imagePath: string | undefined,
   collectionYear: number
 ): string {
-  const fallbackPath = `/${collectionYear}/landing-pages/open-graph.webp`;
+  const fallbackPath =
+    collectionYear === 2026
+      ? '/2026/open-graph.webp'
+      : `/${collectionYear}/landing-pages/open-graph.webp`;
 
   if (!imagePath) {
     return fallbackPath;
@@ -145,6 +153,19 @@ function resolveLocalizedVariant(
   group: IndexedNewsGroup,
   locale: SiteLocale
 ): ResolvedNewsVariant | null {
+  // Current articles launch together in every language; never expose a partial
+  // translation through the archive fallback behavior or a direct article URL.
+  if (group.collectionYear >= 2026) {
+    const complete = getLocalesForYear(group.collectionYear).every(({ code }) => {
+      const variant = group.variants[code];
+      return variant?.status === 'published' && variant.title && variant.body;
+    });
+
+    if (!complete) {
+      return null;
+    }
+  }
+
   for (const candidateLocale of getLocaleFallbackChain(locale)) {
     const variant = getPublishedVariant(group.variants[candidateLocale]);
 
@@ -223,8 +244,11 @@ async function loadVariantsFromDirectory(
       const parsedSource = matter(source);
       const frontmatter = parsedSource.data as RawPostFrontmatter;
       const locale = parsedFilename.locale;
+      if (!getLocalesForYear(collectionYear).some(({ code }) => code === locale)) {
+        return [];
+      }
       const slug = frontmatter.slug?.trim() || parsedFilename.slug;
-      const title = frontmatter.title?.trim() || slug;
+      const title = frontmatter.title?.trim() || (collectionYear < 2026 ? slug : '');
       const publishedAt = frontmatter.publishedAt?.trim() || defaultPublishedAt;
       const description =
         frontmatter.description?.trim() || createExcerpt(parsedSource.content);
@@ -376,14 +400,8 @@ export async function getPublishedPostSlugs(year: number): Promise<string[]> {
   const groups = [...(store.groupsByYear.get(year)?.values() ?? [])];
 
   return groups
-    .filter(
-      (group) =>
-        getLocaleFallbackChain(defaultLocale).some((locale) =>
-          Boolean(getPublishedVariant(group.variants[locale]))
-        ) ||
-        Object.values(group.variants).some((variant) =>
-          Boolean(getPublishedVariant(variant))
-        )
+    .filter((group) =>
+      getLocalesForYear(year).some(({ code }) => resolveLocalizedVariant(group, code))
     )
     .sort((left, right) => {
       const leftResolved = resolveLocalizedVariant(left, defaultLocale);

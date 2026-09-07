@@ -1,7 +1,8 @@
 ---
+import { getConferenceContent } from '@/lib/conference-content';
+import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
-import { registrationUrl } from '@/years/2026/site';
 
 interface Props {
   locale: CfpLocale;
@@ -9,6 +10,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getTranslations(locale);
+const content = getConferenceContent(locale);
 ---
 
 <section class="py-16 sm:py-24 bg-[#FAF7F0]">
@@ -29,18 +31,7 @@ const t = getTranslations(locale);
         </div>
 
         <div>
-          <a
-            href={registrationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#1D4486] text-white border-2 border-[#172033] shadow-[3px_3px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#16325C]"
-            aria-label={t.joinUs.ctaAria}
-          >
-            <svg class="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 20 20" fill="currentColor">
-              <title>Arrow Up Right</title>
-              <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
-            </svg>
-          </a>
+          <RegistrationButton locale={locale} />
         </div>
       </div>
 
@@ -57,7 +48,7 @@ const t = getTranslations(locale);
                 {t.joinUs.datesLabel}
               </p>
               <p class="mt-1 text-lg sm:text-xl font-black text-white">
-                {t.joinUs.datesValue}
+                {content.event.status === 'published' ? content.event.datesLabel : t.joinUs.datesValue}
               </p>
             </div>
 
@@ -66,7 +57,7 @@ const t = getTranslations(locale);
                 {t.joinUs.locationLabel}
               </p>
               <p class="mt-1 text-lg sm:text-xl font-black text-white">
-                {t.joinUs.locationValue}
+                {content.venue.status === 'published' ? content.venue.title : t.joinUs.locationValue}
               </p>
             </div>
 
@@ -75,7 +66,7 @@ const t = getTranslations(locale);
                 {t.joinUs.stayTunedLabel}
               </p>
               <p class="mt-1 text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
-                {t.joinUs.stayTunedValue}
+                {content.tickets.status === 'published' ? content.tickets.description : t.joinUs.stayTunedValue}
               </p>
             </div>
           </div>

@@ -7,7 +7,6 @@ export const conferenceLocation = 'Hong Kong SAR';
 
 export const submitProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/cfp';
 export const editProposalUrl = 'https://cfp.pycon.hk/pyconhk2026/me/submissions/';
-export const registrationUrl = submitProposalUrl;
 export const sponsorshipEmail =
   'mailto:pycon@pycon.hk?cc=calvin@opensource.hk&subject=Regarding%20Sponsoring%20PyCon%20HK%202026';
 

@@ -1,7 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import CfpFooter from '@/years/2026/components/CfpFooter.astro';
-import CfpNav from '@/years/2026/components/CfpNav.astro';
+import { getConferenceContent } from '@/lib/conference-content';
 import DoodleButton from '@/years/2026/components/DoodleButton.astro';
 import ScrollIndicator from '@/years/2026/components/ScrollIndicator.astro';
 import {
@@ -9,15 +7,38 @@ import {
   contentByLocale,
   editProposalUrl,
   sponsorshipUrl,
-  submitProposalUrl,
 } from '@/years/2026/data/cfp';
+import { contentUi } from '@/years/2026/data/content-ui';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 
 interface Props {
   locale: CfpLocale;
 }
 
 const { locale } = Astro.props;
-const copy = contentByLocale[locale];
+const original = contentByLocale[locale];
+const content = getConferenceContent(locale);
+const closedCopy = {
+  en: { title: 'Call for proposals closed', body: 'The call for proposals has closed. Existing submitters can still view their proposals.', view: 'View your proposals', formats: 'Proposal formats' },
+  'zh-hk': { title: '提案徵集已截止', body: '提案徵集已經截止。已提交提案嘅講者仍然可以查看提案。', view: '查看已提交提案', formats: '提案形式' },
+  'zh-hant': { title: '提案徵集已截止', body: '提案徵集已截止。已提交提案的講者仍可查看提案。', view: '查看已提交提案', formats: '提案形式' },
+  'zh-hans': { title: '提案征集已截止', body: '提案征集已截止。已提交提案的讲者仍可查看提案。', view: '查看已提交提案', formats: '提案形式' },
+  ja: { title: 'プロポーザル募集は終了しました', body: 'プロポーザルの募集は終了しました。提出済みのプロポーザルは引き続き確認できます。', view: '提出済みのプロポーザルを見る', formats: 'プロポーザルの形式' },
+  ko: { title: '발표 제안 모집 마감', body: '발표 제안 모집이 마감되었습니다. 이미 제출한 제안은 계속 확인할 수 있습니다.', view: '제출한 제안 보기', formats: '제안 형식' },
+}[locale];
+const copy = {
+  ...original,
+  metadata: { title: `${content.event.title} CFP | ${content.event.theme}`, description: closedCopy.body },
+  hero: { ...original.hero, badge: closedCopy.title, headline: content.event.theme, body: closedCopy.body },
+  cta: { ...original.cta, edit: closedCopy.view },
+  proposals: { ...original.proposals, title: closedCopy.formats },
+  keyDates: { ...original.keyDates, items: [
+    { ...original.keyDates.items[0], status: closedCopy.title, note: '' },
+    { ...original.keyDates.items[1], value: content.event.datesLabel, status: '', note: '' },
+    { ...original.keyDates.items[2], value: content.sprint.status === 'published' ? content.sprint.date : contentUi[locale].comingSoon, status: '', note: '' },
+  ] },
+  finalCta: { fragments: content.event.theme, title: closedCopy.title, body: closedCopy.body },
+};
 
 const pagePadding = 'px-5 sm:px-8 lg:px-14 xl:px-16';
 const contentWidth = 'mx-auto max-w-7xl';
@@ -42,19 +63,19 @@ const dateCardClasses = [
 ];
 ---
 
-<BaseLayout
+<ConferenceLayout
   title={copy.metadata.title}
   description={copy.metadata.description}
-  htmlLang={copy.localeMeta.htmlLang}
+  locale={locale}
 >
-  <main
+  <div
     lang={copy.localeMeta.htmlLang}
     class="min-h-screen overflow-x-clip bg-[#fff8e8] text-[#172033]"
     data-pagefind-body
     data-pagefind-filter="year:2026"
     data-pagefind-meta="year:2026"
   >
-    <CfpNav locale={locale} />
+
 
     <section
       class:list={[
@@ -95,7 +116,7 @@ const dateCardClasses = [
         ]}
       >
         <div class="relative mx-auto w-full max-w-[46rem] min-w-0 xl:max-w-none">
-          <div class="absolute -top-1 -left-2 z-10 inline-flex max-w-[calc(100%-3rem)] items-center gap-2 rounded-full border-2 border-[#172033] bg-white px-4 py-2 font-mono text-sm leading-none font-black whitespace-nowrap sm:-left-3 lg:-left-4">
+          <div class="absolute -top-1 -left-2 z-10 inline-flex max-w-[calc(100%-3rem)] items-center gap-2 rounded-full border-2 border-[#172033] bg-white px-4 py-2 font-mono text-sm leading-snug font-black text-center whitespace-normal sm:-left-3 lg:-left-4">
             <span class="h-3 w-3 rounded-full border border-[#172033] bg-[#00a887]"></span>
             {copy.hero.badge}
           </div>
@@ -103,8 +124,8 @@ const dateCardClasses = [
           <div class="relative mx-auto flex min-h-[clamp(12rem,31vw,19rem)] w-full max-w-[46rem] min-w-0 items-center justify-center rounded-[38%_45%_34%_42%/24%_30%_36%_32%] border-[3px] border-[#172033] bg-[#ffd343e6] px-4 py-8 sm:px-8 md:px-10 xl:max-w-none">
             <h1 class="flex w-full max-w-5xl min-w-0 flex-col items-center justify-center gap-1 text-center font-sans text-[clamp(2rem,7vw,4.6rem)] leading-[0.95] font-black tracking-normal text-[#172033] sm:gap-2 md:text-[4rem] xl:text-[3.2rem] xl:leading-[1.08]">
               {
-                copy.hero.headline.split('\n').map((line) => (
-                  <span class="block max-w-full whitespace-nowrap">{line}</span>
+                [copy.hero.headline].map((line) => (
+                  <span class="block max-w-full">{line}</span>
                 ))
               }
             </h1>
@@ -118,7 +139,7 @@ const dateCardClasses = [
               {copy.hero.body}
             </p>
             <div class="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:flex-wrap sm:justify-center xl:justify-start">
-              <DoodleButton href={submitProposalUrl} label={copy.cta.submit}>{copy.cta.submit}</DoodleButton>
+              <span data-cfp-closed class="inline-flex rounded-xl border-2 border-[#172033] bg-[#ffd343] px-5 py-3 font-bold">{closedCopy.title}</span>
               <DoodleButton href={editProposalUrl} label={copy.cta.edit} variant="secondary">{copy.cta.edit}</DoodleButton>
               <DoodleButton href={sponsorshipUrl} label={copy.cta.sponsorship} variant="secondary">{copy.cta.sponsorship}</DoodleButton>
             </div>
@@ -369,12 +390,11 @@ const dateCardClasses = [
           </p>
         </div>
         <div class="flex flex-col gap-4 sm:flex-row md:flex-col">
-          <DoodleButton href={submitProposalUrl} label={copy.cta.submit}>{copy.cta.submit}</DoodleButton>
+          <span data-cfp-closed class="inline-flex rounded-xl border-2 border-[#172033] bg-[#ffd343] px-5 py-3 font-bold">{closedCopy.title}</span>
           <DoodleButton href={editProposalUrl} label={copy.cta.edit} variant="secondary">{copy.cta.edit}</DoodleButton>
           <DoodleButton href={sponsorshipUrl} label={copy.cta.sponsorship} variant="secondary">{copy.cta.sponsorship}</DoodleButton>
         </div>
       </div>
     </section>
-  </main>
-  <CfpFooter locale={locale} />
-</BaseLayout>
+  </div>
+</ConferenceLayout>

@@ -2,8 +2,10 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parse } from "yaml";
 
-export const cmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
+export const archiveCmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
+export const cmsLocales = [...archiveCmsLocales, "ko"];
 export const cmsRepoRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
@@ -37,7 +39,7 @@ export function listCmsContentFiles(ref) {
   return listWorkingTreeFiles(path.join(cmsRepoRoot, contentRoot));
 }
 
-export function collectCmsLocaleProblems(files) {
+export function collectCmsLocaleProblems(files, readContent) {
   const mdxFiles = files.filter((file) => file.endsWith(".mdx"));
   const localePattern = new RegExp(
     `^(.*)\\.(${cmsLocales.join("|")})\\.mdx$`,
@@ -59,16 +61,67 @@ export function collectCmsLocaleProblems(files) {
     }
 
     const [, entry, locale] = match;
-    const locales = entries.get(entry) || new Set();
-    locales.add(locale);
-    entries.set(entry, locales);
+    const year = /\/(\d{4})-posts\//u.exec(file)?.[1];
+    const requiredLocales = year === "2025" ? archiveCmsLocales : cmsLocales;
+    if (!requiredLocales.includes(locale)) {
+      problems.push(`${file} uses an unsupported locale for ${year}`);
+      continue;
+    }
+    try {
+      const raw = readContent(file);
+      const frontmatter =
+        /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/u.exec(raw);
+      if (!frontmatter) throw new Error("missing YAML frontmatter");
+      const data = parse(frontmatter[1]);
+      if (!data || !["draft", "published"].includes(data.status)) {
+        throw new Error("status must be draft or published");
+      }
+      const group = entries.get(entry) || {
+        requiredLocales,
+        variants: new Map(),
+      };
+      group.variants.set(locale, data);
+      entries.set(entry, group);
+      if (data.status === "published") {
+        if (typeof data.title !== "string" || !data.title.trim()) {
+          problems.push(`${file} needs a title before publishing`);
+        }
+        if (!frontmatter[2].trim()) {
+          problems.push(`${file} needs a body before publishing`);
+        }
+      }
+    } catch (error) {
+      problems.push(`${file}: ${error.message}`);
+    }
   }
 
-  for (const [entry, locales] of entries) {
-    const missing = cmsLocales.filter((locale) => !locales.has(locale));
+  for (const [entry, { requiredLocales, variants }] of entries) {
+    if (
+      ![...variants.values()].some((variant) => variant.status === "published")
+    )
+      continue;
+    const missing = requiredLocales.filter(
+      (locale) => variants.get(locale)?.status !== "published",
+    );
 
     if (missing.length > 0) {
-      problems.push(`${entry} is missing locales: ${missing.join(", ")}`);
+      problems.push(
+        `${entry} is missing published locales: ${missing.join(", ")}`,
+      );
+    }
+    if (
+      requiredLocales.includes("ko") &&
+      variants.get("en")?.status === "published"
+    ) {
+      const english = variants.get("en");
+      for (const [locale, variant] of variants) {
+        if (variant.status !== "published") continue;
+        for (const field of ["slug", "publishedAt", "coverImage"]) {
+          if (variant[field] !== english[field]) {
+            problems.push(`${entry} ${field} must match English in ${locale}`);
+          }
+        }
+      }
     }
   }
 
@@ -76,10 +129,22 @@ export function collectCmsLocaleProblems(files) {
 }
 
 export function checkCmsContentLocales(ref) {
-  const problems = collectCmsLocaleProblems(listCmsContentFiles(ref));
+  const readContent = (file) =>
+    ref
+      ? execFileSync("git", ["show", `${ref}:${file}`], {
+          cwd: cmsRepoRoot,
+          encoding: "utf8",
+        })
+      : fs.readFileSync(path.join(cmsRepoRoot, file), "utf8");
+  const problems = collectCmsLocaleProblems(
+    listCmsContentFiles(ref),
+    readContent,
+  );
 
   if (problems.length > 0) {
-    throw new Error(`CMS locale content validation failed:\n- ${problems.join("\n- ")}`);
+    throw new Error(
+      `CMS locale content validation failed:\n- ${problems.join("\n- ")}`,
+    );
   }
 }
 

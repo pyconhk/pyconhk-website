@@ -11,7 +11,7 @@ export type ParsedLocalizedContentFilename = {
 
 const yearPostsDirectoryPattern = /^(\d{4})-posts$/;
 const explicitLocaleFilenamePattern =
-  /^(?<slug>.+)\.(?<locale>en|zh-hk|zh-hant|zh-hans|ja)\.(?<extension>md|mdx)$/;
+  /^(?<slug>.+)\.(?<locale>en|zh-hk|zh-hant|zh-hans|ja|ko)\.(?<extension>md|mdx)$/;
 
 export function parseCollectionYearFromDirectoryName(
   directoryName: string

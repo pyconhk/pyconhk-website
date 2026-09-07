@@ -1,47 +1,16 @@
 ---
-import type { SiteLocale } from '@/config/site';
-import BaseLayout from '@/layouts/BaseLayout.astro';
 import PrivacyPolicyPage from '@/years/2025/components/pages/PrivacyPolicyPage.astro';
-import CfpFooter from '@/years/2026/components/CfpFooter.astro';
-import CfpNav from '@/years/2026/components/CfpNav.astro';
-import { type CfpLocale, contentByLocale } from '@/years/2026/data/cfp';
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
 
-interface Props {
-  locale: CfpLocale;
-}
-
+interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
-const copy = contentByLocale[locale];
-const policyLocaleByCfpLocale = {
-  en: 'en',
-  'zh-hk': 'zh-hk',
-  'zh-hant': 'zh-hk',
-  'zh-hans': 'en',
-  ko: 'en',
-  ja: 'ja',
-} as const satisfies Record<CfpLocale, SiteLocale>;
-const policyLocale = policyLocaleByCfpLocale[locale];
-const title = `Privacy Policy | ${copy.nav.brand}`;
-const description = 'PyCon Hong Kong privacy policy statement.';
 ---
 
-<BaseLayout title={title} description={description} htmlLang={copy.localeMeta.htmlLang}>
-  <main
-    lang={copy.localeMeta.htmlLang}
-    class="min-h-screen bg-[#fff8e8] text-[#172033]"
-    data-pagefind-body
-    data-pagefind-filter="year:2026"
-    data-pagefind-meta="year:2026"
-  >
-    <CfpNav locale={locale} section="privacy" />
-
-    <section class="px-5 py-12 sm:px-8 sm:py-16 lg:px-14 xl:px-16">
-      <div class="mx-auto max-w-5xl">
-        <div class="rounded-[1.75rem] border-2 border-[#172033] bg-white px-6 py-10 shadow-[8px_10px_0_#17203322] sm:px-8 md:px-12 lg:px-16">
-          <PrivacyPolicyPage locale={policyLocale} />
-        </div>
-      </div>
-    </section>
-  </main>
-  <CfpFooter locale={locale} />
-</BaseLayout>
+<ConferenceLayout title="Privacy Policy | PyCon HK 2026" description="PyCon Hong Kong privacy policy statement." locale={locale}>
+  <section lang="en" data-policy-body class="bg-[#FAF7F0] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-5xl rounded-3xl border-3 border-[#172033] bg-white p-6 leading-relaxed text-slate-700 shadow-[8px_8px_0_#172033] sm:p-10 lg:p-12">
+      <PrivacyPolicyPage locale="en" />
+    </div>
+  </section>
+</ConferenceLayout>

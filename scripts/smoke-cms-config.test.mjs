@@ -17,7 +17,7 @@ const validConfig = {
   public_folder: "/outstatic/images",
   i18n: {
     structure: "multiple_files",
-    locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja"],
+    locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja", "ko"],
     default_locale: "en",
   },
   collections: [
@@ -41,7 +41,10 @@ const validConfig = {
       label: "2025 Posts",
       folder: "website/outstatic/content/2025-posts",
       create: true,
-      i18n: true,
+      i18n: {
+        locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja"],
+        default_locale: "en",
+      },
       extension: "mdx",
       format: "frontmatter",
       summary: "{{title}}",
@@ -50,6 +53,29 @@ const validConfig = {
         { label: "Tags", name: "tags", widget: "list", i18n: true },
         { label: "Body", name: "body", widget: "markdown", i18n: true },
       ],
+    },
+    {
+      name: "conference_2026",
+      folder: "website/outstatic/content/2026-conference",
+      create: false,
+      delete: false,
+      i18n: true,
+      extension: "json",
+      format: "json",
+      fields: [
+        "event",
+        "tickets",
+        "venue",
+        "catering",
+        "sprint",
+        "qa",
+        "sponsors",
+        "sponsorship",
+        "patrons",
+        "organizations",
+        "people",
+        "about",
+      ].map((name) => ({ name })),
     },
   ],
 };
@@ -87,13 +113,14 @@ describe("CMS hosted config smoke validation", () => {
           fields: [{ name: "body", widget: "markdown", i18n: false }],
         },
         validConfig.collections[1],
+        validConfig.collections[2],
       ],
     });
 
     assert.deepEqual(problems, [
       "backend.branch must be cms",
       "media_folder must be website/public/outstatic/images",
-      "i18n.locales must be en, zh-hk, zh-hant, zh-hans, ja",
+      "i18n.locales must be en, zh-hk, zh-hant, zh-hans, ja, ko",
       "posts.folder must be website/outstatic/content/2026-posts",
       "posts body field must be locale-enabled",
       "posts tags field must use locale-enabled list semantics",
@@ -103,7 +130,7 @@ describe("CMS hosted config smoke validation", () => {
   test("requires the archive collection as well as the current collection", () => {
     const problems = collectCmsConfigProblems({
       ...validConfig,
-      collections: [validConfig.collections[0]],
+      collections: [validConfig.collections[0], validConfig.collections[2]],
     });
 
     assert.deepEqual(problems, ["posts_2025 collection is required"]);

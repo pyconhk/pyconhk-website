@@ -1,5 +1,7 @@
 ---
-import { getNewsArticles } from '@/years/2026/data/news';
+import { getPublishedPosts } from '@/lib/news';
+import NewsCard from '@/years/2026/components/news/NewsCard.astro';
+import { newsMessages } from '@/years/2026/i18n/news';
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '@/years/2026/locales';
 
@@ -8,130 +10,25 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const articles = getNewsArticles();
-
-const pageTitles: Record<CfpLocale, { title: string; subtitle: string; desc: string }> = {
-  en: {
-    title: 'News',
-    subtitle: 'Announcements & Community Updates',
-    desc: 'Stay informed with the latest announcements, schedule releases, speaker highlights, and event updates for PyCon HK 2026.',
-  },
-  'zh-hk': {
-    title: '最新消息',
-    subtitle: '大會公告與社群動態',
-    desc: '掌握 PyCon HK 2026 最新大會公告、議程發布、講者亮點及活動最新消息。',
-  },
-  'zh-hant': {
-    title: '最新消息',
-    subtitle: '大會公告與社群動態',
-    desc: '掌握 PyCon HK 2026 最新大會公告、議程發布、講者亮點及活動最新消息。',
-  },
-  'zh-hans': {
-    title: '最新消息',
-    subtitle: '大会公告与社区动态',
-    desc: '掌握 PyCon HK 2026 最新大会公告、议程发布、讲者亮点及活动最新消息。',
-  },
-  ja: {
-    title: 'ニュース',
-    subtitle: 'お知らせ・コミュニティ更新',
-    desc: 'PyCon HK 2026 の最新情報、スケジュール発表、登壇者紹介をお届けします。',
-  },
-  ko: {
-    title: '뉴스',
-    subtitle: '공지사항 및 커뮤니티 소식',
-    desc: 'PyCon HK 2026의 최신 공지사항, 일정 안내, 연사 소개를 확인하세요.',
-  },
-};
-
-const pageMeta = pageTitles[locale] ?? pageTitles.en;
+const articles = await getPublishedPosts(2026, locale);
+const copy = newsMessages[locale];
 ---
 
-<ConferenceLayout
-  title={`${pageMeta.title} | PyCon HK 2026`}
-  description={pageMeta.desc}
-  locale={locale}
->
-  <main class="w-full bg-[#FAF7F0] py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-6xl">
-      
-      <!-- Elevated Container Box matching 2025 structure with 2026 Design Language -->
-      <div class="rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 md:p-14 shadow-[8px_8px_0_#172033]">
-        
-        <!-- Header Section -->
-        <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12 space-y-3">
-          <div class="inline-flex items-center gap-2 rounded-full border-2 border-[#172033] bg-[#FAF7F0] px-3.5 py-1 text-xs font-black uppercase text-[#172033] shadow-[2px_2px_0_#172033]">
-            <span class="h-2 w-2 rounded-full bg-[#d71920]" />
-            <span>{pageMeta.subtitle}</span>
-          </div>
-
-          <h1 class="font-operetta-32 text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#172033] font-black uppercase tracking-tight">
-            {pageMeta.title}
-          </h1>
-          <p class="text-sm sm:text-base text-slate-600 font-medium">
-            {pageMeta.desc}
-          </p>
+<ConferenceLayout title={`${copy.title} | PyCon HK 2026`} description={copy.description} locale={locale}>
+  <section class="w-full bg-[#FAF7F0] px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl rounded-3xl border-3 border-[#172033] bg-white p-6 shadow-[8px_8px_0_#172033] sm:p-10 md:p-14">
+      <header class="mx-auto mb-10 max-w-2xl space-y-3 text-center sm:mb-12">
+        <p class="inline-flex rounded-full border-2 border-[#172033] bg-[#FAF7F0] px-3.5 py-1 text-xs font-black uppercase text-[#172033] shadow-[2px_2px_0_#172033]">{copy.subtitle}</p>
+        <h1 class="font-operetta-32 text-3xl font-black uppercase tracking-tight text-[#172033] sm:text-4xl md:text-5xl">{copy.title}</h1>
+        <p class="text-sm font-medium text-slate-600 sm:text-base">{copy.description}</p>
+      </header>
+      {articles.length > 0 ? (
+        <div class="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {articles.map(article => <NewsCard article={article} locale={locale} />)}
         </div>
-
-        <!-- News Grid (One item mock-up as requested) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {articles.map((article) => {
-            const articleTitle = article.title[locale] ?? article.title.en;
-            const articleCategory = article.category[locale] ?? article.category.en;
-            const articleDate = article.formattedDate[locale] ?? article.formattedDate.en;
-
-            return (
-              <a
-                href={`/2026/${locale}/news/${article.slug}/`}
-                class="group flex flex-col rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] overflow-hidden shadow-[4px_4px_0_#172033] transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0_#d71920]"
-              >
-                {/* Thumbnail Card (pyconlogo.png) */}
-                <div class="relative w-full aspect-[16/9] bg-white p-6 flex items-center justify-center border-b-2 border-[#172033] overflow-hidden">
-                  <img
-                    src={article.coverImage}
-                    alt={articleTitle}
-                    width="600"
-                    height="338"
-                    class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div class="absolute top-3 left-3">
-                    <span class="inline-flex items-center rounded-lg border-2 border-[#172033] bg-[#d71920] px-2.5 py-0.5 text-[0.68rem] font-black uppercase text-white shadow-[2px_2px_0_#172033]">
-                      {articleCategory}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content Area */}
-                <div class="p-5 sm:p-6 flex flex-col flex-1 justify-between bg-white space-y-4">
-                  <div>
-                    <h2 class="text-base sm:text-lg font-black text-[#172033] group-hover:text-[#d71920] transition-colors leading-snug">
-                      {articleTitle}
-                    </h2>
-                    <p class="mt-2 text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed">
-                      {article.excerpt[locale] ?? article.excerpt.en}
-                    </p>
-                  </div>
-
-                  <div class="flex items-center justify-between pt-4 border-t border-[#172033]/15 text-xs text-slate-500 font-bold">
-                    <time datetime={article.publishedAt}>{articleDate}</time>
-                    <span class="text-[#d71920] font-black group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
-                      <span>Read article</span>
-                      <span>&rarr;</span>
-                    </span>
-                  </div>
-                </div>
-              </a>
-            );
-          })}
-        </div>
-
-        <!-- 2025-Style Pagination -->
-        <nav class="mt-12 flex justify-center" aria-label="Pagination">
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#172033] bg-[#172033] text-sm font-black text-white shadow-[3px_3px_0_#d71920]">
-            1
-          </span>
-        </nav>
-
-      </div>
+      ) : (
+        <p class="rounded-2xl border-2 border-[#172033]/15 bg-[#FAF7F0] p-8 text-center text-slate-600">{copy.empty}</p>
+      )}
     </div>
-  </main>
+  </section>
 </ConferenceLayout>

@@ -1,0 +1,28 @@
+---
+import { getLatestPosts } from '@/lib/news';
+import NewsCard from '@/years/2026/components/news/NewsCard.astro';
+import { newsMessages } from '@/years/2026/i18n/news';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+}
+
+const { locale } = Astro.props;
+const articles = await getLatestPosts(3, 2026, locale);
+const copy = newsMessages[locale];
+---
+
+{articles.length > 0 && (
+  <section id="news" class="bg-[#FAF7F0] px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="news-title">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <h2 id="news-title" class="font-operetta-32 text-3xl font-black text-[#172033] sm:text-4xl">{copy.title}</h2>
+        <a href={`/2026/${locale}/news/`} class="font-bold text-[#d71920] underline underline-offset-4">{copy.allNews} <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {articles.map(article => <NewsCard article={article} locale={locale} />)}
+      </div>
+    </div>
+  </section>
+)}

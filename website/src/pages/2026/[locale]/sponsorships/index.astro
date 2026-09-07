@@ -1,14 +1,9 @@
 ---
-import SponsorshipOpportunitiesPage from '@/years/2026/components/pages/SponsorshipOpportunitiesPage.astro';
-import { resolveCfpLocale, supportedLocales } from '@/years/2026/data/cfp';
-
+import ConferenceContentPage from '@/years/2026/components/pages/ConferenceContentPage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/locales';
 export function getStaticPaths() {
-  return supportedLocales.map((locale) => ({
-    params: { locale },
-  }));
+  return supportedLocales.map((locale) => ({ params: { locale } }));
 }
-
 const locale = resolveCfpLocale(Astro.params.locale);
 ---
-
-<SponsorshipOpportunitiesPage locale={locale} />
+<ConferenceContentPage locale={locale} kind="sponsors" />

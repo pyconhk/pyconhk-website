@@ -1,0 +1,640 @@
+{
+  "slug": "settings",
+  "event": {
+    "status": "published",
+    "title": "PyCon HK 2026",
+    "theme": "Ride and Leverage with AI",
+    "datesLabel": "2026 年 11 月 14–15 日",
+    "startDate": "2026-11-14",
+    "endDate": "2026-11-15"
+  },
+  "tickets": {
+    "status": "draft",
+    "url": "",
+    "label": "",
+    "description": ""
+  },
+  "venue": {
+    "status": "draft",
+    "title": "",
+    "address": "",
+    "description": "",
+    "directions": "",
+    "wifi": "",
+    "mapImage": "",
+    "mapUrl": ""
+  },
+  "catering": {
+    "status": "draft",
+    "intro": "",
+    "items": []
+  },
+  "sprint": {
+    "status": "draft",
+    "intro": "",
+    "date": "",
+    "location": "",
+    "registrationUrl": "",
+    "items": []
+  },
+  "qa": {
+    "status": "draft",
+    "items": []
+  },
+  "sponsors": {
+    "status": "draft",
+    "items": []
+  },
+  "patrons": {
+    "status": "draft",
+    "items": []
+  },
+  "organizations": {
+    "status": "draft",
+    "items": [
+      {
+        "name": "Hong Kong Python User Group / 香港 Python 用户组",
+        "logo": "/2026/organizers-volunteers/organizers/hkpug.webp",
+        "url": "https://www.facebook.com/groups/hkpug",
+        "description": "香港 Python 用户组是一个充满活力的社区，致力于在香港推广 Python 编程语言。通过定期聚会、工作坊与各类活动，他们为学习、交流与分享 Python 知识建立了协作而开放的环境。",
+        "kind": "organizer",
+        "id": "organizations-1"
+      },
+      {
+        "name": "Open Source Hong Kong (OSHK) / 开源香港",
+        "logo": "/2026/organizers-volunteers/organizers/oshk.webp",
+        "url": "https://opensource.hk/",
+        "description": "开源香港（OSHK）是一个历史悠久的本地社区，致力推动开源文化、协作精神与务实的技术交流。多年来，他们持续为开发者、教育工作者及社区组织者建立空间，让香港的开放技术社区得以持续成长。",
+        "kind": "organizer",
+        "id": "organizations-2"
+      },
+      {
+        "name": "Hong Kong Creative Open Technology Association (HKCOTA) / 香港创意开放科技协会",
+        "logo": "/2026/organizers-volunteers/organizers/hkcota.webp",
+        "url": "https://hkcota.org/",
+        "description": "香港创意开放科技协会（HKCOTA）成立于 2014 年，是一个非牟利并获豁免税务的慈善组织。HKCOTA 致力推广开放标准、自由及开源软件、开源硬件、开放数据及创用 CC，并透过与学生及业界人士紧密合作，推动香港的开放科技发展。",
+        "kind": "organizer",
+        "id": "organizations-3"
+      },
+      {
+        "name": "Agile HK",
+        "logo": "/2026/supporting-organizations/agile_hk.webp",
+        "url": "https://www.meetup.com/agile-hong-kong/",
+        "description": "香港的 Agile 社区聚会，让有兴趣学习、实践及分享 agile 理念的人一起交流。",
+        "kind": "supporter",
+        "id": "organizations-4"
+      },
+      {
+        "name": "AWS User Group Hong Kong",
+        "logo": "/2026/supporting-organizations/aws_ug_hk.webp",
+        "url": "https://awsug.hk/",
+        "description": "由志愿者推动的 AWS 社区，通过讲座、工作坊及聚会连接不同程度的云端学习者与实践者。",
+        "kind": "supporter",
+        "id": "organizations-5"
+      },
+      {
+        "name": "点心实验室 (Dim Sum Labs)",
+        "logo": "/2026/supporting-organizations/DimSumLab.webp",
+        "url": "https://www.dimsumlabs.com/",
+        "description": "香港首个 Hackerspace，为创客、程序员与艺术家提供开放的创作空间与社区资源。",
+        "kind": "supporter",
+        "id": "organizations-6"
+      },
+      {
+        "name": "HKACE 香港电脑教育学会",
+        "logo": "/2026/supporting-organizations/hkace.webp",
+        "url": "https://www.hkace.org.hk/",
+        "description": "支援香港电脑教育、教师发展、学生培育及科技学习的专业团体。",
+        "kind": "supporter",
+        "id": "organizations-7"
+      },
+      {
+        "name": "香港城市大学计算机科学系学生会",
+        "logo": "/2026/supporting-organizations/cityu_cssc.webp",
+        "url": "https://www.cs.cityu.edu.hk/",
+        "description": "致力培育城大计算机科学系学生的技术能力、黑客松竞赛经验与业界交流机会。",
+        "kind": "supporter",
+        "id": "organizations-8"
+      },
+      {
+        "name": "Codeaholics",
+        "logo": "/2026/supporting-organizations/codeaholics.webp",
+        "url": "https://www.facebook.com/codeaholics/",
+        "description": "以务实技术分享和工作坊为主的开发者社区，连接香港本地工程师。",
+        "kind": "supporter",
+        "id": "organizations-9"
+      },
+      {
+        "name": "香港教育大学数学与资讯科技学系",
+        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.webp",
+        "url": "https://www.eduhk.hk/mit/en/",
+        "description": "致力推动数学、信息技术、研究及教学发展，培育未来教育工作者的学术部门。",
+        "kind": "supporter",
+        "id": "organizations-10"
+      },
+      {
+        "name": "Google Developer Group Cloud Hong Kong",
+        "logo": "/2026/supporting-organizations/gdg_cloud_hk.webp",
+        "url": "https://gdg.community.dev/gdg-cloud-hong-kong/",
+        "description": "让开发者交流 Google Cloud 主题的社区，涵盖机器学习、serverless、容器等方向。",
+        "kind": "supporter",
+        "id": "organizations-11"
+      },
+      {
+        "name": "Google Developer Group Hong Kong",
+        "logo": "/2026/supporting-organizations/gdg_hk.webp",
+        "url": "https://gdg.community.dev/gdg-hong-kong/",
+        "description": "历史悠久的开发者社区，通过读书会、工作坊及 DevFest 等活动分享 Google 技术。",
+        "kind": "supporter",
+        "id": "organizations-12"
+      },
+      {
+        "name": "香港无线科技商会 (WTIA)",
+        "logo": "/2026/supporting-organizations/wtia.webp",
+        "url": "https://hkwtia.org/",
+        "description": "推动香港无线、流动及新兴科技产业与社区发展的业界组织。",
+        "kind": "supporter",
+        "id": "organizations-13"
+      },
+      {
+        "name": "香港互联网协会 (ISOC HK)",
+        "logo": "/2026/supporting-organizations/internet_society.webp",
+        "url": "https://www.isoc.hk/",
+        "description": "通过标准、治理及基础建设工作，推动开放、中立、可靠且可及的互联网。",
+        "kind": "supporter",
+        "id": "organizations-14"
+      },
+      {
+        "name": "日本树莓派用户组 (Raspberry JAM Tokyo)",
+        "logo": "/2026/supporting-organizations/japan_rpi_ug.webp",
+        "url": "https://www.raspi.jp/",
+        "description": "来自日本的 Raspberry Pi 社区，推动硬件学习、创作实践及跨地区 meetup 协作。",
+        "kind": "supporter",
+        "id": "organizations-15"
+      },
+      {
+        "name": "ProductTank Hong Kong",
+        "logo": "/2026/supporting-organizations/ProductTank.webp",
+        "url": "https://www.mindtheproduct.com/producttank/hong-kong/",
+        "description": "为产品经理、UX 设计师与技术团队提供交流与分享实战经验的社区。",
+        "kind": "supporter",
+        "id": "organizations-16"
+      },
+      {
+        "name": "PyLadies Hong Kong",
+        "logo": "/2026/supporting-organizations/pyladies_hk.webp",
+        "url": "https://linktr.ee/pyladieshk",
+        "description": "鼓励女性参与、带领并在 Python 与开源社区中建立长远连接的社区。",
+        "kind": "supporter",
+        "id": "organizations-17"
+      },
+      {
+        "name": "PyLadies Seoul / Korea",
+        "logo": "/2026/supporting-organizations/pyladies_seoul.webp",
+        "url": "https://pyladies-seoul.github.io/",
+        "description": "PyLadies 韩国分会，通过读书会、工作坊及技术聚会连接女性 Python 开发者。",
+        "kind": "supporter",
+        "id": "organizations-18"
+      },
+      {
+        "name": "PyLadies Tokyo",
+        "logo": "/2026/supporting-organizations/pyladies_tokyo.webp",
+        "url": "https://tokyo.pyladies.com/",
+        "description": "PyLadies 东京分会，通过定期聚会与合作活动连接不同 Python 实践者。",
+        "kind": "supporter",
+        "id": "organizations-19"
+      },
+      {
+        "name": "Python Asia Organization",
+        "logo": "/2026/supporting-organizations/python_asia.webp",
+        "url": "https://pythonasia.org/",
+        "description": "支援亚洲区域 Python 会议、社区领袖培育及跨社区协作的非牟利组织。",
+        "kind": "supporter",
+        "id": "organizations-20"
+      },
+      {
+        "name": "Women Techmakers Hong Kong",
+        "logo": "/2026/supporting-organizations/WTMHK.webp",
+        "url": "https://www.womentechmakers.com/",
+        "description": "为女性科技从业者提供社区支持、技术培训与发挥潜能平台的计划。",
+        "kind": "supporter",
+        "id": "organizations-21"
+      }
+    ]
+  },
+  "people": {
+    "status": "draft",
+    "items": [
+      {
+        "name": "Mr. Calvin Tsang",
+        "role": "大会主席",
+        "image": "/2026/organizers-volunteers/volunteers/calvin-tsang-compressed.webp",
+        "url": "https://www.linkedin.com/in/calvin-tyl/",
+        "id": "people-1"
+      },
+      {
+        "name": "Mr. Alex Au",
+        "role": "大会副主席",
+        "image": "/2026/organizers-volunteers/volunteers/alex-au-compressed.webp",
+        "url": "https://www.linkedin.com/in/alex-au-606901206/",
+        "id": "people-2"
+      },
+      {
+        "name": "Ms. Daisy Maris Fung",
+        "role": "大会副主席",
+        "image": "/2026/organizers-volunteers/volunteers/daisy-maris-fung-compressed.webp",
+        "url": "https://www.daisymarisfung.com/",
+        "id": "people-3"
+      },
+      {
+        "name": "Mr. Adrian Tam",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/adrian-tam-compressed.webp",
+        "url": "https://www.linkedin.com/in/adrian-tam-0666b08/",
+        "id": "people-4"
+      },
+      {
+        "name": "Ms. Cathy Hui",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "url": "",
+        "id": "people-5"
+      },
+      {
+        "name": "Ms. Cintia Ching",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "url": "",
+        "id": "people-6"
+      },
+      {
+        "name": "Mr. Henry Law",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/henry-law-compressed.webp",
+        "url": "",
+        "id": "people-7"
+      },
+      {
+        "name": "Ms. Janny Leung",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "url": "",
+        "id": "people-8"
+      },
+      {
+        "name": "Mr. Ka Ki Ting",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/ka-ki-ting-compressed.webp",
+        "url": "https://www.linkedin.com/in/tinglogy/",
+        "id": "people-9"
+      },
+      {
+        "name": "Ms. Maya Yan",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/maya-yan-compressed.webp",
+        "url": "https://www.linkedin.com/in/yantungmaya/",
+        "id": "people-10"
+      },
+      {
+        "name": "Mr. Ronald Yick",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/ronald-yick-compressed.webp",
+        "url": "https://www.linkedin.com/in/ronald-yick/",
+        "id": "people-11"
+      },
+      {
+        "name": "Mr. Scotty Kwok",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/scotty-kwok-compressed.webp",
+        "url": "https://www.linkedin.com/in/scottykwok/",
+        "id": "people-12"
+      },
+      {
+        "name": "Mr. Sky Ng",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/sky-ng-compressed.webp",
+        "url": "https://www.linkedin.com/in/sky-ng-ab307b252/",
+        "id": "people-13"
+      },
+      {
+        "name": "Mr. Ted Yuen",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/ted-yuen-compressed.webp",
+        "url": "https://www.linkedin.com/in/ted-yuen/",
+        "id": "people-14"
+      },
+      {
+        "name": "Mr. Tommy Han",
+        "role": "筹委会成员",
+        "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
+        "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
+        "id": "people-15"
+      }
+    ]
+  },
+  "about": {
+    "status": "draft",
+    "paragraphs": [
+      "PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度会议，汇聚来自不同背景的 Python 爱好者，分享经验、交流想法，并促进合作。全球每年有超过五十个城市及地区举办 PyCon，而 PyCon HK 很荣幸成为其中一员。",
+      "PyCon HK 的起点可追溯至 Sammy Fung 参与 2013 年东京 PyCon APAC 之后。当时他意识到，亚洲多个城市都有自己的 PyCon，但香港仍然缺少一个属于本地 Python 社群的重要年度聚会。于是，Sammy 与开源香港合作，在 2015 年举办了首届 PyCon HK。自此，PyCon HK 一直在香港推动 Python 技术交流与社群发展。",
+      "2026 年，PyCon Hong Kong 延续历年热情，连接本地与国际的 Python 开发者与开源社区。在热心志愿者、资深工程师、教育工作者与科技创新者的共同努力下，PyCon HK 2026 带来兼具深度与前瞻性的技术交流平台。"
+    ]
+  },
+  "sponsorship": {
+    "status": "draft",
+    "intro": [
+      "PyCon HK 2026 是一个难得的机会，让你接触香港最投入的 Python 开发者、科技团队与创新机构。",
+      "作为赞助伙伴，你将置身亚洲其中一个具代表性的 Python 大会，与数百位开发者、资深工程师、数据科学家及科技创业者交流，见证新想法如何变成实际方案。",
+      "你的赞助不只是品牌曝光，更代表你愿意支持创新、开源社群，以及香港与区内的科技发展。"
+    ],
+    "benefits": [
+      {
+        "title": "品牌曝光",
+        "description": "提升品牌在科技界的知名度与影响力",
+        "id": "benefits-1"
+      },
+      {
+        "title": "建立人脉",
+        "description": "接触业界领袖、优秀人才与潜在合作伙伴",
+        "id": "benefits-2"
+      },
+      {
+        "title": "支持社区",
+        "description": "支持香港及亚太区 Python 社区的长远繁荣发展",
+        "id": "benefits-3"
+      }
+    ],
+    "plans": [
+      {
+        "name": "钻石方案",
+        "tier": "diamond",
+        "fee": "HKD 70,000+",
+        "maxSlots": "1",
+        "features": [
+          {
+            "label": "赞助演讲",
+            "value": "2 场 30 分钟演讲",
+            "id": "feature-1"
+          },
+          {
+            "label": "展位摊位",
+            "value": "双倍特大展位",
+            "id": "feature-2"
+          },
+          {
+            "label": "讲台标志",
+            "value": "包括",
+            "id": "feature-3"
+          },
+          {
+            "label": "大会易拉架",
+            "value": "特大标志",
+            "id": "feature-4"
+          },
+          {
+            "label": "YouTube 录屏画面",
+            "value": "特大标志",
+            "id": "feature-5"
+          },
+          {
+            "label": "官方网站标志",
+            "value": "特大标志（附专题简介）",
+            "id": "feature-6"
+          },
+          {
+            "label": "可自备易拉架",
+            "value": "包括",
+            "id": "feature-7"
+          },
+          {
+            "label": "中场休息广告",
+            "value": "包括",
+            "id": "feature-8"
+          },
+          {
+            "label": "会前邮件宣传",
+            "value": "包括",
+            "id": "feature-9"
+          },
+          {
+            "label": "新闻稿",
+            "value": "包括",
+            "id": "feature-10"
+          },
+          {
+            "label": "社交平台推广",
+            "value": "包括",
+            "id": "feature-11"
+          },
+          {
+            "label": "开幕及闭幕鸣谢",
+            "value": "包括",
+            "id": "feature-12"
+          }
+        ],
+        "id": "plans-1"
+      },
+      {
+        "name": "白金方案",
+        "tier": "platinum",
+        "fee": "HKD 44,000",
+        "maxSlots": "2",
+        "features": [
+          {
+            "label": "赞助演讲",
+            "value": "1 场 30 分钟演讲",
+            "id": "feature-1"
+          },
+          {
+            "label": "展位摊位",
+            "value": "标准大小展位",
+            "id": "feature-2"
+          },
+          {
+            "label": "大会易拉架",
+            "value": "大标志",
+            "id": "feature-3"
+          },
+          {
+            "label": "YouTube 录屏画面",
+            "value": "大标志",
+            "id": "feature-4"
+          },
+          {
+            "label": "官方网站标志",
+            "value": "大标志（附专题简介）",
+            "id": "feature-5"
+          },
+          {
+            "label": "可自备易拉架",
+            "value": "包括",
+            "id": "feature-6"
+          },
+          {
+            "label": "中场休息广告",
+            "value": "包括",
+            "id": "feature-7"
+          },
+          {
+            "label": "会前邮件宣传",
+            "value": "包括",
+            "id": "feature-8"
+          },
+          {
+            "label": "新闻稿",
+            "value": "包括",
+            "id": "feature-9"
+          },
+          {
+            "label": "社交平台推广",
+            "value": "包括",
+            "id": "feature-10"
+          },
+          {
+            "label": "开幕及闭幕鸣谢",
+            "value": "包括",
+            "id": "feature-11"
+          }
+        ],
+        "id": "plans-2"
+      },
+      {
+        "name": "黄金方案",
+        "tier": "gold",
+        "fee": "HKD 22,000",
+        "maxSlots": "4",
+        "features": [
+          {
+            "label": "赞助演讲",
+            "value": "1 场 15 分钟演讲",
+            "id": "feature-1"
+          },
+          {
+            "label": "展位摊位",
+            "value": "标准大小展位",
+            "id": "feature-2"
+          },
+          {
+            "label": "大会易拉架",
+            "value": "中标志",
+            "id": "feature-3"
+          },
+          {
+            "label": "YouTube 录屏画面",
+            "value": "中标志",
+            "id": "feature-4"
+          },
+          {
+            "label": "官方网站标志",
+            "value": "中标志",
+            "id": "feature-5"
+          },
+          {
+            "label": "中场休息广告",
+            "value": "+ HKD 3,100",
+            "id": "feature-6"
+          },
+          {
+            "label": "会前邮件宣传",
+            "value": "包括",
+            "id": "feature-7"
+          },
+          {
+            "label": "新闻稿",
+            "value": "包括",
+            "id": "feature-8"
+          },
+          {
+            "label": "社交平台推广",
+            "value": "包括",
+            "id": "feature-9"
+          },
+          {
+            "label": "开幕及闭幕鸣谢",
+            "value": "包括",
+            "id": "feature-10"
+          }
+        ],
+        "id": "plans-3"
+      },
+      {
+        "name": "纯银方案",
+        "tier": "silver",
+        "fee": "HKD 11,000",
+        "maxSlots": "4",
+        "features": [
+          {
+            "label": "展位摊位",
+            "value": "标准大小展位",
+            "id": "feature-1"
+          },
+          {
+            "label": "大会易拉架",
+            "value": "常规标志",
+            "id": "feature-2"
+          },
+          {
+            "label": "YouTube 录屏画面",
+            "value": "常规标志",
+            "id": "feature-3"
+          },
+          {
+            "label": "官方网站标志",
+            "value": "常规标志",
+            "id": "feature-4"
+          },
+          {
+            "label": "中场休息广告",
+            "value": "+ HKD 3,100",
+            "id": "feature-5"
+          },
+          {
+            "label": "社交平台推广",
+            "value": "包括",
+            "id": "feature-6"
+          },
+          {
+            "label": "开幕及闭幕鸣谢",
+            "value": "包括",
+            "id": "feature-7"
+          }
+        ],
+        "id": "plans-4"
+      },
+      {
+        "name": "青铜方案",
+        "tier": "bronze",
+        "fee": "HKD 6,000",
+        "maxSlots": "unlimited",
+        "features": [
+          {
+            "label": "大会易拉架",
+            "value": "小型标志",
+            "id": "feature-1"
+          },
+          {
+            "label": "YouTube 录屏画面",
+            "value": "小型标志",
+            "id": "feature-2"
+          },
+          {
+            "label": "官方网站标志",
+            "value": "小型标志",
+            "id": "feature-3"
+          },
+          {
+            "label": "中场休息广告",
+            "value": "+ HKD 3,100",
+            "id": "feature-4"
+          },
+          {
+            "label": "开幕及闭幕鸣谢",
+            "value": "包括",
+            "id": "feature-5"
+          }
+        ],
+        "id": "plans-5"
+      }
+    ]
+  }
+}

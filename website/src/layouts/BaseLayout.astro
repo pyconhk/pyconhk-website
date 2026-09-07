@@ -16,6 +16,7 @@ interface Props {
   description?: string;
   htmlLang?: string;
   imagePath?: string;
+  iconPath?: string;
   robots?: string;
 }
 
@@ -24,6 +25,7 @@ const {
   description = defaultSeoDescription,
   htmlLang = 'en-HK',
   imagePath,
+  iconPath = '/favicon.ico',
   robots,
 } = Astro.props;
 const seo = buildSeoMetadata({
@@ -67,7 +69,7 @@ const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironmen
     <meta name="twitter:creator" content={socialHandle} />
     <meta name="twitter:site" content={socialHandle} />
     <meta name="twitter:image" content={seo.imageUrl} />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href={iconPath} />
     <ClientRouter />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />

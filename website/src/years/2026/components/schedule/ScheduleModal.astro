@@ -1,170 +1,26 @@
 ---
-import { getTranslations } from '@/years/2026/i18n';
-import type { CfpLocale } from '@/years/2026/locales';
+import { scheduleCopy } from '../../data/schedule-copy';
+import type { CfpLocale } from '../../locales';
 
-interface Props {
-  locale: CfpLocale;
-}
-
-const { locale } = Astro.props;
-const t = getTranslations(locale);
+interface Props { locale: CfpLocale }
+const copy = scheduleCopy[Astro.props.locale];
 ---
-
-<div
-  id="session-modal"
-  class="pointer-events-none fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-200"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="modal-session-title"
-  data-session-modal
->
-  <!-- Backdrop -->
-  <div
-    class="absolute inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
-    data-modal-backdrop
-  ></div>
-
-  <!-- Modal Box -->
-  <div
-    class="relative w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden rounded-3xl border-3 border-[#172033] bg-white text-[#172033] shadow-[10px_10px_0_#172033] scale-95 transition-all duration-200"
-    data-modal-box
-  >
-    <!-- Modal Header -->
-    <div class="flex items-start justify-between gap-4 border-b-2 border-[#172033]/15 p-5 sm:p-6 bg-[#FAF7F0]">
-      <div class="space-y-2">
-        <div class="flex flex-wrap items-center gap-2" id="modal-badges">
-          <span
-            id="modal-track-badge"
-            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-black uppercase tracking-wider text-white bg-[#d71920]"
-          >
-            Track
-          </span>
-          <span
-            id="modal-type-badge"
-            class="inline-flex items-center rounded-full border border-[#172033]/20 bg-white px-2.5 py-0.5 text-xs font-bold text-[#172033]"
-          >
-            Talk
-          </span>
-          <span
-            id="modal-lang-badge"
-            class="inline-flex items-center rounded-md bg-slate-200 px-2 py-0.5 text-xs font-black text-slate-700"
-          >
-            EN
-          </span>
-        </div>
-        <h2
-          id="modal-session-title"
-          class="text-xl sm:text-2xl font-black text-[#172033] leading-tight"
-        >
-          Session Title
-        </h2>
-      </div>
-
-      <!-- Close Button -->
-      <button
-        type="button"
-        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-[#172033] bg-white text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
-        aria-label={t.schedule.close}
-        data-modal-close
-      >
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <title>Close</title>
-          <path
-            fill-rule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Modal Body (Scrollable) -->
-    <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
-      <!-- Session Meta Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 rounded-2xl border-2 border-[#172033]/15 bg-[#FAF7F0]/60 text-xs">
-        <div>
-          <span class="block font-bold text-slate-500 uppercase tracking-wider">{t.schedule.time}</span>
-          <span id="modal-time" class="font-black text-[#172033] text-sm">--</span>
-        </div>
-        <div>
-          <span class="block font-bold text-slate-500 uppercase tracking-wider">{t.schedule.room}</span>
-          <span id="modal-room" class="font-black text-[#172033] text-sm">--</span>
-        </div>
-        <div>
-          <span class="block font-bold text-slate-500 uppercase tracking-wider">{t.schedule.duration}</span>
-          <span id="modal-duration" class="font-black text-[#172033] text-sm">--</span>
-        </div>
-      </div>
-
-      <!-- Speakers -->
-      <div>
-        <h3 class="text-xs font-black uppercase tracking-wider text-[#2f559a] mb-2">
-          {t.schedule.speakers}
-        </h3>
-        <div id="modal-speakers-list" class="flex flex-wrap gap-2 text-sm font-bold text-[#172033]">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-
-      <!-- Abstract / Description -->
-      <div>
-        <h3 class="text-xs font-black uppercase tracking-wider text-[#2f559a] mb-2">
-          {t.schedule.abstract}
-        </h3>
-        <div
-          id="modal-abstract"
-          class="text-sm leading-relaxed text-slate-700 whitespace-pre-line space-y-2 font-medium"
-        >
-          <!-- Populated by JS -->
-        </div>
-      </div>
-
-      <!-- Tags -->
-      <div id="modal-tags-wrapper">
-        <h3 class="text-xs font-black uppercase tracking-wider text-slate-500 mb-2">
-          Tags
-        </h3>
-        <div id="modal-tags" class="flex flex-wrap gap-1.5">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Footer Actions -->
-    <div class="flex flex-wrap items-center justify-between gap-3 border-t-2 border-[#172033]/15 p-4 sm:p-5 bg-[#FAF7F0]">
-      <!-- Star Button -->
-      <button
-        type="button"
-        id="modal-star-btn"
-        class="inline-flex items-center gap-2 rounded-xl border-2 border-[#172033] bg-white px-4 py-2 text-xs font-black text-[#172033] shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5"
-        data-modal-star
-      >
-        <svg class="h-4 w-4 text-amber-400 fill-none" viewBox="0 0 24 24" stroke="currentColor" data-star-icon>
-          <title>Star icon</title>
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-          />
-        </svg>
-        <span data-star-label>Star Talk</span>
-      </button>
-
-      <!-- Add to Calendar Link -->
-      <a
-        id="modal-calendar-link"
-        href="https://calendar.google.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#172033] bg-[#2f559a] px-4 py-2 text-xs font-black text-white shadow-[2px_2px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:bg-[#254682]"
-      >
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <title>Calendar</title>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span>{t.schedule.addToCalendar}</span>
-      </a>
+<dialog id="session-modal" aria-labelledby="modal-session-title" class="m-auto w-[calc(100%_-_2rem)] max-w-2xl max-h-[85vh] rounded-3xl border-2 border-[#172033] bg-white p-0 text-[#172033] shadow-[8px_8px_0_#172033] backdrop:bg-slate-900/60">
+  <div class="flex items-start justify-between gap-4 border-b-2 border-[#172033]/15 bg-[#FAF7F0] p-5">
+    <h2 id="modal-session-title" class="text-xl font-black">{copy.details}</h2>
+    <form method="dialog"><button type="submit" class="rounded-xl border-2 border-[#172033] bg-white px-3 py-2 text-sm font-bold" aria-label={copy.close}>{copy.close}</button></form>
+  </div>
+  <div class="space-y-5 p-5">
+    <dl class="grid gap-3 text-sm sm:grid-cols-2">
+      <div><dt class="font-bold text-slate-500">{copy.time}</dt><dd id="modal-time"></dd></div>
+      <div><dt class="font-bold text-slate-500">{copy.room}</dt><dd id="modal-room"></dd></div>
+      <div data-modal-speakers><dt class="font-bold text-slate-500">{copy.speakers}</dt><dd id="modal-speakers"></dd></div>
+    </dl>
+    <section><h3 class="mb-2 font-bold">{copy.description}</h3><p id="modal-description" class="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-700"></p></section>
+    <div class="flex flex-wrap gap-3 border-t border-slate-200 pt-4">
+      <button type="button" data-modal-save class="rounded-xl border-2 border-[#172033] bg-[#FAF7F0] px-4 py-2 text-sm font-bold" aria-pressed="false">{copy.save}</button>
+      <a href="https://calendar.google.com/calendar/" data-modal-calendar class="rounded-xl border-2 border-[#172033] bg-[#2f559a] px-4 py-2 text-sm font-bold text-white" target="_blank" rel="noopener noreferrer">{copy.calendar}</a>
+      <a href="https://pretalx.com/" data-modal-source class="px-2 py-2 text-sm font-bold underline" target="_blank" rel="noopener noreferrer">{copy.source}</a>
     </div>
   </div>
-</div>
+</dialog>

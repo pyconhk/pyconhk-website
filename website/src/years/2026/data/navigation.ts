@@ -63,7 +63,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'アクセスガイド',
           ko: '오시는 길',
         },
-        href: (locale) => `/2026/${locale}/#venue`,
+        href: (locale) => `/2026/${locale}/access-guide/`,
       },
       {
         label: {
@@ -74,7 +74,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: '食事ガイド',
           ko: '식사 안내',
         },
-        href: (locale) => `/2026/${locale}/#venue`,
+        href: (locale) => `/2026/${locale}/catering-guide/`,
       },
     ],
   },
@@ -98,7 +98,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'スプリントデー',
           ko: '스프린트 데이',
         },
-        href: (locale) => `/2026/${locale}/#programme`,
+        href: (locale) => `/2026/${locale}/sprint/`,
       },
       {
         label: {
@@ -109,7 +109,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'スプリント Q&A',
           ko: '스프린트 Q&A',
         },
-        href: (locale) => `/2026/${locale}/#programme`,
+        href: (locale) => `/2026/${locale}/sprint/qna/`,
       },
     ],
   },
@@ -168,7 +168,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'スポンサー',
           ko: '후원사',
         },
-        href: (locale) => `/2026/${locale}/#sponsors`,
+        href: (locale) => `/2026/${locale}/sponsorships/`,
       },
       {
         label: {
@@ -179,7 +179,7 @@ export const headerNavigation: NavigationItem[] = [
           ja: 'パトロン',
           ko: '개인 후원자',
         },
-        href: (locale) => `/2026/${locale}/#sponsors`,
+        href: (locale) => `/2026/${locale}/sponsorships/patrons/`,
       },
       {
         label: {
