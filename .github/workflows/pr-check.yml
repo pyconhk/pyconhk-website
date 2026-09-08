@@ -73,7 +73,7 @@ jobs:
           restore-keys: bun-${{ runner.os }}-
       - run: mise run //website:install
       - run: mise run //website:build
-      - run: tar -cf website-dist.tar -C website dist
+      - run: tar -cf website-dist.tar -C website dist public/pagefind
       - uses: actions/upload-artifact@v4
         with:
           name: website-dist
