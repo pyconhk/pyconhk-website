@@ -97,6 +97,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   import type { scheduleCopy } from '../../data/schedule-copy';
   import { sessionCalendarUrl, sessionMatches } from '../schedule/schedule-interactions';
 
+  document.addEventListener('astro:page-load', () => {
   const dataElement = document.querySelector('#programme-data');
   if (dataElement) {
     const data = JSON.parse(dataElement.textContent ?? '{}') as { sessions: ScheduleItem[]; event: string; initialDay: string; copy: (typeof scheduleCopy)['en'] };
@@ -119,7 +120,11 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       const requiredWidth = (4 + Number(programme.dataset.roomCount) * 14) * rootSize;
       programme.dataset.roomLayout = String(!filters.room && programme.clientWidth >= Math.max(1024, requiredWidth + 4));
     }
-    if (programme) new ResizeObserver(updateLayout).observe(programme);
+    if (programme) {
+      const observer = new ResizeObserver(updateLayout);
+      observer.observe(programme);
+      document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+    }
     let activeSession: ScheduleItem | undefined;
     let previousFocus: HTMLElement | null = null;
 
@@ -203,5 +208,13 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     dialog?.addEventListener('close', () => previousFocus?.focus());
     dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
     refresh();
+    const linkedSession = byId.get(new URLSearchParams(location.search).get('session') ?? '');
+    if (linkedSession) {
+      filters.date = linkedSession.date;
+      refresh();
+      const trigger = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-session-details]')).find((button) => button.dataset.sessionDetails === linkedSession.id);
+      trigger?.click();
+    }
   }
+  });
 </script>

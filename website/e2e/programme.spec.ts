@@ -53,7 +53,7 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
   await avatar.scrollIntoViewIfNeeded();
   await expect(avatar).toBeVisible();
   await expect.poll(() => avatar.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
-  await expect(page.locator('#modal-details [data-speaker-profile] a').first()).toHaveAttribute('href', 'https://pretalx.com/pyconhk2025/speaker/7GSH3P/');
+  await expect(page.locator('#modal-details [data-speaker-link]').first()).toHaveAttribute('href', /^\/2026\/en\/speakers\/[a-f0-9]+\/$/);
   const calendar = new URL(await page.locator('[data-modal-calendar]').getAttribute('href') ?? '');
   expect(calendar.searchParams.get('dates')).toBe('20251011T022500Z/20251011T025500Z');
   expect(calendar.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
@@ -103,3 +103,54 @@ test('blocked local storage does not disable programme controls', async ({ page 
   await page.locator('[data-saved-filter]').click();
   await expect(page.locator('[data-session-card]:visible')).toHaveCount(1);
 });
+
+for (const locale of locales) {
+  test(`speaker stays on site and links back to the session in ${locale}`, async ({ page, context }) => {
+    test.skip(!sample, 'Requires the public 2025 sample build.');
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/2026/${locale}/schedule/`);
+    const origin = new URL(page.url()).origin;
+    await page.locator('[data-programme-search]').fill('Peter Ho');
+    await page.locator('[data-session-details]:visible').first().click();
+    const title = await page.locator('#modal-session-title').textContent();
+    const link = page.locator('#modal-details [data-speaker-link]').first();
+    await expect(link).not.toHaveAttribute('target', '_blank');
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(`/2026/${locale}/speakers/[a-f0-9]+/`));
+    expect(new URL(page.url()).origin).toBe(origin);
+    expect(context.pages()).toHaveLength(1);
+    await expect(page).toHaveTitle(/Peter Ho/);
+    await expect(page.locator('h1')).toHaveText('Peter Ho');
+    await expect(page.locator('[data-speaker-biography]')).toContainText('Red Hat');
+    if (locale === 'en') {
+      const portrait = page.locator('[data-speaker-page] img');
+      await portrait.scrollIntoViewIfNeeded();
+      await expect.poll(() => portrait.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+    }
+    await expect(page.locator('[data-sample-notice]')).toBeVisible();
+    const profilePath = new URL(page.url()).pathname;
+    await expect(page.locator('[data-locale-switch="ja"]').first()).toHaveAttribute('href', new RegExp(profilePath.replace(`/${locale}/`, '/ja/')));
+    for (const width of [320, 640, 768, 1024, 1536]) {
+      await page.setViewportSize({ width, height: 900 });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      expect(await page.locator('[data-speaker-biography]').evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+      if (locale === 'en' && [320, 1536].includes(width)) await page.screenshot({ path: join(tmpdir(), `pyconhk-speaker-page-${width}.png`), fullPage: true });
+    }
+    await page.locator('[data-speaker-session]').first().click();
+    await expect(page.locator('#session-modal')).toBeVisible();
+    await expect(page.locator('#modal-session-title')).toHaveText(title ?? '');
+    expect(new URL(page.url()).origin).toBe(origin);
+    if (locale === 'en') {
+      await page.evaluate(() => Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => {}))));
+      await page.screenshot({ path: join(tmpdir(), 'pyconhk-branded-session.png'), fullPage: false });
+    }
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#session-modal')).not.toBeVisible();
+    await expect(page.locator('[data-session-details]:focus')).toHaveCount(1);
+    expect(errors).toEqual([]);
+  });
+}
