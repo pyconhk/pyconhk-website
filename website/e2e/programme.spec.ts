@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const sample = process.env.PROGRAMME_SOURCE_EVENT === 'pyconhk2025';
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ko', 'ja'];
@@ -57,10 +59,10 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
   await expect(page.locator('[data-session-card]:visible')).toHaveCount(1);
   await page.reload();
   await expect(page.locator('[data-saved-count]')).toHaveText('1');
-  await page.screenshot({ path: '/private/tmp/pyconhk-programme-desktop.png', fullPage: false });
+  await page.screenshot({ path: join(tmpdir(), 'pyconhk-programme-desktop.png'), fullPage: false });
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-  await page.screenshot({ path: '/private/tmp/pyconhk-programme-mobile.png', fullPage: false });
+  await page.screenshot({ path: join(tmpdir(), 'pyconhk-programme-mobile.png'), fullPage: false });
   expect(errors).toEqual([]);
 });
 
