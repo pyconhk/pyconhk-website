@@ -167,40 +167,24 @@ test('legacy 2023 same-year rendered links resolve locally', async ({
   expect(brokenLinks).toEqual([]);
 });
 
-test('legacy 2023 pages do not emit same-origin 404s', async ({
-  browser,
-}, testInfo) => {
-  // Each route needs a 500 ms idle window as well as its local asset loads.
-  test.setTimeout(legacy2023Routes.length * 2_000);
-  const baseURL = String(testInfo.project.use.baseURL ?? '');
-  const baseOrigin = new URL(baseURL).origin;
-  const context = await browser.newContext({ baseURL });
-  const page = await context.newPage();
-  const sameOriginFailures: string[] = [];
-
-  await page.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-
-    return url.origin === baseOrigin ? route.continue() : route.abort();
+for (const route of legacy2023Routes) {
+  test(`legacy 2023 page loads local assets: ${route}`, async ({ page }, testInfo) => {
+    const baseOrigin = new URL(String(testInfo.project.use.baseURL)).origin;
+    const sameOriginFailures: string[] = [];
+    await page.route('**/*', (requestRoute) => {
+      const url = new URL(requestRoute.request().url());
+      return url.origin === baseOrigin ? requestRoute.continue() : requestRoute.abort();
+    });
+    page.on('response', (response) => {
+      const url = new URL(response.url());
+      if (url.origin === baseOrigin && response.status() >= 400) {
+        sameOriginFailures.push(`${response.status()} ${url.pathname}`);
+      }
+    });
+    await page.goto(route, { waitUntil: 'networkidle' });
+    expect([...new Set(sameOriginFailures)].sort()).toEqual([]);
   });
-
-  page.on('response', (response) => {
-    const url = new URL(response.url());
-
-    if (url.origin === baseOrigin && response.status() >= 400) {
-      sameOriginFailures.push(`${response.status()} ${url.pathname}`);
-    }
-  });
-
-  for (const route of legacy2023Routes) {
-    await page.goto(route, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('networkidle', { timeout: 10_000 });
-  }
-
-  await context.close();
-
-  expect([...new Set(sameOriginFailures)].sort()).toEqual([]);
-});
+}
 
 function collectLocalImageUrls(html: string, baseURL: string): string[] {
   const urls = new Set<string>();
