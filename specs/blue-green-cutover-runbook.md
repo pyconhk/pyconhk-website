@@ -14,10 +14,10 @@ It does not cover the Decap CMS cutover for `cms.pycon.hk`.
   public aliases.
 - Green is the candidate Cloudflare Pages deployment for the Astro website in this
   repository.
-- Keep blue untouched until the post-cutover smoke pass and owner sign-off are complete.
+- Keep blue untouched until the post-cutover E2E pass and owner sign-off are complete.
 - Do not delete old Cloudflare Pages projects, deployments, DNS records, or custom-domain
   entries during the cutover window.
-- Do not cut over if any required local or hosted smoke gate fails.
+- Do not cut over if any required local or hosted E2E gate fails.
 - Do not claim Cloudflare, DNS, GitHub branch protection, secrets, or production build
   settings are correct until the owner verifies them in the external services.
 
@@ -28,8 +28,8 @@ These items are verified by committed repository files, not by external service 
 - The public website app lives under `website/`.
 - The root mise task surface includes `mise install`, `mise run install`, `mise run ci`,
   and `mise run e2e`.
-- `mise run e2e` runs the public website Playwright smoke tests through the website task.
-- The hosted smoke suite can target a deployed site with:
+- `mise run e2e` runs the public website Playwright E2E tests through the website task.
+- The hosted E2E suite can target a deployed site with:
 
 ```bash
 PLAYWRIGHT_BASE_URL=https://<green-hostname> mise run e2e
@@ -47,7 +47,7 @@ them.
 | --- | --- |
 | Blue production hostnames | Exact hostname list currently serving production, for example `pycon.hk` and `www.pycon.hk` if both are live. |
 | Blue rollback target | Cloudflare Pages project/deployment, DNS target, or legacy origin that currently serves production. |
-| Green hostname | Exact Cloudflare Pages preview, branch alias, or staging custom domain used for hosted smoke. |
+| Green hostname | Exact Cloudflare Pages preview, branch alias, or staging custom domain used for hosted E2E. |
 | Green deployment commit | Exact Git commit SHA deployed to green. |
 | Cloudflare Pages project root | Confirm the public website build runs from `website/`, or document the equivalent monorepo command setup. |
 | Cloudflare Pages build command | Confirm it provisions the same toolchain and produces the Astro `dist` output. |
@@ -57,7 +57,7 @@ them.
 | Cloudflare custom-domain ownership | Confirm `pycon.hk` is in the Cloudflare account that owns the target Pages project. |
 | DNS records | Record current blue DNS/custom-domain records and the intended green records before changing them. |
 | Cache controls | Confirm whether any Cloudflare cache purge is required after cutover or rollback. |
-| Access policy | Confirm green is publicly reachable for smoke tests, or that the operator running smoke has access. |
+| Access policy | Confirm green is publicly reachable for E2E tests, or that the operator running E2E has access. |
 
 Cloudflare product behavior to account for:
 
@@ -96,7 +96,7 @@ custom domains.
 | Blue deployment ID or DNS target | |
 | Green Cloudflare Pages project | |
 | Green deployment ID | |
-| Green hostname for smoke | |
+| Green hostname for E2E | |
 | Production hostnames to cut over | |
 | DNS/custom-domain cutover method | |
 | Cloudflare cache purge needed | |
@@ -122,7 +122,7 @@ Before leaving preflight:
 
 1. Confirm `git status --short` contains only expected release changes.
 2. Record the candidate commit SHA in the run sheet.
-3. Confirm the smoke suite covers the launch-critical behavior documented in the
+3. Confirm the E2E suite covers the launch-critical behavior documented in the
    coordination note: redirects, locale cookies, critical pages, static assets, robots,
    and sitemap.
 4. Freeze release changes except fixes approved by the cutover owner.
@@ -148,7 +148,7 @@ Required green deployment checks:
 2. Record the Cloudflare Pages project, deployment ID, hostname, and commit SHA.
 3. Confirm the deployment status is successful in Cloudflare Pages.
 4. Confirm the green hostname serves HTTPS without certificate warnings.
-5. Confirm the green hostname is publicly reachable by the operator who will run smoke.
+5. Confirm the green hostname is publicly reachable by the operator who will run E2E.
 6. Confirm the green deployment is isolated from blue and does not already serve live
    `pycon.hk` traffic.
 
@@ -160,19 +160,19 @@ Deployment fails if:
 - HTTPS is not active;
 - the green environment already owns production traffic before the cutover decision.
 
-## Hosted Green Smoke
+## Hosted Green E2E
 
-Run the same Playwright smoke suite against the hosted green hostname.
+Run the same Playwright E2E suite against the hosted green hostname.
 
 ```bash
 PLAYWRIGHT_BASE_URL=https://<green-hostname> mise run e2e
 ```
 
-Hosted smoke fails if the command exits non-zero.
+Hosted E2E fails if the command exits non-zero.
 
 Also manually inspect Cloudflare deployment logs for failed asset uploads, build
 warnings that indicate missing generated routes/assets, or unexpected runtime errors.
-Do not cut over until the smoke command passes and deployment logs are acceptable to
+Do not cut over until the E2E command passes and deployment logs are acceptable to
 the cutover owner.
 
 Rollback rehearsal must happen before production cutover:
@@ -187,7 +187,7 @@ Rollback rehearsal must happen before production cutover:
 
 Abort before cutover if:
 
-- hosted green smoke fails;
+- hosted green E2E fails;
 - deployment logs show missing routes, missing assets, or unexpected runtime errors;
 - rollback has not been rehearsed or dry-run with the actual production values recorded;
 - the owner cannot confirm the exact DNS/custom-domain changes required.
@@ -248,7 +248,7 @@ explicitly accepts a short fix-forward window.
 
 ## Post-Cutover Verification
 
-Run hosted smoke against every production hostname that should serve the public site.
+Run hosted E2E against every production hostname that should serve the public site.
 For each hostname, replace `<production-hostname>` with the exact value from the run
 sheet.
 
@@ -256,7 +256,7 @@ sheet.
 PLAYWRIGHT_BASE_URL=https://<production-hostname> mise run e2e
 ```
 
-Post-cutover verification passes only when all production hostname smoke runs exit 0.
+Post-cutover verification passes only when all production hostname E2E runs exit 0.
 
 Also verify:
 
@@ -265,13 +265,13 @@ Also verify:
 3. Current and archive routes load from the expected Astro deployment.
 4. Critical legacy redirects still resolve.
 5. `/robots.txt` and `/sitemap.xml` return successful responses and expected content.
-6. Static assets, Open Graph images, and legacy media used by the smoke routes return
+6. Static assets, Open Graph images, and legacy media used by the E2E routes return
    successful responses.
 7. Cloudflare analytics/logs do not show a spike in 4xx/5xx responses after cutover.
 
 Hold the rollback window open until:
 
-- all smoke runs pass;
+- all E2E runs pass;
 - the cutover owner accepts the analytics/log sample;
 - no launch-blocking user reports are open;
 - the previous blue rollback target remains available.
@@ -280,7 +280,7 @@ Hold the rollback window open until:
 
 Rollback immediately if any of these happen after production traffic starts moving:
 
-- any production `PLAYWRIGHT_BASE_URL=... mise run e2e` smoke run fails;
+- any production `PLAYWRIGHT_BASE_URL=... mise run e2e` E2E run fails;
 - `pycon.hk` or another production hostname has HTTPS/certificate errors;
 - root locale redirect or locale-cookie behavior is broken;
 - critical current-year, archive, or news routes return 404/500;
@@ -289,7 +289,7 @@ Rollback immediately if any of these happen after production traffic starts movi
 - legacy redirects needed for launch-critical archive traffic fail;
 - Cloudflare logs show sustained elevated 4xx/5xx responses;
 - the team cannot determine which deployment is serving production;
-- the decision deadline passes without a clean post-cutover smoke pass.
+- the decision deadline passes without a clean post-cutover E2E pass.
 
 ## Rollback Procedure
 
@@ -301,14 +301,14 @@ Pick the rollback path that matches the cutover method actually used.
 2. Select the previous blue production deployment ID recorded in the run sheet.
 3. Use Cloudflare Pages rollback to restore that deployment.
 4. Confirm production hostnames still point at the same Pages project.
-5. Run production smoke:
+5. Run production E2E:
 
 ```bash
 PLAYWRIGHT_BASE_URL=https://<production-hostname> mise run e2e
 ```
 
 6. If Cloudflare caching could serve stale green assets or HTML, perform the
-   owner-approved cache purge and rerun smoke.
+   owner-approved cache purge and rerun E2E.
 
 ### Rollback For Method B
 
@@ -319,31 +319,31 @@ PLAYWRIGHT_BASE_URL=https://<production-hostname> mise run e2e
    blue values.
 4. Restore any DNS records that changed during cutover.
 5. Wait for Pages custom-domain and HTTPS status to become active on blue.
-6. Run production smoke:
+6. Run production E2E:
 
 ```bash
 PLAYWRIGHT_BASE_URL=https://<production-hostname> mise run e2e
 ```
 
 7. If Cloudflare caching could serve stale green assets or HTML, perform the
-   owner-approved cache purge and rerun smoke.
+   owner-approved cache purge and rerun E2E.
 
 ### Rollback For Method C
 
 1. Restore the DNS records to the previous blue values from the run sheet.
 2. Confirm DNS resolves to the blue target.
 3. Confirm HTTPS is valid for every production hostname.
-4. Run production smoke:
+4. Run production E2E:
 
 ```bash
 PLAYWRIGHT_BASE_URL=https://<production-hostname> mise run e2e
 ```
 
 5. If Cloudflare caching could serve stale green assets or HTML, perform the
-   owner-approved cache purge and rerun smoke.
+   owner-approved cache purge and rerun E2E.
 
-Rollback succeeds only when production hostnames serve blue again and production smoke
-passes. Keep the incident open if smoke passes but logs still show elevated 4xx/5xx
+Rollback succeeds only when production hostnames serve blue again and production E2E
+passes. Keep the incident open if E2E passes but logs still show elevated 4xx/5xx
 responses.
 
 ## After A Successful Cutover
@@ -352,5 +352,5 @@ responses.
 2. Keep blue available until the owner closes the rollback window.
 3. Keep the rollback run sheet with the release notes.
 4. Re-enable normal release and content promotion only after the cutover owner signs off.
-5. If rollback was used, open a follow-up issue with the failing smoke output, deployment
+5. If rollback was used, open a follow-up issue with the failing E2E output, deployment
    ID, and Cloudflare log evidence.

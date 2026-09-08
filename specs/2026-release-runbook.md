@@ -131,7 +131,7 @@ Do these in order, using actual provider resource IDs and recording the result:
    Mark resources as dedicated or shared. A DNS CNAME alone does not identify the
    project or prove that an OAuth app is dedicated.
 2. Deploy the Decap Worker to its existing `workers.dev` hostname. Run
-   `mise run smoke-cms-config -- <workers.dev URL>` and the Worker smoke test,
+   `CMS_BASE_URL=<workers.dev URL> mise run //cms:e2e` and the Worker E2E test,
    then verify editor login, a draft edit, image upload and six-language publish.
 3. Confirm the editorial PR changes only owned content/media, passes validation,
    and reaches `cms → main → GitHub build → public page` successfully.

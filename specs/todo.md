@@ -174,7 +174,7 @@ Related docs:
 - [ ] Stand up a green Astro environment on a separate hostname.
 - [ ] Keep the existing blue environment stable while parity work is in progress.
 - [ ] Ensure the green environment has the same required content, assets, cookies, and localized routing behavior.
-- [x] Add smoke tests for critical pages, localized routes, and news pages.
+- [x] Add E2E tests for critical pages, localized routes, and news pages.
 - [ ] Perform side-by-side visual and functional QA between blue and green.
 - [ ] Switch traffic only after routing, assets, locale redirects, and SEO outputs are verified.
 - [ ] Keep rollback instructions explicit and rehearsed.

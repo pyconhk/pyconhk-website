@@ -83,7 +83,6 @@ jobs:
           mise exec -- node scripts/check-cms-content-locales.ts
           mise run //website:typecheck
           mise run //website:build
-          mise exec -- bun --cwd website run test:build
           mise exec -- node scripts/website-deployment.ts finalize \
             "${{ steps.prepare.outputs.snapshot_path }}" "${{ steps.prepare.outputs.manifest_path }}"
       - name: Reject a superseded code revision

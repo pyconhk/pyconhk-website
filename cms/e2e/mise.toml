@@ -1,0 +1,4 @@
+[tasks.e2e]
+extends = "playwright:e2e"
+description = "Run the complete CMS E2E suite"
+dir = "{{config_root}}/.."

@@ -57,7 +57,7 @@ website/public/outstatic/images/
 ```
 
 The promotion workflow must reject changes outside these paths and validate promoted content with `mise run //website:check` and `mise run //website:build`.
-Repository changes must also pass `mise run validate-cms-ops`, which checks that the Decap defaults, workflow branch rules, CMS-owned path allowlist, and promotion validation commands still match this model.
+Repository changes must also pass `mise run e2e`, which exercises the served Decap configuration and editorial publication commands.
 
 ## Decap Backend Settings
 
@@ -112,16 +112,16 @@ git fetch origin cms
 mise run check-cms-content -- origin/cms
 ```
 
-## Hosted Config Smoke Check
+## Hosted Config E2E Check
 
 After deploying `cms.pycon.hk`, verify the live Decap config matches the branch,
 path, and locale contract:
 
 ```bash
-mise run smoke-cms-config -- https://cms.pycon.hk
+CMS_BASE_URL=https://cms.pycon.hk mise run //cms:e2e
 ```
 
-The smoke check fetches `/admin/config.yml` from the supplied CMS host and asserts:
+The E2E check fetches `/admin/config.yml` from the supplied CMS host and asserts:
 
 - backend `name: github`, `repo: pyconhk/pyconhk-website`, and `branch: cms`
 - `publish_mode: editorial_workflow`
@@ -147,18 +147,17 @@ Use deploy project roots to distinguish the public website and CMS deployments i
 
 The CMS Worker uses Astro's Cloudflare adapter, a static `ASSETS` binding, and
 `nodejs_compat`. It intentionally has no KV, D1, R2, Durable Object, or service
-binding. Repository CI must run `mise run //cms:deploy-dry-run` so a pull request
-cannot pass without producing a Wrangler-deployable bundle.
+binding. Repository CI runs `mise run //cms:e2e`, which builds the deployable Worker bundle
+and verifies the running Worker through HTTP and browser flows.
 
 Release first to the generated `workers.dev` URL. Attach `cms.pycon.hk` only
 after all of these checks pass:
 
-1. `mise run //cms:smoke-worker -- <workers.dev URL>`
-2. `mise run smoke-cms-config -- <workers.dev URL>`
-3. `/admin/test/` loads without a Decap configuration error in a browser.
-4. A real GitHub OAuth login succeeds for an editor with push permission.
-5. A test edit and image upload create only locale-coded files on `cms`.
-6. The scheduled promotion workflow accepts the content-only diff and the
+1. `CMS_BASE_URL=<workers.dev URL> mise run //cms:e2e`
+2. `/admin/test/` loads without a Decap configuration error in a browser.
+3. A real GitHub OAuth login succeeds for an editor with push permission.
+4. A test edit and image upload create only locale-coded files on `cms`.
+5. The scheduled promotion workflow accepts the content-only diff and the
    public website build succeeds.
 
 The old Vercel DNS record must be removed before the Cloudflare Worker custom

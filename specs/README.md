@@ -7,7 +7,7 @@ This directory tracks the Astro migration for the public PyCon Hong Kong website
 - `specs/background-and-motivation.md` - Why this migration exists, what problems it is trying to solve, and which constraints shape the work.
 - `specs/public-site-astro-migration.md` - Product and technical specification for the new public website architecture.
 - `specs/cms-decap-branching.md` - Branching, promotion, and deployment model for Decap-managed CMS content.
-- `specs/blue-green-cutover-runbook.md` - Practical Cloudflare Pages cutover, hosted smoke, and rollback runbook for the public Astro website.
+- `specs/blue-green-cutover-runbook.md` - Practical Cloudflare Pages cutover, hosted E2E, and rollback runbook for the public Astro website.
 - `specs/todo.md` - Execution checklist and rollout tracker.
 - `specs/adr/` - Architecture Decision Records capturing the irreversible or high-impact technical decisions for the migration.
 

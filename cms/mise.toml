@@ -33,9 +33,9 @@ run = "bun run deploy"
 description = "Generate Cloudflare Worker binding types"
 run = "bun run types"
 
-[tasks.smoke-worker]
-description = "Smoke-test a local or deployed Cloudflare Worker"
-run = "bun run smoke:worker"
+[tasks.e2e]
+description = "Run the complete CMS E2E suite"
+run = "mise //cms/e2e:e2e"
 
 [tasks.check]
 description = "Run CMS type and lint checks"

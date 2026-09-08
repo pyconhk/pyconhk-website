@@ -12,7 +12,9 @@
       "mise.toml",
       "!dist",
       "!.astro",
-      "!node_modules"
+      "!node_modules",
+      "e2e/**",
+      "playwright.config.ts"
     ]
   },
   "formatter": {
