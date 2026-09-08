@@ -33,21 +33,19 @@ mise //cms:deploy-dry-run
 [tasks.validate-cms-ops]
 description = "Validate CMS branch, workflow, and Decap content ownership policy"
 run = """
-node scripts/check-cms-content-locales.ts
 node --test tests/*.test.ts
 """
 
 [tasks.check-cms-content]
 description = "Validate locale-coded Decap content in the working tree or a git ref"
-run = "node scripts/check-cms-content-locales.ts"
+run = "node --test tests/check-cms-content-locales.test.ts"
 
 [tasks.check-cms-release]
 description = "Fetch and validate the CMS branch before deployment"
-run = "node scripts/check-cms-release.ts"
-
-[tasks.smoke-cms-config]
-description = "Validate a hosted Decap config.yml against CMS branch, path, and locale policy"
-run = "node scripts/smoke-cms-config.ts"
+run = """
+git fetch origin +refs/heads/cms:refs/remotes/origin/cms
+CMS_CONTENT_REF=origin/cms node --test tests/check-cms-content-locales.test.ts
+"""
 
 [tasks.preview]
 description = "Build and preview the public website locally"

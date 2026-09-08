@@ -1,3 +1,4 @@
+import { test } from "bun:test";
 import assert from "node:assert/strict";
 import { parse } from "yaml";
 
@@ -14,7 +15,8 @@ async function request(baseUrl, pathname) {
   return fetch(new URL(pathname, baseUrl), { redirect: "manual" });
 }
 
-export async function smokeWorker(rawUrl) {
+test.skipIf(!process.env.CMS_BASE_URL)("hosted CMS serves its editor, six-language config and OAuth endpoints", async () => {
+  const rawUrl = process.env.CMS_BASE_URL!;
   const baseUrl = new URL(rawUrl);
 
   const root = await request(baseUrl, "/");
@@ -43,6 +45,7 @@ export async function smokeWorker(rawUrl) {
     "zh-hant",
     "zh-hans",
     "ja",
+    "ko",
   ]);
   const tagsField = config.collections[0].fields.find(
     (field) => field.name === "tags",
@@ -87,22 +90,6 @@ export async function smokeWorker(rawUrl) {
   assert.match(callbackHtml, /event\.origin !== trustedOrigin/u);
   assert.doesNotMatch(callbackHtml, /postMessage\([^\n]+, "\*"\)/u);
 
-  console.log(`Cloudflare Worker smoke validation passed: ${baseUrl.origin}`);
-}
-
-async function main() {
-  const rawUrl = process.argv[2] || process.env.CMS_BASE_URL;
-
-  if (!rawUrl) {
-    throw new Error("Usage: node scripts/smoke-worker.ts http://127.0.0.1:4321");
-  }
-
-  await smokeWorker(rawUrl);
-}
-
-if (import.meta.url === new URL(process.argv[1], "file:").href) {
-  main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
-}
+  assert.equal(config.collections.find((entry) => entry.name === "posts_2025").i18n.locales.length, 5);
+  assert.ok(config.collections.find((entry) => entry.name === "conference_2026"));
+});

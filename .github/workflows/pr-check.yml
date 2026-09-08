@@ -97,7 +97,7 @@ jobs:
       - run: mise run check-cms-release
       - run: mise run //website:typecheck
       - run: mise run //website:lint
-      - run: mise exec -- bun --cwd website run test:unit
+      - run: mise exec -- bun run --cwd website test:unit
       - run: mise run //cms:check
       - run: mise run //cms:deploy-dry-run
 

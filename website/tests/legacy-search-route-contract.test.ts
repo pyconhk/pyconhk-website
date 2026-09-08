@@ -5,7 +5,6 @@ import { describe, it } from 'node:test';
 
 const distDir = new URL('../dist/', import.meta.url);
 const publicDir = new URL('../public/', import.meta.url);
-const buildPagefindPath = new URL('../scripts/build-pagefind.ts', import.meta.url);
 
 const searchableEditions = [
   { route: '/2018/', year: '2018' },
@@ -73,10 +72,9 @@ function readOutput(route) {
 
 describe('legacy WordPress-style search contract', () => {
   it('builds Pagefind as one English index for legacy and modern archive pages', () => {
-    const buildPagefind = fs.readFileSync(buildPagefindPath, 'utf8');
-
-    assert.match(buildPagefind, /--force-language/u);
-    assert.match(buildPagefind, /['"]en['"]/u);
+    const index = JSON.parse(fs.readFileSync(new URL('pagefind/pagefind-entry.json', distDir), 'utf8'));
+    assert.deepEqual(Object.keys(index.languages), ['en']);
+    assert.ok(index.languages.en.page_count > 0);
   });
 
   it('emits event-scoped static search pages wired to the Pagefind browser bundle', () => {
@@ -112,11 +110,6 @@ describe('legacy WordPress-style search contract', () => {
   });
 
   it('makes the Pagefind browser bundle available to the Astro dev server', () => {
-    const buildPagefind = fs.readFileSync(buildPagefindPath, 'utf8');
-
-    assert.match(buildPagefind, /public/u);
-    assert.match(buildPagefind, /pagefind/u);
-    assert.match(buildPagefind, /cpSync/u);
     assert.ok(fs.existsSync(path.join(publicDir.pathname, 'pagefind', 'pagefind-ui.js')));
     assert.ok(fs.existsSync(path.join(publicDir.pathname, 'pagefind', 'pagefind-ui.css')));
     assert.ok(fs.existsSync(path.join(publicDir.pathname, 'pagefind', 'pagefind.js')));
