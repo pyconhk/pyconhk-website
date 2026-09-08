@@ -7,7 +7,7 @@ interface Props {
 
 const { href, label, variant = 'primary' } = Astro.props;
 const isPrimary = variant === 'primary';
-const opensNewTab = !href.startsWith('mailto:');
+const opensNewTab = /^https?:\/\//.test(href);
 ---
 
 <a
