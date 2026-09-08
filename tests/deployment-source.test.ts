@@ -41,6 +41,8 @@ test("CMS content, portraits, Functions and dependencies invalidate the website"
   }
   assert.equal(isDeploymentInput("cms", "website/outstatic/content/news/en.md"), false);
   assert.equal(isDeploymentInput("cms", "cms/wrangler.jsonc"), true);
+  assert.equal(isDeploymentInput("cms", "cms/patches/decap-cms-core@3.16.0.patch"), true);
+  assert.equal(isDeploymentInput("website", "cms/patches/decap-cms-core@3.16.0.patch"), false);
 });
 
 test("unchanged CMS skips every command; force or a missing baseline validates, builds and uploads", async () => {

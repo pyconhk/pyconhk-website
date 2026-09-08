@@ -173,3 +173,11 @@ the Worker custom domain. After the custom domain is attached:
 `CMS_PUBLIC_URL` is normally unnecessary because routes derive their canonical
 origin from the request. Set it only when a trusted proxy makes that origin
 incorrect; its value must be an `http` or `https` origin without a path.
+
+## Decap compatibility
+
+`patches/decap-cms-core@3.16.0.patch` guards the optional locale callback in the
+second editor pane. Bun applies it through the root workspace `patchedDependencies`.
+The installed-handler regression test covers both panes. Published core versions
+3.0.0, 3.6.3, 3.8.1, 3.10.1, 3.12.0–3.15.0 and 3.18.1 still contain this bug;
+remove the patch when upgrading to a release that fixes it.

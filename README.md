@@ -23,7 +23,6 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - `website/tests/` and `tests/` - repeatable tests, including archive and CMS contracts
 - `website/integrations/` - Astro build integration for public programme data and output
 - `cms/` - Astro + Decap CMS app for `cms.pycon.hk`
-- `specs/` - migration notes, ADRs, and working specs
 - `archived/website-nextjs/` - archived copy of the old site for reference only
 
 ## Prerequisites
