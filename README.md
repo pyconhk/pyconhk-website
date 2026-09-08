@@ -22,7 +22,7 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - `website/public/` - public website static assets served as-is
 - `website/src/years/*/e2e/`, `website/e2e/`, `cms/e2e/` and `e2e/` - self-contained E2E suites
 - `cms/publication/` - runtime publication and editorial content gates
-- `.github/deploy/*.test.ts` - deployment tests beside the workflow implementation
+- `.github/deploy/` - website and CMS deployment implementation
 - `website/integrations/` - Astro build integration for public programme data and output
 - `cms/` - Astro + Decap CMS app for `cms.pycon.hk`
 - `archived/website-nextjs/` - archived copy of the old site for reference only
