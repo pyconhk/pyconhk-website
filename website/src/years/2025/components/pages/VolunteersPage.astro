@@ -8,7 +8,11 @@ import PersonCard from '@/years/2025/components/content/PersonCard.astro';
 import {
   conferenceChair,
   conferenceCoChairs,
+  designers,
+  emcees,
+  onSiteVolunteers,
   organizingCommitteeMembers,
+  programmeVolunteers,
 } from '@/years/2025/data/volunteers';
 
 interface Props {
@@ -24,6 +28,10 @@ type VolunteersCopy = {
   chairHeading: string;
   coChairsHeading: string;
   membersHeading: string;
+  programmeHeading: string;
+  designersHeading: string;
+  emceesHeading: string;
+  onSiteHeading: string;
 };
 
 const copy: LocalizedValue<VolunteersCopy> = {
@@ -35,6 +43,10 @@ const copy: LocalizedValue<VolunteersCopy> = {
     chairHeading: 'Conference Chair',
     coChairsHeading: 'Conference Co-Chairs',
     membersHeading: 'Organizing Committee Members',
+    programmeHeading: 'Programme Volunteers',
+    designersHeading: 'Designers',
+    emceesHeading: 'Emcees',
+    onSiteHeading: 'On-site Volunteers',
   },
   'zh-hk': {
     title: '義工團隊',
@@ -44,6 +56,10 @@ const copy: LocalizedValue<VolunteersCopy> = {
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
     membersHeading: '籌委會成員',
+    programmeHeading: '議程義工',
+    designersHeading: '設計團隊',
+    emceesHeading: '司儀',
+    onSiteHeading: '現場義工',
   },
   'zh-hant': {
     title: '義工團隊',
@@ -53,6 +69,10 @@ const copy: LocalizedValue<VolunteersCopy> = {
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
     membersHeading: '籌委會成員',
+    programmeHeading: '議程志工',
+    designersHeading: '設計團隊',
+    emceesHeading: '主持人',
+    onSiteHeading: '現場志工',
   },
   'zh-hans': {
     title: '志愿者团队',
@@ -62,6 +82,10 @@ const copy: LocalizedValue<VolunteersCopy> = {
     chairHeading: '大会主席',
     coChairsHeading: '大会副主席',
     membersHeading: '筹委会成员',
+    programmeHeading: '议程志愿者',
+    designersHeading: '设计团队',
+    emceesHeading: '主持人',
+    onSiteHeading: '现场志愿者',
   },
   ja: {
     title: 'ボランティア',
@@ -71,10 +95,20 @@ const copy: LocalizedValue<VolunteersCopy> = {
     chairHeading: '大会長',
     coChairsHeading: '共同チェア',
     membersHeading: '運営委員',
+    programmeHeading: 'プログラムボランティア',
+    designersHeading: 'デザイナー',
+    emceesHeading: '司会者',
+    onSiteHeading: '会場ボランティア',
   },
 };
 
 const content = resolveRequiredLocalizedValue(copy, locale);
+const additionalGroups = [
+  { id: 'programme-volunteers', title: content.programmeHeading, members: programmeVolunteers },
+  { id: 'designers', title: content.designersHeading, members: designers },
+  { id: 'emcees', title: content.emceesHeading, members: emcees },
+  { id: 'on-site-volunteers', title: content.onSiteHeading, members: onSiteVolunteers },
+];
 ---
 
 <div class="mx-auto max-w-7xl">
@@ -112,4 +146,16 @@ const content = resolveRequiredLocalizedValue(copy, locale);
       ))}
     </div>
   </section>
+  {additionalGroups.map((group) => (
+    <section class="mt-16" aria-labelledby={group.id}>
+      <h2 id={group.id} class="text-center text-3xl font-bold text-gray-800">{group.title}</h2>
+      <div class="mx-auto mt-12 flex flex-wrap justify-center gap-8 gap-y-16">
+        {group.members.map((member) => (
+          <div class="flex justify-center sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+            <PersonCard {...member} />
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
 </div>

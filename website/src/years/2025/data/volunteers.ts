@@ -83,3 +83,181 @@ export const organizingCommitteeMembers: readonly VolunteerProfile[] = [
     linkedin: 'https://www.linkedin.com/in/ted-yuen/',
   },
 ] as const;
+
+// Additional credits use the display names in the post-event 2025 volunteer photo list.
+export const programmeVolunteers: readonly VolunteerProfile[] = [
+  {
+    name: 'Anna Liu',
+  },
+  {
+    name: 'Ian Chau',
+  },
+  {
+    name: 'Sennett Lau',
+  },
+];
+
+export const designers: readonly VolunteerProfile[] = [
+  {
+    name: 'Bridget Chu',
+  },
+  {
+    name: 'Jared Yeung',
+    personalWebsite: 'https://jaredyeung.com/works/logo-design-pycon-hk-2024',
+  },
+  {
+    name: 'Kim Liu',
+  },
+  {
+    name: 'Quincy Chan',
+  },
+  {
+    name: 'Rainbow Cheng',
+    imageSrc: '/2025/organizers-volunteers/volunteers/rainbow-cheng.webp',
+  },
+];
+
+export const emcees: readonly VolunteerProfile[] = [
+  {
+    name: 'Amy Li',
+  },
+  {
+    name: 'Charles Paul',
+  },
+  {
+    name: 'Henry Wong',
+    linkedin: 'https://www.linkedin.com/in/wyhwong',
+  },
+  {
+    name: 'Judy Wong',
+    imageSrc: '/2025/organizers-volunteers/volunteers/judy-wong.webp',
+    linkedin: 'https://www.linkedin.com/in/wongjudy',
+  },
+];
+
+export const onSiteVolunteers: readonly VolunteerProfile[] = [
+  {
+    name: 'Alan Chu',
+    imageSrc: '/2025/organizers-volunteers/volunteers/alan-chu.webp',
+  },
+  {
+    name: 'Allen Kong',
+    imageSrc: '/2025/organizers-volunteers/volunteers/allen-kong.webp',
+  },
+  {
+    name: 'Audrey Cheung',
+  },
+  {
+    name: 'Carmen Ng',
+    imageSrc: '/2025/organizers-volunteers/volunteers/carmen-ng.webp',
+  },
+  {
+    name: 'Cathy Hui',
+  },
+  {
+    name: 'Cintia Ching',
+    imageSrc: '/2025/organizers-volunteers/volunteers/cintia-ching.webp',
+    linkedin: 'https://www.linkedin.com/in/cintiaching',
+  },
+  {
+    name: 'Dora Saylikoglu',
+    imageSrc: '/2025/organizers-volunteers/volunteers/dora-saylikoglu.webp',
+  },
+  {
+    name: 'Eric Chan',
+    imageSrc: '/2025/organizers-volunteers/volunteers/eric-chan.webp',
+    linkedin: 'https://www.linkedin.com/in/ericchanwork',
+  },
+  {
+    name: 'Eva Chung',
+  },
+  {
+    name: 'Harry Ho',
+    imageSrc: '/2025/organizers-volunteers/volunteers/harry-ho.webp',
+  },
+  {
+    name: 'Hillary Tam',
+  },
+  {
+    name: 'Janny Leung',
+    imageSrc: '/2025/organizers-volunteers/volunteers/janny-leung.webp',
+  },
+  {
+    name: 'Jim Ngoo',
+    imageSrc: '/2025/organizers-volunteers/volunteers/jim-ngoo.webp',
+    linkedin: 'https://hk.linkedin.com/in/jim-ngoo',
+  },
+  {
+    name: 'Joseph Siu',
+    imageSrc: '/2025/organizers-volunteers/volunteers/joseph-siu.webp',
+    linkedin: 'https://www.linkedin.com/in/joseph-siu-ba606a17/',
+  },
+  {
+    name: 'Kapo Leung',
+    imageSrc: '/2025/organizers-volunteers/volunteers/kapo-leung.webp',
+  },
+  {
+    name: 'Kelly Wong',
+    imageSrc: '/2025/organizers-volunteers/volunteers/kelly-wong.webp',
+  },
+  {
+    name: 'Ken Wong',
+  },
+  {
+    name: 'Kingman Leung',
+  },
+  {
+    name: 'Mark Leung',
+  },
+  {
+    name: 'Mimi Kwok',
+  },
+  {
+    name: 'Ming Tou',
+    imageSrc: '/2025/organizers-volunteers/volunteers/ming-tou.webp',
+    linkedin: 'https://www.linkedin.com/in/ming-tou-97b818105/',
+  },
+  {
+    name: 'Mr. C.S. Li, Martin',
+    imageSrc: '/2025/organizers-volunteers/volunteers/martin-li.webp',
+  },
+  {
+    name: 'Nero Chan',
+  },
+  {
+    name: 'Nicole Yu',
+  },
+  {
+    name: 'Oscar Ng',
+    imageSrc: '/2025/organizers-volunteers/volunteers/oscar-ng.webp',
+  },
+  {
+    name: 'Peggy Chan',
+  },
+  {
+    name: 'Raymond Yeung',
+  },
+  {
+    name: 'Sung Hin Ho',
+  },
+  {
+    name: 'Tsui Hui Yin',
+    imageSrc: '/2025/organizers-volunteers/volunteers/tsui-hui-yin.webp',
+  },
+  {
+    name: 'Yuen Tin Yan',
+    imageSrc: '/2025/organizers-volunteers/volunteers/yuen-tin-yan.webp',
+  },
+  {
+    name: 'Kylie Wong',
+  },
+  {
+    name: 'Ken Chu',
+  },
+  {
+    name: 'Tim Ching',
+  },
+  {
+    name: 'Clara Ng',
+  },
+];
