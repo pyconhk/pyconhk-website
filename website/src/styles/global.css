@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../years/2026/styles/theme.css";
 @plugin "@tailwindcss/typography";
 
 @theme {

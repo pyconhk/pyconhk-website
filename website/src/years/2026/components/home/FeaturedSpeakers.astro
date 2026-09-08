@@ -9,11 +9,11 @@ const published = programmeSnapshot.event === 'pyconhk2026' && programmeSnapshot
 const sessions = published ? programmeSnapshot.sessions.filter((session) => /keynote/i.test(session.sessionType) && session.speakers.length > 0) : [];
 ---
 {sessions.length > 0 && (
-  <section class="bg-[#FAF7F0] px-4 py-16 sm:px-6 lg:px-8" data-featured-speakers>
+  <section class="bg-conference-paper px-4 py-16 sm:px-6 lg:px-8" data-featured-speakers>
     <div class="mx-auto max-w-6xl">
-      <h2 class="text-center text-3xl font-black text-[#172033] sm:text-4xl">{contentUi[locale].speakers}</h2>
+      <h2 class="text-center text-3xl font-black text-conference-ink sm:text-4xl">{contentUi[locale].speakers}</h2>
       <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {sessions.map((session) => <article class="space-y-4 rounded-2xl border-2 border-[#172033] bg-white p-6 shadow-[4px_4px_0_#172033]"><h3 class="text-xl font-bold">{session.speakers.join(', ')}</h3><a href={`/2026/${locale}/schedule/?session=${encodeURIComponent(session.id)}`} class="text-[#2f559a] underline">{session.title}</a></article>)}
+        {sessions.map((session) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline bg-conference-surface p-6 shadow-[4px_4px_0_var(--conference-shadow)]"><h3 class="text-xl font-bold">{session.speakers.join(', ')}</h3><a href={`/2026/${locale}/schedule/?session=${encodeURIComponent(session.id)}`} class="text-conference-blue underline">{session.title}</a></article>)}
       </div>
     </div>
   </section>

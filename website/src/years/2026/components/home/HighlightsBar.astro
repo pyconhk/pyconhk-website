@@ -8,12 +8,12 @@ interface Props {
 const { locale } = Astro.props;
 const t = getTranslations(locale);
 ---
-<section class="w-full bg-[#111827] py-8 sm:py-10 text-white border-y-2 border-[#172033]" id="about">
+<section data-conference-inverse class="w-full bg-[#111827] py-8 sm:py-10 text-white border-y-2 border-conference-outline" id="about">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
       {t.highlights.map((item) => (
         <div class="flex items-start gap-4">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#ffd343] border border-white/15">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-conference-surface/10 text-[#ffd343] border border-white/15">
             {item.icon === 'mic' && (
               <svg class="h-5 w-5 text-[#ff8080]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <title>Microphone icon</title>

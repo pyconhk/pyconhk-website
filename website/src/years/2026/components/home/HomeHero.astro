@@ -16,7 +16,7 @@ const content = getConferenceContent(locale);
 <section class="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-24 lg:pt-16 lg:pb-28">
   <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
     <!-- 1. Top Pill Badge (Fade Entrance Step 1) -->
-    <div class="hero-fade-1 inline-flex items-center gap-2 rounded-full border-2 border-[#172033] bg-white px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[#172033] shadow-[3px_3px_0_#172033] mb-8">
+    <div class="hero-fade-1 inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-1.5 text-xs font-black uppercase tracking-wider text-conference-ink shadow-[3px_3px_0_var(--conference-shadow)] mb-8">
       <span class="inline-block h-2 w-2 rounded-full bg-[#d71920]" />
       <span>{t.hero.badge}</span>
     </div>
@@ -64,7 +64,7 @@ const content = getConferenceContent(locale);
       </div>
 
       <!-- 2. Center Elevated Hero Logo Card (Fade Entrance Step 2) -->
-      <div class="hero-fade-2 w-full rounded-3xl border-3 border-[#172033] bg-white p-6 sm:p-10 shadow-[10px_10px_0_#2f559a] transition-transform hover:-translate-y-1 hover:shadow-[12px_12px_0_#2f559a]">
+      <div class="brand-plate hero-fade-2 w-full rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 sm:p-10 shadow-[10px_10px_0_#2f559a] transition-transform hover:-translate-y-1 hover:shadow-[12px_12px_0_#2f559a]">
         <img
           src="/2026/logos/pyconlogo.svg"
           alt="PyCon HK 2026 Logo"
@@ -78,15 +78,15 @@ const content = getConferenceContent(locale);
 
     <!-- 3. Main Title & Subtitle (Fade Entrance Step 3) -->
     <div class="hero-fade-3 mt-10 sm:mt-12 max-w-4xl space-y-4">
-      <h1 class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-[#141718]">
+      <h1 class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-conference-ink">
         {content.event.status === 'published' ? content.event.theme : t.hero.headline}
       </h1>
       {t.hero.headlineAccent && (
-        <p class="text-xl sm:text-2xl font-bold text-[#d71920]">
+        <p class="text-xl sm:text-2xl font-bold text-conference-red">
           {t.hero.headlineAccent}
         </p>
       )}
-      <p class="text-base sm:text-lg lg:text-xl text-slate-700 font-medium max-w-2xl mx-auto leading-relaxed">
+      <p class="text-base sm:text-lg lg:text-xl text-conference-body font-medium max-w-2xl mx-auto leading-relaxed">
         {t.hero.subheadline}
       </p>
     </div>
@@ -99,7 +99,7 @@ const content = getConferenceContent(locale);
         href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong"
         target="_blank"
         rel="noopener noreferrer"
-        class="group flex h-13 w-13 items-center justify-center rounded-full bg-white dark:bg-[#131b2e] text-[#172033] dark:text-white border-2 border-[#172033] dark:border-slate-700 transition-all hover:scale-105 hover:bg-slate-50 dark:hover:bg-slate-800"
+        class="group flex h-13 w-13 items-center justify-center rounded-full bg-conference-surface  text-conference-ink  border-2 border-conference-outline  transition-all hover:scale-105 hover:bg-conference-soft "
         aria-label={t.hero.calendarCta}
         title={t.hero.calendarCta}
       >
@@ -111,19 +111,19 @@ const content = getConferenceContent(locale);
     </div>
 
     <!-- 5. At a Glance 3-Column Info Strip (Fade Entrance Step 5) -->
-    <div class="hero-fade-5 mt-10 sm:mt-14 w-full max-w-3xl rounded-2xl border-2 border-[#172033] bg-white p-5 sm:p-6 shadow-[6px_6px_0_#172033]">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-[#172033]/15 text-left">
+    <div class="hero-fade-5 mt-10 sm:mt-14 w-full max-w-3xl rounded-2xl border-2 border-conference-outline bg-conference-surface p-5 sm:p-6 shadow-[6px_6px_0_var(--conference-shadow)]">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-conference-outline/15 text-left">
         <div class="sm:px-4 sm:first:pl-0">
-          <p class="text-xs font-black uppercase tracking-wider text-[#2f559a]">{t.hero.whenLabel}</p>
-          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{content.event.status === 'published' ? content.event.datesLabel : t.hero.whenValue}</p>
+          <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.whenLabel}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-conference-ink">{content.event.status === 'published' ? content.event.datesLabel : t.hero.whenValue}</p>
         </div>
         <div class="pt-3 sm:pt-0 sm:px-4">
-          <p class="text-xs font-black uppercase tracking-wider text-[#2f559a]">{t.hero.whereLabel}</p>
-          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{content.venue.status === 'published' ? content.venue.title : t.hero.whereValue}</p>
+          <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.whereLabel}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-conference-ink">{content.venue.status === 'published' ? content.venue.title : t.hero.whereValue}</p>
         </div>
         <div class="pt-3 sm:pt-0 sm:px-4 sm:last:pr-0">
-          <p class="text-xs font-black uppercase tracking-wider text-[#2f559a]">{t.hero.forLabel}</p>
-          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{t.hero.forValue}</p>
+          <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.forLabel}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-conference-ink">{t.hero.forValue}</p>
         </div>
       </div>
     </div>

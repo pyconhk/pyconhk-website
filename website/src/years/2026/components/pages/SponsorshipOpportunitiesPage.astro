@@ -18,55 +18,55 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
 <CommunityPageFrame locale={locale} title={pageCopy.title} subtitle={pageCopy.subtitle} wide>
   {sponsorship.status !== 'published' ? <p data-content-pending>{copy.comingSoon}</p> : (
     <div class="space-y-12 sm:space-y-16" data-published-sponsorship>
-      <div class="mx-auto max-w-3xl space-y-4 text-sm font-medium leading-relaxed text-slate-700 sm:text-base">{sponsorship.intro.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}</div>
-      <section class="space-y-8 border-t-2 border-[#172033]/15 pt-8">
+      <div class="mx-auto max-w-3xl space-y-4 text-sm font-medium leading-relaxed text-conference-body sm:text-base">{sponsorship.intro.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}</div>
+      <section class="space-y-8 border-t-2 border-conference-outline/15 pt-8">
         <h2 class="section-title font-operetta-32">{pageCopy.whySponsorTitle}</h2>
         <div class="grid gap-6 md:grid-cols-3">
-          {sponsorship.benefits.map((benefit, index) => <article class="flex flex-col items-center gap-4 rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] p-6 text-center shadow-[4px_4px_0_#172033]">
-            <span aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-[#172033] bg-white text-[#2f559a] shadow-[2px_2px_0_#172033]"><Icon name={`heroicons-outline:${sponsorBenefits[index]?.icon || 'heart'}`} class="h-7 w-7" /></span>
-            <h3 class="text-lg font-black text-[#172033]">{benefit.title}</h3><p class="text-sm font-medium leading-relaxed text-slate-600">{benefit.description}</p>
+          {sponsorship.benefits.map((benefit, index) => <article class="flex flex-col items-center gap-4 rounded-2xl border-2 border-conference-outline bg-conference-paper p-6 text-center shadow-[4px_4px_0_var(--conference-shadow)]">
+            <span aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-conference-outline bg-conference-surface text-conference-blue shadow-[2px_2px_0_var(--conference-shadow)]"><Icon name={`heroicons-outline:${sponsorBenefits[index]?.icon || 'heart'}`} class="h-7 w-7" /></span>
+            <h3 class="text-lg font-black text-conference-ink">{benefit.title}</h3><p class="text-sm font-medium leading-relaxed text-conference-body">{benefit.description}</p>
           </article>)}
         </div>
       </section>
-      <section class="space-y-8 border-t-2 border-[#172033]/15 pt-8">
-        <header class="space-y-3 text-center"><h2 class="section-title font-operetta-32">{pageCopy.plansTitle}</h2><p class="text-sm font-medium text-slate-600">{pageCopy.plansDescription}</p></header>
+      <section class="space-y-8 border-t-2 border-conference-outline/15 pt-8">
+        <header class="space-y-3 text-center"><h2 class="section-title font-operetta-32">{pageCopy.plansTitle}</h2><p class="text-sm font-medium text-conference-body">{pageCopy.plansDescription}</p></header>
         <div data-sponsorship-carousel>
           <section data-sponsorship-track tabindex="0" aria-label={pageCopy.plansTitle} class="plan-track">
             {sponsorship.plans.map((plan) => {
               const appearance = sponsorshipPlans.find((original) => original.tier === plan.tier);
-              return <article data-plan-card class="plan-card flex min-w-0 flex-col overflow-hidden rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] shadow-[4px_4px_0_#172033]">
-                <header class:list={['space-y-2 border-b-2 border-[#172033] p-5', appearance?.headerBg || 'bg-[#2f559a]', appearance?.headerText || 'text-white']}>
+              return <article data-plan-card class="plan-card flex min-w-0 flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-paper shadow-[4px_4px_0_var(--conference-shadow)]">
+                <header class:list={['space-y-2 border-b-2 border-conference-outline p-5', appearance?.headerBg || 'bg-[#2f559a]', appearance?.headerText || 'text-white']}>
                   <h3 class="text-xl font-black">{plan.name}</h3><p class="text-sm font-bold">{pageCopy.sponsorshipFeeLabel}: <span class="font-black">{plan.fee}</span></p>
                 </header>
                 <div class="space-y-5 p-5">
-                  {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-[#172033] bg-white px-3 py-1 text-xs font-black text-[#172033] shadow-[2px_2px_0_#172033]">{slotLabels[locale]}: {plan.maxSlots}</p>}
-                  <dl class="space-y-3 text-sm leading-relaxed">{plan.features.map((feature) => <div class="grid grid-cols-[1fr_1fr] gap-3 border-b border-[#172033]/10 pb-3"><dt class="min-w-0 break-words text-slate-700">{feature.label}</dt><dd class="min-w-0 break-words text-right font-bold text-[#172033]">{feature.value}</dd></div>)}</dl>
+                  {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-conference-outline bg-conference-surface px-3 py-1 text-xs font-black text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]">{slotLabels[locale]}: {plan.maxSlots}</p>}
+                  <dl class="space-y-3 text-sm leading-relaxed">{plan.features.map((feature) => <div class="grid grid-cols-[1fr_1fr] gap-3 border-b border-conference-outline/10 pb-3"><dt class="min-w-0 break-words text-conference-body">{feature.label}</dt><dd class="min-w-0 break-words text-right font-bold text-conference-ink">{feature.value}</dd></div>)}</dl>
                 </div>
               </article>;
             })}
           </section>
           <div class="mt-5 flex items-center justify-center gap-5" data-sponsorship-controls hidden>
             <button type="button" data-sponsorship-scroll="prev" aria-label={navigation[0]} class="plan-control">←</button>
-            <output data-sponsorship-position aria-live="polite" class="text-sm font-bold text-[#172033]" />
+            <output data-sponsorship-position aria-live="polite" class="text-sm font-bold text-conference-ink" />
             <button type="button" data-sponsorship-scroll="next" aria-label={navigation[1]} class="plan-control">→</button>
           </div>
         </div>
       </section>
     </div>
   )}
-  <section class="space-y-4 rounded-3xl border-3 border-[#172033] bg-[#ffd343] p-6 text-center shadow-[6px_6px_0_#172033] sm:p-10">
-    <h2 class="section-title font-operetta-32">{pageCopy.ctaTitle}</h2><p class="mx-auto max-w-xl text-sm font-bold text-[#172033] sm:text-base">{pageCopy.ctaDescription}</p>
-    <a href={sponsorshipEmail} class="inline-flex rounded-full border-2 border-[#172033] bg-[#d71920] px-7 py-3 font-black text-white shadow-[3px_3px_0_#172033] hover:bg-[#c0151c]">{pageCopy.ctaButtonLabel}</a>
+  <section class="space-y-4 rounded-3xl border-3 border-conference-outline bg-conference-yellow p-6 text-center shadow-[6px_6px_0_var(--conference-shadow)] sm:p-10">
+    <h2 class="section-title font-operetta-32">{pageCopy.ctaTitle}</h2><p class="mx-auto max-w-xl text-sm font-bold text-conference-ink sm:text-base">{pageCopy.ctaDescription}</p>
+    <a href={sponsorshipEmail} class="inline-flex rounded-full border-2 border-conference-outline bg-[#d71920] px-7 py-3 font-black text-white shadow-[3px_3px_0_var(--conference-shadow)] hover:bg-[#c0151c]">{pageCopy.ctaButtonLabel}</a>
   </section>
 </CommunityPageFrame>
 
 <style>
-  .section-title { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 900; text-align: center; text-transform: uppercase; color: #172033; }
+  .section-title { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 900; text-align: center; text-transform: uppercase; color: var(--conference-ink); }
   .plan-track { display: flex; position: relative; gap: 1.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 2px 6px 12px 2px; }
   .plan-card { flex: 0 0 100%; scroll-snap-align: start; }
   @media (min-width: 640px) { .plan-card { flex-basis: calc((100% - 1.5rem) / 2); } }
   @media (min-width: 1024px) { .plan-card { flex-basis: calc((100% - 3rem) / 3); } }
-  .plan-control { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid #172033; border-radius: .75rem; background: white; box-shadow: 2px 2px 0 #172033; color: #172033; font-weight: 900; }
+  .plan-control { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-surface); box-shadow: 2px 2px 0 #172033; color: var(--conference-ink); font-weight: 900; }
   .plan-control:hover:not(:disabled) { background: #d71920; color: white; }
   .plan-control:disabled { opacity: .4; box-shadow: none; }
   .plan-track:focus-visible, .plan-control:focus-visible { outline: 3px solid #2f559a; outline-offset: 4px; }

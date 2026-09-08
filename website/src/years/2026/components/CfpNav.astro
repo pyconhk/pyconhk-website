@@ -21,7 +21,7 @@ const copy = contentByLocale[locale];
 const pagePadding = 'px-5 sm:px-8 lg:px-14 xl:px-16';
 const contentWidth = 'mx-auto max-w-7xl';
 const navButtonBase =
-  'inline-flex min-h-11 min-w-0 items-center justify-center rounded-full border-2 border-[#172033] px-2 py-2 text-center font-mono text-[0.8125rem] leading-tight font-black whitespace-nowrap text-[#172033] transition hover:-translate-y-0.5 sm:px-4 sm:text-sm';
+  'inline-flex min-h-11 min-w-0 items-center justify-center rounded-full border-2 border-conference-outline px-2 py-2 text-center font-mono text-[0.8125rem] leading-tight font-black whitespace-nowrap text-conference-ink transition hover:-translate-y-0.5 sm:px-4 sm:text-sm';
 
 const compactHeaderLabels: Record<CfpLocale, { proposal: string; sponsor: string }> = {
   en: { proposal: 'Proposal', sponsor: 'Sponsor' },
@@ -51,23 +51,23 @@ const compactLabels = compactHeaderLabels[locale];
   <nav
     class:list={[
       contentWidth,
-      'flex flex-col gap-4 overflow-visible rounded-[1.75rem] border-2 border-[#172033] bg-white/90 p-4 shadow-[6px_8px_0_#17203314] backdrop-blur sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8',
+      'flex flex-col gap-4 overflow-visible rounded-[1.75rem] border-2 border-conference-outline bg-conference-surface/90 p-4 shadow-[6px_8px_0_var(--conference-shadow)] backdrop-blur sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8',
     ]}
   >
     <a
       href={landingHref(locale)}
-      class="block min-w-0 space-y-1 rounded-2xl px-2 py-1 transition hover:bg-[#bfe8ff33] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#172033] lg:max-w-[25rem] xl:max-w-[32rem]"
+      class="block min-w-0 space-y-1 rounded-2xl px-2 py-1 transition hover:bg-[#bfe8ff33] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-ink lg:max-w-[25rem] xl:max-w-[32rem]"
     >
-      <p class="break-words font-mono text-base font-black text-[#2b5b84] sm:text-lg xl:text-xl">
+      <p class="break-words font-mono text-base font-black text-conference-blue sm:text-lg xl:text-xl">
         {copy.nav.brand}
       </p>
-      <p class="hidden break-words text-base leading-tight font-semibold text-[#586174] sm:block sm:text-lg lg:text-base xl:text-lg">
+      <p class="hidden break-words text-base leading-tight font-semibold text-conference-muted sm:block sm:text-lg lg:text-base xl:text-lg">
         {copy.nav.tagline}
       </p>
     </a>
 
     <div class="flex w-full flex-wrap items-center gap-2 lg:w-auto lg:shrink-0 lg:justify-end lg:gap-3">
-      <div class="hidden items-center gap-1 rounded-full border-2 border-[#172033] bg-[#bfe8ff] px-3 py-2 font-mono text-xs font-black lg:flex">
+      <div class="hidden items-center gap-1 rounded-full border-2 border-conference-outline bg-conference-sky px-3 py-2 font-mono text-xs font-black lg:flex">
         {
           supportedLocales.map((item) => (
             <a
@@ -75,8 +75,8 @@ const compactLabels = compactHeaderLabels[locale];
               data-astro-reload
               aria-current={item === locale ? 'page' : undefined}
               class:list={[
-                'rounded-full px-2 py-1 transition hover:bg-white/60',
-                item === locale ? 'bg-white' : '',
+                'rounded-full px-2 py-1 transition hover:bg-conference-surface/60',
+                item === locale ? 'bg-conference-surface' : '',
               ]}
             >
               {localeMetadata[item].shortLabel}
@@ -86,10 +86,10 @@ const compactLabels = compactHeaderLabels[locale];
       </div>
 
       <details class="relative z-[60] shrink-0 lg:hidden">
-        <summary class="relative z-[70] cursor-pointer list-none rounded-full border-2 border-[#172033] bg-[#bfe8ff] px-3 py-2 font-mono text-sm font-black whitespace-nowrap [&::-webkit-details-marker]:hidden">
+        <summary class="relative z-[70] cursor-pointer list-none rounded-full border-2 border-conference-outline bg-conference-sky px-3 py-2 font-mono text-sm font-black whitespace-nowrap [&::-webkit-details-marker]:hidden">
           {copy.localeMeta.shortLabel} +
         </summary>
-        <div class="absolute left-0 z-[80] mt-2 grid w-44 gap-1 rounded-2xl border-2 border-[#172033] bg-white p-2 font-mono text-sm font-black shadow-[5px_6px_0_#17203322]">
+        <div class="absolute left-0 z-[80] mt-2 grid w-44 gap-1 rounded-2xl border-2 border-conference-outline bg-conference-surface p-2 font-mono text-sm font-black shadow-[5px_6px_0_var(--conference-shadow)]">
           {
             supportedLocales.map((item) => (
               <a
@@ -97,8 +97,8 @@ const compactLabels = compactHeaderLabels[locale];
                 data-astro-reload
                 aria-current={item === locale ? 'page' : undefined}
                 class:list={[
-                  'rounded-xl px-3 py-2 transition hover:bg-[#bfe8ff]',
-                  item === locale ? 'bg-[#bfe8ff]' : '',
+                  'rounded-xl px-3 py-2 transition hover:bg-conference-sky',
+                  item === locale ? 'bg-conference-sky' : '',
                 ]}
               >
                 {localeMetadata[item].shortLabel}
@@ -113,7 +113,7 @@ const compactLabels = compactHeaderLabels[locale];
         target="_blank"
         rel="noreferrer"
         aria-label={copy.cta.submit}
-        class:list={[navButtonBase, 'bg-[#ffd343]']}
+        class:list={[navButtonBase, 'bg-conference-yellow']}
       >
         <span class="sm:hidden">{compactLabels.proposal}</span>
         <span class="hidden sm:inline">{copy.cta.submit}</span>
@@ -121,7 +121,7 @@ const compactLabels = compactHeaderLabels[locale];
       <a
         href={sponsorshipUrl}
         aria-label={copy.cta.sponsorship}
-        class:list={[navButtonBase, 'bg-white']}
+        class:list={[navButtonBase, 'bg-conference-surface']}
       >
         <span class="sm:hidden">{compactLabels.sponsor}</span>
         <span class="hidden sm:inline">{copy.cta.sponsorship}</span>
