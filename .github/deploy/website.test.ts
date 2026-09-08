@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { deploymentTargets, needsDeployment, verifyDeployment } from "../.github/deploy/website.ts";
-import { snapshotHash, unpublishedSnapshot } from "../website/src/lib/programme/snapshot.ts";
+import { deploymentTargets, needsDeployment, verifyDeployment } from "./website.ts";
+import { snapshotHash, unpublishedSnapshot } from "../../website/src/lib/programme/snapshot.ts";
 
 const previous = { sourceHash: "a", programmeHash: "p", event: "pyconhk2025", environment: "test", sourceUrl: "https://pretalx.com/pyconhk2025/schedule/export/schedule.json" };
 test("unchanged timetable and code skip deployment, including changing timestamps", () => {
