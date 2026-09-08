@@ -80,7 +80,7 @@ jobs:
           PROGRAMME_BASELINE_PATH: ${{ steps.prepare.outputs.baseline_path }}
           PROGRAMME_SOURCE_EVENT: ${{ steps.prepare.outputs.event }}
         run: |
-          mise exec -- node --test tests/check-cms-content-locales.test.ts
+          mise exec -- node --test cms/tests/content-locales.test.ts
           mise run //website:typecheck
           mise run //website:build
           mise exec -- bun run --cwd website test:build
