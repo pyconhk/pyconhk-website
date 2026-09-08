@@ -9,14 +9,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "node ../scripts/check-cms-release.mjs && bun run build && wrangler deploy",
+    "deploy": "node ../scripts/check-cms-release.ts && bun run build && wrangler deploy",
     "deploy:dry-run": "bun run build && wrangler deploy --dry-run",
     "types": "wrangler types worker-configuration.d.ts",
-    "smoke:worker": "node scripts/smoke-worker.mjs",
+    "smoke:worker": "node scripts/smoke-worker.ts",
     "check": "astro check && bun run test",
     "cms:local-backend": "decap-server",
-    "lint": "biome check src scripts package.json tsconfig.json astro.config.mjs biome.json wrangler.jsonc mise.toml",
-    "format": "biome format --write src scripts package.json tsconfig.json astro.config.mjs biome.json wrangler.jsonc mise.toml",
+    "lint": "biome check src scripts package.json tsconfig.json astro.config.ts biome.json wrangler.jsonc mise.toml",
+    "format": "biome format --write src scripts package.json tsconfig.json astro.config.ts biome.json wrangler.jsonc mise.toml",
     "test": "bun test src/**/*.test.ts"
   },
   "dependencies": {

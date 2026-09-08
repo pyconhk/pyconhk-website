@@ -15,7 +15,7 @@ describe("Cloudflare deployment contract", () => {
   test("blocks deployment until the remote CMS branch is localized", () => {
     assert.match(
       packageJson.scripts.deploy,
-      /^node \.\.\/scripts\/check-cms-release\.mjs && /u,
+      /^node \.\.\/scripts\/check-cms-release\.ts && /u,
     );
   });
 

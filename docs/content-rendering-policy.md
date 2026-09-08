@@ -23,7 +23,7 @@ The required frontmatter contract is:
 - `tags`
 - `author.name`
 
-`website/scripts/validate-news.mjs` enforces the content contract during
+`website/tests/news-validation.ts` enforces the content contract during
 `mise run //website:check` and `mise run ci`.
 
 ## Markdown And HTML Rules

@@ -136,38 +136,24 @@ test('legacy 2022 local images are available', async ({ request }, testInfo) => 
   expect(imageFailures).toEqual([]);
 });
 
-test('legacy 2022 pages do not emit same-origin 404s', async ({
-  browser,
-}, testInfo) => {
-  const baseURL = String(testInfo.project.use.baseURL ?? '');
-  const baseOrigin = new URL(baseURL).origin;
-  const context = await browser.newContext({ baseURL });
-  const page = await context.newPage();
-  const sameOriginFailures: string[] = [];
-
-  await page.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-
-    return url.origin === baseOrigin ? route.continue() : route.abort();
+for (const route of legacy2022Routes) {
+  test(`legacy 2022 page loads local assets: ${route}`, async ({ page }, testInfo) => {
+    const baseOrigin = new URL(String(testInfo.project.use.baseURL)).origin;
+    const sameOriginFailures: string[] = [];
+    await page.route('**/*', (requestRoute) => {
+      const url = new URL(requestRoute.request().url());
+      return url.origin === baseOrigin ? requestRoute.continue() : requestRoute.abort();
+    });
+    page.on('response', (response) => {
+      const url = new URL(response.url());
+      if (url.origin === baseOrigin && response.status() >= 400) {
+        sameOriginFailures.push(`${response.status()} ${url.pathname}`);
+      }
+    });
+    await page.goto(route, { waitUntil: 'networkidle' });
+    expect([...new Set(sameOriginFailures)].sort()).toEqual([]);
   });
-
-  page.on('response', (response) => {
-    const url = new URL(response.url());
-
-    if (url.origin === baseOrigin && response.status() >= 400) {
-      sameOriginFailures.push(`${response.status()} ${url.pathname}`);
-    }
-  });
-
-  for (const route of legacy2022Routes) {
-    await page.goto(route, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('networkidle').catch(() => undefined);
-  }
-
-  await context.close();
-
-  expect([...new Set(sameOriginFailures)].sort()).toEqual([]);
-});
+}
 
 function collectLocalImageUrls(html: string, baseURL: string): string[] {
   const urls = new Set<string>();

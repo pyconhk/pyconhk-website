@@ -67,7 +67,8 @@ function buildPath(...segments: string[]): string {
     return '/';
   }
 
-  return `/${normalizedSegments.join('/')}`;
+  const pathname = `/${normalizedSegments.join('/')}`;
+  return /^\/2026\/[^/]+\/speakers\/[^/]+$/u.test(pathname) ? `${pathname}/` : pathname;
 }
 
 function isFourDigitYear(value: string | undefined): boolean {
