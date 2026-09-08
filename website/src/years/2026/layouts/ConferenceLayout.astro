@@ -37,7 +37,7 @@ const htmlLang = htmlLangByLocale[locale] ?? 'en';
   imagePath={imagePath}
   iconPath="/2026/logos/logo.png"
 >
-  <div class="min-h-screen bg-[#FAF7F0] text-[#172033] flex flex-col selection:bg-[#ffd343] selection:text-[#172033]">
+  <div data-conference-site class="min-h-screen bg-[#FAF7F0] text-[#172033] flex flex-col selection:bg-[#ffd343] selection:text-[#172033]">
     <SiteHeader locale={locale} />
     
     <main
@@ -52,3 +52,12 @@ const htmlLang = htmlLangByLocale[locale] ?? 'en';
     <SiteFooter locale={locale} />
   </div>
 </BaseLayout>
+
+<style is:global>
+  [data-conference-site] :is(a[href], button, select, summary, [role='button'], input[type='button'], input[type='submit'], input[type='reset'], input[type='checkbox'], input[type='radio']):not(:disabled):not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+  [data-conference-site] :is(:disabled, [aria-disabled='true']) {
+    cursor: not-allowed;
+  }
+</style>
