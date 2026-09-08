@@ -395,7 +395,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       ko: 'PyLadies Hong Kong',
     },
     nameLines: ['PyLadies Hong Kong'],
-    imagePath: '/2026/supporting-organizations/pyladies_hk.webp',
+    imagePath: '/2026/supporting-organizations/pyladies_hk.svg',
     logoAlt: 'PyLadies Hong Kong Logo',
     url: 'https://linktr.ee/pyladieshk',
     summary: {
