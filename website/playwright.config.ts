@@ -26,7 +26,7 @@ export default defineConfig({
   timeout: 30_000,
   use: {
     ...devices['Desktop Chrome'],
-    ...(process.env.CI ? {} : { channel: 'chrome' as const }),
+    channel: 'chrome',
     baseURL,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

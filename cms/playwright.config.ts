@@ -11,7 +11,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   use: {
     ...devices["Desktop Chrome"],
-    ...(process.env.CI ? {} : { channel: "chrome" as const }),
+    channel: "chrome",
     baseURL: origin ?? `http://127.0.0.1:${port}`,
     screenshot: "only-on-failure",
     trace: "retain-on-failure",

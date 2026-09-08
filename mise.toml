@@ -17,7 +17,7 @@ config_roots = [
 [task_templates."playwright:e2e"]
 description = "Run the complete E2E suite"
 run = 'bunx playwright test --config "$E2E_CONFIG"'
-env = { E2E_CONFIG = "playwright.config.ts", E2E_BROWSER = "chromium" }
+env = { E2E_CONFIG = "playwright.config.ts", E2E_BROWSER = "chrome" }
 
 [tasks.install]
 description = "Install dependencies for all apps sequentially"

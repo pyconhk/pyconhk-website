@@ -149,7 +149,9 @@ No central year list, filename mapping or test-title grep needs updating.
 projects share one build and one local Pages server. The CMS suite builds and starts
 a local Worker with dummy OAuth credentials; publishing tests use disposable Git
 repositories. CI builds the website once and shares that artifact between year jobs.
-Bun dependencies and Playwright browsers are cached by OS and lockfile. A green
+Bun dependencies are cached by OS and lockfile. Browser jobs use the Chrome already
+installed on GitHub's Ubuntu 24.04 runners, avoiding per-job browser downloads and
+apt updates. A green
 `Validate Monorepo` requires discovery, build, static checks and every E2E job to pass.
 
 Use `mise run //website/src/years/2025/e2e:e2e` for one year, or add
