@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-test('system theme, saved choice, client navigation and archive isolation', async ({ page }) => {
+test('system theme, saved choice, client navigation and archive isolation', async ({
+  page,
+}) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/2026/en/');
   const root = page.locator('html');
@@ -31,8 +33,12 @@ test('system theme, saved choice, client navigation and archive isolation', asyn
 test('theme works without local storage', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.addInitScript(() => {
-    Storage.prototype.getItem = () => { throw new Error('Storage unavailable'); };
-    Storage.prototype.setItem = () => { throw new Error('Storage unavailable'); };
+    Storage.prototype.getItem = () => {
+      throw new Error('Storage unavailable');
+    };
+    Storage.prototype.setItem = () => {
+      throw new Error('Storage unavailable');
+    };
   });
   await page.goto('/2026/en/');
   await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
@@ -42,7 +48,10 @@ test('theme works without local storage', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'light');
 });
 
-test('preference synchronizes across tabs and invalid storage falls back to system', async ({ context, page }) => {
+test('preference synchronizes across tabs and invalid storage falls back to system', async ({
+  context,
+  page,
+}) => {
   await page.goto('/2026/en/');
   const other = await context.newPage();
   await other.goto('/2026/en/about/');
@@ -59,28 +68,63 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     test.setTimeout(90_000);
     await page.emulateMedia({ colorScheme: 'dark' });
     const errors: string[] = [];
-    page.on('pageerror', error => errors.push(error.message));
-    for (const route of ['', 'about', 'organizers', 'volunteers', 'supporting-organizations', 'news', 'schedule', 'speakers/peter-ho/', 'sponsorships/opportunities', 'privacy-policy', 'code-of-conduct', 'code-of-conduct/attendee-reporting', 'code-of-conduct/staff-procedures', 'cfp', 'access-guide', 'catering-guide', 'sprint/qna']) {
+    page.on('pageerror', (error) => errors.push(error.message));
+    for (const route of [
+      '',
+      'about',
+      'organizers',
+      'volunteers',
+      'supporting-organizations',
+      'news',
+      'schedule',
+      'speakers/peter-ho/',
+      'sponsorships/opportunities',
+      'privacy-policy',
+      'code-of-conduct',
+      'code-of-conduct/attendee-reporting',
+      'code-of-conduct/staff-procedures',
+      'cfp',
+      'access-guide',
+      'catering-guide',
+      'sprint/qna',
+    ]) {
       const response = await page.goto(`/2026/${locale}/${route}`);
       expect(response?.status()).toBe(200);
-      await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
-      await expect(page.locator('[data-conference-site]')).toHaveCSS('background-color', 'rgb(16, 24, 39)');
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-conference-theme',
+        'dark'
+      );
+      await expect(page.locator('[data-conference-site]')).toHaveCSS(
+        'background-color',
+        'rgb(16, 24, 39)'
+      );
       await expect(page.locator('main h1').first()).toBeVisible();
     }
     for (const width of [320, 390, 640, 768, 1024, 1280, 1440, 1920]) {
       await page.setViewportSize({ width, height: 900 });
-      for (const control of await page.locator('[data-theme-select], [data-mobile-nav-trigger]').all()) {
-        if (!await control.isVisible()) continue;
+      for (const control of await page
+        .locator('[data-theme-select], [data-mobile-nav-trigger]')
+        .all()) {
+        if (!(await control.isVisible())) continue;
         const bounds = await control.boundingBox();
         expect(bounds?.x).toBeGreaterThanOrEqual(0);
         expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeLessThanOrEqual(width);
       }
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+      ).toBe(true);
     }
     await page.goto(`/2026/${locale}/schedule/`);
-    await page.locator('[data-session-details]').filter({ hasText: /vLLM/ }).first().click();
+    await page
+      .locator('[data-session-details]')
+      .filter({ hasText: /vLLM/ })
+      .first()
+      .click();
     await expect(page.locator('#session-modal')).toBeVisible();
-    await expect(page.locator('#session-modal')).toHaveCSS('background-color', 'rgb(27, 39, 59)');
+    await expect(page.locator('#session-modal')).toHaveCSS(
+      'background-color',
+      'rgb(27, 39, 59)'
+    );
     await page.keyboard.press('Escape');
     await expect(page.locator('#session-modal')).not.toBeVisible();
     expect(errors).toEqual([]);

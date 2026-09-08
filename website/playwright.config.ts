@@ -7,8 +7,12 @@ const hostedBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? process.env.E2E_BASE_UR
 const baseURL = hostedBaseURL ?? `http://127.0.0.1:${e2ePort}`;
 const yearsRoot = new URL('./src/years/', import.meta.url);
 const years = readdirSync(yearsRoot).filter((year) =>
-  existsSync(new URL(`${year}/e2e/mise.toml`, yearsRoot))
+  existsSync(new URL(`${year}/e2e/`, yearsRoot))
 );
+for (const year of years) {
+  if (!existsSync(new URL(`${year}/e2e/mise.toml`, yearsRoot)))
+    throw new Error(`Add an E2E mise task for ${year}`);
+}
 if (process.env.E2E_SUITE && ![...years, 'common'].includes(process.env.E2E_SUITE))
   throw new Error(`Unknown E2E suite: ${process.env.E2E_SUITE}`);
 
@@ -47,7 +51,7 @@ export default defineConfig({
       name: year,
       testDir: fileURLToPath(new URL(`${year}/e2e/`, yearsRoot)),
     })),
-    { name: 'common', testDir: './e2e/common' },
+    { name: 'common', testDir: './e2e' },
   ].filter(
     (project) => !process.env.E2E_SUITE || project.name === process.env.E2E_SUITE
   ),
