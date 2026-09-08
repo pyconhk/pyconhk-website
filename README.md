@@ -128,6 +128,14 @@ when the build, unit tests and every year job pass.
 
 Bun dependencies are cached by OS and lockfiles; Playwright browser binaries have a
 separate cache. Jobs download the same build artifact instead of rebuilding the website.
+
+Deployment compares each app's build-input hash with its last successful hosted manifest.
+Tests, CI configuration, documentation and edits confined to the other app do not trigger
+a website build/upload. Shared dependencies and build configuration invalidate both apps.
+The website also compares the public Pretalx hash, source event and environment; `force`
+in Run workflow bypasses the skip. A missing manifest triggers the first deployment.
+The recorded commit remains the commit actually deployed, even when later unrelated
+commits are skipped. All JavaScript Actions use Node 24; mise pins app commands to 24.18.0.
 CMS content-generation tests create their own fixture build to exercise changed content.
 
 From `website/`, use `bun run test:unit` for source tests, `bun run test:build` for an

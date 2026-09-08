@@ -38,7 +38,7 @@ jobs:
             preview) echo 'SOURCE_BRANCH=alex-dev' >> "$GITHUB_ENV" ;;
             *) echo 'Unsupported deployment target' >&2; exit 1 ;;
           esac
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ env.SOURCE_BRANCH }}
           persist-credentials: false
@@ -64,7 +64,7 @@ jobs:
           fi
       - name: Restore dependency cache
         if: steps.prepare.outputs.changed == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
           key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock') }}
@@ -118,5 +118,5 @@ jobs:
           if [ "$CHANGED" = true ]; then
             echo "Verified $TARGET at $ORIGIN (commit $SOURCE_SHA)." >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "No code or public programme changes for $TARGET; build skipped." >> "$GITHUB_STEP_SUMMARY"
+            echo "Website inputs and public programme are unchanged for $TARGET; build and upload skipped." >> "$GITHUB_STEP_SUMMARY"
           fi

@@ -13,10 +13,13 @@ describe("Cloudflare deployment contract", () => {
   });
 
   test("blocks deployment until the remote CMS branch is localized", () => {
-    assert.match(
-      packageJson.scripts.deploy,
-      /^node \.\.\/scripts\/check-cms-release\.ts && /u,
+    assert.equal(packageJson.scripts.deploy, "node scripts/deploy.ts");
+    const deploy = readFileSync("scripts/deploy.ts", "utf8");
+    assert.ok(
+      deploy.indexOf("scripts/check-cms-release.ts") <
+        deploy.indexOf('["run", "build"]'),
     );
+    assert.match(deploy, /scripts\/check-cms-release\.ts/);
   });
 
   test("enables the required Worker runtime and observability", () => {

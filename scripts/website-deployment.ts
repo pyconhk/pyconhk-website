@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { deploymentSourceHash } from "./deployment-source.ts";
 import { fetchProgramme, validateSnapshot } from "../website/src/lib/programme/snapshot.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -32,7 +33,7 @@ export const deploymentTargets = {
 };
 
 export function needsDeployment(previous, next, force = false) {
-  return force || !previous || ["sourceSha", "programmeHash", "event", "environment"]
+  return force || !previous || !next.sourceHash || ["sourceHash", "programmeHash", "event", "environment", "sourceUrl"]
     .some((key) => previous[key] !== next[key]);
 }
 
@@ -70,6 +71,7 @@ async function prepare(environment, force) {
     environment, baseline: previousSnapshot, allowUnpublished: true });
   const manifest = {
     sourceSha,
+    sourceHash: deploymentSourceHash("website", root),
     programmeHash: current.hash,
     event: target.event,
     environment,
@@ -111,6 +113,7 @@ export async function verifyDeployment(environment, expected, {
   assert.equal(expected.environment, environment, "Expected manifest belongs to another environment");
   assert.equal(expected.event, target.event, "Expected manifest belongs to another event");
   assert.match(expected.sourceSha, /^[a-f0-9]{40}$/, "Expected source SHA is invalid");
+  assert.match(expected.sourceHash, /^[a-f0-9]{64}$/, "Expected source hash is invalid");
   assert.match(expected.programmeHash, /^[a-f0-9]{64}$/, "Expected programme hash is invalid");
   let lastError;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
@@ -119,7 +122,7 @@ export async function verifyDeployment(environment, expected, {
         readJson(target.origin, "/deployment-manifest.json"),
         readJson(target.origin, "/programme-snapshot.json"),
       ]);
-      for (const key of ["sourceSha", "programmeHash", "event", "environment"]) {
+      for (const key of ["sourceSha", "sourceHash", "programmeHash", "event", "environment"]) {
         assert.equal(manifest?.[key], expected[key], `Hosted deployment ${key} has not reached the expected value`);
       }
       validateSnapshot(snapshot, target.event, environment);

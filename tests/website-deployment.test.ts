@@ -3,14 +3,16 @@ import test from "node:test";
 import { deploymentTargets, needsDeployment, verifyDeployment } from "../scripts/website-deployment.ts";
 import { snapshotHash, unpublishedSnapshot } from "../website/src/lib/programme/snapshot.ts";
 
-const previous = { sourceSha: "a", programmeHash: "p", event: "pyconhk2025", environment: "test" };
+const previous = { sourceHash: "a", programmeHash: "p", event: "pyconhk2025", environment: "test", sourceUrl: "https://pretalx.com/pyconhk2025/schedule/export/schedule.json" };
 test("unchanged timetable and code skip deployment, including changing timestamps", () => {
   assert.equal(needsDeployment(previous, { ...previous, preparedAt: "later" }), false);
+  assert.equal(needsDeployment({ ...previous, sourceSha: "old" }, { ...previous, sourceSha: "new" }), false);
 });
 test("code, programme, source or environment changes deploy independently", () => {
   for (const key of Object.keys(previous)) assert.equal(needsDeployment(previous, { ...previous, [key]: "changed" }), true);
   assert.equal(needsDeployment(previous, previous, true), true);
   assert.equal(needsDeployment(null, previous), true);
+  assert.equal(needsDeployment({ sourceSha: "a" }, previous), true);
 });
 test("production cannot consume the 2025 preview source", () => {
   assert.equal(deploymentTargets.production.event, "pyconhk2026");
@@ -25,7 +27,7 @@ function verificationFixture() {
     event: target.event, environment: "test", sourceUrl: target.source,
   });
   const manifest = {
-    sourceSha: "a".repeat(40), programmeHash: snapshot.hash,
+    sourceSha: "a".repeat(40), sourceHash: "c".repeat(64), programmeHash: snapshot.hash,
     event: target.event, environment: "test",
   };
   return { snapshot, manifest };

@@ -147,8 +147,14 @@ Deploy to the generated `workers.dev` URL:
 mise run //cms:deploy
 ```
 
-Deployment runs the remote CMS release check and verifies that both required
-secrets exist before Wrangler can publish.
+Deployment compares CMS build inputs with the hosted `/deployment-manifest.json` and
+skips build/upload when unchanged. The first release with no manifest deploys normally.
+The default origin is `https://pyconhk-cms.website-pyconhk.workers.dev`; set
+`CMS_DEPLOY_ORIGIN` when deploying to a different configured Worker origin.
+Use `mise exec -- bun run deploy --force` from `cms/` to force a release (including
+after external variable/secret changes). Website content edits do not redeploy the CMS.
+When a release is needed, the remote CMS release check runs before build, Wrangler
+requires both OAuth secrets, and the hosted source hash is verified after upload.
 
 Create or update the GitHub OAuth app with:
 
