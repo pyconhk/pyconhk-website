@@ -181,6 +181,7 @@ async function main() {
     );
     const aliases = speakerRedirects(createSpeakerDirectory(snapshot.sessions, snapshot.event), ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']);
     additions.push(...aliases.filter((line) => !existingSources.has(line.split(' ')[0])));
+    for (const line of additions) existingSources.add(normalizeRedirectPath(line.split(' ')[0]));
   }
 
   for (const route of routes) {

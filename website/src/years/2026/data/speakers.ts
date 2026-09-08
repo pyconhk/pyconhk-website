@@ -33,5 +33,5 @@ export function speakerPath(
   person: Pick<Profile, 'name' | 'url'>,
   locale: CfpLocale
 ): string {
-  return `/2026/${locale}/speakers/${encodeURIComponent(speakerSlug(person))}/`;
+  return `/2026/${locale}/speakers/${encodeURIComponent(speakerSlug(person))}`;
 }

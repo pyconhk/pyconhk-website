@@ -273,7 +273,7 @@ describe('event-scoped archive contract', () => {
       }
 
       if (
-        redirect.status !== '200' ||
+        redirect.status !== (/^\/2026\/[^/]+\/speakers\/[^/]+$/u.test(route) ? '301' : '200') ||
         !isEventScoped(redirect.destination) ||
         !isResolvableRoute(redirect.destination)
       ) {

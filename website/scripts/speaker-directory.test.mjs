@@ -35,9 +35,11 @@ test('legacy identities stay unchanged and both URL spellings redirect within ea
   assert.equal(speakerIdentity(person, 'pyconhk2025'), 'a520d5ae8a6503a04d37');
   const directory = createSpeakerDirectory([session('a', person)], 'pyconhk2025');
   const rules = speakerRedirects(directory, ['en', 'zh-hk']);
-  assert.equal(rules.length, 4);
-  assert.ok(rules.includes('/2026/en/speakers/a520d5ae8a6503a04d37/ /2026/en/speakers/peter-ho/ 301'));
-  assert.ok(rules.includes('/2026/zh-hk/speakers/a520d5ae8a6503a04d37 /2026/zh-hk/speakers/peter-ho/ 301'));
+  assert.equal(rules.length, 6);
+  assert.ok(rules.includes('/2026/en/speakers/a520d5ae8a6503a04d37/ /2026/en/speakers/peter-ho 301'));
+  assert.ok(rules.includes('/2026/zh-hk/speakers/a520d5ae8a6503a04d37 /2026/zh-hk/speakers/peter-ho 301'));
+  assert.ok(rules.includes('/2026/en/speakers/peter-ho/ /2026/en/speakers/peter-ho 301'));
+  assert.ok(rules.includes('/2026/zh-hk/speakers/peter-ho/ /2026/zh-hk/speakers/peter-ho 301'));
 });
 
 test('generated suffixes and the legacy hash namespace cannot collide with literal names', () => {

@@ -50,7 +50,7 @@ export function createSpeakerDirectory(sessions, event) {
 export function speakerRedirects(speakers, locales) {
   return locales.flatMap((locale) => speakers.flatMap(({ id, slug }) => {
     const prefix = `/2026/${locale}/speakers/`;
-    const target = `${prefix}${encodeURIComponent(slug)}/`;
-    return [`${prefix}${id} ${target} 301`, `${prefix}${id}/ ${target} 301`];
+    const target = `${prefix}${encodeURIComponent(slug)}`;
+    return [`${prefix}${id} ${target} 301`, `${prefix}${id}/ ${target} 301`, `${target}/ ${target} 301`];
   }));
 }
