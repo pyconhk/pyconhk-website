@@ -25,7 +25,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
           <legend class="sr-only">{copy.time}</legend>
           {programmeSnapshot.days.map((day) => <button type="button" class="day-button rounded-xl border-2 border-[#172033] px-4 py-2 text-sm font-black shadow-[2px_2px_0_#172033]" data-day={day.date} aria-pressed={day.date === initialDay ? 'true' : 'false'}>{formatProgrammeDate(day.date, locale)}</button>)}
         </fieldset>
-        <div class="mt-5 grid gap-3 rounded-2xl border-2 border-[#172033] bg-white p-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_auto_auto]">
+        <div class="programme-filters mt-5 grid gap-3 rounded-2xl border-2 border-[#172033] bg-white p-4">
           <label><span class="sr-only">{copy.search}</span><input type="search" data-programme-search placeholder={copy.search} class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm" /></label>
           <label><span class="sr-only">{copy.allRooms}</span><select data-room-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allRooms}</option>{roomColumns.map((room) => <option value={room.id}>{room.name}</option>)}</select></label>
           <label><span class="sr-only">{copy.allLanguages}</span><select data-language-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allLanguages}</option>{languages.map((language) => <option value={language}>{language}</option>)}</select></label>
@@ -33,7 +33,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
           <button type="button" data-clear-filters class="px-3 py-2 text-sm font-bold underline">{copy.clear}</button>
         </div>
         <p data-programme-empty role="status" hidden class="mt-8 rounded-2xl border-2 border-[#172033] bg-white p-8 text-center">{copy.noResults}</p>
-        <div class="programme-scroll mt-7" style={`--room-count:${Math.max(roomColumns.length, 1)}`}>
+        <div class="programme-scroll mt-7" data-room-count={roomColumns.length} style={`--room-count:${Math.max(roomColumns.length, 1)}`}>
           <div class="programme-room-headings" aria-hidden="true"><span>{copy.time}</span>{roomColumns.map((room) => <span>{room.name}</span>)}</div>
           {programmeSnapshot.days.map((day) => {
             const times = [...new Set(allScheduleItems.filter((session) => session.date === day.date).map((session) => session.startTime))].sort();
@@ -59,19 +59,34 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
 </ConferenceLayout>
 
 <style>
-  .day-button { background: white; color: #172033; }
+  .day-button { min-height: 44px; max-width: 100%; background: white; color: #172033; }
   .day-button[aria-pressed='true'] { background: #d71920; color: white; }
   [data-saved-filter][aria-pressed='true'], [data-save-session][aria-pressed='true'] { background: #fef3c7; }
-  .programme-slot { display: grid; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid #17203325; }
+  .programme-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .programme-filters label { min-width: 0; }
+  .programme-filters label:first-child { grid-column: 1 / -1; }
+  .programme-filters input, .programme-filters select { min-height: 44px; min-width: 0; font-size: 1rem; }
+  .programme-filters button, [data-save-session], [data-session-details] { min-height: 44px; }
+  .programme-filters button { overflow-wrap: anywhere; }
+  .programme-scroll { padding: 0 4px 4px 0; }
+  .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid #17203325; }
+  .programme-time { grid-column: 1 / -1; }
   .programme-room-headings { display: none; }
   .programme-card { min-width: 0; overflow-wrap: anywhere; }
-  @media (min-width: 1024px) {
-    .programme-scroll { overflow-x: auto; padding-bottom: 1rem; }
-    .programme-room-headings, .programme-slot { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(13rem, 1fr)); gap: 1rem; min-width: max(100%, calc(4rem + var(--room-count) * 14rem)); }
-    .programme-room-headings { border-bottom: 3px solid #172033; padding-bottom: 1rem; color: #172033; font-size: .8rem; font-weight: 900; }
-    .programme-time { grid-column: 1; grid-row: 1; }
-    .programme-card { grid-column: var(--room-column); grid-row: 1; }
+  @media (min-width: 640px) {
+    .programme-slot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
+  @media (min-width: 1024px) {
+    .programme-filters { grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)) minmax(0, .8fr) minmax(0, .7fr); align-items: center; }
+    .programme-filters label:first-child { grid-column: auto; }
+    .programme-slot { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .programme-scroll[data-room-layout='true'] .programme-room-headings,
+  .programme-scroll[data-room-layout='true'] .programme-slot { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(0, 1fr)); gap: 1rem; }
+  .programme-scroll[data-room-layout='true'] .programme-room-headings { border-bottom: 3px solid #172033; padding-bottom: 1rem; color: #172033; font-size: .8rem; font-weight: 900; overflow-wrap: anywhere; }
+  .programme-scroll[data-room-layout='true'] .programme-time { grid-column: 1; grid-row: 1; }
+  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: 1; }
+  :global(html:has(#session-modal[open])) { overflow: hidden; }
   [hidden] { display: none; }
 </style>
 
@@ -94,6 +109,15 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-session-card]'));
     const dialog = document.querySelector<HTMLDialogElement>('#session-modal');
     const empty = document.querySelector<HTMLElement>('[data-programme-empty]');
+    const programme = document.querySelector<HTMLElement>('.programme-scroll');
+    function updateLayout() {
+      if (!programme) return;
+      // Use room columns only when every room fits at a readable width, including at zoom.
+      const rootSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const requiredWidth = (4 + Number(programme.dataset.roomCount) * 14) * rootSize;
+      programme.dataset.roomLayout = String(!filters.room && programme.clientWidth >= Math.max(1024, requiredWidth + 4));
+    }
+    if (programme) new ResizeObserver(updateLayout).observe(programme);
     let activeSession: ScheduleItem | undefined;
     let previousFocus: HTMLElement | null = null;
 
@@ -120,6 +144,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
         empty.hidden = visible > 0;
         empty.textContent = data.sessions.some((session) => session.date === filters.date) ? data.copy.noResults : data.copy.emptyDay;
       }
+      if (programme) programme.hidden = visible === 0;
+      updateLayout();
       const modalSave = dialog?.querySelector<HTMLButtonElement>('[data-modal-save]');
       if (modalSave && activeSession) {
         modalSave.textContent = saved.has(activeSession.id) ? data.copy.unsave : data.copy.save;
