@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { fetchProgramme, normalizeProgramme, snapshotHash, unpublishedSnapshot, validateSnapshot } from './programme-snapshot.mjs';
+import { renderProgrammeMarkdown } from '../src/years/2026/components/schedule/programme-content.mjs';
 
 const options = { event: 'pyconhk2025', environment: 'test', sourceUrl: 'https://pretalx.com/pyconhk2025/schedule/export/schedule.json', fetchedAt: '2026-09-08T00:00:00Z' };
 function feed() {
@@ -35,6 +36,41 @@ test('content hash ignores fetch time and detects public edits', () => {
   const changed = feed();
   changed.schedule.conference.days[0].rooms.Main[0].title = 'Updated title';
   assert.notEqual(first.hash, normalizeProgramme(changed, options).hash);
+});
+
+test('speaker profiles retain public biographies and images, excluding private fields and unsafe URLs', () => {
+  const payload = feed();
+  payload.schedule.conference.days[0].rooms.Main[0].persons[0] = {
+    name: 'Speaker', biography: 'Public **biography**', avatar: 'https://pretalx.com/media/avatar.webp',
+    url: 'https://pretalx.com/pyconhk2025/speaker/PERSON/', email: 'private@example.com', notes: 'private notes',
+  };
+  const snapshot = normalizeProgramme(payload, options);
+  assert.deepEqual(snapshot.sessions[0].speakerProfiles, [{ name: 'Speaker', biography: 'Public **biography**', avatar: 'https://pretalx.com/media/avatar.webp', url: 'https://pretalx.com/pyconhk2025/speaker/PERSON/' }]);
+  assert.equal(validateSnapshot(snapshot, options.event, 'test'), snapshot);
+  assert.equal(JSON.stringify(snapshot).includes('private'), false);
+  payload.schedule.conference.days[0].rooms.Main[0].persons[0].biography = 'Updated public biography';
+  assert.notEqual(normalizeProgramme(payload, options).hash, snapshot.hash);
+  payload.schedule.conference.days[0].rooms.Main[0].persons[0].avatar = 'javascript:alert(1)';
+  payload.schedule.conference.days[0].rooms.Main[0].persons[0].url = 'https://user:password@example.com/';
+  const safe = normalizeProgramme(payload, options);
+  assert.equal(safe.sessions[0].speakerProfiles[0].avatar, '');
+  assert.equal(safe.sessions[0].speakerProfiles[0].url, '');
+  const contaminated = structuredClone(snapshot);
+  contaminated.sessions[0].speakerProfiles[0].email = 'private@example.com';
+  contaminated.hash = snapshotHash(contaminated);
+  assert.throws(() => validateSnapshot(contaminated, options.event, 'test'), /speaker fields/);
+  const previous = structuredClone(snapshot);
+  delete previous.sessions[0].speakerProfiles;
+  previous.hash = snapshotHash(previous);
+  assert.equal(validateSnapshot(previous, options.event, 'test'), previous);
+});
+
+test('programme Markdown retains formatting and links while removing executable content', async () => {
+  const html = await renderProgrammeMarkdown('**Python**\n\n- one\n- two\n\n[website](https://python.org)\n\n<script>alert(1)</script>\n\n[bad](javascript:alert(1))');
+  assert.match(html, /<strong>Python<\/strong>/);
+  assert.match(html, /<ul>/);
+  assert.match(html, /href="https:\/\/python.org"/);
+  assert.doesNotMatch(html, /<script|javascript:/);
 });
 
 test('reject wrong year, bad dates, duration, unknown room and malformed feed', () => {

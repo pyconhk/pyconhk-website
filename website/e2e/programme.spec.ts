@@ -46,6 +46,14 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
   const details = page.locator('[data-session-card]:visible [data-session-details]');
   await details.click();
   await expect(page.locator('#session-modal')).toBeVisible();
+  await expect(page.locator('#modal-details [data-session-description]')).toContainText('Python isn’t just a language');
+  await expect(page.locator('#modal-details [data-speaker-profile]')).toHaveCount(1);
+  await expect(page.locator('#modal-details [data-speaker-biography]')).toContainText('Python Software Foundation');
+  const avatar = page.locator('#modal-details [data-speaker-avatar]');
+  await avatar.scrollIntoViewIfNeeded();
+  await expect(avatar).toBeVisible();
+  await expect.poll(() => avatar.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await expect(page.locator('#modal-details [data-speaker-profile] a').first()).toHaveAttribute('href', 'https://pretalx.com/pyconhk2025/speaker/7GSH3P/');
   const calendar = new URL(await page.locator('[data-modal-calendar]').getAttribute('href') ?? '');
   expect(calendar.searchParams.get('dates')).toBe('20251011T022500Z/20251011T025500Z');
   expect(calendar.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
@@ -64,6 +72,23 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   await page.screenshot({ path: join(tmpdir(), 'pyconhk-programme-mobile.png'), fullPage: false });
   expect(errors).toEqual([]);
+});
+
+test('session details replace speaker profiles when changing talks and show every co-speaker', async ({ page }) => {
+  test.skip(!sample, 'Requires the public 2025 sample build.');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/2026/en/schedule');
+  await page.locator('[data-programme-search]').fill('pip install community');
+  await page.locator('[data-session-details]:visible').click();
+  await expect(page.locator('#modal-details [data-speaker-profile]')).toHaveCount(1);
+  await page.keyboard.press('Escape');
+  await page.locator('[data-programme-search]').fill('Mercari LLM');
+  await page.locator('[data-session-details]:visible').click();
+  await expect(page.locator('#modal-details [data-speaker-profile]')).toHaveCount(2);
+  await expect(page.locator('#modal-details')).not.toContainText('Georgi Ker');
+  await expect(page.locator('#modal-details')).toContainText('Prashant Anand');
+  await expect(page.locator('#modal-details')).toContainText('Kanta Suga');
+  expect(await page.locator('[data-modal-body]').evaluate((element) => element.scrollTop)).toBe(0);
 });
 
 test('blocked local storage does not disable programme controls', async ({ page }) => {

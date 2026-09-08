@@ -10,6 +10,7 @@ export type ScheduleItem = {
   code: string;
   title: string;
   speakers: string[];
+  speakerProfiles?: { name: string; biography: string; avatar: string; url: string }[];
   room: string;
   roomKey: string;
   track: string;
