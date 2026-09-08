@@ -4,7 +4,7 @@ import { contentUi } from '@/years/2026/data/content-ui';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; className?: string; }
-const { locale, className = 'inline-flex rounded-full border-2 border-[#172033] bg-[#d71920] px-5 py-3 font-bold text-white' } = Astro.props;
+const { locale, className = 'inline-flex rounded-full border-2 border-conference-outline bg-[#d71920] px-5 py-3 font-bold text-white' } = Astro.props;
 const { tickets } = getConferenceContent(locale);
 const copy = contentUi[locale];
 const available = tickets.status === 'published' && Boolean(tickets.url);

@@ -15,16 +15,16 @@ const organizers = organizations.items.filter((item) => item.kind === 'organizer
   {organizations.status !== 'published' || organizers.length === 0 ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
     <div data-conference-content="organizers" class="space-y-12 sm:space-y-16">
       {organizers.map((item) => (
-        <section data-organizer class="space-y-6 border-t-2 border-[#172033]/15 pt-10 first:border-0 first:pt-0">
-          <h2 class="mx-auto max-w-3xl text-center text-2xl font-black leading-tight tracking-tight text-[#172033] sm:text-3xl">{item.name}</h2>
-          <p class="mx-auto max-w-3xl whitespace-pre-line text-sm font-medium leading-relaxed text-slate-700 sm:text-base">{item.description}</p>
+        <section data-organizer class="space-y-6 border-t-2 border-conference-outline/15 pt-10 first:border-0 first:pt-0">
+          <h2 class="mx-auto max-w-3xl text-center text-2xl font-black leading-tight tracking-tight text-conference-ink sm:text-3xl">{item.name}</h2>
+          <p class="mx-auto max-w-3xl whitespace-pre-line text-sm font-medium leading-relaxed text-conference-body sm:text-base">{item.description}</p>
           {item.logo ? (
             <div class="flex justify-center pt-4">
               {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`${contentUi[locale].visitWebsite}: ${item.name}`} class="organization-logo group">
                 <img src={item.logo} alt={item.name} width="300" height="200" loading="lazy" />
               </a> : <div class="organization-logo"><img src={item.logo} alt={item.name} width="300" height="200" loading="lazy" /></div>}
             </div>
-          ) : item.url && <p class="text-center"><a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-[#2f559a] underline">{contentUi[locale].visitWebsite}</a></p>}
+          ) : item.url && <p class="text-center"><a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{contentUi[locale].visitWebsite}</a></p>}
         </section>
       ))}
     </div>
@@ -32,7 +32,7 @@ const organizers = organizations.items.filter((item) => item.kind === 'organizer
 </CommunityPageFrame>
 
 <style>
-  .organization-logo { display: inline-flex; max-width: 100%; align-items: center; justify-content: center; border: 2px solid #172033; border-radius: 1rem; padding: clamp(1rem, 4vw, 2rem); background: #FAF7F0; box-shadow: 4px 4px 0 #172033; transition: transform 180ms, box-shadow 180ms; }
+  .organization-logo { display: inline-flex; max-width: 100%; align-items: center; justify-content: center; border: 2px solid var(--conference-outline); border-radius: 1rem; padding: clamp(1rem, 4vw, 2rem); background: #FAF7F0; box-shadow: 4px 4px 0 #172033; transition: transform 180ms, box-shadow 180ms; }
   .organization-logo img { width: min(100%, 300px); height: auto; max-height: 220px; object-fit: contain; }
   a.organization-logo:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 #d71920; }
   a.organization-logo:focus-visible { outline: 3px solid #2f559a; outline-offset: 6px; }
