@@ -107,6 +107,11 @@ test('blocked local storage does not disable programme controls', async ({ page 
 for (const locale of locales) {
   test(`speaker stays on site and links back to the session in ${locale}`, async ({ page, context }) => {
     test.skip(!sample, 'Requires the public 2025 sample build.');
+    const pretalxRequests: string[] = [];
+    await page.route(/^https:\/\/(pretalx\.com|cfp\.pycon\.hk)\//, (route) => {
+      pretalxRequests.push(route.request().url());
+      return route.abort();
+    });
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
@@ -118,6 +123,7 @@ for (const locale of locales) {
     await page.locator('[data-session-details]:visible').first().click();
     const title = await page.locator('#modal-session-title').textContent();
     const link = page.locator('#modal-details [data-speaker-link]').first();
+    await expect(link).toHaveCSS('cursor', 'pointer');
     await expect(link).not.toHaveAttribute('target', '_blank');
     await link.click();
     await expect(page).toHaveURL(new RegExp(`/2026/${locale}/speakers/[a-f0-9]+/`));
@@ -126,11 +132,10 @@ for (const locale of locales) {
     await expect(page).toHaveTitle(/Peter Ho/);
     await expect(page.locator('h1')).toHaveText('Peter Ho');
     await expect(page.locator('[data-speaker-biography]')).toContainText('Red Hat');
-    if (locale === 'en') {
-      const portrait = page.locator('[data-speaker-page] img');
-      await portrait.scrollIntoViewIfNeeded();
-      await expect.poll(() => portrait.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
-    }
+    const portrait = page.locator('[data-speaker-page] img');
+    await portrait.scrollIntoViewIfNeeded();
+    await expect(portrait).toHaveAttribute('src', /^\/_astro\/.+\.webp$/);
+    await expect.poll(() => portrait.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
     await expect(page.locator('[data-sample-notice]')).toBeVisible();
     const profilePath = new URL(page.url()).pathname;
     await expect(page.locator('[data-locale-switch="ja"]').first()).toHaveAttribute('href', new RegExp(profilePath.replace(`/${locale}/`, '/ja/')));
@@ -140,6 +145,7 @@ for (const locale of locales) {
       expect(await page.locator('[data-speaker-biography]').evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
       if (locale === 'en' && [320, 1536].includes(width)) await page.screenshot({ path: join(tmpdir(), `pyconhk-speaker-page-${width}.png`), fullPage: true });
     }
+    await expect(page.locator('[data-speaker-session]').first()).toHaveCSS('cursor', 'pointer');
     await page.locator('[data-speaker-session]').first().click();
     await expect(page.locator('#session-modal')).toBeVisible();
     await expect(page.locator('#modal-session-title')).toHaveText(title ?? '');
@@ -151,6 +157,7 @@ for (const locale of locales) {
     await page.keyboard.press('Escape');
     await expect(page.locator('#session-modal')).not.toBeVisible();
     await expect(page.locator('[data-session-details]:focus')).toHaveCount(1);
+    expect(pretalxRequests).toEqual([]);
     expect(errors).toEqual([]);
   });
 }

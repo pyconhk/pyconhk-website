@@ -42,6 +42,12 @@ function noTrailingSlashRedirects() {
 }
 
 export default defineConfig({
+  image: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'pretalx.com', pathname: '/media/**' },
+      { protocol: 'https', hostname: 'cfp.pycon.hk', pathname: '/media/**' },
+    ],
+  },
   build: {
     format: 'file',
   },

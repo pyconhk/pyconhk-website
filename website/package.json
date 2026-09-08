@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/copy-event-assets.mjs && node scripts/finalize-event-redirects.mjs && node scripts/build-pagefind.mjs",
+    "build": "astro build && node scripts/copy-event-assets.mjs && node scripts/validate-programme-images.mjs && node scripts/finalize-event-redirects.mjs && node scripts/build-pagefind.mjs",
     "preview": "astro preview",
     "e2e": "playwright test",
     "typecheck": "astro check",
@@ -21,7 +21,7 @@
     "validate:news": "bun scripts/validate-news.mjs",
     "test:news": "node --test scripts/validate-news.test.mjs scripts/news-publication.test.mjs && bun test scripts/news-rendering.test.mjs",
     "test:conference": "bun test src/lib/conference-content.test.ts",
-    "test:programme": "node --test scripts/programme-snapshot.test.mjs scripts/schedule-interactions.test.mjs",
+    "test:programme": "node --test scripts/programme-snapshot.test.mjs scripts/schedule-interactions.test.mjs scripts/validate-programme-images.test.mjs",
     "test:legacy-html": "bun test scripts/legacy-html-policy.test.mjs",
     "test:legacy-2015": "bun run build && bun test scripts/legacy-2015-route-contract.test.mjs scripts/legacy-2015-pixel-diff.test.mjs",
     "test:legacy-2016": "bun run build && bun test scripts/legacy-2016-route-contract.test.mjs scripts/legacy-2016-pixel-diff.test.mjs",

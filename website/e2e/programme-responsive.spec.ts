@@ -32,9 +32,12 @@ test.describe('responsive public programme', () => {
             touchTargetsFit: [...document.querySelectorAll<HTMLElement>('[data-day], .programme-filters button, .programme-filters input, .programme-filters select, [data-save-session], [data-session-details]')]
               .filter((element) => element.getClientRects().length)
               .every((element) => element.getBoundingClientRect().height >= 44),
+            pointerCursors: [...document.querySelectorAll<HTMLElement>('[data-conference-site] :is(a[href], button, select, summary):not(:disabled):not([aria-disabled="true"])')]
+              .filter((element) => element.getClientRects().length)
+              .every((element) => getComputedStyle(element).cursor === 'pointer'),
           };
         });
-        expect(geometry, `${locale} at ${width}px`).toEqual({ documentFits: true, programmeFits: true, allElementsFit: true, touchTargetsFit: true });
+        expect(geometry, `${locale} at ${width}px`).toEqual({ documentFits: true, programmeFits: true, allElementsFit: true, touchTargetsFit: true, pointerCursors: true });
       }
       await page.locator('[data-room-filter]').selectOption('4654-track-b-lt-14');
       await expect(page.locator('.programme-scroll')).toHaveAttribute('data-room-layout', 'false');
@@ -56,6 +59,7 @@ test.describe('responsive public programme', () => {
         await details.click();
         const dialog = page.locator('#session-modal');
         await expect(dialog).toBeVisible();
+        expect(await dialog.locator('button, a[href]').evaluateAll((elements) => elements.every((element) => getComputedStyle(element).cursor === 'pointer'))).toBe(true);
         expect(await dialog.evaluate((element) => {
           const box = element.getBoundingClientRect();
           return box.top >= 0 && box.bottom <= innerHeight && box.left >= 0 && box.right <= innerWidth && element.scrollWidth <= element.clientWidth;
