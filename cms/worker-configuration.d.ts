@@ -10,7 +10,7 @@ interface __BaseEnv_Env {
 	CMS_CONTENT_ROOT: "website/outstatic/content";
 	CMS_MEDIA_FOLDER: "website/public/outstatic/images";
 	CMS_PUBLIC_FOLDER: "/outstatic/images";
-	CMS_LOCALES: "en,zh-hk,zh-hant,zh-hans,ja";
+	CMS_LOCALES: "en,zh-hk,zh-hant,zh-hans,ja,ko";
 	CMS_DEFAULT_LOCALE: "en";
 	CMS_GITHUB_CLIENT_ID: string;
 	CMS_GITHUB_CLIENT_SECRET: string;

@@ -13,6 +13,9 @@
   "devDependencies": {
     "yaml": "^2.8.0"
   },
+  "patchedDependencies": {
+    "decap-cms-core@3.16.0": "patches/decap-cms-core@3.16.0.patch"
+  },
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",
     "dev": "mise //website:dev",

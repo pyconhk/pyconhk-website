@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { constants } from 'node:fs';
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -18,6 +19,8 @@ description: A synthetic CMS post for year-owned routing coverage.
 coverImage: /2025/landing-pages/open-graph.webp
 author:
   name: PyCon HK
+tags:
+  - announcement
 ---
 
 This future-year CMS post should build under its own localized year route.
@@ -35,8 +38,35 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
   }
 
   for (const directoryName of ['outstatic', 'public', 'scripts', 'src']) {
-    await cp(path.join(websiteRoot, directoryName), path.join(targetRoot, directoryName), {
+    await cp(
+      path.join(websiteRoot, directoryName),
+      path.join(targetRoot, directoryName),
+      {
+        recursive: true,
+      }
+    );
+  }
+  // Preserve the installed workspace graph locally. A dependency symlink outside
+  // the fixture breaks Astro's virtual CSS module IDs; a fresh install would
+  // unnecessarily require registry access in this content-routing test.
+  const repositoryRoot = path.dirname(websiteRoot);
+  const fixtureRoot = path.dirname(targetRoot);
+  for (const fileName of ['package.json', 'bun.lock']) {
+    await cp(path.join(repositoryRoot, fileName), path.join(fixtureRoot, fileName));
+  }
+  await mkdir(path.join(fixtureRoot, 'cms'));
+  await cp(
+    path.join(repositoryRoot, 'cms/package.json'),
+    path.join(fixtureRoot, 'cms/package.json')
+  );
+  for (const [source, destination] of [
+    [path.join(repositoryRoot, 'node_modules'), path.join(fixtureRoot, 'node_modules')],
+    [path.join(websiteRoot, 'node_modules'), path.join(targetRoot, 'node_modules')],
+  ]) {
+    await cp(source, destination, {
       recursive: true,
+      verbatimSymlinks: true,
+      mode: constants.COPYFILE_FICLONE,
     });
   }
 }
@@ -44,25 +74,28 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
 async function buildFixtureSite(): Promise<string> {
   const tempRoot = await mkdtemp(path.join(tmpdir(), 'pyconhk-cms-routing-'));
   const tempWebsiteRoot = path.join(tempRoot, 'website');
-  await mkdir(tempWebsiteRoot);
-  await copyBuildInput(tempWebsiteRoot);
-
-  const futurePostDirectory = path.join(
-    tempWebsiteRoot,
-    'outstatic',
-    'content',
-    '2026-posts'
-  );
-  await mkdir(futurePostDirectory, { recursive: true });
-  await writeFile(path.join(futurePostDirectory, 'cms-route-fixture.en.mdx'), fixturePost);
-
   try {
-    await execFileAsync('bun', ['install'], {
-      cwd: tempWebsiteRoot,
-      env: process.env,
-      maxBuffer: 20 * 1024 * 1024,
-      timeout: 120_000,
-    });
+    await mkdir(tempWebsiteRoot);
+    await copyBuildInput(tempWebsiteRoot);
+
+    const futurePostDirectory = path.join(
+      tempWebsiteRoot,
+      'outstatic',
+      'content',
+      '2026-posts'
+    );
+    await mkdir(futurePostDirectory, { recursive: true });
+    for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+      await writeFile(
+        path.join(futurePostDirectory, `cms-route-fixture.${locale}.mdx`),
+        fixturePost
+      );
+    }
+    await writeFile(
+      path.join(futurePostDirectory, 'incomplete-fixture.en.mdx'),
+      fixturePost.replaceAll('cms-route-fixture', 'incomplete-fixture')
+    );
+
     await execFileAsync('bun', ['run', 'build'], {
       cwd: tempWebsiteRoot,
       env: {
@@ -93,8 +126,8 @@ test.describe('CMS news routing', () => {
         path.join(distRoot, '2026', 'en', 'news', 'cms-route-fixture.html'),
         'utf8'
       );
-      const futureFallbackHtml = await readFile(
-        path.join(distRoot, '2026', 'zh-hk', 'news', 'cms-route-fixture.html'),
+      const futureKoreanHtml = await readFile(
+        path.join(distRoot, '2026', 'ko', 'news', 'cms-route-fixture.html'),
         'utf8'
       );
       const existingDefaultHtml = await readFile(
@@ -108,7 +141,12 @@ test.describe('CMS news routing', () => {
       expect(futurePostHtml).toContain(
         'This future-year CMS post should build under its own localized year route.'
       );
-      expect(futureFallbackHtml).toContain('Future-Year CMS Fixture');
+      expect(futureKoreanHtml).toContain('Future-Year CMS Fixture');
+      expect(futureKoreanHtml).toContain('뉴스로 돌아가기');
+      expect(futurePostHtml).not.toContain('Register for your Ticket NOW!');
+      await expect(
+        readFile(path.join(distRoot, '2026/en/news/incomplete-fixture.html'))
+      ).rejects.toThrow();
       expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(redirects).toMatch(/^\/news\/\* \/2025\/news\/:splat 308$/mu);
       expect(sitemapXml).toContain(
@@ -117,6 +155,11 @@ test.describe('CMS news routing', () => {
       expect(sitemapXml).toContain(
         '<loc>https://pycon.hk/2026/zh-hk/news/cms-route-fixture</loc>'
       );
+      expect(sitemapXml).toContain(
+        '<loc>https://pycon.hk/2026/ko/news/cms-route-fixture</loc>'
+      );
+      expect(sitemapXml).not.toContain('incomplete-fixture');
+      expect(sitemapXml).not.toContain('/2025/ko/');
       expect(sitemapXml).toContain(
         '<loc>https://pycon.hk/2025/news/pre-event-notice</loc>'
       );

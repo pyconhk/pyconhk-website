@@ -1,0 +1,29 @@
+name: Validate CMS Editorial Boundary
+
+on:
+  pull_request_target:
+    branches: [cms]
+    types: [opened, synchronize, reopened, edited]
+
+# Run only the base branch checker. Never execute PR code with this trigger.
+permissions:
+  contents: read
+
+jobs:
+  pull_request_check:
+    name: CMS Content Boundary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate Decap editorial content boundary
+        env:
+          CMS_PR_HEAD: ${{ github.head_ref }}
+          CMS_PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          CMS_PR_BASE_REPO: ${{ github.repository }}
+          CMS_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CMS_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/check-cms-pr.mjs

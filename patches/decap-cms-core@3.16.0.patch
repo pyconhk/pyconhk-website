@@ -1,0 +1,21 @@
+diff --git a/dist/esm/components/Editor/EditorControlPane/EditorControlPane.js b/dist/esm/components/Editor/EditorControlPane/EditorControlPane.js
+--- a/dist/esm/components/Editor/EditorControlPane/EditorControlPane.js
++++ b/dist/esm/components/Editor/EditorControlPane/EditorControlPane.js
+@@ -104,7 +104,7 @@ export default class ControlPane extends React.Component {
+     this.setState({
+       selectedLocale: val
+     });
+-    this.props.onLocaleChange(val);
++    this.props.onLocaleChange?.(val);
+   };
+   copyFromOtherLocale = ({
+     targetLocale,
+diff --git a/src/components/Editor/EditorControlPane/EditorControlPane.js b/src/components/Editor/EditorControlPane/EditorControlPane.js
+--- a/src/components/Editor/EditorControlPane/EditorControlPane.js
++++ b/src/components/Editor/EditorControlPane/EditorControlPane.js
+@@ -114,4 +114,4 @@ export default class ControlPane extends React.Component {
+   handleLocaleChange = val => {
+     this.setState({ selectedLocale: val });
+-    this.props.onLocaleChange(val);
++    this.props.onLocaleChange?.(val);
+   };

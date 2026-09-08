@@ -4,50 +4,53 @@ on:
   pull_request:
     branches: [main, test, cms]
 
+permissions:
+  contents: read
+
 jobs:
   pull_request_check:
     name: Branch Rules
+    if: github.base_ref != 'cms'
     runs-on: ubuntu-latest
     steps:
       - name: Check PR branch rules
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
         run: |
           # Rule 1: Only test can merge to main.
           # The cms branch is promoted by the scheduled content workflow, not by PR.
-          if [ "${{ github.base_ref }}" == "main" ]; then
-            if [ "${{ github.head_ref }}" != "test" ]; then
+          if [ "$BASE_BRANCH" == "main" ]; then
+            if [ "$HEAD_BRANCH" != "test" ]; then
               echo "❌ Error: Only 'test' can merge to 'main'"
-              echo "Current source branch: ${{ github.head_ref }}"
-              echo "Target branch: ${{ github.base_ref }}"
+              echo "Current source branch: $HEAD_BRANCH"
+              echo "Target branch: $BASE_BRANCH"
               echo ""
               echo "Please merge code changes to 'test' first. CMS content is promoted by workflow."
               exit 1
             else
-              echo "✅ Valid: ${{ github.head_ref }} branch merging to main"
+              echo "✅ Valid: $HEAD_BRANCH branch merging to main"
             fi
 
-          # Rule 2: No branch can merge to cms
-          elif [ "${{ github.base_ref }}" == "cms" ]; then
-            echo "❌ Error: No branches can merge to 'cms'"
-            echo "Current source branch: ${{ github.head_ref }}"
-            echo "Target branch: ${{ github.base_ref }}"
-            echo ""
-            echo "The 'cms' branch is protected and should only be modified through the CMS interface"
-            exit 1
+          # Rule 2: Only validated Decap editorial content can merge to cms.
+          elif [ "$BASE_BRANCH" == "cms" ]; then
+            echo "Validated same-repository Decap editorial content targeting cms."
 
           # Rule 3: All other branches must merge to test
-          elif [ "${{ github.base_ref }}" != "test" ]; then
+          elif [ "$BASE_BRANCH" != "test" ]; then
             echo "❌ Error: All feature branches must merge to 'test'"
-            echo "Current source branch: ${{ github.head_ref }}"
-            echo "Target branch: ${{ github.base_ref }}"
+            echo "Current source branch: $HEAD_BRANCH"
+            echo "Target branch: $BASE_BRANCH"
             echo ""
             echo "Please change your pull request target to 'test' branch"
             exit 1
 
           # Valid case: Merging to test
           else
-            echo "✅ Valid: PR targeting 'test' from '${{ github.head_ref }}'"
+            echo "✅ Valid: PR targeting 'test' from '$HEAD_BRANCH'"
             echo "This follows the correct branching strategy"
           fi
+
 
   validate:
     name: Validate Monorepo

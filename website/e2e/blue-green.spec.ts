@@ -19,28 +19,28 @@ function cookieDomain(baseURL: string | undefined): string {
 const criticalPages = [
   {
     path: '/',
-    title: /PyCon HK 2026 CFP \| Many Voices, One Python Story/,
-    text: /Many Voices, One Python Story/u,
+    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
+    text: /Ride and Leverage with AI/u,
   },
   {
     path: '/2026/',
-    title: /PyCon HK 2026 CFP \| Many Voices, One Python Story/,
-    text: /Many Voices, One Python Story/u,
+    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
+    text: /Ride and Leverage with AI/u,
   },
   {
     path: '/en/',
-    title: /PyCon HK 2026 CFP/,
-    text: /Many Voices/u,
+    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
+    text: /Ride and Leverage with AI/u,
   },
   {
     path: '/zh-hk/',
-    title: /PyCon HK 2026 CFP/,
-    text: /多元聲音/u,
+    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
+    text: /Ride and Leverage with AI/u,
   },
   {
     path: '/2026/en/',
-    title: /PyCon HK 2026 CFP/,
-    text: /Many Voices/u,
+    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
+    text: /Ride and Leverage with AI/u,
   },
   {
     path: '/news/pre-event-notice/',
@@ -525,7 +525,7 @@ const legacy2024TitleCanonicalChecks = [
 ];
 
 test.describe('blue-green launch smoke', () => {
-  test('serves neutral entry pages like the live CFP page', async ({
+  test('serves neutral entry pages as the current conference homepage', async ({
     baseURL,
     context,
     page,
@@ -533,8 +533,8 @@ test.describe('blue-green launch smoke', () => {
     await context.clearCookies();
     await page.goto('/');
     expect(new URL(page.url()).pathname).toBe('/2026/en');
-    await expect(page).toHaveTitle(/PyCon HK 2026 CFP \| Many Voices, One Python Story/);
-    await expect(page.getByRole('heading', { name: /Many Voices/u })).toBeVisible();
+    await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
+    await expect(page.getByRole('heading', { name: /Ride and Leverage with AI/u })).toBeVisible();
 
     await context.clearCookies();
     await context.addCookies([
@@ -547,14 +547,14 @@ test.describe('blue-green launch smoke', () => {
     ]);
     await page.goto('/');
     expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
-    await expect(page).toHaveTitle(/PyCon HK 2026 CFP/);
-    await expect(page.getByRole('heading', { name: /多元聲音/u })).toBeVisible();
+    await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
+    await expect(page.getByRole('heading', { name: /Ride and Leverage with AI/u })).toBeVisible();
 
     await context.clearCookies();
     await page.goto('/2026/');
     expect(new URL(page.url()).pathname).toBe('/2026/en');
-    await expect(page).toHaveTitle(/PyCon HK 2026 CFP \| Many Voices, One Python Story/);
-    await expect(page.getByRole('heading', { name: /Many Voices/u })).toBeVisible();
+    await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
+    await expect(page.getByRole('heading', { name: /Ride and Leverage with AI/u })).toBeVisible();
   });
 
   for (const path of [
@@ -607,7 +607,7 @@ test.describe('blue-green launch smoke', () => {
       expect(redirect.status()).toBe(308);
       expect(normalizeRedirectLocation(redirect.headers().location)).toBe(check.to);
 
-      const response = await page.goto(check.to);
+      const response = await page.goto(check.to, { waitUntil: 'domcontentloaded' });
 
       expect(response?.status()).toBe(200);
       await expect(page).toHaveTitle(check.title);

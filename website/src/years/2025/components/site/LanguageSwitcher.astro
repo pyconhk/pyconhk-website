@@ -1,5 +1,5 @@
 ---
-import { locales, preferredLocaleCookie, type SiteLocale, type SiteYear } from '@/config/site';
+import { getLocalesForYear, preferredLocaleCookie, type SiteLocale, type SiteYear } from '@/config/site';
 import { buildLocaleSwitchPath } from '@/lib/routing';
 import Icon from '@/years/2025/components/ui/Icon.astro';
 
@@ -19,7 +19,7 @@ const {
   mobile = false,
 } = Astro.props;
 
-const items = locales.map(item => ({
+const items = getLocalesForYear(year).map(item => ({
   ...item,
   href: buildLocaleSwitchPath(currentPathname, year, item.code, fallbackSuffix),
   active: item.code === locale,

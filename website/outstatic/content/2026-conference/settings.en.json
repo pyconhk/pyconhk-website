@@ -1,0 +1,640 @@
+{
+  "slug": "settings",
+  "event": {
+    "status": "published",
+    "title": "PyCon HK 2026",
+    "theme": "Ride and Leverage with AI",
+    "datesLabel": "14–15 November 2026",
+    "startDate": "2026-11-14",
+    "endDate": "2026-11-15"
+  },
+  "tickets": {
+    "status": "draft",
+    "url": "",
+    "label": "",
+    "description": ""
+  },
+  "venue": {
+    "status": "draft",
+    "title": "",
+    "address": "",
+    "description": "",
+    "directions": "",
+    "wifi": "",
+    "mapImage": "",
+    "mapUrl": ""
+  },
+  "catering": {
+    "status": "draft",
+    "intro": "",
+    "items": []
+  },
+  "sprint": {
+    "status": "draft",
+    "intro": "",
+    "date": "",
+    "location": "",
+    "registrationUrl": "",
+    "items": []
+  },
+  "qa": {
+    "status": "draft",
+    "items": []
+  },
+  "sponsors": {
+    "status": "draft",
+    "items": []
+  },
+  "patrons": {
+    "status": "draft",
+    "items": []
+  },
+  "organizations": {
+    "status": "published",
+    "items": [
+      {
+        "name": "Hong Kong Python User Group",
+        "logo": "/2026/organizers-volunteers/organizers/hkpug.webp",
+        "url": "https://www.facebook.com/groups/hkpug",
+        "description": "The Hong Kong Python User Group is a vibrant community of Python enthusiasts dedicated to promoting the use of Python programming language in Hong Kong. Through regular meetups, workshops, and events, they foster a collaborative environment for learning and sharing knowledge about Python.",
+        "kind": "organizer",
+        "id": "organizations-1"
+      },
+      {
+        "name": "Open Source Hong Kong (OSHK) / 開源香港",
+        "logo": "/2026/organizers-volunteers/organizers/oshk.webp",
+        "url": "https://opensource.hk/",
+        "description": "Open Source Hong Kong (OSHK) is a long-running local community that promotes open source culture, collaboration, and practical technology sharing. Its work has helped create space for developers, educators, and organizers to build sustainable open communities in Hong Kong.",
+        "kind": "organizer",
+        "id": "organizations-2"
+      },
+      {
+        "name": "Hong Kong Creative Open Technology Association (HKCOTA) / 香港創意開放科技協會",
+        "logo": "/2026/organizers-volunteers/organizers/hkcota.webp",
+        "url": "https://hkcota.org/",
+        "description": "Founded in 2014, the Hong Kong Creative Open Technology Association (HKCOTA) is a non-profit, tax-exempt charitable organization. HKCOTA is dedicated to educating and promoting open standards, free and open-source software, open hardware, open data, and creative commons. By working closely with students and professionals, HKCOTA strives to advance the open technology movement in Hong Kong.",
+        "kind": "organizer",
+        "id": "organizations-3"
+      },
+      {
+        "name": "Agile HK",
+        "logo": "/2026/supporting-organizations/agile_hk.webp",
+        "url": "https://www.meetup.com/agile-hong-kong/",
+        "description": "Hong Kong meetup community for people who want to learn, practice, and share agile ideas together.",
+        "kind": "supporter",
+        "id": "organizations-4"
+      },
+      {
+        "name": "AWS User Group Hong Kong",
+        "logo": "/2026/supporting-organizations/aws_ug_hk.webp",
+        "url": "https://awsug.hk/",
+        "description": "Volunteer-led community for AWS learners and practitioners across talks, workshops, and networking sessions.",
+        "kind": "supporter",
+        "id": "organizations-5"
+      },
+      {
+        "name": "Dim Sum Labs",
+        "logo": "/2026/supporting-organizations/DimSumLab.webp",
+        "url": "https://www.dimsumlabs.com/",
+        "description": "Hong Kong's first Hackerspace, providing open creative spaces and resources for makers, coders, and artists.",
+        "kind": "supporter",
+        "id": "organizations-6"
+      },
+      {
+        "name": "HKACE - The Hong Kong Association for Computer Education",
+        "logo": "/2026/supporting-organizations/hkace.webp",
+        "url": "https://www.hkace.org.hk/",
+        "description": "Professional association supporting computer education, teachers, students, and technology learning in Hong Kong.",
+        "kind": "supporter",
+        "id": "organizations-7"
+      },
+      {
+        "name": "City University of Hong Kong Computer Science Student Chapter",
+        "logo": "/2026/supporting-organizations/cityu_cssc.webp",
+        "url": "https://www.cs.cityu.edu.hk/",
+        "description": "Student chapter fostering technical skills, hackathons, and industry exposure for aspiring computer scientists at CityU.",
+        "kind": "supporter",
+        "id": "organizations-8"
+      },
+      {
+        "name": "Codeaholics",
+        "logo": "/2026/supporting-organizations/codeaholics.webp",
+        "url": "https://www.facebook.com/codeaholics/",
+        "description": "Developer community focused on practical talks and workshops that connect local engineers in Hong Kong.",
+        "kind": "supporter",
+        "id": "organizations-9"
+      },
+      {
+        "name": "Department of Mathematics and Information Techonology, The EdUHK",
+        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.webp",
+        "url": "https://www.eduhk.hk/mit/en/",
+        "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",
+        "kind": "supporter",
+        "id": "organizations-10"
+      },
+      {
+        "name": "Google Developer Group Cloud Hong Kong",
+        "logo": "/2026/supporting-organizations/gdg_cloud_hk.webp",
+        "url": "https://gdg.community.dev/gdg-cloud-hong-kong/",
+        "description": "Community for developers exploring Google Cloud topics from machine learning to serverless and containers.",
+        "kind": "supporter",
+        "id": "organizations-11"
+      },
+      {
+        "name": "Google Developer Group Hong Kong",
+        "logo": "/2026/supporting-organizations/gdg_hk.webp",
+        "url": "https://gdg.community.dev/gdg-hong-kong/",
+        "description": "Long-running developer community sharing Google technologies through study groups, workshops, and DevFest events.",
+        "kind": "supporter",
+        "id": "organizations-12"
+      },
+      {
+        "name": "Hong Kong Wireless Technology Industry Association",
+        "logo": "/2026/supporting-organizations/wtia.webp",
+        "url": "https://hkwtia.org/",
+        "description": "Trade association helping advance wireless, mobile, and emerging technology communities in Hong Kong.",
+        "kind": "supporter",
+        "id": "organizations-13"
+      },
+      {
+        "name": "Internet Society Hong Kong",
+        "logo": "/2026/supporting-organizations/internet_society.webp",
+        "url": "https://www.isoc.hk/",
+        "description": "Advocates for an open, neutral, reliable, and accessible internet through standards, governance, and infrastructure work.",
+        "kind": "supporter",
+        "id": "organizations-14"
+      },
+      {
+        "name": "Japanese Raspberry Pi Users Group (Raspberry JAM Tokyo)",
+        "logo": "/2026/supporting-organizations/japan_rpi_ug.webp",
+        "url": "https://www.raspi.jp/",
+        "description": "Raspberry Pi community from Japan supporting hardware learning, making, and regional meetup collaboration.",
+        "kind": "supporter",
+        "id": "organizations-15"
+      },
+      {
+        "name": "Product Tank Hong Kong",
+        "logo": "/2026/supporting-organizations/ProductTank.webp",
+        "url": "https://www.mindtheproduct.com/producttank/hong-kong/",
+        "description": "Informal community meetups for product managers, UX designers, and tech leaders to share insights and build connections.",
+        "kind": "supporter",
+        "id": "organizations-16"
+      },
+      {
+        "name": "PyLadies Hong Kong",
+        "logo": "/2026/supporting-organizations/pyladies_hk.webp",
+        "url": "https://linktr.ee/pyladieshk",
+        "description": "Community that encourages women to participate, lead, and build lasting connections in Python and open source.",
+        "kind": "supporter",
+        "id": "organizations-17"
+      },
+      {
+        "name": "PyLadies Seoul / Korea",
+        "logo": "/2026/supporting-organizations/pyladies_seoul.webp",
+        "url": "https://pyladies-seoul.github.io/",
+        "description": "Korean chapter of PyLadies connecting female Python developers through study jams, workshops, and friendly meetups.",
+        "kind": "supporter",
+        "id": "organizations-18"
+      },
+      {
+        "name": "PyLadies Tokyo",
+        "logo": "/2026/supporting-organizations/pyladies_tokyo.webp",
+        "url": "https://tokyo.pyladies.com/",
+        "description": "Tokyo branch of PyLadies connecting Python practitioners through regular meetups and collaborative events.",
+        "kind": "supporter",
+        "id": "organizations-19"
+      },
+      {
+        "name": "Python Asia Organization",
+        "logo": "/2026/supporting-organizations/python_asia.webp",
+        "url": "https://pythonasia.org/",
+        "description": "Non-profit supporting regional Python conferences, leadership development, and cross-community collaboration across Asia.",
+        "kind": "supporter",
+        "id": "organizations-20"
+      },
+      {
+        "name": "Women Techmakers Hong Kong",
+        "logo": "/2026/supporting-organizations/WTMHK.webp",
+        "url": "https://www.womentechmakers.com/",
+        "description": "Google program providing visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
+        "kind": "supporter",
+        "id": "organizations-21"
+      }
+    ]
+  },
+  "people": {
+    "status": "published",
+    "items": [
+      {
+        "name": "Mr. Calvin Tsang",
+        "role": "Conference Chair",
+        "image": "/2026/organizers-volunteers/volunteers/calvin-tsang-compressed.webp",
+        "url": "https://www.linkedin.com/in/calvin-tyl/",
+        "id": "people-1"
+      },
+      {
+        "name": "Mr. Alex Au",
+        "role": "Conference Co-Chairs",
+        "image": "/2026/organizers-volunteers/volunteers/alex-au-compressed.webp",
+        "url": "https://www.linkedin.com/in/alex-au-606901206/",
+        "id": "people-2"
+      },
+      {
+        "name": "Ms. Daisy Maris Fung",
+        "role": "Conference Co-Chairs",
+        "image": "/2026/organizers-volunteers/volunteers/daisy-maris-fung-compressed.webp",
+        "url": "https://www.daisymarisfung.com/",
+        "id": "people-3"
+      },
+      {
+        "name": "Mr. Adrian Tam",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/adrian-tam-compressed.webp",
+        "url": "https://www.linkedin.com/in/adrian-tam-0666b08/",
+        "id": "people-4"
+      },
+      {
+        "name": "Ms. Cathy Hui",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "url": "",
+        "id": "people-5"
+      },
+      {
+        "name": "Ms. Cintia Ching",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "url": "",
+        "id": "people-6"
+      },
+      {
+        "name": "Mr. Henry Law",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/henry-law-compressed.webp",
+        "url": "",
+        "id": "people-7"
+      },
+      {
+        "name": "Ms. Janny Leung",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "url": "",
+        "id": "people-8"
+      },
+      {
+        "name": "Mr. Ka Ki Ting",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/ka-ki-ting-compressed.webp",
+        "url": "https://www.linkedin.com/in/tinglogy/",
+        "id": "people-9"
+      },
+      {
+        "name": "Ms. Maya Yan",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/maya-yan-compressed.webp",
+        "url": "https://www.linkedin.com/in/yantungmaya/",
+        "id": "people-10"
+      },
+      {
+        "name": "Mr. Ronald Yick",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/ronald-yick-compressed.webp",
+        "url": "https://www.linkedin.com/in/ronald-yick/",
+        "id": "people-11"
+      },
+      {
+        "name": "Mr. Scotty Kwok",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/scotty-kwok-compressed.webp",
+        "url": "https://www.linkedin.com/in/scottykwok/",
+        "id": "people-12"
+      },
+      {
+        "name": "Mr. Sky Ng",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/sky-ng-compressed.webp",
+        "url": "https://www.linkedin.com/in/sky-ng-ab307b252/",
+        "id": "people-13"
+      },
+      {
+        "name": "Mr. Ted Yuen",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/ted-yuen-compressed.webp",
+        "url": "https://www.linkedin.com/in/ted-yuen/",
+        "id": "people-14"
+      },
+      {
+        "name": "Mr. Tommy Han",
+        "role": "Organizing Committee Members",
+        "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
+        "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
+        "id": "people-15"
+      }
+    ]
+  },
+  "about": {
+    "status": "published",
+    "paragraphs": [
+      "PyCon Hong Kong (PyCon HK) is the leading Python conference in Hong Kong, bringing together Python enthusiasts to share their insights and foster collaboration. Among the 50+ PyCons hosted annually in various cities and countries worldwide, PyCon HK is proud to be one of them.",
+      "The founding of PyCon HK traces back to Sammy Fung, who drew inspiration from the PyCon APAC 2013 event in Tokyo. Sammy recognized that Hong Kong was missing out on this vital Python conference, despite PyCon being hosted in various Asian cities. Determined to fill this gap, Sammy collaborated with Open Source Hong Kong to organize the inaugural PyCon HK in 2015. Since then, PyCon HK has played a pivotal role in nurturing Python development and adoption within the city.",
+      "In 2026, PyCon Hong Kong continues its vibrant journey, celebrating the passion and creativity of the local and international Python community. Driven by dedicated volunteers, seasoned engineers, educators, and tech innovators, PyCon HK 2026 delivers an inspiring, high-impact event that connects Pythonistas, fosters open source collaboration, and empowers innovation worldwide."
+    ]
+  },
+  "sponsorship": {
+    "status": "published",
+    "intro": [
+      "PyCon HK 2026 presents an exceptional opportunity to connect with Hong Kong's most passionate Python developers, innovative tech leaders, and forward-thinking organizations.",
+      "As a sponsor, you'll be at the heart of Asia's premier Python conference, where cutting-edge ideas meet practical solutions. Join hundreds of enthusiastic developers, seasoned engineers, data scientists, and tech entrepreneurs who are shaping the future of technology in the region.",
+      "Your sponsorship doesn't just showcase your brand - it demonstrates your commitment to fostering innovation, supporting the open-source community, and driving technological advancement in Hong Kong and beyond."
+    ],
+    "benefits": [
+      {
+        "title": "Brand Visibility",
+        "description": "Increase visibility among tech professionals",
+        "id": "benefits-1"
+      },
+      {
+        "title": "Network",
+        "description": "Connect with industry leaders and potential clients",
+        "id": "benefits-2"
+      },
+      {
+        "title": "Community Support",
+        "description": "Support Python community growth in Hong Kong",
+        "id": "benefits-3"
+      }
+    ],
+    "plans": [
+      {
+        "name": "Diamond",
+        "tier": "diamond",
+        "fee": "HKD 70,000+",
+        "maxSlots": "1",
+        "features": [
+          {
+            "label": "Sponsored Talk(s)",
+            "value": "2 x 30-minute talks",
+            "id": "feature-1"
+          },
+          {
+            "label": "Booth Tables",
+            "value": "Double-Sized",
+            "id": "feature-2"
+          },
+          {
+            "label": "Speaker Podium",
+            "value": "Included",
+            "id": "feature-3"
+          },
+          {
+            "label": "Conference Rollup",
+            "value": "Extra Large",
+            "id": "feature-4"
+          },
+          {
+            "label": "YouTube Frame",
+            "value": "Extra Large",
+            "id": "feature-5"
+          },
+          {
+            "label": "Website",
+            "value": "Extra Large with write-up",
+            "id": "feature-6"
+          },
+          {
+            "label": "Rollup by Sponsor",
+            "value": "Included",
+            "id": "feature-7"
+          },
+          {
+            "label": "Ad During Break",
+            "value": "Included",
+            "id": "feature-8"
+          },
+          {
+            "label": "Pre-event Emails",
+            "value": "Included",
+            "id": "feature-9"
+          },
+          {
+            "label": "Press Releases",
+            "value": "Included",
+            "id": "feature-10"
+          },
+          {
+            "label": "Social Networks",
+            "value": "Included",
+            "id": "feature-11"
+          },
+          {
+            "label": "Opening & Closing",
+            "value": "Included",
+            "id": "feature-12"
+          }
+        ],
+        "id": "plans-1"
+      },
+      {
+        "name": "Platinum",
+        "tier": "platinum",
+        "fee": "HKD 44,000",
+        "maxSlots": "2",
+        "features": [
+          {
+            "label": "Sponsored Talk(s)",
+            "value": "30-minute talk",
+            "id": "feature-1"
+          },
+          {
+            "label": "Booth Tables",
+            "value": "Normal Size",
+            "id": "feature-2"
+          },
+          {
+            "label": "Conference Rollup",
+            "value": "Large",
+            "id": "feature-3"
+          },
+          {
+            "label": "YouTube Frame",
+            "value": "Large",
+            "id": "feature-4"
+          },
+          {
+            "label": "Website",
+            "value": "Large with write-up",
+            "id": "feature-5"
+          },
+          {
+            "label": "Rollup by Sponsor",
+            "value": "Included",
+            "id": "feature-6"
+          },
+          {
+            "label": "Ad During Break",
+            "value": "Included",
+            "id": "feature-7"
+          },
+          {
+            "label": "Pre-event Emails",
+            "value": "Included",
+            "id": "feature-8"
+          },
+          {
+            "label": "Press Releases",
+            "value": "Included",
+            "id": "feature-9"
+          },
+          {
+            "label": "Social Networks",
+            "value": "Included",
+            "id": "feature-10"
+          },
+          {
+            "label": "Opening & Closing",
+            "value": "Included",
+            "id": "feature-11"
+          }
+        ],
+        "id": "plans-2"
+      },
+      {
+        "name": "Gold",
+        "tier": "gold",
+        "fee": "HKD 22,000",
+        "maxSlots": "4",
+        "features": [
+          {
+            "label": "Sponsored Talk(s)",
+            "value": "15-minute talk",
+            "id": "feature-1"
+          },
+          {
+            "label": "Booth Tables",
+            "value": "Normal Size",
+            "id": "feature-2"
+          },
+          {
+            "label": "Conference Rollup",
+            "value": "Medium",
+            "id": "feature-3"
+          },
+          {
+            "label": "YouTube Frame",
+            "value": "Medium",
+            "id": "feature-4"
+          },
+          {
+            "label": "Website",
+            "value": "Medium",
+            "id": "feature-5"
+          },
+          {
+            "label": "Ad During Break",
+            "value": "+ HKD 3,100",
+            "id": "feature-6"
+          },
+          {
+            "label": "Pre-event Emails",
+            "value": "Included",
+            "id": "feature-7"
+          },
+          {
+            "label": "Press Releases",
+            "value": "Included",
+            "id": "feature-8"
+          },
+          {
+            "label": "Social Networks",
+            "value": "Included",
+            "id": "feature-9"
+          },
+          {
+            "label": "Opening & Closing",
+            "value": "Included",
+            "id": "feature-10"
+          }
+        ],
+        "id": "plans-3"
+      },
+      {
+        "name": "Silver",
+        "tier": "silver",
+        "fee": "HKD 11,000",
+        "maxSlots": "4",
+        "features": [
+          {
+            "label": "Booth Tables",
+            "value": "Normal Size",
+            "id": "feature-1"
+          },
+          {
+            "label": "Conference Rollup",
+            "value": "Regular",
+            "id": "feature-2"
+          },
+          {
+            "label": "YouTube Frame",
+            "value": "Regular",
+            "id": "feature-3"
+          },
+          {
+            "label": "Website",
+            "value": "Regular",
+            "id": "feature-4"
+          },
+          {
+            "label": "Ad During Break",
+            "value": "+ HKD 3,100",
+            "id": "feature-5"
+          },
+          {
+            "label": "Social Networks",
+            "value": "Included",
+            "id": "feature-6"
+          },
+          {
+            "label": "Opening & Closing",
+            "value": "Included",
+            "id": "feature-7"
+          }
+        ],
+        "id": "plans-4"
+      },
+      {
+        "name": "Bronze",
+        "tier": "bronze",
+        "fee": "HKD 6,000",
+        "maxSlots": "unlimited",
+        "features": [
+          {
+            "label": "Conference Rollup",
+            "value": "Small",
+            "id": "feature-1"
+          },
+          {
+            "label": "YouTube Frame",
+            "value": "Small",
+            "id": "feature-2"
+          },
+          {
+            "label": "Website",
+            "value": "Small",
+            "id": "feature-3"
+          },
+          {
+            "label": "Ad During Break",
+            "value": "+ HKD 3,100",
+            "id": "feature-4"
+          },
+          {
+            "label": "Opening & Closing",
+            "value": "Included",
+            "id": "feature-5"
+          }
+        ],
+        "id": "plans-5"
+      }
+    ]
+  }
+}

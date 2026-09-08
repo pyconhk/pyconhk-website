@@ -1,8 +1,8 @@
 import {
+  archiveLocales,
   archiveSocialImagePaths,
   currentConferenceYear,
   defaultLocale,
-  locales,
   type SiteLocale,
   siteUrl,
   socialImagePath,
@@ -37,7 +37,7 @@ type SeoLocale = {
 
 const archiveConferenceYear = 2025;
 const archiveRootAliases = new Set(['news']);
-const siteLocaleDefinitions = locales.map((locale) => ({
+const siteLocaleDefinitions = archiveLocales.map((locale) => ({
   code: locale.code,
   htmlLang: locale.htmlLang,
 })) satisfies SeoLocale[];

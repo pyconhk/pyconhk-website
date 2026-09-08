@@ -1,6 +1,6 @@
 import { preferredLocaleCookie } from '@/config/site';
 
-// Korean is CFP-only until it is supported across the full public site.
+// Public 2026 pages share the same six locales.
 export const supportedLocales = [
   'en',
   'zh-hk',

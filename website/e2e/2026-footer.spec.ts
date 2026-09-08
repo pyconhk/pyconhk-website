@@ -22,19 +22,19 @@ test.describe('site footers', () => {
   });
 
   for (const path of ['/', '/2026/en']) {
-    test(`renders the 2026 footer with the 2025 footer shell on ${path}`, async ({
+    test(`renders the 2026 footer with the 2026 footer shell on ${path}`, async ({
       page,
     }) => {
       const footer = await footerShell(path, page);
       const footerClasses = await footer.getAttribute('class');
 
-      expect(footerClasses).toContain('bg-slate-700');
+      expect(footerClasses).toContain('bg-[#293548]');
       expect(footerClasses).toContain('text-white');
       await expect(footer).toContainText('© 2026 PyCon Hong Kong. All rights reserved.');
       await expect(footer.getByRole('heading', { name: 'History' })).toBeVisible();
       await expect(footer.getByRole('link', { name: '2026' })).toHaveAttribute(
         'href',
-        '/2026'
+        '/2026/en/'
       );
       await expect(footer.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute(
         'href',
@@ -57,7 +57,7 @@ test.describe('site footers', () => {
   test('uses the canonical Simplified Chinese privacy route', async ({ page }) => {
     const footer = await footerShell('/2026/zh-hans', page);
 
-    await expect(footer.getByRole('link', { name: '隐私政策' })).toHaveAttribute(
+    await expect(footer.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute(
       'href',
       '/2026/zh-hans/privacy-policy'
     );

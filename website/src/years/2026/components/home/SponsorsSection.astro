@@ -1,54 +1,25 @@
 ---
+import { getConferenceContent } from '@/lib/conference-content';
+import { contentUi } from '@/years/2026/data/content-ui';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
 import { sponsorshipEmail } from '@/years/2026/site';
 
-interface Props {
-  locale: CfpLocale;
-}
-
+interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
+const { sponsors } = getConferenceContent(locale);
 const t = getTranslations(locale);
+const copy = contentUi[locale];
 ---
-
-<section class="py-16 sm:py-24 bg-[#FAF7F0] border-t border-[#172033]/10" id="sponsors">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
-    <!-- Header -->
-    <div class="max-w-3xl mx-auto space-y-3">
-      <p class="text-xs font-black uppercase tracking-widest text-[#2f559a]">
-        {t.sponsors.eyebrow}
-      </p>
-      <h2 class="ideal-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#141718] tracking-[-0.03em] leading-normal">
-        {t.sponsors.title}
-      </h2>
-      <p class="text-sm sm:text-base text-slate-700 leading-relaxed font-medium">
-        {t.sponsors.description}
-      </p>
-    </div>
-
-    <!-- 4 Tier Boxes Grid -->
-    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-      {t.sponsors.tiers.map((tier) => (
-        <div class="rounded-2xl border-2 border-[#172033] bg-white p-6 shadow-[4px_4px_0_#172033] flex items-center justify-center text-center transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0_#2f559a]">
-          <span class="text-sm sm:text-base font-bold text-[#172033]">
-            {tier.name}
-          </span>
-        </div>
-      ))}
-    </div>
-
-    <!-- Become a Sponsor CTA -->
-    <div class="mt-10">
-      <a
-        href={sponsorshipEmail}
-        class="inline-flex items-center gap-2 rounded-full border-2 border-[#172033] bg-white px-6 py-3 text-sm font-bold text-[#172033] shadow-[4px_4px_0_#172033] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-slate-50"
-      >
-        <span>{t.sponsors.prospectusCta}</span>
-        <svg class="h-4 w-4 text-[#d71920]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <title>Arrow Right</title>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-      </a>
-    </div>
+<section class="border-t border-[#172033]/10 bg-[#FAF7F0] py-16 sm:py-24" id="sponsors">
+  <div class="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-extrabold text-[#141718] sm:text-4xl">{copy.titles.sponsors}</h2>
+    <p class="mx-auto mt-4 max-w-3xl leading-relaxed text-slate-700">{t.sponsors.description}</p>
+    {sponsors.status === 'published' && sponsors.items.length > 0 && (
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-published-sponsors>
+        {sponsors.items.map((sponsor) => <article class="space-y-4 rounded-2xl border-2 border-[#172033] bg-white p-6 shadow-[4px_4px_0_#172033]"><p class="text-sm font-bold text-[#d71920]">{sponsor.tier}</p>{sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h3 class="font-bold">{sponsor.name}</h3>{sponsor.url && <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="text-[#2f559a] underline">{copy.visitWebsite}</a>}</article>)}
+      </div>
+    )}
+    <a href={sponsorshipEmail} class="mt-10 inline-flex rounded-full border-2 border-[#172033] bg-white px-6 py-3 font-bold text-[#172033] shadow-[4px_4px_0_#172033]">{copy.sponsorship}</a>
   </div>
 </section>

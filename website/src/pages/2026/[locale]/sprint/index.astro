@@ -1,0 +1,9 @@
+---
+import ConferenceContentPage from '@/years/2026/components/pages/ConferenceContentPage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/locales';
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({ params: { locale } }));
+}
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+<ConferenceContentPage locale={locale} kind="sprint" />

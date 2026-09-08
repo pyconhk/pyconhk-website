@@ -1,0 +1,16 @@
+---
+import { getConferenceContent } from '@/lib/conference-content';
+import { contentUi } from '@/years/2026/data/content-ui';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; className?: string; }
+const { locale, className = 'inline-flex rounded-full border-2 border-[#172033] bg-[#d71920] px-5 py-3 font-bold text-white' } = Astro.props;
+const { tickets } = getConferenceContent(locale);
+const copy = contentUi[locale];
+const available = tickets.status === 'published' && Boolean(tickets.url);
+---
+{available ? (
+  <a href={tickets.url} target="_blank" rel="noopener noreferrer" class={className} data-registration-link>{tickets.label || copy.register}</a>
+) : (
+  <span class:list={[className, 'cursor-default']} data-registration-pending>{copy.ticketsSoon}</span>
+)}

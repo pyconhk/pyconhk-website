@@ -15,7 +15,7 @@ export const socialHandle = '@pyconhk';
 
 export type SiteYear = 2025 | typeof currentConferenceYear;
 
-export const locales = [
+export const archiveLocales = [
   {
     code: 'en',
     label: 'English',
@@ -48,6 +48,17 @@ export const locales = [
   },
 ] as const;
 
+export const locales = [
+  ...archiveLocales,
+  {
+    code: 'ko',
+    label: 'Korean',
+    nativeLabel: '한국어',
+    htmlLang: 'ko-KR',
+  },
+] as const;
+
+export type ArchiveLocale = (typeof archiveLocales)[number]['code'];
 export type SiteLocale = (typeof locales)[number]['code'];
 export type LocalizedValue<T> = Partial<Record<SiteLocale, T>> & { en: T };
 
@@ -60,7 +71,12 @@ const localeFallbacks = {
   'zh-hant': ['zh-hant', 'en'],
   'zh-hans': ['zh-hans', 'zh-hant', 'en'],
   ja: ['ja', 'en'],
+  ko: ['ko', 'en'],
 } as const satisfies Record<SiteLocale, readonly SiteLocale[]>;
+
+export function getLocalesForYear(year: number) {
+  return year >= 2026 ? locales : archiveLocales;
+}
 
 export function isSupportedLocale(value: string): value is SiteLocale {
   return locales.some((locale) => locale.code === value);

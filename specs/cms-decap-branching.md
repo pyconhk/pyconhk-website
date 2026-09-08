@@ -29,6 +29,23 @@ This keeps code changes reviewable before production.
 
 This lets marketing users publish content without opening developer pull requests, while still preventing arbitrary code changes from reaching production through the CMS branch.
 
+Decap's editorial workflow opens same-repository `cms/*` pull requests into
+`cms`. `CMS Content Boundary` accepts those PRs only when their immutable commit
+diff contains CMS-owned paths. It runs from the trusted base branch using a
+read-only `pull_request_target` workflow and never executes PR code. Configure
+that check and `Validate Monorepo` as required checks on `cms` before enabling
+editorial publication. Full locale and website validation still runs. Drafts
+may be incomplete; publishing a 2026 item requires all six locale variants.
+
+**Deployment prerequisite:** `main` currently requires an approved PR and has no
+bypass actor. The promotion workflow's direct push cannot succeed under those
+rules with `GITHUB_TOKEN` or an ordinary maintainer token. A repository owner must
+approve a dedicated promotion identity and its narrowly scoped rule exception,
+or choose a reviewed PR publishing flow. Do not disable review rules globally or
+claim that supplying any PAT alone fixes this. Once a validated push succeeds,
+the workflow explicitly calls the shared website deployment workflow; it does
+not depend on a `GITHUB_TOKEN` push starting another workflow.
+
 ## CMS-Owned Paths
 
 Decap is configured to write to the target top-level monorepo layout:
@@ -52,7 +69,7 @@ CMS_ACCESS_REPO=pyconhk/pyconhk-website
 CMS_CONTENT_ROOT=website/outstatic/content
 CMS_MEDIA_FOLDER=website/public/outstatic/images
 CMS_PUBLIC_FOLDER=/outstatic/images
-CMS_LOCALES=en,zh-hk,zh-hant,zh-hans,ja
+CMS_LOCALES=en,zh-hk,zh-hant,zh-hans,ja,ko
 CMS_DEFAULT_LOCALE=en
 ```
 
@@ -65,6 +82,17 @@ Decap exposes one folder collection per conference year. The current
 configuration has `2026 Posts` at `website/outstatic/content/2026-posts` and
 `2025 Posts` at `website/outstatic/content/2025-posts`. The folder determines the
 year, so `collectionYear` is not duplicated in post frontmatter.
+The 2025 collection overrides i18n to its existing five locales. The 2026
+conference collection uses `2026-conference/settings.<locale>.json`, with shared
+dates, IDs, URLs, media and order. Event, tickets, venue, catering, sprint, Q&A,
+about, people, organizations, sponsorship and sponsors have explicit draft or
+published states. Existing test-branch people and sponsorship material is seeded
+as drafts for this year's confirmation. Changing a section to published requires
+complete text in all six locales and matching shared data.
+
+Policy pages use a single English source across all current-year locales and
+are outside the translation gate. Public Pretalx titles and abstracts retain
+their original language; the timetable controls are translated.
 
 The versioned values above live in `cms/wrangler.jsonc`. GitHub OAuth client
 credentials are Cloudflare Worker secrets named `CMS_GITHUB_CLIENT_ID` and

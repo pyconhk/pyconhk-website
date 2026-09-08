@@ -9,41 +9,19 @@ interface Props {
 const { locale } = Astro.props;
 const privacyHref = `/2026/${locale}/privacy-policy`;
 
-const footerCopy =
-  locale === 'zh-hk' || locale === 'zh-hant'
-    ? {
-        followUs: 'Follow Us',
-        history: 'History',
-        copyright: '© 2026 PyCon Hong Kong. All rights reserved.',
-        privacyPolicy: 'Privacy Policy',
-      }
-    : locale === 'zh-hans'
-      ? {
-          followUs: 'Follow Us',
-          history: 'History',
-          copyright: '© 2026 PyCon Hong Kong. All rights reserved.',
-          privacyPolicy: 'Privacy Policy',
-        }
-      : locale === 'ja'
-        ? {
-            followUs: 'Follow Us',
-            history: 'History',
-            copyright: '© 2026 PyCon Hong Kong. All rights reserved.',
-            privacyPolicy: 'Privacy Policy',
-          }
-        : locale === 'ko'
-          ? {
-              followUs: 'Follow Us',
-              history: 'History',
-              copyright: '© 2026 PyCon Hong Kong. All rights reserved.',
-              privacyPolicy: 'Privacy Policy',
-            }
-          : {
-              followUs: 'Follow Us',
-              history: 'History',
-              copyright: '© 2026 PyCon Hong Kong. All rights reserved.',
-              privacyPolicy: 'Privacy Policy',
-            };
+const footerLabels = {
+  en: { followUs: 'Follow Us', history: 'History' },
+  'zh-hk': { followUs: '追蹤我哋', history: '歷屆大會' },
+  'zh-hant': { followUs: '追蹤我們', history: '歷屆大會' },
+  'zh-hans': { followUs: '关注我们', history: '历届大会' },
+  ja: { followUs: 'フォローする', history: '過去の開催' },
+  ko: { followUs: '팔로우', history: '지난 행사' },
+};
+const footerCopy = {
+  ...footerLabels[locale],
+  copyright: '© 2026 PyCon Hong Kong. All rights reserved.',
+  privacyPolicy: 'Privacy Policy',
+};
 
 const socialLinks = [
   {

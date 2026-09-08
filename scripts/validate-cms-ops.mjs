@@ -59,15 +59,26 @@ function validateRootMiseTasks() {
 function validatePrWorkflow() {
   requireIncludes(".github/workflows/pr-check.yml", [
     "branches: [main, test, cms]",
-    'if [ "${{ github.base_ref }}" == "main" ]; then',
-    'if [ "${{ github.head_ref }}" != "test" ]; then',
-    'elif [ "${{ github.base_ref }}" == "cms" ]; then',
+    "name: Branch Rules",
+    'if [ "$BASE_BRANCH" == "main" ]; then',
+    'if [ "$HEAD_BRANCH" != "test" ]; then',
     "mise run install",
     "mise run validate-cms-ops",
     "mise run check-cms-release",
     "mise run '//...:check'",
     "mise run '//website:build'",
     "mise run '//cms:deploy-dry-run'",
+  ]);
+  requireIncludes(".github/workflows/branch-rules.yml", [
+    "pull_request_target:",
+    "ref: ${{ github.event.pull_request.base.sha }}",
+    "persist-credentials: false",
+    "contents: read",
+    "name: CMS Content Boundary",
+    "branches: [cms]",
+    "node scripts/check-cms-pr.mjs",
+    "CMS_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}",
+    "CMS_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}",
   ]);
 }
 
@@ -84,6 +95,9 @@ function validatePromotionWorkflow() {
     "mise run //website:build",
     "mise run check-cms-content",
     'git push origin HEAD:"${PRODUCTION_BRANCH}"',
+    "uses: ./.github/workflows/deploy-website-reusable.yml",
+    "if: needs.promote.outputs.promoted == 'true'",
+    "target: production",
   ]);
 }
 
@@ -118,9 +132,13 @@ function validateDecapDefaults() {
     "i18n: true",
     'extension: "mdx"',
     'format: "frontmatter"',
-    '{ label: "Body", name: "body", widget: "markdown", i18n: true }',
+    'name: "conference_2026"',
+    'folder: `${contentRoot}/2026-conference`',
+    'extension: "json"',
+    "fields: createConferenceFields()",
   ]);
   requireExcludes("cms/src/lib/cms-config.ts", ["collectionYear"]);
+  requireMatch("cms/src/lib/cms-config.ts", /name: "body",\s+widget: "markdown",\s+required: false,\s+i18n: true/u, "allow localized body drafts");
 
   requireIncludes("cms/src/pages/admin/config.yml.ts", [
     'name: "github"',
@@ -192,7 +210,7 @@ function validateBranchingSpec() {
     "CMS_CONTENT_ROOT=website/outstatic/content",
     "CMS_MEDIA_FOLDER=website/public/outstatic/images",
     "CMS_PUBLIC_FOLDER=/outstatic/images",
-    "CMS_LOCALES=en,zh-hk,zh-hant,zh-hans,ja",
+    "CMS_LOCALES=en,zh-hk,zh-hant,zh-hans,ja,ko",
     "`cms.pycon.hk` deploys the CMS app from `main`",
     "mise run //cms:deploy-dry-run",
     "locale-coded files",
@@ -201,12 +219,38 @@ function validateBranchingSpec() {
   ]);
 }
 
+function validateWebsiteDeployment() {
+  requireIncludes(".github/workflows/deploy-website.yml", [
+    "branches: [main, test, alex-dev]",
+    'cron: "2-59/5 * * * *"',
+    "workflow_dispatch:",
+    "uses: ./.github/workflows/deploy-website-reusable.yml",
+  ]);
+  requireIncludes(".github/workflows/deploy-website-reusable.yml", [
+    "runs-on: ubuntu-latest",
+    "group: website-deploy-${{ inputs.target }}",
+    "cancel-in-progress: false",
+    "steps.prepare.outputs.changed == 'true'",
+    "node scripts/check-cms-content-locales.mjs",
+    "PROGRAMME_SNAPSHOT_PATH:",
+    "PROGRAMME_SOURCE_EVENT:",
+    "mise run //website:typecheck",
+    "mise run //website:build",
+    "git ls-remote origin",
+    'bun x wrangler pages deploy dist --project-name "$PROJECT" --branch "$BRANCH"',
+    'website-deployment.mjs verify "$TARGET" "$MANIFEST_PATH"',
+  ]);
+  assert.equal(fs.existsSync(path.join(repoRoot, "website/src/years/2026/data/sessions.json")), false,
+    "Internal submission exports must not be included in website sources");
+}
+
 validateRootMiseTasks();
 validatePrWorkflow();
 validatePromotionWorkflow();
 validateDecapDefaults();
 validateCloudflareDeployment();
 validateBranchingSpec();
+validateWebsiteDeployment();
 requireMatch(
   ".github/workflows/cms-promote.yml",
   /changed_files="\$\(git diff --name-only "origin\/\$\{PRODUCTION_BRANCH\}\.\.\.origin\/\$\{CMS_BRANCH\}"\)"/u,

@@ -19,7 +19,9 @@
     "format:check": "biome format package.json astro.config.mjs playwright.config.ts tsconfig.json biome.json functions src scripts e2e",
     "capture:legacy-2024": "node scripts/capture-legacy-2024-snapshots.mjs",
     "validate:news": "bun scripts/validate-news.mjs",
-    "test:news": "node --test scripts/validate-news.test.mjs && bun test scripts/news-rendering.test.mjs",
+    "test:news": "node --test scripts/validate-news.test.mjs scripts/news-publication.test.mjs && bun test scripts/news-rendering.test.mjs",
+    "test:conference": "bun test src/lib/conference-content.test.ts",
+    "test:programme": "node --test scripts/programme-snapshot.test.mjs scripts/schedule-interactions.test.mjs",
     "test:legacy-html": "bun test scripts/legacy-html-policy.test.mjs",
     "test:legacy-2015": "bun run build && bun test scripts/legacy-2015-route-contract.test.mjs scripts/legacy-2015-pixel-diff.test.mjs",
     "test:legacy-2016": "bun run build && bun test scripts/legacy-2016-route-contract.test.mjs scripts/legacy-2016-pixel-diff.test.mjs",
@@ -34,7 +36,7 @@
     "parity:2015": "bun scripts/legacy-2015-live-parity.mjs",
     "diff:2015": "bun scripts/legacy-2015-pixel-diff.mjs",
     "diff:2016": "bun scripts/legacy-2016-pixel-diff.mjs",
-    "check": "astro check && bun run lint && bun run test:news && bun run test:legacy-html && bun run test:archive-contracts && bun run validate:news"
+    "check": "astro check && bun run lint && bun run test:news && bun run test:conference && bun run test:programme && bun run test:legacy-html && bun run test:archive-contracts && bun run validate:news"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

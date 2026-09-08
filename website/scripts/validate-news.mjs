@@ -4,7 +4,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 
-const supportedLocales = new Set(['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja']);
+const archiveLocales = new Set(['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja']);
+const supportedLocales = new Set([...archiveLocales, 'ko']);
 const publishedStatuses = new Set(['draft', 'published']);
 const maxDescriptionLength = 240;
 const currentHomepagePattern = /^\/(?:en|zh-hk|zh-hant|zh-hans|ko|ja)\/?$/u;
@@ -50,6 +51,30 @@ const known2025Subpages = new Set([
   'sprint/qna',
 ]);
 const known2025QnaLocales = new Set(['en', 'zh-hk']);
+const known2026Sections = new Set([
+  '',
+  'about',
+  'cfp',
+  'news',
+  'schedule',
+  'privacy-policy',
+  'code-of-conduct',
+  'code-of-conduct/attendee-reporting',
+  'code-of-conduct/staff-procedures',
+  'organizers',
+  'organizers/volunteers',
+  'volunteers',
+  'organizations',
+  'communities',
+  'supporting-organizations',
+  'sponsorships',
+  'sponsorships/opportunities',
+  'sponsorships/patrons',
+  'access-guide',
+  'catering-guide',
+  'sprint',
+  'sprint/qna',
+]);
 
 function isBlank(value) {
   return typeof value !== 'string' || value.trim() === '';
@@ -65,7 +90,7 @@ function parseCollectionDirectoryName(name) {
 }
 
 function parsePostFilename(name) {
-  const match = name.match(/^(.+)\.(en|zh-hk|zh-hant|zh-hans|ja)\.mdx$/u);
+  const match = name.match(/^(.+)\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.(?:md|mdx)$/u);
   if (!match) {
     return null;
   }
@@ -183,7 +208,9 @@ function isKnown2025Route(urlPath, knownPostRoutes) {
   }
 
   if (routeSegments[0] === 'news') {
-    return routeSegments.length === 1 || knownPostRoutes.has(normalizeRoutePath(urlPath));
+    return (
+      routeSegments.length === 1 || knownPostRoutes.has(normalizeRoutePath(urlPath))
+    );
   }
 
   const section = sectionAliases.get(routeSegments[0]) ?? routeSegments[0];
@@ -217,8 +244,8 @@ function isKnown2026Route(urlPath) {
   return (
     segments[0] === '2026' &&
     (segments.length === 1 ||
-      (segments.length === 2 &&
-        (supportedLocales.has(segments[1]) || segments[1] === 'ko')))
+      (supportedLocales.has(segments[1]) &&
+        known2026Sections.has(segments.slice(2).join('/'))))
   );
 }
 
@@ -262,6 +289,7 @@ function validateFrontmatter({
   year,
 }) {
   const slug = normalizeSlug(data.slug) || filenameSlug;
+  const isPublished = data.status === 'published';
   const slugKey = `${year}:${locale}:${slug}`;
 
   if (seenSlugs.has(slugKey)) {
@@ -271,16 +299,18 @@ function validateFrontmatter({
   }
 
   if (slug !== filenameSlug) {
-    errors.push(`${fileLabel}: slug "${slug}" does not match filename "${filenameSlug}"`);
+    errors.push(
+      `${fileLabel}: slug "${slug}" does not match filename "${filenameSlug}"`
+    );
   }
 
-  if (isBlank(data.title)) {
+  if (isPublished && isBlank(data.title)) {
     errors.push(`${fileLabel}: missing required title`);
   }
 
-  if (isBlank(data.description)) {
+  if (isPublished && isBlank(data.description)) {
     errors.push(`${fileLabel}: missing required description`);
-  } else {
+  } else if (!isBlank(data.description)) {
     const description = data.description.trim();
 
     if (description.length > maxDescriptionLength) {
@@ -302,9 +332,9 @@ function validateFrontmatter({
     errors.push(`${fileLabel}: invalid publishedAt`);
   }
 
-  if (isBlank(data.coverImage)) {
+  if (isPublished && isBlank(data.coverImage)) {
     errors.push(`${fileLabel}: missing required coverImage`);
-  } else {
+  } else if (!isBlank(data.coverImage)) {
     const coverImage = normalizeCoverImage(data.coverImage);
 
     if (
@@ -316,20 +346,27 @@ function validateFrontmatter({
     }
   }
 
+  const validTags = Array.isArray(data.tags) && data.tags.every((tag) => !isBlank(tag));
   if (
-    !Array.isArray(data.tags) ||
-    data.tags.length === 0 ||
-    data.tags.some((tag) => isBlank(tag))
+    (isPublished && (!validTags || data.tags.length === 0)) ||
+    (data.tags !== undefined && !validTags)
   ) {
     errors.push(`${fileLabel}: missing required tags`);
   }
 
-  if (isBlank(content)) {
+  if (isPublished && isBlank(content)) {
     errors.push(`${fileLabel}: missing body content`);
   }
 }
 
 function addKnownPostRoutes(knownPostRoutes, { slug, year }) {
+  if (year === 2026) {
+    for (const locale of supportedLocales) {
+      knownPostRoutes.add(normalizeRoutePath(`/2026/${locale}/news/${slug}`));
+    }
+    return;
+  }
+
   if (year !== 2025) {
     return;
   }
@@ -338,7 +375,13 @@ function addKnownPostRoutes(knownPostRoutes, { slug, year }) {
   knownPostRoutes.add(normalizeRoutePath(`/2025/news/${slug}`));
 }
 
-function validateInternalLinks({ content, errors, fileLabel, knownPostRoutes, publicRoot }) {
+function validateInternalLinks({
+  content,
+  errors,
+  fileLabel,
+  knownPostRoutes,
+  publicRoot,
+}) {
   for (const link of extractInternalLinks(content)) {
     if (
       isExistingPublicAsset(link, publicRoot) ||
@@ -352,8 +395,7 @@ function validateInternalLinks({ content, errors, fileLabel, knownPostRoutes, pu
 }
 
 function validateRawHtmlPolicy({ content, errors, fileLabel }) {
-  const rawHtmlTagPattern =
-    /<\/?([A-Za-z][A-Za-z0-9:-]*)(?:\s[^<>]*|\/?)>/gu;
+  const rawHtmlTagPattern = /<\/?([A-Za-z][A-Za-z0-9:-]*)(?:\s[^<>]*|\/?)>/gu;
   const eventHandlerPattern = /\son[A-Za-z]+\s*=/gu;
   const javascriptUrlPattern = /\b(?:href|src)\s*=\s*["']?\s*javascript:/giu;
   const seenTags = new Set();
@@ -373,7 +415,10 @@ function validateRawHtmlPolicy({ content, errors, fileLabel }) {
   }
 
   for (const match of content.matchAll(eventHandlerPattern)) {
-    const handlerName = match[0].trim().replace(/\s*=.*$/u, '').toLowerCase();
+    const handlerName = match[0]
+      .trim()
+      .replace(/\s*=.*$/u, '')
+      .toLowerCase();
 
     if (!seenEventHandlers.has(handlerName)) {
       errors.push(`${fileLabel}: raw HTML event handler ${handlerName} is not allowed`);
@@ -400,7 +445,7 @@ export async function validateNewsContent({
     const entries = await readdir(directory.path, { withFileTypes: true });
 
     for (const entry of entries) {
-      if (!entry.isFile() || !entry.name.endsWith('.mdx')) {
+      if (!entry.isFile() || !/\.mdx?$/u.test(entry.name)) {
         continue;
       }
 
@@ -408,8 +453,11 @@ export async function validateNewsContent({
       const filePath = path.join(directory.path, entry.name);
       const fileLabel = path.relative(process.cwd(), filePath);
 
-      if (!parsedFilename || !supportedLocales.has(parsedFilename.locale)) {
-        errors.push(`${fileLabel}: filename must be slug.locale.mdx`);
+      const yearLocales = directory.year >= 2026 ? supportedLocales : archiveLocales;
+      if (!parsedFilename || !yearLocales.has(parsedFilename.locale)) {
+        errors.push(
+          `${fileLabel}: filename must be slug.locale.mdx with a supported locale for ${directory.year}`
+        );
         continue;
       }
 

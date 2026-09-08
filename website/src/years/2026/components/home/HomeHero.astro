@@ -1,7 +1,8 @@
 ---
+import { getConferenceContent } from '@/lib/conference-content';
+import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
-import { registrationUrl } from '@/years/2026/site';
 
 interface Props {
   locale: CfpLocale;
@@ -9,6 +10,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getTranslations(locale);
+const content = getConferenceContent(locale);
 ---
 
 <section class="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-24 lg:pt-16 lg:pb-28">
@@ -76,8 +78,8 @@ const t = getTranslations(locale);
 
     <!-- 3. Main Title & Subtitle (Fade Entrance Step 3) -->
     <div class="hero-fade-3 mt-10 sm:mt-12 max-w-4xl space-y-4">
-      <h1 class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-[#141718] whitespace-nowrap">
-        {t.hero.headline}
+      <h1 class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-[#141718]">
+        {content.event.status === 'published' ? content.event.theme : t.hero.headline}
       </h1>
       {t.hero.headlineAccent && (
         <p class="text-xl sm:text-2xl font-bold text-[#d71920]">
@@ -90,23 +92,13 @@ const t = getTranslations(locale);
     </div>
 
     <!-- 4. Hero Action Buttons (Fade Entrance Step 4) -->
-    <div class="hero-fade-4 mt-8 flex items-center justify-center gap-4">
-      <a
-        href={registrationUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex h-13 w-13 items-center justify-center rounded-full bg-[#d71920] text-white border-2 border-[#172033] transition-all hover:scale-105 hover:bg-[#c0151c]"
-        aria-label={t.hero.registerCta}
-        title={t.hero.registerCta}
-      >
-        <svg class="h-6 w-6 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <title>Register or Submit Proposal</title>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-        </svg>
-      </a>
+    <div class="hero-fade-4 mt-8 flex flex-wrap items-center justify-center gap-4">
+      <RegistrationButton locale={locale} />
 
       <a
-        href={`/2026/${locale}/schedule/`}
+        href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong"
+        target="_blank"
+        rel="noopener noreferrer"
         class="group flex h-13 w-13 items-center justify-center rounded-full bg-white dark:bg-[#131b2e] text-[#172033] dark:text-white border-2 border-[#172033] dark:border-slate-700 transition-all hover:scale-105 hover:bg-slate-50 dark:hover:bg-slate-800"
         aria-label={t.hero.calendarCta}
         title={t.hero.calendarCta}
@@ -123,11 +115,11 @@ const t = getTranslations(locale);
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-[#172033]/15 text-left">
         <div class="sm:px-4 sm:first:pl-0">
           <p class="text-xs font-black uppercase tracking-wider text-[#2f559a]">{t.hero.whenLabel}</p>
-          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{t.hero.whenValue}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{content.event.status === 'published' ? content.event.datesLabel : t.hero.whenValue}</p>
         </div>
         <div class="pt-3 sm:pt-0 sm:px-4">
           <p class="text-xs font-black uppercase tracking-wider text-[#2f559a]">{t.hero.whereLabel}</p>
-          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{t.hero.whereValue}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-[#172033]">{content.venue.status === 'published' ? content.venue.title : t.hero.whereValue}</p>
         </div>
         <div class="pt-3 sm:pt-0 sm:px-4 sm:last:pr-0">
           <p class="text-xs font-black uppercase tracking-wider text-[#2f559a]">{t.hero.forLabel}</p>

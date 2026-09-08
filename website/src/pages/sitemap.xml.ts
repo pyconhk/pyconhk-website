@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
-import { currentConferenceYear, locales, type SiteLocale } from '@/config/site';
+import { currentConferenceYear, type SiteLocale } from '@/config/site';
 import { migratedTopLevelRouteTargets } from '@/legacy/migrated-routes';
 import { canonicalLegacyHighlights } from '@/legacy/year-highlights';
-import { getAvailablePostYears, getPublishedPostSlugs } from '@/lib/news';
+import { getPublishedPostSlugs } from '@/lib/news';
 import { buildLocalizedCanonicalPath, toAbsoluteSiteUrl } from '@/lib/seo';
 import routeContract2016 from '@/years/2016/data/routes.json';
 import routeContract2017 from '@/years/2017/data/routes.json';
@@ -26,11 +26,6 @@ type SitemapEntry = {
 
 type SitemapLocale = {
   code: SiteLocale | CfpLocale;
-  htmlLang: string;
-};
-
-type SiteSitemapLocale = {
-  code: SiteLocale;
   htmlLang: string;
 };
 
@@ -118,39 +113,10 @@ function uniqueEntries(entries: SitemapEntry[]): SitemapEntry[] {
   });
 }
 
-function buildYearOwnedPath(year: number, locale: SiteLocale, suffix: string): string {
-  const normalizedSuffix = suffix.replace(/^\/+|\/+$/g, '');
-
-  return `/${[String(year), locale, normalizedSuffix].filter(Boolean).join('/')}`;
-}
-
 function buildDefaultYearPath(year: number, suffix: string): string {
   const normalizedSuffix = suffix.replace(/^\/+|\/+$/g, '');
 
   return `/${[String(year), normalizedSuffix].filter(Boolean).join('/')}`;
-}
-
-function buildYearOwnedEntry(
-  year: number,
-  locale: SiteLocale,
-  suffix: string,
-  sitemapLocales: readonly SiteSitemapLocale[]
-): SitemapEntry {
-  const alternates = sitemapLocales.map((alternateLocale) => ({
-    href: toAbsoluteSiteUrl(buildYearOwnedPath(year, alternateLocale.code, suffix)),
-    hreflang: alternateLocale.htmlLang,
-  }));
-
-  return {
-    alternates: [
-      ...alternates,
-      {
-        href: toAbsoluteSiteUrl(buildYearOwnedPath(year, 'en', suffix)),
-        hreflang: 'x-default',
-      },
-    ],
-    loc: toAbsoluteSiteUrl(buildYearOwnedPath(year, locale, suffix)),
-  };
 }
 
 function serializeEntry(entry: SitemapEntry): string {
@@ -170,18 +136,37 @@ function serializeEntry(entry: SitemapEntry): string {
 }
 
 export const GET: APIRoute = async () => {
-  const availablePostYears = await getAvailablePostYears();
-  const postSlugs = await getPublishedPostSlugs(conferenceYear);
+  const [postSlugs, currentPostSlugs] = await Promise.all([
+    getPublishedPostSlugs(conferenceYear),
+    getPublishedPostSlugs(currentConferenceYear),
+  ]);
   const currentYearLocales = cfpLocales.map((locale) => ({
     code: locale,
     htmlLang: cfpLocaleMetadata[locale].htmlLang,
   })) satisfies SitemapLocale[];
-  const archiveYearLocales = locales.map((locale) => ({
-    code: locale.code,
-    htmlLang: locale.htmlLang,
-  })) satisfies SiteSitemapLocale[];
   const currentYearEntries = currentYearLocales.flatMap((locale) =>
-    ['', 'privacy-policy'].map((suffix) =>
+    [
+      '',
+      'about',
+      'cfp',
+      'news',
+      'schedule',
+      'privacy-policy',
+      'code-of-conduct',
+      'code-of-conduct/attendee-reporting',
+      'code-of-conduct/staff-procedures',
+      'organizers',
+      'volunteers',
+      'supporting-organizations',
+      'sponsorships',
+      'sponsorships/opportunities',
+      'sponsorships/patrons',
+      'access-guide',
+      'catering-guide',
+      'sprint',
+      'sprint/qna',
+      ...currentPostSlugs.map((slug) => `news/${slug}`),
+    ].map((suffix) =>
       buildEntry(currentConferenceYear, locale.code, suffix, currentYearLocales)
     )
   );
@@ -197,21 +182,6 @@ export const GET: APIRoute = async () => {
   const archiveYearEntries = archiveYearSuffixes.map((suffix) =>
     buildStaticEntry(buildDefaultYearPath(conferenceYear, suffix))
   );
-  const cmsPostEntries = (
-    await Promise.all(
-      availablePostYears
-        .filter((year) => year !== conferenceYear)
-        .map(async (year) => {
-          const slugs = await getPublishedPostSlugs(year);
-
-          return archiveYearLocales.flatMap((locale) =>
-            slugs.map((slug) =>
-              buildYearOwnedEntry(year, locale.code, `news/${slug}`, archiveYearLocales)
-            )
-          );
-        })
-    )
-  ).flat();
   const legacyYearEntries = legacyYearPaths.map(buildStaticEntry);
   const legacy2016MicrositeEntries = legacy2016MicrositePaths.map(buildStaticEntry);
   const legacy2017MicrositeEntries = legacy2017MicrositePaths.map(buildStaticEntry);
@@ -224,7 +194,6 @@ export const GET: APIRoute = async () => {
   const entries = uniqueEntries([
     ...currentYearEntries,
     ...archiveYearEntries,
-    ...cmsPostEntries,
     ...legacyYearEntries,
     ...legacy2016MicrositeEntries,
     ...legacy2017MicrositeEntries,

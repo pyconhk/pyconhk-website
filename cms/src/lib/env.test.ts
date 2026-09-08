@@ -21,9 +21,10 @@ describe("CMS environment normalization", () => {
     ]);
 
     assert.throws(
-      () => normalizeCmsLocales("en,ko"),
-      /Unsupported CMS locale "ko"/u,
+      () => normalizeCmsLocales("en,fr"),
+      /Unsupported CMS locale "fr"/u,
     );
+    assert.deepEqual(normalizeCmsLocales("en,ko"), ["en", "ko"]);
   });
 
   test("keeps CMS write paths inside promotion-owned prefixes", () => {

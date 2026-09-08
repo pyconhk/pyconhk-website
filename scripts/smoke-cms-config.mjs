@@ -17,7 +17,7 @@ const expected = {
       folder: "website/outstatic/content/2025-posts",
     },
   ],
-  locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja"],
+  locales: ["en", "zh-hk", "zh-hant", "zh-hans", "ja", "ko"],
   defaultLocale: "en",
 };
 
@@ -69,7 +69,21 @@ function validatePostCollection(problems, config, expectedCollection) {
     expectedCollection.folder,
     `${expectedCollection.name}.folder`,
   );
-  requireEqual(problems, collection.i18n, true, `${expectedCollection.name}.i18n`);
+  if (expectedCollection.name === "posts_2025") {
+    requireListEqual(
+      problems,
+      collection.i18n?.locales,
+      expected.locales.filter((locale) => locale !== "ko"),
+      "posts_2025.i18n.locales",
+    );
+  } else {
+    requireEqual(
+      problems,
+      collection.i18n,
+      true,
+      `${expectedCollection.name}.i18n`,
+    );
+  }
   requireEqual(
     problems,
     collection.extension,
@@ -94,11 +108,15 @@ function validatePostCollection(problems, config, expectedCollection) {
   }
 
   if (findField(collection, "collectionYear")) {
-    problems.push(`${expectedCollection.name} must not require a collectionYear field`);
+    problems.push(
+      `${expectedCollection.name} must not require a collectionYear field`,
+    );
   }
 
   if (findField(collection, "body")?.i18n !== true) {
-    problems.push(`${expectedCollection.name} body field must be locale-enabled`);
+    problems.push(
+      `${expectedCollection.name} body field must be locale-enabled`,
+    );
   }
 
   const tags = findField(collection, "tags");
@@ -112,7 +130,9 @@ function validatePostCollection(problems, config, expectedCollection) {
 
 export function buildConfigUrl(rawUrl) {
   if (!rawUrl) {
-    throw new Error("Usage: node scripts/smoke-cms-config.mjs https://cms.pycon.hk");
+    throw new Error(
+      "Usage: node scripts/smoke-cms-config.mjs https://cms.pycon.hk",
+    );
   }
 
   const url = new URL(rawUrl);
@@ -137,12 +157,42 @@ export function collectCmsConfigProblems(config) {
 
   requireEqual(problems, config.backend?.name, "github", "backend.name");
   requireEqual(problems, config.backend?.repo, expected.repo, "backend.repo");
-  requireEqual(problems, config.backend?.branch, expected.branch, "backend.branch");
-  requireEqual(problems, config.publish_mode, "editorial_workflow", "publish_mode");
-  requireEqual(problems, config.media_folder, expected.mediaFolder, "media_folder");
-  requireEqual(problems, config.public_folder, expected.publicFolder, "public_folder");
-  requireEqual(problems, config.i18n?.structure, "multiple_files", "i18n.structure");
-  requireListEqual(problems, config.i18n?.locales, expected.locales, "i18n.locales");
+  requireEqual(
+    problems,
+    config.backend?.branch,
+    expected.branch,
+    "backend.branch",
+  );
+  requireEqual(
+    problems,
+    config.publish_mode,
+    "editorial_workflow",
+    "publish_mode",
+  );
+  requireEqual(
+    problems,
+    config.media_folder,
+    expected.mediaFolder,
+    "media_folder",
+  );
+  requireEqual(
+    problems,
+    config.public_folder,
+    expected.publicFolder,
+    "public_folder",
+  );
+  requireEqual(
+    problems,
+    config.i18n?.structure,
+    "multiple_files",
+    "i18n.structure",
+  );
+  requireListEqual(
+    problems,
+    config.i18n?.locales,
+    expected.locales,
+    "i18n.locales",
+  );
   requireEqual(
     problems,
     config.i18n?.default_locale,
@@ -152,6 +202,45 @@ export function collectCmsConfigProblems(config) {
 
   for (const postCollection of expected.postCollections) {
     validatePostCollection(problems, config, postCollection);
+  }
+
+  const conference = findCollection(config, "conference_2026");
+  if (!conference) {
+    problems.push("conference_2026 collection is required");
+  } else {
+    requireEqual(
+      problems,
+      conference.folder,
+      "website/outstatic/content/2026-conference",
+      "conference_2026.folder",
+    );
+    requireEqual(problems, conference.format, "json", "conference_2026.format");
+    requireEqual(
+      problems,
+      conference.extension,
+      "json",
+      "conference_2026.extension",
+    );
+    requireEqual(problems, conference.i18n, true, "conference_2026.i18n");
+    requireEqual(problems, conference.create, false, "conference_2026.create");
+    requireEqual(problems, conference.delete, false, "conference_2026.delete");
+    for (const name of [
+      "event",
+      "tickets",
+      "venue",
+      "catering",
+      "sprint",
+      "qa",
+      "sponsors",
+      "sponsorship",
+      "patrons",
+      "organizations",
+      "people",
+      "about",
+    ]) {
+      if (!findField(conference, name))
+        problems.push(`conference_2026.${name} section is required`);
+    }
   }
 
   return problems;
@@ -180,14 +269,17 @@ export async function smokeCmsConfig(rawUrl, options = {}) {
   const problems = collectCmsConfigProblems(config);
 
   if (problems.length > 0) {
-    throw new Error(`Hosted CMS config failed validation:\n- ${problems.join("\n- ")}`);
+    throw new Error(
+      `Hosted CMS config failed validation:\n- ${problems.join("\n- ")}`,
+    );
   }
 
   return { configUrl };
 }
 
 async function main() {
-  const rawUrl = process.argv[2] || process.env.CMS_CONFIG_URL || process.env.CMS_BASE_URL;
+  const rawUrl =
+    process.argv[2] || process.env.CMS_CONFIG_URL || process.env.CMS_BASE_URL;
   const { configUrl } = await smokeCmsConfig(rawUrl);
 
   console.log(`Hosted CMS config validation passed: ${configUrl.href}`);
