@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { validateSnapshot } from './programme-snapshot.mjs';
+import { createSpeakerDirectory, speakerRedirects } from './speaker-directory.mjs';
 
 const projectRoot = path.resolve(new URL('..', import.meta.url).pathname);
 const distRoot = path.join(projectRoot, 'dist');
@@ -170,6 +172,16 @@ async function main() {
   } = normalizeExistingEventTrailingSlashRedirects(redirects, eventRoutes);
   const existingSources = parseRedirectSources(normalizedRedirects);
   const additions = [];
+
+  if (process.env.PROGRAMME_SNAPSHOT_PATH) {
+    const snapshot = validateSnapshot(
+      JSON.parse(await fs.readFile(path.resolve(process.env.PROGRAMME_SNAPSHOT_PATH), 'utf8')),
+      process.env.PROGRAMME_SOURCE_EVENT ?? 'pyconhk2026',
+      process.env.PROGRAMME_ENVIRONMENT ?? 'production'
+    );
+    const aliases = speakerRedirects(createSpeakerDirectory(snapshot.sessions, snapshot.event), ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']);
+    additions.push(...aliases.filter((line) => !existingSources.has(line.split(' ')[0])));
+  }
 
   for (const route of routes) {
     const source = redirectSourceForRoute(route);
