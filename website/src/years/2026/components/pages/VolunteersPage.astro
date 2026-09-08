@@ -1,8 +1,34 @@
 ---
-import ConferenceContentPage from '@/years/2026/components/pages/ConferenceContentPage.astro';
+import { getConferenceContent } from '@/lib/conference-content';
+import CommunityPageFrame from '@/years/2026/components/content/CommunityPageFrame.astro';
+import PersonCard from '@/years/2026/components/content/PersonCard.astro';
+import { contentUi } from '@/years/2026/data/content-ui';
+import { pageCopyByLocale } from '@/years/2026/data/volunteers';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
+const { people } = getConferenceContent(locale);
+const copy = pageCopyByLocale[locale];
+const roles = [...new Set(people.items.map((person) => person.role))];
 ---
-<ConferenceContentPage locale={locale} kind="people" />
+<CommunityPageFrame locale={locale} title={copy.title} subtitle={copy.subtitle} intro={copy.intro}>
+  {people.status !== 'published' ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
+    <div data-conference-content="people" class="space-y-12">
+      <h2 class="border-t-2 border-[#172033]/15 pt-8 text-center font-operetta-32 text-2xl font-black uppercase text-[#172033] sm:text-3xl">{copy.committeeHeading}</h2>
+      {roles.map((role) => {
+        const members = people.items.filter((person) => person.role === role);
+        return (
+          <section data-volunteer-group class="space-y-6 border-t-2 border-[#172033]/15 pt-8 first-of-type:border-0 first-of-type:pt-0">
+            <h3 class={members.length > 2 ? 'text-center font-operetta-32 text-2xl font-black uppercase tracking-tight text-[#172033] sm:text-3xl' : 'text-center text-sm font-black uppercase tracking-wider text-[#2f559a] sm:text-base'}>{role}</h3>
+            <div class={members.length > 2 ? 'grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-8 md:grid-cols-4' : 'flex flex-wrap justify-center gap-8 sm:gap-14'}>
+              {members.map((person) => <PersonCard name={person.name} imageSrc={person.image || '/2026/organizers-volunteers/volunteers/placeholder.webp'}
+                linkedin={person.url && new URL(person.url).hostname.endsWith('linkedin.com') ? person.url : undefined}
+                personalWebsite={person.url && !new URL(person.url).hostname.endsWith('linkedin.com') ? person.url : undefined} />)}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  )}
+</CommunityPageFrame>
