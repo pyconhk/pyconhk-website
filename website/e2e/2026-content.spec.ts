@@ -17,6 +17,37 @@ const publishedRoutes = [
   'volunteers',
 ];
 
+test('every conference logo and placeholder has a transparent image background', async ({ page }) => {
+  const sources = new Set<string>([
+    '/2026/logos/pyconlogo.png',
+    '/2026/logos/pyconlogo.svg',
+    '/2026/logos/horse-mark.svg',
+    '/2026/logos/logo.png',
+    '/2026/logos/logo2.png',
+    '/2026/organizers-volunteers/volunteers/placeholder.webp',
+  ]);
+  for (const route of ['organizers', 'supporting-organizations']) {
+    await page.goto(`/2026/en/${route}/`);
+    for (const src of await page.locator('[data-conference-content] img').evaluateAll(
+      images => images.map(image => (image as HTMLImageElement).src)
+    )) sources.add(src);
+  }
+  for (const src of sources) {
+    const transparentPixels = await page.evaluate(async (source) => {
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 64;
+      const context = canvas.getContext('2d')!;
+      context.drawImage(image, 0, 0, 64, 64);
+      const pixels = context.getImageData(0, 0, 64, 64).data;
+      return pixels.filter((alpha, index) => index % 4 === 3 && alpha === 0).length;
+    }, src);
+    expect(transparentPixels, src).toBeGreaterThan(64 * 64 * 0.1);
+  }
+});
+
 test('unpublished conference details show pending content in all six locales', async ({ page }) => {
   test.setTimeout(90_000);
   for (const locale of locales) {
