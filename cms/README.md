@@ -19,7 +19,6 @@ The Worker exposes:
 
 - `/admin/`: GitHub-backed CMS
 - `/admin/test/`: in-memory Decap test backend
-- `/admin/local/`: persistent local Decap sandbox
 - `/admin/config.yml`: generated Decap configuration
 - `/api/decap/auth` and `/api/decap/callback`: GitHub OAuth
 
@@ -71,20 +70,11 @@ To exercise the built Cloudflare runtime instead of Astro development:
 mise run //cms:build
 cd cms
 mise exec -- astro preview --host 127.0.0.1 --port 4323
-mise run //cms:smoke-worker -- http://127.0.0.1:4323
+CMS_BASE_URL=http://127.0.0.1:4323 mise run //cms:check
 ```
 
 Use `/admin/test/` to verify the multilingual editor without GitHub. Nothing is
-persisted. For a persistent local-only sandbox, run these in separate terminals:
-
-```bash
-mise run //cms:local-backend
-mise run //cms:dev
-```
-
-Then open `/admin/local/`. Its files stay under `cms/sandbox-content/` and
-`cms/public/sandbox-images/`; those paths are ignored by Git and Cloudflare's
-static asset upload.
+persisted; automated checks use isolated fixtures in the test suite.
 
 ## Validation
 
@@ -104,8 +94,7 @@ deployable Worker without publishing it. Pull-request CI runs both checks.
 After deploying any preview or production URL, run:
 
 ```bash
-mise run //cms:smoke-worker -- https://your-worker.example
-mise run smoke-cms-config -- https://your-worker.example
+CMS_BASE_URL=https://your-worker.example mise run //cms:check
 ```
 
 The HTTP smoke check covers redirects, generated config, runtime bindings,
@@ -176,7 +165,7 @@ the Worker custom domain. After the custom domain is attached:
 
 1. Set the GitHub OAuth app homepage and callback to `https://cms.pycon.hk` and
    `https://cms.pycon.hk/api/decap/callback`.
-2. Run both hosted smoke commands against `https://cms.pycon.hk`.
+2. Run the hosted CMS tests against `https://cms.pycon.hk`.
 3. Complete one real edit and confirm the locale-coded files land on `cms`.
 4. Confirm the scheduled promotion workflow accepts only CMS-owned paths and
    the public website build succeeds.
@@ -184,3 +173,11 @@ the Worker custom domain. After the custom domain is attached:
 `CMS_PUBLIC_URL` is normally unnecessary because routes derive their canonical
 origin from the request. Set it only when a trusted proxy makes that origin
 incorrect; its value must be an `http` or `https` origin without a path.
+
+## Decap compatibility
+
+`patches/decap-cms-core@3.16.0.patch` guards the optional locale callback in the
+second editor pane. Bun applies it through the root workspace `patchedDependencies`.
+The installed-handler regression test covers both panes. Published core versions
+3.0.0, 3.6.3, 3.8.1, 3.10.1, 3.12.0–3.15.0 and 3.18.1 still contain this bug;
+remove the patch when upgrading to a release that fixes it.
