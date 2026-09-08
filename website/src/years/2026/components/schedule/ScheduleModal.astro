@@ -10,14 +10,14 @@ const copy = scheduleCopy[Astro.props.locale];
     <p class="font-black">{copy.details}</p>
     <form method="dialog"><button type="submit" class="rounded-xl border-2 border-[#172033] bg-white px-3 py-2 text-sm font-bold" aria-label={copy.close}>{copy.close}</button></form>
   </div>
-  <div class="space-y-5 p-5">
+  <div data-modal-body class="space-y-5 p-5">
     <h2 id="modal-session-title" class="text-xl font-black">{copy.details}</h2>
     <dl class="grid gap-3 text-sm sm:grid-cols-2">
       <div><dt class="font-bold text-slate-500">{copy.time}</dt><dd id="modal-time"></dd></div>
       <div><dt class="font-bold text-slate-500">{copy.room}</dt><dd id="modal-room"></dd></div>
       <div data-modal-speakers><dt class="font-bold text-slate-500">{copy.speakers}</dt><dd id="modal-speakers"></dd></div>
     </dl>
-    <section><h3 class="mb-2 font-bold">{copy.description}</h3><p id="modal-description" class="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-700"></p></section>
+    <div id="modal-details"></div>
     <div class="flex flex-wrap gap-3 border-t border-slate-200 pt-4">
       <button type="button" data-modal-save class="rounded-xl border-2 border-[#172033] bg-[#FAF7F0] px-4 py-2 text-sm font-bold" aria-pressed="false">{copy.save}</button>
       <a href="https://calendar.google.com/calendar/" data-modal-calendar class="rounded-xl border-2 border-[#172033] bg-[#2f559a] px-4 py-2 text-sm font-bold text-white" target="_blank" rel="noopener noreferrer">{copy.calendar}</a>

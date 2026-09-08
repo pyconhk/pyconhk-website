@@ -9,6 +9,13 @@ function text(value) {
   return typeof value === 'string' ? value : '';
 }
 
+function publicUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && !url.username && !url.password ? url.href : '';
+  } catch { return ''; }
+}
+
 function dateInZone(value, timeZone) {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
@@ -80,10 +87,13 @@ export function normalizeProgramme(payload, { event, environment = 'test', sourc
         const id = code ? `${room.id}-${code}` : `${room.id}-${start}`;
         if (ids.has(id)) throw new Error('Duplicate public session ID.');
         ids.add(id);
-        const speakers = (Array.isArray(item.persons) ? item.persons : []).map((person) => text(person.name)).filter(Boolean);
+        const speakerProfiles = (Array.isArray(item.persons) ? item.persons : [])
+          .filter((person) => text(person.name))
+          .map((person) => ({ name: text(person.name), biography: text(person.biography), avatar: publicUrl(person.avatar), url: publicUrl(person.url) }));
+        const speakers = speakerProfiles.map((person) => person.name);
         const url = text(item.url);
         sessions.push({
-          id, code, title: item.title, speakers, room: room.name, roomKey: room.id,
+          id, code, title: item.title, speakers, speakerProfiles, room: room.name, roomKey: room.id,
           track: text(item.track), sessionType: text(item.type), date: day.date,
           start, end, startTime: timeInZone(start, timezone), endTime: timeInZone(end, timezone), duration,
           abstract: text(item.abstract), description: text(item.description), language: text(item.language),
@@ -111,8 +121,8 @@ export function validateSnapshot(snapshot, event, environment) {
     || Object.keys(snapshot).some((key) => !fields.includes(key))) {
     throw new Error('Snapshot identity or content hash is invalid.');
   }
-  const sessionFields = ['id', 'code', 'title', 'speakers', 'room', 'roomKey', 'track', 'sessionType', 'date', 'start', 'end', 'startTime', 'endTime', 'duration', 'abstract', 'description', 'language', 'url', 'isBreak'];
-  const stringFields = sessionFields.filter((key) => !['speakers', 'duration', 'isBreak'].includes(key));
+  const sessionFields = ['id', 'code', 'title', 'speakers', 'speakerProfiles', 'room', 'roomKey', 'track', 'sessionType', 'date', 'start', 'end', 'startTime', 'endTime', 'duration', 'abstract', 'description', 'language', 'url', 'isBreak'];
+  const stringFields = sessionFields.filter((key) => !['speakers', 'speakerProfiles', 'duration', 'isBreak'].includes(key));
   for (const session of snapshot.sessions) {
     if (Object.keys(session).some((key) => !sessionFields.includes(key))
       || stringFields.some((key) => typeof session[key] !== 'string')
@@ -122,6 +132,16 @@ export function validateSnapshot(snapshot, event, environment) {
       || !snapshot.days.some((day) => day.date === session.date)
       || !snapshot.rooms.some((room) => room.id === session.roomKey)) {
       throw new Error('Snapshot contains invalid or non-public session fields.');
+    }
+    // Accept older successful snapshots during the first deployment of this additive field.
+    if (session.speakerProfiles !== undefined && (!Array.isArray(session.speakerProfiles)
+      || session.speakerProfiles.length !== session.speakers.length
+      || session.speakerProfiles.some((person, index) => !person || typeof person !== 'object'
+        || Object.keys(person).some((key) => !['name', 'biography', 'avatar', 'url'].includes(key))
+        || ['name', 'biography', 'avatar', 'url'].some((key) => typeof person[key] !== 'string')
+        || person.name !== session.speakers[index]
+        || [person.avatar, person.url].some((url) => url !== '' && publicUrl(url) !== url)))) {
+      throw new Error('Snapshot contains invalid or non-public speaker fields.');
     }
   }
   if (snapshot.status === 'unpublished' && snapshot.sessions.length > 0) {

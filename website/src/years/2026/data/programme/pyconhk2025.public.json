@@ -49,6 +49,14 @@
       "code": "A9ZA7U",
       "title": "pip install community",
       "speakers": ["Georgi Ker"],
+      "speakerProfiles": [
+        {
+          "name": "Georgi Ker",
+          "biography": "Georgi Ker is the Director and a Fellow of the Python Software Foundation. She is a co-organizer of PyLadiesCon and the co-founder of PyLadies Bangkok. A French citizen born and raised in Singapore, Georgi has also lived in Thailand and Indonesia before relocating to Amsterdam, the Netherlands. During her time in Thailand, she served as the conference lead for PyCon APAC and PyCon Thailand.\n\nGeorgi is an avid advocate for Diversity & Inclusion. She is the chair of the D&I Workgroup within the PSF and has launched the podcast series \"The Hidden Figures of Python\" alongside hosts Mariatta Wijaya, Cheuk Ting Ho, and Tereza Iofciu. The podcast aims to highlight stories from underrepresented groups within the Python community.\n\nAn autodidact polymath who speaks multiple languages, Georgi currently runs her own branding and visual studio. Some of the projects include TV series Strange Girl in Strange Land, PyCon US (2022-current), Proof of Talk and PyData London.",
+          "avatar": "https://pretalx.com/media/avatars/7GSH3P_n0PKJhk.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/7GSH3P/"
+        }
+      ],
       "room": "Main Track (Morning) (LT-18)",
       "roomKey": "4891-main-track-morning-lt-18",
       "track": "",
@@ -70,6 +78,14 @@
       "code": "97ULTT",
       "title": "Building Agentic AI on AWS: From Concept to Python Implementation",
       "speakers": ["Haowen Huang"],
+      "speakerProfiles": [
+        {
+          "name": "Haowen Huang",
+          "biography": "Haowen Huang brings over 20 years of extensive experience across telecommunications, internet, and cloud computing industries, having held positions at Microsoft, Sun Microsystems, and China Telecom. Currently specializing in technical content creation and knowledge sharing in generative AI, large language models (LLMs), Agentic AI, and Next-Generation Developer Experience (NGDE), he is committed to empowering developers worldwide with cutting-edge AI expertise.",
+          "avatar": "https://pretalx.com/media/avatars/TDGWZV_DF9tvqv.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/TDGWZV/"
+        }
+      ],
       "room": "Main Track (Morning) (LT-18)",
       "roomKey": "4891-main-track-morning-lt-18",
       "track": "",
@@ -91,6 +107,14 @@
       "code": "VUXSPF",
       "title": "Pyodide: Python Reborn in the Browser",
       "speakers": ["Calpa"],
+      "speakerProfiles": [
+        {
+          "name": "Calpa",
+          "biography": "Calpa is a full-stack engineer and independent educator. He specializes in frontend development and interactive web technologies, and has a passion for making complex technical concepts accessible.\n\nIn recent years, he has been actively exploring Pyodide to teach scientific computing, bringing libraries like NumPy, Pandas, and SciPy directly into the browser. He empowers learners to experiment with Python through open-source demos and online workshops without needing a local setup.\n\nCalpa is also an active speaker in the AI x developer tooling space and enjoys sharing insights on building educational tools, lightweight MVPs, and creative coding workflows with ChatGPT and modern web stacks.",
+          "avatar": "https://pretalx.com/media/avatars/ZKU88V_ufDPSgk.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/ZKU88V/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -112,6 +136,20 @@
       "code": "KDMRUJ",
       "title": "Mercari LLM Benchmark: Building a Practical LLM Benchmark for Your Business",
       "speakers": ["Prashant Anand", "Kanta Suga"],
+      "speakerProfiles": [
+        {
+          "name": "Prashant Anand",
+          "biography": "Prashant is a Staff ML Engineer at Mercari, Inc. in Tokyo, Japan, where he has spent over 5 years building scalable, high-performance production ML systems. He leads the exploration and application of machine learning, NLP, and LLMs to transform customer support experiences at one of Japan's largest e-commerce platforms.\n\nWith a B.Tech from IIT Delhi (2019), Prashant brings deep technical expertise in bridging cutting-edge ML research with real-world production systems. He is passionate about sharing knowledge with the Python community, having previously spoken at PyCon JP 2024 and PyCon APAC 2023.\n\nAway from the keyboard, you’ll find him obsessing over specialty coffee and perfecting his hand-drip and French-press brews.",
+          "avatar": "https://pretalx.com/media/avatars/PHJAUM_LSeJLtb.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/PHJAUM/"
+        },
+        {
+          "name": "Kanta Suga",
+          "biography": "I'm a Machine Learning engineer at Mercari,inc.\nMaster (eng): Bioinformatics.",
+          "avatar": "https://pretalx.com/media/avatars/BPYP9C_Yw1QtyC.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/BPYP9C/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -133,6 +171,14 @@
       "code": "QR9URY",
       "title": "Demystify vLLM: introducing the de-facto LLM inference engine for private AI",
       "speakers": ["Peter Ho"],
+      "speakerProfiles": [
+        {
+          "name": "Peter Ho",
+          "biography": "Peter Ho is a Senior Solution Architect at Red Hat. He has extensive experience working with over 30 enterprise and government customers to establish resilient hybrid and multi-cloud architectures for their mission-critical applications. In recent years, Peter champions LLM serving solutions, helping clients to integrate and deploy vLLM.",
+          "avatar": "https://pretalx.com/media/avatars/ESXRPE_dPCDPzn.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/ESXRPE/"
+        }
+      ],
       "room": "Track A (Sessions) (LT-15)",
       "roomKey": "4836-track-a-sessions-lt-15",
       "track": "",
@@ -154,6 +200,14 @@
       "code": "VU7KCM",
       "title": "What's new in pandas 3.0",
       "speakers": ["Marc Garcia"],
+      "speakerProfiles": [
+        {
+          "name": "Marc Garcia",
+          "biography": "Marc has been a pandas core developer since 2018. He was the release manager of pandas 2.0. He was awarded the Python Software Foundation fellow award, and the NumFOCUS community award for his work mentoring people to contribute to open source. Marc has worked professionally for companies like Bank of America, Unilever, Tesco ans Bumble. Currently Marc works as an independent consultant and technical trainer helping companies work more efficiently with data.",
+          "avatar": "https://pretalx.com/media/avatars/SXWKLX_IbqSgiE.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/SXWKLX/"
+        }
+      ],
       "room": "Main Track (Morning) (LT-18)",
       "roomKey": "4891-main-track-morning-lt-18",
       "track": "",
@@ -175,6 +229,14 @@
       "code": "RNY8EP",
       "title": "What are AI pipeline frameworks good for?",
       "speakers": ["Mark Cohen"],
+      "speakerProfiles": [
+        {
+          "name": "Mark Cohen",
+          "biography": "I am a data scientist and AI developer. My current work is building the AI essay grading assistant Pregrade. In this work, I make use of the experience from my prior career as an academic social scientist.",
+          "avatar": "https://pretalx.com/media/avatars/FS9BKK_Vnb1CUT.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/FS9BKK/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -196,6 +258,14 @@
       "code": "3WPDCG",
       "title": "The graph capture mechanisms in PyTorch",
       "speakers": ["Xuanteng Huang"],
+      "speakerProfiles": [
+        {
+          "name": "Xuanteng Huang",
+          "biography": "Xuanteng is currently a Ph.D. student in Sun Yat-sen University. His research focuses on the software-hardware co-design on GPU runtime system to better serve the emerging machine learning applications.",
+          "avatar": "https://pretalx.com/media/avatars/GZD93R_lMGpFSJ.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/GZD93R/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -217,6 +287,14 @@
       "code": "BXRAXM",
       "title": "You Don’t Need to Be a Hero to Contribute",
       "speakers": ["Richard Fan"],
+      "speakerProfiles": [
+        {
+          "name": "Richard Fan",
+          "biography": "Richard is a Security Engineer and an AWS Security Hero.\n\nHe is dedicated to helping people quickly adopt the cloud, promoting best practices, and streamlining cloud governance. Richard's experience over the years has allowed him to focus more on making security on the cloud easy.\n\nRichard's current focus is on software supply chain security and data protection. He has been an active contributor to AWS Nitro Enclaves, a trusted execution environment offering on AWS.",
+          "avatar": "https://pretalx.com/media/avatars/YGNFVR_QTQPl39.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/YGNFVR/"
+        }
+      ],
       "room": "Track A (Sessions) (LT-15)",
       "roomKey": "4836-track-a-sessions-lt-15",
       "track": "",
@@ -238,6 +316,14 @@
       "code": "X3JHUT",
       "title": "Building Consistent & Secure Container Environments",
       "speakers": ["Jack Chen"],
+      "speakerProfiles": [
+        {
+          "name": "Jack Chen",
+          "biography": "After more than a decade building software everywhere from chaotic startups to buttoned-up financial institutions, Jack now leads tech at LGT. He has been sharing war stories at Ruby conferences for years and is excited to bring that same energy to the Python world. You might also know him as the host of Codeaholics, where people geek out about all things tech. Passionate about developer experience, security, and environments that actually work.",
+          "avatar": "https://pretalx.com/media/avatars/SJAKZB_TDe3n91.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/SJAKZB/"
+        }
+      ],
       "room": "Main Track (Morning) (LT-18)",
       "roomKey": "4891-main-track-morning-lt-18",
       "track": "",
@@ -259,6 +345,14 @@
       "code": "RDTRNC",
       "title": "From Chaos to Harmony: A GenAI Solution to Music Library Clutter",
       "speakers": ["Matthew Yuen"],
+      "speakerProfiles": [
+        {
+          "name": "Matthew Yuen",
+          "biography": "I'm an AI specialist passionate about building practical, creative solutions with machine learning, generative AI, and cloud technologies. With hands-on experience in end-to-end AI projects, I enjoy tackling real-world problems and AI-driven applications. I'm also passionate about audio gear and music, which in part inspired the project I'm presenting",
+          "avatar": "https://pretalx.com/media/avatars/KN7ZHA_50e7iNI.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/KN7ZHA/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -280,6 +374,14 @@
       "code": "WECB7J",
       "title": "My Poor Fund: How MPF Fees Are Eating Your Retirement",
       "speakers": ["Philip C."],
+      "speakerProfiles": [
+        {
+          "name": "Philip C.",
+          "biography": "Philip is a User Support Specialist at a finance data institution, where he leads his department's Python automation initiative. Previously, as a Support Engineer, he monitored the company’s entire fleet of transformers and analyzed data from its IoT sensor network. His research on machine learning in transformer health analysis was awarded the HKIE Outstanding Paper Award, one of two institutional recipients. \nHe holds a Master's in Engineering from HKU and is a licensed insurance intermediary.",
+          "avatar": "https://pretalx.com/media/avatars/MPYUJL_JCDnJhC.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/MPYUJL/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -301,6 +403,26 @@
       "code": "XS9DDR",
       "title": "Kubernetes Isekai (異世界): Gamifying Kubernetes Education in Free AWS Academy Learner Lab",
       "speakers": ["Cyrus Wong", "Kathy Wu", "Camila leung"],
+      "speakerProfiles": [
+        {
+          "name": "Cyrus Wong",
+          "biography": "## Cyrus Wong\n\n**Cyrus Wong** is a Senior Lecturer at the **Hong Kong Institute of Information Technology (HKIIT)** under the **Vocational Training Council (VTC)**. He leads the **Higher Diploma in Cloud and Data Centre Administration**, the first tertiary-level program in Asia dedicated to cloud technology education.\n\nCyrus is a highly respected figure in the tech community, recognized as an **AWS Machine Learning Hero**, **Microsoft Azure AI MVP**, and **Google Developer Expert in GCP & AI/ML (GenAI)**. \n\nHis work focuses on integrating cloud technologies into education, and he has received multiple **Hong Kong ICT Awards** for innovative projects using AWS services. One of his notable contributions is **“All Screens,”** an open-source platform that supported online teaching during the COVID-19 pandemic.\n\nCyrus is also a passionate community advocate and content creator. He shares insights through his LinkedIn blog, GitHub projects, and his YouTube channel, which helps make cloud knowledge accessible to Cantonese-speaking audiences.",
+          "avatar": "https://pretalx.com/media/avatars/KMA9WU_HDxnq4h.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/KMA9WU/"
+        },
+        {
+          "name": "Kathy Wu",
+          "biography": "https://www.linkedin.com/in/kathy-w-u/\n- AWS Cloud Captain\n- AWS Educate Student Ambassador at HKIIT\n- Year 2 student of Higher Diploma in Cloud and Data Centre Administration at HKIIT",
+          "avatar": "https://pretalx.com/media/avatars/8CW3ZD_w2glt5j.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/8CW3ZD/"
+        },
+        {
+          "name": "Camila leung",
+          "biography": "Camila Leung\nhttps://www.linkedin.com/in/hau-yee-leung-bb792b32b/\n- AWS Educate Student Ambassador at HKIIT\n- Year 2 student of Higher Diploma in Cloud and Data Centre Administration at HKIIT",
+          "avatar": "https://pretalx.com/media/avatars/M7RRDB_OYbrzUO.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/M7RRDB/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -322,6 +444,14 @@
       "code": "KESSTA",
       "title": "OpenTelemetry Foundations: Hands-On Guide to Observability",
       "speakers": ["Hemangi Karchalkar"],
+      "speakerProfiles": [
+        {
+          "name": "Hemangi Karchalkar",
+          "biography": "Hemangi Karchalkar is a Senior Software Developer at EPAM Systems who writes code, breaks it (occasionally on purpose), and teaches Python like it’s a superpower. She’s given multiple talks without tripping on stage, trains humans (not AI... yet), and believes debugging is just her computer’s way of bonding.",
+          "avatar": "https://pretalx.com/media/avatars/XHT9ZV_jFYFMbW.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/XHT9ZV/"
+        }
+      ],
       "room": "Track A (Workshop) (LT-15)",
       "roomKey": "4653-track-a-workshop-lt-15",
       "track": "",
@@ -343,6 +473,14 @@
       "code": "7VASSD",
       "title": "IaC Meets Python: When Terraform Isn't Enough",
       "speakers": ["Rajani Ekunde"],
+      "speakerProfiles": [
+        {
+          "name": "Rajani Ekunde",
+          "biography": "Rajani is a skilled DevOps Engineer with over 4 years of experience, passionate about cloud technologies and DevOps practices. As a recognized Docker Captain and Women Techmakers (WTM) Ambassador, she actively contributes to the tech community through content creation and public speaking. Rajani shares her expertise on platforms like Medium and LinkedIn, aiming to educate and empower others in the DevOps space.\n\nHer participation in major cloud and DevOps conferences highlights her commitment to continuous learning. As a public speaker, she engages with the global tech community on trending topics. Rajani finds fulfillment in mentoring aspiring engineers, inspiring and uplifting fellow professionals and students through her articles, talks, and mentorship.",
+          "avatar": "https://pretalx.com/media/avatars/VVZH3J_WZrqhlG.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/VVZH3J/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -364,6 +502,14 @@
       "code": "LSRJ8Q",
       "title": "Pythonic Finance: Analyze Company Fundamentals with SEC EDGAR APIs",
       "speakers": ["Nicholas Dwiarto"],
+      "speakerProfiles": [
+        {
+          "name": "Nicholas Dwiarto",
+          "biography": "Nicholas is a software engineer based in Japan. Originally hailing from Indonesia, he spends his weekends exploring Tokyo's neighborhoods, hiking local mountains, and reading articles about tech, finance, or anything that sparks his curiosity. Nicholas is passionate about building things that makes his life a bit easier, and he's always up for good views of the city.",
+          "avatar": "https://pretalx.com/media/avatars/H9W8DU_zpE8YqY.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/H9W8DU/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -385,6 +531,14 @@
       "code": "LY893F",
       "title": "IPList to BPFRule: A Python DDoS Mitigation Framework for Domain-Level Attacks via XDP_HOOK of bpfilter",
       "speakers": ["Nizar Akbar Meilani"],
+      "speakerProfiles": [
+        {
+          "name": "Nizar Akbar Meilani",
+          "biography": "I am a two years experienced System Administrator, who work in an Indonesian Hosting Company, that passionate about Linux and scripting language like Bash and Python. I love in understanding the intricacies of Linux and it's isolation mechanism. And I am a new open source person who love to understand how open source community work.",
+          "avatar": "https://pretalx.com/media/avatars/MZT9A9_qFRRikH.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/MZT9A9/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -406,6 +560,14 @@
       "code": "UU8XBZ",
       "title": "GraphRAG with Python and Neo4j",
       "speakers": ["Hon Kwan Shun Quinson"],
+      "speakerProfiles": [
+        {
+          "name": "Hon Kwan Shun Quinson",
+          "biography": "Hon Kwan Shun Quinson is an MPhil student in Computer Science at The Chinese University of Hong Kong. His academic pursuits and research focus on advancements in artificial intelligence. Throughout his academic journey, he has developed strong skills in natural language processing and machine learning. Notable experiences include developing graph-based Retrieval Augmented Generation (RAG) systems, training convolutional and Transformer models with PyTorch, and fine-tuning LLMs for applications such as Cantonese translation. He is also keenly expanding his research into the intersection of LLMs with reinforcement learning and formal methods for program synthesis, exploring novel pathways for enhancing AI capabilities and robustness. Committed to continuous growth in this rapidly evolving field, he is passionate about contributing to the future of AI.",
+          "avatar": "https://pretalx.com/media/avatars/UMFTUY_F9n8hn4.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/UMFTUY/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -427,6 +589,14 @@
       "code": "SGNMQN",
       "title": "Search matters: Engineering search systems that actually work",
       "speakers": ["Tarun Jain"],
+      "speakerProfiles": [
+        {
+          "name": "Tarun Jain",
+          "biography": "Tarun Jain is a Super Agent at AI Planet and is recognized as a Google Developer Expert in AI. He enjoys contributing to open-source projects and maintains two repositories: OpenAGI, for building AI Agents, and BeyondLLM, for quick experimenting, evaluating, and observing RAG pipelines. Tarun also contributed to Google Summer of Code 2024 at Red Hen Lab and Google Summer of Code 2023 at caMicroscope. He is a content creator with over 3500+ subscribers for his channel AI with Tarun.\n\nPrevious Experience: \n- Speaker at PyCon Hong Kong 2024\n- Speaker at PyCon Malaysia 2024\n- Speaker at PyCon APAC - Indonesia 2024\n- Speaker at PyCon Singapore - 2025",
+          "avatar": "https://pretalx.com/media/avatars/XVM8TR_FTeacji.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/XVM8TR/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -448,6 +618,14 @@
       "code": "ARQM7C",
       "title": "請擁抱 pyproject.toml，跟 requirements.txt 說再見",
       "speakers": ["Alex Lau"],
+      "speakerProfiles": [
+        {
+          "name": "Alex Lau",
+          "biography": "Alex Lau is a Lead Instructor of Tecky Academy with a focus on Full Stack, Mobile App, and AWS technologies. He is now the AWS Hong Kong Community Hero and is the leader of AWS User Group Hong Kong. Enthusiastic about teaching and sharing, Alex has been an active leader in the Hong Kong developer community since 2015. He has organized annual hackathons and founded a coding bootcamp, growing the community to over 1,000 members.\n\nStarting from 2018, Alex has hosted a variety of AWS workshops, disseminating essential cloud skills and best practices. In 2023, he took the stage at the Hong Kong AWS Summit to introduce the AWS cutting edge technologies and also led a session during the Hong Kong AWS GenAI Solution Day.\n\nAlex is committed to promoting AWS services and aims to help more people engage with and understand the power of cloud technology. He is the Chief Assessor of ICT Award Student Innovation Award. Among his recognitions are the ICT Grand Award, HSBC Youth Business Award, and the Hong Kong Esperanza - Reimagine Education Award, making him a trusted authority on education, community building and cloud solutions.",
+          "avatar": "https://pretalx.com/media/avatars/KLTN39_0MGPuYS.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/KLTN39/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -469,6 +647,14 @@
       "code": "EYXF9W",
       "title": "Setting Up Reliable CI/CD Pipelines with Python, K8s & Testcontainers",
       "speakers": ["Koti Vellanki"],
+      "speakerProfiles": [
+        {
+          "name": "Koti Vellanki",
+          "biography": "I’m Koti Vellanki — a DevOps engineer by practice and a community builder by passion. With over 6 years of experience working in cloud-native environments, I currently serve as a Senior DevOps Engineer at TransUnion, where I work on managing large-scale Kubernetes clusters, building CI/CD systems, and improving observability for production workloads.\n\nWhile I enjoy solving technical challenges, what truly drives me is enabling others to grow through shared knowledge. Over the years, I’ve actively contributed to the tech community — speaking at Kubernetes Community Days (KCDs) and staying closely involved with meetups such as Collabnix, Kubernetes Bengaluru, Docker Bangalore, BangPypers, etc. I'm the Organizer for Open Source Meetups in Bengaluru which has around 2.6K members and also India Code Weekend which has more than 10K members.\n\nI’ve also been a regular volunteer, organizer, and attendee at global Python conferences like PyCon India, PyCon US, EuroPython, PyCon APAC, PyCon JP, PyCon PH and PyCon HK. These experiences have shown me how valuable it is to have a space for local collaboration and learning.",
+          "avatar": "https://pretalx.com/media/avatars/XQMQY7_nKYZtRe.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/XQMQY7/"
+        }
+      ],
       "room": "Track A (Workshop) (LT-15)",
       "roomKey": "4653-track-a-workshop-lt-15",
       "track": "",
@@ -490,6 +676,14 @@
       "code": "7MCNCZ",
       "title": "Implementing an MCP Server for DBMS in Python — YDB’s Experience",
       "speakers": ["Ivan Blinkov"],
+      "speakerProfiles": [
+        {
+          "name": "Ivan Blinkov",
+          "biography": "Ivan Blinkov is a seasoned technical leader specializing in data storage and processing. Over the last decade, he was involved in the development of several database management systems, two of which are open-source: ClickHouse in the past and, currently, YDB.",
+          "avatar": "https://pretalx.com/media/avatars/JNVL8R_JcrOKdC.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/JNVL8R/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -511,6 +705,14 @@
       "code": "HJYDTX",
       "title": "Peek Inside the Pixels: Visual Interpretability for Computer Vision Models",
       "speakers": ["Cyrus Mante"],
+      "speakerProfiles": [
+        {
+          "name": "Cyrus Mante",
+          "biography": "He is a versatile professional who embodies the dual roles of educator and developer. As an instructor, he teaches coding across multiple platforms and engage with students of all ages. He currently works at Accenture Philippines as an AI/ML Computational Science Analyst, where he develops Generative AI solutions to streamline repetitive tasks and enhance workplace efficiency. He is also an active volunteer for Python Philippines and served as Co-Chairman of PyCon APAC 2025.",
+          "avatar": "https://pretalx.com/media/avatars/CFTCFG_yYAWouw.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/CFTCFG/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -532,6 +734,14 @@
       "code": "BXPFES",
       "title": "Python for the Paranoid: how to secure your Python code",
       "speakers": ["Sau"],
+      "speakerProfiles": [
+        {
+          "name": "Sau",
+          "biography": "Based in Tokyo, Sau Yee believes that Python is for everyone. She is a heavy user of her password manager.",
+          "avatar": "https://pretalx.com/media/avatars/W8SXPU_RcMYZhp.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/W8SXPU/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -553,6 +763,14 @@
       "code": "H3MBTJ",
       "title": "AI工具改變了Python甚麼 / How AI Tools Changed the Python Language",
       "speakers": ["Dr. Adrian Tam"],
+      "speakerProfiles": [
+        {
+          "name": "Dr. Adrian Tam",
+          "biography": "Adrian has been using Python for work for more than 20 years. Although not the only programming language to use, it is his favorite for quick experiments and prototyping. His interest is in mathematical modeling, number crunching, high performance computing, and in the last decade, machine learning and AI.",
+          "avatar": "https://pretalx.com/media/avatars/EKWAB9_ZyBo7za.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/EKWAB9/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -574,6 +792,14 @@
       "code": "XCQ9WW",
       "title": "Unscripted Yes, Consistent Commitment: From Meetup Attendee to PyCon APAC 2025 Co-Chair Journey",
       "speakers": ["Rodney Lei Estrada"],
+      "speakerProfiles": [
+        {
+          "name": "Rodney Lei Estrada",
+          "biography": "He is one of the co-chairs of PyCon APAC 2025 and a core volunteer for Python Philippines, a passionate learner, and a dedicated volunteer for the community, with a strong mission to bridge the gap and connect the tech community for the people. He is also a retail tech intern at ING Hubs Philippines and a current student at National University - Manila. And he loves spaghetti.",
+          "avatar": "https://pretalx.com/media/avatars/SBACNU_9kWj3Ps.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/SBACNU/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -595,6 +821,14 @@
       "code": "QBPXZ9",
       "title": "What does it take to create a language of your own in Python?",
       "speakers": ["Chaw Chit Su Thwe"],
+      "speakerProfiles": [
+        {
+          "name": "Chaw Chit Su Thwe",
+          "biography": "Chaw is a software developer at HENNGE in Japan, focusing on the Identity edition of the HENNGE One product which provides access control solutions. Outside of work, she enjoys reading, hiking, and exploring cafes.",
+          "avatar": "https://pretalx.com/media/avatars/XBE3QD_Z2FrZ9P.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/XBE3QD/"
+        }
+      ],
       "room": "Track B (LT-14)",
       "roomKey": "4654-track-b-lt-14",
       "track": "",
@@ -616,6 +850,20 @@
       "code": "CUPHVJ",
       "title": "Functional Python: Practical Paradigms for Readable and Robust Code",
       "speakers": ["Wenxin Jiang", "Jian Yin"],
+      "speakerProfiles": [
+        {
+          "name": "Wenxin Jiang",
+          "biography": "Wenxin is currently a Ph.d. student in biostatistics at CityUHK. Her research interest lies in high-dimensional statistical machine learning and data science with applications in genetics and genomics data.",
+          "avatar": "https://pretalx.com/media/avatars/BLNXLK_vrijyea.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/BLNXLK/"
+        },
+        {
+          "name": "Jian Yin",
+          "biography": "Phd student of biostatistics at CityUHK",
+          "avatar": "",
+          "url": "https://pretalx.com/pyconhk2025/speaker/YWFHKV/"
+        }
+      ],
       "room": "Track C (LT-16)",
       "roomKey": "4655-track-c-lt-16",
       "track": "",
@@ -637,6 +885,14 @@
       "code": "RHYPBS",
       "title": "Make use of Tox in your CI workflow",
       "speakers": ["Rex Liu"],
+      "speakerProfiles": [
+        {
+          "name": "Rex Liu",
+          "biography": "Rex Liu works as a Data Management Professional at Bloomberg. His team within the firm's Data department processes company financials in related to Asian markets, and he uses Python to build and maintain data pipelines that acquire, extract, and process financial data. Rex holds a bachelor's degree in computer engineering from the Hong Kong University of Science and Technology.",
+          "avatar": "https://pretalx.com/media/avatars/NX8CPA_0yXKAfC.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/NX8CPA/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -658,6 +914,20 @@
       "code": "LRTWNA",
       "title": "Shall We Upgrade? Navigating Python's Rapid Evolution",
       "speakers": ["Wenxin Jiang", "Jian Yin"],
+      "speakerProfiles": [
+        {
+          "name": "Wenxin Jiang",
+          "biography": "Wenxin is currently a Ph.d. student in biostatistics at CityUHK. Her research interest lies in high-dimensional statistical machine learning and data science with applications in genetics and genomics data.",
+          "avatar": "https://pretalx.com/media/avatars/BLNXLK_vrijyea.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/BLNXLK/"
+        },
+        {
+          "name": "Jian Yin",
+          "biography": "Phd student of biostatistics at CityUHK",
+          "avatar": "",
+          "url": "https://pretalx.com/pyconhk2025/speaker/YWFHKV/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -679,6 +949,14 @@
       "code": "EYTFQA",
       "title": "Tired of Waiting? Bring Your Python Loops to Life with tqdm",
       "speakers": ["Cheryl Cong"],
+      "speakerProfiles": [
+        {
+          "name": "Cheryl Cong",
+          "biography": "Cheryl Cong is a Data Engineering Analyst in Bloomberg's Data department in Hong Kong, specializing in Equity Corporate Actions. In this role, she works closely with product managers, data teams, and engineers on data product developments. She develops and grows automated data pipelines to update financial product data with high accuracy and low latency. She is passionate about staying up-to-date with the latest technologies and trends in the field and will continue developing her skills to make a positive impact. She holds a master's degree in management science and engineering from Columbia University.",
+          "avatar": "https://pretalx.com/media/avatars/UYLHLG_YMncRjn.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/UYLHLG/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -700,6 +978,14 @@
       "code": "W8UDQD",
       "title": "The Year of the Snake (Python)",
       "speakers": ["Sau"],
+      "speakerProfiles": [
+        {
+          "name": "Sau",
+          "biography": "Based in Tokyo, Sau Yee believes that Python is for everyone. She is a heavy user of her password manager.",
+          "avatar": "https://pretalx.com/media/avatars/W8SXPU_RcMYZhp.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/W8SXPU/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -721,6 +1007,14 @@
       "code": "B8REC8",
       "title": "My Python Journey from Coding to Community",
       "speakers": ["Sammy Fung"],
+      "speakerProfiles": [
+        {
+          "name": "Sammy Fung",
+          "biography": "Founder of PyCon HK, HKOSCon, Open Source HK .\n\n#DevRel",
+          "avatar": "",
+          "url": "https://pretalx.com/pyconhk2025/speaker/ZYNVK9/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -742,6 +1036,14 @@
       "code": "ADGCNZ",
       "title": "Chills and Submit Your Proposal",
       "speakers": ["Nizar Akbar Meilani"],
+      "speakerProfiles": [
+        {
+          "name": "Nizar Akbar Meilani",
+          "biography": "I am a two years experienced System Administrator, who work in an Indonesian Hosting Company, that passionate about Linux and scripting language like Bash and Python. I love in understanding the intricacies of Linux and it's isolation mechanism. And I am a new open source person who love to understand how open source community work.",
+          "avatar": "https://pretalx.com/media/avatars/MZT9A9_qFRRikH.webp",
+          "url": "https://pretalx.com/pyconhk2025/speaker/MZT9A9/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -763,6 +1065,14 @@
       "code": "NSDPHV",
       "title": "Web Scraping with Python Selenium",
       "speakers": ["Nicholas B."],
+      "speakerProfiles": [
+        {
+          "name": "Nicholas B.",
+          "biography": "Just a SWE lmao",
+          "avatar": "",
+          "url": "https://pretalx.com/pyconhk2025/speaker/CAJMLU/"
+        }
+      ],
       "room": "Main Track (Afternoon) (LT-13)",
       "roomKey": "4652-main-track-afternoon-lt-13",
       "track": "",
@@ -780,6 +1090,6 @@
       "isBreak": false
     }
   ],
-  "fetchedAt": "2026-09-07T16:24:12.025Z",
-  "hash": "3b668e8f5d4c32950c0d685d774f853370560f93617a74110c8b38e49e99abb6"
+  "fetchedAt": "2026-09-08T03:44:56.687Z",
+  "hash": "e88275db5bb5e48e65ff5dd8995c8476f9e3398eb5d42f62799d124e7ea4cbd5"
 }

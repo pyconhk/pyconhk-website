@@ -5,6 +5,7 @@ import { getTranslations } from '../../i18n';
 import ConferenceLayout from '../../layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '../../locales';
 import ScheduleModal from '../schedule/ScheduleModal.astro';
+import SessionDetails from '../schedule/SessionDetails.astro';
 
 interface Props { locale: CfpLocale }
 const { locale } = Astro.props;
@@ -52,6 +53,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
           })}
         </div>
         <ScheduleModal locale={locale} />
+        {allScheduleItems.map((session) => <template data-session-content={session.id}><SessionDetails session={session} locale={locale} /></template>)}
         <script is:inline id="programme-data" type="application/json" set:html={payload} />
       </>}
     </div>
@@ -180,7 +182,12 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       setText('#modal-time', `${session.date} · ${session.startTime}–${session.endTime} (UTC+8)`);
       setText('#modal-room', session.room);
       setText('#modal-speakers', session.speakers.join(', '));
-      setText('#modal-description', [session.abstract, session.description].filter((value, index, list) => value && list.indexOf(value) === index).join('\n\n'));
+      const content = Array.from(document.querySelectorAll<HTMLTemplateElement>('[data-session-content]')).find((template) => template.dataset.sessionContent === session.id);
+      const details = dialog.querySelector('#modal-details');
+      if (details) details.replaceChildren(...(content ? [content.content.cloneNode(true)] : []));
+      dialog.querySelectorAll<HTMLImageElement>('[data-speaker-avatar]').forEach((avatar) => {
+        avatar.addEventListener('error', () => { avatar.hidden = true; }, { once: true });
+      });
       const speakerSection = dialog.querySelector<HTMLElement>('[data-modal-speakers]');
       if (speakerSection) speakerSection.hidden = session.speakers.length === 0;
       const calendar = dialog.querySelector<HTMLAnchorElement>('[data-modal-calendar]');
@@ -189,6 +196,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       if (source) { source.hidden = !session.url; source.href = session.url; }
       refresh();
       dialog.showModal();
+      const scrollBody = dialog.querySelector<HTMLElement>('[data-modal-body]');
+      if (scrollBody) scrollBody.scrollTop = 0;
     }); });
     dialog?.querySelector('[data-modal-save]')?.addEventListener('click', () => { if (activeSession) toggleSave(activeSession.id); });
     dialog?.addEventListener('close', () => previousFocus?.focus());
