@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SiteFooter from '@/years/2026/components/site/SiteFooter.astro';
 import SiteHeader from '@/years/2026/components/site/SiteHeader.astro';
+import ThemeInit from '@/years/2026/components/ui/ThemeInit.astro';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props {
@@ -37,7 +38,8 @@ const htmlLang = htmlLangByLocale[locale] ?? 'en';
   imagePath={imagePath}
   iconPath="/2026/logos/logo.png"
 >
-  <div data-conference-site class="min-h-screen bg-[#FAF7F0] text-[#172033] flex flex-col selection:bg-[#ffd343] selection:text-[#172033]">
+  <ThemeInit slot="head" />
+  <div data-conference-site class="min-h-screen bg-conference-paper text-conference-ink flex flex-col selection:bg-conference-yellow selection:text-conference-ink">
     <SiteHeader locale={locale} />
     
     <main

@@ -20,11 +20,11 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
       {kind === 'about' && content.about.paragraphs.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}
       {kind === 'venue' && (
         <>
-          {content.venue.title && <h2 class="text-2xl font-bold text-[#2f559a]">{content.venue.title}</h2>}
+          {content.venue.title && <h2 class="text-2xl font-bold text-conference-blue">{content.venue.title}</h2>}
           {content.venue.address && <p class="font-bold">{content.venue.address}</p>}
           {content.venue.description && <p class="whitespace-pre-line">{content.venue.description}</p>}
           {content.venue.mapImage && <img src={content.venue.mapImage} alt={content.venue.title || copy.titles.venue} width="1200" height="800" class="h-auto w-full rounded-2xl" />}
-          {content.venue.mapUrl && <a href={content.venue.mapUrl} target="_blank" rel="noopener noreferrer" class="font-bold text-[#2f559a] underline">{copy.viewMap}</a>}
+          {content.venue.mapUrl && <a href={content.venue.mapUrl} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.viewMap}</a>}
           {content.venue.directions && <section><h2 class="mb-3 text-xl font-bold">{copy.directions}</h2><p class="whitespace-pre-line">{content.venue.directions}</p></section>}
           {content.venue.wifi && <section><h2 class="mb-3 text-xl font-bold">{copy.wifi}</h2><p class="whitespace-pre-line">{content.venue.wifi}</p></section>}
         </>
@@ -36,25 +36,25 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
           {content.sprint.date && <p class="font-bold">{content.sprint.date}</p>}
           {content.sprint.location && <p>{content.sprint.location}</p>}
           <ul class="list-disc space-y-3 pl-6">{content.sprint.items.map((item) => <li class="whitespace-pre-line">{item}</li>)}</ul>
-          {content.sprint.registrationUrl && <a href={content.sprint.registrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border-2 border-[#172033] bg-[#d71920] px-5 py-3 font-bold text-white">{copy.register}</a>}
-          <p><a href={`/2026/${locale}/sprint/qna/`} class="font-bold text-[#2f559a] underline">{copy.titles.qa}</a></p>
+          {content.sprint.registrationUrl && <a href={content.sprint.registrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border-2 border-conference-outline bg-[#d71920] px-5 py-3 font-bold text-white">{copy.register}</a>}
+          <p><a href={`/2026/${locale}/sprint/qna/`} class="font-bold text-conference-blue underline">{copy.titles.qa}</a></p>
         </>
       )}
-      {kind === 'qa' && content.qa.items.map((item) => <details class="rounded-xl border-2 border-[#172033] p-5"><summary class="cursor-pointer font-bold">{item.question}</summary><p class="mt-4 whitespace-pre-line">{item.answer}</p></details>)}
+      {kind === 'qa' && content.qa.items.map((item) => <details class="rounded-xl border-2 border-conference-outline p-5"><summary class="cursor-pointer font-bold">{item.question}</summary><p class="mt-4 whitespace-pre-line">{item.answer}</p></details>)}
       {kind === 'sponsors' && (
         <div class="grid gap-6 sm:grid-cols-2">
-          {content.sponsors.items.map((item) => <article class="space-y-4 rounded-2xl border-2 border-[#172033] p-6"><p class="text-sm font-bold text-[#d71920]">{item.tier}</p>{item.logo && <img src={item.logo} alt={item.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2>{item.description && <p class="whitespace-pre-line">{item.description}</p>}{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-[#2f559a] underline">{copy.visitWebsite}</a>}</article>)}
+          {content.sponsors.items.map((item) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline p-6"><p class="text-sm font-bold text-conference-red">{item.tier}</p>{item.logo && <img src={item.logo} alt={item.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2>{item.description && <p class="whitespace-pre-line">{item.description}</p>}{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
         </div>
       )}
-      {kind === 'patrons' && <ul class="grid gap-4 sm:grid-cols-2">{content.patrons.items.map((item) => <li class="rounded-xl border-2 border-[#172033] p-4 font-bold">{item.name}</li>)}</ul>}
+      {kind === 'patrons' && <ul class="grid gap-4 sm:grid-cols-2">{content.patrons.items.map((item) => <li class="rounded-xl border-2 border-conference-outline p-4 font-bold">{item.name}</li>)}</ul>}
       {(kind === 'organizers' || kind === 'supporters') && (
         <div class="grid gap-6 sm:grid-cols-2">
-          {organizations.map((item) => <article class="space-y-4 rounded-2xl border-2 border-[#172033] p-6">{item.logo && <img src={item.logo} alt={item.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2><p class="whitespace-pre-line">{item.description}</p>{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-[#2f559a] underline">{copy.visitWebsite}</a>}</article>)}
+          {organizations.map((item) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline p-6">{item.logo && <img src={item.logo} alt={item.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2><p class="whitespace-pre-line">{item.description}</p>{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
         </div>
       )}
       {kind === 'people' && (
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {content.people.items.map((item) => <article class="space-y-4 rounded-2xl border-2 border-[#172033] p-6">{item.image && <img src={item.image} alt={item.name} width="320" height="320" class="mx-auto h-40 w-40 rounded-full object-cover" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2><p>{item.role}</p>{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-[#2f559a] underline">{copy.visitWebsite}</a>}</article>)}
+          {content.people.items.map((item) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline p-6">{item.image && <img src={item.image} alt={item.name} width="320" height="320" class="mx-auto h-40 w-40 rounded-full object-cover" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2><p>{item.role}</p>{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
         </div>
       )}
     </div>
