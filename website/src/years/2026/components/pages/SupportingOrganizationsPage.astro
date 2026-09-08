@@ -18,7 +18,7 @@ const copy = pageCopyByLocale[locale];
         const Tag = item.url ? 'a' : 'div';
         return <article class="group flex min-w-0 flex-col justify-between rounded-2xl border-2 border-conference-outline bg-conference-paper p-5 shadow-[4px_4px_0_var(--conference-shadow)] hover:shadow-[6px_6px_0_#d71920] sm:p-6">
           <div>
-            <Tag href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined} aria-label={item.url ? `${copy.visitWebsite}: ${item.name}` : undefined} class="brand-plate flex h-40 w-full items-center justify-center rounded-xl border-2 border-conference-outline bg-conference-surface p-4 shadow-[2px_2px_0_var(--conference-shadow)]">
+            <Tag href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined} aria-label={item.url ? `${copy.visitWebsite}: ${item.name}` : undefined} class="organization-logo-plate flex h-40 w-full items-center justify-center rounded-xl border-2 border-conference-outline bg-conference-surface p-4 shadow-[2px_2px_0_var(--conference-shadow)]">
               {item.logo && <img src={item.logo} alt={item.name} width="240" height="140" loading="lazy" class="max-h-28 max-w-full object-contain" />}
             </Tag>
             <h2 class="mt-5 text-center text-base font-black leading-snug text-conference-ink sm:text-lg">{item.name}</h2>
@@ -30,3 +30,7 @@ const copy = pageCopyByLocale[locale];
     </div>
   )}
 </CommunityPageFrame>
+
+<style>
+  .organization-logo-plate { background: #faf7f0; color-scheme: light; }
+</style>

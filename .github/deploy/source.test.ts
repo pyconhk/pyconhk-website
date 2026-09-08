@@ -4,8 +4,8 @@ import { mkdtempSync, mkdirSync, writeFileSync, renameSync, rmSync } from "node:
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { deploymentSourceHash, isDeploymentInput } from "../.github/deploy/source.ts";
-import { deployCms } from "../.github/deploy/cms.ts";
+import { deploymentSourceHash, isDeploymentInput } from "./source.ts";
+import { deployCms } from "./cms.ts";
 
 test("app source hashes ignore tests, CI, docs and the other app but include build inputs", (t) => {
   const root = mkdtempSync(path.join(tmpdir(), "pycon-deployment-"));
