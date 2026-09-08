@@ -48,7 +48,3 @@ run = "bun run lint"
 [tasks.format]
 description = "Format the CMS app"
 run = "bun run format"
-
-[tasks.local-backend]
-description = "Start the Decap local backend"
-run = "bun run cms:local-backend"

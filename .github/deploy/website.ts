@@ -3,10 +3,10 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { deploymentSourceHash } from "./deployment-source.ts";
-import { fetchProgramme, validateSnapshot } from "../website/src/lib/programme/snapshot.ts";
+import { deploymentSourceHash } from "./source.ts";
+import { fetchProgramme, validateSnapshot } from "../../website/src/lib/programme/snapshot.ts";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
 export const deploymentTargets = {
   production: {

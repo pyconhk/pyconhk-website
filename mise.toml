@@ -40,11 +40,14 @@ mise run e2e
 
 [tasks.check-cms-content]
 description = "Validate locale-coded Decap content in the working tree or a git ref"
-run = "node scripts/check-cms-content-locales.ts"
+run = "node cms/publication/content.ts"
 
 [tasks.check-cms-release]
 description = "Fetch and validate the CMS branch before deployment"
-run = "node scripts/check-cms-release.ts"
+run = """
+git fetch origin +refs/heads/cms:refs/remotes/origin/cms
+CMS_CONTENT_REF=origin/cms node cms/publication/content.ts
+"""
 
 [tasks.preview]
 description = "Build and preview the public website locally"

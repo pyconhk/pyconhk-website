@@ -20,10 +20,11 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - `website/` - public website app, routes, components, content loaders, data, and static assets
 - `website/outstatic/` - committed news content and metadata consumed by the website
 - `website/public/` - public website static assets served as-is
-- `website/tests/` and `tests/` - repeatable tests, including archive and CMS contracts
+- `website/src/years/*/e2e/`, `website/e2e/`, `cms/e2e/` and `e2e/` - self-contained E2E suites
+- `cms/publication/` - runtime publication and editorial content gates
+- `.github/deploy/*.test.ts` - deployment tests beside the workflow implementation
 - `website/integrations/` - Astro build integration for public programme data and output
 - `cms/` - Astro + Decap CMS app for `cms.pycon.hk`
-- `specs/` - migration notes, ADRs, and working specs
 - `archived/website-nextjs/` - archived copy of the old site for reference only
 
 ## Prerequisites
@@ -180,6 +181,19 @@ force bypasses the skip; a missing manifest triggers the first deployment.
 - `cms/dist/` - generated CMS output
 - `website/.astro/` and `cms/.astro/` - local Astro cache and generated metadata
 - `website/.wrangler/` - local Cloudflare/Wrangler artifacts when present
-- `cms/.vercel/` - local Vercel artifacts when present
 
 These paths are ignored by the repository `.gitignore`.
+
+## Content and tests
+
+CMS news uses locale-coded Markdown in `website/outstatic/content/<year>-posts/`.
+Published 2026 content requires six complete translations; 2025 requires five.
+Raw HTML is rejected and Markdown output is sanitized. Archived HTML stays in the
+year-specific archive data and is covered by the archive regression tests.
+
+Checks belong in the Node/Bun test suites or Playwright, not standalone verification
+programs. `mise run check-cms-content` tests local content; `mise run check-cms-release`
+fetches and tests `origin/cms`. `CMS_BASE_URL=https://cms.pycon.hk mise run //cms:check`
+also runs the hosted editor, configuration and OAuth checks. Without that variable,
+hosted tests are skipped. Build helpers are Astro integration functions; deployment
+orchestration lives with its workflows in `.github/deploy/`.

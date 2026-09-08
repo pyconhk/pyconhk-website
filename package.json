@@ -15,7 +15,7 @@
     "@playwright/test": "^1.61.1"
   },
   "patchedDependencies": {
-    "decap-cms-core@3.16.0": "patches/decap-cms-core@3.16.0.patch"
+    "decap-cms-core@3.16.0": "cms/patches/decap-cms-core@3.16.0.patch"
   },
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",
@@ -41,7 +41,6 @@
     "cms:preview": "mise //cms:preview",
     "cms:check": "mise //cms:check",
     "cms:lint": "mise //cms:lint",
-    "cms:format": "mise //cms:format",
-    "cms:local-backend": "mise //cms:local-backend"
+    "cms:format": "mise //cms:format"
   }
 }

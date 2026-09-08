@@ -2,7 +2,7 @@ import path from "node:path";
 import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, sessionDrivers } from "astro/config";
-import { deploymentSourceHash } from "../scripts/deployment-source.ts";
+import { deploymentSourceHash } from "../.github/deploy/source.ts";
 
 export default defineConfig({
   output: "server",

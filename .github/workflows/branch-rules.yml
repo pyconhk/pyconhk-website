@@ -27,4 +27,4 @@ jobs:
           CMS_PR_BASE_REPO: ${{ github.repository }}
           CMS_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           CMS_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: node scripts/check-cms-pr.ts
+        run: node cms/publication/editorial.ts

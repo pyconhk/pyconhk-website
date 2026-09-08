@@ -1,4 +1,6 @@
-import { execFileSync } from 'node:child_process';
+import { buildPagefind } from './build-pagefind';
+import { copyEventAssets } from './copy-event-assets';
+import { finalizeEventRedirects } from './finalize-event-redirects';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -36,10 +38,10 @@ export default function conferenceBuild(): AstroIntegration {
         process.env.PROGRAMME_SNAPSHOT_PATH = output;
         logger.info(`Loaded ${snapshot.sessions.length} public sessions for ${event} (${environment}).`);
       },
-      'astro:build:done': () => {
-        for (const script of ['copy-event-assets', 'finalize-event-redirects', 'build-pagefind']) {
-          execFileSync(process.execPath, [resolve(root, `scripts/${script}.ts`)], { cwd: root, stdio: 'inherit', env: process.env });
-        }
+      'astro:build:done': async () => {
+        await copyEventAssets(root);
+        await finalizeEventRedirects(root);
+        await buildPagefind(root);
       },
     },
   };

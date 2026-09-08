@@ -8,7 +8,7 @@ export const archiveCmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
 export const cmsLocales = [...archiveCmsLocales, "ko"];
 export const cmsRepoRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  "..",
+  "../..",
 );
 
 const contentRoot = "website/outstatic/content";
@@ -149,7 +149,7 @@ export function checkCmsContentLocales(ref) {
 }
 
 function main() {
-  const ref = process.argv[2];
+  const ref = process.env.CMS_CONTENT_REF || process.argv[2];
   checkCmsContentLocales(ref);
   console.log(`CMS locale content validation passed: ${ref || "working tree"}`);
 }
