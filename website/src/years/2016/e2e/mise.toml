@@ -1,0 +1,5 @@
+[tasks.e2e]
+extends = "playwright:e2e"
+description = "Run the complete 2016 website E2E suite"
+dir = "{{config_root}}/../../../.."
+env = { E2E_SUITE = "2016" }

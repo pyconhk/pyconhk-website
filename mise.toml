@@ -8,7 +8,16 @@ node = "24.18.0"
 config_roots = [
   "website",
   "cms",
+  "website/src/years/*/e2e",
+  "e2e",
+  "cms/e2e",
+  "website/e2e",
 ]
+
+[task_templates."playwright:e2e"]
+description = "Run the complete E2E suite"
+run = 'bunx playwright test --config "$E2E_CONFIG"'
+env = { E2E_CONFIG = "playwright.config.ts", E2E_BROWSER = "chrome" }
 
 [tasks.install]
 description = "Install dependencies for all apps sequentially"
@@ -22,29 +31,22 @@ description = "Start the public website dev server"
 run = "mise //website:dev"
 
 [tasks.ci]
-description = "Check and build all apps"
+description = "Run static checks and all E2E suites"
 run = """
-mise run validate-cms-ops
+mise run check-cms-content
 mise //...:check
-mise //website:build
-mise //cms:deploy-dry-run
-"""
-
-[tasks.validate-cms-ops]
-description = "Validate CMS branch, workflow, and Decap content ownership policy"
-run = """
-node --test .github/deploy/*.test.ts cms/tests/content-locales.test.ts cms/tests/editorial-boundary.test.ts
+mise run e2e
 """
 
 [tasks.check-cms-content]
 description = "Validate locale-coded Decap content in the working tree or a git ref"
-run = "node --test cms/tests/content-locales.test.ts"
+run = "node cms/publication/content.ts"
 
 [tasks.check-cms-release]
 description = "Fetch and validate the CMS branch before deployment"
 run = """
 git fetch origin +refs/heads/cms:refs/remotes/origin/cms
-CMS_CONTENT_REF=origin/cms node --test cms/tests/content-locales.test.ts
+CMS_CONTENT_REF=origin/cms node cms/publication/content.ts
 """
 
 [tasks.preview]
@@ -52,8 +54,8 @@ description = "Build and preview the public website locally"
 run = "mise //website:preview"
 
 [tasks.e2e]
-description = "Run public website Playwright e2e tests"
-run = "mise //website:e2e"
+description = "Run all website, CMS and publishing E2E suites"
+depends = ["//website:e2e", "//cms:e2e", "//e2e:e2e"]
 
 [tasks.cloudflare-preview]
 description = "Preview with Wrangler Pages for Cloudflare redirect/runtime checks"

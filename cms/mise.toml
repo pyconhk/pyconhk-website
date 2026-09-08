@@ -33,6 +33,10 @@ run = "bun run deploy"
 description = "Generate Cloudflare Worker binding types"
 run = "bun run types"
 
+[tasks.e2e]
+description = "Run the complete CMS E2E suite"
+run = "mise //cms/e2e:e2e"
+
 [tasks.check]
 description = "Run CMS type and lint checks"
 run = "bun run check && bun run lint"
