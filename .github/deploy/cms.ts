@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   deploymentSourceHash,
   readDeploymentManifest,
-} from "../../scripts/deployment-source.ts";
+} from "./source.ts";
 
 export async function deployCms({
   root = fileURLToPath(new URL("../..", import.meta.url)),
@@ -21,7 +21,7 @@ export async function deployCms({
   if (!force && previous?.app === "cms" && previous.sourceHash === sourceHash) {
     console.log("CMS inputs are unchanged; build and deployment skipped.");
   } else {
-    run("node", ["scripts/check-cms-release.ts"], {
+    run("mise", ["run", "check-cms-release"], {
       cwd: root,
       stdio: "inherit",
     });

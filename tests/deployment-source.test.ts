@@ -4,8 +4,8 @@ import { mkdtempSync, mkdirSync, writeFileSync, renameSync, rmSync } from "node:
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { deploymentSourceHash, isDeploymentInput } from "../scripts/deployment-source.ts";
-import { deployCms } from "../cms/scripts/deploy.ts";
+import { deploymentSourceHash, isDeploymentInput } from "../.github/deploy/source.ts";
+import { deployCms } from "../.github/deploy/cms.ts";
 
 test("app source hashes ignore tests, CI, docs and the other app but include build inputs", (t) => {
   const root = mkdtempSync(path.join(tmpdir(), "pycon-deployment-"));
@@ -36,11 +36,13 @@ test("app source hashes ignore tests, CI, docs and the other app but include bui
 });
 
 test("CMS content, portraits, Functions and dependencies invalidate the website", () => {
-  for (const file of ["website/outstatic/content/news/en.md", "website/public/photo.webp", "website/functions/auth.ts", "website/integrations/conference-build.ts", "website/bun.lock", "bun.lock", "mise.toml", "patches/decap.patch"]) {
+  for (const file of ["website/outstatic/content/news/en.md", "website/public/photo.webp", "website/functions/auth.ts", "website/integrations/conference-build.ts", "website/bun.lock", "bun.lock", "mise.toml"]) {
     assert.equal(isDeploymentInput("website", file), true, file);
   }
   assert.equal(isDeploymentInput("cms", "website/outstatic/content/news/en.md"), false);
   assert.equal(isDeploymentInput("cms", "cms/wrangler.jsonc"), true);
+  assert.equal(isDeploymentInput("cms", "cms/patches/decap-cms-core@3.16.0.patch"), true);
+  assert.equal(isDeploymentInput("website", "cms/patches/decap-cms-core@3.16.0.patch"), false);
 });
 
 test("unchanged CMS skips every command; force or a missing baseline validates, builds and uploads", async () => {
@@ -51,7 +53,7 @@ test("unchanged CMS skips every command; force or a missing baseline validates, 
   await deployCms({ root, readManifest: async () => manifest, run });
   assert.deepEqual(commands, []);
   await deployCms({ root, force: true, readManifest: async () => manifest, run });
-  assert.deepEqual(commands, ["node scripts/check-cms-release.ts", "bun run build", "bun x wrangler deploy"]);
+  assert.deepEqual(commands, ["mise run check-cms-release", "bun run build", "bun x wrangler deploy"]);
   commands.length = 0;
   let reads = 0;
   await deployCms({ root, readManifest: async () => ++reads === 1 ? null : manifest, run });

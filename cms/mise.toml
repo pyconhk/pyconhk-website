@@ -33,10 +33,6 @@ run = "bun run deploy"
 description = "Generate Cloudflare Worker binding types"
 run = "bun run types"
 
-[tasks.smoke-worker]
-description = "Smoke-test a local or deployed Cloudflare Worker"
-run = "bun run smoke:worker"
-
 [tasks.check]
 description = "Run CMS type and lint checks"
 run = "bun run check && bun run lint"
@@ -48,7 +44,3 @@ run = "bun run lint"
 [tasks.format]
 description = "Format the CMS app"
 run = "bun run format"
-
-[tasks.local-backend]
-description = "Start the Decap local backend"
-run = "bun run cms:local-backend"

@@ -38,9 +38,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 .turbo
-
-# local CMS sandbox
-sandbox-content/**
-!sandbox-content/.gitkeep
-public/sandbox-images/**
-!public/sandbox-images/.gitkeep
