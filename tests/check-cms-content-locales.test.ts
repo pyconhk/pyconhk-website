@@ -1,13 +1,11 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import path from "node:path";
 import { describe, test } from "node:test";
 import {
   archiveCmsLocales,
   cmsLocales,
-  cmsRepoRoot,
+  checkCmsContentLocales,
   collectCmsLocaleProblems,
-} from "../scripts/check-cms-content-locales.ts";
+} from "./helpers/cms-content.ts";
 
 const published =
   "---\ntitle: Announcement\nstatus: published\n---\nApproved article.\n";
@@ -107,15 +105,7 @@ describe("CMS locale publication validation", () => {
       ),
     );
   });
-  test("resolves repository content when invoked from the CMS directory", () => {
-    const output = execFileSync(
-      process.execPath,
-      [path.join(cmsRepoRoot, "scripts/check-cms-content-locales.ts")],
-      {
-        cwd: path.join(cmsRepoRoot, "cms"),
-        encoding: "utf8",
-      },
-    );
-    assert.match(output, /CMS locale content validation passed: working tree/u);
+  test("published repository content has every required locale", () => {
+    checkCmsContentLocales(process.env.CMS_CONTENT_REF);
   });
 });

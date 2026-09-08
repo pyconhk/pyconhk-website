@@ -37,7 +37,7 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
     await cp(path.join(websiteRoot, fileName), path.join(targetRoot, fileName));
   }
 
-  for (const directoryName of ['outstatic', 'public', 'scripts', 'src', 'integrations']) {
+  for (const directoryName of ['outstatic', 'public', 'src', 'integrations']) {
     await cp(
       path.join(websiteRoot, directoryName),
       path.join(targetRoot, directoryName),

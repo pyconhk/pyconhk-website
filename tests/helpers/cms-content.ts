@@ -8,7 +8,7 @@ export const archiveCmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
 export const cmsLocales = [...archiveCmsLocales, "ko"];
 export const cmsRepoRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  "..",
+  "../..",
 );
 
 const contentRoot = "website/outstatic/content";
@@ -145,20 +145,5 @@ export function checkCmsContentLocales(ref) {
     throw new Error(
       `CMS locale content validation failed:\n- ${problems.join("\n- ")}`,
     );
-  }
-}
-
-function main() {
-  const ref = process.argv[2];
-  checkCmsContentLocales(ref);
-  console.log(`CMS locale content validation passed: ${ref || "working tree"}`);
-}
-
-if (import.meta.url === new URL(process.argv[1], "file:").href) {
-  try {
-    main();
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : error);
-    process.exitCode = 1;
   }
 }

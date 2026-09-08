@@ -118,7 +118,7 @@ After deploying `cms.pycon.hk`, verify the live Decap config matches the branch,
 path, and locale contract:
 
 ```bash
-mise run smoke-cms-config -- https://cms.pycon.hk
+CMS_BASE_URL=https://cms.pycon.hk mise run //cms:check
 ```
 
 The smoke check fetches `/admin/config.yml` from the supplied CMS host and asserts:
@@ -153,8 +153,7 @@ cannot pass without producing a Wrangler-deployable bundle.
 Release first to the generated `workers.dev` URL. Attach `cms.pycon.hk` only
 after all of these checks pass:
 
-1. `mise run //cms:smoke-worker -- <workers.dev URL>`
-2. `mise run smoke-cms-config -- <workers.dev URL>`
+1. `CMS_BASE_URL=<workers.dev URL> mise run //cms:check`
 3. `/admin/test/` loads without a Decap configuration error in a browser.
 4. A real GitHub OAuth login succeeds for an editor with push permission.
 5. A test edit and image upload create only locale-coded files on `cms`.

@@ -40,7 +40,6 @@
     "cms:preview": "mise //cms:preview",
     "cms:check": "mise //cms:check",
     "cms:lint": "mise //cms:lint",
-    "cms:format": "mise //cms:format",
-    "cms:local-backend": "mise //cms:local-backend"
+    "cms:format": "mise //cms:format"
   }
 }

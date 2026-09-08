@@ -9,9 +9,10 @@ export function isDeploymentInput(app: App, filename: string) {
   if (/\.(test|spec)\.[cm]?[jt]sx?$/.test(filename)) return false;
   if (/(^|\/)(tests|e2e|sandbox-content|sandbox-images)(\/|$)/.test(filename)) return false;
   if (/\.(md|mdx)$/.test(filename) && !filename.startsWith(`${app}/src/`) && !filename.startsWith(`${app}/outstatic/`)) return false;
-  if (["package.json", "bun.lock", "mise.toml", "scripts/deployment-source.ts"].includes(filename)) return true;
-  if (filename.startsWith("patches/")) return true;
-  if (app === "website" && filename === "scripts/website-deployment.ts") return true;
+  if (["package.json", "bun.lock", "mise.toml", ".github/deploy/source.ts"].includes(filename)) return true;
+  if (filename.startsWith("patches/")) return app === "cms";
+  if (app === "cms" && filename === ".github/deploy/cms.ts") return true;
+  if (app === "website" && filename === ".github/deploy/website.ts") return true;
   return filename.startsWith(`${app}/`) && !/^.+\/(biome\.json|playwright\.config\.ts|worker-configuration\.d\.ts)$/.test(filename);
 }
 
