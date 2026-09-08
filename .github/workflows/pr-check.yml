@@ -86,3 +86,11 @@ jobs:
 
       - name: Run website e2e smoke tests
         run: mise run '//website:e2e'
+
+      - name: Test published programme interactions and responsive layouts
+        working-directory: website
+        env:
+          PROGRAMME_ENVIRONMENT: test
+          PROGRAMME_SOURCE_EVENT: pyconhk2025
+          PROGRAMME_SNAPSHOT_PATH: ${{ github.workspace }}/website/src/years/2026/data/programme/pyconhk2025.public.json
+        run: mise exec -- bunx playwright test programme.spec.ts programme-responsive.spec.ts
