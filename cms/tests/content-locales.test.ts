@@ -10,7 +10,7 @@ const archiveCmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
 const cmsLocales = [...archiveCmsLocales, "ko"];
 const cmsRepoRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  "..",
+  "../..",
 );
 
 const contentRoot = "website/outstatic/content";
