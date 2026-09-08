@@ -25,7 +25,7 @@ the top of the hour. Every entry point calls `deploy-website-reusable.yml`.
 | test | test | pyconhk-website-test | pyconhk2025 |
 | preview | alex-dev | pyconhk-website-test (alex-dev alias) | pyconhk2025 |
 
-`scripts/website-deployment.mjs` owns the event URL and deployment mapping. Test
+`scripts/website-deployment.ts` owns the event URL and deployment mapping. Test
 uses `https://pretalx.com/pyconhk2025/schedule/export/schedule.json`. Production
 uses `https://cfp.pycon.hk/pyconhk2026/schedule/export/schedule.json`; an initial
 404 yields a coming-soon state, never a 2025 fallback. Switch the test source
@@ -46,11 +46,8 @@ older checkout cannot overwrite a newer queued revision. Wrangler runs from
 To test ingestion locally:
 
 ```sh
-node website/scripts/sync-schedule.mjs --event pyconhk2025 --environment test \
-  --url https://pretalx.com/pyconhk2025/schedule/export/schedule.json \
-  --output /tmp/pyconhk2025-test.json
 PROGRAMME_ENVIRONMENT=test PROGRAMME_SOURCE_EVENT=pyconhk2025 \
-  PROGRAMME_SNAPSHOT_PATH=/tmp/pyconhk2025-test.json mise run //website:build
+  mise run //website:build
 ```
 
 In GitHub, choose **Deploy Website → Run workflow → target**, then choose whether

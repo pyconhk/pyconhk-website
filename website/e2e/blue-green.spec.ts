@@ -675,7 +675,7 @@ test.describe('blue-green launch smoke', () => {
   }
 
   for (const check of legacyArticlePresentationChecks) {
-    test(`uses shared 2020-2021 legacy article presentation: ${check.path}`, async ({
+    test(`uses shared legacy article presentation: ${check.path}`, async ({
       page,
     }) => {
       const response = await page.goto(check.path);
@@ -697,7 +697,7 @@ test.describe('blue-green launch smoke', () => {
   }
 
   for (const check of legacyMarketinglyMobileHeaderChecks) {
-    test(`keeps 2020-2021 legacy header compact on mobile: ${check.path}`, async ({
+    test(`keeps legacy header compact on mobile: ${check.path}`, async ({
       page,
     }) => {
       await page.setViewportSize({ width: 390, height: 844 });
@@ -1158,10 +1158,7 @@ test.describe('blue-green launch smoke', () => {
     expect(Math.round(articleBox?.width ?? 0)).toBeGreaterThan(1_000);
   });
 
-  test('serves legacy year archives with live WordPress archive structure', async ({
-    page,
-    request,
-  }) => {
+  test('preserves 2018 archive structure and pagination', async ({ page }) => {
     const response2018 = await page.goto('/2018/');
 
     expect(response2018?.status()).toBe(200);
@@ -1174,6 +1171,27 @@ test.describe('blue-green launch smoke', () => {
     await expect(page.locator('#secondary .search-form')).toBeVisible();
     await expect(page.locator('#secondary .widget_archive')).toBeVisible();
     await expect(page.locator('a.next.page-numbers[href="/2018/page/2/"]')).toBeVisible();
+
+    const pageTwoResponse = await page.goto('/2018/page/2/');
+
+    expect(pageTwoResponse?.status()).toBe(200);
+    await expect(page).toHaveTitle(/2018 - PyCon HK - Page 2/);
+    await expect(page.locator('article.posts-entry.blogposts-list')).toHaveCount(18);
+    await expect(page.locator('article.posts-entry.blogposts-list').last()).toContainText(
+      /Call for Proposals 2018/u
+    );
+    await expect(page.locator('span.page-numbers.current')).toHaveText('2');
+    await expect(page.locator('a.prev.page-numbers[href="/2018/"]')).toBeVisible();
+    await expect(
+      page.locator('a.page-numbers[href="/2018/"]', { hasText: '1' })
+    ).toBeVisible();
+
+    const pageOne2018Response = await page.goto('/2018/page/1/');
+
+    expect(pageOne2018Response?.status()).toBe(404);
+    expect(page.url()).toContain('/2018/page/1');
+
+  });
 
     const marketinglyYearArchives = [
       {
@@ -1205,7 +1223,9 @@ test.describe('blue-green launch smoke', () => {
       },
     ];
 
-    for (const archive of marketinglyYearArchives) {
+
+  for (const archive of marketinglyYearArchives) {
+    test(`preserves ${archive.year} archive structure and pagination`, async ({ page }) => {
       const response = await page.goto(`/${archive.year}/`);
 
       expect(response?.status()).toBe(200);
@@ -1289,8 +1309,10 @@ test.describe('blue-green launch smoke', () => {
           page.locator(`a.prev.page-numbers[href="/${archive.year}/page/2/"]`)
         ).toBeVisible();
       }
-    }
+    });
+  }
 
+  test('preserves 2024 news archive and pagination redirect', async ({ page, request }) => {
     const response2024 = await page.goto('/2024/news/');
 
     expect(response2024?.status()).toBe(200);
@@ -1303,32 +1325,6 @@ test.describe('blue-green launch smoke', () => {
     ).toHaveAttribute('href', '/2024/photos/');
     await expect(page.locator('footer.wp-block-template-part')).toBeVisible();
 
-    const pageTwoResponse = await page.goto('/2018/page/2/');
-
-    expect(pageTwoResponse?.status()).toBe(200);
-    await expect(page).toHaveTitle(/2018 - PyCon HK - Page 2/);
-    await expect(page.locator('article.posts-entry.blogposts-list')).toHaveCount(18);
-    await expect(page.locator('article.posts-entry.blogposts-list').last()).toContainText(
-      /Call for Proposals 2018/u
-    );
-    await expect(page.locator('span.page-numbers.current')).toHaveText('2');
-    await expect(page.locator('a.prev.page-numbers[href="/2018/"]')).toBeVisible();
-    await expect(
-      page.locator('a.page-numbers[href="/2018/"]', { hasText: '1' })
-    ).toBeVisible();
-
-    const pageOne2018Response = await page.goto('/2018/page/1/');
-
-    expect(pageOne2018Response?.status()).toBe(404);
-    expect(page.url()).toContain('/2018/page/1');
-
-    for (const path of ['/2022/page/3/', '/2023/page/3/']) {
-      const response = await page.goto(path);
-
-      expect(response?.status(), path).toBe(404);
-      expect(page.url()).toContain(path.slice(0, -1));
-    }
-
     const pageTwo2024Response = await request.get('/2024/page/2/', {
       maxRedirects: 0,
     });
@@ -1338,6 +1334,14 @@ test.describe('blue-green launch smoke', () => {
       '/2024/news'
     );
   });
+
+  for (const year of ['2022', '2023']) {
+    test(`rejects nonexistent ${year} archive page 3`, async ({ page }) => {
+      const response = await page.goto(`/${year}/page/3/`);
+      expect(response?.status()).toBe(404);
+      expect(page.url()).toContain(`/${year}/page/3`);
+    });
+  }
 
   test('does not publish root legacy archive pagination', async ({ request }) => {
     for (const path of ['/page/1/', '/page/2/']) {

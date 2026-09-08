@@ -6,7 +6,7 @@
       "src/**",
       "package.json",
       "tsconfig.json",
-      "astro.config.mjs",
+      "astro.config.ts",
       "biome.json",
       "vercel.json",
       "mise.toml",

@@ -3,48 +3,11 @@ import { resolve } from 'node:path';
 import {
   unpublishedSnapshot,
   validateSnapshot,
-} from '../../../../scripts/programme-snapshot.mjs';
+} from '../../../lib/programme/snapshot.ts';
 
-export type ScheduleItem = {
-  id: string;
-  code: string;
-  title: string;
-  speakers: string[];
-  speakerProfiles?: { name: string; biography: string; avatar: string; url: string }[];
-  room: string;
-  roomKey: string;
-  track: string;
-  sessionType: string;
-  date: string;
-  start: string;
-  end: string;
-  startTime: string;
-  endTime: string;
-  duration: number;
-  abstract: string;
-  description: string;
-  language: string;
-  url: string;
-  isBreak: boolean;
-};
+import type { ProgrammeSnapshot } from '../../../lib/programme/types';
 
-export type ProgrammeSnapshot = {
-  formatVersion: 1;
-  event: string;
-  environment: string;
-  status: 'published' | 'unpublished';
-  sourceUrl: string;
-  sourceVersion: string;
-  title: string;
-  timezone: string;
-  startDate: string;
-  endDate: string;
-  days: { date: string }[];
-  rooms: { id: string; name: string }[];
-  sessions: ScheduleItem[];
-  fetchedAt: string;
-  hash: string;
-};
+export type { ProgrammeSnapshot, ScheduleItem } from '../../../lib/programme/types';
 
 const sourceEvent = process.env.PROGRAMME_SOURCE_EVENT ?? 'pyconhk2026';
 const environment = process.env.PROGRAMME_ENVIRONMENT ?? 'production';

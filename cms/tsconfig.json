@@ -3,6 +3,6 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["src", "astro.config.mjs", "worker-configuration.d.ts"],
+  "include": ["src", "astro.config.ts", "worker-configuration.d.ts"],
   "exclude": ["node_modules"]
 }

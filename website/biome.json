@@ -3,7 +3,7 @@
   "files": {
     "includes": [
       "package.json",
-      "astro.config.mjs",
+      "astro.config.ts",
       "tsconfig.json",
       "src/**",
       "!src/legacy/assets/legacy-assets",

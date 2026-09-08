@@ -53,7 +53,7 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
   await avatar.scrollIntoViewIfNeeded();
   await expect(avatar).toBeVisible();
   await expect.poll(() => avatar.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
-  await expect(page.locator('#modal-details [data-speaker-link]').first()).toHaveAttribute('href', '/2026/en/speakers/georgi-ker');
+  await expect(page.locator('#modal-details [data-speaker-link]').first()).toHaveAttribute('href', '/2026/en/speakers/georgi-ker/');
   const calendar = new URL(await page.locator('[data-modal-calendar]').getAttribute('href') ?? '');
   expect(calendar.searchParams.get('dates')).toBe('20251011T022500Z/20251011T025500Z');
   expect(calendar.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
@@ -119,14 +119,16 @@ for (const locale of locales) {
     for (const suffix of ['', '/']) {
       const legacy = await context.request.get(`/2026/${locale}/speakers/a520d5ae8a6503a04d37${suffix}`, { maxRedirects: 0 });
       expect(legacy.status()).toBe(301);
-      expect(new URL(legacy.headers().location, legacy.url()).pathname).toBe(`/2026/${locale}/speakers/peter-ho`);
+      expect(new URL(legacy.headers().location, legacy.url()).pathname).toBe(`/2026/${locale}/speakers/peter-ho/`);
     }
-    const withSlash = await context.request.get(`/2026/${locale}/speakers/peter-ho/?from=schedule`, { maxRedirects: 0 });
-    expect(withSlash.status()).toBe(301);
-    const canonical = new URL(withSlash.headers().location, withSlash.url());
-    expect(canonical.pathname).toBe(`/2026/${locale}/speakers/peter-ho`);
-    expect(canonical.search).toBe('?from=schedule');
-    expect((await context.request.get(canonical.href, { maxRedirects: 0 })).status()).toBe(200);
+    for (const suffix of ['', '/index.html']) {
+      const alternative = await context.request.get(`/2026/${locale}/speakers/peter-ho${suffix}?from=schedule`, { maxRedirects: 0 });
+      expect(alternative.status()).toBe(308);
+      const canonical = new URL(alternative.headers().location, alternative.url());
+      expect(canonical.pathname).toBe(`/2026/${locale}/speakers/peter-ho/`);
+      expect(canonical.search).toBe('?from=schedule');
+      expect((await context.request.get(canonical.href, { maxRedirects: 0 })).status()).toBe(200);
+    }
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`/2026/${locale}/schedule/`);
     const origin = new URL(page.url()).origin;
@@ -137,12 +139,12 @@ for (const locale of locales) {
     await expect(link).toHaveCSS('cursor', 'pointer');
     await expect(link).not.toHaveAttribute('target', '_blank');
     await link.click();
-    await expect(page).toHaveURL(new RegExp(`/2026/${locale}/speakers/peter-ho$`));
+    await expect(page).toHaveURL(new RegExp(`/2026/${locale}/speakers/peter-ho/$`));
     expect(new URL(page.url()).origin).toBe(origin);
     expect(context.pages()).toHaveLength(1);
     await expect(page).toHaveTitle(/Peter Ho/);
     await expect(page.locator('h1')).toHaveText('Peter Ho');
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', new RegExp(`/2026/${locale}/speakers/peter-ho$`));
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', new RegExp(`/2026/${locale}/speakers/peter-ho/$`));
     await expect(page.locator('[data-speaker-biography]')).toContainText('Red Hat');
     const portrait = page.locator('[data-speaker-page] img');
     await portrait.scrollIntoViewIfNeeded();

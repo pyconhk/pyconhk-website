@@ -52,7 +52,7 @@ jobs:
         run: |
           args=(prepare "$TARGET")
           if [ "$FORCE" = true ]; then args+=(--force); fi
-          mise exec -- node scripts/website-deployment.mjs "${args[@]}"
+          mise exec -- node scripts/website-deployment.ts "${args[@]}"
       - name: Require the configured Pages deployment credential
         if: steps.prepare.outputs.changed == 'true'
         env:
@@ -75,13 +75,16 @@ jobs:
       - name: Validate content and build
         if: steps.prepare.outputs.changed == 'true'
         env:
-          PROGRAMME_SNAPSHOT_PATH: ${{ steps.prepare.outputs.snapshot_path }}
+          PROGRAMME_OUTPUT_PATH: ${{ steps.prepare.outputs.snapshot_path }}
+          PROGRAMME_SOURCE_URL: ${{ steps.prepare.outputs.source_url }}
+          PROGRAMME_BASELINE_PATH: ${{ steps.prepare.outputs.baseline_path }}
           PROGRAMME_SOURCE_EVENT: ${{ steps.prepare.outputs.event }}
         run: |
-          mise exec -- node scripts/check-cms-content-locales.mjs
+          mise exec -- node scripts/check-cms-content-locales.ts
           mise run //website:typecheck
           mise run //website:build
-          mise exec -- node scripts/website-deployment.mjs finalize \
+          mise exec -- bun --cwd website run test:build
+          mise exec -- node scripts/website-deployment.ts finalize \
             "${{ steps.prepare.outputs.snapshot_path }}" "${{ steps.prepare.outputs.manifest_path }}"
       - name: Reject a superseded code revision
         if: steps.prepare.outputs.changed == 'true'
@@ -104,7 +107,7 @@ jobs:
         env:
           TARGET: ${{ inputs.target }}
           MANIFEST_PATH: ${{ steps.prepare.outputs.manifest_path }}
-        run: mise exec -- node scripts/website-deployment.mjs verify "$TARGET" "$MANIFEST_PATH"
+        run: mise exec -- node scripts/website-deployment.ts verify "$TARGET" "$MANIFEST_PATH"
       - name: Summarize
         env:
           TARGET: ${{ inputs.target }}

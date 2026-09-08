@@ -19,6 +19,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.sha }}
           fetch-depth: 0
           persist-credentials: false
+      - uses: jdx/mise-action@v4
       - name: Validate Decap editorial content boundary
         env:
           CMS_PR_HEAD: ${{ github.head_ref }}
@@ -26,4 +27,4 @@ jobs:
           CMS_PR_BASE_REPO: ${{ github.repository }}
           CMS_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           CMS_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: node scripts/check-cms-pr.mjs
+        run: node scripts/check-cms-pr.ts

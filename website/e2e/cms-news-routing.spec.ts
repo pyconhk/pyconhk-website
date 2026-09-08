@@ -28,7 +28,7 @@ This future-year CMS post should build under its own localized year route.
 
 async function copyBuildInput(targetRoot: string): Promise<void> {
   for (const fileName of [
-    'astro.config.mjs',
+    'astro.config.ts',
     'bun.lock',
     'package.json',
     'tsconfig.json',
@@ -37,7 +37,7 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
     await cp(path.join(websiteRoot, fileName), path.join(targetRoot, fileName));
   }
 
-  for (const directoryName of ['outstatic', 'public', 'scripts', 'src']) {
+  for (const directoryName of ['outstatic', 'public', 'scripts', 'src', 'integrations']) {
     await cp(
       path.join(websiteRoot, directoryName),
       path.join(targetRoot, directoryName),

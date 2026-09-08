@@ -20,6 +20,8 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - `website/` - public website app, routes, components, content loaders, data, and static assets
 - `website/outstatic/` - committed news content and metadata consumed by the website
 - `website/public/` - public website static assets served as-is
+- `website/tests/` and `tests/` - repeatable tests, including archive and CMS contracts
+- `website/integrations/` - Astro build integration for public programme data and output
 - `cms/` - Astro + Decap CMS app for `cms.pycon.hk`
 - `specs/` - migration notes, ADRs, and working specs
 - `archived/website-nextjs/` - archived copy of the old site for reference only
@@ -107,12 +109,32 @@ The conference schedule page no longer embeds the Pretalx widget.
 
 Instead:
 
-- Astro fetches Pretalx schedule JSON during build
-- the normalization logic lives in `website/src/lib/schedule.ts`
-- editorial overrides live in `website/src/years/2025/data/schedule-overrides.ts`
+- Astro fetches the public Pretalx schedule JSON during its build lifecycle
+- current programme normalization lives in `website/src/lib/programme/`
+- `PROGRAMME_SOURCE_EVENT`, `PROGRAMME_SOURCE_URL` and `PROGRAMME_ENVIRONMENT` select the source
+- `PROGRAMME_SNAPSHOT_PATH` can explicitly select a checked-in fixture for offline tests
+- speaker routes are generated as `2026/<locale>/speakers/<name-slug>/index.html`
 - the build output acts as the schedule snapshot for deployment
 
 This means `mise run //website:build` currently expects network access to Pretalx.
+
+## Tests and CI
+
+The PR workflow builds one shared website artifact using the checked-in public 2025
+programme fixture. Each conference year runs its route and browser tests on a separate
+Ubuntu runner. Shared tests and CMS checks have their own jobs. Playwright runs independent
+cases in parallel within each runner. The required `Validate Monorepo` check succeeds only
+when the build, unit tests and every year job pass.
+
+Bun dependencies are cached by OS and lockfiles; Playwright browser binaries have a
+separate cache. Jobs download the same build artifact instead of rebuilding the website.
+CMS content-generation tests create their own fixture build to exercise changed content.
+
+From `website/`, use `bun run test:unit` for source tests, `bun run test:build` for an
+existing build, or `TEST_YEAR=2026 PLAYWRIGHT_SKIP_BUILD=1 bunx playwright test` to run
+one year's browser tests against existing output. Omit these variables for the full
+browser suite with a fresh build. Completed migration and capture tools have been removed;
+the archive content and regression tests remain.
 
 ## Git and Workspace Notes
 

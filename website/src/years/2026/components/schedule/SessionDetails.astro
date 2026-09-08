@@ -4,7 +4,7 @@ import type { ScheduleItem } from '../../data/schedule';
 import { scheduleCopy } from '../../data/schedule-copy';
 import { sessionProfiles, speakerPath } from '../../data/speakers';
 import type { CfpLocale } from '../../locales';
-import { renderProgrammeMarkdown } from './programme-content.mjs';
+import { renderProgrammeMarkdown } from './programme-content.ts';
 
 interface Props { session: ScheduleItem; locale: CfpLocale }
 const { session, locale } = Astro.props;
