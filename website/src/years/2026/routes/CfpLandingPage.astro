@@ -43,23 +43,23 @@ const copy = {
 const pagePadding = 'px-5 sm:px-8 lg:px-14 xl:px-16';
 const contentWidth = 'mx-auto max-w-7xl';
 const toneClasses = {
-  yellow: 'bg-[#ffd343]',
-  white: 'bg-white',
-  lilac: 'bg-[#c7b8ff]',
-  sky: 'bg-[#bfe8ff]',
+  yellow: 'bg-conference-yellow',
+  white: 'bg-conference-surface',
+  lilac: 'bg-conference-lilac',
+  sky: 'bg-conference-sky',
 };
 
 const programNoteClasses = [
-  'bg-[#ffd343]',
-  'bg-[#c7b8ff]',
-  'bg-white',
-  'bg-[#ffced5]',
+  'bg-conference-yellow',
+  'bg-conference-lilac',
+  'bg-conference-surface',
+  'bg-conference-rose',
 ];
 
 const dateCardClasses = [
-  'bg-white -rotate-1',
-  'bg-[#bfe8ff] rotate-1',
-  'bg-[#f7e9c5] -rotate-[0.5deg]',
+  'bg-conference-surface -rotate-1',
+  'bg-conference-sky rotate-1',
+  'bg-conference-sand -rotate-[0.5deg]',
 ];
 ---
 
@@ -70,7 +70,7 @@ const dateCardClasses = [
 >
   <div
     lang={copy.localeMeta.htmlLang}
-    class="min-h-screen overflow-x-clip bg-[#fff8e8] text-[#172033]"
+    class="min-h-screen overflow-x-clip bg-conference-paper text-conference-ink"
     data-pagefind-body
     data-pagefind-filter="year:2026"
     data-pagefind-meta="year:2026"
@@ -116,13 +116,13 @@ const dateCardClasses = [
         ]}
       >
         <div class="relative mx-auto w-full max-w-[46rem] min-w-0 xl:max-w-none">
-          <div class="absolute -top-1 -left-2 z-10 inline-flex max-w-[calc(100%-3rem)] items-center gap-2 rounded-full border-2 border-[#172033] bg-white px-4 py-2 font-mono text-sm leading-snug font-black text-center whitespace-normal sm:-left-3 lg:-left-4">
-            <span class="h-3 w-3 rounded-full border border-[#172033] bg-[#00a887]"></span>
+          <div class="absolute -top-1 -left-2 z-10 inline-flex max-w-[calc(100%-3rem)] items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-2 font-mono text-sm leading-snug font-black text-center whitespace-normal sm:-left-3 lg:-left-4">
+            <span class="h-3 w-3 rounded-full border border-conference-outline bg-[#00a887]"></span>
             {copy.hero.badge}
           </div>
 
-          <div class="relative mx-auto flex min-h-[clamp(12rem,31vw,19rem)] w-full max-w-[46rem] min-w-0 items-center justify-center rounded-[38%_45%_34%_42%/24%_30%_36%_32%] border-[3px] border-[#172033] bg-[#ffd343e6] px-4 py-8 sm:px-8 md:px-10 xl:max-w-none">
-            <h1 class="flex w-full max-w-5xl min-w-0 flex-col items-center justify-center gap-1 text-center font-sans text-[clamp(2rem,7vw,4.6rem)] leading-[0.95] font-black tracking-normal text-[#172033] sm:gap-2 md:text-[4rem] xl:text-[3.2rem] xl:leading-[1.08]">
+          <div class="relative mx-auto flex min-h-[clamp(12rem,31vw,19rem)] w-full max-w-[46rem] min-w-0 items-center justify-center rounded-[38%_45%_34%_42%/24%_30%_36%_32%] border-[3px] border-conference-outline bg-conference-yellow/90 px-4 py-8 sm:px-8 md:px-10 xl:max-w-none">
+            <h1 class="flex w-full max-w-5xl min-w-0 flex-col items-center justify-center gap-1 text-center font-sans text-[clamp(2rem,7vw,4.6rem)] leading-[0.95] font-black tracking-normal text-conference-ink sm:gap-2 md:text-[4rem] xl:text-[3.2rem] xl:leading-[1.08]">
               {
                 [copy.hero.headline].map((line) => (
                   <span class="block max-w-full">{line}</span>
@@ -132,27 +132,27 @@ const dateCardClasses = [
           </div>
 
           <div class="mx-auto mt-8 max-w-3xl space-y-5 text-center xl:mx-0 xl:text-left">
-            <p class="break-words text-2xl leading-tight font-black text-[#2b5b84] lg:text-3xl">
+            <p class="break-words text-2xl leading-tight font-black text-conference-blue lg:text-3xl">
               {copy.hero.subheadline}
             </p>
-            <p class="mx-auto max-w-2xl break-words text-base leading-8 text-[#586174] md:text-lg xl:mx-0">
+            <p class="mx-auto max-w-2xl break-words text-base leading-8 text-conference-muted md:text-lg xl:mx-0">
               {copy.hero.body}
             </p>
             <div class="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:flex-wrap sm:justify-center xl:justify-start">
-              <span data-cfp-closed class="inline-flex rounded-xl border-2 border-[#172033] bg-[#ffd343] px-5 py-3 font-bold">{closedCopy.title}</span>
+              <span data-cfp-closed class="inline-flex rounded-xl border-2 border-conference-outline bg-conference-yellow px-5 py-3 font-bold">{closedCopy.title}</span>
               <DoodleButton href={editProposalUrl} label={copy.cta.edit} variant="secondary">{copy.cta.edit}</DoodleButton>
               <DoodleButton href={sponsorshipUrl} label={copy.cta.sponsorship} variant="secondary">{copy.cta.sponsorship}</DoodleButton>
             </div>
           </div>
         </div>
 
-        <div class="relative mx-auto w-full max-w-3xl rounded-[1.75rem] border-[3px] border-[#172033] bg-white p-6 shadow-[10px_12px_0_#17203322] md:p-8 xl:max-w-none xl:p-10">
+        <div class="relative mx-auto w-full max-w-3xl rounded-[1.75rem] border-[3px] border-conference-outline bg-conference-surface p-6 shadow-[10px_12px_0_var(--conference-shadow)] md:p-8 xl:max-w-none xl:p-10">
           <div class="flex items-center justify-between">
-            <span class="h-5 w-5 rounded-full border-2 border-[#172033] bg-[#d82236]"></span>
-            <span class="h-5 w-5 rounded-full border-2 border-[#172033] bg-[#ffd343]"></span>
+            <span class="h-5 w-5 rounded-full border-2 border-conference-outline bg-[#d82236]"></span>
+            <span class="h-5 w-5 rounded-full border-2 border-conference-outline bg-conference-yellow"></span>
           </div>
 
-          <h2 class="mt-8 max-w-3xl break-words text-[clamp(2rem,5.5vw,3.25rem)] leading-[1.05] font-black text-[#2b5b84] xl:mt-10 xl:text-4xl">
+          <h2 class="mt-8 max-w-3xl break-words text-[clamp(2rem,5.5vw,3.25rem)] leading-[1.05] font-black text-conference-blue xl:mt-10 xl:text-4xl">
             {copy.programWall.title}
           </h2>
 
@@ -161,19 +161,19 @@ const dateCardClasses = [
               copy.decorativeFragments.map((fragment, index) => (
                 <div
                   class:list={[
-                    'min-h-24 rounded-2xl border-2 border-[#172033] px-5 py-4 shadow-[4px_5px_0_#17203318]',
+                    'min-h-24 rounded-2xl border-2 border-conference-outline px-5 py-4 shadow-[4px_5px_0_var(--conference-shadow)]',
                     programNoteClasses[index],
                     index % 2 === 0 ? '-rotate-1' : 'rotate-1',
                   ]}
                 >
-                  <p class="font-mono text-xs font-black text-[#2b5b84]">0{index + 1}</p>
+                  <p class="font-mono text-xs font-black text-conference-blue">0{index + 1}</p>
                   <p class="mt-3 break-words text-lg leading-snug font-black">{fragment}</p>
                 </div>
               ))
             }
           </div>
 
-          <div class="mt-8 rounded-2xl border-2 border-[#172033] bg-[#f7e9c5] px-5 py-5 text-base leading-7 font-semibold text-[#172033] sm:px-6">
+          <div class="mt-8 rounded-2xl border-2 border-conference-outline bg-conference-sand px-5 py-5 text-base leading-7 font-semibold text-conference-ink sm:px-6">
             {copy.programWall.caption}
           </div>
         </div>
@@ -194,8 +194,8 @@ const dateCardClasses = [
           <h2 class="break-words font-mono text-[clamp(2rem,6vw,3.5rem)] leading-tight font-black md:text-5xl">
             {copy.keyDates.title}
           </h2>
-          <p class="text-base font-semibold text-[#586174] md:text-lg">
-            <code class="rounded-md border border-[#17203333] bg-white px-2 py-1 font-mono text-sm font-black text-[#2b5b84] md:text-base">
+          <p class="text-base font-semibold text-conference-muted md:text-lg">
+            <code class="rounded-md border border-[#17203333] bg-conference-surface px-2 py-1 font-mono text-sm font-black text-conference-blue md:text-base">
               {copy.keyDates.timezone}
             </code>
           </p>
@@ -206,7 +206,7 @@ const dateCardClasses = [
             copy.keyDates.items.map((item, index) => (
               <article
                 class:list={[
-                  'min-h-48 rounded-2xl border-[3px] border-[#172033] p-6 shadow-sm lg:min-h-64 xl:p-7',
+                  'min-h-48 rounded-2xl border-[3px] border-conference-outline p-6 shadow-sm lg:min-h-64 xl:p-7',
                   dateCardClasses[index],
                 ]}
               >
@@ -214,9 +214,9 @@ const dateCardClasses = [
                   class:list={[
                     'font-mono text-sm font-black uppercase',
                     index === 0
-                      ? 'text-[#d82236]'
+                      ? 'text-conference-red'
                       : index === 1
-                        ? 'text-[#2b5b84]'
+                        ? 'text-conference-blue'
                         : 'text-[#00a887]',
                   ]}
                 >
@@ -227,14 +227,14 @@ const dateCardClasses = [
                 </p>
                 {
                   item.status && (
-                    <p class="mt-3 break-words font-mono text-base leading-tight font-black text-[#586174] xl:text-lg">
+                    <p class="mt-3 break-words font-mono text-base leading-tight font-black text-conference-muted xl:text-lg">
                       {item.status}
                     </p>
                   )
                 }
                 <p
                   class:list={[
-                    'text-base leading-7 font-semibold text-[#586174] xl:text-lg',
+                    'text-base leading-7 font-semibold text-conference-muted xl:text-lg',
                     item.status ? 'mt-4' : 'mt-6 xl:mt-7',
                   ]}
                 >
@@ -248,13 +248,13 @@ const dateCardClasses = [
     </section>
 
     <section class:list={['relative py-16 sm:py-20', pagePadding]}>
-      <div class="absolute inset-x-5 top-36 bottom-8 hidden rounded-[44%_48%_39%_42%/18%_19%_18%_20%] border-[3px] border-[#172033] md:block lg:inset-x-14"></div>
+      <div class="absolute inset-x-5 top-36 bottom-8 hidden rounded-[44%_48%_39%_42%/18%_19%_18%_20%] border-[3px] border-conference-outline md:block lg:inset-x-14"></div>
       <div class:list={[contentWidth, 'relative']}>
         <div class="flex flex-col justify-between gap-4 md:flex-row md:items-start">
           <h2 class="break-words font-mono text-[clamp(2.5rem,8vw,4.75rem)] leading-tight font-black md:text-5xl">
             {copy.proposals.title}
           </h2>
-          <p class="max-w-md break-words text-base leading-7 text-[#586174] md:text-lg">
+          <p class="max-w-md break-words text-base leading-7 text-conference-muted md:text-lg">
             {copy.proposals.intro}
           </p>
         </div>
@@ -264,13 +264,13 @@ const dateCardClasses = [
             copy.proposals.types.slice(0, 3).map((proposal, index) => {
               const indexColor =
                 proposal.tone === 'white' || proposal.tone === 'sky'
-                  ? 'text-[#2b5b84]'
-                  : 'text-[#d82236]';
+                  ? 'text-conference-blue'
+                  : 'text-conference-red';
 
               return (
                 <article
                   class:list={[
-                    'min-h-48 rounded-2xl border-[3px] border-[#172033] p-6 md:p-7',
+                    'min-h-48 rounded-2xl border-[3px] border-conference-outline p-6 md:p-7',
                     toneClasses[proposal.tone],
                     index % 2 === 0 ? '-rotate-1' : 'rotate-1',
                   ]}
@@ -281,7 +281,7 @@ const dateCardClasses = [
                   <h3 class="mt-5 break-words font-mono text-2xl leading-tight font-black">
                     {proposal.title}
                   </h3>
-                  <p class="mt-4 break-words text-sm leading-6 text-[#172033] md:text-base">
+                  <p class="mt-4 break-words text-sm leading-6 text-conference-ink md:text-base">
                     {proposal.description}
                   </p>
                 </article>
@@ -295,13 +295,13 @@ const dateCardClasses = [
             copy.proposals.types.slice(3).map((proposal, index) => {
               const indexColor =
                 proposal.tone === 'white' || proposal.tone === 'sky'
-                  ? 'text-[#2b5b84]'
-                  : 'text-[#d82236]';
+                  ? 'text-conference-blue'
+                  : 'text-conference-red';
 
               return (
                 <article
                   class:list={[
-                    'min-h-48 rounded-2xl border-[3px] border-[#172033] p-6 md:p-7',
+                    'min-h-48 rounded-2xl border-[3px] border-conference-outline p-6 md:p-7',
                     toneClasses[proposal.tone],
                     index === 0 ? 'rotate-1' : '-rotate-1',
                   ]}
@@ -312,7 +312,7 @@ const dateCardClasses = [
                   <h3 class="mt-5 break-words font-mono text-2xl leading-tight font-black">
                     {proposal.title}
                   </h3>
-                  <p class="mt-4 break-words text-sm leading-6 text-[#172033] md:text-base">
+                  <p class="mt-4 break-words text-sm leading-6 text-conference-ink md:text-base">
                     {proposal.description}
                   </p>
                 </article>
@@ -327,17 +327,17 @@ const dateCardClasses = [
       <div
         class:list={[
           contentWidth,
-          'grid gap-10 rounded-[1.75rem] border-[3px] border-[#172033] bg-[#f7e9c5] p-7 md:grid-cols-[0.75fr_1fr] md:p-12 lg:p-14',
+          'grid gap-10 rounded-[1.75rem] border-[3px] border-conference-outline bg-conference-sand p-7 md:grid-cols-[0.75fr_1fr] md:p-12 lg:p-14',
         ]}
       >
         <div>
-          <p class="font-mono text-base font-black text-[#2b5b84] uppercase">
+          <p class="font-mono text-base font-black text-conference-blue uppercase">
             {copy.guidance.kicker}
           </p>
           <h2 class="mt-7 break-words font-mono text-[clamp(2.25rem,7vw,4rem)] leading-tight font-black md:text-5xl">
             {copy.guidance.title}
           </h2>
-          <p class="mt-8 max-w-md break-words text-base leading-8 text-[#586174] md:text-lg">
+          <p class="mt-8 max-w-md break-words text-base leading-8 text-conference-muted md:text-lg">
             {copy.guidance.body}
           </p>
         </div>
@@ -347,7 +347,7 @@ const dateCardClasses = [
             copy.guidance.items.map((item, index) => (
               <div
                 class:list={[
-                  'flex gap-5 rounded-2xl border-2 border-[#172033] bg-white px-6 py-5',
+                  'flex gap-5 rounded-2xl border-2 border-conference-outline bg-conference-surface px-6 py-5',
                   index === 0 ? '-rotate-1' : index === 1 ? 'rotate-1' : '',
                 ]}
               >
@@ -357,8 +357,8 @@ const dateCardClasses = [
                     index === 0
                       ? 'text-[#00a887]'
                       : index === 1
-                        ? 'text-[#2b5b84]'
-                        : 'text-[#d82236]',
+                        ? 'text-conference-blue'
+                        : 'text-conference-red',
                   ]}
                 >
                   {item.mark}
@@ -375,7 +375,7 @@ const dateCardClasses = [
       <div
         class:list={[
           contentWidth,
-          'grid gap-10 rounded-[1.75rem] border-[4px] border-[#172033] bg-[#2b5b84] p-7 text-white md:grid-cols-[1fr_auto] md:items-center md:p-12',
+          'grid gap-10 rounded-[1.75rem] border-[4px] border-conference-outline bg-[#2b5b84] p-7 text-white md:grid-cols-[1fr_auto] md:items-center md:p-12',
         ]}
       >
         <div>
@@ -390,7 +390,7 @@ const dateCardClasses = [
           </p>
         </div>
         <div class="flex flex-col gap-4 sm:flex-row md:flex-col">
-          <span data-cfp-closed class="inline-flex rounded-xl border-2 border-[#172033] bg-[#ffd343] px-5 py-3 font-bold">{closedCopy.title}</span>
+          <span data-cfp-closed class="inline-flex rounded-xl border-2 border-conference-outline bg-conference-yellow px-5 py-3 font-bold">{closedCopy.title}</span>
           <DoodleButton href={editProposalUrl} label={copy.cta.edit} variant="secondary">{copy.cta.edit}</DoodleButton>
           <DoodleButton href={sponsorshipUrl} label={copy.cta.sponsorship} variant="secondary">{copy.cta.sponsorship}</DoodleButton>
         </div>

@@ -1,0 +1,100 @@
+@theme inline {
+  --color-conference-paper: var(--conference-paper);
+  --color-conference-surface: var(--conference-surface);
+  --color-conference-soft: var(--conference-soft);
+  --color-conference-ink: var(--conference-ink);
+  --color-conference-body: var(--conference-body);
+  --color-conference-muted: var(--conference-muted);
+  --color-conference-outline: var(--conference-outline);
+  --color-conference-line: var(--conference-line);
+  --color-conference-blue: var(--conference-blue);
+  --color-conference-red: var(--conference-red);
+  --color-conference-yellow: var(--conference-yellow);
+  --color-conference-lilac: var(--conference-lilac);
+  --color-conference-sky: var(--conference-sky);
+  --color-conference-rose: var(--conference-rose);
+  --color-conference-sand: var(--conference-sand);
+}
+
+[data-conference-site] {
+  color-scheme: light;
+  --conference-paper: #faf7f0;
+  --conference-surface: #fff;
+  --conference-soft: #f8fafc;
+  --conference-ink: #172033;
+  --conference-body: #334155;
+  --conference-muted: #64748b;
+  --conference-outline: #172033;
+  --conference-line: #e2e8f0;
+  --conference-shadow: #172033;
+  --conference-blue: #2f559a;
+  --conference-red: #d71920;
+  --conference-yellow: #ffd343;
+  --conference-lilac: #c7b8ff;
+  --conference-sky: #bfe8ff;
+  --conference-rose: #ffced5;
+  --conference-sand: #f7e9c5;
+}
+
+html[data-conference-theme="dark"] [data-conference-site] {
+  color-scheme: dark;
+  --conference-paper: #101827;
+  --conference-surface: #1b273b;
+  --conference-soft: #25334a;
+  --conference-ink: #f5f1e8;
+  --conference-body: #d0d9e6;
+  --conference-muted: #a6b6cb;
+  --conference-outline: #899bb7;
+  --conference-line: #3e5069;
+  --conference-shadow: #060c16;
+  --conference-blue: #95bdff;
+  --conference-red: #ff9299;
+  --conference-yellow: #51421b;
+  --conference-lilac: #3a3155;
+  --conference-sky: #223f55;
+  --conference-rose: #502d3c;
+  --conference-sand: #403925;
+}
+
+html[data-conference-theme="dark"],
+html[data-conference-theme="dark"] body {
+  background: #101827;
+}
+
+[data-conference-site] .ideal-heading {
+  color: var(--conference-ink);
+}
+[data-conference-site] .prose {
+  --tw-prose-body: var(--conference-body);
+  --tw-prose-headings: var(--conference-ink);
+  --tw-prose-lead: var(--conference-body);
+  --tw-prose-links: var(--conference-blue);
+  --tw-prose-bold: var(--conference-ink);
+  --tw-prose-counters: var(--conference-muted);
+  --tw-prose-bullets: var(--conference-muted);
+  --tw-prose-hr: var(--conference-line);
+  --tw-prose-quotes: var(--conference-ink);
+  --tw-prose-quote-borders: var(--conference-line);
+  --tw-prose-captions: var(--conference-muted);
+  --tw-prose-code: var(--conference-ink);
+  --tw-prose-pre-code: #e2e8f0;
+  --tw-prose-pre-bg: #101827;
+  --tw-prose-th-borders: var(--conference-outline);
+  --tw-prose-td-borders: var(--conference-line);
+}
+
+/* Keep supplied logos on a neutral plate without recolouring their artwork. */
+[data-conference-site] .brand-plate {
+  background: #fff;
+  color-scheme: light;
+}
+[data-conference-site] [data-conference-inverse] {
+  --conference-ink: #fff;
+  --conference-body: #e2e8f0;
+  --conference-muted: #a6b6cb;
+  --conference-surface: #fff;
+}
+[data-conference-site] :focus-visible {
+  outline: 3px solid var(--conference-blue);
+  outline-offset: 4px;
+}
