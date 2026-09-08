@@ -8,16 +8,19 @@ import {
 } from './conference-schema';
 
 describe('conference editorial content', () => {
-  test('retains existing editorial content as drafts in all six languages', () => {
+  test('publishes complete migrated content in all six languages', () => {
     for (const locale of conferenceLocales) {
       const content = getConferenceContent(locale);
       assert.equal(content.event.status, 'published');
       assert.equal(content.tickets.status, 'draft');
       assert.equal(content.tickets.url, '');
-      assert.equal(content.organizations.status, 'draft');
+      assert.equal(content.organizations.status, 'published');
       assert.equal(content.organizations.items.length, 21);
+      assert.equal(content.people.status, 'published');
       assert.equal(content.people.items.length, 15);
+      assert.equal(content.sponsorship.status, 'published');
       assert.equal(content.sponsorship.plans.length, 5);
+      assert.equal(content.about.status, 'published');
       assert.ok(content.about.paragraphs.length > 0);
     }
   });
@@ -45,12 +48,12 @@ describe('conference editorial content', () => {
         structuredClone(getConferenceContent(locale)),
       ])
     );
-    contents.en.about.status = 'published';
+    contents.ko.about.status = 'draft';
     assert.throws(
       () => validateConferenceTranslations(contents),
       /about requires published translations/u
     );
-    for (const locale of conferenceLocales) contents[locale].about.status = 'published';
+    contents.ko.about.status = 'published';
     assert.doesNotThrow(() => validateConferenceTranslations(contents));
   });
 

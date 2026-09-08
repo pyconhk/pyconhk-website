@@ -1,7 +1,21 @@
 import { expect, test } from '@playwright/test';
 
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
-const pendingRoutes = ['access-guide', 'catering-guide', 'sprint', 'sprint/qna', 'sponsorships', 'sponsorships/patrons', 'about', 'organizers', 'supporting-organizations', 'volunteers'];
+const pendingRoutes = [
+  'access-guide',
+  'catering-guide',
+  'sprint',
+  'sprint/qna',
+  'sponsorships',
+  'sponsorships/patrons',
+];
+
+const publishedRoutes = [
+  'about',
+  'organizers',
+  'supporting-organizations',
+  'volunteers',
+];
 
 test('unpublished conference details show pending content in all six locales', async ({ page }) => {
   test.setTimeout(90_000);
@@ -13,6 +27,23 @@ test('unpublished conference details show pending content in all six locales', a
       await expect(page.locator('[data-content-pending]')).toBeVisible();
       await expect(page.locator('[data-conference-content]')).toHaveCount(0);
     }
+  }
+});
+
+test('complete migrated conference content remains public in all six locales', async ({ page }) => {
+  test.setTimeout(90_000);
+  for (const locale of locales) {
+    for (const route of publishedRoutes) {
+      const response = await page.goto(`/2026/${locale}/${route}/`);
+      expect(response?.status()).toBe(200);
+      await expect(page.locator('[data-content-pending]')).toHaveCount(0);
+      await expect(page.locator('[data-conference-content]')).toBeVisible();
+    }
+
+    const response = await page.goto(`/2026/${locale}/sponsorships/opportunities/`);
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('[data-content-pending]')).toHaveCount(0);
+    await expect(page.locator('[data-published-sponsorship]')).toBeVisible();
   }
 });
 

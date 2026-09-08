@@ -50,7 +50,7 @@
     "items": []
   },
   "organizations": {
-    "status": "draft",
+    "status": "published",
     "items": [
       {
         "name": "Hong Kong Python User Group",
@@ -223,7 +223,7 @@
     ]
   },
   "people": {
-    "status": "draft",
+    "status": "published",
     "items": [
       {
         "name": "Mr. Calvin Tsang",
@@ -333,7 +333,7 @@
     ]
   },
   "about": {
-    "status": "draft",
+    "status": "published",
     "paragraphs": [
       "PyCon Hong Kong (PyCon HK) is the leading Python conference in Hong Kong, bringing together Python enthusiasts to share their insights and foster collaboration. Among the 50+ PyCons hosted annually in various cities and countries worldwide, PyCon HK is proud to be one of them.",
       "The founding of PyCon HK traces back to Sammy Fung, who drew inspiration from the PyCon APAC 2013 event in Tokyo. Sammy recognized that Hong Kong was missing out on this vital Python conference, despite PyCon being hosted in various Asian cities. Determined to fill this gap, Sammy collaborated with Open Source Hong Kong to organize the inaugural PyCon HK in 2015. Since then, PyCon HK has played a pivotal role in nurturing Python development and adoption within the city.",
@@ -341,7 +341,7 @@
     ]
   },
   "sponsorship": {
-    "status": "draft",
+    "status": "published",
     "intro": [
       "PyCon HK 2026 presents an exceptional opportunity to connect with Hong Kong's most passionate Python developers, innovative tech leaders, and forward-thinking organizations.",
       "As a sponsor, you'll be at the heart of Asia's premier Python conference, where cutting-edge ideas meet practical solutions. Join hundreds of enthusiastic developers, seasoned engineers, data scientists, and tech entrepreneurs who are shaping the future of technology in the region.",

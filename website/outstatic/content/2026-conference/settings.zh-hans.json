@@ -50,7 +50,7 @@
     "items": []
   },
   "organizations": {
-    "status": "draft",
+    "status": "published",
     "items": [
       {
         "name": "Hong Kong Python User Group / 香港 Python 用户组",
@@ -223,7 +223,7 @@
     ]
   },
   "people": {
-    "status": "draft",
+    "status": "published",
     "items": [
       {
         "name": "Mr. Calvin Tsang",
@@ -333,7 +333,7 @@
     ]
   },
   "about": {
-    "status": "draft",
+    "status": "published",
     "paragraphs": [
       "PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度会议，汇聚来自不同背景的 Python 爱好者，分享经验、交流想法，并促进合作。全球每年有超过五十个城市及地区举办 PyCon，而 PyCon HK 很荣幸成为其中一员。",
       "PyCon HK 的起点可追溯至 Sammy Fung 参与 2013 年东京 PyCon APAC 之后。当时他意识到，亚洲多个城市都有自己的 PyCon，但香港仍然缺少一个属于本地 Python 社群的重要年度聚会。于是，Sammy 与开源香港合作，在 2015 年举办了首届 PyCon HK。自此，PyCon HK 一直在香港推动 Python 技术交流与社群发展。",
@@ -341,7 +341,7 @@
     ]
   },
   "sponsorship": {
-    "status": "draft",
+    "status": "published",
     "intro": [
       "PyCon HK 2026 是一个难得的机会，让你接触香港最投入的 Python 开发者、科技团队与创新机构。",
       "作为赞助伙伴，你将置身亚洲其中一个具代表性的 Python 大会，与数百位开发者、资深工程师、数据科学家及科技创业者交流，见证新想法如何变成实际方案。",
