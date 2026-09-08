@@ -11,31 +11,31 @@ interface Props {
 const { name, imageSrc, linkedin, personalWebsite } = Astro.props;
 ---
 
-<div class="group flex flex-col items-center text-center transition-transform duration-200 hover:-translate-y-1">
-  <div class="relative aspect-square w-36 sm:w-44 overflow-hidden rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] shadow-[4px_4px_0_#172033] transition-all duration-200 group-hover:shadow-[6px_6px_0_#2f559a]">
+<div data-person-card class="group flex w-full min-w-0 max-w-44 flex-col items-center text-center">
+  <div class="relative aspect-square w-full overflow-hidden rounded-2xl border-2 border-[#172033] bg-[#FAF7F0] shadow-[4px_4px_0_#172033] transition-shadow duration-200 group-hover:shadow-[6px_6px_0_#2f559a] motion-reduce:transition-none">
     <Image
       src={imageSrc}
       alt={name}
       width={400}
       height={400}
       format="webp"
-      class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+      class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
       loading="lazy"
     />
   </div>
 
-  <div class="mt-3 flex items-center justify-center gap-1.5">
-    <h3 class="text-sm sm:text-base font-bold text-[#172033] tracking-tight">{name}</h3>
+  <div class="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+    <h4 class="w-full break-words text-sm sm:text-base font-bold text-[#172033] tracking-tight">{name}</h4>
     {linkedin && (
       <a
         href={linkedin}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[#0A66C2] text-white transition-transform hover:scale-110 shadow-[1px_1px_0_#172033]"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0A66C2] text-white shadow-[2px_2px_0_#172033] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#2f559a]"
         aria-label={`LinkedIn profile of ${name}`}
         title={`LinkedIn profile of ${name}`}
       >
-        <svg class="h-3 w-3 fill-current" viewBox="0 0 24 24">
+        <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
           <title>LinkedIn</title>
           <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.9 0-1.63.73-1.63 1.63s.73 1.63 1.63 1.63 1.63-.73 1.63-1.63c-.01-.9-.74-1.63-1.63-1.63Z" />
         </svg>
@@ -46,11 +46,11 @@ const { name, imageSrc, linkedin, personalWebsite } = Astro.props;
         href={personalWebsite}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[#7c3aed] text-white transition-transform hover:scale-110 shadow-[1px_1px_0_#172033]"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#7c3aed] text-white shadow-[2px_2px_0_#172033] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-[#2f559a]"
         aria-label={`Personal website of ${name}`}
         title={`Personal website of ${name}`}
       >
-        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <title>Personal Website</title>
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
         </svg>
