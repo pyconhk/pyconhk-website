@@ -9,22 +9,14 @@ interface Props {
 }
 
 const { name, imageSrc, linkedin, personalWebsite } = Astro.props;
-const initials = name
-  .split(' ')
-  .filter(Boolean)
-  .map((part) => part[0])
-  .join('')
-  .slice(0, 3);
 ---
 
 <div class="flex w-[200px] min-h-[200px] flex-col items-center">
   <div class="relative w-full overflow-hidden bg-slate-200">
     {imageSrc ? (
-      <img src={imageSrc} alt={name} width="200" height="200" class="aspect-square w-full object-cover object-center" />
+      <img src={imageSrc} alt={name} width="200" height="200" loading="lazy" class="aspect-square w-full object-cover object-center" />
     ) : (
-      <div class="grid aspect-square w-full place-items-center bg-gradient-to-br from-blue-200 to-purple-200 text-4xl font-semibold text-slate-500">
-        {initials}
-      </div>
+      <img src="/2025/organizers-volunteers/volunteers/placeholder.webp" alt="" aria-hidden="true" width="200" height="200" loading="lazy" class="aspect-square w-full object-cover" />
     )}
   </div>
 
