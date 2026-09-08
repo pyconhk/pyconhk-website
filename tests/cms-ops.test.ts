@@ -161,10 +161,8 @@ function validateCloudflareDeployment() {
 
   assert.ok(packageJson.dependencies["@astrojs/cloudflare"]);
   assert.equal(packageJson.dependencies["@astrojs/vercel"], undefined);
-  assert.match(
-    packageJson.scripts.deploy,
-    /^node \.\.\/scripts\/check-cms-release\.ts && /u,
-  );
+  assert.equal(packageJson.scripts.deploy, "node scripts/deploy.ts");
+  assert.match(readText("cms/scripts/deploy.ts"), /scripts\/check-cms-release\.ts/);
   assert.equal(fs.existsSync(path.join(repoRoot, "cms/vercel.json")), false);
   assert.equal(
     wrangler.main,
