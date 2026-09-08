@@ -1,0 +1,5 @@
+[tasks.e2e]
+extends = "playwright:e2e"
+description = "Run cross-year website E2E tests"
+dir = "{{config_root}}/.."
+env = { E2E_SUITE = "common" }

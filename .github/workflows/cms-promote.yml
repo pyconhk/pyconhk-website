@@ -40,7 +40,7 @@ jobs:
         run: mise run //website:install
 
       - name: Validate CMS branch locale files
-        run: CMS_CONTENT_REF="origin/${CMS_BRANCH}" node --test cms/tests/content-locales.test.ts
+        run: CMS_CONTENT_REF="origin/${CMS_BRANCH}" node cms/publication/content.ts
 
       - name: Check for CMS changes
         id: changes

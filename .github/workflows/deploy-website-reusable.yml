@@ -80,10 +80,9 @@ jobs:
           PROGRAMME_BASELINE_PATH: ${{ steps.prepare.outputs.baseline_path }}
           PROGRAMME_SOURCE_EVENT: ${{ steps.prepare.outputs.event }}
         run: |
-          mise exec -- node --test cms/tests/content-locales.test.ts
+          mise exec -- node cms/publication/content.ts
           mise run //website:typecheck
           mise run //website:build
-          mise exec -- bun run --cwd website test:build
           mise exec -- node .github/deploy/website.ts finalize \
             "${{ steps.prepare.outputs.snapshot_path }}" "${{ steps.prepare.outputs.manifest_path }}"
       - name: Reject a superseded code revision

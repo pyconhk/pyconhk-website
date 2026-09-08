@@ -5,6 +5,7 @@
     "": {
       "name": "pyconhk-website-monorepo",
       "devDependencies": {
+        "@playwright/test": "^1.61.1",
         "yaml": "^2.8.0",
       },
     },
@@ -23,6 +24,7 @@
       "devDependencies": {
         "@astrojs/check": "^0.9.9",
         "@biomejs/biome": "^2.5.1",
+        "@playwright/test": "^1.61.1",
         "@types/node": "^24.0.0",
         "typescript": "^5.8.3",
         "wrangler": "^4.112.0",

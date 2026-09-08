@@ -56,6 +56,33 @@ jobs:
           fi
 
 
+  discover:
+    name: Discover E2E suites
+    runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.suites.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v4
+      - id: suites
+        run: |
+          mise tasks ls --all --json > /tmp/tasks.json
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const tasks = JSON.parse(fs.readFileSync('/tmp/tasks.json', 'utf8'));
+          const directories = fs.globSync('**/e2e/mise.toml', { exclude: ['**/node_modules/**', '**/.git/**'] });
+          const suites = directories.map(file => {
+            const dir = path.dirname(file);
+            const task = `//${dir}:e2e`;
+            const definition = tasks.find(candidate => candidate.name === task);
+            if (!definition) throw new Error(`Unregistered E2E task: ${task}`);
+            return { name: dir.replaceAll('/', '-'), task, website: dir.startsWith('website/'), browser: !definition.env.includes('E2E_BROWSER=none') };
+          });
+          if (!suites.length) throw new Error('No E2E suites discovered');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include:suites})}\n`);
+          JS
+
   build:
     name: Build shared website
     runs-on: ubuntu-latest
@@ -69,7 +96,7 @@ jobs:
       - uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
-          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock') }}
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock', 'cms/bun.lock') }}
           restore-keys: bun-${{ runner.os }}-
       - run: mise run //website:install
       - run: mise run //website:build
@@ -81,8 +108,8 @@ jobs:
           compression-level: 0
           retention-days: 1
 
-  unit:
-    name: Unit tests and CMS
+  checks:
+    name: Type and lint checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -90,79 +117,68 @@ jobs:
       - uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
-          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock') }}
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock', 'cms/bun.lock') }}
           restore-keys: bun-${{ runner.os }}-
       - run: mise run install
-      - run: mise run validate-cms-ops
+      - run: mise run check-cms-content
       - run: mise run check-cms-release
-      - run: mise run //website:typecheck
-      - run: mise run //website:lint
-      - run: mise exec -- bun run --cwd website test:unit
-      - run: mise run //cms:check
-      - run: mise run //cms:deploy-dry-run
+      - run: mise run //...:check
 
-  year:
-    name: Test ${{ matrix.year }}
-    needs: build
-    runs-on: ubuntu-latest
+  e2e:
+    name: E2E ${{ matrix.name }}
+    needs: [discover, build]
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
-      matrix:
-        year: ['2015', '2016', '2017', '2018', '2020', '2021', '2022', '2023', '2024', '2025', '2026', common]
+      matrix: ${{ fromJSON(needs.discover.outputs.suites) }}
     env:
-      TEST_YEAR: ${{ matrix.year }}
       PROGRAMME_ENVIRONMENT: test
       PROGRAMME_SOURCE_EVENT: pyconhk2025
       PROGRAMME_SNAPSHOT_PATH: src/years/2026/data/programme/pyconhk2025.public.json
-      PLAYWRIGHT_SKIP_BUILD: '1'
     steps:
       - uses: actions/checkout@v5
       - uses: jdx/mise-action@v4
       - uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
-          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock') }}
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock', 'cms/bun.lock') }}
           restore-keys: bun-${{ runner.os }}-
-      - run: mise run //website:install
+      - run: mise run install
       - uses: actions/download-artifact@v7
+        if: matrix.website
         with:
           name: website-dist
-      - run: tar -xf website-dist.tar -C website
-      - name: Check built routes
-        working-directory: website
-        shell: bash
+      - if: matrix.website
         run: |
-          shopt -s nullglob
-          tests=(tests/legacy-${TEST_YEAR}-*contract.test.ts)
-          if [ "$TEST_YEAR" = common ]; then tests=(tests/event-scope-contract.test.ts tests/legacy-search-route-contract.test.ts); fi
-          if [ "$TEST_YEAR" = 2026 ]; then tests=(tests/programme-build.test.ts); fi
-          if [ "${#tests[@]}" -gt 0 ]; then mise exec -- bun test "${tests[@]}"; fi
-      - uses: actions/cache@v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock') }}
-      - name: Install browser and system dependencies
-        working-directory: website
-        run: mise exec -- bunx playwright install --with-deps chromium
-      - name: Run browser tests
-        working-directory: website
-        run: mise exec -- bunx playwright test
+          tar -xf website-dist.tar -C website
+          echo 'PLAYWRIGHT_SKIP_BUILD=1' >> "$GITHUB_ENV"
+      - name: Use runner Chrome
+        if: matrix.browser
+        run: google-chrome --version
+      - name: Run complete E2E suite
+        env:
+          E2E_TASK: ${{ matrix.task }}
+        run: mise run "$E2E_TASK"
       - uses: actions/upload-artifact@v6
         if: failure()
         with:
-          name: test-failures-${{ matrix.year }}
-          path: website/test-results
+          name: test-failures-${{ matrix.name }}
+          path: |
+            website/test-results
+            cms/test-results
+            test-results/publishing
           retention-days: 3
 
   validate:
     name: Validate Monorepo
     if: always()
-    needs: [build, unit, year]
+    needs: [discover, build, checks, e2e]
     runs-on: ubuntu-latest
     steps:
       - name: Require all checks to pass
         env:
+          DISCOVER: ${{ needs.discover.result }}
           BUILD: ${{ needs.build.result }}
-          UNIT: ${{ needs.unit.result }}
-          YEARS: ${{ needs.year.result }}
-        run: test "$BUILD" = success && test "$UNIT" = success && test "$YEARS" = success
+          CHECKS: ${{ needs.checks.result }}
+          E2E: ${{ needs.e2e.result }}
+        run: test "$DISCOVER" = success && test "$BUILD" = success && test "$CHECKS" = success && test "$E2E" = success

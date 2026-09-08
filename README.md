@@ -13,15 +13,16 @@ The public site is an Astro app under `website/`. The CMS for `cms.pycon.hk` is 
 - Node.js 24.18.0 for Astro tooling
 - Outstatic-compatible repository content files for news content
 - Decap CMS under `cms/` for multilingual editorial updates
-- Playwright for public website e2e smoke tests
+- Playwright for website, CMS and publishing E2E tests
 
 ## Repository Layout
 
 - `website/` - public website app, routes, components, content loaders, data, and static assets
 - `website/outstatic/` - committed news content and metadata consumed by the website
 - `website/public/` - public website static assets served as-is
-- `website/tests/` and `cms/tests/` - tests owned by each app
-- `.github/deploy/*.test.ts` - deployment tests beside the workflow implementation
+- `website/src/years/*/e2e/`, `website/e2e/`, `cms/e2e/` and `e2e/` - self-contained E2E suites
+- `cms/publication/` - runtime publication and editorial content gates
+- `.github/deploy/` - website and CMS deployment implementation
 - `website/integrations/` - Astro build integration for public programme data and output
 - `cms/` - Astro + Decap CMS app for `cms.pycon.hk`
 - `archived/website-nextjs/` - archived copy of the old site for reference only
@@ -66,15 +67,19 @@ This setup uses the current stable mise monorepo settings.
 - `mise run //website:build` - build the public website only
 - `mise run //website:check` - check the public website only
 - `mise run //website:lint` - lint the public website only
-- `mise run //website:e2e` - run public website Playwright smoke tests through Wrangler Pages
+- `mise run //website:e2e` - run public website Playwright E2E tests through Wrangler Pages
 - `mise run //cms:dev` - start the CMS Astro dev server
 - `mise run //cms:build` - build the CMS app only
 - `mise run //cms:check` - check the CMS app only
 - `mise run //cms:lint` - lint the CMS app only
 - `mise run preview` - build and preview the generated website on `127.0.0.1:8788`
 - `mise run cloudflare-preview` - build and preview through Wrangler Pages for redirect/runtime checks
-- `mise run e2e` - run the public website Playwright smoke tests
-- `PLAYWRIGHT_BASE_URL=https://<green-hostname> mise run e2e` - run the same smoke tests against a hosted green environment
+- `mise run e2e` - run every website, CMS and publishing E2E suite
+- `PLAYWRIGHT_BASE_URL=https://<green-hostname> mise run //website:e2e` - run the same E2E suite against a hosted green environment
+- `mise run //website/src/years/2025/e2e:e2e` - run the complete 2025 E2E suite
+- `mise run //cms:e2e` - build a local CMS Worker and run its E2E suite
+- `CMS_BASE_URL=https://cms.pycon.hk mise run //cms:e2e` - verify the same read-only CMS flows on a hosted Worker
+- `mise run //e2e:e2e` - run publishing and editorial boundary E2E tests in disposable repositories
 
 ## Routing Model
 
@@ -119,29 +124,48 @@ This means `mise run //website:build` currently expects network access to Pretal
 
 ## Tests and CI
 
-The PR workflow builds one shared website artifact using the checked-in public 2025
-programme fixture. Each conference year runs its route and browser tests on a separate
-Ubuntu runner. Shared tests and CMS checks have their own jobs. Playwright runs independent
-cases in parallel within each runner. The required `Validate Monorepo` check succeeds only
-when the build, unit tests and every year job pass.
+All behavioral tests run through Playwright at the browser, HTTP or complete-command
+boundary. There is one complete E2E suite per year, a cross-year website suite, a CMS
+suite and a publishing suite. There is no separate unit or smoke tier. Typecheck and
+lint remain static checks; the production content and deployment validators remain
+part of their actual workflows.
 
-Bun dependencies are cached by OS and lockfiles; Playwright browser binaries have a
-separate cache. Jobs download the same build artifact instead of rebuilding the website.
+Year-owned tests live beside the year's code under
+`website/src/years/<year>/e2e/`. Each directory contains specs and a small mise task
+that extends the root `playwright:e2e` task template:
 
-Deployment compares each app's build-input hash with its last successful hosted manifest.
-Tests, CI configuration, documentation and edits confined to the other app do not trigger
-a website build/upload. Shared dependencies and build configuration invalidate both apps.
-The website also compares the public Pretalx hash, source event and environment; `force`
-in Run workflow bypasses the skip. A missing manifest triggers the first deployment.
-The recorded commit remains the commit actually deployed, even when later unrelated
-commits are skipped. All JavaScript Actions use Node 24; mise pins app commands to 24.18.0.
-CMS content-generation tests create their own fixture build to exercise changed content.
+```toml
+[tasks.e2e]
+extends = "playwright:e2e"
+dir = "{{config_root}}/../../../.."
+env = { E2E_SUITE = "2025" }
+```
 
-From `website/`, use `bun run test:unit` for source tests, `bun run test:build` for an
-existing build, or `TEST_YEAR=2026 PLAYWRIGHT_SKIP_BUILD=1 bunx playwright test` to run
-one year's browser tests against existing output. Omit these variables for the full
-browser suite with a fresh build. Completed migration and capture tools have been removed;
-the archive content and regression tests remain.
+Add a new year by adding its directory, specs and task. Website Playwright discovers
+these directories automatically. CI dynamically walks `**/e2e/mise.toml`, validates
+the discovered mise tasks, and creates one matrix job per suite, including CMS.
+No central year list, filename mapping or test-title grep needs updating.
+
+`mise run e2e` runs the website, CMS and publishing suites concurrently. Website
+projects share one build and one local Pages server. The CMS suite builds and starts
+a local Worker with dummy OAuth credentials; publishing tests use disposable Git
+repositories. CI builds the website once and shares that artifact between year jobs.
+Bun dependencies are cached by OS and lockfile. Browser jobs use the Chrome already
+installed on GitHub's Ubuntu 24.04 runners, avoiding per-job browser downloads and
+apt updates. A green
+`Validate Monorepo` requires discovery, build, static checks and every E2E job to pass.
+
+Use `mise run //website/src/years/2025/e2e:e2e` for one year, or add
+`PLAYWRIGHT_SKIP_BUILD=1` when reusing an existing build. Hosted website runs use
+`PLAYWRIGHT_BASE_URL=... mise run //website:e2e`; hosted CMS runs use
+`CMS_BASE_URL=... mise run //cms:e2e`. Local-only publishing scenarios never write
+to hosted CMS content.
+
+Deployment compares each app's build-input hash with its last successful hosted
+manifest. Tests, CI, docs and changes confined to the other app do not deploy an
+unchanged app. Shared dependencies and build configuration invalidate both apps.
+The website also compares the public Pretalx hash, event and environment. A manual
+force bypasses the skip; a missing manifest triggers the first deployment.
 
 ## Git and Workspace Notes
 

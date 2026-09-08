@@ -17,7 +17,9 @@
       "!node_modules",
       "!outstatic",
       "!public/2025",
-      "!public/outstatic"
+      "!public/outstatic",
+      "e2e/**",
+      "playwright.config.ts"
     ]
   },
   "formatter": {

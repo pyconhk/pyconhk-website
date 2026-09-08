@@ -11,7 +11,8 @@
     "cms"
   ],
   "devDependencies": {
-    "yaml": "^2.8.0"
+    "yaml": "^2.8.0",
+    "@playwright/test": "^1.61.1"
   },
   "patchedDependencies": {
     "decap-cms-core@3.16.0": "cms/patches/decap-cms-core@3.16.0.patch"
@@ -19,7 +20,7 @@
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",
     "dev": "mise //website:dev",
-    "e2e": "mise //website:e2e",
+    "e2e": "mise run //:e2e",
     "build": "mise //...:build",
     "preview": "mise //website:preview",
     "check": "mise //...:check",
