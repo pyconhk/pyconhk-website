@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { constants } from 'node:fs';
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -78,6 +79,21 @@ async function buildFixtureSite(): Promise<string> {
     await mkdir(tempWebsiteRoot);
     await copyBuildInput(tempWebsiteRoot);
 
+    // This scenario tests CMS routes, using public programme data without remote
+    // portraits. The dedicated programme suite covers built speaker images.
+    const snapshotPath = 'src/years/2026/data/programme/pyconhk2025.public.json';
+    const snapshot = JSON.parse(
+      await readFile(path.join(tempWebsiteRoot, snapshotPath), 'utf8')
+    );
+    for (const session of snapshot.sessions) {
+      for (const speaker of session.speakerProfiles ?? []) speaker.avatar = '';
+    }
+    const content = { ...snapshot };
+    delete content.hash;
+    delete content.fetchedAt;
+    snapshot.hash = createHash('sha256').update(JSON.stringify(content)).digest('hex');
+    await writeFile(path.join(tempWebsiteRoot, snapshotPath), JSON.stringify(snapshot));
+
     const futurePostDirectory = path.join(
       tempWebsiteRoot,
       'outstatic',
@@ -100,11 +116,9 @@ async function buildFixtureSite(): Promise<string> {
       cwd: tempWebsiteRoot,
       env: {
         ...process.env,
-        PROGRAMME_ENVIRONMENT: process.env.PROGRAMME_ENVIRONMENT ?? 'test',
-        PROGRAMME_SOURCE_EVENT: process.env.PROGRAMME_SOURCE_EVENT ?? 'pyconhk2025',
-        PROGRAMME_SNAPSHOT_PATH:
-          process.env.PROGRAMME_SNAPSHOT_PATH ??
-          'src/years/2026/data/programme/pyconhk2025.public.json',
+        PROGRAMME_ENVIRONMENT: 'test',
+        PROGRAMME_SOURCE_EVENT: 'pyconhk2025',
+        PROGRAMME_SNAPSHOT_PATH: snapshotPath,
         ASTRO_TELEMETRY_DISABLED: '1',
         PUBLIC_IS_TEST_ENV: 'true',
       },
