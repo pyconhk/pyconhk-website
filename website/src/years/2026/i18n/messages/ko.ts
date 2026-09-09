@@ -84,6 +84,10 @@ export const ko: HomeMessages = {
     location: '홍콩 특별행정구 Hong Kong SAR',
   },
   joinUs: {
+    sprintDescription:
+      '함께 Python 프로젝트를 개발하고 아이디어를 나누며 오픈소스에 기여해 보세요. 스프린트 내용과 참여 방법을 확인하세요.',
+    sponsorDescription:
+      '홍콩 Python 커뮤니티의 교류와 배움을 지원해 주세요. 후원 프로그램과 기업·단체의 참여 방법을 확인하세요.',
     eyebrow: '함께하기 JOIN US',
     title: '호기심을 가져오세요. 커뮤니티가 기다리고 있습니다.',
     description:
