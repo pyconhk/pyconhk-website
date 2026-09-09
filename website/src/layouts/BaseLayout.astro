@@ -12,6 +12,7 @@ import {
   socialHandle,
 } from '@/config/site';
 import { buildSeoMetadata, toOpenGraphLocale } from '@/lib/seo';
+import ImageLoading from './ImageLoading.astro';
 
 interface Props {
   year?: SiteYear;
@@ -48,6 +49,7 @@ const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironmen
 <!doctype html>
 <html lang={htmlLang} data-site-year={year}>
   <head>
+    <ImageLoading />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <slot name="head" />
