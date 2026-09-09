@@ -39,6 +39,15 @@ test.describe('responsive public programme', () => {
           return {
             documentFits: document.documentElement.scrollWidth <= innerWidth,
             programmeFits: programme.scrollWidth <= programme.clientWidth + 1,
+            roomLabelsMatchLayout: [
+              ...programme.querySelectorAll<HTMLElement>('.programme-room'),
+            ]
+              .filter((element) => element.getClientRects().length)
+              .every((element) =>
+                programme.dataset.roomLayout === 'true'
+                  ? element.getBoundingClientRect().width === 1
+                  : element.getBoundingClientRect().width > 1
+              ),
             allElementsFit: visible.every((element) => {
               const box = element.getBoundingClientRect();
               return (
@@ -66,6 +75,7 @@ test.describe('responsive public programme', () => {
         expect(geometry, `${locale} at ${width}px`).toEqual({
           documentFits: true,
           programmeFits: true,
+          roomLabelsMatchLayout: true,
           allElementsFit: true,
           touchTargetsFit: true,
           pointerCursors: true,
@@ -88,6 +98,64 @@ test.describe('responsive public programme', () => {
       await expect(page.locator('[data-programme-empty]')).toBeVisible();
       await expect(page.locator('.programme-scroll')).toBeHidden();
       expect(errors).toEqual([]);
+    });
+
+    test(`${locale}: track headings stay below navigation while scrolling room columns`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 1920, height: 900 });
+      await page.goto(`/2026/${locale}/schedule`);
+      const programme = page.locator('.programme-scroll');
+      const headings = page.locator('.programme-room-headings');
+      for (const width of [1920, 1460]) {
+        await page.setViewportSize({ width, height: 900 });
+        await expect(programme).toHaveAttribute('data-room-layout', 'true');
+        for (const top of [1100, 1700]) {
+          await page.evaluate((y) => window.scrollTo(0, y), top);
+          await expect
+            .poll(async () =>
+              headings.evaluate((element) => {
+                const header = document
+                  .querySelector('[data-site-header]')
+                  ?.getBoundingClientRect();
+                if (!header) throw new Error('Site navigation is missing');
+                return Math.abs(element.getBoundingClientRect().top - header.bottom);
+              })
+            )
+            .toBeLessThan(2);
+          // The visible column heading stays above the scrolling cards, with an opaque background.
+          expect(
+            await headings.evaluate((element) => {
+              const box = element.getBoundingClientRect();
+              return element.contains(
+                document.elementFromPoint(
+                  box.left + box.width / 2,
+                  box.top + box.height / 2
+                )
+              );
+            })
+          ).toBe(true);
+        }
+      }
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      expect(
+        await headings.evaluate((element) => {
+          const programme = element.parentElement;
+          if (!programme) throw new Error('Programme is missing');
+          return (
+            element.getBoundingClientRect().bottom <=
+            programme.getBoundingClientRect().bottom
+          );
+        })
+      ).toBe(true);
+      await page.locator('[data-room-filter]').selectOption('4654-track-b-lt-14');
+      await expect(headings).toBeHidden();
+      const roomLabel = page
+        .locator('[data-session-card]:visible .programme-room')
+        .first();
+      expect(
+        await roomLabel.evaluate((element) => element.getBoundingClientRect().width)
+      ).toBeGreaterThan(1);
     });
 
     for (const viewport of [
