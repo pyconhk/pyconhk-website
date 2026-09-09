@@ -20,7 +20,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   <section class="bg-conference-paper py-10 sm:py-14" data-programme-status={programmeSnapshot.status} data-programme-event={programmeSnapshot.event}>
     <div>
       <div class="programme-intro">
-      <h1 class="text-3xl font-black tracking-tight text-conference-ink sm:text-5xl">{t.schedule.heroTitle}</h1>
+      <h1 class="text-center text-3xl font-black tracking-tight text-conference-ink sm:text-5xl">{t.schedule.heroTitle}</h1>
       {isSampleProgramme && <p class="mt-5 rounded-2xl border-2 border-amber-600 bg-amber-50 p-4 font-bold text-amber-950" data-sample-notice>{copy.sample}</p>}
       </div>
       {programmeSnapshot.status === 'unpublished' ? <p class="mt-8 rounded-2xl border-2 border-conference-outline bg-conference-surface p-8 text-lg" data-programme-coming-soon>{copy.comingSoon}</p> : <>
