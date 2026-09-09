@@ -88,12 +88,20 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     const sections = await page
       .locator('main > section[id]')
       .evaluateAll((elements) => elements.map((element) => element.id));
-    expect(sections.filter((id) => !['news', 'sponsors'].includes(id))).toEqual([
+    expect(sections.filter((id) => id !== 'sponsors')).toEqual([
       'home',
+      'news',
       'featured-speakers',
       'participate',
     ]);
-    if (sections.includes('news')) expect(sections.indexOf('news')).toBe(1);
+    const news = page.locator('#news');
+    await news.scrollIntoViewIfNeeded();
+    await expect(news.locator('#news-title')).toBeVisible();
+    await expect(news.locator('[data-news-articles], [data-news-empty]')).toBeVisible();
+    await news.locator(`a[href="/2026/${locale}/news/"]`).click();
+    await expect(page).toHaveURL(new RegExp(`/2026/${locale}/news/?$`));
+    await expect(page.locator('main h1')).toBeVisible();
+    await page.goto(`/2026/${locale}/`);
     if (sections.includes('sponsors'))
       expect(sections.indexOf('sponsors')).toBeLessThan(
         sections.indexOf('featured-speakers')

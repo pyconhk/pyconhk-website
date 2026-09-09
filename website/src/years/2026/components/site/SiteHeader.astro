@@ -35,14 +35,14 @@ const homeHref = `/2026/${locale}/`;
           height="45"
           class="h-6 sm:h-7.5 min-[1500px]:h-8.5 w-auto max-w-[95px] sm:max-w-[125px] min-[1500px]:max-w-[150px] object-contain"
         />
-        <span class="font-operetta-32 text-base sm:text-lg min-[1440px]:text-[1.2rem] text-conference-ink hidden min-[440px]:inline-block whitespace-nowrap leading-none font-black uppercase tracking-wider">
+        <span class="font-sans text-base min-[1440px]:text-lg text-conference-ink hidden min-[440px]:inline-block whitespace-nowrap leading-none font-black uppercase tracking-wider">
           PYCON HK 2026
         </span>
       </a>
     </div>
 
     <!-- Desktop Navigation Links (Responsive fluid gaps, 100% visible without overflowing) -->
-    <nav class="hidden min-[1280px]:flex flex-1 items-center justify-center gap-1.5 min-[1340px]:gap-2 min-[1420px]:gap-3 min-[1560px]:gap-4.5 font-bold text-[0.74rem] min-[1340px]:text-[0.78rem] min-[1460px]:text-[0.82rem] min-[1600px]:text-[0.875rem] text-conference-ink px-1" aria-label="Main Navigation">
+    <nav class="hidden min-[1440px]:flex flex-1 items-center justify-center gap-1.5 min-[1340px]:gap-2 min-[1420px]:gap-3 min-[1560px]:gap-4.5 font-bold text-[0.74rem] min-[1340px]:text-[0.78rem] min-[1460px]:text-[0.82rem] min-[1600px]:text-[0.875rem] text-conference-ink px-1" aria-label="Main Navigation">
       {headerNavigation.map((item) => {
         if (item.kind === 'link') {
           return (
@@ -104,8 +104,8 @@ const homeHref = `/2026/${locale}/`;
       <RegistrationButton locale={locale} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#d71920] px-3.5 min-[1440px]:px-5 py-2 text-xs min-[1440px]:text-sm font-bold text-white shadow-conference-control border-2 border-conference-outline transition-colors hover:bg-[#c0151c] whitespace-nowrap" />
     </div>
 
-    <!-- Mobile / Compact Viewport Menu Trigger (< 1280px) -->
-    <div class="flex items-center gap-2 min-[1280px]:hidden">
+    <!-- Mobile / Compact Viewport Menu Trigger (< 1440px) -->
+    <div class="flex items-center gap-2 min-[1440px]:hidden">
       <button
         type="button"
         class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-conference-outline bg-conference-surface text-conference-ink shadow-conference-control"
@@ -136,7 +136,7 @@ const homeHref = `/2026/${locale}/`;
       data-mobile-nav-panel
     >
       <div class="flex items-center justify-between pb-4 border-b border-conference-outline/15">
-        <span class="font-operetta text-lg text-conference-ink  leading-none font-black uppercase tracking-wider">PYCON HK 2026</span>
+        <span class="font-sans text-lg text-conference-ink  leading-none font-black uppercase tracking-wider">PYCON HK 2026</span>
         <button
           type="button"
           class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-conference-outline  bg-conference-surface  text-conference-ink  shadow-conference-control"

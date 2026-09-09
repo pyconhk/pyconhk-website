@@ -16,7 +16,7 @@ const profiles = await Promise.all(sessionProfiles(session)
 ---
 <div class="space-y-6">
   {profiles.length > 0 && <section data-speaker-profiles>
-    <h3 class="ideal-heading mb-4 text-xl font-black text-conference-ink">{copy.speakers}</h3>
+    <h3 class="font-sans mb-4 text-xl font-black text-conference-ink">{copy.speakers}</h3>
     <div class="space-y-4">
       {profiles.map((person) => <article data-speaker-profile class="speaker-card relative min-w-0 rounded-2xl border-2 border-conference-outline bg-conference-paper p-4 shadow-conference-card sm:p-5">
         <div class="flex items-center gap-4">

@@ -31,7 +31,7 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
     <div class="space-y-12 sm:space-y-16" data-published-sponsorship>
       <div class="mx-auto max-w-3xl space-y-4 text-sm font-medium leading-relaxed text-conference-body sm:text-base">{sponsorship.intro.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}</div>
       <section class="space-y-8 border-t-2 border-conference-outline/15 pt-8">
-        <h2 class="section-title font-operetta-32">{pageCopy.whySponsorTitle}</h2>
+        <h2 class="section-title font-sans">{pageCopy.whySponsorTitle}</h2>
         <div class="grid gap-6 md:grid-cols-3">
           {sponsorship.benefits.map((benefit, index) => <article class="flex flex-col items-center gap-4 rounded-2xl border-2 border-conference-outline bg-conference-paper p-6 text-center shadow-conference-card">
             <span aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-conference-outline bg-conference-surface text-conference-blue shadow-conference-control"><Icon name={`heroicons-outline:${sponsorBenefits[index]?.icon || 'heart'}`} class="h-7 w-7" /></span>
@@ -40,7 +40,7 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
         </div>
       </section>
       <section class="space-y-8 border-t-2 border-conference-outline/15 pt-8">
-        <header class="space-y-3 text-center"><h2 class="section-title font-operetta-32">{pageCopy.plansTitle}</h2><p class="text-sm font-medium text-conference-body">{pageCopy.plansDescription}</p></header>
+        <header class="space-y-3 text-center"><h2 class="section-title font-sans">{pageCopy.plansTitle}</h2><p class="text-sm font-medium text-conference-body">{pageCopy.plansDescription}</p></header>
         <div data-sponsorship-carousel>
           <section data-sponsorship-track tabindex="0" aria-label={pageCopy.plansTitle} class="plan-track">
             {sponsorship.plans.map((plan) => {
@@ -82,7 +82,7 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
     </div>
   )}
   <section class="space-y-4 rounded-3xl border-3 border-conference-outline bg-conference-yellow p-6 text-center shadow-conference-panel sm:p-10">
-    <h2 class="section-title font-operetta-32">{pageCopy.ctaTitle}</h2><p class="mx-auto max-w-xl text-sm font-bold text-conference-ink sm:text-base">{pageCopy.ctaDescription}</p>
+    <h2 class="section-title font-sans">{pageCopy.ctaTitle}</h2><p class="mx-auto max-w-xl text-sm font-bold text-conference-ink sm:text-base">{pageCopy.ctaDescription}</p>
     <a href={sponsorshipEmail} class="inline-flex rounded-full border-2 border-conference-outline bg-[#d71920] px-7 py-3 font-black text-white shadow-conference-card hover:bg-[#c0151c]">{pageCopy.ctaButtonLabel}</a>
   </section>
 </CommunityPageFrame>
