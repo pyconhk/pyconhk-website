@@ -17,6 +17,71 @@ const publishedRoutes = [
   'volunteers',
 ];
 
+test('visible supporter artwork stays centered across layouts and themes', async ({
+  page,
+}) => {
+  test.setTimeout(90_000);
+  for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/2026/en/supporting-organizations/');
+    for (const theme of ['light', 'dark']) {
+      await page.locator('[data-theme-select]').first().selectOption(theme);
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-conference-theme',
+        theme
+      );
+      const logos = page.locator('[data-logo-frame] img');
+      expect(await logos.count()).toBeGreaterThan(0);
+      for (const logo of await logos.all()) {
+        await logo.scrollIntoViewIfNeeded();
+        const visible = await logo.evaluate(async (image: HTMLImageElement) => {
+          await image.decode();
+          const canvas = document.createElement('canvas');
+          canvas.width = image.naturalWidth;
+          canvas.height = image.naturalHeight;
+          const context = canvas.getContext('2d');
+          if (!context) throw new Error('Canvas unavailable');
+          context.drawImage(image, 0, 0);
+          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+          let left = canvas.width;
+          let top = canvas.height;
+          let right = -1;
+          let bottom = -1;
+          for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+              // Inspect the clearly visible mark, independently of its CSS frame.
+              if (pixels[(y * canvas.width + x) * 4 + 3] < 128) continue;
+              left = Math.min(left, x);
+              top = Math.min(top, y);
+              right = Math.max(right, x);
+              bottom = Math.max(bottom, y);
+            }
+          }
+          const rect = image.getBoundingClientRect();
+          const plateElement = image.closest('.organization-logo-plate');
+          if (!plateElement) throw new Error('Logo plate missing');
+          const plate = plateElement.getBoundingClientRect();
+          const centerX = rect.x + ((left + right + 1) / 2 / canvas.width) * rect.width;
+          const centerY =
+            rect.y + ((top + bottom + 1) / 2 / canvas.height) * rect.height;
+          return {
+            name: image.alt,
+            hasArtwork: right >= left,
+            offsetX: Math.abs(centerX - (plate.x + plate.width / 2)),
+            offsetY: Math.abs(centerY - (plate.y + plate.height / 2)),
+          };
+        });
+        expect(visible.hasArtwork, visible.name).toBe(true);
+        expect(visible.offsetX, `${visible.name}: ${width} ${theme}`).toBeLessThan(4);
+        expect(visible.offsetY, `${visible.name}: ${width} ${theme}`).toBeLessThan(4);
+      }
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+      ).toBe(true);
+    }
+  }
+});
+
 test('wide supporter logos fill their plates and OSHK stays square', async ({
   page,
 }) => {

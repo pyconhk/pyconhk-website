@@ -223,7 +223,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       ko: '홍콩교육대학교 수학 및 정보기술학과',
     },
     nameLines: ['Department of Mathematics and', 'Information Techonology, The EdUHK'],
-    imagePath: '/2026/supporting-organizations/eduhk_math_it_dept.webp',
+    imagePath: '/2026/supporting-organizations/eduhk_math_it_dept.svg',
     logoAlt: 'EdUHK Math and IT Department Logo',
     url: 'https://www.eduhk.hk/mit/en/',
     summary: {

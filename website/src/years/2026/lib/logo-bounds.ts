@@ -38,7 +38,9 @@ async function measure(filename: string): Promise<LogoBounds | null> {
   let bottom = -1;
   for (let y = 0; y < info.height; y++) {
     for (let x = 0; x < info.width; x++) {
-      if (data[(y * info.width + x) * info.channels + info.channels - 1] === 0)
+      // Background-removal remnants can span the entire canvas at very low
+      // opacity. They must not displace the visible artwork inside its plate.
+      if (data[(y * info.width + x) * info.channels + info.channels - 1] <= 32)
         continue;
       left = Math.min(left, x);
       right = Math.max(right, x);
@@ -47,6 +49,12 @@ async function measure(filename: string): Promise<LogoBounds | null> {
     }
   }
   if (right < left) return null;
+  // Retain the soft antialiased edge surrounding the visible artwork.
+  const padding = Math.max(1, Math.ceil(Math.max(info.width, info.height) / 500));
+  left = Math.max(0, left - padding);
+  top = Math.max(0, top - padding);
+  right = Math.min(info.width - 1, right + padding);
+  bottom = Math.min(info.height - 1, bottom + padding);
   return {
     left,
     top,
