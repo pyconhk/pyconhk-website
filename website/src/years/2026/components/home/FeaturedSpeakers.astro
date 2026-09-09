@@ -10,7 +10,7 @@ const { locale } = Astro.props;
 const labels = featuredLabels[locale];
 ---
 
-<section id="featured-speakers" class="bg-conference-soft px-4 py-16 sm:px-6 sm:py-24 lg:px-8" data-featured-speakers aria-labelledby="featured-title">
+<section id="featured-speakers" class="scroll-mt-32 bg-conference-soft px-4 py-16 sm:px-6 sm:py-24 lg:px-8" data-featured-speakers aria-labelledby="featured-title">
   <div class="mx-auto max-w-6xl">
     <h2 id="featured-title" class="text-center text-3xl font-black text-conference-ink sm:text-4xl">{contentUi[locale].speakers}</h2>
     <div class="mx-auto mt-5 flex h-1 w-24" aria-hidden="true"><span class="flex-1 bg-[#d71920]"></span><span class="flex-1 bg-white"></span><span class="flex-1 bg-[#2f559a]"></span></div>
