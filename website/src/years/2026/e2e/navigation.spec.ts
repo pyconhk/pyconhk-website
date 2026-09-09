@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { setTheme } from './theme';
 
 for (const nativeTransitions of [true, false]) {
   test(`page navigation stays interactive with native transitions ${nativeTransitions}`, async ({
@@ -43,7 +44,7 @@ for (const nativeTransitions of [true, false]) {
     await expect(page.locator('main[data-pagefind-body]')).toBeVisible();
 
     // The next control must work after a client-side swap, without a reload.
-    await page.locator('[data-theme-select]').selectOption('dark');
+    await setTheme(page, 'dark');
     await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
     await page.goBack();
     await expect(page).toHaveURL(/\/2026\/en\/?$/);
