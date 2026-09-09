@@ -48,7 +48,8 @@ export const organizingCommitteeMembers: readonly VolunteerProfile[] = [
   },
   {
     name: 'Ms. Cintia Ching',
-    imageSrc: '/2026/organizers-volunteers/volunteers/placeholder.webp',
+    imageSrc: '/2026/organizers-volunteers/volunteers/cintia-ching.webp',
+    linkedin: 'https://www.linkedin.com/in/cintiaching',
   },
   {
     name: 'Mr. Henry Law',
@@ -56,7 +57,7 @@ export const organizingCommitteeMembers: readonly VolunteerProfile[] = [
   },
   {
     name: 'Ms. Janny Leung',
-    imageSrc: '/2026/organizers-volunteers/volunteers/placeholder.webp',
+    imageSrc: '/2026/organizers-volunteers/volunteers/janny-leung.webp',
   },
   {
     name: 'Mr. Ka Ki Ting',
