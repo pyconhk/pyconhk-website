@@ -366,9 +366,9 @@
     ],
     "plans": [
       {
-        "name": "鑽石方案",
+        "name": "鑽石級贊助",
         "tier": "diamond",
-        "fee": "HKD 70,000+",
+        "fee": "HKD 68,640+",
         "maxSlots": "1",
         "features": [
           {
@@ -377,8 +377,8 @@
             "id": "feature-1"
           },
           {
-            "label": "攤位展位",
-            "value": "雙倍特大展位",
+            "label": "展覽攤位",
+            "value": "雙倍大小",
             "id": "feature-2"
           },
           {
@@ -387,27 +387,27 @@
             "id": "feature-3"
           },
           {
-            "label": "大會易拉架",
+            "label": "會場易拉架標誌",
             "value": "特大標誌",
             "id": "feature-4"
           },
           {
-            "label": "YouTube 錄影畫面",
+            "label": "YouTube 影片標誌",
             "value": "特大標誌",
             "id": "feature-5"
           },
           {
-            "label": "官方網站標誌",
-            "value": "特大標誌（附專題簡介）",
+            "label": "網站標誌",
+            "value": "特大標誌（附簡介）",
             "id": "feature-6"
           },
           {
-            "label": "可自備易拉架",
+            "label": "擺放自備易拉架",
             "value": "包括",
             "id": "feature-7"
           },
           {
-            "label": "中場休息廣告",
+            "label": "休息時段影片廣告",
             "value": "包括",
             "id": "feature-8"
           },
@@ -417,12 +417,12 @@
             "id": "feature-9"
           },
           {
-            "label": "新聞稿",
+            "label": "新聞稿及媒體通知",
             "value": "包括",
             "id": "feature-10"
           },
           {
-            "label": "社交平台推廣",
+            "label": "社交平台宣傳",
             "value": "包括",
             "id": "feature-11"
           },
@@ -435,9 +435,9 @@
         "id": "plans-1"
       },
       {
-        "name": "白金方案",
+        "name": "白金級贊助",
         "tier": "platinum",
-        "fee": "HKD 44,000",
+        "fee": "HKD 46,800",
         "maxSlots": "2",
         "features": [
           {
@@ -446,32 +446,32 @@
             "id": "feature-1"
           },
           {
-            "label": "攤位展位",
-            "value": "標準大小展位",
+            "label": "展覽攤位",
+            "value": "標準大小",
             "id": "feature-2"
           },
           {
-            "label": "大會易拉架",
-            "value": "大標誌",
+            "label": "會場易拉架標誌",
+            "value": "大型標誌",
             "id": "feature-3"
           },
           {
-            "label": "YouTube 錄影畫面",
-            "value": "大標誌",
+            "label": "YouTube 影片標誌",
+            "value": "大型標誌",
             "id": "feature-4"
           },
           {
-            "label": "官方網站標誌",
-            "value": "大標誌（附專題簡介）",
+            "label": "網站標誌",
+            "value": "大型標誌（附簡介）",
             "id": "feature-5"
           },
           {
-            "label": "可自備易拉架",
+            "label": "擺放自備易拉架",
             "value": "包括",
             "id": "feature-6"
           },
           {
-            "label": "中場休息廣告",
+            "label": "休息時段影片廣告",
             "value": "包括",
             "id": "feature-7"
           },
@@ -481,12 +481,12 @@
             "id": "feature-8"
           },
           {
-            "label": "新聞稿",
+            "label": "新聞稿及媒體通知",
             "value": "包括",
             "id": "feature-9"
           },
           {
-            "label": "社交平台推廣",
+            "label": "社交平台宣傳",
             "value": "包括",
             "id": "feature-10"
           },
@@ -499,9 +499,9 @@
         "id": "plans-2"
       },
       {
-        "name": "黃金方案",
+        "name": "黃金級贊助",
         "tier": "gold",
-        "fee": "HKD 22,000",
+        "fee": "HKD 27,300",
         "maxSlots": "4",
         "features": [
           {
@@ -510,27 +510,27 @@
             "id": "feature-1"
           },
           {
-            "label": "攤位展位",
-            "value": "標準大小展位",
+            "label": "展覽攤位",
+            "value": "標準大小",
             "id": "feature-2"
           },
           {
-            "label": "大會易拉架",
-            "value": "中標誌",
+            "label": "會場易拉架標誌",
+            "value": "中型標誌",
             "id": "feature-3"
           },
           {
-            "label": "YouTube 錄影畫面",
-            "value": "中標誌",
+            "label": "YouTube 影片標誌",
+            "value": "中型標誌",
             "id": "feature-4"
           },
           {
-            "label": "官方網站標誌",
-            "value": "中標誌",
+            "label": "網站標誌",
+            "value": "中型標誌",
             "id": "feature-5"
           },
           {
-            "label": "中場休息廣告",
+            "label": "休息時段影片廣告",
             "value": "+ HKD 3,100",
             "id": "feature-6"
           },
@@ -540,12 +540,12 @@
             "id": "feature-7"
           },
           {
-            "label": "新聞稿",
+            "label": "新聞稿及媒體通知",
             "value": "包括",
             "id": "feature-8"
           },
           {
-            "label": "社交平台推廣",
+            "label": "社交平台宣傳",
             "value": "包括",
             "id": "feature-9"
           },
@@ -558,38 +558,38 @@
         "id": "plans-3"
       },
       {
-        "name": "純銀方案",
+        "name": "白銀級贊助",
         "tier": "silver",
-        "fee": "HKD 11,000",
+        "fee": "HKD 13,650",
         "maxSlots": "4",
         "features": [
           {
-            "label": "攤位展位",
-            "value": "標準大小展位",
+            "label": "展覽攤位",
+            "value": "標準大小",
             "id": "feature-1"
           },
           {
-            "label": "大會易拉架",
-            "value": "常規標誌",
+            "label": "會場易拉架標誌",
+            "value": "標準標誌",
             "id": "feature-2"
           },
           {
-            "label": "YouTube 錄影畫面",
-            "value": "常規標誌",
+            "label": "YouTube 影片標誌",
+            "value": "標準標誌",
             "id": "feature-3"
           },
           {
-            "label": "官方網站標誌",
-            "value": "常規標誌",
+            "label": "網站標誌",
+            "value": "標準標誌",
             "id": "feature-4"
           },
           {
-            "label": "中場休息廣告",
+            "label": "休息時段影片廣告",
             "value": "+ HKD 3,100",
             "id": "feature-5"
           },
           {
-            "label": "社交平台推廣",
+            "label": "社交平台宣傳",
             "value": "包括",
             "id": "feature-6"
           },
@@ -602,28 +602,28 @@
         "id": "plans-4"
       },
       {
-        "name": "青銅方案",
+        "name": "青銅級贊助",
         "tier": "bronze",
-        "fee": "HKD 6,000",
+        "fee": "HKD 6,240",
         "maxSlots": "unlimited",
         "features": [
           {
-            "label": "大會易拉架",
+            "label": "會場易拉架標誌",
             "value": "小型標誌",
             "id": "feature-1"
           },
           {
-            "label": "YouTube 錄影畫面",
+            "label": "YouTube 影片標誌",
             "value": "小型標誌",
             "id": "feature-2"
           },
           {
-            "label": "官方網站標誌",
+            "label": "網站標誌",
             "value": "小型標誌",
             "id": "feature-3"
           },
           {
-            "label": "中場休息廣告",
+            "label": "休息時段影片廣告",
             "value": "+ HKD 3,100",
             "id": "feature-4"
           },
