@@ -16,7 +16,7 @@ const content = getConferenceContent(locale);
 <section class="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-24 lg:pt-16 lg:pb-28">
   <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
     <!-- 1. Top Pill Badge (Fade Entrance Step 1) -->
-    <div class="hero-fade-1 inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-1.5 text-xs font-black uppercase tracking-wider text-conference-ink shadow-[3px_3px_0_var(--conference-shadow)] mb-8">
+    <div class="inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-1.5 text-xs font-black uppercase tracking-wider text-conference-ink shadow-[3px_3px_0_var(--conference-shadow)] mb-8">
       <span class="inline-block h-2 w-2 rounded-full bg-[#d71920]" />
       <span>{t.hero.badge}</span>
     </div>
@@ -64,7 +64,7 @@ const content = getConferenceContent(locale);
       </div>
 
       <!-- 2. Center Elevated Hero Logo Card (Fade Entrance Step 2) -->
-      <div class="brand-plate hero-fade-2 w-full rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 sm:p-10 shadow-[10px_10px_0_#2f559a] transition-transform hover:-translate-y-1 hover:shadow-[12px_12px_0_#2f559a]">
+      <div class="brand-plate w-full rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 sm:p-10 shadow-[10px_10px_0_#2f559a] transition-transform hover:-translate-y-1 hover:shadow-[12px_12px_0_#2f559a]">
         <img
           src="/2026/logos/pyconlogo.svg"
           alt="PyCon HK 2026 Logo"
@@ -77,7 +77,7 @@ const content = getConferenceContent(locale);
     </div>
 
     <!-- 3. Main Title & Subtitle (Fade Entrance Step 3) -->
-    <div class="hero-fade-3 mt-10 sm:mt-12 max-w-4xl space-y-4">
+    <div class="mt-10 sm:mt-12 max-w-4xl space-y-4">
       <h1 class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-conference-ink">
         {content.event.status === 'published' ? content.event.theme : t.hero.headline}
       </h1>
@@ -92,7 +92,7 @@ const content = getConferenceContent(locale);
     </div>
 
     <!-- 4. Hero Action Buttons (Fade Entrance Step 4) -->
-    <div class="hero-fade-4 mt-8 flex flex-wrap items-center justify-center gap-4">
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
       <RegistrationButton locale={locale} />
 
       <a
@@ -111,7 +111,7 @@ const content = getConferenceContent(locale);
     </div>
 
     <!-- 5. At a Glance 3-Column Info Strip (Fade Entrance Step 5) -->
-    <div class="hero-fade-5 mt-10 sm:mt-14 w-full max-w-3xl rounded-2xl border-2 border-conference-outline bg-conference-surface p-5 sm:p-6 shadow-[6px_6px_0_var(--conference-shadow)]">
+    <div class="mt-10 sm:mt-14 w-full max-w-3xl rounded-2xl border-2 border-conference-outline bg-conference-surface p-5 sm:p-6 shadow-[6px_6px_0_var(--conference-shadow)]">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-conference-outline/15 text-left">
         <div class="sm:px-4 sm:first:pl-0">
           <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.whenLabel}</p>
@@ -130,31 +130,3 @@ const content = getConferenceContent(locale);
   </div>
 </section>
 
-<style>
-  @keyframes heroEntranceFade {
-    0% {
-      opacity: 0;
-      transform: translateY(22px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-fade-1 {
-    animation: heroEntranceFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) both 0.04s;
-  }
-  .hero-fade-2 {
-    animation: heroEntranceFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both 0.14s;
-  }
-  .hero-fade-3 {
-    animation: heroEntranceFade 0.85s cubic-bezier(0.16, 1, 0.3, 1) both 0.26s;
-  }
-  .hero-fade-4 {
-    animation: heroEntranceFade 0.85s cubic-bezier(0.16, 1, 0.3, 1) both 0.38s;
-  }
-  .hero-fade-5 {
-    animation: heroEntranceFade 0.85s cubic-bezier(0.16, 1, 0.3, 1) both 0.50s;
-  }
-</style>
