@@ -10,7 +10,7 @@ const isPrimary = variant === 'primary';
 const opensNewTab = /^https?:\/\//.test(href);
 ---
 
-<a
+<a data-astro-prefetch="viewport"
   href={href}
   aria-label={label}
   target={opensNewTab ? '_blank' : undefined}

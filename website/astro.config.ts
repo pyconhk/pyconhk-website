@@ -132,7 +132,10 @@ export default defineConfig({
   trailingSlash: 'ignore',
   vite: {
     build: {
-      assetsInlineLimit: 0,
+      // Tiny page styles must not add another request before ClientRouter swaps.
+      // Keep images/fonts as separate files so their URLs remain cacheable.
+      assetsInlineLimit: (filePath, content) =>
+        filePath.endsWith('.css') && content.length <= 8 * 1024,
     },
     plugins: [noTrailingSlashRedirects(), tailwindcss()],
   },
