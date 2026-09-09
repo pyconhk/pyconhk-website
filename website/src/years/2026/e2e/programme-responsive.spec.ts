@@ -22,7 +22,9 @@ test.describe('responsive public programme', () => {
         const programme = page.locator('.programme-scroll');
         // Account for browser scrollbars at the exact six-room fit boundary.
         const roomColumnsFit = await programme.evaluate((element) => {
-          const style = getComputedStyle(element);
+          const style = getComputedStyle(
+            element.querySelector('.programme-room-headings') ?? element
+          );
           return (
             element.clientWidth -
               Number.parseFloat(style.paddingLeft) -
