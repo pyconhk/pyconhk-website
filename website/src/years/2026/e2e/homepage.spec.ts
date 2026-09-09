@@ -103,9 +103,15 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       '/2026/logos/pyconlogo.svg'
     );
     await expect(page.locator('#participate a')).toHaveCount(2);
-    await expect(
-      page.locator('#participate p, #participate details, [data-home-dates]')
-    ).toHaveCount(0);
+    await expect(page.locator('#participate p')).toHaveCount(3);
+    for (const card of await page.locator('#participate a').all()) {
+      await expect(card.locator('h3')).not.toBeEmpty();
+      await expect(card.locator('p')).not.toBeEmpty();
+      await expect(card).toHaveAttribute('data-astro-prefetch', 'viewport');
+    }
+    await expect(page.locator('#participate details, [data-home-dates]')).toHaveCount(
+      0
+    );
     await page.locator(`#participate a[href="/2026/${locale}/sprint/"]`).click();
     await expect(page).toHaveURL(new RegExp(`/2026/${locale}/sprint/?$`));
     await expect(page.locator('main h1')).toBeVisible();
@@ -207,7 +213,7 @@ for (const viewport of [
         expect(section.height).toBeGreaterThanOrEqual(available - 1);
         expect(section.topGap).toBeGreaterThanOrEqual(0);
         expect(section.bottomGap).toBeGreaterThanOrEqual(0);
-        if (viewport.width >= 1440 || section.id === 'participate') {
+        if (viewport.width >= 1440) {
           expect(section.height).toBeCloseTo(available, 0);
           expect(section.topGap).toBeCloseTo(section.bottomGap, 0);
         }

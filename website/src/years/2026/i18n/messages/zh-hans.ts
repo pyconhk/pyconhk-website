@@ -83,6 +83,10 @@ export const zhHans: HomeMessages = {
     location: '香港特别行政区 Hong Kong SAR',
   },
   joinUs: {
+    sprintDescription:
+      '一起动手开发 Python 项目、交流想法，为开源出一份力。了解 Sprint 开发日及参与方式。',
+    sponsorDescription:
+      '支持香港 Python 社区，让更多人交流与学习。查看赞助方案，了解你的机构可以如何参与。',
     eyebrow: '加入我们 JOIN US',
     title: '带上你的好奇心，我们准备好社区与你相遇。',
     description:

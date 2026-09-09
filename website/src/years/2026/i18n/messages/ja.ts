@@ -84,6 +84,10 @@ export const ja: HomeMessages = {
     location: '香港特別行政区 Hong Kong SAR',
   },
   joinUs: {
+    sprintDescription:
+      'Python プロジェクトに一緒に取り組み、アイデアを交換して、オープンソースに貢献しましょう。スプリントの内容と参加方法をご覧ください。',
+    sponsorDescription:
+      '香港の Python コミュニティを応援しませんか。スポンサーシップのプランと、企業・団体として参加する方法をご覧ください。',
     eyebrow: '参加する JOIN US',
     title: 'あなたの好奇心をお持ちください。コミュニティが迎えます。',
     description:

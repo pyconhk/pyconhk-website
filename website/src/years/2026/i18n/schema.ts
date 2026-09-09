@@ -61,6 +61,8 @@ export type HomeMessages = {
     location: string;
   };
   joinUs: {
+    sprintDescription: string;
+    sponsorDescription: string;
     eyebrow: string;
     title: string;
     description: string;
