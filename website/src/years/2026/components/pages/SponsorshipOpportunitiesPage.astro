@@ -12,6 +12,16 @@ const { locale } = Astro.props;
 const copy = contentUi[locale];
 const pageCopy = pageCopyByLocale[locale];
 const { sponsorship } = getConferenceContent(locale);
+const availability = {
+  en: ['Included', 'Not included'],
+  'zh-hk': ['包括', '不包括'],
+  'zh-hant': ['包括', '不包括'],
+  'zh-hans': ['包括', '不包括'],
+  ja: ['含まれます', '含まれません'],
+  ko: ['포함', '미포함'],
+}[locale];
+// Feature IDs are positions within each plan, not shared benefit identifiers.
+const featureLabels = [...new Set(sponsorship.plans.flatMap((plan) => plan.features.map((feature) => feature.label)))];
 const slotLabels = { en: 'Available packages', 'zh-hk': '可供贊助名額', 'zh-hant': '可供贊助名額', 'zh-hans': '可供赞助名额', ja: '募集枠数', ko: '모집 구좌' };
 const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'], 'zh-hk': ['上一個贊助方案', '下一個贊助方案'], 'zh-hant': ['上一個贊助方案', '下一個贊助方案'], 'zh-hans': ['上一个赞助方案', '下一个赞助方案'], ja: ['前のスポンサー枠', '次のスポンサー枠'], ko: ['이전 후원 패키지', '다음 후원 패키지'] }[locale];
 ---
@@ -35,17 +45,30 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
             {sponsorship.plans.map((plan) => {
               const appearance = sponsorshipPlans.find((original) => original.tier === plan.tier);
               return <article data-plan-card class="plan-card flex min-w-0 flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-paper shadow-[4px_4px_0_var(--conference-shadow)]">
-                <header class:list={['space-y-2 border-b-2 border-conference-outline p-5', appearance?.headerBg || 'bg-[#2f559a]', appearance?.headerText || 'text-white']}>
+                <header class:list={['space-y-1 border-b-2 border-conference-outline px-4 py-3', appearance?.headerBg || 'bg-[#2f559a]', appearance?.headerText || 'text-white']}>
                   <h3 class="text-xl font-black">{plan.name}</h3><p class="text-sm font-bold">{pageCopy.sponsorshipFeeLabel}: <span class="font-black">{plan.fee}</span></p>
                 </header>
-                <div class="space-y-5 p-5">
+                <div class="space-y-2 px-4 py-3">
                   {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-conference-outline bg-conference-surface px-3 py-1 text-xs font-black text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]">{slotLabels[locale]}: {plan.maxSlots}</p>}
-                  <dl class="space-y-3 text-sm leading-relaxed">{plan.features.map((feature) => <div class="grid grid-cols-[1fr_1fr] gap-3 border-b border-conference-outline/10 pb-3"><dt class="min-w-0 break-words text-conference-body">{feature.label}</dt><dd class="min-w-0 break-words text-right font-bold text-conference-ink">{feature.value}</dd></div>)}</dl>
+                  <dl class="text-sm leading-5">{featureLabels.map((label) => {
+                    const value = plan.features.find((feature) => feature.label === label)?.value;
+                    const included = value === availability[0];
+                    const excluded = value === undefined || value === availability[1];
+                    return <div class="plan-feature border-b border-conference-outline/10 last:border-0">
+                      <dt class="min-w-0 break-words text-conference-body">{label}</dt>
+                      <dd class="min-w-0 break-words text-right font-bold text-conference-ink">
+                        {included || excluded ? <span class="inline-flex align-middle" data-availability={included ? 'included' : 'excluded'}>
+                          <Icon name={included ? 'heroicons-outline:check' : 'heroicons-outline:x-mark'} class="h-5 w-5" aria-hidden="true" />
+                          <span class="sr-only">{availability[included ? 0 : 1]}</span>
+                        </span> : value}
+                      </dd>
+                    </div>;
+                  })}</dl>
                 </div>
               </article>;
             })}
           </section>
-          <div class="mt-5 flex items-center justify-center gap-5" data-sponsorship-controls hidden>
+          <div class="mt-2 flex items-center justify-center gap-5" data-sponsorship-controls hidden>
             <button type="button" data-sponsorship-scroll="prev" aria-label={navigation[0]} class="plan-control">←</button>
             <output data-sponsorship-position aria-live="polite" class="text-sm font-bold text-conference-ink" />
             <button type="button" data-sponsorship-scroll="next" aria-label={navigation[1]} class="plan-control">→</button>
@@ -62,8 +85,9 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
 
 <style>
   .section-title { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 900; text-align: center; text-transform: uppercase; color: var(--conference-ink); }
-  .plan-track { display: flex; position: relative; gap: 1.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 2px 6px 12px 2px; }
+  .plan-track { display: flex; align-items: flex-start; position: relative; gap: 1.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 2px 6px 8px 2px; }
   .plan-card { flex: 0 0 100%; scroll-snap-align: start; }
+  .plan-feature { display: grid; grid-template-columns: minmax(0, 1fr) fit-content(50%); align-items: center; gap: .5rem; padding-block: .375rem; }
   @media (min-width: 640px) { .plan-card { flex-basis: calc((100% - 1.5rem) / 2); } }
   @media (min-width: 1024px) { .plan-card { flex-basis: calc((100% - 3rem) / 3); } }
   .plan-control { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-surface); box-shadow: 2px 2px 0 #172033; color: var(--conference-ink); font-weight: 900; }

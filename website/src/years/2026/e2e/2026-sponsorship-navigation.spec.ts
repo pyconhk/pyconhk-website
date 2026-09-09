@@ -1,5 +1,41 @@
 import { expect, test } from '@playwright/test';
 
+for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+  for (const width of [320, 390, 640, 768, 1024, 1366]) {
+    test(`compact sponsorship comparison in ${locale} at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 768 });
+      await page.goto(`/2026/${locale}/sponsorships/opportunities/`);
+      const carousel = page.locator('[data-sponsorship-carousel]');
+      await expect(carousel).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      // Leave room for the sticky site navigation as well as carousel controls.
+      const carouselBounds = await carousel.boundingBox();
+      expect(carouselBounds?.height).toBeLessThanOrEqual(650);
+      const cards = carousel.locator('[data-plan-card]');
+      await expect(cards).toHaveCount(5);
+      await expect(cards.first().locator('[data-availability="included"]')).toHaveCount(
+        7
+      );
+      await expect(cards.last().locator('[data-availability="excluded"]')).toHaveCount(
+        7
+      );
+      await expect(cards.last()).toContainText('+ HKD 3,100');
+      for (const card of await cards.all()) {
+        await expect(card.locator('dt')).toHaveCount(12);
+      }
+      for (const icon of await carousel.locator('[data-availability]').all()) {
+        await expect(icon.locator('svg')).toBeAttached();
+        await expect(icon.locator('.sr-only')).not.toBeEmpty();
+      }
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth)
+      ).toBeLessThanOrEqual(width);
+    });
+  }
+}
+
 for (const width of [320, 768, 1440]) {
   test(`sponsorship packages remain reachable at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
