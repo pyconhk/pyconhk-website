@@ -4,7 +4,7 @@ export type SocialLink = {
   label: string;
   href: string;
   display: string;
-  iconName?: string;
+  iconName: string;
 };
 
 export type AboutPageCopy = {
@@ -87,46 +87,55 @@ export const pageCopyByLocale: Record<CfpLocale, AboutPageCopy> = {
 export const socialLinks: readonly SocialLink[] = [
   {
     label: 'LinkedIn',
+    iconName: 'fa6-brands:linkedin',
     href: 'https://www.linkedin.com/company/pyconhk/',
     display: 'linkedin.com/company/pyconhk',
   },
   {
     label: 'Substack',
+    iconName: 'substack',
     href: 'https://pyconhk.substack.com/',
     display: 'pyconhk.substack.com',
   },
   {
     label: 'Discord',
+    iconName: 'fa6-brands:discord',
     href: 'https://bit.ly/pyconhk',
     display: 'bit.ly/pyconhk',
   },
   {
     label: 'Instagram',
+    iconName: 'fa6-brands:instagram',
     href: 'https://www.instagram.com/pyconhk',
     display: 'instagram.com/pyconhk',
   },
   {
     label: 'Threads',
+    iconName: 'fa6-brands:threads',
     href: 'https://www.threads.net/@pyconhk',
     display: 'threads.net/@pyconhk',
   },
   {
     label: 'Facebook',
+    iconName: 'fa6-brands:facebook',
     href: 'https://www.facebook.com/pyconhk/',
     display: 'facebook.com/pyconhk',
   },
   {
     label: 'X',
+    iconName: 'fa6-brands:x-twitter',
     href: 'https://x.com/pyconhk/',
     display: 'x.com/pyconhk',
   },
   {
     label: 'YouTube',
+    iconName: 'fa6-brands:youtube',
     href: 'https://www.youtube.com/c/pyconhk',
     display: 'youtube.com/c/pyconhk',
   },
   {
     label: 'GitHub',
+    iconName: 'fa6-brands:github',
     href: 'https://github.com/pyconhk/',
     display: 'github.com/pyconhk',
   },
