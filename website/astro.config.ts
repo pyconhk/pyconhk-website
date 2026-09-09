@@ -82,7 +82,9 @@ export default defineConfig({
         'fa6-brands': [
           'alipay',
           'apple',
+          'discord',
           'facebook',
+          'github',
           'instagram',
           'linkedin',
           'threads',
