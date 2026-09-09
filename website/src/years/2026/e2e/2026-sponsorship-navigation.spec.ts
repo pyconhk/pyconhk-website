@@ -106,8 +106,7 @@ for (const width of [320, 768, 1440]) {
 
 test('homepage dates stay legible on their red background', async ({ page }) => {
   await page.goto('/2026/en/');
-  await expect(page.locator('[data-home-dates] h3')).toHaveCSS(
-    'color',
-    'rgba(255, 255, 255, 0.9)'
-  );
+  await expect(
+    page.locator('[data-home-dates]').getByText('14–15 November 2026', { exact: true })
+  ).toHaveCSS('color', 'rgb(255, 255, 255)');
 });
