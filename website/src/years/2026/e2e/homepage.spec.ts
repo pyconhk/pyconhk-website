@@ -38,33 +38,26 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     const sections = await page
       .locator('main > section[id]')
       .evaluateAll((elements) => elements.map((element) => element.id));
-    expect(sections.filter((id) => id !== 'news')).toEqual([
+    expect(sections.filter((id) => !['news', 'sponsors'].includes(id))).toEqual([
       'home',
-      'sponsors',
       'featured-speakers',
       'participate',
     ]);
     if (sections.includes('news')) expect(sections.indexOf('news')).toBe(1);
-    await page.locator('#home a[href="#featured-speakers"]').click();
-    await expect(page).toHaveURL(/#featured-speakers$/);
-    await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const heading = document
-            .querySelector('#featured-title')
-            ?.getBoundingClientRect();
-          const header = document.querySelector('header')?.getBoundingClientRect();
-          return Boolean(
-            heading &&
-              header &&
-              heading.top >= header.bottom &&
-              heading.bottom <= innerHeight
-          );
-        })
-      )
-      .toBe(true);
-    await page.locator(`#home a[href="/2026/${locale}/schedule/"]`).click();
-    await expect(page).toHaveURL(new RegExp(`/2026/${locale}/schedule/?$`));
+    if (sections.includes('sponsors'))
+      expect(sections.indexOf('sponsors')).toBeLessThan(
+        sections.indexOf('featured-speakers')
+      );
+    await expect(page.locator('#home .brand-plate img')).toHaveAttribute(
+      'src',
+      '/2026/logos/pyconlogo.svg'
+    );
+    await expect(page.locator('#participate a')).toHaveCount(2);
+    await expect(
+      page.locator('#participate p, #participate details, [data-home-dates]')
+    ).toHaveCount(0);
+    await page.locator(`#participate a[href="/2026/${locale}/sprint/"]`).click();
+    await expect(page).toHaveURL(new RegExp(`/2026/${locale}/sprint/?$`));
     await expect(page.locator('main h1')).toBeVisible();
     expect(errors).toEqual([]);
   });
@@ -74,26 +67,10 @@ for (const width of [320, 390, 640, 768, 1024, 1280, 1920]) {
   test(`homepage remains usable at ${width}px in both themes`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/2026/en/');
-    await page.locator('#home a[href="#featured-speakers"]').click();
-    await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const heading = document
-            .querySelector('#featured-title')
-            ?.getBoundingClientRect();
-          const header = document.querySelector('header')?.getBoundingClientRect();
-          return Boolean(
-            heading &&
-              header &&
-              heading.top >= header.bottom &&
-              heading.bottom <= innerHeight
-          );
-        })
-      )
-      .toBe(true);
+    await page.locator('[data-featured-speakers]').scrollIntoViewIfNeeded();
     for (const theme of ['light', 'dark']) {
       await setTheme(page, theme);
-      await expect(page.locator('#home h1')).toHaveText('PyCon HK 2026');
+      await expect(page.locator('#home h1')).toHaveText('Ride and Leverage with AI');
       for (const card of await page.locator('[data-featured-speaker]').all()) {
         await card.scrollIntoViewIfNeeded();
         await expect(card).toBeVisible();

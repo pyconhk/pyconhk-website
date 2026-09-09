@@ -54,10 +54,7 @@ test('serves neutral entry pages as the current conference homepage', async ({
   expect(new URL(page.url()).pathname).toBe('/2026/en');
   await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
   await expect(
-    page.getByRole('heading', { name: 'PyCon HK 2026', exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByText('Ride and Leverage with AI', { exact: true })
+    page.getByRole('heading', { name: /Ride and Leverage with AI/u })
   ).toBeVisible();
 
   await context.clearCookies();
@@ -73,7 +70,7 @@ test('serves neutral entry pages as the current conference homepage', async ({
   expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
   await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
   await expect(
-    page.getByRole('heading', { name: 'PyCon HK 2026', exact: true })
+    page.getByRole('heading', { name: /Ride and Leverage with AI/u })
   ).toBeVisible();
 
   await context.clearCookies();
@@ -81,7 +78,7 @@ test('serves neutral entry pages as the current conference homepage', async ({
   expect(new URL(page.url()).pathname).toBe('/2026/en');
   await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
   await expect(
-    page.getByRole('heading', { name: 'PyCon HK 2026', exact: true })
+    page.getByRole('heading', { name: /Ride and Leverage with AI/u })
   ).toBeVisible();
 });
 
