@@ -1,6 +1,46 @@
 import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
+test('visible talk links reuse prefetched HTML without another stylesheet round trip', async ({
+  page,
+  context,
+}) => {
+  const cdp = await context.newCDPSession(page);
+  await cdp.send('Network.enable');
+  await cdp.send('Network.emulateNetworkConditions', {
+    offline: false,
+    latency: 150,
+    downloadThroughput: 10_000_000,
+    uploadThroughput: 10_000_000,
+  });
+  const talkPath = '/2026/en/talks/python-history-software-engineering-and-ai/';
+  let prefetched = false;
+  let usedPrefetch = false;
+  let clicked = false;
+  const newStylesheets: string[] = [];
+  cdp.on('Network.responseReceived', ({ type, response }) => {
+    if (new URL(response.url).pathname === talkPath) {
+      if (type === 'Other') prefetched = true;
+      if (type === 'Fetch')
+        usedPrefetch = Boolean(response.fromPrefetchCache || response.fromDiskCache);
+    }
+  });
+  page.on('request', (request) => {
+    if (clicked && request.resourceType() === 'stylesheet')
+      newStylesheets.push(request.url());
+  });
+  await page.goto('/2026/en/');
+  const card = page.locator(`[data-featured-speaker][href="${talkPath}"]`);
+  await card.scrollIntoViewIfNeeded();
+  await expect.poll(() => prefetched).toBe(true);
+  clicked = true;
+  await card.click();
+  await expect(page.locator('[data-featured-talk="NLFQSW"]')).toBeVisible();
+  expect(usedPrefetch).toBe(true);
+  expect(newStylesheets).toEqual([]);
+  await expect(page.locator('main h1')).toContainText('Was, Is, Will Be');
+});
+
 for (const nativeTransitions of [true, false]) {
   test(`page navigation stays interactive with native transitions ${nativeTransitions}`, async ({
     page,

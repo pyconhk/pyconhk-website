@@ -16,7 +16,7 @@ const labels = featuredLabels[locale];
     <div class="mx-auto mt-5 flex h-1 w-24" aria-hidden="true"><span class="flex-1 bg-[#d71920]"></span><span class="flex-1 bg-white"></span><span class="flex-1 bg-[#2f559a]"></span></div>
     <div class="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
       {featuredSpeakers.map((speaker) => (
-        <a href={`/2026/${locale}/talks/${speaker.slug}/`} aria-labelledby={`featured-name-${speaker.code} featured-talk-${speaker.code}`} data-featured-speaker data-keynote={speaker.keynote ? 'true' : 'false'} class="group relative isolate block overflow-hidden rounded-2xl border border-conference-outline/40 bg-conference-surface px-6 pt-8 pb-16 shadow-conference-card hover:border-conference-blue focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+        <a data-astro-prefetch="viewport" href={`/2026/${locale}/talks/${speaker.slug}/`} aria-labelledby={`featured-name-${speaker.code} featured-talk-${speaker.code}`} data-featured-speaker data-keynote={speaker.keynote ? 'true' : 'false'} class="group relative isolate block overflow-hidden rounded-2xl border border-conference-outline/40 bg-conference-surface px-6 pt-8 pb-16 shadow-conference-card hover:border-conference-blue focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
           <div class="speaker-weave"><WovenCardCorners /></div>
           <div class="relative flex flex-col items-center text-center">
             <Image src={speaker.image} alt={speaker.name} width={224} height={224} format="webp" class="h-28 w-28 rounded-full border-2 border-conference-line object-cover" loading="lazy" />
