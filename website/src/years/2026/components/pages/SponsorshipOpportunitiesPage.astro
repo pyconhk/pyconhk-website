@@ -68,9 +68,12 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
               </article>;
             })}
           </section>
-          <div class="mt-2 flex items-center justify-center gap-5" data-sponsorship-controls hidden>
+          <div class="mt-2 flex items-center justify-center gap-3" data-sponsorship-controls hidden>
             <button type="button" data-sponsorship-scroll="prev" aria-label={navigation[0]} class="plan-control">←</button>
-            <output data-sponsorship-position aria-live="polite" class="text-sm font-bold text-conference-ink" />
+            <fieldset class="flex" aria-label={pageCopy.plansTitle}>
+              {sponsorship.plans.map((plan) => <button type="button" data-sponsorship-dot aria-label={plan.name} class="plan-dot"><span aria-hidden="true" /></button>)}
+            </fieldset>
+            <output data-sponsorship-position aria-live="polite" class="sr-only" />
             <button type="button" data-sponsorship-scroll="next" aria-label={navigation[1]} class="plan-control">→</button>
           </div>
         </div>
@@ -93,7 +96,11 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
   .plan-control { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-surface); box-shadow: 2px 2px 0 #172033; color: var(--conference-ink); font-weight: 900; }
   .plan-control:hover:not(:disabled) { background: #d71920; color: white; }
   .plan-control:disabled { opacity: .4; box-shadow: none; }
-  .plan-track:focus-visible, .plan-control:focus-visible { outline: 3px solid #2f559a; outline-offset: 4px; }
+  .plan-dot { display: flex; align-items: center; justify-content: center; width: 24px; height: 44px; cursor: pointer; }
+  .plan-dot[hidden] { display: none; }
+  .plan-dot span { width: 8px; height: 8px; border: 2px solid var(--conference-outline); border-radius: 50%; }
+  .plan-dot[aria-current="true"] span { background: var(--conference-ink); }
+  .plan-track:focus-visible, .plan-control:focus-visible, .plan-dot:focus-visible { outline: 3px solid #2f559a; outline-offset: 4px; }
 </style>
 
 <script>
@@ -108,14 +115,27 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
       const controls = carousel.querySelector<HTMLElement>('[data-sponsorship-controls]');
       if (!track || !previous || !next || !position || !controls) continue;
       const cards = [...track.querySelectorAll<HTMLElement>('[data-plan-card]')];
+      const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-sponsorship-dot]')];
+      const step = () => (cards[1]?.offsetLeft ?? track.clientWidth) - (cards[0]?.offsetLeft ?? 0);
+      const behavior = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
       const update = () => {
         previous.disabled = track.scrollLeft <= 2;
         next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
         const visible = cards.map((card, index) => ({ card, index })).filter(({card}) => card.offsetLeft + card.offsetWidth > track.scrollLeft + 4 && card.offsetLeft < track.scrollLeft + track.clientWidth - 4);
-        position.value = visible.length ? `${visible[0].index + 1}–${visible[visible.length - 1].index + 1} / ${cards.length}` : '';
+        position.value = visible.map(({ index }) => dots[index].getAttribute('aria-label')).join(' · ');
+        const lastPosition = Math.round((track.scrollWidth - track.clientWidth) / step());
+        const currentPosition = Math.min(lastPosition, Math.round(track.scrollLeft / step()));
+        dots.forEach((dot, index) => {
+          dot.hidden = index > lastPosition;
+          if (index === currentPosition) dot.setAttribute('aria-current', 'true');
+          else dot.removeAttribute('aria-current');
+        });
         controls.hidden = track.scrollWidth <= track.clientWidth + 2;
       };
-      const scroll = (direction: number) => track.scrollBy({ left: direction * ((cards[1]?.offsetLeft ?? track.clientWidth) - (cards[0]?.offsetLeft ?? 0)), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      const scroll = (direction: number) => track.scrollBy({ left: direction * step(), behavior: behavior() });
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => track.scrollTo({ left: index * step(), behavior: behavior() }));
+      });
       previous.addEventListener('click', () => scroll(-1));
       next.addEventListener('click', () => scroll(1));
       track.addEventListener('scroll', update, { passive: true });

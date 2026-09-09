@@ -18,11 +18,11 @@ const profiles = await Promise.all(sessionProfiles(session)
   {profiles.length > 0 && <section data-speaker-profiles>
     <h3 class="ideal-heading mb-4 text-xl font-black text-conference-ink">{copy.speakers}</h3>
     <div class="space-y-4">
-      {profiles.map((person) => <article data-speaker-profile class="min-w-0 rounded-2xl border-2 border-conference-outline bg-conference-paper p-4 shadow-[4px_4px_0_var(--conference-shadow)] sm:p-5">
+      {profiles.map((person) => <article data-speaker-profile class="speaker-card relative min-w-0 rounded-2xl border-2 border-conference-outline bg-conference-paper p-4 shadow-[4px_4px_0_var(--conference-shadow)] sm:p-5">
         <div class="flex items-center gap-4">
           {person.avatar && <Image data-speaker-avatar src={person.avatar} alt={person.name} width={400} height={400} format="webp" loading="lazy" decoding="async" class="h-20 w-20 shrink-0 rounded-2xl border-2 border-conference-outline object-cover shadow-[3px_3px_0_#2f559a]" />}
           <h4 class="min-w-0 text-base font-black">
-            <a data-speaker-link href={speakerPath(person, locale)} class="inline-flex min-h-11 items-center gap-2 underline underline-offset-4">{person.name}<span aria-hidden="true" class="text-conference-red">→</span></a>
+            <a data-speaker-link href={speakerPath(person, locale)} class="speaker-link inline-flex min-h-11 items-center gap-3"><span class="underline underline-offset-4">{person.name}</span><span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#d71920] text-white"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a>
           </h4>
         </div>
         {person.bioHtml && <div data-speaker-biography class="programme-richtext prose prose-sm mt-4 max-w-none text-conference-body" set:html={person.bioHtml} />}
@@ -35,6 +35,11 @@ const profiles = await Promise.all(sessionProfiles(session)
   </section>}
 </div>
 <style>
+  .speaker-link::after { content: ''; position: absolute; inset: 0; border-radius: 1rem; cursor: pointer; }
+  .speaker-card:has(.speaker-link:focus-visible) { outline: 3px solid var(--conference-blue); outline-offset: 5px; }
+  .speaker-link:focus-visible { outline: none; }
+  .speaker-card .programme-richtext :global(a) { position: relative; z-index: 1; }
+  @media (hover: hover) { .speaker-card:hover { background: var(--conference-soft); } }
   .programme-richtext { overflow-wrap: anywhere; }
   .programme-richtext :global(pre) { max-width: 100%; overflow-x: auto; }
   .programme-richtext :global(img) { max-width: 100%; height: auto; }

@@ -50,25 +50,34 @@ for (const width of [320, 768, 1440]) {
     await expect(previous).toBeDisabled();
     await expect(next).toBeEnabled();
     const visibleCount = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
+    const dots = page.locator('[data-sponsorship-dot]:visible');
+    await expect(dots).toHaveCount(count - visibleCount + 1);
+    await expect(dots.first()).toHaveAttribute('aria-current', 'true');
     for (let index = 0; index < count - visibleCount; index++) {
       const before = await track.evaluate((element) => element.scrollLeft);
       await next.click();
       await expect
         .poll(() => track.evaluate((element) => element.scrollLeft))
         .toBeGreaterThan(before);
-      await expect(page.locator('[data-sponsorship-position]')).toContainText(
-        `${index + visibleCount + 1} / ${count}`
-      );
+      await expect(dots.nth(index + 1)).toHaveAttribute('aria-current', 'true');
     }
     await expect(next).toBeDisabled();
-    await expect(page.locator('[data-sponsorship-position]')).toContainText(
-      `${count} / ${count}`
-    );
+    await expect(dots.last()).toHaveAttribute('aria-current', 'true');
+    await dots.first().click();
+    await expect(previous).toBeDisabled();
+    await expect(dots.first()).toHaveAttribute('aria-current', 'true');
+    await dots.last().focus();
+    await page.keyboard.press('Enter');
+    await expect(next).toBeDisabled();
     // Keyboard users can return through the same controls.
     await previous.focus();
     await page.keyboard.press('Enter');
     await expect(next).toBeEnabled();
     await page.setViewportSize({ width: width === 320 ? 1440 : 320, height: 900 });
+    await expect(dots).toHaveCount(width === 320 ? 3 : 5);
+    await expect(
+      page.locator('[data-sponsorship-dot][aria-current="true"]:visible')
+    ).toHaveCount(1);
     await expect(previous).toBeVisible();
     await expect
       .poll(() =>
