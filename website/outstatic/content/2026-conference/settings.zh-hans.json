@@ -373,7 +373,7 @@
         "features": [
           {
             "label": "赞助演讲",
-            "value": "2 场 30 分钟演讲",
+            "value": "30 分钟 × 2",
             "id": "feature-1"
           },
           {
@@ -442,7 +442,7 @@
         "features": [
           {
             "label": "赞助演讲",
-            "value": "1 场 30 分钟演讲",
+            "value": "30 分钟 × 1",
             "id": "feature-1"
           },
           {
@@ -506,7 +506,7 @@
         "features": [
           {
             "label": "赞助演讲",
-            "value": "1 场 15 分钟演讲",
+            "value": "15 分钟 × 1",
             "id": "feature-1"
           },
           {
