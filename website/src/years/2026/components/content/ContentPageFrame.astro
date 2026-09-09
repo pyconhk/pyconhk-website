@@ -2,8 +2,8 @@
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '@/years/2026/locales';
 
-interface Props { locale: CfpLocale; title: string; description?: string; lang?: string; }
-const { locale, title, description = `${title} | PyCon HK 2026`, lang } = Astro.props;
+interface Props { locale: CfpLocale; title: string; description?: string; lang?: string; titleLang?: string; }
+const { locale, title, description = `${title} | PyCon HK 2026`, lang, titleLang } = Astro.props;
 ---
 
 <ConferenceLayout title={`${title} | PyCon HK 2026`} description={description} locale={locale}>
@@ -11,7 +11,7 @@ const { locale, title, description = `${title} | PyCon HK 2026`, lang } = Astro.
     <div class="mx-auto max-w-5xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-[8px_8px_0_var(--conference-shadow)] sm:p-10 lg:p-12">
       <header class="mb-8 space-y-4 text-center">
         <span class="inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-paper px-3.5 py-1 text-xs font-black text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#d71920]" />PyCon HK 2026</span>
-        <h1 class="font-operetta-32 text-[clamp(1.375rem,7vw,1.875rem)] font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl">{title}</h1>
+        <h1 lang={titleLang} class="font-operetta-32 text-[clamp(1.375rem,7vw,1.875rem)] font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl">{title}</h1>
       </header>
       <div class="space-y-6 text-base leading-relaxed text-conference-body"><slot /></div>
     </div>
