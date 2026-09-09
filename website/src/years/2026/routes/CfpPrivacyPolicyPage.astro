@@ -16,7 +16,7 @@ const { locale } = Astro.props;
 </ConferenceLayout>
 
 <style>
-  .privacy-content :global(h1) { font-family:"Operetta 32","Bodoni Moda", Georgia, serif; font-weight: 900; text-transform: uppercase; color: var(--conference-ink); }
+  .privacy-content :global(h1) { font-family:var(--font-sans); font-weight: 900; text-transform: uppercase; color: var(--conference-ink); }
   .privacy-content :global(h2), .privacy-content :global(a) { color: var(--conference-blue); }
   .privacy-content :global(a) { text-decoration: underline; text-underline-offset: .2em; }
   .privacy-content :global(a:hover) { color: var(--conference-red); }
