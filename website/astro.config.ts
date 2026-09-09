@@ -17,7 +17,7 @@ function noTrailingSlashRedirect(
 
   const url = new URL(req.url, 'http://localhost');
 
-  if (/^\/2026\/[^/]+\/speakers\/[^/]+\/?$/u.test(url.pathname)) {
+  if (/^\/2026\/[^/]+\/(speakers|talks)\/[^/]+\/?$/u.test(url.pathname)) {
     if (url.pathname.endsWith('/')) {
       next();
       return;

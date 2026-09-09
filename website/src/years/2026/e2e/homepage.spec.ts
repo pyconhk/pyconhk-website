@@ -2,8 +2,58 @@ import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
 const names = ['Paul Everitt', 'Jacky Chan', 'Hon Kwan Shun Quinson', 'Indy Ho'];
+const talks = [
+  [
+    'NLFQSW',
+    'python-history-software-engineering-and-ai',
+    'Was, Is, Will Be: Python History, Software Engineering, And AI Our Way',
+  ],
+  ['TSBGZH', 'ai-audio-associations', 'AI 聽到聲音時，會聯想到乜嘢？'],
+  [
+    '9NKPSV',
+    'property-based-testing-with-hypothesis',
+    'Property-Based Testing with Hypothesis',
+  ],
+  [
+    'TF3HKJ',
+    'python-applications-in-sports-science',
+    'Python Applications in Sports Science, Injury Prevention and Physical Fitness Promotion',
+  ],
+];
 
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+  test(`${locale} featured cards open their own 2026 talk and return to the homepage`, async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto(`/2026/${locale}/`);
+    for (const [index, [code, slug, title]] of talks.entries()) {
+      const card = page.locator('[data-featured-speaker]').nth(index);
+      await expect(card).toHaveAttribute('href', `/2026/${locale}/talks/${slug}/`);
+      await expect(card).toHaveCSS('cursor', 'pointer');
+      await card.focus();
+      await page.keyboard.press('Enter');
+      await expect(page).toHaveURL(new RegExp(`/2026/${locale}/talks/${slug}/?$`));
+      await expect(page.locator('main h1')).toHaveText(title);
+      const talk = page.locator(`[data-featured-talk="${code}"]`);
+      await expect(talk.locator('h3')).toHaveText(names[index]);
+      expect(
+        (await talk.locator('[data-talk-abstract]').innerText()).length
+      ).toBeGreaterThan(100);
+      expect(
+        (await talk.locator('[data-talk-biography]').innerText()).length
+      ).toBeGreaterThan(80);
+      await expect(talk.locator('img')).toHaveAttribute('src', /^\/_astro\/.+\.webp$/);
+      await expect(page.locator('[data-sample-notice]')).toHaveCount(0);
+      await expect(talk.locator('a[href*="pretalx"], a[href*="2025"]')).toHaveCount(0);
+      await talk.locator(`a[href="/2026/${locale}/#featured-speakers"]`).click();
+      await expect(page).toHaveURL(new RegExp(`/2026/${locale}/#featured-speakers$`));
+      await expect(page.locator('#featured-title')).toBeInViewport();
+    }
+    expect(errors).toEqual([]);
+  });
+
   test(`${locale} homepage shows the selected 2026 speakers with bundled portraits`, async ({
     page,
   }) => {
@@ -60,6 +110,30 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     await expect(page).toHaveURL(new RegExp(`/2026/${locale}/sprint/?$`));
     await expect(page.locator('main h1')).toBeVisible();
     expect(errors).toEqual([]);
+  });
+}
+
+for (const width of [320, 1920]) {
+  test(`featured talk details remain usable at ${width}px in both themes`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    for (const [, slug] of talks) {
+      await page.goto(`/2026/zh-hk/talks/${slug}/`);
+      for (const theme of ['light', 'dark']) {
+        await setTheme(page, theme);
+        await expect(page.locator('main h1')).toBeVisible();
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+        ).toBe(true);
+        const talk = page.locator('[data-featured-talk]');
+        expect(
+          await talk.evaluate(
+            (element) => element.scrollWidth <= element.clientWidth + 1
+          )
+        ).toBe(true);
+      }
+    }
   });
 }
 

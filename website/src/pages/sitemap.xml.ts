@@ -15,6 +15,7 @@ import {
   localeMetadata as cfpLocaleMetadata,
   supportedLocales as cfpLocales,
 } from '@/years/2026/data/cfp';
+import { featuredSpeakers } from '@/years/2026/data/featured-speakers';
 
 type SitemapEntry = {
   alternates: {
@@ -166,6 +167,7 @@ export const GET: APIRoute = async () => {
       'sprint',
       'sprint/qna',
       ...currentPostSlugs.map((slug) => `news/${slug}`),
+      ...featuredSpeakers.map((speaker) => `talks/${speaker.slug}`),
     ].map((suffix) =>
       buildEntry(currentConferenceYear, locale.code, suffix, currentYearLocales)
     )

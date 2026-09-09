@@ -46,7 +46,7 @@ export async function finalizeEventRedirects(projectRoot: string) {
   function routeFromOutputFile(filePath) {
     const relativePath = path.relative(distRoot, filePath);
 
-    if (/^2026\/[^/]+\/speakers\/[^/]+\/index\.html$/u.test(relativePath)) {
+    if (/^2026\/[^/]+\/(speakers|talks)\/[^/]+\/index\.html$/u.test(relativePath)) {
       return `/${relativePath.replace(/index\.html$/u, '')}`;
     }
 
@@ -163,8 +163,8 @@ export async function finalizeEventRedirects(projectRoot: string) {
   }
 
   async function main() {
-    // Keep archive output unchanged while giving speaker pages directory URLs.
-    for await (const file of fs.glob('2026/*/speakers/*.html', { cwd: distRoot })) {
+    // Keep archive output unchanged while giving speaker and talk pages directory URLs.
+    for await (const file of fs.glob(['2026/*/speakers/*.html', '2026/*/talks/*.html'], { cwd: distRoot })) {
       const source = path.join(distRoot, file);
       const directory = source.replace(/\.html$/u, '');
       await fs.mkdir(directory, { recursive: true });
