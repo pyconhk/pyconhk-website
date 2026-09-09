@@ -76,7 +76,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-filters input, .programme-filters select { min-height: 44px; min-width: 0; font-size: 1rem; }
   .programme-filters button, [data-save-session], [data-session-details] { min-height: 44px; }
   .programme-filters button { grid-column: 1 / -1; text-wrap: balance; }
-  .programme-intro { max-width: 1700px; margin-inline: auto; padding-inline: 1rem; }
+  .programme-intro { width: 100%; padding-inline: 1rem; }
   .programme-scroll { width: 100%; padding: 0 1rem 4px; }
   .programme-card, .session-open { scroll-margin-top: calc(var(--site-header-height, 0px) + var(--track-header-height, 0px) + 1rem); }
   .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--conference-line); }
@@ -93,7 +93,6 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   }
   @media (prefers-reduced-motion: reduce) { .programme-card { transition: none; } }
   @media (min-width: 640px) {
-    .programme-intro { padding-inline: 1.5rem; }
     .programme-filters button { grid-column: auto; }
     .programme-slot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
