@@ -1,6 +1,7 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
 import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
+import { contentUi } from '@/years/2026/data/content-ui';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
 
@@ -11,10 +12,23 @@ interface Props {
 const { locale } = Astro.props;
 const t = getTranslations(locale);
 const content = getConferenceContent(locale);
+const copy = contentUi[locale];
 ---
 
-<section class="py-16 sm:py-24 bg-conference-paper">
+<section id="participate" class="py-16 sm:py-24 bg-conference-paper">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-10 grid gap-6 md:grid-cols-2">
+      <article class="flex flex-col rounded-2xl border border-conference-outline/40 border-t-8 border-t-[#2f559a] bg-conference-surface p-8 shadow-[3px_3px_0_var(--conference-shadow)]">
+        <h2 class="text-2xl font-bold text-conference-ink">{copy.titles.sprint}</h2>
+        <p class="mt-4 flex-1 leading-relaxed text-conference-body">{content.sprint.status === 'published' ? content.sprint.intro : copy.comingSoon}</p>
+        <a href={`/2026/${locale}/sprint/`} class="mt-6 inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.titles.sprint}</a>
+      </article>
+      <article class="flex flex-col rounded-2xl border border-conference-outline/40 border-t-8 border-t-[#d71920] bg-conference-surface p-8 shadow-[3px_3px_0_var(--conference-shadow)]">
+        <h2 class="text-2xl font-bold text-conference-ink">{t.sponsors.prospectusCta}</h2>
+        <p class="mt-4 flex-1 leading-relaxed text-conference-body">{t.sponsors.description}</p>
+        <a href={`/2026/${locale}/sponsorships/opportunities/`} class="mt-6 inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{t.sponsors.prospectusCta}</a>
+      </article>
+    </div>
     <div class="overflow-hidden rounded-3xl border-3 border-conference-outline bg-conference-surface shadow-[10px_10px_0_var(--conference-shadow)] grid grid-cols-1 md:grid-cols-12">
       <!-- Left Side (White) -->
       <div class="md:col-span-7 p-8 sm:p-12 lg:p-14 flex flex-col justify-between space-y-8">
@@ -36,7 +50,7 @@ const content = getConferenceContent(locale);
       </div>
 
       <!-- Right Side (Vibrant Red) -->
-      <div class="md:col-span-5 bg-[#d71920] p-8 sm:p-12 text-white border-t-2 md:border-t-0 md:border-l-2 border-conference-outline flex flex-col justify-between space-y-6">
+      <div data-home-dates class="md:col-span-5 bg-[#d71920] p-8 sm:p-12 text-white border-t-2 md:border-t-0 md:border-l-2 border-conference-outline flex flex-col justify-between space-y-6">
         <div>
           <h3 class="text-xs font-black uppercase tracking-widest text-white/90">
             {t.joinUs.atAGlanceTitle}
@@ -50,6 +64,7 @@ const content = getConferenceContent(locale);
               <p class="mt-1 text-lg sm:text-xl font-black text-white">
                 {content.event.status === 'published' ? content.event.datesLabel : t.joinUs.datesValue}
               </p>
+              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex min-h-11 items-center text-sm font-bold text-white underline underline-offset-4">{t.hero.calendarCta}</a>
             </div>
 
             <div>
@@ -62,7 +77,7 @@ const content = getConferenceContent(locale);
             </div>
 
             <div class="pt-2 border-t border-white/20">
-              <p class="text-xs font-black uppercase tracking-wider text-[#ffd343]">
+              <p class="text-xs font-black uppercase tracking-wider text-white">
                 {t.joinUs.stayTunedLabel}
               </p>
               <p class="mt-1 text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
@@ -72,6 +87,15 @@ const content = getConferenceContent(locale);
           </div>
         </div>
       </div>
+    </div>
+    <div class="mt-12">
+      <h2 class="text-center text-2xl font-bold text-conference-ink">{copy.titles.qa}</h2>
+      {content.qa.status === 'published' && content.qa.items.length > 0 ? (
+        <div class="mt-6 space-y-4">
+          {content.qa.items.map((item) => <details class="rounded-xl border border-conference-line bg-conference-surface p-6"><summary class="font-bold text-conference-ink">{item.question}</summary><p class="mt-4 whitespace-pre-line leading-relaxed text-conference-body">{item.answer}</p></details>)}
+        </div>
+      ) : <p class="mt-4 text-center text-conference-body">{copy.comingSoon}</p>}
+      <div class="mt-4 text-center"><a href={`/2026/${locale}/sprint/qna/`} class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.titles.qa}</a></div>
     </div>
   </div>
 </section>

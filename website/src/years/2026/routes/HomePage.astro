@@ -1,12 +1,9 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
 import FeaturedSpeakers from '@/years/2026/components/home/FeaturedSpeakers.astro';
-import HighlightsBar from '@/years/2026/components/home/HighlightsBar.astro';
 import HomeHero from '@/years/2026/components/home/HomeHero.astro';
-import HongKongThreadSection from '@/years/2026/components/home/HongKongThreadSection.astro';
 import JoinUsSection from '@/years/2026/components/home/JoinUsSection.astro';
 import NewsTeaser from '@/years/2026/components/home/NewsTeaser.astro';
-import ProgrammeSection from '@/years/2026/components/home/ProgrammeSection.astro';
 import SponsorsSection from '@/years/2026/components/home/SponsorsSection.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
@@ -27,11 +24,8 @@ const { event } = getConferenceContent(locale);
   locale={locale}
 >
   <HomeHero locale={locale} />
-  <HighlightsBar locale={locale} />
   <NewsTeaser locale={locale} />
-  <FeaturedSpeakers locale={locale} />
-  <ProgrammeSection locale={locale} />
-  <HongKongThreadSection locale={locale} />
-  <JoinUsSection locale={locale} />
   <SponsorsSection locale={locale} />
+  <FeaturedSpeakers locale={locale} />
+  <JoinUsSection locale={locale} />
 </ConferenceLayout>

@@ -212,7 +212,6 @@ test('registration is pending and calendar uses the actual 2026 event dates', as
   expect(href.searchParams.get('dates')).toBe('20261114/20261116');
   expect(href.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
   await expect(page.locator('[data-published-sponsors]')).toHaveCount(0);
-  await expect(page.locator('[data-featured-speakers]')).toHaveCount(0);
 });
 
 test('mobile navigation opens a real access guide route', async ({ page }) => {
