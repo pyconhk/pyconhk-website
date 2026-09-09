@@ -42,7 +42,7 @@ const homeHref = `/2026/${locale}/`;
     </div>
 
     <!-- Desktop Navigation Links (Responsive fluid gaps, 100% visible without overflowing) -->
-    <nav class="hidden min-[1280px]:flex items-center justify-center gap-1.5 min-[1340px]:gap-2 min-[1420px]:gap-3 min-[1560px]:gap-4.5 font-bold text-[0.74rem] min-[1340px]:text-[0.78rem] min-[1460px]:text-[0.82rem] min-[1600px]:text-[0.875rem] text-conference-ink px-1" aria-label="Main Navigation">
+    <nav class="hidden min-[1280px]:flex flex-1 items-center justify-center gap-1.5 min-[1340px]:gap-2 min-[1420px]:gap-3 min-[1560px]:gap-4.5 font-bold text-[0.74rem] min-[1340px]:text-[0.78rem] min-[1460px]:text-[0.82rem] min-[1600px]:text-[0.875rem] text-conference-ink px-1" aria-label="Main Navigation">
       {headerNavigation.map((item) => {
         if (item.kind === 'link') {
           return (
