@@ -355,9 +355,9 @@ export const sponsorshipPlans: SponsorshipPlan[] = [
     features: {
       sponsoredTalks: {
         en: '2 x 30-minute talks',
-        'zh-hk': '2 場 30 分鐘演講',
-        'zh-hant': '2 場 30 分鐘演講',
-        'zh-hans': '2 场 30 分钟演讲',
+        'zh-hk': '30 分鐘 × 2',
+        'zh-hant': '30 分鐘 × 2',
+        'zh-hans': '30 分钟 × 2',
         ja: '2 × 30分 講演',
         ko: '30분 강연 2회',
       },
@@ -419,9 +419,9 @@ export const sponsorshipPlans: SponsorshipPlan[] = [
     features: {
       sponsoredTalks: {
         en: '30-minute talk',
-        'zh-hk': '1 場 30 分鐘演講',
-        'zh-hant': '1 場 30 分鐘演講',
-        'zh-hans': '1 场 30 分钟演讲',
+        'zh-hk': '30 分鐘 × 1',
+        'zh-hant': '30 分鐘 × 1',
+        'zh-hans': '30 分钟 × 1',
         ja: '1 × 30分 講演',
         ko: '30분 강연 1회',
       },
@@ -483,9 +483,9 @@ export const sponsorshipPlans: SponsorshipPlan[] = [
     features: {
       sponsoredTalks: {
         en: '15-minute talk',
-        'zh-hk': '1 場 15 分鐘演講',
-        'zh-hant': '1 場 15 分鐘演講',
-        'zh-hans': '1 场 15 分钟演讲',
+        'zh-hk': '15 分鐘 × 1',
+        'zh-hant': '15 分鐘 × 1',
+        'zh-hans': '15 分钟 × 1',
         ja: '1 × 15分 講演',
         ko: '15분 강연 1회',
       },
