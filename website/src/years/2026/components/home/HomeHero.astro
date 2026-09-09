@@ -1,42 +1,131 @@
 ---
-import { Icon } from 'astro-icon/components';
 import { getConferenceContent } from '@/lib/conference-content';
 import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
-import { contentUi } from '@/years/2026/data/content-ui';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
 
-interface Props { locale: CfpLocale; }
+interface Props {
+  locale: CfpLocale;
+}
+
 const { locale } = Astro.props;
 const t = getTranslations(locale);
-const { event } = getConferenceContent(locale);
+const content = getConferenceContent(locale);
 ---
 
-<section id="home" class="home-hero relative isolate flex flex-col items-center justify-center overflow-hidden px-4 py-12 text-center sm:px-6 sm:py-16" aria-labelledby="home-title">
-  <img src="/2026/logos/horse-mark.svg" alt="" width="608" height="200" class="relative h-auto w-full max-w-xl object-contain" fetchpriority="high" />
-  <h1 id="home-title" class="relative mt-8 font-operetta-32 text-4xl font-black tracking-tight text-conference-ink sm:text-6xl lg:text-7xl">{event.status === 'published' ? event.title : t.nav.brand}</h1>
-  <p class="relative mt-5 max-w-3xl bg-[#2f559a] px-6 py-2 text-xl font-bold text-white sm:text-2xl">{event.status === 'published' ? event.theme : t.hero.headline}</p>
-  <p class="relative mt-5 text-base font-semibold text-conference-body sm:text-lg">{event.status === 'published' ? event.datesLabel : t.hero.whenValue}</p>
-  <div class="relative mt-8 flex flex-col items-center gap-4 sm:gap-5">
-    <RegistrationButton locale={locale} />
-    <a href={`/2026/${locale}/schedule/`} class="inline-flex min-h-12 items-center justify-center rounded-full border-2 border-conference-outline bg-[#2f559a] px-7 py-3 font-bold text-white shadow-[3px_3px_0_var(--conference-shadow)] hover:bg-[#244578]">{t.schedule.heroTitle}</a>
-  </div>
-  <a href="#featured-speakers" class="relative mt-10 inline-flex min-h-11 items-center gap-2 rounded-full border border-conference-outline/30 bg-conference-surface px-5 py-2 text-sm font-semibold text-conference-blue hover:border-conference-blue">{contentUi[locale].speakers}<Icon name="heroicons-outline:chevron-down" class="h-4 w-4" aria-hidden="true" /></a>
-</section>
+<section id="home" aria-labelledby="home-title" class="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-24 lg:pt-16 lg:pb-28">
+  <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+    <!-- 1. Top Pill Badge (Fade Entrance Step 1) -->
+    <div class="inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-1.5 text-xs font-black uppercase tracking-wider text-conference-ink shadow-[3px_3px_0_var(--conference-shadow)] mb-8">
+      <span class="inline-block h-2 w-2 rounded-full bg-[#d71920]" />
+      <span>{t.hero.badge}</span>
+    </div>
 
-<style>
-  .home-hero {
-    min-height: calc(100svh - 7rem);
-    background: var(--conference-paper);
-  }
-  .home-hero::before {
-    content: '';
-    position: absolute;
-    inset: auto 0 0;
-    height: 5rem;
-    z-index: -1;
-    border-top: 1px solid var(--conference-line);
-    background: repeating-linear-gradient(90deg, transparent 0 64px, #2f559a 64px 66px, transparent 66px 70px, #2f559a 70px 72px, transparent 72px 144px), repeating-linear-gradient(0deg, transparent 0 8px, #d71920 8px 10px, transparent 10px 14px);
-    opacity: .12;
-  }
-</style>
+    <!-- Center Elevated Hero Logo Card Wrapper with Static Background Streamers -->
+    <div class="relative w-full max-w-2xl flex items-center justify-center">
+      <!-- Dynamic Background Streamers (Always static & visible without animation) -->
+      <div class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[1900px] h-[400px] overflow-hidden flex items-center justify-center" aria-hidden="true">
+        <svg
+          class="w-full h-full"
+          viewBox="0 0 1900 400"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <title>Dynamic Background Streamers</title>
+          <!-- Upper Red Sweeping Curves -->
+          <path
+            d="M-50,140 C380,10 820,310 1950,70"
+            stroke="#d71920"
+            stroke-width="18"
+            stroke-linecap="round"
+          />
+          <path
+            d="M-50,175 C420,45 870,345 1950,105"
+            stroke="#d71920"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+
+          <!-- Lower Blue Sweeping Curves -->
+          <path
+            d="M-50,230 C450,370 1120,60 1950,220"
+            stroke="#2f559a"
+            stroke-width="20"
+            stroke-linecap="round"
+          />
+          <path
+            d="M-50,265 C490,405 1160,95 1950,255"
+            stroke="#2f559a"
+            stroke-width="7"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+
+      <!-- 2. Center Elevated Hero Logo Card (Fade Entrance Step 2) -->
+      <div class="brand-plate w-full rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 sm:p-10 shadow-[10px_10px_0_#2f559a] transition-transform hover:-translate-y-1 hover:shadow-[12px_12px_0_#2f559a]">
+        <img
+          src="/2026/logos/pyconlogo.svg"
+          alt="PyCon HK 2026 Logo"
+          width="608"
+          height="276"
+          class="mx-auto h-auto max-h-56 sm:max-h-64 w-full object-contain"
+          loading="eager"
+        />
+      </div>
+    </div>
+
+    <!-- 3. Main Title & Subtitle (Fade Entrance Step 3) -->
+    <div class="mt-10 sm:mt-12 max-w-4xl space-y-4">
+      <h1 id="home-title" class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-conference-ink">
+        {content.event.status === 'published' ? content.event.theme : t.hero.headline}
+      </h1>
+      {t.hero.headlineAccent && (
+        <p class="text-xl sm:text-2xl font-bold text-conference-red">
+          {t.hero.headlineAccent}
+        </p>
+      )}
+      <p data-balanced-copy class="text-base sm:text-lg lg:text-xl text-conference-body font-medium max-w-2xl mx-auto leading-relaxed">
+        {t.hero.subheadline}
+      </p>
+    </div>
+
+    <!-- 4. Hero Action Buttons (Fade Entrance Step 4) -->
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <RegistrationButton locale={locale} />
+
+      <a
+        href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex h-13 w-13 items-center justify-center rounded-full bg-conference-surface  text-conference-ink  border-2 border-conference-outline  transition-all hover:scale-105 hover:bg-conference-soft "
+        aria-label={t.hero.calendarCta}
+        title={t.hero.calendarCta}
+      >
+        <svg class="h-6 w-6 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <title>Add to Calendar</title>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- 5. At a Glance 3-Column Info Strip (Fade Entrance Step 5) -->
+    <div class="mt-10 sm:mt-14 w-full max-w-3xl rounded-2xl border-2 border-conference-outline bg-conference-surface p-5 sm:p-6 shadow-[6px_6px_0_var(--conference-shadow)]">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-conference-outline/15 text-left">
+        <div class="sm:px-4 sm:first:pl-0">
+          <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.whenLabel}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-conference-ink">{content.event.status === 'published' ? content.event.datesLabel : t.hero.whenValue}</p>
+        </div>
+        <div class="pt-3 sm:pt-0 sm:px-4">
+          <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.whereLabel}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-conference-ink">{content.venue.status === 'published' ? content.venue.title : t.hero.whereValue}</p>
+        </div>
+        <div class="pt-3 sm:pt-0 sm:px-4 sm:last:pr-0">
+          <p class="text-xs font-black uppercase tracking-wider text-conference-blue">{t.hero.forLabel}</p>
+          <p class="mt-1 text-sm sm:text-base font-bold text-conference-ink">{t.hero.forValue}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

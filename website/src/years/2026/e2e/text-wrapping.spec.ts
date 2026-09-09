@@ -106,26 +106,24 @@ test('mixed-language session titles keep Latin words intact in the Korean UI', a
   expect(lines).toBe(1);
 });
 
-test('Japanese homepage schedule action keeps its conference word together', async ({
+test('Japanese homepage introduction keeps its closing conference word together', async ({
   page,
 }) => {
   for (const width of [320, 390, 1080]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/2026/ja/');
     await page.evaluate(() => document.fonts.ready);
-    const lines = await page
-      .locator('#home a[href$="/schedule/"]')
-      .evaluate((element) => {
-        const node = element.firstChild;
-        if (!node?.textContent) throw new Error('Schedule action missing');
-        const word = 'カンファレンス';
-        const start = node.textContent.indexOf(word);
-        const range = document.createRange();
-        range.setStart(node, start);
-        range.setEnd(node, start + word.length);
-        return new Set([...range.getClientRects()].map((rect) => Math.round(rect.y)))
-          .size;
-      });
+    const lines = await page.locator('[data-balanced-copy]').evaluate((element) => {
+      const node = element.firstChild;
+      if (!node?.textContent) throw new Error('Introduction missing');
+      const word = 'カンファレンス';
+      const start = node.textContent.indexOf(word);
+      const range = document.createRange();
+      range.setStart(node, start);
+      range.setEnd(node, start + word.length);
+      return new Set([...range.getClientRects()].map((rect) => Math.round(rect.y)))
+        .size;
+    });
     expect(lines, `${width}px`).toBe(1);
   }
 });
