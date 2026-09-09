@@ -368,7 +368,7 @@
       {
         "name": "다이아몬드",
         "tier": "diamond",
-        "fee": "HKD 70,000+",
+        "fee": "HKD 68,640+",
         "maxSlots": "1",
         "features": [
           {
@@ -437,7 +437,7 @@
       {
         "name": "플래티넘",
         "tier": "platinum",
-        "fee": "HKD 44,000",
+        "fee": "HKD 46,800",
         "maxSlots": "2",
         "features": [
           {
@@ -501,7 +501,7 @@
       {
         "name": "골드",
         "tier": "gold",
-        "fee": "HKD 22,000",
+        "fee": "HKD 27,300",
         "maxSlots": "4",
         "features": [
           {
@@ -560,7 +560,7 @@
       {
         "name": "실버",
         "tier": "silver",
-        "fee": "HKD 11,000",
+        "fee": "HKD 13,650",
         "maxSlots": "4",
         "features": [
           {
@@ -604,7 +604,7 @@
       {
         "name": "브론즈",
         "tier": "bronze",
-        "fee": "HKD 6,000",
+        "fee": "HKD 6,240",
         "maxSlots": "unlimited",
         "features": [
           {

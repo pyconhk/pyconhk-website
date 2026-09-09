@@ -15,6 +15,23 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       expect(carouselBounds?.height).toBeLessThanOrEqual(650);
       const cards = carousel.locator('[data-plan-card]');
       await expect(cards).toHaveCount(5);
+      // Published HKD rates in the 2026 CFS v1.2, pages 12 and 17.
+      const fees = [
+        'HKD 68,640+',
+        'HKD 46,800',
+        'HKD 27,300',
+        'HKD 13,650',
+        'HKD 6,240',
+      ];
+      for (const [index, fee] of fees.entries()) {
+        await expect(cards.nth(index).locator('header')).toContainText(fee);
+      }
+      if (locale.startsWith('zh-')) {
+        await expect(cards.nth(3).getByRole('heading')).toHaveText(
+          locale === 'zh-hans' ? '白银级赞助' : '白銀級贊助'
+        );
+        await expect(cards.last()).toContainText('不限');
+      }
       await expect(cards.first().locator('[data-availability="included"]')).toHaveCount(
         7
       );
