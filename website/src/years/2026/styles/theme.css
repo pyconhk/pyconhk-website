@@ -19,6 +19,12 @@
   --shadow-conference-panel: var(--conference-shadow-panel);
 }
 
+/* Use the same readable family for headings and copy; logo lettering is SVG. */
+html[data-site-year="2026"] {
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-sans);
+}
+
 /* Balance short copy without hard-coded line breaks tied to one screen width. */
 html[data-site-year="2026"] :is(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
@@ -102,9 +108,6 @@ html[data-conference-theme="dark"] body {
   background: #101827;
 }
 
-[data-conference-site] .ideal-heading {
-  color: var(--conference-ink);
-}
 [data-conference-site] .prose {
   --tw-prose-body: var(--conference-body);
   --tw-prose-headings: var(--conference-ink);

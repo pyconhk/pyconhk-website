@@ -78,7 +78,7 @@ const content = getConferenceContent(locale);
 
     <!-- 3. Main Title & Subtitle (Fade Entrance Step 3) -->
     <div class="hero-copy mt-10 sm:mt-12 max-w-4xl space-y-4">
-      <h1 id="home-title" class="ideal-heading text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-normal text-conference-ink">
+      <h1 id="home-title" class="font-sans text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold tracking-[-0.03em] leading-tight text-conference-ink">
         {content.event.status === 'published' ? content.event.theme : t.hero.headline}
       </h1>
       {t.hero.headlineAccent && (
