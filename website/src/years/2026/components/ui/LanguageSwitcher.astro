@@ -68,7 +68,7 @@ const activeItem = items.find((item) => item.active) ?? items[0];
     </nav>
   ) : (
     <details class="group relative">
-      <summary class="inline-flex min-h-10 min-w-[7.5rem] cursor-pointer list-none items-center justify-between gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-3.5 py-1.5 text-xs font-bold text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)] transition-all hover:bg-conference-soft [&::-webkit-details-marker]:hidden">
+      <summary class="inline-flex min-h-10 min-w-[7.5rem] cursor-pointer list-none items-center justify-between gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-3.5 py-1.5 text-xs font-bold text-conference-ink shadow-conference-control transition-colors hover:bg-conference-soft [&::-webkit-details-marker]:hidden">
         <span class="truncate" lang={activeItem.htmlLang}>🌐 {activeItem.nativeLabel}</span>
         <svg class="h-3.5 w-3.5 shrink-0 text-conference-ink transition-transform duration-200 group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <title>Dropdown arrow</title>
@@ -76,7 +76,7 @@ const activeItem = items.find((item) => item.active) ?? items[0];
         </svg>
       </summary>
 
-      <div class="absolute right-0 top-full z-40 mt-2 w-52 rounded-2xl border-2 border-conference-outline bg-conference-surface p-1.5 shadow-[4px_4px_0_var(--conference-shadow)]">
+      <div class="absolute right-0 top-full z-40 mt-2 w-52 rounded-2xl border-2 border-conference-outline bg-conference-surface p-1.5 shadow-conference-card">
         <nav class="space-y-1" aria-label="Language selector">
           {items.map((item) => (
             <a

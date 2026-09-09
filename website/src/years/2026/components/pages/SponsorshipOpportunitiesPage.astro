@@ -33,8 +33,8 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
       <section class="space-y-8 border-t-2 border-conference-outline/15 pt-8">
         <h2 class="section-title font-operetta-32">{pageCopy.whySponsorTitle}</h2>
         <div class="grid gap-6 md:grid-cols-3">
-          {sponsorship.benefits.map((benefit, index) => <article class="flex flex-col items-center gap-4 rounded-2xl border-2 border-conference-outline bg-conference-paper p-6 text-center shadow-[4px_4px_0_var(--conference-shadow)]">
-            <span aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-conference-outline bg-conference-surface text-conference-blue shadow-[2px_2px_0_var(--conference-shadow)]"><Icon name={`heroicons-outline:${sponsorBenefits[index]?.icon || 'heart'}`} class="h-7 w-7" /></span>
+          {sponsorship.benefits.map((benefit, index) => <article class="flex flex-col items-center gap-4 rounded-2xl border-2 border-conference-outline bg-conference-paper p-6 text-center shadow-conference-card">
+            <span aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-conference-outline bg-conference-surface text-conference-blue shadow-conference-control"><Icon name={`heroicons-outline:${sponsorBenefits[index]?.icon || 'heart'}`} class="h-7 w-7" /></span>
             <h3 class="text-lg font-black text-conference-ink">{benefit.title}</h3><p class="text-sm font-medium leading-relaxed text-conference-body">{benefit.description}</p>
           </article>)}
         </div>
@@ -45,12 +45,12 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
           <section data-sponsorship-track tabindex="0" aria-label={pageCopy.plansTitle} class="plan-track">
             {sponsorship.plans.map((plan) => {
               const appearance = sponsorshipPlans.find((original) => original.tier === plan.tier);
-              return <article data-plan-card class="plan-card flex min-w-0 flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-paper shadow-[4px_4px_0_var(--conference-shadow)]">
+              return <article data-plan-card class="plan-card flex min-w-0 flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-paper shadow-conference-card">
                 <header class:list={['space-y-1 border-b-2 border-conference-outline px-4 py-3', appearance?.headerBg || 'bg-[#2f559a]', appearance?.headerText || 'text-white']}>
                   <h3 class="text-xl font-black">{plan.name}</h3><p class="text-sm font-bold">{pageCopy.sponsorshipFeeLabel}: <span class="font-black">{plan.fee}</span></p>
                 </header>
                 <div class="space-y-2 px-4 py-3">
-                  {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-conference-outline bg-conference-surface px-3 py-1 text-xs font-black text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]">{slotLabels[locale]}: {plan.maxSlots === 'unlimited' ? unlimitedLabels[locale] : plan.maxSlots}</p>}
+                  {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-conference-outline bg-conference-surface px-3 py-1 text-xs font-black text-conference-ink shadow-conference-control">{slotLabels[locale]}: {plan.maxSlots === 'unlimited' ? unlimitedLabels[locale] : plan.maxSlots}</p>}
                   <dl class="text-sm leading-5">{featureLabels.map((label) => {
                     const value = plan.features.find((feature) => feature.label === label)?.value;
                     const included = value === availability[0];
@@ -81,9 +81,9 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
       </section>
     </div>
   )}
-  <section class="space-y-4 rounded-3xl border-3 border-conference-outline bg-conference-yellow p-6 text-center shadow-[6px_6px_0_var(--conference-shadow)] sm:p-10">
+  <section class="space-y-4 rounded-3xl border-3 border-conference-outline bg-conference-yellow p-6 text-center shadow-conference-panel sm:p-10">
     <h2 class="section-title font-operetta-32">{pageCopy.ctaTitle}</h2><p class="mx-auto max-w-xl text-sm font-bold text-conference-ink sm:text-base">{pageCopy.ctaDescription}</p>
-    <a href={sponsorshipEmail} class="inline-flex rounded-full border-2 border-conference-outline bg-[#d71920] px-7 py-3 font-black text-white shadow-[3px_3px_0_var(--conference-shadow)] hover:bg-[#c0151c]">{pageCopy.ctaButtonLabel}</a>
+    <a href={sponsorshipEmail} class="inline-flex rounded-full border-2 border-conference-outline bg-[#d71920] px-7 py-3 font-black text-white shadow-conference-card hover:bg-[#c0151c]">{pageCopy.ctaButtonLabel}</a>
   </section>
 </CommunityPageFrame>
 
@@ -94,7 +94,7 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
   .plan-feature { display: grid; grid-template-columns: minmax(0, 1fr) fit-content(60%); align-items: center; gap: .5rem; padding-block: .375rem; }
   @media (min-width: 640px) { .plan-card { flex-basis: calc((100% - 1.5rem) / 2); } }
   @media (min-width: 1024px) { .plan-card { flex-basis: calc((100% - 3rem) / 3); } }
-  .plan-control { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-surface); box-shadow: 2px 2px 0 #172033; color: var(--conference-ink); font-weight: 900; }
+  .plan-control { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-surface); box-shadow: var(--conference-shadow-control); color: var(--conference-ink); font-weight: 900; }
   .plan-control:hover:not(:disabled) { background: #d71920; color: white; }
   .plan-control:disabled { opacity: .4; box-shadow: none; }
   .plan-dot { display: flex; align-items: center; justify-content: center; width: 24px; height: 44px; cursor: pointer; }

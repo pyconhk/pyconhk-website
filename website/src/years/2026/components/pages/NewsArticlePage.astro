@@ -24,8 +24,8 @@ const backHref = `/2026/${locale}/news/`;
 
 <ConferenceLayout title={`${article.title} | PyCon HK 2026`} description={article.excerpt} locale={locale} imagePath={article.coverImage}>
   <div class="w-full bg-conference-paper px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
-    <article class="mx-auto max-w-4xl overflow-hidden rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-[8px_8px_0_var(--conference-shadow)] sm:p-10 md:p-14" lang={getLocaleDefinition(article.sourceLocale).htmlLang}>
-      <a href={backHref} class="mb-6 inline-flex gap-2 rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-bold text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)] hover:bg-conference-soft">
+    <article class="mx-auto max-w-4xl overflow-hidden rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10 md:p-14" lang={getLocaleDefinition(article.sourceLocale).htmlLang}>
+      <a href={backHref} class="mb-6 inline-flex gap-2 rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-bold text-conference-ink shadow-conference-control hover:bg-conference-soft">
         <span aria-hidden="true">←</span> {copy.backToNews}
       </a>
       <img src={article.coverImage} alt="" width="800" height="450" class="mb-8 aspect-[16/9] w-full rounded-2xl border-2 border-conference-outline bg-conference-paper object-contain p-6" />

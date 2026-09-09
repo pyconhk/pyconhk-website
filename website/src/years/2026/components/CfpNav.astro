@@ -21,7 +21,7 @@ const copy = contentByLocale[locale];
 const pagePadding = 'px-5 sm:px-8 lg:px-14 xl:px-16';
 const contentWidth = 'mx-auto max-w-7xl';
 const navButtonBase =
-  'inline-flex min-h-11 min-w-0 items-center justify-center rounded-full border-2 border-conference-outline px-2 py-2 text-center font-mono text-[0.8125rem] leading-tight font-black whitespace-nowrap text-conference-ink transition hover:-translate-y-0.5 sm:px-4 sm:text-sm';
+  'inline-flex min-h-11 min-w-0 items-center justify-center rounded-full border-2 border-conference-outline px-2 py-2 text-center font-mono text-[0.8125rem] leading-tight font-black whitespace-nowrap text-conference-ink transition sm:px-4 sm:text-sm';
 
 const compactHeaderLabels: Record<CfpLocale, { proposal: string; sponsor: string }> = {
   en: { proposal: 'Proposal', sponsor: 'Sponsor' },
@@ -51,7 +51,7 @@ const compactLabels = compactHeaderLabels[locale];
   <nav
     class:list={[
       contentWidth,
-      'flex flex-col gap-4 overflow-visible rounded-[1.75rem] border-2 border-conference-outline bg-conference-surface/90 p-4 shadow-[6px_8px_0_var(--conference-shadow)] backdrop-blur sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8',
+      'flex flex-col gap-4 overflow-visible rounded-[1.75rem] border-2 border-conference-outline bg-conference-surface/90 p-4 shadow-conference-panel backdrop-blur sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8',
     ]}
   >
     <a
@@ -89,7 +89,7 @@ const compactLabels = compactHeaderLabels[locale];
         <summary class="relative z-[70] cursor-pointer list-none rounded-full border-2 border-conference-outline bg-conference-sky px-3 py-2 font-mono text-sm font-black whitespace-nowrap [&::-webkit-details-marker]:hidden">
           {copy.localeMeta.shortLabel} +
         </summary>
-        <div class="absolute left-0 z-[80] mt-2 grid w-44 gap-1 rounded-2xl border-2 border-conference-outline bg-conference-surface p-2 font-mono text-sm font-black shadow-[5px_6px_0_var(--conference-shadow)]">
+        <div class="absolute left-0 z-[80] mt-2 grid w-44 gap-1 rounded-2xl border-2 border-conference-outline bg-conference-surface p-2 font-mono text-sm font-black shadow-conference-panel">
           {
             supportedLocales.map((item) => (
               <a

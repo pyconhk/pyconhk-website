@@ -16,7 +16,7 @@ const opensNewTab = /^https?:\/\//.test(href);
   target={opensNewTab ? '_blank' : undefined}
   rel={opensNewTab ? 'noreferrer' : undefined}
   class:list={[
-    'inline-flex min-h-12 w-full items-center justify-center rounded-xl border-2 border-conference-outline px-5 py-3 font-mono text-sm font-black text-conference-ink shadow-[4px_5px_0_var(--conference-shadow)] transition hover:-translate-y-0.5 hover:shadow-[6px_7px_0_var(--conference-shadow)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue sm:w-auto md:text-base',
+    'inline-flex min-h-12 w-full items-center justify-center rounded-xl border-2 border-conference-outline px-5 py-3 font-mono text-sm font-black text-conference-ink shadow-conference-card transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue sm:w-auto md:text-base',
     isPrimary ? '-rotate-1 bg-conference-yellow' : 'rotate-1 bg-conference-surface [border-style:dashed]',
   ]}
 >
