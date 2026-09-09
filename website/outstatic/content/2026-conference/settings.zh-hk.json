@@ -373,7 +373,7 @@
         "features": [
           {
             "label": "贊助演講",
-            "value": "2 場 30 分鐘演講",
+            "value": "30 分鐘 × 2",
             "id": "feature-1"
           },
           {
@@ -442,7 +442,7 @@
         "features": [
           {
             "label": "贊助演講",
-            "value": "1 場 30 分鐘演講",
+            "value": "30 分鐘 × 1",
             "id": "feature-1"
           },
           {
@@ -506,7 +506,7 @@
         "features": [
           {
             "label": "贊助演講",
-            "value": "1 場 15 分鐘演講",
+            "value": "15 分鐘 × 1",
             "id": "feature-1"
           },
           {
