@@ -10,6 +10,7 @@ interface Props {
   description: string;
   locale: CfpLocale;
   imagePath?: string;
+  fullScreenSections?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   description,
   locale,
   imagePath = '/2026/open-graph.webp',
+  fullScreenSections = false,
 } = Astro.props;
 
 const htmlLangByLocale: Record<CfpLocale, string> = {
@@ -47,6 +49,7 @@ const htmlLang = htmlLangByLocale[locale] ?? 'en';
       data-pagefind-body
       data-pagefind-filter="year:2026"
       data-pagefind-meta="year:2026"
+      data-full-screen-sections={fullScreenSections || undefined}
     >
       <slot />
     </main>
@@ -56,6 +59,28 @@ const htmlLang = htmlLangByLocale[locale] ?? 'en';
 </BaseLayout>
 
 <style is:global>
+  [data-conference-site] {
+    --conference-ribbon-height: 1.25rem;
+    --conference-nav-height: 4rem;
+    --conference-header-height: calc(var(--conference-ribbon-height) + var(--conference-nav-height) + 1px);
+  }
+  @media (min-width: 640px) {
+    [data-conference-site] {
+      --conference-ribbon-height: 1.75rem;
+      --conference-nav-height: 5rem;
+    }
+  }
+  [data-full-screen-sections] > section {
+    min-height: calc(100dvh - var(--conference-header-height));
+    padding-block: clamp(2rem, 6dvh, 6rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-margin-top: var(--conference-header-height);
+  }
+  [data-full-screen-sections] > section > div {
+    width: 100%;
+  }
   [data-conference-site] :is(a[href], button, select, summary, [role='button'], input[type='button'], input[type='submit'], input[type='reset'], input[type='checkbox'], input[type='radio']):not(:disabled):not([aria-disabled='true']) {
     cursor: pointer;
   }

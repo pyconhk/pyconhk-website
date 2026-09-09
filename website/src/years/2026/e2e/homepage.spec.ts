@@ -170,3 +170,69 @@ for (const width of [320, 390, 640, 768, 1024, 1280, 1920]) {
     await expect(page.locator('main h1')).toBeVisible();
   });
 }
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 1920, height: 1080 },
+  { width: 390, height: 844 },
+]) {
+  test(`homepage sections fill the screen below the header at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/2026/en/');
+    await page.evaluate(() => document.fonts.ready);
+    for (const height of [viewport.height, viewport.height - 100]) {
+      await page.setViewportSize({ width: viewport.width, height });
+      const { available, sections } = await page.evaluate(() => ({
+        available:
+          innerHeight -
+          (document.querySelector('[data-site-header]')?.getBoundingClientRect()
+            .height ?? Number.NaN),
+        sections: [...document.querySelectorAll('main > section')].map((section) => {
+          const box = section.getBoundingClientRect();
+          const content = section.firstElementChild?.getBoundingClientRect();
+          if (!content) throw new Error('Section has no content');
+          return {
+            id: section.id,
+            height: box.height,
+            minimum: Number.parseFloat(getComputedStyle(section).minHeight),
+            topGap: content.top - box.top,
+            bottomGap: box.bottom - content.bottom,
+          };
+        }),
+      }));
+      for (const section of sections) {
+        expect(section.minimum).toBeCloseTo(available, 0);
+        expect(section.height).toBeGreaterThanOrEqual(available - 1);
+        expect(section.topGap).toBeGreaterThanOrEqual(0);
+        expect(section.bottomGap).toBeGreaterThanOrEqual(0);
+        if (viewport.width >= 1440 || section.id === 'participate') {
+          expect(section.height).toBeCloseTo(available, 0);
+          expect(section.topGap).toBeCloseTo(section.bottomGap, 0);
+        }
+      }
+      if (viewport.width === 390) {
+        expect(
+          sections.find((section) => section.id === 'featured-speakers')?.height
+        ).toBeGreaterThan(available);
+      }
+    }
+    await page.goto('/2026/en/#featured-speakers');
+    await expect
+      .poll(() =>
+        page
+          .locator('#featured-speakers')
+          .evaluate((section) =>
+            Math.abs(
+              section.getBoundingClientRect().top -
+                (document.querySelector('[data-site-header]')?.getBoundingClientRect()
+                  .bottom ?? Number.NaN)
+            )
+          )
+      )
+      .toBeLessThan(2);
+    await page.locator('[data-featured-speaker]').first().click();
+    await expect(page.locator('main')).not.toHaveAttribute('data-full-screen-sections');
+  });
+}
