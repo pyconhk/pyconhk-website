@@ -22,7 +22,8 @@ const availability = {
 }[locale];
 // Feature IDs are positions within each plan, not shared benefit identifiers.
 const featureLabels = [...new Set(sponsorship.plans.flatMap((plan) => plan.features.map((feature) => feature.label)))];
-const slotLabels = { en: 'Available packages', 'zh-hk': '可供贊助名額', 'zh-hant': '可供贊助名額', 'zh-hans': '可供赞助名额', ja: '募集枠数', ko: '모집 구좌' };
+const slotLabels = { en: 'Available packages', 'zh-hk': '贊助名額', 'zh-hant': '贊助名額', 'zh-hans': '赞助名额', ja: '募集枠数', ko: '모집 구좌' };
+const unlimitedLabels = { en: 'Unlimited', 'zh-hk': '不限', 'zh-hant': '不限', 'zh-hans': '不限', ja: '制限なし', ko: '제한 없음' };
 const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'], 'zh-hk': ['上一個贊助方案', '下一個贊助方案'], 'zh-hant': ['上一個贊助方案', '下一個贊助方案'], 'zh-hans': ['上一个赞助方案', '下一个赞助方案'], ja: ['前のスポンサー枠', '次のスポンサー枠'], ko: ['이전 후원 패키지', '다음 후원 패키지'] }[locale];
 ---
 <CommunityPageFrame locale={locale} title={pageCopy.title} subtitle={pageCopy.subtitle} wide>
@@ -49,7 +50,7 @@ const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'],
                   <h3 class="text-xl font-black">{plan.name}</h3><p class="text-sm font-bold">{pageCopy.sponsorshipFeeLabel}: <span class="font-black">{plan.fee}</span></p>
                 </header>
                 <div class="space-y-2 px-4 py-3">
-                  {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-conference-outline bg-conference-surface px-3 py-1 text-xs font-black text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]">{slotLabels[locale]}: {plan.maxSlots}</p>}
+                  {plan.maxSlots && <p class="inline-block rounded-lg border-2 border-conference-outline bg-conference-surface px-3 py-1 text-xs font-black text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]">{slotLabels[locale]}: {plan.maxSlots === 'unlimited' ? unlimitedLabels[locale] : plan.maxSlots}</p>}
                   <dl class="text-sm leading-5">{featureLabels.map((label) => {
                     const value = plan.features.find((feature) => feature.label === label)?.value;
                     const included = value === availability[0];
