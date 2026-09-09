@@ -86,7 +86,7 @@
       },
       {
         "name": "AWS User Group Hong Kong",
-        "logo": "/2026/supporting-organizations/aws_ug_hk.webp",
+        "logo": "/2026/supporting-organizations/aws_ug_hk.svg",
         "url": "https://awsug.hk/",
         "description": "AWS の学習者とエンジニアをつなぐボランティア主導のコミュニティ。",
         "kind": "supporter",
@@ -166,7 +166,7 @@
       },
       {
         "name": "日本 Raspberry Pi ユーザグループ (Raspberry JAM Tokyo)",
-        "logo": "/2026/supporting-organizations/japan_rpi_ug.webp",
+        "logo": "/2026/supporting-organizations/japan_rpi_ug.svg",
         "url": "https://www.raspi.jp/",
         "description": "ハードウェア創作と地域間交流を促進する日本の Raspberry Pi コミュニティ。",
         "kind": "supporter",

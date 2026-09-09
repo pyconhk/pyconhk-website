@@ -100,7 +100,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       ko: 'AWS User Group Hong Kong',
     },
     nameLines: ['AWS User Group Hong Kong'],
-    imagePath: '/2026/supporting-organizations/aws_ug_hk.webp',
+    imagePath: '/2026/supporting-organizations/aws_ug_hk.svg',
     logoAlt: 'AWS User Group Hong Kong Logo',
     url: 'https://awsug.hk/',
     summary: {
@@ -346,7 +346,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       ko: '일본 라즈베리 파이 사용자 모임 (Raspberry JAM Tokyo)',
     },
     nameLines: ['Japanese Raspberry Pi Users Group', '(Raspberry JAM Tokyo)'],
-    imagePath: '/2026/supporting-organizations/japan_rpi_ug.webp',
+    imagePath: '/2026/supporting-organizations/japan_rpi_ug.svg',
     logoAlt: 'Japanese Raspberry Pi Users Group Logo',
     url: 'https://www.raspi.jp/',
     summary: {

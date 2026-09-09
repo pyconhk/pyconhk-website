@@ -88,7 +88,7 @@ test('wide supporter logos fill their plates and OSHK stays square', async ({
   for (const width of [320, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/2026/en/supporting-organizations/');
-    for (const file of ['aws_ug_hk.webp', 'hkace.webp']) {
+    for (const file of ['aws_ug_hk.svg', 'hkace.webp']) {
       const logo = page.locator(`img[src$="${file}"]`);
       await logo.scrollIntoViewIfNeeded();
       await logo.evaluate((image: HTMLImageElement) => image.decode());
