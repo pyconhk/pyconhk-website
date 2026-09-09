@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+const siteOrigin = new URL(process.env.PUBLIC_SITE_URL || 'https://pycon.hk').origin;
+
 function normalizeRedirectLocation(location: string | undefined): string {
   if (!location) {
     return '';
@@ -196,44 +198,44 @@ test('serves robots and sitemap for production crawling', async ({ request }) =>
   ]) {
     expect(robotsText).toContain(`Disallow: ${path}`);
   }
-  expect(robotsText).toContain('Sitemap: https://pycon.hk/sitemap.xml');
+  expect(robotsText).toContain(`Sitemap: ${siteOrigin}/sitemap.xml`);
 
   const sitemap = await request.get('/sitemap.xml');
   const sitemapText = await sitemap.text();
 
   expect(sitemap.status()).toBe(200);
   for (const url of [
-    'https://pycon.hk/2026/en',
-    'https://pycon.hk/2026/zh-hk',
-    'https://pycon.hk/2026/en/privacy-policy',
-    'https://pycon.hk/2026/zh-hk/privacy-policy',
-    'https://pycon.hk/2026/zh-hant/privacy-policy',
-    'https://pycon.hk/2026/zh-hans/privacy-policy',
-    'https://pycon.hk/2026/ko/privacy-policy',
-    'https://pycon.hk/2026/ja/privacy-policy',
-    'https://pycon.hk/2015',
-    'https://pycon.hk/2016',
-    'https://pycon.hk/2017/recording',
-    'https://pycon.hk/2018',
-    'https://pycon.hk/2020-spring',
-    'https://pycon.hk/2020-fall',
-    'https://pycon.hk/2024',
-    'https://pycon.hk/2024/news',
-    'https://pycon.hk/2024/photos',
-    'https://pycon.hk/2025',
-    'https://pycon.hk/2025/news/pre-event-notice',
+    `${siteOrigin}/2026/en`,
+    `${siteOrigin}/2026/zh-hk`,
+    `${siteOrigin}/2026/en/privacy-policy`,
+    `${siteOrigin}/2026/zh-hk/privacy-policy`,
+    `${siteOrigin}/2026/zh-hant/privacy-policy`,
+    `${siteOrigin}/2026/zh-hans/privacy-policy`,
+    `${siteOrigin}/2026/ko/privacy-policy`,
+    `${siteOrigin}/2026/ja/privacy-policy`,
+    `${siteOrigin}/2015`,
+    `${siteOrigin}/2016`,
+    `${siteOrigin}/2017/recording`,
+    `${siteOrigin}/2018`,
+    `${siteOrigin}/2020-spring`,
+    `${siteOrigin}/2020-fall`,
+    `${siteOrigin}/2024`,
+    `${siteOrigin}/2024/news`,
+    `${siteOrigin}/2024/photos`,
+    `${siteOrigin}/2025`,
+    `${siteOrigin}/2025/news/pre-event-notice`,
   ]) {
     expect(sitemapText).toContain(`<loc>${url}</loc>`);
   }
   for (const url of [
-    'https://pycon.hk/2025/en/',
-    'https://pycon.hk/2025/en/news/pre-event-notice/',
-    'https://pycon.hk/2026/zh-cn/privacy-policy',
-    'https://pycon.hk/author/sammyfung',
-    'https://pycon.hk/category/2024',
-    'https://pycon.hk/conference-highlights/pycon-hk-2024-photos',
-    'https://pycon.hk/page/1',
-    'https://pycon.hk/tag/communities',
+    `${siteOrigin}/2025/en/`,
+    `${siteOrigin}/2025/en/news/pre-event-notice/`,
+    `${siteOrigin}/2026/zh-cn/privacy-policy`,
+    `${siteOrigin}/author/sammyfung`,
+    `${siteOrigin}/category/2024`,
+    `${siteOrigin}/conference-highlights/pycon-hk-2024-photos`,
+    `${siteOrigin}/page/1`,
+    `${siteOrigin}/tag/communities`,
   ]) {
     expect(sitemapText).not.toContain(`<loc>${url}</loc>`);
   }

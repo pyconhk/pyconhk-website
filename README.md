@@ -167,6 +167,12 @@ unchanged app. Shared dependencies and build configuration invalidate both apps.
 The website also compares the public Pretalx hash, event and environment. A manual
 force bypasses the skip; a missing manifest triggers the first deployment.
 
+`PUBLIC_SITE_URL` sets the website origin at build time for canonical, Open Graph,
+social image and sitemap URLs (default: `https://pycon.hk`). The website deployment
+workflow injects the production domain or the selected test/preview origin before
+Astro builds. To check a hosted build's metadata, pass the same `PUBLIC_SITE_URL`
+alongside `PLAYWRIGHT_BASE_URL` when running its E2E tests.
+
 ## Git and Workspace Notes
 
 - the public website lives at `website/`

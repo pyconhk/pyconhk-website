@@ -128,7 +128,7 @@ export default defineConfig({
     defaultLocale: 'en',
     routing: 'manual',
   },
-  site: 'https://pycon.hk',
+  site: new URL(process.env.PUBLIC_SITE_URL || 'https://pycon.hk').origin,
   trailingSlash: 'ignore',
   vite: {
     build: {

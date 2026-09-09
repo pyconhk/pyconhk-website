@@ -8,6 +8,7 @@ import {
   getLocaleFallbackChain,
   getLocalesForYear,
   type SiteLocale,
+  socialImagePath,
 } from '@/config/site';
 import { cleanLegacyHtml } from '@/legacy/legacy-html';
 import {
@@ -95,7 +96,7 @@ function normalizeCoverImage(
 ): string {
   const fallbackPath =
     collectionYear === 2026
-      ? '/2026/open-graph.webp'
+      ? socialImagePath
       : `/${collectionYear}/landing-pages/open-graph.webp`;
 
   if (!imagePath) {

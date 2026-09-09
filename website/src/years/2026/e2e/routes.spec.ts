@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+const siteOrigin = new URL(process.env.PUBLIC_SITE_URL || 'https://pycon.hk').origin;
+
 function normalizeRedirectLocation(location: string | undefined): string {
   if (!location) {
     return '';
@@ -70,6 +72,35 @@ test('serves 2026 locale slash aliases without Astro interstitials', async ({
   expect(new URL(page.url()).pathname).toBe('/2026/en/');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'https://pycon.hk/2026/en'
+    `${siteOrigin}/2026/en`
   );
 });
+
+for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+  test(`shares current conference metadata for ${locale} on the configured origin`, async ({
+    request,
+  }) => {
+    // Sharing crawlers read the server HTML without running the client router.
+    const response = await request.get(`/2026/${locale}/`);
+    expect(response.ok()).toBeTruthy();
+    const html = await response.text();
+    const canonicalUrl = `${siteOrigin}/2026/${locale}`;
+    expect(html).toContain(`<link rel="canonical" href="${canonicalUrl}">`);
+    expect(html).toContain(`<meta property="og:url" content="${canonicalUrl}">`);
+    expect(html).toContain(
+      '<meta property="og:title" content="PyCon HK 2026 | Ride and Leverage with AI">'
+    );
+    expect(html).toContain(
+      `<meta property="og:image" content="${siteOrigin}/2026/conference-share.png">`
+    );
+    expect(html).toContain(
+      `<meta name="twitter:image" content="${siteOrigin}/2026/conference-share.png">`
+    );
+    const image = await request.get('/2026/conference-share.png');
+    expect(image.ok()).toBeTruthy();
+    expect(image.headers()['content-type']).toContain('image/png');
+    const bytes = await image.body();
+    expect(bytes.subarray(1, 4).toString()).toBe('PNG');
+    expect([bytes.readUInt32BE(16), bytes.readUInt32BE(20)]).toEqual([1200, 630]);
+  });
+}
