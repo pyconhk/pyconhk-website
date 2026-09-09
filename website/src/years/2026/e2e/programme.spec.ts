@@ -264,3 +264,32 @@ for (const locale of locales) {
     expect(errors).toEqual([]);
   });
 }
+
+for (const width of [390, 1440]) {
+  test(`whole session and speaker cards open while saving stays independent at ${width}px`, async ({
+    page,
+  }) => {
+    test.skip(!sample, 'Requires the public 2025 sample build.');
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/2026/en/schedule');
+    await page.locator('[data-programme-search]').fill('pip install community');
+    const card = page.locator('[data-session-card]:visible');
+    const save = card.locator('[data-save-session]');
+    await save.click();
+    await expect(save).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#session-modal')).not.toBeVisible();
+    await card.click({ position: { x: 12, y: 18 } });
+    await expect(page.locator('#modal-session-title')).toHaveText(
+      'pip install community'
+    );
+    await page.keyboard.press('Escape');
+    const trigger = card.locator('[data-session-details]');
+    await expect(trigger).toBeFocused();
+    await page.keyboard.press('Space');
+    await expect(page.locator('#session-modal')).toBeVisible();
+    const speaker = page.locator('#modal-details [data-speaker-profile]');
+    await speaker.click({ position: { x: 12, y: 18 } });
+    await expect(page).toHaveURL(/\/2026\/en\/speakers\/georgi-ker\/?$/);
+    await expect(page.locator('main h1')).toHaveText('Georgi Ker');
+  });
+}

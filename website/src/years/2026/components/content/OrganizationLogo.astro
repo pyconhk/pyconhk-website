@@ -1,0 +1,15 @@
+---
+import { getLogoBounds } from '@/years/2026/lib/logo-bounds';
+
+interface Props { src: string; alt: string; }
+const { src, alt } = Astro.props;
+const bounds = await getLogoBounds(src);
+const ratio = bounds ? bounds.width / bounds.height : 1;
+const frameStyle = `aspect-ratio: ${ratio}; max-width: ${9 * ratio}rem;`;
+const imageStyle = bounds
+  ? `width: ${100 * bounds.canvasWidth / bounds.width}%; left: ${-100 * bounds.left / bounds.width}%; top: ${-100 * bounds.top / bounds.height}%;`
+  : 'width: 100%; left: 0; top: 0;';
+---
+<div class="relative w-full overflow-hidden" style={frameStyle} data-logo-frame>
+  <img src={src} alt={alt} width={bounds?.canvasWidth} height={bounds?.canvasHeight} loading="lazy" class="absolute h-auto max-w-none" style={imageStyle} />
+</div>
