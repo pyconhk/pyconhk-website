@@ -8,7 +8,7 @@ export const defaultSeoDescription =
 export const defaultOpenGraphTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
 export const defaultOpenGraphDescription =
   'Ride and Leverage with AI — 14–15 November 2026';
-export const socialImagePath = '/2026/conference-share.png';
+export const socialImagePath = '/2026/share/en.png';
 export const archiveSocialImagePaths = {
   2025: '/2025/landing-pages/open-graph.webp',
 } as const;
@@ -81,6 +81,10 @@ export function getLocalesForYear(year: number) {
 
 export function isSupportedLocale(value: string): value is SiteLocale {
   return locales.some((locale) => locale.code === value);
+}
+
+export function getSocialImagePath(locale: string = defaultLocale): string {
+  return `/2026/share/${isSupportedLocale(locale) ? locale : defaultLocale}.png`;
 }
 
 export function getLocaleFallbackChain(locale: SiteLocale): readonly SiteLocale[] {

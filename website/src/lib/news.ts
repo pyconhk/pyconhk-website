@@ -7,8 +7,8 @@ import {
   defaultLocale,
   getLocaleFallbackChain,
   getLocalesForYear,
+  getSocialImagePath,
   type SiteLocale,
-  socialImagePath,
 } from '@/config/site';
 import { cleanLegacyHtml } from '@/legacy/legacy-html';
 import {
@@ -92,11 +92,12 @@ let indexedNewsStorePromise: Promise<IndexedNewsStore> | null = null;
 
 function normalizeCoverImage(
   imagePath: string | undefined,
-  collectionYear: number
+  collectionYear: number,
+  locale: SiteLocale
 ): string {
   const fallbackPath =
     collectionYear === 2026
-      ? socialImagePath
+      ? getSocialImagePath(locale)
       : `/${collectionYear}/landing-pages/open-graph.webp`;
 
   if (!imagePath) {
@@ -261,7 +262,11 @@ async function loadVariantsFromDirectory(
           authorPicture: frontmatter.author?.picture?.trim() || undefined,
           body: parsedSource.content.trim(),
           collectionYear,
-          coverImage: normalizeCoverImage(frontmatter.coverImage, collectionYear),
+          coverImage: normalizeCoverImage(
+            frontmatter.coverImage,
+            collectionYear,
+            locale
+          ),
           excerpt: description,
           locale,
           publishedAt,

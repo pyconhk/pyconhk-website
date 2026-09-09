@@ -2,7 +2,7 @@ import type { HomeMessages } from '@/years/2026/i18n/schema';
 
 export const ko: HomeMessages = {
   meta: {
-    title: 'PyCon HK 2026 | Ride and Leverage with AI',
+    title: 'PyCon HK 2026 | 홍콩 Python 콘퍼런스',
     description:
       'PyCon Hong Kong 2026 — 홍콩의 중심에서 열리는 Python 커뮤니티, 혁신적인 아이디어, 오픈소스 가능성을 위한 축제.',
   },
