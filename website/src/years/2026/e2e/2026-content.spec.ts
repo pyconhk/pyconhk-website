@@ -17,6 +17,40 @@ const publishedRoutes = [
   'volunteers',
 ];
 
+test('wide supporter logos fill their plates and OSHK stays square', async ({
+  page,
+}) => {
+  for (const width of [320, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/2026/en/supporting-organizations/');
+    for (const file of ['aws_ug_hk.webp', 'hkace.webp']) {
+      const logo = page.locator(`img[src$="${file}"]`);
+      await logo.scrollIntoViewIfNeeded();
+      await logo.evaluate((image: HTMLImageElement) => image.decode());
+      const frame = await logo.locator('..').boundingBox();
+      const plate = await logo.locator('../..').boundingBox();
+      if (!frame || !plate) throw new Error(`Logo plate is missing: ${file}`);
+      expect(frame.width).toBeGreaterThan(plate.width * 0.7);
+      expect(frame.width / frame.height).toBeGreaterThan(2);
+    }
+    await page.goto('/2026/en/organizers/');
+    const oshk = page.locator('img[src$="/oshk.webp"]');
+    await oshk.scrollIntoViewIfNeeded();
+    await oshk.evaluate((image: HTMLImageElement) => image.decode());
+    expect(
+      await oshk.evaluate(
+        (image: HTMLImageElement) => image.naturalWidth / image.naturalHeight
+      )
+    ).toBe(1);
+    const plate = await oshk.locator('..').boundingBox();
+    if (!plate) throw new Error('OSHK logo plate is missing');
+    expect(Math.abs(plate.width - plate.height)).toBeLessThan(1);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+    ).toBe(true);
+  }
+});
+
 test('every conference logo and placeholder has a transparent image background', async ({
   page,
 }) => {
