@@ -15,10 +15,6 @@ const profiles = await Promise.all(sessionProfiles(session)
   .map(async (person) => ({ ...person, bioHtml: await renderProgrammeMarkdown(person.biography) })));
 ---
 <div class="space-y-6">
-  {description && <section data-session-description>
-    <h3 class="mb-4 text-xs font-black uppercase tracking-widest text-conference-red">{copy.description}</h3>
-    <div class="programme-richtext prose prose-sm max-w-none text-conference-body" set:html={description} />
-  </section>}
   {profiles.length > 0 && <section data-speaker-profiles>
     <h3 class="ideal-heading mb-4 text-xl font-black text-conference-ink">{copy.speakers}</h3>
     <div class="space-y-4">
@@ -32,6 +28,10 @@ const profiles = await Promise.all(sessionProfiles(session)
         {person.bioHtml && <div data-speaker-biography class="programme-richtext prose prose-sm mt-4 max-w-none text-conference-body" set:html={person.bioHtml} />}
       </article>)}
     </div>
+  </section>}
+  {description && <section data-session-description>
+    <h3 class="mb-4 text-xs font-black uppercase tracking-widest text-conference-red">{copy.description}</h3>
+    <div class="programme-richtext prose prose-sm max-w-none text-conference-body" set:html={description} />
   </section>}
 </div>
 <style>

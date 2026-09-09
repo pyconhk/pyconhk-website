@@ -10,6 +10,22 @@ async function footerShell(pagePath: string, page: Page) {
 }
 
 test.describe('site footers', () => {
+  for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+    test(`opens the 2025 archive from the ${locale} footer`, async ({
+      page,
+      request,
+    }) => {
+      const footer = await footerShell(`/2026/${locale}/`, page);
+
+      await footer.getByRole('link', { name: '2025', exact: true }).click();
+
+      await expect(page).toHaveURL(/\/2025\/?$/);
+      await expect(page).toHaveTitle('PyCon HK 2025');
+      await expect(page.locator('main')).toBeVisible();
+      expect((await request.get(page.url())).status()).toBe(200);
+    });
+  }
+
   test('renders the 2025 footer with the 2025 copyright year', async ({ page }) => {
     const footer = await footerShell('/2025', page);
 
