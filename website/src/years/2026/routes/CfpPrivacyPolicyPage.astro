@@ -9,14 +9,14 @@ const { locale } = Astro.props;
 
 <ConferenceLayout title="Privacy Policy | PyCon HK 2026" description="PyCon Hong Kong privacy policy statement." locale={locale}>
   <section lang="en" data-policy-body class="bg-conference-paper px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-    <div class="privacy-content mx-auto max-w-5xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 leading-relaxed text-conference-body shadow-[8px_8px_0_var(--conference-shadow)] sm:p-10 lg:p-12">
+    <div class="privacy-content mx-auto max-w-5xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 leading-relaxed text-conference-body shadow-conference-panel sm:p-10 lg:p-12">
       <PrivacyPolicyPage locale="en" />
     </div>
   </section>
 </ConferenceLayout>
 
 <style>
-  .privacy-content :global(h1) { font-family: "Operetta 32", "Bodoni Moda", Georgia, serif; font-weight: 900; text-transform: uppercase; color: var(--conference-ink); }
+  .privacy-content :global(h1) { font-family:"Operetta 32","Bodoni Moda", Georgia, serif; font-weight: 900; text-transform: uppercase; color: var(--conference-ink); }
   .privacy-content :global(h2), .privacy-content :global(a) { color: var(--conference-blue); }
   .privacy-content :global(a) { text-decoration: underline; text-underline-offset: .2em; }
   .privacy-content :global(a:hover) { color: var(--conference-red); }

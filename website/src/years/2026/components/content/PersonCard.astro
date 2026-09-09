@@ -12,14 +12,14 @@ const { name, imageSrc, linkedin, personalWebsite } = Astro.props;
 ---
 
 <div data-person-card class="group flex w-full min-w-0 max-w-44 flex-col items-center text-center">
-  <div class="relative aspect-square w-full overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-paper shadow-[4px_4px_0_var(--conference-shadow)] transition-shadow duration-200 group-hover:shadow-[6px_6px_0_#2f559a] motion-reduce:transition-none">
+  <div class="relative aspect-square w-full overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-paper shadow-conference-card duration-200 motion-reduce:transition-none">
     <Image
       src={imageSrc}
       alt={name}
       width={400}
       height={400}
       format="webp"
-      class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
+      class="h-full w-full object-cover object-center duration-300 motion-reduce:transform-none motion-reduce:transition-none"
       loading="lazy"
     />
   </div>
@@ -31,7 +31,7 @@ const { name, imageSrc, linkedin, personalWebsite } = Astro.props;
         href={linkedin}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0A66C2] text-white shadow-[2px_2px_0_var(--conference-shadow)] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0A66C2] text-white shadow-conference-control focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"
         aria-label={`LinkedIn profile of ${name}`}
         title={`LinkedIn profile of ${name}`}
       >
@@ -46,7 +46,7 @@ const { name, imageSrc, linkedin, personalWebsite } = Astro.props;
         href={personalWebsite}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#7c3aed] text-white shadow-[2px_2px_0_var(--conference-shadow)] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#7c3aed] text-white shadow-conference-control focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"
         aria-label={`Personal website of ${name}`}
         title={`Personal website of ${name}`}
       >

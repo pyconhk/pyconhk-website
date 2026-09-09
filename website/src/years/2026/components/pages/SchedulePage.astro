@@ -28,7 +28,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
         <p class="mt-4 text-sm font-medium text-conference-body">{copy.timezone}</p>
         <fieldset class="mt-6 flex flex-wrap gap-3">
           <legend class="sr-only">{copy.time}</legend>
-          {programmeSnapshot.days.map((day) => <button type="button" class="day-button rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-black shadow-[2px_2px_0_var(--conference-shadow)]" data-day={day.date} aria-pressed={day.date === initialDay ? 'true' : 'false'}>{formatProgrammeDate(day.date, locale)}</button>)}
+          {programmeSnapshot.days.map((day) => <button type="button" class="day-button rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-black shadow-conference-control" data-day={day.date} aria-pressed={day.date === initialDay ? 'true' : 'false'}>{formatProgrammeDate(day.date, locale)}</button>)}
         </fieldset>
         <div class="programme-filters mt-5 grid gap-3 rounded-2xl border-2 border-conference-outline bg-conference-surface p-4">
           <label><span class="sr-only">{copy.search}</span><input type="search" data-programme-search placeholder={copy.search} class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm" /></label>
@@ -46,7 +46,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
             return <div data-day-panel={day.date} hidden={day.date !== initialDay}>
               {times.map((time) => <section class="programme-slot" data-programme-slot>
                 <h2 class="programme-time font-black text-conference-ink">{time}</h2>
-                {allScheduleItems.filter((session) => session.date === day.date && session.startTime === time).map((session) => <article class="programme-card rounded-2xl border-2 border-conference-outline bg-conference-surface p-4 shadow-[3px_3px_0_var(--conference-shadow)]" data-session-card={session.id} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2}`}>
+                {allScheduleItems.filter((session) => session.date === day.date && session.startTime === time).map((session) => <article class="programme-card rounded-2xl border-2 border-conference-outline bg-conference-surface p-4 shadow-conference-card" data-session-card={session.id} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2}`}>
                   <div class="pointer-events-none absolute inset-x-0 top-0 overflow-hidden rounded-t-[14px] border-b-2 border-[#2f559a] bg-white"><WovenRibbon heightClass="h-6" /></div>
                   <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
                   <p class="mt-2 text-xs font-medium text-conference-body">{session.startTime}–{session.endTime} · {session.duration} {copy.minutes}{session.language && ` · ${session.language}`}</p>
@@ -82,14 +82,14 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid var(--conference-line); }
   .programme-time { grid-column: 1 / -1; }
   .programme-room-headings { display: none; padding-inline: 1rem; }
-  .programme-card { position: relative; isolation: isolate; min-width: 0; overflow-wrap: anywhere; padding-top: 3rem; background: var(--conference-surface); transition: box-shadow .15s ease, background-color .15s ease; }
+  .programme-card { position: relative; isolation: isolate; min-width: 0; overflow-wrap: anywhere; padding-top: 3rem; background: var(--conference-surface); transition: background-color .15s ease; }
   .programme-room { display: inline-block; border-radius: .5rem; padding: .375rem .5rem; background: #2f559a; color: white; }
   .session-open::after { content: ''; position: absolute; inset: 0; border-radius: 1rem; cursor: pointer; }
   .programme-card [data-save-session] { position: relative; z-index: 1; border-color: var(--conference-blue); color: var(--conference-blue); }
   .programme-card:has(.session-open:focus-visible) { outline: 3px solid var(--conference-blue); outline-offset: 5px; }
   .session-open:focus-visible { outline: none; }
   @media (hover: hover) {
-    .programme-card:hover { background: var(--conference-paper); box-shadow: 5px 5px 0 #2f559a; }
+    .programme-card:hover { background: var(--conference-paper); }
   }
   @media (prefers-reduced-motion: reduce) { .programme-card { transition: none; } }
   @media (min-width: 640px) {

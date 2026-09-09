@@ -14,7 +14,7 @@ const { article, locale } = Astro.props;
 
 <a
   href={`/2026/${locale}/news/${article.slug}/`}
-  class="group flex flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-surface shadow-[4px_4px_0_var(--conference-shadow)] transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0_#d71920] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-red"
+  class="group flex flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-surface shadow-conference-card transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-red"
 >
   <div class="aspect-[16/9] border-b-2 border-conference-outline bg-conference-paper p-6">
     <img
@@ -24,7 +24,7 @@ const { article, locale } = Astro.props;
       height="338"
       loading="lazy"
       decoding="async"
-      class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+      class="h-full w-full object-contain duration-300"
     />
   </div>
   <div class="flex flex-1 flex-col justify-between gap-4 p-5 sm:p-6">

@@ -146,7 +146,7 @@ const dateCardClasses = [
           </div>
         </div>
 
-        <div class="relative mx-auto w-full max-w-3xl rounded-[1.75rem] border-[3px] border-conference-outline bg-conference-surface p-6 shadow-[10px_12px_0_var(--conference-shadow)] md:p-8 xl:max-w-none xl:p-10">
+        <div class="relative mx-auto w-full max-w-3xl rounded-[1.75rem] border-[3px] border-conference-outline bg-conference-surface p-6 shadow-conference-panel md:p-8 xl:max-w-none xl:p-10">
           <div class="flex items-center justify-between">
             <span class="h-5 w-5 rounded-full border-2 border-conference-outline bg-[#d82236]"></span>
             <span class="h-5 w-5 rounded-full border-2 border-conference-outline bg-conference-yellow"></span>
@@ -161,7 +161,7 @@ const dateCardClasses = [
               copy.decorativeFragments.map((fragment, index) => (
                 <div
                   class:list={[
-                    'min-h-24 rounded-2xl border-2 border-conference-outline px-5 py-4 shadow-[4px_5px_0_var(--conference-shadow)]',
+                    'min-h-24 rounded-2xl border-2 border-conference-outline px-5 py-4 shadow-conference-card',
                     programNoteClasses[index],
                     index % 2 === 0 ? '-rotate-1' : 'rotate-1',
                   ]}

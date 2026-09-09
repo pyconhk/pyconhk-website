@@ -8,9 +8,9 @@ const { locale, title, subtitle, intro, wide = false, framed = true } = Astro.pr
 
 <ConferenceLayout title={`${title} | PyCon HK 2026`} description={intro || `${title} | PyCon HK 2026`} locale={locale}>
   <main class="bg-conference-paper px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
-    <div class:list={[wide ? 'max-w-6xl' : 'max-w-5xl', 'mx-auto space-y-12 sm:space-y-16', framed && 'rounded-3xl border-3 border-conference-outline bg-conference-surface p-5 shadow-[6px_6px_0_var(--conference-shadow)] sm:p-10 sm:shadow-[8px_8px_0_var(--conference-shadow)] md:p-14']}>
+    <div class:list={[wide ? 'max-w-6xl' : 'max-w-5xl', 'mx-auto space-y-12 sm:space-y-16', framed && 'rounded-3xl border-3 border-conference-outline bg-conference-surface p-5 shadow-conference-panel sm:p-10 sm:shadow-conference-panel md:p-14']}>
       <header class="mx-auto max-w-3xl space-y-4 text-center">
-        <div class="inline-flex max-w-full items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-paper px-3.5 py-1 text-xs font-black uppercase text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)]">
+        <div class="inline-flex max-w-full items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-paper px-3.5 py-1 text-xs font-black uppercase text-conference-ink shadow-conference-control">
           <span class="h-2 w-2 shrink-0 rounded-full bg-[#d71920]" aria-hidden="true" />
           <span>{subtitle}</span>
         </div>

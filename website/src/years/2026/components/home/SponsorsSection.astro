@@ -13,7 +13,7 @@ const copy = contentUi[locale];
   <div class="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
     <h2 class="text-3xl font-extrabold text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-published-sponsors>
-        {sponsors.items.map((sponsor) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline bg-conference-surface p-6 shadow-[4px_4px_0_var(--conference-shadow)]"><p class="text-sm font-bold text-conference-red">{sponsor.tier}</p>{sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h3 class="font-bold">{sponsor.name}</h3>{sponsor.url && <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
+        {sponsors.items.map((sponsor) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline bg-conference-surface p-6 shadow-conference-card"><p class="text-sm font-bold text-conference-red">{sponsor.tier}</p>{sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} width="320" height="180" class="h-28 w-full object-contain" loading="lazy" />}<h3 class="font-bold">{sponsor.name}</h3>{sponsor.url && <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
       </div>
   </div>
 </section>

@@ -16,7 +16,7 @@ const t = getTranslations(locale);
 const homeHref = `/2026/${locale}/`;
 ---
 
-<header class="sticky top-0 z-50 w-full bg-conference-paper/95 backdrop-blur-md transition-all border-b border-conference-outline/10 overflow-x-clip" data-site-header>
+<header class="sticky top-0 z-50 w-full bg-conference-paper/95 backdrop-blur-md transition-colors border-b border-conference-outline/10 overflow-x-clip" data-site-header>
   <!-- Top Authentic Red-White-Blue Woven Ribbon -->
   <WovenRibbon heightClass="h-5 sm:h-7" />
 
@@ -25,7 +25,7 @@ const homeHref = `/2026/${locale}/`;
     <div class="flex items-center shrink-0 mr-2 sm:mr-3 min-[1400px]:mr-5">
       <a
         href={homeHref}
-        class="group flex shrink-0 items-center gap-2 sm:gap-2.5 transition-transform hover:scale-[1.02]"
+        class="group flex shrink-0 items-center gap-2 sm:gap-2.5"
         aria-label="PYCON HK 2026"
       >
         <img
@@ -33,7 +33,7 @@ const homeHref = `/2026/${locale}/`;
           alt="PyCon HK 2026 Logo"
           width="140"
           height="45"
-          class="h-6 sm:h-7.5 min-[1500px]:h-8.5 w-auto max-w-[95px] sm:max-w-[125px] min-[1500px]:max-w-[150px] object-contain transition-transform group-hover:scale-105"
+          class="h-6 sm:h-7.5 min-[1500px]:h-8.5 w-auto max-w-[95px] sm:max-w-[125px] min-[1500px]:max-w-[150px] object-contain"
         />
         <span class="font-operetta-32 text-base sm:text-lg min-[1440px]:text-[1.2rem] text-conference-ink hidden min-[440px]:inline-block whitespace-nowrap leading-none font-black uppercase tracking-wider">
           PYCON HK 2026
@@ -53,7 +53,7 @@ const homeHref = `/2026/${locale}/`;
               class="group relative shrink-0 py-2 px-1 transition-colors hover:text-conference-red whitespace-nowrap"
             >
               <span>{item.label[locale] ?? item.label.en}</span>
-              <span class="absolute bottom-0 left-1 right-1 h-[2px] origin-left scale-x-0 bg-[#d71920] transition-transform duration-250 ease-out group-hover:scale-x-100" />
+              <span class="absolute bottom-0 left-1 right-1 h-[2px] origin-left opacity-0 bg-[#d71920] duration-250 ease-out group-hover:opacity-100" />
             </a>
           );
         }
@@ -66,16 +66,16 @@ const homeHref = `/2026/${locale}/`;
               aria-haspopup="true"
             >
               <span>{item.label[locale] ?? item.label.en}</span>
-              <svg class="h-3 w-3 shrink-0 transition-transform duration-200 group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+              <svg class="h-3 w-3 shrink-0 duration-200" viewBox="0 0 20 20" fill="currentColor">
                 <title>Expand dropdown</title>
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
               </svg>
-              <span class="absolute bottom-0 left-1 right-1 h-[2px] origin-left scale-x-0 bg-[#d71920] transition-transform duration-250 ease-out group-hover:scale-x-100" />
+              <span class="absolute bottom-0 left-1 right-1 h-[2px] origin-left opacity-0 bg-[#d71920] duration-250 ease-out group-hover:opacity-100" />
             </button>
 
             {/* Dropdown Menu Box (Seamless hover bridge, continuous hit area) */}
-            <div class="invisible absolute left-1/2 top-full z-50 pt-2 -translate-x-1/2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
-              <div class="w-60 rounded-2xl border-2 border-conference-outline bg-conference-surface p-2 shadow-[4px_4px_0_var(--conference-shadow)] relative before:absolute before:-top-3 before:left-0 before:right-0 before:h-4 before:content-['']">
+            <div class="invisible absolute left-1/2 top-full z-50 pt-2 -translate-x-1/2 opacity-0 transition-colors duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
+              <div class="w-60 rounded-2xl border-2 border-conference-outline bg-conference-surface p-2 shadow-conference-card relative before:absolute before:-top-3 before:left-0 before:right-0 before:h-4 before:content-['']">
                 <div class="flex flex-col space-y-1">
                   {item.children.map((child) => (
                     <a
@@ -85,7 +85,7 @@ const homeHref = `/2026/${locale}/`;
                       class="group/sub relative rounded-xl px-3 py-2 text-xs font-bold text-conference-ink transition-colors hover:bg-conference-soft hover:text-conference-red whitespace-nowrap"
                     >
                       <span>{child.label[locale] ?? child.label.en}</span>
-                      <span class="absolute bottom-1 left-3 h-[1.5px] w-[calc(100%-1.5rem)] origin-left scale-x-0 bg-[#d71920] transition-transform duration-200 group-hover/sub:scale-x-100" />
+                      <span class="absolute bottom-1 left-3 h-[1.5px] w-[calc(100%-1.5rem)] origin-left opacity-0 bg-[#d71920] duration-200 group-hover/sub:opacity-100" />
                     </a>
                   ))}
                 </div>
@@ -101,14 +101,14 @@ const homeHref = `/2026/${locale}/`;
     <div class="hidden md:flex items-center gap-2 min-[1400px]:gap-3 shrink-0 ml-2">
       <LanguageSwitcher locale={locale} />
       
-      <RegistrationButton locale={locale} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#d71920] px-3.5 min-[1440px]:px-5 py-2 text-xs min-[1440px]:text-sm font-bold text-white shadow-[2px_2px_0_var(--conference-shadow)] border-2 border-conference-outline transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none hover:bg-[#c0151c] whitespace-nowrap" />
+      <RegistrationButton locale={locale} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#d71920] px-3.5 min-[1440px]:px-5 py-2 text-xs min-[1440px]:text-sm font-bold text-white shadow-conference-control border-2 border-conference-outline transition-colors hover:bg-[#c0151c] whitespace-nowrap" />
     </div>
 
     <!-- Mobile / Compact Viewport Menu Trigger (< 1280px) -->
     <div class="flex items-center gap-2 min-[1280px]:hidden">
       <button
         type="button"
-        class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-conference-outline bg-conference-surface text-conference-ink shadow-[2px_2px_0_var(--conference-shadow)] active:translate-x-0.5 active:translate-y-0.5"
+        class="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-conference-outline bg-conference-surface text-conference-ink shadow-conference-control"
         aria-label={t.nav.menuLabel}
         aria-expanded="false"
         data-mobile-nav-trigger
@@ -132,14 +132,14 @@ const homeHref = `/2026/${locale}/`;
     ></button>
 
     <div
-      class="fixed right-0 top-0 flex h-dvh w-84 max-w-[88vw] translate-x-full flex-col overflow-y-auto bg-conference-paper  border-l-2 border-conference-outline  p-5 text-conference-ink  shadow-2xl transition-transform duration-200"
+      class="fixed right-0 top-0 flex h-dvh w-84 max-w-[88vw] translate-x-full flex-col overflow-y-auto bg-conference-paper  border-l-2 border-conference-outline  p-5 text-conference-ink  shadow-conference-panel transition-transform duration-200"
       data-mobile-nav-panel
     >
-      <div class="flex items-center justify-between pb-4 border-b border-conference-outline/15 ">
+      <div class="flex items-center justify-between pb-4 border-b border-conference-outline/15">
         <span class="font-operetta text-lg text-conference-ink  leading-none font-black uppercase tracking-wider">PYCON HK 2026</span>
         <button
           type="button"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-conference-outline  bg-conference-surface  text-conference-ink  shadow-[2px_2px_0_var(--conference-shadow)] "
+          class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-conference-outline  bg-conference-surface  text-conference-ink  shadow-conference-control"
           aria-label={t.nav.closeMenu}
           data-mobile-nav-close
         >
@@ -157,7 +157,7 @@ const homeHref = `/2026/${locale}/`;
             return (
               <a
                 href={item.href(locale)}
-                class="rounded-xl px-3 py-2.5 transition-colors hover:bg-conference-surface  hover:text-conference-red "
+                class="rounded-xl px-3 py-2.5 transition-colors hover:bg-conference-surface  hover:text-conference-red"
                 data-mobile-nav-link
               >
                 {item.label[locale] ?? item.label.en}
@@ -166,7 +166,7 @@ const homeHref = `/2026/${locale}/`;
           }
 
           return (
-            <details class="group/m rounded-xl border border-transparent transition-all open:border-conference-outline/10  open:bg-conference-surface/60 ">
+            <details class="group/m rounded-xl border border-transparent transition-colors open:border-conference-outline/10  open:bg-conference-surface/60">
               <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2.5 hover:bg-conference-surface  hover:text-conference-red  [&::-webkit-details-marker]:hidden">
                 <span>{item.label[locale] ?? item.label.en}</span>
                 <svg class="h-4 w-4 transition-transform duration-200 group-open/m:rotate-180" viewBox="0 0 20 20" fill="currentColor">
@@ -178,7 +178,7 @@ const homeHref = `/2026/${locale}/`;
                 {item.children.map((child) => (
                   <a
                     href={child.href(locale)}
-                    class="block rounded-lg px-3 py-2 text-xs text-conference-body  hover:bg-conference-surface  hover:text-conference-red "
+                    class="block rounded-lg px-3 py-2 text-xs text-conference-body  hover:bg-conference-surface  hover:text-conference-red"
                     data-mobile-nav-link
                   >
                     {child.label[locale] ?? child.label.en}
@@ -191,10 +191,10 @@ const homeHref = `/2026/${locale}/`;
       </nav>
 
       <div class="py-4 space-y-4">
-        <RegistrationButton locale={locale} className="flex w-full items-center justify-center rounded-full bg-[#d71920] py-3 text-center text-sm font-bold text-white border-2 border-conference-outline  shadow-[3px_3px_0_var(--conference-shadow)] " />
+        <RegistrationButton locale={locale} className="flex w-full items-center justify-center rounded-full bg-[#d71920] py-3 text-center text-sm font-bold text-white border-2 border-conference-outline  shadow-conference-card" />
 
         <div class="pt-2">
-          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-conference-muted ">Language / 語言</p>
+          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-conference-muted">Language / 語言</p>
           <LanguageSwitcher locale={locale} mobile={true} />
         </div>
       </div>

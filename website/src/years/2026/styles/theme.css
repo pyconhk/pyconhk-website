@@ -14,6 +14,9 @@
   --color-conference-sky: var(--conference-sky);
   --color-conference-rose: var(--conference-rose);
   --color-conference-sand: var(--conference-sand);
+  --shadow-conference-control: var(--conference-shadow-control);
+  --shadow-conference-card: var(--conference-shadow-card);
+  --shadow-conference-panel: var(--conference-shadow-panel);
 }
 
 /* Balance short copy without hard-coded line breaks tied to one screen width. */
@@ -59,6 +62,12 @@ html[data-site-year="2026"]
   --conference-outline: #172033;
   --conference-line: #e2e8f0;
   --conference-shadow: #172033;
+  --conference-shadow-control: 0 1px 2px
+    color-mix(in srgb, var(--conference-shadow) 12%, transparent);
+  --conference-shadow-card: 0 2px 8px
+    color-mix(in srgb, var(--conference-shadow) 8%, transparent);
+  --conference-shadow-panel: 0 6px 18px
+    color-mix(in srgb, var(--conference-shadow) 12%, transparent);
   --conference-blue: #2f559a;
   --conference-red: #d71920;
   --conference-yellow: #ffd343;
