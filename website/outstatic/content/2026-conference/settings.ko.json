@@ -86,7 +86,7 @@
       },
       {
         "name": "AWS User Group Hong Kong",
-        "logo": "/2026/supporting-organizations/aws_ug_hk.webp",
+        "logo": "/2026/supporting-organizations/aws_ug_hk.svg",
         "url": "https://awsug.hk/",
         "description": "클라우드 엔지니어와 학습자를 위한 자발적 AWS 사용자 모임.",
         "kind": "supporter",
@@ -126,7 +126,7 @@
       },
       {
         "name": "홍콩교육대학교 수학 및 정보기술학과",
-        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.webp",
+        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "수학, 정보기술 및 교육학 발전을 선도하는 홍콩교육대학교 학과.",
         "kind": "supporter",
@@ -166,7 +166,7 @@
       },
       {
         "name": "일본 라즈베리 파이 사용자 모임 (Raspberry JAM Tokyo)",
-        "logo": "/2026/supporting-organizations/japan_rpi_ug.webp",
+        "logo": "/2026/supporting-organizations/japan_rpi_ug.svg",
         "url": "https://www.raspi.jp/",
         "description": "라즈베리 파이 하드웨어 메이킹 및 아시아 협력을 지원하는 일본 사용자 모임.",
         "kind": "supporter",
@@ -368,7 +368,7 @@
       {
         "name": "다이아몬드",
         "tier": "diamond",
-        "fee": "HKD 70,000+",
+        "fee": "HKD 68,640+",
         "maxSlots": "1",
         "features": [
           {
@@ -437,7 +437,7 @@
       {
         "name": "플래티넘",
         "tier": "platinum",
-        "fee": "HKD 44,000",
+        "fee": "HKD 46,800",
         "maxSlots": "2",
         "features": [
           {
@@ -501,7 +501,7 @@
       {
         "name": "골드",
         "tier": "gold",
-        "fee": "HKD 22,000",
+        "fee": "HKD 27,300",
         "maxSlots": "4",
         "features": [
           {
@@ -560,7 +560,7 @@
       {
         "name": "실버",
         "tier": "silver",
-        "fee": "HKD 11,000",
+        "fee": "HKD 13,650",
         "maxSlots": "4",
         "features": [
           {
@@ -604,7 +604,7 @@
       {
         "name": "브론즈",
         "tier": "bronze",
-        "fee": "HKD 6,000",
+        "fee": "HKD 6,240",
         "maxSlots": "unlimited",
         "features": [
           {
