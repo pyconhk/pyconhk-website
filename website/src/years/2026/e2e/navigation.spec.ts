@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { setTheme } from './theme';
 
 for (const nativeTransitions of [true, false]) {
   test(`page navigation stays interactive with native transitions ${nativeTransitions}`, async ({
@@ -41,31 +42,23 @@ for (const nativeTransitions of [true, false]) {
       .click();
     await expect(page).toHaveURL(/\/2026\/en\/about\/?$/);
     await expect(page.locator('main[data-pagefind-body]')).toBeVisible();
+    const transitionCount = () =>
+      page.evaluate(
+        () =>
+          (window as unknown as Window & { navigationProbe: { transitions: number } })
+            .navigationProbe.transitions
+      );
+    if (nativeTransitions) await expect.poll(transitionCount).toBe(1);
 
     // The next control must work after a client-side swap, without a reload.
-    await page.locator('[data-theme-select]').selectOption('dark');
+    await setTheme(page, 'dark');
     await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
     await page.goBack();
     await expect(page).toHaveURL(/\/2026\/en\/?$/);
     await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
-    await page.setViewportSize({ width: 390, height: 844 });
-    const menu = page.locator('[data-mobile-nav-trigger]');
-    await menu.click();
-    await expect(menu).toHaveAttribute('aria-expanded', 'true');
-
     if (nativeTransitions) {
-      await expect
-        .poll(() =>
-          page.evaluate(
-            () =>
-              (
-                window as unknown as Window & {
-                  navigationProbe: { transitions: number };
-                }
-              ).navigationProbe.transitions
-          )
-        )
-        .toBeGreaterThanOrEqual(2);
+      // Resizing the viewport can cancel a pending native view transition.
+      await expect.poll(transitionCount).toBe(2);
       expect(
         await page.evaluate(
           () =>
@@ -77,5 +70,9 @@ for (const nativeTransitions of [true, false]) {
         )
       ).toEqual([]);
     }
+    await page.setViewportSize({ width: 390, height: 844 });
+    const menu = page.locator('[data-mobile-nav-trigger]');
+    await menu.click();
+    await expect(menu).toHaveAttribute('aria-expanded', 'true');
   });
 }

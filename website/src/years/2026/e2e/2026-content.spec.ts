@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { setTheme } from './theme';
 
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
 const pendingRoutes = [
@@ -25,7 +26,7 @@ test('visible supporter artwork stays centered across layouts and themes', async
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/2026/en/supporting-organizations/');
     for (const theme of ['light', 'dark']) {
-      await page.locator('[data-theme-select]').first().selectOption(theme);
+      await setTheme(page, theme);
       await expect(page.locator('html')).toHaveAttribute(
         'data-conference-theme',
         theme

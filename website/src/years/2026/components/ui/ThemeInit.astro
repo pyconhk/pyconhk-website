@@ -1,10 +1,13 @@
 <meta name="pycon-conference" content="2026" />
 <script is:inline data-astro-rerun>
   (() => {
-    if (window.pyconThemeReady) return;
+    const initVersion = 'cycle-button-v1';
+    if (window.pyconThemeReady === initVersion) return;
     const key = 'pyconhk-2026-theme';
     const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const valid = value => ['light', 'dark', 'system'].includes(value);
+    const modes = ['system', 'light', 'dark'];
+    const valid = value => modes.includes(value);
+    const nextMode = () => modes[(modes.indexOf(preference) + 1) % modes.length];
     let preference = 'system';
     try { const stored = localStorage.getItem(key); if (valid(stored)) preference = stored; } catch { /* System theme works without storage. */ }
     const apply = (target = document) => {
@@ -13,14 +16,19 @@
         return;
       }
       target.documentElement.dataset.conferenceTheme = preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
-      target.querySelectorAll('[data-theme-select]').forEach(select => { select.value = preference; });
+      target.querySelectorAll('[data-theme-toggle]').forEach(button => {
+        button.dataset.themeMode = preference;
+        const label = `${button.dataset.themeLabel}: ${button.getAttribute(`data-theme-${preference}`)}. ${button.dataset.themeNextLabel}: ${button.getAttribute(`data-theme-${nextMode()}`)}`;
+        button.setAttribute('aria-label', label);
+        button.title = label;
+      });
     };
     apply();
     // The head script also runs on client navigation. Keep one set of listeners.
-    window.pyconThemeReady = true;
-    document.addEventListener('change', event => {
-      if (!(event.target instanceof HTMLSelectElement) || !event.target.matches('[data-theme-select]')) return;
-      preference = valid(event.target.value) ? event.target.value : 'system';
+    window.pyconThemeReady = initVersion;
+    document.addEventListener('click', event => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
+      preference = nextMode();
       try { localStorage.setItem(key, preference); } catch { /* Keep the choice in memory. */ }
       apply();
     });
