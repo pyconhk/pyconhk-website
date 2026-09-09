@@ -24,7 +24,9 @@ for (const nativeTransitions of [true, false]) {
                   animation instanceof CSSAnimation
               )
               .map((animation) => animation.animationName)
-              .filter((name) => /view-transition|astroFade|astroSlide/.test(name))
+              .filter((name) =>
+                /view-transition|astroFade|astroSlide|heroEntranceFade/.test(name)
+              )
           );
           state.transitions++;
         });
