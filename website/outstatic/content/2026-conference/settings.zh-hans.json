@@ -86,7 +86,7 @@
       },
       {
         "name": "AWS User Group Hong Kong",
-        "logo": "/2026/supporting-organizations/aws_ug_hk.webp",
+        "logo": "/2026/supporting-organizations/aws_ug_hk.svg",
         "url": "https://awsug.hk/",
         "description": "由志愿者推动的 AWS 社区，通过讲座、工作坊及聚会连接不同程度的云端学习者与实践者。",
         "kind": "supporter",
@@ -126,7 +126,7 @@
       },
       {
         "name": "香港教育大学数学与资讯科技学系",
-        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.webp",
+        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "致力推动数学、信息技术、研究及教学发展，培育未来教育工作者的学术部门。",
         "kind": "supporter",
@@ -166,7 +166,7 @@
       },
       {
         "name": "日本树莓派用户组 (Raspberry JAM Tokyo)",
-        "logo": "/2026/supporting-organizations/japan_rpi_ug.webp",
+        "logo": "/2026/supporting-organizations/japan_rpi_ug.svg",
         "url": "https://www.raspi.jp/",
         "description": "来自日本的 Raspberry Pi 社区，推动硬件学习、创作实践及跨地区 meetup 协作。",
         "kind": "supporter",

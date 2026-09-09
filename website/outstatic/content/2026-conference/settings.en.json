@@ -86,7 +86,7 @@
       },
       {
         "name": "AWS User Group Hong Kong",
-        "logo": "/2026/supporting-organizations/aws_ug_hk.webp",
+        "logo": "/2026/supporting-organizations/aws_ug_hk.svg",
         "url": "https://awsug.hk/",
         "description": "Volunteer-led community for AWS learners and practitioners across talks, workshops, and networking sessions.",
         "kind": "supporter",
@@ -126,7 +126,7 @@
       },
       {
         "name": "Department of Mathematics and Information Techonology, The EdUHK",
-        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.webp",
+        "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",
         "kind": "supporter",
@@ -166,7 +166,7 @@
       },
       {
         "name": "Japanese Raspberry Pi Users Group (Raspberry JAM Tokyo)",
-        "logo": "/2026/supporting-organizations/japan_rpi_ug.webp",
+        "logo": "/2026/supporting-organizations/japan_rpi_ug.svg",
         "url": "https://www.raspi.jp/",
         "description": "Raspberry Pi community from Japan supporting hardware learning, making, and regional meetup collaboration.",
         "kind": "supporter",
