@@ -48,10 +48,19 @@ test('visible supporter artwork stays centered across layouts and themes', async
           let top = canvas.height;
           let right = -1;
           let bottom = -1;
+          const centerDarkArtwork = image.src.endsWith('/pyladies_tokyo.webp');
           for (let y = 0; y < canvas.height; y++) {
             for (let x = 0; x < canvas.width; x++) {
+              const pixel = (y * canvas.width + x) * 4;
               // Inspect the clearly visible mark, independently of its CSS frame.
-              if (pixels[(y * canvas.width + x) * 4 + 3] < 128) continue;
+              if (pixels[pixel + 3] < 128) continue;
+              // Tokyo's white sakura blends into the cream plate. Check the
+              // contrasting wordmark and face, not the decorative white petals.
+              if (
+                centerDarkArtwork &&
+                Math.min(pixels[pixel], pixels[pixel + 1], pixels[pixel + 2]) > 180
+              )
+                continue;
               left = Math.min(left, x);
               top = Math.min(top, y);
               right = Math.max(right, x);
@@ -62,6 +71,8 @@ test('visible supporter artwork stays centered across layouts and themes', async
           const plateElement = image.closest('.organization-logo-plate');
           if (!plateElement) throw new Error('Logo plate missing');
           const plate = plateElement.getBoundingClientRect();
+          const frame = image.parentElement?.getBoundingClientRect();
+          if (!frame) throw new Error('Logo frame missing');
           const centerX = rect.x + ((left + right + 1) / 2 / canvas.width) * rect.width;
           const centerY =
             rect.y + ((top + bottom + 1) / 2 / canvas.height) * rect.height;
@@ -70,9 +81,11 @@ test('visible supporter artwork stays centered across layouts and themes', async
             hasArtwork: right >= left,
             offsetX: Math.abs(centerX - (plate.x + plate.width / 2)),
             offsetY: Math.abs(centerY - (plate.y + plate.height / 2)),
+            contained: frame.left >= plate.left && frame.right <= plate.right,
           };
         });
         expect(visible.hasArtwork, visible.name).toBe(true);
+        expect(visible.contained, visible.name).toBe(true);
         expect(visible.offsetX, `${visible.name}: ${width} ${theme}`).toBeLessThan(4);
         expect(visible.offsetY, `${visible.name}: ${width} ${theme}`).toBeLessThan(4);
       }

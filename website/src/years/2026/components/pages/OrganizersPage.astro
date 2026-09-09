@@ -32,7 +32,7 @@ const organizers = organizations.items.filter((item) => item.kind === 'organizer
 </CommunityPageFrame>
 
 <style>
-  .organization-logo { display: inline-flex; width: 320px; max-width: 100%; aspect-ratio: 1; align-items: center; justify-content: center; border: 2px solid var(--conference-outline); border-radius: 1rem; padding: clamp(1rem, 4vw, 2rem); background: #FAF7F0; box-shadow: 4px 4px 0 #172033; transition: transform 180ms, box-shadow 180ms; }
+  .organization-logo { display: inline-flex; width: 320px; max-width: 100%; aspect-ratio: 1; align-items: center; justify-content: center; border: 2px solid var(--conference-outline); border-radius: 1rem; padding: clamp(1rem, 4vw, 2rem); background: var(--conference-logo-plate); box-shadow: 4px 4px 0 #172033; transition: transform 180ms, box-shadow 180ms; }
   .organization-logo img { width: 100%; height: 100%; object-fit: contain; }
   a.organization-logo:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 #d71920; }
   a.organization-logo:focus-visible { outline: 3px solid #2f559a; outline-offset: 6px; }
