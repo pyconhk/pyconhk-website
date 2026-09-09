@@ -16,6 +16,37 @@
   --color-conference-sand: var(--conference-sand);
 }
 
+/* Balance short copy without hard-coded line breaks tied to one screen width. */
+html[data-site-year="2026"] :is(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+html[data-site-year="2026"] [data-balanced-copy] {
+  text-wrap: balance;
+}
+
+html[data-site-year="2026"] :is(p, li, dt, dd) {
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+html[data-site-year="2026"]
+  :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, button, summary) {
+  line-break: strict;
+}
+
+html[data-site-year="2026"] :lang(ko) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Pretalx titles retain their original language, independently of the UI locale. */
+html[data-site-year="2026"]
+:is([data-speaker-session], [data-session-details], #modal-session-title) {
+  word-break: normal;
+}
+
 [data-conference-site] {
   color-scheme: light;
   --conference-paper: #faf7f0;
