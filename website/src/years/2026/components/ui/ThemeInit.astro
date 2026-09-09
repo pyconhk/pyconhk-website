@@ -1,7 +1,8 @@
 <meta name="pycon-conference" content="2026" />
 <script is:inline data-astro-rerun>
   (() => {
-    if (window.pyconThemeReady) return;
+    const initVersion = 'cycle-button-v1';
+    if (window.pyconThemeReady === initVersion) return;
     const key = 'pyconhk-2026-theme';
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const modes = ['system', 'light', 'dark'];
@@ -24,7 +25,7 @@
     };
     apply();
     // The head script also runs on client navigation. Keep one set of listeners.
-    window.pyconThemeReady = true;
+    window.pyconThemeReady = initVersion;
     document.addEventListener('click', event => {
       if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
       preference = nextMode();

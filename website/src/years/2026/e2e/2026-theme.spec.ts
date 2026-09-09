@@ -89,6 +89,21 @@ test('theme works without local storage', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'light');
 });
 
+test('an already open tab can upgrade from the old theme dropdown', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.assign(window, { pyconThemeReady: true });
+  });
+  await page.goto('/2026/en/');
+  const button = page.locator('[data-theme-toggle]');
+  await button.click();
+  await expect(button).toHaveAttribute('data-theme-mode', 'light');
+  await button.click();
+  await expect(button).toHaveAttribute('data-theme-mode', 'dark');
+  await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
+});
+
 test('preference synchronizes across tabs and invalid storage falls back to system', async ({
   context,
   page,
