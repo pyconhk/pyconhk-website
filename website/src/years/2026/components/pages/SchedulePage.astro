@@ -73,6 +73,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-filters button, [data-save-session], [data-session-details] { min-height: 44px; }
   .programme-filters button { overflow-wrap: anywhere; }
   .programme-scroll { padding: 0 4px 4px 0; }
+  .programme-card, .session-open { scroll-margin-top: calc(var(--site-header-height, 0px) + var(--track-header-height, 0px) + 1rem); }
   .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--conference-line); }
   .programme-time { grid-column: 1 / -1; }
   .programme-room-headings { display: none; }
@@ -96,7 +97,9 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   }
   .programme-scroll[data-room-layout='true'] .programme-room-headings,
   .programme-scroll[data-room-layout='true'] .programme-slot { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(0, 1fr)); gap: 1rem; }
-  .programme-scroll[data-room-layout='true'] .programme-room-headings { border-bottom: 3px solid var(--conference-outline); padding-bottom: 1rem; color: var(--conference-ink); font-size: .8rem; font-weight: 900; overflow-wrap: anywhere; }
+  .programme-scroll[data-room-layout='true'] .programme-room-headings { position: sticky; top: var(--site-header-height, 0px); z-index: 30; background: var(--conference-paper); border-bottom: 3px solid var(--conference-outline); padding-block: 1rem; color: var(--conference-ink); font-size: .8rem; font-weight: 900; overflow-wrap: anywhere; }
+  /* Keep each card's room available to screen readers when columns provide the visual label. */
+  .programme-scroll[data-room-layout='true'] .programme-room { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .programme-scroll[data-room-layout='true'] .programme-time { grid-column: 1; grid-row: 1; }
   .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: 1; }
   :global(html:has(#session-modal[open])) { overflow: hidden; }
@@ -124,16 +127,22 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     const dialog = document.querySelector<HTMLDialogElement>('#session-modal');
     const empty = document.querySelector<HTMLElement>('[data-programme-empty]');
     const programme = document.querySelector<HTMLElement>('.programme-scroll');
+    const siteHeader = document.querySelector<HTMLElement>('[data-site-header]');
+    const trackHeadings = programme?.querySelector<HTMLElement>('.programme-room-headings');
     function updateLayout() {
       if (!programme) return;
       // Use room columns only when every room fits at a readable width, including at zoom.
       const rootSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
       const requiredWidth = (4 + Number(programme.dataset.roomCount) * 14) * rootSize;
       programme.dataset.roomLayout = String(!filters.room && programme.clientWidth >= Math.max(1024, requiredWidth + 4));
+      programme.style.setProperty('--site-header-height', `${siteHeader?.getBoundingClientRect().height ?? 0}px`);
+      programme.style.setProperty('--track-header-height', `${trackHeadings?.getBoundingClientRect().height ?? 0}px`);
     }
     if (programme) {
       const observer = new ResizeObserver(updateLayout);
       observer.observe(programme);
+      if (siteHeader) observer.observe(siteHeader);
+      if (trackHeadings) observer.observe(trackHeadings);
       document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
     }
     let activeSession: ScheduleItem | undefined;
