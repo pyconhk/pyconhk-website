@@ -75,6 +75,7 @@ jobs:
       - name: Validate content and build
         if: steps.prepare.outputs.changed == 'true'
         env:
+          PUBLIC_SITE_URL: ${{ inputs.target == 'production' && 'https://pycon.hk' || steps.prepare.outputs.origin }}
           PROGRAMME_OUTPUT_PATH: ${{ steps.prepare.outputs.snapshot_path }}
           PROGRAMME_SOURCE_URL: ${{ steps.prepare.outputs.source_url }}
           PROGRAMME_BASELINE_PATH: ${{ steps.prepare.outputs.baseline_path }}

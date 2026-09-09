@@ -8,6 +8,8 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { expect, test } from '@playwright/test';
 
+const siteOrigin = new URL(process.env.PUBLIC_SITE_URL || 'https://pycon.hk').origin;
+
 const execFileAsync = promisify(execFile);
 const websiteRoot = fileURLToPath(new URL('../..', import.meta.url));
 
@@ -169,21 +171,21 @@ test.describe('CMS news routing', () => {
       expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(redirects).toMatch(/^\/news\/\* \/2025\/news\/:splat 308$/mu);
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2026/en/news/cms-route-fixture</loc>'
+        `<loc>${siteOrigin}/2026/en/news/cms-route-fixture</loc>`
       );
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2026/zh-hk/news/cms-route-fixture</loc>'
+        `<loc>${siteOrigin}/2026/zh-hk/news/cms-route-fixture</loc>`
       );
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2026/ko/news/cms-route-fixture</loc>'
+        `<loc>${siteOrigin}/2026/ko/news/cms-route-fixture</loc>`
       );
       expect(sitemapXml).not.toContain('incomplete-fixture');
       expect(sitemapXml).not.toContain('/2025/ko/');
       expect(sitemapXml).toContain(
-        '<loc>https://pycon.hk/2025/news/pre-event-notice</loc>'
+        `<loc>${siteOrigin}/2025/news/pre-event-notice</loc>`
       );
       expect(sitemapXml).not.toContain(
-        '<loc>https://pycon.hk/2025/en/news/pre-event-notice</loc>'
+        `<loc>${siteOrigin}/2025/en/news/pre-event-notice</loc>`
       );
     } finally {
       await rm(tempRoot, { force: true, recursive: true });

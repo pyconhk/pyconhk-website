@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { socialImagePath } from '@/config/site';
 import SiteFooter from '@/years/2026/components/site/SiteFooter.astro';
 import SiteHeader from '@/years/2026/components/site/SiteHeader.astro';
 import ThemeInit from '@/years/2026/components/ui/ThemeInit.astro';
@@ -17,7 +18,7 @@ const {
   title,
   description,
   locale,
-  imagePath = '/2026/open-graph.webp',
+  imagePath = socialImagePath,
   fullScreenSections = false,
 } = Astro.props;
 

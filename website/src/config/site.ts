@@ -1,5 +1,6 @@
 export const siteName = 'PyCon HK';
-export const siteUrl = 'https://pycon.hk';
+export const siteUrl = new URL(import.meta.env?.PUBLIC_SITE_URL || 'https://pycon.hk')
+  .origin;
 export const currentConferenceYear = 2026 as const;
 export const defaultSeoTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
 export const defaultSeoDescription =
@@ -7,7 +8,7 @@ export const defaultSeoDescription =
 export const defaultOpenGraphTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
 export const defaultOpenGraphDescription =
   'Ride and Leverage with AI — 14–15 November 2026';
-export const socialImagePath = '/2026/open-graph.webp';
+export const socialImagePath = '/2026/conference-share.png';
 export const archiveSocialImagePaths = {
   2025: '/2025/landing-pages/open-graph.webp',
 } as const;
