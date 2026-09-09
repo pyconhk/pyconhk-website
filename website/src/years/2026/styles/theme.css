@@ -22,6 +22,10 @@ html[data-site-year="2026"] :is(h1, h2, h3, h4, h5, h6) {
   overflow-wrap: anywhere;
 }
 
+html[data-site-year="2026"] [data-balanced-copy] {
+  text-wrap: balance;
+}
+
 html[data-site-year="2026"] :is(p, li, dt, dd) {
   text-wrap: pretty;
   overflow-wrap: anywhere;
