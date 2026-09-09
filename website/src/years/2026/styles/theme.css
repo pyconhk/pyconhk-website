@@ -19,6 +19,7 @@
 [data-conference-site] {
   color-scheme: light;
   --conference-paper: #faf7f0;
+  --conference-logo-plate: #f7e9c5;
   --conference-surface: #fff;
   --conference-soft: #f8fafc;
   --conference-ink: #172033;
@@ -83,9 +84,9 @@ html[data-conference-theme="dark"] body {
   --tw-prose-td-borders: var(--conference-line);
 }
 
-/* Keep supplied logos on a neutral plate without recolouring their artwork. */
+/* Keep supplied logos on warm cream in both themes without recolouring the artwork. */
 [data-conference-site] .brand-plate {
-  background: #fff;
+  background: var(--conference-logo-plate);
   color-scheme: light;
 }
 [data-conference-site] [data-conference-inverse] {
