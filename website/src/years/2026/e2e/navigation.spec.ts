@@ -42,6 +42,13 @@ for (const nativeTransitions of [true, false]) {
       .click();
     await expect(page).toHaveURL(/\/2026\/en\/about\/?$/);
     await expect(page.locator('main[data-pagefind-body]')).toBeVisible();
+    const transitionCount = () =>
+      page.evaluate(
+        () =>
+          (window as unknown as Window & { navigationProbe: { transitions: number } })
+            .navigationProbe.transitions
+      );
+    if (nativeTransitions) await expect.poll(transitionCount).toBe(1);
 
     // The next control must work after a client-side swap, without a reload.
     await setTheme(page, 'dark');
@@ -49,24 +56,9 @@ for (const nativeTransitions of [true, false]) {
     await page.goBack();
     await expect(page).toHaveURL(/\/2026\/en\/?$/);
     await expect(page.locator('html')).toHaveAttribute('data-conference-theme', 'dark');
-    await page.setViewportSize({ width: 390, height: 844 });
-    const menu = page.locator('[data-mobile-nav-trigger]');
-    await menu.click();
-    await expect(menu).toHaveAttribute('aria-expanded', 'true');
-
     if (nativeTransitions) {
-      await expect
-        .poll(() =>
-          page.evaluate(
-            () =>
-              (
-                window as unknown as Window & {
-                  navigationProbe: { transitions: number };
-                }
-              ).navigationProbe.transitions
-          )
-        )
-        .toBeGreaterThanOrEqual(2);
+      // Resizing the viewport can cancel a pending native view transition.
+      await expect.poll(transitionCount).toBe(2);
       expect(
         await page.evaluate(
           () =>
@@ -78,5 +70,9 @@ for (const nativeTransitions of [true, false]) {
         )
       ).toEqual([]);
     }
+    await page.setViewportSize({ width: 390, height: 844 });
+    const menu = page.locator('[data-mobile-nav-trigger]');
+    await menu.click();
+    await expect(menu).toHaveAttribute('aria-expanded', 'true');
   });
 }
