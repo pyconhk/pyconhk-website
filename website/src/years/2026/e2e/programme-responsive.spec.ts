@@ -4,7 +4,7 @@ const sample = process.env.PROGRAMME_SOURCE_EVENT === 'pyconhk2025';
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
 const widths = [
   320, 360, 390, 639, 640, 767, 768, 1023, 1024, 1279, 1280, 1459, 1460, 1535, 1536,
-  1920,
+  1920, 2560, 3440,
 ];
 
 test.describe('responsive public programme', () => {
@@ -21,9 +21,15 @@ test.describe('responsive public programme', () => {
         await page.setViewportSize({ width, height: 900 });
         const programme = page.locator('.programme-scroll');
         // Account for browser scrollbars at the exact six-room fit boundary.
-        const roomColumnsFit = await programme.evaluate(
-          (element) => element.clientWidth >= 1412
-        );
+        const roomColumnsFit = await programme.evaluate((element) => {
+          const style = getComputedStyle(element);
+          return (
+            element.clientWidth -
+              Number.parseFloat(style.paddingLeft) -
+              Number.parseFloat(style.paddingRight) >=
+            1408
+          );
+        });
         await expect(programme).toHaveAttribute(
           'data-room-layout',
           String(roomColumnsFit)
@@ -38,6 +44,11 @@ test.describe('responsive public programme', () => {
           ].filter((element) => element.getClientRects().length);
           return {
             documentFits: document.documentElement.scrollWidth <= innerWidth,
+            fillsViewport:
+              Math.abs(
+                programme.getBoundingClientRect().width -
+                  document.documentElement.clientWidth
+              ) < 1,
             programmeFits: programme.scrollWidth <= programme.clientWidth + 1,
             roomLabelsMatchLayout: [
               ...programme.querySelectorAll<HTMLElement>('.programme-room'),
@@ -74,6 +85,7 @@ test.describe('responsive public programme', () => {
         });
         expect(geometry, `${locale} at ${width}px`).toEqual({
           documentFits: true,
+          fillsViewport: true,
           programmeFits: true,
           roomLabelsMatchLayout: true,
           allElementsFit: true,
