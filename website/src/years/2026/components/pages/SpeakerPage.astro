@@ -25,7 +25,7 @@ const biography = await renderProgrammeMarkdown(speaker.biography);
     </section>
   </div>
   <section class="border-t-2 border-dashed border-conference-outline/25 pt-8">
-    <h2 class="ideal-heading mb-6 text-2xl font-black text-conference-ink sm:text-3xl">{copy.speakerSessions}</h2>
+    <h2 class="font-sans mb-6 text-2xl font-black text-conference-ink sm:text-3xl">{copy.speakerSessions}</h2>
     <div class="grid gap-5">
       {speaker.sessions.map((session) => <article class="min-w-0 rounded-2xl border-2 border-conference-outline bg-conference-paper p-5 shadow-conference-card sm:p-6">
         <p class="mb-3 text-xs font-black text-conference-blue">{formatProgrammeDate(session.date, locale)} · {session.startTime}–{session.endTime} (UTC+8)</p>

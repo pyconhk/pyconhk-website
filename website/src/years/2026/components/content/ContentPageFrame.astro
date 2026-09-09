@@ -11,7 +11,7 @@ const { locale, title, description = `${title} | PyCon HK 2026`, lang, titleLang
     <div class="mx-auto max-w-5xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10 lg:p-12">
       <header class="mb-8 space-y-4 text-center">
         <span class="inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-paper px-3.5 py-1 text-xs font-black text-conference-ink shadow-conference-control"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#d71920]" />PyCon HK 2026</span>
-        <h1 lang={titleLang} class="font-operetta-32 text-[clamp(1.375rem,7vw,1.875rem)] font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl">{title}</h1>
+        <h1 lang={titleLang} class="font-sans text-[clamp(1.375rem,7vw,1.875rem)] font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl">{title}</h1>
       </header>
       <div class="space-y-6 text-base leading-relaxed text-conference-body"><slot /></div>
     </div>

@@ -45,6 +45,7 @@ for (const nativeTransitions of [true, false]) {
   test(`page navigation stays interactive with native transitions ${nativeTransitions}`, async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.addInitScript((native) => {
       const state = { transitions: 0, animations: [] as string[] };

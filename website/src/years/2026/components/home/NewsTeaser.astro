@@ -5,7 +5,7 @@ import { newsMessages } from '@/years/2026/i18n/news';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props {
-  locale: CfpLocale;
+locale: CfpLocale;
 }
 
 const { locale } = Astro.props;
@@ -13,19 +13,19 @@ const articles = await getLatestPosts(3, 2026, locale);
 const copy = newsMessages[locale];
 ---
 
-  <section id="news" class="bg-conference-paper px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="news-title">
-    <div class="mx-auto max-w-6xl">
-      <h2 id="news-title" class="text-center text-3xl font-black text-conference-ink sm:text-4xl">{copy.title}</h2>
-      <div class="mx-auto mt-5 flex h-1 w-24" aria-hidden="true"><span class="flex-1 bg-[#d71920]"></span><span class="flex-1 bg-white"></span><span class="flex-1 bg-[#2f559a]"></span></div>
-      {articles.length > 0 ? (
-        <div data-news-articles class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map(article => <NewsCard article={article} locale={locale} />)}
-        </div>
-      ) : (
-        <p data-news-empty class="mx-auto mt-8 max-w-2xl text-center text-base leading-relaxed text-conference-body sm:text-lg">{copy.empty}</p>
-      )}
-      <div class="mt-8 text-center">
-        <a data-astro-prefetch="viewport" href={`/2026/${locale}/news/`} class="font-bold text-conference-blue underline underline-offset-4">{copy.allNews} <span aria-hidden="true">→</span></a>
+<section id="news" class="bg-conference-paper px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="news-title">
+  <div class="mx-auto max-w-6xl">
+    <h2 id="news-title" class="font-sans text-center text-3xl font-black text-conference-ink sm:text-4xl">{copy.title}</h2>
+    <div class="mx-auto mt-5 flex h-1 w-24" aria-hidden="true"><span class="flex-1 bg-[#d71920]"></span><span class="flex-1 bg-white"></span><span class="flex-1 bg-[#2f559a]"></span></div>
+    {articles.length > 0 ? (
+      <div data-news-articles class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {articles.map(article => <NewsCard article={article} locale={locale} />)}
       </div>
+    ) : (
+      <p data-news-empty class="mx-auto mt-8 max-w-2xl text-center text-base leading-relaxed text-conference-body sm:text-lg">{copy.empty}</p>
+    )}
+    <div class="mt-8 text-center">
+      <a data-astro-prefetch="viewport" href={`/2026/${locale}/news/`} class="font-bold text-conference-blue underline underline-offset-4">{copy.allNews} <span aria-hidden="true">→</span></a>
     </div>
-  </section>
+  </div>
+</section>

@@ -13,7 +13,7 @@ const copy = scheduleCopy[Astro.props.locale];
     <form method="dialog"><button type="submit" class="rounded-xl border-2 border-conference-outline bg-conference-surface px-3 py-2 text-sm font-bold" aria-label={copy.close}>{copy.close}</button></form>
   </div>
   <div data-modal-body class="space-y-5 p-5">
-    <h2 id="modal-session-title" class="ideal-heading text-2xl font-black leading-snug sm:text-3xl">{copy.details}</h2>
+    <h2 id="modal-session-title" class="font-sans text-2xl font-black leading-snug sm:text-3xl">{copy.details}</h2>
     <dl class="grid gap-4 rounded-2xl border-2 border-dashed border-conference-outline/25 bg-conference-paper p-4 text-sm sm:grid-cols-2">
       <div><dt class="font-bold text-conference-muted">{copy.time}</dt><dd id="modal-time"></dd></div>
       <div><dt class="font-bold text-conference-muted">{copy.room}</dt><dd id="modal-room"></dd></div>
