@@ -14,7 +14,7 @@ const { locale, title, subtitle, intro, wide = false } = Astro.props;
           <span class="h-2 w-2 shrink-0 rounded-full bg-[#d71920]" aria-hidden="true" />
           <span>{subtitle}</span>
         </div>
-        <h1 class="font-operetta-32 text-3xl font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl lg:text-6xl">{title}</h1>
+        <h1 class="font-operetta-32 text-[clamp(1.375rem,7vw,1.875rem)] font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl lg:text-6xl">{title}</h1>
         {intro && <p class="mx-auto max-w-2xl text-sm font-medium leading-relaxed text-conference-body sm:text-base">{intro}</p>}
       </header>
       <slot />
