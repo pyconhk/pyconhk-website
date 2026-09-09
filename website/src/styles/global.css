@@ -43,6 +43,18 @@
   }
 }
 
+html[data-site-year="2025"] {
+  --font-sans:
+    "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Noto Sans CJK TC",
+    "Microsoft JhengHei", sans-serif;
+  --font-display:
+    "Lexend", "Montserrat", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "PingFang HK", "PingFang TC",
+    "Hiragino Sans GB", "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
+  --font-serif: var(--font-sans);
+}
+
 .ideal-heading,
 .font-ideal {
   font-family:
