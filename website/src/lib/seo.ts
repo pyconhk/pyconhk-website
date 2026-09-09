@@ -3,6 +3,7 @@ import {
   archiveSocialImagePaths,
   currentConferenceYear,
   defaultLocale,
+  getSocialImagePath,
   type SiteLocale,
   siteUrl,
   socialImagePath,
@@ -171,7 +172,7 @@ function getDefaultSocialImagePath(parsedPath: ParsedLocalizedPath | null): stri
     return archiveSocialImagePaths[archiveConferenceYear] ?? socialImagePath;
   }
 
-  return socialImagePath;
+  return getSocialImagePath(parsedPath.locale);
 }
 
 export function buildCanonicalPath(pathname: string): string {
@@ -248,5 +249,14 @@ export function buildSeoMetadata({ pathname, imagePath }: SeoMetadataInput) {
 }
 
 export function toOpenGraphLocale(htmlLang: string): string {
-  return htmlLang.replaceAll('-', '_');
+  const locales: Record<string, string> = {
+    en: 'en_HK',
+    'zh-HK': 'zh_HK',
+    'zh-Hant-HK': 'zh_HK',
+    'zh-Hant': 'zh_TW',
+    'zh-Hans': 'zh_CN',
+    ja: 'ja_JP',
+    ko: 'ko_KR',
+  };
+  return locales[htmlLang] ?? htmlLang.replaceAll('-', '_');
 }

@@ -1,5 +1,4 @@
 ---
-import { getConferenceContent } from '@/lib/conference-content';
 import FeaturedSpeakers from '@/years/2026/components/home/FeaturedSpeakers.astro';
 import HomeHero from '@/years/2026/components/home/HomeHero.astro';
 import JoinUsSection from '@/years/2026/components/home/JoinUsSection.astro';
@@ -15,11 +14,10 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getTranslations(locale);
-const { event } = getConferenceContent(locale);
 ---
 
 <ConferenceLayout
-  title={event.status === 'published' ? `${event.title} | ${event.theme}` : t.meta.title}
+  title={t.meta.title}
   description={t.meta.description}
   locale={locale}
   fullScreenSections

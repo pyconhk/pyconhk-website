@@ -76,7 +76,46 @@ test('serves 2026 locale slash aliases without Astro interstitials', async ({
   );
 });
 
-for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+const shareLocales = [
+  {
+    locale: 'en',
+    ogLocale: 'en_HK',
+    title: 'Ride and Leverage with AI',
+    description: 'PyCon Hong Kong 2026',
+  },
+  {
+    locale: 'zh-hk',
+    ogLocale: 'zh_HK',
+    title: 'Ride and Leverage with AI 乘風破浪 智領未來',
+    description: '香港 Python 年會',
+  },
+  {
+    locale: 'zh-hant',
+    ogLocale: 'zh_TW',
+    title: 'Ride and Leverage with AI 乘風破浪 智領未來',
+    description: '香港 Python 年會',
+  },
+  {
+    locale: 'zh-hans',
+    ogLocale: 'zh_CN',
+    title: 'Ride and Leverage with AI 乘风破浪 智领未来',
+    description: '香港 Python 年会',
+  },
+  {
+    locale: 'ja',
+    ogLocale: 'ja_JP',
+    title: '香港の Python カンファレンス',
+    description: '香港の中心で',
+  },
+  {
+    locale: 'ko',
+    ogLocale: 'ko_KR',
+    title: '홍콩 Python 콘퍼런스',
+    description: '홍콩의 중심에서',
+  },
+];
+
+for (const { locale, ogLocale, title, description } of shareLocales) {
   test(`shares current conference metadata for ${locale} on the configured origin`, async ({
     request,
   }) => {
@@ -88,15 +127,25 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     expect(html).toContain(`<link rel="canonical" href="${canonicalUrl}">`);
     expect(html).toContain(`<meta property="og:url" content="${canonicalUrl}">`);
     expect(html).toContain(
-      '<meta property="og:title" content="PyCon HK 2026 | Ride and Leverage with AI">'
+      `<meta property="og:title" content="PyCon HK 2026 | ${title}">`
+    );
+    expect(html).toContain(`<meta property="og:locale" content="${ogLocale}">`);
+    for (const attribute of [
+      'property="og:description"',
+      'name="twitter:description"',
+    ]) {
+      const content = html.match(
+        new RegExp(`<meta ${attribute} content="([^"]*)">`)
+      )?.[1];
+      expect(content).toContain(description);
+    }
+    expect(html).toContain(
+      `<meta property="og:image" content="${siteOrigin}/2026/share/${locale}.png">`
     );
     expect(html).toContain(
-      `<meta property="og:image" content="${siteOrigin}/2026/conference-share.png">`
+      `<meta name="twitter:image" content="${siteOrigin}/2026/share/${locale}.png">`
     );
-    expect(html).toContain(
-      `<meta name="twitter:image" content="${siteOrigin}/2026/conference-share.png">`
-    );
-    const image = await request.get('/2026/conference-share.png');
+    const image = await request.get(`/2026/share/${locale}.png`);
     expect(image.ok()).toBeTruthy();
     expect(image.headers()['content-type']).toContain('image/png');
     const bytes = await image.body();
