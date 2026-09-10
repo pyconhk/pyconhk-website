@@ -48,14 +48,17 @@ test('visible supporter artwork stays centered across layouts and themes', async
           let top = canvas.height;
           let right = -1;
           let bottom = -1;
+          let whitePixels = 0;
           const centerDarkArtwork = image.src.endsWith('/pyladies_tokyo.webp');
           for (let y = 0; y < canvas.height; y++) {
             for (let x = 0; x < canvas.width; x++) {
               const pixel = (y * canvas.width + x) * 4;
               // Inspect the clearly visible mark, independently of its CSS frame.
               if (pixels[pixel + 3] < 128) continue;
-              // Tokyo's white sakura blends into the cream plate. Check the
-              // contrasting wordmark and face, not the decorative white petals.
+              if (Math.min(pixels[pixel], pixels[pixel + 1], pixels[pixel + 2]) > 230)
+                whitePixels++;
+              // Tokyo's original composition centers its wordmark and face;
+              // the decorative white petals intentionally extend to the left.
               if (
                 centerDarkArtwork &&
                 Math.min(pixels[pixel], pixels[pixel + 1], pixels[pixel + 2]) > 180
@@ -78,6 +81,10 @@ test('visible supporter artwork stays centered across layouts and themes', async
             rect.y + ((top + bottom + 1) / 2 / canvas.height) * rect.height;
           return {
             name: image.alt,
+            file: new URL(image.src).pathname.split('/').pop(),
+            background: getComputedStyle(plateElement).backgroundColor,
+            backgroundImage: getComputedStyle(plateElement).backgroundImage,
+            whiteCoverage: whitePixels / (canvas.width * canvas.height),
             hasArtwork: right >= left,
             offsetX: Math.abs(centerX - (plate.x + plate.width / 2)),
             offsetY: Math.abs(centerY - (plate.y + plate.height / 2)),
@@ -85,6 +92,24 @@ test('visible supporter artwork stays centered across layouts and themes', async
           };
         });
         expect(visible.hasArtwork, visible.name).toBe(true);
+        if (visible.file === 'DimSumLab.webp')
+          expect(
+            visible.whiteCoverage,
+            'Dim Sum Labs retains its white artwork'
+          ).toBeGreaterThan(0.2);
+        if (visible.file === 'pyladies_tokyo.webp') {
+          expect(visible.backgroundImage).toBe(
+            'linear-gradient(rgb(248, 200, 202), rgb(255, 213, 212))'
+          );
+        } else {
+          const backgrounds: Record<string, string> = {
+            'codeaholics.webp': 'rgb(0, 0, 0)',
+            'DimSumLab.webp': 'rgb(225, 31, 48)',
+          };
+          expect(visible.background, `${visible.name}: ${theme}`).toBe(
+            backgrounds[visible.file ?? ''] ?? 'rgb(255, 255, 255)'
+          );
+        }
         expect(visible.contained, visible.name).toBe(true);
         expect(visible.offsetX, `${visible.name}: ${width} ${theme}`).toBeLessThan(4);
         expect(visible.offsetY, `${visible.name}: ${width} ${theme}`).toBeLessThan(4);

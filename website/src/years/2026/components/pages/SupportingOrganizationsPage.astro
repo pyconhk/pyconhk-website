@@ -13,6 +13,12 @@ const { locale } = Astro.props;
 const { organizations } = getConferenceContent(locale);
 const items = organizations.items.filter((item) => item.kind === 'supporter');
 const copy = pageCopyByLocale[locale];
+// Match the supplied artwork before background removal (see the asset README).
+const logoBackgrounds: Record<string, string> = {
+  '/2026/supporting-organizations/codeaholics.webp': '#000000',
+  '/2026/supporting-organizations/DimSumLab.webp': '#e11f30',
+  '/2026/supporting-organizations/pyladies_tokyo.webp': 'linear-gradient(#f8c8ca, #ffd5d4)',
+};
 ---
 <CommunityPageFrame locale={locale} title={copy.title} subtitle={copy.subtitle} intro={copy.intro} wide framed={false}>
   {organizations.status !== 'published' || items.length === 0 ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
@@ -22,7 +28,7 @@ const copy = pageCopyByLocale[locale];
         return <article class="group relative isolate flex min-w-0 flex-col overflow-hidden rounded-2xl border border-conference-outline/40 bg-conference-surface shadow-conference-card motion-reduce:transition-none">
           <WovenCardCorners />
           <div class="px-7 pt-10 sm:px-8">
-            <Tag href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined} aria-label={item.url ? `${copy.visitWebsite}: ${item.name}` : undefined} class="organization-logo-plate relative flex h-48 w-full items-center justify-center rounded-lg p-5 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+            <Tag href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined} aria-label={item.url ? `${copy.visitWebsite}: ${item.name}` : undefined} style={logoBackgrounds[item.logo] ? `--organization-logo-background: ${logoBackgrounds[item.logo]}` : undefined} class="organization-logo-plate relative flex h-48 w-full items-center justify-center rounded-lg p-5 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
               {item.logo && <OrganizationLogo src={item.logo} alt={item.name} />}
             </Tag>
           </div>
@@ -38,5 +44,5 @@ const copy = pageCopyByLocale[locale];
 </CommunityPageFrame>
 
 <style>
-  .organization-logo-plate { background: var(--conference-logo-plate); color-scheme: light; }
+  .organization-logo-plate { background: var(--organization-logo-background, var(--conference-logo-plate)); color-scheme: light; }
 </style>
