@@ -59,7 +59,7 @@ html[data-site-year="2026"]
 [data-conference-site] {
   color-scheme: light;
   --conference-paper: #faf7f0;
-  --conference-logo-plate: #faf7f0;
+  --conference-logo-plate: #fff;
   --conference-surface: #fff;
   --conference-soft: #f8fafc;
   --conference-ink: #172033;
