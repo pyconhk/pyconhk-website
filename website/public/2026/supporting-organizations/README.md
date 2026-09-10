@@ -4,6 +4,15 @@ Keep original artwork and transparency. Use original SVGs where available;
 increasing a raster's dimensions does not recover detail. The page measures the
 visible mark at build time so transparent canvas padding does not affect centering.
 
+The page restores the supplied artwork's colored backgrounds behind the
+transparent assets: Codeaholics black (`#000000`), Dim Sum Labs red (`#e11f30`),
+and PyLadies Tokyo pink (a gradient using sampled top/bottom colors `#f8c8ca`
+and `#ffd5d4`). These colors come from the original files in `ae8a258^`, before
+background removal. Keep these plates the same in both themes; do not flatten
+every organization's background to white or recolor the artwork itself.
+Dim Sum Labs was recut from that original using only an edge-connected red
+background mask, preserving the white square, lettering, and original RGB pixels.
+
 Sources refreshed in September 2026:
 
 | Asset | Original source | Resolution |
