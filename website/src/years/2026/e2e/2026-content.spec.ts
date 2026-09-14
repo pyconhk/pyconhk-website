@@ -52,11 +52,11 @@ test('meeting updates expose confirmed content and keep unavailable patron forms
   }
 });
 
-test('visible supporter artwork stays centered across layouts and themes', async ({
-  page,
-}) => {
-  test.setTimeout(90_000);
-  for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
+for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
+  test(`visible supporter artwork stays centered at ${width}px in both themes`, async ({
+    page,
+  }) => {
+    test.setTimeout(60_000);
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/2026/en/supporting-organizations/');
     for (const theme of ['light', 'dark']) {
@@ -153,8 +153,8 @@ test('visible supporter artwork stays centered across layouts and themes', async
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
       ).toBe(true);
     }
-  }
-});
+  });
+}
 
 test('wide supporter logos fill their plates and OSHK stays square', async ({
   page,
