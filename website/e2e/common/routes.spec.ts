@@ -27,18 +27,18 @@ const redirectChecks = [
 const criticalPages = [
   {
     path: '/',
-    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
-    text: /Ride and Leverage with AI/u,
+    title: /PyCon HK 2026 \| Code, Connect and Carry On/,
+    text: /Code, Connect and Carry On/u,
   },
   {
     path: '/en/',
-    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
-    text: /Ride and Leverage with AI/u,
+    title: /PyCon HK 2026 \| Code, Connect and Carry On/,
+    text: /Code, Connect and Carry On/u,
   },
   {
     path: '/zh-hk/',
-    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
-    text: /Ride and Leverage with AI/u,
+    title: /PyCon HK 2026 \| 編程・連結・前行/,
+    text: /編程・連結・前行/u,
   },
   {
     path: '/news/pre-event-notice/',
@@ -54,9 +54,9 @@ test('serves neutral entry pages as the current conference homepage', async ({
   await context.clearCookies();
   await page.goto('/');
   expect(new URL(page.url()).pathname).toBe('/2026/en');
-  await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
+  await expect(page).toHaveTitle(/PyCon HK 2026 \| Code, Connect and Carry On/);
   await expect(
-    page.getByRole('heading', { name: /Ride and Leverage with AI/u })
+    page.getByRole('heading', { name: /Code, Connect and Carry On/u })
   ).toBeVisible();
 
   await context.clearCookies();
@@ -70,17 +70,17 @@ test('serves neutral entry pages as the current conference homepage', async ({
   ]);
   await page.goto('/');
   expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
-  await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
+  await expect(page).toHaveTitle(/PyCon HK 2026 \| 編程・連結・前行/);
   await expect(
-    page.getByRole('heading', { name: /Ride and Leverage with AI/u })
+    page.getByRole('heading', { name: /編程・連結・前行/u })
   ).toBeVisible();
 
   await context.clearCookies();
   await page.goto('/2026/');
   expect(new URL(page.url()).pathname).toBe('/2026/en');
-  await expect(page).toHaveTitle(/PyCon HK 2026 \| Ride and Leverage with AI/);
+  await expect(page).toHaveTitle(/PyCon HK 2026 \| Code, Connect and Carry On/);
   await expect(
-    page.getByRole('heading', { name: /Ride and Leverage with AI/u })
+    page.getByRole('heading', { name: /Code, Connect and Carry On/u })
   ).toBeVisible();
 });
 
