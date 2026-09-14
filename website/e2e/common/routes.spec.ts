@@ -71,9 +71,7 @@ test('serves neutral entry pages as the current conference homepage', async ({
   await page.goto('/');
   expect(new URL(page.url()).pathname).toBe('/2026/zh-hk');
   await expect(page).toHaveTitle(/PyCon HK 2026 \| 編程・連結・前行/);
-  await expect(
-    page.getByRole('heading', { name: /編程・連結・前行/u })
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: /編程・連結・前行/u })).toBeVisible();
 
   await context.clearCookies();
   await page.goto('/2026/');
