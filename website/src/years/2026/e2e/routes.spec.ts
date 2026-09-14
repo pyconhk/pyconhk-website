@@ -20,13 +20,13 @@ const redirectChecks = [
 const criticalPages = [
   {
     path: '/2026/',
-    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
-    text: /Ride and Leverage with AI/u,
+    title: /PyCon HK 2026 \| Code, Connect and Carry On/,
+    text: /Code, Connect and Carry On/u,
   },
   {
     path: '/2026/en/',
-    title: /PyCon HK 2026 \| Ride and Leverage with AI/,
-    text: /Ride and Leverage with AI/u,
+    title: /PyCon HK 2026 \| Code, Connect and Carry On/,
+    text: /Code, Connect and Carry On/u,
   },
 ];
 for (const check of redirectChecks) {
@@ -80,38 +80,38 @@ const shareLocales = [
   {
     locale: 'en',
     ogLocale: 'en_HK',
-    title: 'Ride and Leverage with AI',
-    description: 'PyCon Hong Kong 2026',
+    title: 'Code, Connect and Carry On',
+    description: 'A spirited gathering',
   },
   {
     locale: 'zh-hk',
     ogLocale: 'zh_HK',
-    title: 'Ride and Leverage with AI 乘風破浪 智領未來',
-    description: '香港 Python 年會',
+    title: '編程・連結・前行',
+    description: '匯聚 Python 社群',
   },
   {
     locale: 'zh-hant',
     ogLocale: 'zh_TW',
-    title: 'Ride and Leverage with AI 乘風破浪 智領未來',
-    description: '香港 Python 年會',
+    title: '編程・連結・前行',
+    description: '匯聚 Python 社群',
   },
   {
     locale: 'zh-hans',
     ogLocale: 'zh_CN',
-    title: 'Ride and Leverage with AI 乘风破浪 智领未来',
-    description: '香港 Python 年会',
+    title: '编程・连接・前行',
+    description: '汇聚 Python 社群',
   },
   {
     locale: 'ja',
     ogLocale: 'ja_JP',
-    title: '香港の Python カンファレンス',
-    description: '香港の中心で',
+    title: 'コードを書き、つながり、前へ',
+    description: '人間中心の AI 時代',
   },
   {
     locale: 'ko',
     ogLocale: 'ko_KR',
-    title: '홍콩 Python 콘퍼런스',
-    description: '홍콩의 중심에서',
+    title: '코딩하고, 연결하고, 계속 나아가다',
+    description: '인간 중심의 AI 시대',
   },
 ];
 

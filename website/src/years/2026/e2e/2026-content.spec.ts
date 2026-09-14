@@ -2,21 +2,55 @@ import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
-const pendingRoutes = [
-  'access-guide',
-  'catering-guide',
-  'sprint',
-  'sprint/qna',
-  'sponsorships',
-  'sponsorships/patrons',
-];
+const pendingRoutes = ['catering-guide', 'sprint', 'sprint/qna'];
 
 const publishedRoutes = [
+  'access-guide',
+  'sponsorships',
+  'sponsorships/patrons',
   'about',
   'organizers',
   'supporting-organizations',
   'volunteers',
 ];
+
+test('meeting updates expose confirmed content and keep unavailable patron forms inactive', async ({
+  page,
+}) => {
+  for (const locale of locales) {
+    await page.goto(`/2026/${locale}/supporting-organizations/`);
+    const supporters = page.locator('[data-conference-content="supporters"]');
+    await expect(
+      supporters.getByRole('heading', { name: 'HKU Computer Science Association' })
+    ).toBeVisible();
+    await expect(supporters).not.toContainText('City University');
+    await expect(supporters.locator('p:not([lang="en"])')).toHaveCount(0);
+    for (const href of [
+      'https://www.meetup.com/producttank-hong-kong/',
+      'https://pyladies.kr/en/',
+      'https://wtmhk.org/',
+    ]) {
+      expect(await supporters.locator(`a[href="${href}"]`).count()).toBeGreaterThan(0);
+    }
+    await page.goto(`/2026/${locale}/sponsorships/patrons/`);
+    await expect(page.locator('[data-conference-content="patrons"] li')).toHaveCount(4);
+    await expect(page.locator('[data-patron-form-pending]')).toBeVisible();
+    await expect(page.locator('[data-patron-application]')).toHaveCount(0);
+    await expect(page.locator('main')).not.toContainText('[Name]');
+    await page.goto(`/2026/${locale}/sponsorships/`);
+    const sponsors = page.locator('[data-conference-content="sponsors"]');
+    for (const name of ['Navicat', 'JetBrains', 'LIHKG'])
+      await expect(sponsors.getByRole('heading', { name, exact: true })).toBeVisible();
+    await expect(
+      sponsors.getByRole('heading', { name: 'CaLoMei Studio', exact: true })
+    ).toHaveCount(2);
+    await expect(sponsors).not.toContainText('Apify');
+    await page.goto(`/2026/${locale}/access-guide/`);
+    await expect(page.locator('[data-conference-content="venue"]')).toContainText(
+      'HKIIT'
+    );
+  }
+});
 
 test('visible supporter artwork stays centered across layouts and themes', async ({
   page,
@@ -103,6 +137,7 @@ test('visible supporter artwork stays centered across layouts and themes', async
           );
         } else {
           const backgrounds: Record<string, string> = {
+            'hku-csa.png': 'rgb(0, 0, 0)',
             'codeaholics.webp': 'rgb(0, 0, 0)',
             'DimSumLab.webp': 'rgb(225, 31, 48)',
           };
@@ -236,7 +271,7 @@ test('registration is pending and calendar uses the actual 2026 event dates', as
   expect(href.hostname).toBe('calendar.google.com');
   expect(href.searchParams.get('dates')).toBe('20261114/20261116');
   expect(href.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
-  await expect(page.locator('[data-published-sponsors]')).toHaveCount(0);
+  await expect(page.locator('[data-published-sponsors]')).toBeVisible();
 });
 
 test('mobile navigation opens a real access guide route', async ({ page }) => {
@@ -260,7 +295,16 @@ test('CFP is closed and uses the current conference theme in every locale', asyn
     await page.goto(`/2026/${locale}/cfp/`);
     await expect(page.locator('[data-cfp-closed]').first()).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'Ride and Leverage with AI'
+      (
+        {
+          en: 'Code, Connect and Carry On',
+          'zh-hk': '編程・連結・前行',
+          'zh-hant': '編程・連結・前行',
+          'zh-hans': '编程・连接・前行',
+          ja: 'コードを書き、つながり、前へ',
+          ko: '코딩하고, 연결하고, 계속 나아가다',
+        } as Record<string, string>
+      )[locale]
     );
     await expect(
       page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')

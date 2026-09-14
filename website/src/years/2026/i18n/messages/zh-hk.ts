@@ -2,9 +2,9 @@ import type { HomeMessages } from '@/years/2026/i18n/schema';
 
 export const zhHk: HomeMessages = {
   meta: {
-    title: 'PyCon HK 2026 | Ride and Leverage with AI 乘風破浪 智領未來',
+    title: 'PyCon HK 2026 | 編程・連結・前行',
     description:
-      '香港 Python 年會 PyCon HK 2026 — 匯聚 Python 社群、創新思維與開源力量，在香港核心啟動技術盛會。',
+      '匯聚 Python 社群、創新思維、與邁向以人為本 AI 時代的開源力量，於香港舉辦一場充滿活力的技術盛會。',
   },
   nav: {
     brand: 'PyCon HK 2026',
@@ -19,10 +19,10 @@ export const zhHk: HomeMessages = {
   },
   hero: {
     badge: 'HONG KONG · NOV 2026',
-    headline: 'Ride and Leverage with AI',
-    headlineAccent: '乘風破浪 智領未來',
+    headline: '編程・連結・前行',
+    headlineAccent: '',
     subheadline:
-      '匯聚 Python 社群、創新思維與開源力量，在香港核心啟動一場充滿活力的技術盛會。',
+      '匯聚 Python 社群、創新思維、與邁向以人為本 AI 時代的開源力量，於香港舉辦一場充滿活力的技術盛會。',
     registerCta: '立即報名',
     calendarCta: '加入行事曆',
     whenLabel: '日期',
@@ -84,7 +84,7 @@ export const zhHk: HomeMessages = {
   },
   joinUs: {
     sprintDescription:
-      '一起動手開發 Python 專案、交流想法，為開源出一分力。了解 Sprint 開發日及參與方式。',
+      '一起動手開發 Python 專案、交流想法，為開源出一分力。了解 衝刺開發日及參與方式。',
     sponsorDescription:
       '支持香港 Python 社群，讓更多人交流與學習。查看贊助方案，了解你的機構可以如何參與。',
     eyebrow: '加入我們 JOIN US',

@@ -4,9 +4,9 @@ import { zhHk } from './zh-hk';
 export const zhHant: HomeMessages = {
   ...zhHk,
   meta: {
-    title: 'PyCon HK 2026 | Ride and Leverage with AI 乘風破浪 智領未來',
+    title: 'PyCon HK 2026 | 編程・連結・前行',
     description:
-      '香港 Python 年會 PyCon HK 2026 — 匯聚 Python 社群、創新思維與開源力量，在香港核心啟動技術盛會。',
+      '匯聚 Python 社群、創新思維、與邁向以人為本 AI 時代的開源力量，於香港舉辦一場充滿活力的技術盛會。',
   },
   hongKongThread: {
     ...zhHk.hongKongThread,

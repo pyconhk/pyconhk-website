@@ -132,6 +132,16 @@ export const conferenceContentSchema = z
     patrons: z
       .object({
         status,
+        whyTitle: text,
+        intro: text,
+        benefits: strings,
+        joiningTitle: text,
+        joining: text,
+        buttonLabel: text,
+        registrationUrl: url,
+        pendingMessage: text,
+        thanksTitle: text,
+        thanks: text,
         items: z.array(z.object({ id, name: text }).strict()).default([]),
       })
       .strict(),
@@ -263,7 +273,7 @@ export const conferenceContentSchema = z
     } as const;
     for (const section of Object.keys(itemFields) as (keyof typeof itemFields)[]) {
       if (content[section].status !== 'published') continue;
-      if (content[section].items.length === 0) {
+      if (content[section].items.length === 0 && section !== 'patrons') {
         context.addIssue({
           code: 'custom',
           path: [section, 'items'],
@@ -280,6 +290,22 @@ export const conferenceContentSchema = z
           ]);
         }
       });
+    }
+    if (content.patrons.status === 'published') {
+      for (const field of [
+        'whyTitle',
+        'intro',
+        'joiningTitle',
+        'joining',
+        'buttonLabel',
+        'thanksTitle',
+        'thanks',
+      ] as const) {
+        requireText(content.patrons[field], ['patrons', field]);
+      }
+      if (!content.patrons.registrationUrl)
+        requireText(content.patrons.pendingMessage, ['patrons', 'pendingMessage']);
+      if (!content.patrons.benefits.length) requireText('', ['patrons', 'benefits']);
     }
   });
 
@@ -344,6 +370,7 @@ function sharedSectionValues(
     tickets: ['url'],
     venue: ['mapImage', 'mapUrl'],
     sprint: ['date', 'registrationUrl'],
+    patrons: ['registrationUrl'],
   };
   function listIdentity(items: unknown, path: string): unknown {
     if (!Array.isArray(items)) return undefined;
@@ -358,6 +385,9 @@ function sharedSectionValues(
         );
       ids.add(identifier);
       return Object.fromEntries([
+        ...(section === 'organizations' && record.kind === 'supporter'
+          ? [['description', record.description]]
+          : []),
         ...['id', 'url', 'logo', 'image', 'kind', 'tier', 'fee', 'maxSlots']
           .filter((field) => field in record)
           .map((field) => [field, record[field]]),

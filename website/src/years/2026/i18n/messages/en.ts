@@ -2,9 +2,9 @@ import type { HomeMessages } from '@/years/2026/i18n/schema';
 
 export const en: HomeMessages = {
   meta: {
-    title: 'PyCon HK 2026 | Ride and Leverage with AI',
+    title: 'PyCon HK 2026 | Code, Connect and Carry On',
     description:
-      'PyCon Hong Kong 2026 — A spirited gathering for Python people, ideas, and open-source possibility right in the heart of Hong Kong.',
+      'A spirited gathering for Python people, ideas, and open-source possibilities in the human-centered AI era — right in the heart of Hong Kong.',
   },
   nav: {
     brand: 'PyCon HK 2026',
@@ -19,10 +19,10 @@ export const en: HomeMessages = {
   },
   hero: {
     badge: 'HONG KONG · NOV 2026',
-    headline: 'Ride and Leverage with AI',
+    headline: 'Code, Connect and Carry On',
     headlineAccent: '',
     subheadline:
-      'A spirited gathering for Python people, ideas, and open-source possibility — right in the heart of Hong Kong.',
+      'A spirited gathering for Python people, ideas, and open-source possibilities in the human-centered AI era — right in the heart of Hong Kong.',
     registerCta: 'Register now',
     calendarCta: 'Add to calendar',
     whenLabel: 'WHEN',

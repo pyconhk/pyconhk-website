@@ -2,9 +2,9 @@ import type { HomeMessages } from '@/years/2026/i18n/schema';
 
 export const ko: HomeMessages = {
   meta: {
-    title: 'PyCon HK 2026 | 홍콩 Python 콘퍼런스',
+    title: 'PyCon HK 2026 | 코딩하고, 연결하고, 계속 나아가다',
     description:
-      'PyCon Hong Kong 2026 — 홍콩의 중심에서 열리는 Python 커뮤니티, 혁신적인 아이디어, 오픈소스 가능성을 위한 축제.',
+      '인간 중심의 AI 시대, Python 커뮤니티와 아이디어, 오픈 소스의 가능성이 홍콩의 중심에서 만나는 활기찬 기술 행사입니다.',
   },
   nav: {
     brand: 'PyCon HK 2026',
@@ -19,10 +19,10 @@ export const ko: HomeMessages = {
   },
   hero: {
     badge: 'HONG KONG · NOV 2026',
-    headline: 'Ride and Leverage with AI',
+    headline: '코딩하고, 연결하고, 계속 나아가다',
     headlineAccent: '',
     subheadline:
-      '홍콩의 중심에서 열리는 Python 커뮤니티, 혁신적인 아이디어, 오픈소스 가능성을 위한 활기찬 기술 축제입니다.',
+      '인간 중심의 AI 시대, Python 커뮤니티와 아이디어, 오픈 소스의 가능성이 홍콩의 중심에서 만나는 활기찬 기술 행사입니다.',
     registerCta: '지금 등록하기',
     calendarCta: '캘린더에 추가',
     whenLabel: '일정',

@@ -122,7 +122,17 @@ export function createConferenceFields(): Field[] {
         ]),
       ]),
     ]),
-    section("patrons", "Confirmed patrons", [
+    section("patrons", "Personal support and patrons", [
+      text("whyTitle", "Why support us heading"),
+      text("intro", "Introduction", "text"),
+      list("benefits", "How personal support helps"),
+      text("joiningTitle", "How to join heading"),
+      text("joining", "How to join", "text"),
+      text("buttonLabel", "Application button label"),
+      shared("registrationUrl", "Confirmed HKCOTA application form URL"),
+      text("pendingMessage", "Message while the form is unavailable", "text"),
+      text("thanksTitle", "Acknowledgements heading"),
+      text("thanks", "Acknowledgements introduction", "text"),
       list("items", "Patrons", [text("name", "Name")]),
     ]),
     section("organizations", "Organizers and supporting organizations", [
@@ -138,7 +148,10 @@ export function createConferenceFields(): Field[] {
         },
         text("logo", "Logo", "image"),
         text("url", "Website URL"),
-        text("description", "Description", "text"),
+        {
+          ...text("description", "Description", "text"),
+          hint: "Supporting organization descriptions use the approved English text in every locale. Keep the English description identical across translations.",
+        },
       ]),
     ]),
     section("people", "Confirmed team and volunteers", [

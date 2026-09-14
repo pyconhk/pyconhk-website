@@ -242,7 +242,7 @@ test.describe('2026 conference locale switcher', () => {
 
     await page.goto('/2026/ja/cfp');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'Ride and Leverage with AI'
+      'コードを書き、つながり、前へ'
     );
     await expect(page.locator('[data-cfp-closed]').first()).toHaveText(
       'プロポーザル募集は終了しました'
@@ -259,7 +259,7 @@ test.describe('2026 conference locale switcher', () => {
 
     await page.goto('/2026/ko/cfp');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'Ride and Leverage with AI'
+      '코딩하고, 연결하고, 계속 나아가다'
     );
     await expect(page.locator('[data-cfp-closed]').first()).toHaveText(
       '발표 제안 모집 마감'

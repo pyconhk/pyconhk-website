@@ -82,9 +82,9 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'group',
     label: {
       en: 'Sprint',
-      'zh-hk': 'Sprint 開發聚會',
-      'zh-hant': 'Sprint 開發聚會',
-      'zh-hans': 'Sprint 开发聚会',
+      'zh-hk': '衝刺開發',
+      'zh-hant': '衝刺開發',
+      'zh-hans': '冲刺开发',
       ja: 'スプリント',
       ko: '스프린트',
     },
@@ -92,9 +92,9 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Sprint Day',
-          'zh-hk': 'Sprint 開發日',
-          'zh-hant': 'Sprint 開發日',
-          'zh-hans': 'Sprint 开发日',
+          'zh-hk': '衝刺開發日',
+          'zh-hant': '衝刺開發日',
+          'zh-hans': '冲刺开发日',
           ja: 'スプリントデー',
           ko: '스프린트 데이',
         },
@@ -103,9 +103,9 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Sprint Q&A',
-          'zh-hk': 'Sprint Q&A 常見問題',
-          'zh-hant': 'Sprint Q&A 常見問題',
-          'zh-hans': 'Sprint Q&A 常见问题',
+          'zh-hk': '衝刺開發常見問題',
+          'zh-hant': '衝刺開發常見問題',
+          'zh-hans': '冲刺开发常见问题',
           ja: 'スプリント Q&A',
           ko: '스프린트 Q&A',
         },
@@ -173,9 +173,9 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Patrons',
-          'zh-hk': '鳴謝贊助人',
-          'zh-hant': '鳴謝贊助人',
-          'zh-hans': '鸣谢赞助人',
+          'zh-hk': '個人贊助',
+          'zh-hant': '個人贊助',
+          'zh-hans': '个人赞助',
           ja: 'パトロン',
           ko: '개인 후원자',
         },

@@ -158,7 +158,7 @@ for (const width of [320, 390, 640, 768, 1024, 1280, 1920]) {
     await page.locator('[data-featured-speakers]').scrollIntoViewIfNeeded();
     for (const theme of ['light', 'dark']) {
       await setTheme(page, theme);
-      await expect(page.locator('#home h1')).toHaveText('Ride and Leverage with AI');
+      await expect(page.locator('#home h1')).toHaveText('Code, Connect and Carry On');
       for (const card of await page.locator('[data-featured-speaker]').all()) {
         await card.scrollIntoViewIfNeeded();
         await expect(card).toBeVisible();
@@ -211,8 +211,14 @@ for (const viewport of [
             id: section.id,
             height: box.height,
             minimum: Number.parseFloat(getComputedStyle(section).minHeight),
-            topGap: content.top - box.top,
-            bottomGap: box.bottom - content.bottom,
+            topGap:
+              content.top -
+              box.top -
+              Number.parseFloat(getComputedStyle(section).borderTopWidth),
+            bottomGap:
+              box.bottom -
+              content.bottom -
+              Number.parseFloat(getComputedStyle(section).borderBottomWidth),
           };
         }),
       }));
