@@ -22,6 +22,10 @@ Sources refreshed in September 2026:
 | `eduhk_math_it_dept.svg` | https://www.eduhk.hk/mit/assets/img/logo_mit.svg (official department header) | Native vector |
 | `aws_ug_hk.svg` | [2025 organizer-supplied original](https://drive.google.com/file/d/1SBHyTOONAoOX6qbW1z7AW95WEoY7nmtG/view) | Native vector |
 | `japan_rpi_ug.svg` | [2025 organizer-supplied original](https://drive.google.com/file/d/1NAqfH-DBMlognJBkowikup89FPplhW1a/view) | Native vector |
+| `hku-csa.png` | [2026 organizer-supplied original](https://drive.google.com/file/d/1NpYRPcc2ByNIRC0RoxV42Sk9T5etb8ns/view) | 2400 × 2200, transparent PNG |
+
+HKU CSA's supplied white artwork uses a black display plate in both themes.
+CityU CSSC is retained as an archive asset but is not listed among confirmed 2026 supporters.
 
 The previous WebPs remain available for existing image URLs. All six CMS
 locales and the fallback data use the new originals.

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="CaLoMei app icon">
+  <title>CaLoMei</title>
+  <defs>
+    <!-- warm charcoal-amber backdrop -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="72%">
+      <stop offset="0%"   stop-color="#6B3D10"/>
+      <stop offset="55%"  stop-color="#63390F"/>
+      <stop offset="100%" stop-color="#6E3F11"/>
+    </radialGradient>
+
+    <!-- dark vignette that carves the "bowl" out of the inner disc -->
+    <radialGradient id="vignette" cx="50%" cy="52%" r="52%">
+      <stop offset="0%"   stop-color="#63390E" stop-opacity="1"/>
+      <stop offset="62%"  stop-color="#63390E" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#63390E" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- neon amber glow (CAL-204: glow belongs to the ring + flame only) -->
+    <filter id="ringGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="26" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="b2"/>
+      </feMerge>
+    </filter>
+
+    <filter id="flameGlow" x="-60%" y="-45%" width="220%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30"/>
+    </filter>
+
+    <path id="flame" d="M512 353
+      C528 395 570 437 592 470
+      C606 492 609.5 515 609.5 540
+      C609.5 608 566 663 512 663
+      C458 663 414.5 608 414.5 540
+      C414.5 515 418 492 432 470
+      C454 437 496 395 512 353 Z"/>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <!-- inner disc: lighter brown, then darkened from the middle out so a bowl reads at the bottom -->
+  <circle cx="512" cy="512" r="377" fill="#6E4A1D"/>
+  <circle cx="512" cy="512" r="377" fill="url(#vignette)"/>
+
+  <!-- 270° calorie ring, open at the bottom -->
+  <g>
+    <path d="M242.6 699.9 A328.5 328.5 0 1 1 699.9 781.4"
+          fill="none" stroke="#FFC34B" stroke-width="97" stroke-linecap="round"
+          filter="url(#ringGlow)" opacity="0.85"/>
+    <path d="M242.6 699.9 A328.5 328.5 0 1 1 699.9 781.4"
+          fill="none" stroke="#FFC34B" stroke-width="97" stroke-linecap="round"/>
+  </g>
+
+  <!-- streak flame -->
+  <use href="#flame" fill="#FFC34B" opacity="0.7" filter="url(#flameGlow)"/>
+  <use href="#flame" fill="#FFC34B"/>
+  <path d="M512 503
+      C518 522 534 545 540 558
+      C545 568 547.5 576 547.5 585
+      C547.5 614 531 637 512 637
+      C493 637 476.5 614 476.5 585
+      C476.5 576 479 568 484 558
+      C490 545 506 522 512 503 Z" fill="#FFE69B"/>
+  <path d="M512 583
+      C515 597 522 604 523 612
+      C523 626 518 634 512 634
+      C506 634 501 626 501 612
+      C502 604 509 597 512 583 Z" fill="#FFF8D7"/>
+</svg>

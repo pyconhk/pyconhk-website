@@ -1,7 +1,7 @@
 import type { CfpLocale } from '@/years/2026/locales';
 
 export const conferenceYear = 2026 as const;
-export const conferenceTheme = 'Ride and Leverage with AI';
+export const conferenceTheme = 'Code, Connect and Carry On';
 export const conferenceDates = '14–15 November 2026';
 export const conferenceLocation = 'Hong Kong SAR';
 

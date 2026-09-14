@@ -2,9 +2,9 @@ import type { HomeMessages } from '@/years/2026/i18n/schema';
 
 export const ja: HomeMessages = {
   meta: {
-    title: 'PyCon HK 2026 | 香港の Python カンファレンス',
+    title: 'PyCon HK 2026 | コードを書き、つながり、前へ',
     description:
-      'PyCon Hong Kong 2026 — 香港の中心で、Python コミュニティ、革新的なアイデア、オープンソースの可能性を体験するカンファレンス。',
+      '人間中心の AI 時代に、Python の仲間、アイデア、オープンソースの可能性が香港の中心に集う、活気あふれるカンファレンス。',
   },
   nav: {
     brand: 'PyCon HK 2026',
@@ -19,10 +19,10 @@ export const ja: HomeMessages = {
   },
   hero: {
     badge: 'HONG KONG · NOV 2026',
-    headline: 'Ride and Leverage with AI',
+    headline: 'コードを書き、つながり、前へ',
     headlineAccent: '',
     subheadline:
-      '香港の中心で、Python コミュニティ、革新的なアイデア、オープンソースの可能性を体験するカンファレンス。',
+      '人間中心の AI 時代に、Python の仲間、アイデア、オープンソースの可能性が香港の中心に集う、活気あふれるカンファレンス。',
     registerCta: '今すぐ登録',
     calendarCta: 'カレンダーに追加',
     whenLabel: '日程',

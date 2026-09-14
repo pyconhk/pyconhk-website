@@ -3,7 +3,7 @@
   "event": {
     "status": "published",
     "title": "PyCon HK 2026",
-    "theme": "Ride and Leverage with AI",
+    "theme": "編程・連結・前行",
     "datesLabel": "2026 年 11 月 14–15 日",
     "startDate": "2026-11-14",
     "endDate": "2026-11-15"
@@ -15,11 +15,11 @@
     "description": ""
   },
   "venue": {
-    "status": "draft",
-    "title": "",
-    "address": "",
-    "description": "",
-    "directions": "",
+    "status": "published",
+    "title": "香港資訊科技學院（HKIIT）",
+    "address": "校園及地址稍後公布。",
+    "description": "PyCon HK 2026 會喺 HKIIT 舉行。校園、入口同課室安排會喺呢度公布。",
+    "directions": "校園確認後會補上交通及無障礙通道資料。",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -42,11 +42,67 @@
     "items": []
   },
   "sponsors": {
-    "status": "draft",
-    "items": []
+    "status": "published",
+    "items": [
+      {
+        "id": "navicat",
+        "name": "Navicat",
+        "tier": "Silver",
+        "logo": "/2026/sponsors/navicat.svg",
+        "url": "https://www.navicat.com/",
+        "description": ""
+      },
+      {
+        "id": "calomei-bronze",
+        "name": "CaLoMei Studio",
+        "tier": "Bronze",
+        "logo": "/2026/sponsors/calomei.svg",
+        "url": "https://www.calomei.com/",
+        "description": ""
+      },
+      {
+        "id": "jetbrains",
+        "name": "JetBrains",
+        "tier": "Prize Sponsor",
+        "logo": "/2026/sponsors/jetbrains.svg",
+        "url": "https://www.jetbrains.com/",
+        "description": ""
+      },
+      {
+        "id": "calomei-prize",
+        "name": "CaLoMei Studio",
+        "tier": "Prize Sponsor",
+        "logo": "/2026/sponsors/calomei.svg",
+        "url": "https://www.calomei.com/",
+        "description": ""
+      },
+      {
+        "id": "lihkg",
+        "name": "LIHKG",
+        "tier": "Media Sponsor",
+        "logo": "/2026/sponsors/lihkg.svg",
+        "url": "https://lihkg.com/",
+        "description": ""
+      }
+    ]
   },
   "patrons": {
-    "status": "draft",
+    "status": "published",
+    "whyTitle": "點解成為個人贊助人？",
+    "intro": "PyCon Hong Kong (PyCon HK) 係由義工籌辦嘅非牟利大會，致力推動香港同亞洲地區嘅 Python 同開源文化。你嘅個人贊助會直接幫助我哋：",
+    "benefits": [
+      "維持免費或可負擔嘅票價，讓更多人參與",
+      "邀請出色講者，喺香港舉辦優質工作坊",
+      "鞏固本地 Python 同開源社群及生態",
+      "支持 PyCon HK 持續發展"
+    ],
+    "joiningTitle": "成為個人贊助人",
+    "joining": "填寫個人贊助申請表，為 PyCon HK 2026 出一分力。我哋歡迎所有認同 Python 同開源力量嘅人士作一次性個人贊助。",
+    "buttonLabel": "成為個人贊助人",
+    "pendingMessage": "個人贊助申請表會喺 HKCOTA 完成安排後公布。",
+    "thanksTitle": "鳴謝贊助人",
+    "thanks": "衷心多謝以下贊助人，你哋嘅慷慨支持令 PyCon HK 2026 得以實現。",
+    "registrationUrl": "",
     "items": []
   },
   "organizations": {
@@ -77,10 +133,18 @@
         "id": "organizations-3"
       },
       {
+        "id": "hkiit",
+        "name": "香港資訊科技學院（HKIIT）",
+        "kind": "organizer",
+        "logo": "/2026/organizers-volunteers/organizers/hkiit.png",
+        "url": "https://hkiit.edu.hk/",
+        "description": "香港資訊科技學院由職業訓練局於 2023 年成立，提供資訊科技及數碼媒體專業教育。"
+      },
+      {
         "name": "Agile HK",
         "logo": "/2026/supporting-organizations/agile_hk.webp",
         "url": "https://www.meetup.com/agile-hong-kong/",
-        "description": "香港的 Agile 社群聚會，讓有興趣學習、實踐及分享 agile 理念的人一起交流。",
+        "description": "Hong Kong meetup community for people who want to learn, practice, and share agile ideas together.",
         "kind": "supporter",
         "id": "organizations-4"
       },
@@ -88,7 +152,7 @@
         "name": "AWS User Group Hong Kong",
         "logo": "/2026/supporting-organizations/aws_ug_hk.svg",
         "url": "https://awsug.hk/",
-        "description": "由義工推動的 AWS 社群，透過講座、工作坊及聚會連結不同程度的雲端學習者與實踐者。",
+        "description": "Volunteer-led community for AWS learners and practitioners across talks, workshops, and networking sessions.",
         "kind": "supporter",
         "id": "organizations-5"
       },
@@ -96,7 +160,7 @@
         "name": "點心實驗室 (Dim Sum Labs)",
         "logo": "/2026/supporting-organizations/DimSumLab.webp",
         "url": "https://www.dimsumlabs.com/",
-        "description": "香港首個 Hackerspace，為創客、程式設計師與藝術家提供開放的創作空間與社群資源。",
+        "description": "Hong Kong's first Hackerspace, providing open creative spaces and resources for makers, coders, and artists.",
         "kind": "supporter",
         "id": "organizations-6"
       },
@@ -104,23 +168,15 @@
         "name": "HKACE 香港電腦教育學會",
         "logo": "/2026/supporting-organizations/hkace.webp",
         "url": "https://www.hkace.org.hk/",
-        "description": "支援香港電腦教育、教師發展、學生培育及科技學習的專業團體。",
+        "description": "Professional association supporting computer education, teachers, students, and technology learning in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-7"
-      },
-      {
-        "name": "香港城市大學計算機科學系學生會",
-        "logo": "/2026/supporting-organizations/cityu_cssc.webp",
-        "url": "https://www.cs.cityu.edu.hk/",
-        "description": "致力培育城大計算機科學系學生的技術能力、黑客松競賽經驗與業界交流機會。",
-        "kind": "supporter",
-        "id": "organizations-8"
       },
       {
         "name": "Codeaholics",
         "logo": "/2026/supporting-organizations/codeaholics.webp",
         "url": "https://www.facebook.com/codeaholics/",
-        "description": "以務實技術分享和工作坊為主的開發者社群，連結香港本地工程師。",
+        "description": "Developer community focused on practical talks and workshops that connect local engineers in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-9"
       },
@@ -128,7 +184,7 @@
         "name": "香港教育大學數學與資訊科技學系",
         "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
-        "description": "致力推動數學、資訊科技、研究及教學發展，培育未來教育工作者的學術部門。",
+        "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",
         "kind": "supporter",
         "id": "organizations-10"
       },
@@ -136,7 +192,7 @@
         "name": "Google Developer Group Cloud Hong Kong",
         "logo": "/2026/supporting-organizations/gdg_cloud_hk.webp",
         "url": "https://gdg.community.dev/gdg-cloud-hong-kong/",
-        "description": "讓開發者交流 Google Cloud 主題的社群，涵蓋機器學習、serverless、容器等方向。",
+        "description": "Community for developers exploring Google Cloud topics from machine learning to serverless and containers.",
         "kind": "supporter",
         "id": "organizations-11"
       },
@@ -144,7 +200,7 @@
         "name": "Google Developer Group Hong Kong",
         "logo": "/2026/supporting-organizations/gdg_hk.webp",
         "url": "https://gdg.community.dev/gdg-hong-kong/",
-        "description": "歷史悠久的開發者社群，透過讀書會、工作坊及 DevFest 等活動分享 Google 技術。",
+        "description": "Long-running developer community sharing Google technologies through study groups, workshops, and DevFest events.",
         "kind": "supporter",
         "id": "organizations-12"
       },
@@ -152,15 +208,23 @@
         "name": "香港無線科技商會 (WTIA)",
         "logo": "/2026/supporting-organizations/wtia.webp",
         "url": "https://hkwtia.org/",
-        "description": "推動香港無線、流動及新興科技產業與社群發展的業界組織。",
+        "description": "Trade association helping advance wireless, mobile, and emerging technology communities in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-13"
+      },
+      {
+        "id": "hku-csa",
+        "name": "HKU Computer Science Association",
+        "kind": "supporter",
+        "logo": "/2026/supporting-organizations/hku-csa.png",
+        "url": "https://www.instagram.com/hku.csa/",
+        "description": "Established in 1995, Computer Science Association, CDSS, HKU serves all students and staff members of the Department. As one of HKU’s most active tech societies, we unite our community through dynamic social gatherings and technical workshops while creating direct pathways to career guidance, industry links, and emerging technology tools."
       },
       {
         "name": "香港互聯網協會 (ISOC HK)",
         "logo": "/2026/supporting-organizations/internet_society.webp",
         "url": "https://www.isoc.hk/",
-        "description": "透過標準、治理及基礎建設工作，推動開放、中立、可靠且可及的互聯網。",
+        "description": "Advocates for an open, neutral, reliable, and accessible internet through standards, governance, and infrastructure work.",
         "kind": "supporter",
         "id": "organizations-14"
       },
@@ -168,15 +232,15 @@
         "name": "日本樹莓派用戶組 (Raspberry JAM Tokyo)",
         "logo": "/2026/supporting-organizations/japan_rpi_ug.svg",
         "url": "https://www.raspi.jp/",
-        "description": "來自日本的 Raspberry Pi 社群，推動硬件學習、創作實踐及跨地區 meetup 協作。",
+        "description": "Raspberry Pi community from Japan supporting hardware learning, making, and regional meetup collaboration.",
         "kind": "supporter",
         "id": "organizations-15"
       },
       {
         "name": "ProductTank Hong Kong",
         "logo": "/2026/supporting-organizations/ProductTank.webp",
-        "url": "https://www.mindtheproduct.com/producttank/hong-kong/",
-        "description": "為產品經理、UX 設計師與技術團隊提供交流與分享實戰經驗的社群。",
+        "url": "https://www.meetup.com/producttank-hong-kong/",
+        "description": "Informal community meetups for product managers, UX designers, and tech leaders to share insights and build connections.",
         "kind": "supporter",
         "id": "organizations-16"
       },
@@ -184,15 +248,15 @@
         "name": "PyLadies Hong Kong",
         "logo": "/2026/supporting-organizations/pyladies_hk.svg",
         "url": "https://linktr.ee/pyladieshk",
-        "description": "鼓勵女性參與、帶領並在 Python 與開源社群中建立長遠連結的社群。",
+        "description": "Community that encourages women to participate, lead, and build lasting connections in Python and open source.",
         "kind": "supporter",
         "id": "organizations-17"
       },
       {
         "name": "PyLadies Seoul / Korea",
         "logo": "/2026/supporting-organizations/pyladies_seoul.webp",
-        "url": "https://pyladies-seoul.github.io/",
-        "description": "PyLadies 韓國分會，透過讀書會、工作坊及技術聚會連結女性 Python 開發者。",
+        "url": "https://pyladies.kr/en/",
+        "description": "Korean chapter of PyLadies connecting female Python developers through study jams, workshops, and friendly meetups.",
         "kind": "supporter",
         "id": "organizations-18"
       },
@@ -200,7 +264,7 @@
         "name": "PyLadies Tokyo",
         "logo": "/2026/supporting-organizations/pyladies_tokyo.webp",
         "url": "https://tokyo.pyladies.com/",
-        "description": "PyLadies 東京分會，透過定期聚會與合作活動連結不同 Python 實踐者。",
+        "description": "Tokyo branch of PyLadies connecting Python practitioners through regular meetups and collaborative events.",
         "kind": "supporter",
         "id": "organizations-19"
       },
@@ -208,15 +272,15 @@
         "name": "Python Asia Organization",
         "logo": "/2026/supporting-organizations/python_asia.webp",
         "url": "https://pythonasia.org/",
-        "description": "支援亞洲區域 Python 會議、社群領袖培育及跨社群協作的非牟利組織。",
+        "description": "Non-profit supporting regional Python conferences, leadership development, and cross-community collaboration across Asia.",
         "kind": "supporter",
         "id": "organizations-20"
       },
       {
         "name": "Women Techmakers Hong Kong",
         "logo": "/2026/supporting-organizations/WTMHK.webp",
-        "url": "https://www.womentechmakers.com/",
-        "description": "為女性科技從業者提供社群支持、技術培訓與發揮潛能平台的計劃。",
+        "url": "https://wtmhk.org/",
+        "description": "Google program providing visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-21"
       }
@@ -335,16 +399,17 @@
   "about": {
     "status": "published",
     "paragraphs": [
-      "PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度會議，匯聚來自不同背景的 Python 愛好者，分享經驗、交流想法，並促進合作。全球每年有超過五十個城市及地區舉辦 PyCon，而 PyCon HK 很榮幸成為其中一員。",
-      "PyCon HK 的起點可追溯至 Sammy Fung 參與 2013 年東京 PyCon APAC 之後。當時他意識到，亞洲多個城市都有自己的 PyCon，但香港仍然缺少一個屬於本地 Python 社群的重要年度聚會。於是，Sammy 與開源香港合作，在 2015 年舉辦了首屆 PyCon HK。自此，PyCon HK 一直在香港推動 Python 技術交流與社群發展。",
-      "2026 年，PyCon Hong Kong 延續歷年熱情，連結本地與國際的 Python 開發者與開源社群。在熱心義工、資深工程師、教育工作者與科技創新者的共同努力下，PyCon HK 2026 帶來兼具深度與前瞻性的技術交流平台。"
+      "PyCon Hong Kong (PyCon HK) 是香港最具代表性的 Python 技術會議，匯聚眾多 Python 愛好者，分享真知灼見、促進交流合作。在全球每年超過 50 場遍佈世界各地舉辦的 PyCon 之中，PyCon HK 作為其中一員讓我們深感自豪。",
+      "PyCon HK 的緣起可追溯至 Sammy Fung 先生。他在 2013 年東京舉辦的 PyCon APAC 2013 中得到啟發：儘管 PyCon 已在亞洲多個城市舉辦，香港卻於這個重要的 Python 盛會缺席。有見及此，Sammy 決意填補空白，聯同 Open Source Hong Kong 於 2015 年正式攜手籌辦首屆 PyCon HK。自此，PyCon HK 一直在推動香港 Python 發展與普及方面擔崗重要角色。",
+      "踏入 2026 年，PyCon Hong Kong 由 Calvin Tsang 先生擔任 PyCon HK 2026 會議主席。作為 Python Asia Organisation 社群活躍成員，Calvin 經常參與區內各地 PyCon 活動。本業為技術經理（Technology Manager）的他自首屆 PyCon HK 舉辦以來一直擔任義工，從未間斷。憑藉紮根本地的投入，加上放眼國際的視野，Calvin 得以匯聚世界各地的 Python 開源社群經驗，為 PyCon HK 開拓更多新可能。",
+      "在一眾充滿熱誠的義工、資深開發者、教育工作者及科技創新者共同推動下，PyCon HK 2026 將延續充滿活力的旅程——讚頌本地與國際 Python 社群的熱情與創意，呈獻一場鼓舞人心、極具影響力的盛會，連繫全球 Python 愛好者、促進開源協作，並為科技創新注入更多可能。"
     ]
   },
   "sponsorship": {
     "status": "published",
     "intro": [
       "PyCon HK 2026 是一個難得的機會，讓你接觸香港最投入的 Python 開發者、科技團隊與創新機構。",
-      "作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、資料科學家及科技創業者交流，見證新想法如何變成實際方案。",
+      "作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、數據科學家及科技創業者交流，見證新想法如何變成實際方案。",
       "你的贊助不只是品牌曝光，更代表你願意支持創新、開源社群，以及香港與區內的科技發展。"
     ],
     "benefits": [

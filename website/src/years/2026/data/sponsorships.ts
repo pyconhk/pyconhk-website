@@ -75,7 +75,7 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
     subtitle: '成為 PyCon HK 2026 贊助夥伴',
     introParagraphs: [
       'PyCon HK 2026 是一個難得的機會，讓你接觸香港最投入的 Python 開發者、科技團隊與創新機構。',
-      '作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、資料科學家及科技創業者交流，見證新想法如何變成實際方案。',
+      '作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、數據科學家及科技創業者交流，見證新想法如何變成實際方案。',
       '你的贊助不只是品牌曝光，更代表你願意支持創新、開源社群，以及香港與區內的科技發展。',
     ],
     whySponsorTitle: '為什麼值得贊助？',
@@ -96,7 +96,7 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
     subtitle: '成為 PyCon HK 2026 贊助夥伴',
     introParagraphs: [
       'PyCon HK 2026 是一個難得的機會，讓你接觸香港最投入的 Python 開發者、科技團隊與創新機構。',
-      '作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、資料科學家及科技創業者交流，見證新想法如何變成實際方案。',
+      '作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、數據科學家及科技創業者交流，見證新想法如何變成實際方案。',
       '你的贊助不只是品牌曝光，更代表你願意支持創新、開源社群，以及香港與區內的科技發展。',
     ],
     whySponsorTitle: '為什麼值得贊助？',
