@@ -12,8 +12,8 @@ const copy = contentUi[locale];
 <section class="border-t border-conference-outline/10 bg-conference-paper py-16 sm:py-24" id="sponsors">
   <div class="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
     <h2 class="text-3xl font-extrabold text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-published-sponsors>
-        {sponsors.items.map((sponsor) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline bg-conference-surface p-6 shadow-conference-card"><p class="text-sm font-bold text-conference-red">{sponsor.tier}</p>{sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} width="320" height="180" class="h-36 w-full rounded-lg bg-white object-contain p-4" loading="lazy" />}<h3 class="font-bold">{sponsor.name}</h3>{sponsor.url && <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-published-sponsors>
+        {sponsors.items.map((sponsor) => <article class="space-y-3 rounded-2xl border-2 border-conference-outline bg-conference-surface p-4 shadow-conference-card"><p class="text-sm font-bold text-conference-red">{sponsor.tier}</p>{sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} width="320" height="180" class="h-24 w-full rounded-lg bg-white object-contain p-3" loading="lazy" />}<h3 class="font-bold">{sponsor.name}</h3>{sponsor.url && <a href={sponsor.url} target="_blank" rel="noopener noreferrer" class="text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
       </div>
   </div>
 </section>
