@@ -1,0 +1,51 @@
+---
+import type { ConferenceContent } from '@/lib/conference-schema';
+
+interface Props {
+  items: ConferenceContent['sponsors']['items'];
+  headingLevel?: 'h2' | 'h3';
+  descriptions?: boolean;
+}
+const { items, headingLevel: TierHeading = 'h3', descriptions = false } = Astro.props;
+const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
+// Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
+const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
+  tier,
+  items: items.filter((item) => item.tier === tier),
+  size: /^(diamond|platinum|gold|silver)$/i.test(tier) ? 'large' : /^bronze$/i.test(tier) ? 'medium' : 'small',
+}));
+---
+
+<div data-sponsor-wall class="grid gap-x-12 gap-y-8 sm:gap-y-10 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+  {groups.map((group) => (
+    <section data-sponsor-tier={group.tier} class="min-w-0">
+      <TierHeading class="border-b border-conference-outline/35 pb-3 text-left text-sm font-extrabold uppercase tracking-widest text-conference-ink">
+        {group.tier}
+      </TierHeading>
+      <div aria-hidden="true" class="relative -top-px flex h-0.5 w-14 gap-0.5"><span class="flex-1 bg-[#e31923]" /><span class="flex-1 bg-[#345998]" /></div>
+      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-6 pt-6">
+        {group.items.map((item) => {
+          const Link = item.url ? 'a' : 'div';
+          return <li class="min-w-0 flex-1 basis-32 text-center sm:basis-40">
+            <Link href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined}
+              data-sponsor-link={item.url ? item.id : undefined}
+              class="group mx-auto flex max-w-72 flex-col items-center gap-4 rounded-sm text-conference-ink outline-offset-8 hover:text-conference-blue focus-visible:outline-2 focus-visible:outline-conference-blue">
+              {item.logo && <span class:list={[
+                'flex w-full items-center justify-center',
+                group.size === 'large' ? 'h-32' : group.size === 'medium' ? 'h-26' : 'h-20',
+              ]}>
+                <img src={item.logo} alt="" width="320" height="180" loading="lazy"
+                  class="h-full w-auto max-w-full object-contain [html[data-conference-theme=dark]_&]:rounded-md [html[data-conference-theme=dark]_&]:bg-[#faf7f0] [html[data-conference-theme=dark]_&]:p-3" />
+              </span>}
+              <NameHeading class="inline-flex items-center justify-center gap-1.5 text-base font-semibold leading-snug decoration-conference-blue/50 underline-offset-4 group-hover:underline group-focus-visible:underline">
+                {item.name}
+                {item.url && <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-conference-blue"><path d="M7 17 17 7M7 7h10v10" /></svg>}
+              </NameHeading>
+            </Link>
+            {descriptions && item.description && <p class="mx-auto mt-4 max-w-prose whitespace-pre-line text-sm leading-relaxed text-conference-body">{item.description}</p>}
+          </li>;
+        })}
+      </ul>
+    </section>
+  ))}
+</div>
