@@ -12,37 +12,53 @@ const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
 const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
   tier,
   items: items.filter((item) => item.tier === tier),
-  size: /^(diamond|platinum|gold|silver)$/i.test(tier) ? 'large' : /^bronze$/i.test(tier) ? 'medium' : 'small',
+  size: /^(diamond|platinum|gold|silver)$/i.test(tier) ? 'large' : /^bronze$/i.test(tier) ? 'medium' : /^prize/i.test(tier) ? 'prize' : 'small',
 }));
 ---
 
-<div data-sponsor-wall class="grid gap-x-12 gap-y-8 sm:gap-y-10 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+<div data-sponsor-wall class="mx-auto w-full max-w-[65rem] divide-y divide-conference-line">
   {groups.map((group) => (
-    <section data-sponsor-tier={group.tier} class="min-w-0">
-      <TierHeading class="border-b border-conference-outline/35 pb-3 text-left text-sm font-extrabold uppercase tracking-widest text-conference-ink">
+    <section data-sponsor-tier={group.tier} class="min-w-0 px-3 pb-13 pt-12 text-center sm:px-6 sm:pb-19 sm:pt-17">
+      <TierHeading class="mb-7 text-[1.6875rem] font-extrabold leading-tight tracking-tight text-conference-ink sm:mb-9 sm:text-3xl">
         {group.tier}
       </TierHeading>
-      <div aria-hidden="true" class="relative -top-px flex h-0.5 w-14 gap-0.5"><span class="flex-1 bg-[#e31923]" /><span class="flex-1 bg-[#345998]" /></div>
-      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-6 pt-6">
+      <ul class="flex flex-col items-center justify-center gap-y-7 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-25 sm:gap-y-10">
         {group.items.map((item) => {
           const Link = item.url ? 'a' : 'div';
-          return <li class="min-w-0 flex-1 basis-32 text-center sm:basis-40">
+          // These original wordmarks need a small light plate in dark mode.
+          const isNavicat = item.logo === '/2026/sponsors/navicat.svg';
+          const isJetBrains = item.logo === '/2026/sponsors/jetbrains.svg';
+          const hasWordmark = isNavicat || isJetBrains;
+          return <li class:list={[
+            'min-w-0 w-full max-w-85 text-center',
+            group.items.length === 1 && descriptions && item.description && 'max-w-prose',
+          ]}>
             <Link href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined}
+              aria-label={item.name}
               data-sponsor-link={item.url ? item.id : undefined}
-              class="group mx-auto flex max-w-72 flex-col items-center gap-4 rounded-sm text-conference-ink outline-offset-8 hover:text-conference-blue focus-visible:outline-2 focus-visible:outline-conference-blue">
+              class:list={[
+                'group mx-auto flex w-fit max-w-full flex-col items-center gap-4 rounded-lg text-conference-ink outline-offset-12 focus-visible:outline-3 focus-visible:outline-conference-blue sm:gap-5',
+                item.url && 'cursor-pointer',
+              ]}>
               {item.logo && <span class:list={[
                 'flex w-full items-center justify-center',
-                group.size === 'large' ? 'h-32' : group.size === 'medium' ? 'h-26' : 'h-20',
+                group.size === 'prize' && 'h-28 sm:h-38',
               ]}>
                 <img src={item.logo} alt="" width="320" height="180" loading="lazy"
-                  class="h-full w-auto max-w-full object-contain [html[data-conference-theme=dark]_&]:rounded-md [html[data-conference-theme=dark]_&]:bg-[#faf7f0] [html[data-conference-theme=dark]_&]:p-3" />
+                  class:list={[
+                    'block w-auto max-w-full object-contain motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75',
+                    group.size === 'large' ? 'h-55 sm:h-70' : group.size === 'medium' ? 'h-36 sm:h-43.5' : group.size === 'prize' ? isJetBrains ? 'max-h-26 w-70 sm:w-85' : 'h-28 sm:h-36' : 'h-30 sm:h-34',
+                    hasWordmark && '[html[data-conference-theme=dark]_&]:box-content [html[data-conference-theme=dark]_&]:max-w-[calc(100%-2rem)] [html[data-conference-theme=dark]_&]:rounded-xl [html[data-conference-theme=dark]_&]:bg-white [html[data-conference-theme=dark]_&]:p-4',
+                  ]} />
               </span>}
-              <NameHeading class="inline-flex items-center justify-center gap-1.5 text-base font-semibold leading-snug decoration-conference-blue/50 underline-offset-4 group-hover:underline group-focus-visible:underline">
+              <NameHeading class:list={[
+                'text-base font-bold leading-snug underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-[1.0625rem]',
+                hasWordmark && 'sr-only',
+              ]}>
                 {item.name}
-                {item.url && <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-conference-blue"><path d="M7 17 17 7M7 7h10v10" /></svg>}
               </NameHeading>
             </Link>
-            {descriptions && item.description && <p class="mx-auto mt-4 max-w-prose whitespace-pre-line text-sm leading-relaxed text-conference-body">{item.description}</p>}
+            {descriptions && item.description && <p class="mx-auto mt-6 max-w-prose whitespace-pre-line text-base leading-relaxed text-conference-body">{item.description}</p>}
           </li>;
         })}
       </ul>

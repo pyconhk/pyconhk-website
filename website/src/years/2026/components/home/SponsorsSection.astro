@@ -1,6 +1,5 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
-import SponsorWall from '@/years/2026/components/content/SponsorWall.astro';
 import { contentUi } from '@/years/2026/data/content-ui';
 import type { CfpLocale } from '@/years/2026/locales';
 
@@ -8,13 +7,38 @@ interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
 const { sponsors } = getConferenceContent(locale);
 const copy = contentUi[locale];
+// A sponsor can support multiple tiers; the overview shows each brand once.
+const seen = new Set<string>();
+const brands = sponsors.items.filter((item) => {
+  const key = item.url || item.logo || item.name;
+  if (seen.has(key)) return false;
+  seen.add(key);
+  return true;
+});
 ---
 {sponsors.status === 'published' && sponsors.items.length > 0 && (
-<section class="border-t border-conference-outline/10 bg-conference-paper py-16 sm:py-24" id="sponsors">
-  <div class="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
-    <h2 class="text-3xl font-extrabold text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
-    <div aria-hidden="true" class="mx-auto mt-5 flex h-1 w-20 gap-1"><span class="flex-1 bg-[#e31923]" /><span class="flex-1 bg-[#345998]" /></div>
-    <div class="mt-8 sm:mt-10" data-published-sponsors><SponsorWall items={sponsors.items} /></div>
+<section class="border-y border-conference-outline/10 bg-conference-paper px-5 py-12 sm:px-6 sm:py-16" id="sponsors" aria-labelledby="sponsors-title">
+  <div class="mx-auto w-full max-w-300 text-center">
+    <h2 id="sponsors-title" class="text-3xl font-extrabold leading-tight text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
+    <div aria-hidden="true" class="mx-auto mt-5 mb-9 flex h-1 w-24 md:mb-16"><span class="flex-1 bg-[#d71920]" /><span class="flex-1 bg-white" /><span class="flex-1 bg-[#2f559a]" /></div>
+    <ul data-published-sponsors data-sponsor-overview aria-label={copy.titles.sponsors} class:list={['mx-auto grid max-w-120 grid-cols-2 items-center gap-x-7 gap-y-6 md:max-w-none md:gap-12', brands.length === 4 ? 'md:grid-cols-[1.1fr_1fr_1.6fr_1fr]' : 'md:grid-cols-4']}>
+      {brands.map((item) => {
+        const navicat = item.logo === '/2026/sponsors/navicat.svg';
+        const jetbrains = item.logo === '/2026/sponsors/jetbrains.svg';
+        return <li data-sponsor-brand={item.id} class="relative flex h-34 min-w-0 flex-col items-center justify-center md:h-50">
+          {item.logo && <img src={item.logo} alt={item.name} width="320" height="180" loading="lazy" class:list={[
+            'block w-auto max-w-full object-contain',
+            navicat ? 'h-28 md:h-42' : jetbrains ? 'h-auto max-h-15 w-50 md:max-h-20 md:w-70' : 'h-19 md:h-27',
+            (navicat || jetbrains) && '[html[data-conference-theme=dark]_&]:box-content [html[data-conference-theme=dark]_&]:max-w-[calc(100%-20px)] [html[data-conference-theme=dark]_&]:rounded-lg [html[data-conference-theme=dark]_&]:bg-white [html[data-conference-theme=dark]_&]:p-2.5',
+          ]} />}
+          {(!item.logo || (!navicat && !jetbrains)) && <span aria-hidden={item.logo ? 'true' : undefined} class="absolute top-[calc(50%+50px)] text-xs font-semibold leading-snug text-conference-body md:top-[calc(50%+68px)] md:text-sm">{item.name}</span>}
+        </li>;
+      })}
+    </ul>
+    <a href={`/2026/${locale}/sponsorships/`} data-sponsors-details class="group mt-11 inline-flex min-h-11 cursor-pointer items-center gap-3 border-b border-current py-2 text-base font-bold text-conference-blue outline-offset-6 focus-visible:outline-3 focus-visible:outline-conference-blue md:mt-16 md:text-lg">
+      {copy.viewSponsors}
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-current stroke-[1.8] transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+    </a>
   </div>
 </section>
 )}
