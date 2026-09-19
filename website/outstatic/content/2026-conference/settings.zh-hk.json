@@ -17,9 +17,9 @@
   "venue": {
     "status": "published",
     "title": "HKIIT（待定）",
-    "address": "校園及地址稍後公布。",
-    "description": "PyCon HK 2026 場地暫定 HKIIT，仍待確認。校園、入口同課室安排會喺呢度公布。",
-    "directions": "校園確認後會補上交通及無障礙通道資料。",
+    "address": "校園同地址遲啲會公布。",
+    "description": "PyCon HK 2026 場地暫定喺 HKIIT，仲等緊確認。校園、入口同課室安排會喺呢度公布。",
+    "directions": "確認校園之後，我哋會補返交通同無障礙通道資料。",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -88,20 +88,20 @@
   },
   "patrons": {
     "status": "published",
-    "whyTitle": "點解成為個人贊助人？",
-    "intro": "PyCon Hong Kong (PyCon HK) 係由義工籌辦嘅非牟利大會，致力推動香港同亞洲地區嘅 Python 同開源文化。你嘅個人贊助會直接幫助我哋：",
+    "whyTitle": "點解要做個人贊助人？",
+    "intro": "PyCon Hong Kong (PyCon HK) 係由義工籌辦嘅非牟利大會，希望推動香港同亞洲地區嘅 Python 同開源文化。你嘅個人贊助會直接幫我哋：",
     "benefits": [
-      "維持免費或可負擔嘅票價，讓更多人參與",
-      "邀請出色講者，喺香港舉辦優質工作坊",
-      "鞏固本地 Python 同開源社群及生態",
+      "維持免費或者大家負擔得起嘅票價，等更多人可以參加",
+      "邀請出色嘅講者，喺香港舉辦優質工作坊",
+      "鞏固本地 Python 同開源社群，以及相關生態",
       "支持 PyCon HK 持續發展"
     ],
     "joiningTitle": "成為個人贊助人",
-    "joining": "填寫個人贊助申請表，為 PyCon HK 2026 出一分力。我哋歡迎所有認同 Python 同開源力量嘅人士作一次性個人贊助。",
+    "joining": "填寫個人贊助申請表，為 PyCon HK 2026 出一分力。只要你認同 Python 同開源嘅力量，都歡迎你作一次性個人贊助。",
     "buttonLabel": "成為個人贊助人",
-    "pendingMessage": "個人贊助申請表會喺 HKCOTA 完成安排後公布。",
+    "pendingMessage": "等 HKCOTA 完成安排之後，我哋就會公布個人贊助申請表。",
     "thanksTitle": "鳴謝贊助人",
-    "thanks": "衷心多謝以下贊助人，你哋嘅慷慨支持令 PyCon HK 2026 得以實現。",
+    "thanks": "衷心多謝以下贊助人，有你哋慷慨支持，先可以辦成 PyCon HK 2026。",
     "registrationUrl": "",
     "items": []
   },
@@ -112,7 +112,7 @@
         "name": "Hong Kong Python User Group / 香港 Python 用戶組",
         "logo": "/2026/organizers-volunteers/organizers/hkpug.webp",
         "url": "https://www.facebook.com/groups/hkpug",
-        "description": "香港 Python 用戶組是一個充滿活力的社群，致力於在香港推廣 Python 程式語言。透過定期聚會、工作坊與各類活動，他們為學習、交流與分享 Python 知識建立了協作而開放的環境。",
+        "description": "香港 Python 用戶組係一個充滿活力嘅社群，喺香港推廣 Python 程式語言。佢哋定期舉辦聚會、工作坊同各類活動，提供一個開放嘅環境，等大家可以一齊學習、交流同分享 Python 知識。",
         "kind": "organizer",
         "id": "organizations-1"
       },
@@ -120,7 +120,7 @@
         "name": "Open Source Hong Kong (OSHK) / 開源香港",
         "logo": "/2026/organizers-volunteers/organizers/oshk.webp",
         "url": "https://opensource.hk/",
-        "description": "開源香港（OSHK）是一個歷史悠久的本地社群，致力推動開源文化、協作精神與務實的技術交流。多年來，他們持續為開發者、教育工作者及社群組織者建立空間，讓香港的開放技術社群得以持續成長。",
+        "description": "開源香港（OSHK）係一個有多年歷史嘅本地社群，一直推動開源文化、合作同實用技術交流。多年嚟，佢哋為開發者、教育工作者同社群組織者提供交流空間，等香港嘅開放技術社群可以持續成長。",
         "kind": "organizer",
         "id": "organizations-2"
       },
@@ -128,7 +128,7 @@
         "name": "Hong Kong Creative Open Technology Association (HKCOTA) / 香港創意開放科技協會",
         "logo": "/2026/organizers-volunteers/organizers/hkcota.webp",
         "url": "https://hkcota.org/",
-        "description": "香港創意開放科技協會（HKCOTA）成立於 2014 年，是一個非牟利並獲豁免稅務的慈善組織。HKCOTA 致力推廣開放標準、自由及開源軟件、開源硬件、開放數據及創用 CC，並透過與學生及業界人士緊密合作，推動香港的開放科技發展。",
+        "description": "香港創意開放科技協會（HKCOTA）喺 2014 年成立，係一個非牟利、獲豁免稅務嘅慈善組織。HKCOTA 推廣開放標準、自由同開源軟件、開源硬件、開放數據同創用 CC，並同學生及業界人士緊密合作，一齊推動香港嘅開放科技發展。",
         "kind": "organizer",
         "id": "organizations-3"
       },
@@ -138,7 +138,7 @@
         "kind": "organizer",
         "logo": "/2026/organizers-volunteers/organizers/hkiit.png",
         "url": "https://hkiit.edu.hk/",
-        "description": "香港資訊科技學院由職業訓練局於 2023 年成立，提供資訊科技及數碼媒體專業教育。"
+        "description": "香港資訊科技學院係職業訓練局喺 2023 年成立嘅學院，提供資訊科技同數碼媒體專業教育。"
       },
       {
         "name": "Agile HK",
@@ -399,33 +399,33 @@
   "about": {
     "status": "published",
     "paragraphs": [
-      "PyCon Hong Kong (PyCon HK) 是香港最具代表性的 Python 技術會議，匯聚眾多 Python 愛好者，分享真知灼見、促進交流合作。在全球每年超過 50 場遍佈世界各地舉辦的 PyCon 之中，PyCon HK 作為其中一員讓我們深感自豪。",
-      "PyCon HK 的緣起可追溯至 Sammy Fung 先生。他在 2013 年東京舉辦的 PyCon APAC 2013 中得到啟發：儘管 PyCon 已在亞洲多個城市舉辦，香港卻於這個重要的 Python 盛會缺席。有見及此，Sammy 決意填補空白，聯同 Open Source Hong Kong 於 2015 年正式攜手籌辦首屆 PyCon HK。自此，PyCon HK 一直在推動香港 Python 發展與普及方面擔崗重要角色。",
-      "踏入 2026 年，PyCon Hong Kong 由 Calvin Tsang 先生擔任 PyCon HK 2026 會議主席。作為 Python Asia Organisation 社群活躍成員，Calvin 經常參與區內各地 PyCon 活動。本業為技術經理（Technology Manager）的他自首屆 PyCon HK 舉辦以來一直擔任義工，從未間斷。憑藉紮根本地的投入，加上放眼國際的視野，Calvin 得以匯聚世界各地的 Python 開源社群經驗，為 PyCon HK 開拓更多新可能。",
-      "在一眾充滿熱誠的義工、資深開發者、教育工作者及科技創新者共同推動下，PyCon HK 2026 將延續充滿活力的旅程——讚頌本地與國際 Python 社群的熱情與創意，呈獻一場鼓舞人心、極具影響力的盛會，連繫全球 Python 愛好者、促進開源協作，並為科技創新注入更多可能。"
+      "PyCon Hong Kong (PyCon HK) 係香港最具代表性嘅 Python 技術會議，等一班 Python 愛好者可以聚埋一齊，分享經驗、交流同合作。全球每年有超過 50 場 PyCon 喺唔同地方舉行，PyCon HK 都係其中一員，我哋覺得好自豪。",
+      "PyCon HK 由 Sammy Fung 先生嘅一個念頭開始。佢喺東京參加 PyCon APAC 2013 時得到啟發：亞洲已經有唔少城市舉辦 PyCon，但香港仲未有。Sammy 決定填補呢個空白，同 Open Source Hong Kong 喺 2015 年一齊籌辦首屆 PyCon HK。自此，PyCon HK 一直喺香港推廣 Python，推動技術交流同社群發展。",
+      "2026 年，PyCon Hong Kong 由 Calvin Tsang 先生擔任 PyCon HK 2026 會議主席。Calvin 係 Python Asia Organisation 社群嘅活躍成員，經常參與區內各地嘅 PyCon 活動。佢本身係技術經理（Technology Manager），由首屆 PyCon HK 開始就一直做義工，從來冇間斷。憑住多年投入本地社群嘅經驗，同參與國際社群嘅視野，Calvin 將世界各地嘅 Python 開源社群經驗帶返香港，為 PyCon HK 開拓更多可能。",
+      "一班熱心義工、資深開發者、教育工作者同科技創新者正一齊籌備 PyCon HK 2026。我哋希望延續本地同國際 Python 社群嘅熱情同創意，辦一場有啟發、具影響力嘅大會，連繫世界各地嘅 Python 愛好者，推動開源合作，同埋探索科技創新嘅更多可能。"
     ]
   },
   "sponsorship": {
     "status": "published",
     "intro": [
-      "PyCon HK 2026 是一個難得的機會，讓你接觸香港最投入的 Python 開發者、科技團隊與創新機構。",
-      "作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、數據科學家及科技創業者交流，見證新想法如何變成實際方案。",
-      "你的贊助不只是品牌曝光，更代表你願意支持創新、開源社群，以及香港與區內的科技發展。"
+      "PyCon HK 2026 係一個難得嘅機會，等你可以接觸香港最投入嘅 Python 開發者、科技團隊同創新機構。",
+      "成為贊助夥伴，你就可以喺亞洲其中一個具代表性嘅 Python 大會，同數百位開發者、資深工程師、數據科學家同科技創業者交流，睇吓新諗法點樣變成實際方案。",
+      "你嘅贊助除咗增加品牌曝光，亦代表你願意支持創新、開源社群，同埋香港及區內嘅科技發展。"
     ],
     "benefits": [
       {
         "title": "品牌曝光",
-        "description": "提升品牌在科技界的知名度與影響力",
+        "description": "提升你哋品牌喺科技界嘅知名度同影響力",
         "id": "benefits-1"
       },
       {
         "title": "建立人脈",
-        "description": "接觸業界領袖、優秀人才與潛在合作夥伴",
+        "description": "認識業界領袖、優秀人才同潛在合作夥伴",
         "id": "benefits-2"
       },
       {
         "title": "支持社群",
-        "description": "支持香港及亞太區 Python 社群的長遠繁榮發展",
+        "description": "支持香港同亞太區 Python 社群長遠發展",
         "id": "benefits-3"
       }
     ],

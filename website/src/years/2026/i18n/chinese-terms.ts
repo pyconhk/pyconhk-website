@@ -49,6 +49,7 @@ export const chineseTerms = {
   removeSavedTalk: { 'zh-hant': '取消儲存', 'zh-hk': '取消儲存' },
   speakerSessions: { 'zh-hant': '講者場次', 'zh-hk': '講者嘅場次' },
   backToSchedule: { 'zh-hant': '返回議程', 'zh-hk': '返去議程' },
+  backToFeaturedSpeakers: { 'zh-hant': '返回精選講者', 'zh-hk': '返去精選講者' },
   aboutSession: { 'zh-hant': '場次介紹', 'zh-hk': '場次介紹' },
   aboutSpeaker: { 'zh-hant': '講者介紹', 'zh-hk': '講者介紹' },
   room: { 'zh-hant': '房間', 'zh-hk': '房間' },

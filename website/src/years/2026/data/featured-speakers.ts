@@ -69,13 +69,13 @@ export const featuredLabels: Record<
     keynote: '主題演講',
     talk: '精選演講',
     view: getChineseTerms('zh-hk').viewTalk,
-    back: '返回精選講者',
+    back: getChineseTerms('zh-hk').backToFeaturedSpeakers,
   },
   'zh-hant': {
     keynote: '主題演講',
     talk: '精選演講',
     view: getChineseTerms('zh-hant').viewTalk,
-    back: '返回精選講者',
+    back: getChineseTerms('zh-hant').backToFeaturedSpeakers,
   },
   'zh-hans': {
     keynote: '主题演讲',
