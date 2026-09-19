@@ -19,6 +19,7 @@ type ContentUi = {
   register: string;
   viewMap: string;
   visitWebsite: string;
+  viewSponsors: string;
   directions: string;
   wifi: string;
   sponsorship: string;
@@ -44,6 +45,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: 'Register now',
     viewMap: 'View map',
     visitWebsite: 'Visit website',
+    viewSponsors: 'View all sponsors',
     directions: 'Getting here',
     wifi: 'Wi-Fi',
     sponsorship: 'Sponsorship enquiries',
@@ -67,6 +69,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '立即報名',
     viewMap: '睇地圖',
     visitWebsite: '瀏覽網站',
+    viewSponsors: '查看所有贊助夥伴',
     directions: '前往會場',
     wifi: 'Wi-Fi',
     sponsorship: '查詢贊助合作',
@@ -90,6 +93,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '立即報名',
     viewMap: '查看地圖',
     visitWebsite: '瀏覽網站',
+    viewSponsors: '查看所有贊助夥伴',
     directions: '前往會場',
     wifi: 'Wi-Fi',
     sponsorship: '洽詢贊助合作',
@@ -113,6 +117,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '立即报名',
     viewMap: '查看地图',
     visitWebsite: '浏览网站',
+    viewSponsors: '查看所有赞助伙伴',
     directions: '前往会场',
     wifi: 'Wi-Fi',
     sponsorship: '咨询赞助合作',
@@ -136,6 +141,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '参加登録',
     viewMap: '地図を見る',
     visitWebsite: 'ウェブサイトを見る',
+    viewSponsors: 'すべてのスポンサーを見る',
     directions: '会場へのアクセス',
     wifi: 'Wi-Fi',
     sponsorship: '協賛のお問い合わせ',
@@ -159,6 +165,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '참가 등록',
     viewMap: '지도 보기',
     visitWebsite: '웹사이트 방문',
+    viewSponsors: '모든 후원사 보기',
     directions: '오시는 길',
     wifi: 'Wi-Fi',
     sponsorship: '후원 문의',

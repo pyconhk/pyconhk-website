@@ -2,16 +2,17 @@
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '@/years/2026/locales';
 
-interface Props { locale: CfpLocale; title: string; description?: string; lang?: string; titleLang?: string; }
-const { locale, title, description = `${title} | PyCon HK 2026`, lang, titleLang } = Astro.props;
+interface Props { locale: CfpLocale; title: string; description?: string; lang?: string; titleLang?: string; open?: boolean; }
+const { locale, title, description = `${title} | PyCon HK 2026`, lang, titleLang, open = false } = Astro.props;
 ---
 
 <ConferenceLayout title={`${title} | PyCon HK 2026`} description={description} locale={locale}>
   <section lang={lang} class="bg-conference-paper px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-    <div class="mx-auto max-w-5xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10 lg:p-12">
+    <div class:list={["mx-auto", open ? "max-w-6xl" : "max-w-5xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10 lg:p-12"]}>
       <header class="mb-8 space-y-4 text-center">
-        <span class="inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-paper px-3.5 py-1 text-xs font-black text-conference-ink shadow-conference-control"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#d71920]" />PyCon HK 2026</span>
+        {!open && <span class="inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-paper px-3.5 py-1 text-xs font-black text-conference-ink shadow-conference-control"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#d71920]" />PyCon HK 2026</span>}
         <h1 lang={titleLang} class="font-sans text-[clamp(1.375rem,7vw,1.875rem)] font-black uppercase leading-tight tracking-tight text-conference-ink sm:text-4xl md:text-5xl">{title}</h1>
+        {open && <div aria-hidden="true" class="mx-auto flex h-1 w-20 gap-1"><span class="flex-1 bg-[#e31923]" /><span class="flex-1 bg-[#345998]" /></div>}
       </header>
       <div class="space-y-6 text-base leading-relaxed text-conference-body"><slot /></div>
     </div>
