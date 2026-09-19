@@ -260,6 +260,78 @@ test('complete migrated conference content remains public in all six locales', a
   }
 });
 
+for (const width of [390, 1440]) {
+  test(`Cantonese CMS content stays distinct from written Chinese at ${width}px`, async ({
+    page,
+  }) => {
+    test.setTimeout(60_000);
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/2026/zh-hk/about/');
+    const about = page.locator('[data-conference-content="about"]');
+    await expect(about).toContainText('等一班 Python 愛好者可以聚埋一齊');
+    await expect(about).toContainText('佢喺東京參加 PyCon APAC 2013 時得到啟發');
+    await expect(about).not.toContainText('匯聚眾多 Python 愛好者，分享真知灼見');
+
+    const header = page.locator('[data-site-header]');
+    if (width < 768) {
+      await header.locator('[data-mobile-nav-trigger]').click();
+      await header
+        .locator('[data-mobile-nav-panel] [data-locale-switch="zh-hant"]')
+        .click();
+    } else {
+      await header.locator('summary').first().click();
+      await header.locator('[data-locale-switch="zh-hant"]').first().click();
+    }
+    await expect(page).toHaveURL(/\/2026\/zh-hant\/about\/$/);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant');
+    await expect(about).toContainText('匯聚眾多 Python 愛好者，分享真知灼見');
+    await expect(about).not.toContainText('等一班 Python 愛好者可以聚埋一齊');
+
+    for (const [route, kind, snippet] of [
+      [
+        'organizers',
+        'organizers',
+        '佢哋定期舉辦聚會、工作坊同各類活動，提供一個開放嘅環境',
+      ],
+      [
+        'sponsorships/patrons',
+        'patrons',
+        '維持免費或者大家負擔得起嘅票價，等更多人可以參加',
+      ],
+      ['access-guide', 'venue', '確認校園之後，我哋會補返交通同無障礙通道資料。'],
+    ]) {
+      await page.goto(`/2026/zh-hk/${route}/`);
+      await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant-HK');
+      await expect(page.locator(`[data-conference-content="${kind}"]`)).toContainText(
+        snippet
+      );
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth)
+      ).toBeLessThanOrEqual(width);
+    }
+
+    await page.goto('/2026/zh-hk/cfp/');
+    await expect(page.locator('main')).toContainText(
+      '提案徵集已經截止。如果你之前交咗提案，仲可以登入睇返。'
+    );
+    await expect(
+      page
+        .locator('main a[href="https://cfp.pycon.hk/pyconhk2026/me/submissions/"]')
+        .first()
+    ).toHaveText('睇返已提交嘅提案');
+    const privacy = page.locator('footer').getByRole('link', {
+      name: 'Privacy Policy',
+      exact: true,
+    });
+    await privacy.click();
+    await expect(page).toHaveURL(/\/2026\/zh-hk\/privacy-policy\/?$/);
+    await expect(page.locator('[data-policy-body]')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'PyCon Hong Kong Privacy Policy Statement'
+    );
+  });
+}
+
 test('registration is pending and calendar uses the actual 2026 event dates', async ({
   page,
 }) => {

@@ -1,4 +1,7 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const cantonese = getChineseTerms('zh-hk');
 
 export type OrganizerItem = {
   titleLines: Record<CfpLocale, string[]>;
@@ -15,9 +18,9 @@ export const pageCopyByLocale: Record<CfpLocale, { title: string; intro: string 
       'PyCon Hong Kong 2026 is organized by a dedicated group of passionate organizations committed to growing the Python community in Hong Kong.',
   },
   'zh-hk': {
-    title: '主辦單位',
+    title: cantonese.organizers,
     intro:
-      'PyCon Hong Kong 2026 由多個充滿熱誠的組織共同策劃，攜手推動香港 Python 社群持續成長。',
+      'PyCon Hong Kong 2026 由幾個熱心嘅組織一齊籌辦，合力推動香港 Python 社群繼續成長。',
   },
   'zh-hant': {
     title: '主辦單位',
@@ -54,7 +57,7 @@ export const organizers: readonly OrganizerItem[] = [
     description: {
       en: 'The Hong Kong Python User Group is a vibrant community of Python enthusiasts dedicated to promoting the use of Python programming language in Hong Kong. Through regular meetups, workshops, and events, they foster a collaborative environment for learning and sharing knowledge about Python.',
       'zh-hk':
-        '香港 Python 用戶組是一個充滿活力的社群，致力於在香港推廣 Python 程式語言。透過定期聚會、工作坊與各類活動，他們為學習、交流與分享 Python 知識建立了協作而開放的環境。',
+        '香港 Python 用戶組係一個充滿活力嘅社群，一直喺香港推廣 Python 程式語言。佢哋定期搞聚會、工作坊同各類活動，畀大家喺開放嘅環境入面一齊學習、交流同分享 Python 知識。',
       'zh-hant':
         '香港 Python 用戶組是一個充滿活力的社群，致力於在香港推廣 Python 程式語言。透過定期聚會、工作坊與各類活動，他們為學習、交流與分享 Python 知識建立了協作而開放的環境。',
       'zh-hans':
@@ -78,7 +81,7 @@ export const organizers: readonly OrganizerItem[] = [
     description: {
       en: 'Open Source Hong Kong (OSHK) is a long-running local community that promotes open source culture, collaboration, and practical technology sharing. Its work has helped create space for developers, educators, and organizers to build sustainable open communities in Hong Kong.',
       'zh-hk':
-        '開源香港（OSHK）是一個歷史悠久的本地社群，致力推動開源文化、協作精神與務實的技術交流。多年來，他們持續為開發者、教育工作者及社群組織者建立空間，讓香港的開放技術社群得以持續成長。',
+        '開源香港（OSHK）係一個成立咗好多年嘅本地社群，一直推動開源文化、合作同實用嘅技術交流。多年嚟，佢哋為開發者、教育工作者同社群組織者提供交流空間，等香港嘅開放技術社群可以繼續成長。',
       'zh-hant':
         '開源香港（OSHK）是一個歷史悠久的本地社群，致力推動開源文化、協作精神與務實的技術交流。多年來，他們持續為開發者、教育工作者及社群組織者建立空間，讓香港的開放技術社群得以持續成長。',
       'zh-hans':
@@ -120,7 +123,7 @@ export const organizers: readonly OrganizerItem[] = [
     description: {
       en: 'Founded in 2014, the Hong Kong Creative Open Technology Association (HKCOTA) is a non-profit, tax-exempt charitable organization. HKCOTA is dedicated to educating and promoting open standards, free and open-source software, open hardware, open data, and creative commons. By working closely with students and professionals, HKCOTA strives to advance the open technology movement in Hong Kong.',
       'zh-hk':
-        '香港創意開放科技協會（HKCOTA）成立於 2014 年，是一個非牟利並獲豁免稅務的慈善組織。HKCOTA 致力推廣開放標準、自由及開源軟件、開源硬件、開放數據及創用 CC，並透過與學生及業界人士緊密合作，推動香港的開放科技發展。',
+        '香港創意開放科技協會（HKCOTA）喺 2014 年成立，係一個非牟利、獲豁免稅務嘅慈善組織。HKCOTA 一直推廣開放標準、自由及開源軟件、開源硬件、開放數據同創用 CC，亦同學生及業界人士緊密合作，一齊推動香港嘅開放科技發展。',
       'zh-hant':
         '香港創意開放科技協會（HKCOTA）成立於 2014 年，是一個非牟利並獲豁免稅務的慈善組織。HKCOTA 致力推廣開放標準、自由及開源軟件、開源硬件、開放數據及創用 CC，並透過與學生及業界人士緊密合作，推動香港的開放科技發展。',
       'zh-hans':

@@ -10,14 +10,16 @@ interface Props {
 const { items, headingLevel: TierHeading = 'h3', descriptions = false, detailsHref } = Astro.props;
 const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
 // Follow the website-logo hierarchy in the sponsorship packages.
-// Prize keeps the regular size used in 2025; media and unknown tiers stay compact.
+// Prize and media sponsors use the same compact size as bronze.
+const compactTierWidth = 'max-w-40 sm:max-w-64';
 const tierWidths: Record<string, string> = {
   diamond: 'max-w-90 sm:max-w-[36rem]',
   platinum: 'max-w-80 sm:max-w-[32rem]',
   gold: 'max-w-70 sm:max-w-[28rem]',
   silver: 'max-w-60 sm:max-w-96',
-  bronze: 'max-w-40 sm:max-w-64',
-  prize: 'max-w-60 sm:max-w-96',
+  bronze: compactTierWidth,
+  prize: compactTierWidth,
+  media: compactTierWidth,
 };
 // Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
 const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({

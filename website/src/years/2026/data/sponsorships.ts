@@ -1,4 +1,7 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const cantonese = getChineseTerms('zh-hk');
 
 export type SponsorshipPageCopy = {
   title: string;
@@ -71,25 +74,26 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
     ctaButtonLabel: 'Contact Us',
   },
   'zh-hk': {
-    title: '贊助機會',
+    title: cantonese.sponsorshipOpportunities,
     subtitle: '成為 PyCon HK 2026 贊助夥伴',
     introParagraphs: [
-      'PyCon HK 2026 是一個難得的機會，讓你接觸香港最投入的 Python 開發者、科技團隊與創新機構。',
-      '作為贊助夥伴，你將置身亞洲其中一個具代表性的 Python 大會，與數百位開發者、資深工程師、數據科學家及科技創業者交流，見證新想法如何變成實際方案。',
-      '你的贊助不只是品牌曝光，更代表你願意支持創新、開源社群，以及香港與區內的科技發展。',
+      'PyCon HK 2026 係一個難得嘅機會，畀你接觸香港最投入嘅 Python 開發者、科技團隊同創新機構。',
+      '成為贊助夥伴，你就可以喺亞洲其中一個具代表性嘅 Python 大會，同數百位開發者、資深工程師、數據科學家同科技創業者交流，一齊睇吓新諗法點樣變成實際方案。',
+      '你嘅贊助唔單止增加品牌曝光，亦代表你願意支持創新、開源社群，同香港及區內嘅科技發展。',
     ],
-    whySponsorTitle: '為什麼值得贊助？',
+    whySponsorTitle: '點解值得贊助？',
     plansTitle: '贊助方案',
     plansDescription:
-      '選擇最適合你團隊的贊助方案，支持 PyCon HK 2026，並與 Python 社群建立連結。',
+      '揀個最適合你團隊嘅贊助方案，支持 PyCon HK 2026，同 Python 社群建立聯繫。',
     popularLabel: '熱門',
     sponsorshipFeeLabel: '贊助費用',
     visibilityHeading: '品牌曝光',
     logoHeading: '標誌曝光',
-    promotionHeading: '社交媒體與宣傳',
-    ctaTitle: '準備成為贊助夥伴？',
-    ctaDescription: '歡迎聯絡我們，討論最適合的贊助方案與可自訂的合作方式。',
-    ctaButtonLabel: '聯絡我們',
+    promotionHeading: '社交媒體同宣傳',
+    ctaTitle: '想成為贊助夥伴？',
+    ctaDescription:
+      '搵我哋傾吓，一齊揀最適合你嘅贊助方案，亦可以商量度身訂造嘅合作方式。',
+    ctaButtonLabel: cantonese.contactUs,
   },
   'zh-hant': {
     title: '贊助機會',
@@ -190,7 +194,7 @@ export const sponsorBenefits: SponsorshipBenefit[] = [
     },
     description: {
       en: 'Increase visibility among tech professionals',
-      'zh-hk': '提升品牌在科技界的知名度與影響力',
+      'zh-hk': '令更多科技界朋友認識你嘅品牌，提升影響力',
       'zh-hant': '提升品牌在科技界的知名度與影響力',
       'zh-hans': '提升品牌在科技界的知名度与影响力',
       ja: '技術コミュニティの中で認知を高める',
@@ -209,7 +213,7 @@ export const sponsorBenefits: SponsorshipBenefit[] = [
     },
     description: {
       en: 'Connect with industry leaders and potential clients',
-      'zh-hk': '接觸業界領袖、優秀人才與潛在合作夥伴',
+      'zh-hk': '識多啲業界領袖、出色人才同潛在合作夥伴',
       'zh-hant': '接觸業界領袖、優秀人才與潛在合作夥伴',
       'zh-hans': '接触业界领袖、优秀人才与潜在合作伙伴',
       ja: '業界リーダーや潜在的な顧客とつながる',
@@ -228,7 +232,7 @@ export const sponsorBenefits: SponsorshipBenefit[] = [
     },
     description: {
       en: 'Support Python community growth in Hong Kong',
-      'zh-hk': '支持香港及亞太區 Python 社群的長遠繁榮發展',
+      'zh-hk': '支持香港同亞太區 Python 社群長遠發展',
       'zh-hant': '支持香港及亞太區 Python 社群的長遠繁榮發展',
       'zh-hans': '支持香港及亚太区 Python 社区的长远繁荣发展',
       ja: '香港の Python コミュニティの成長を支える',
@@ -289,7 +293,7 @@ export const featureLabels: Record<string, Record<CfpLocale, string>> = {
   },
   rollupBySponsor: {
     en: 'Rollup by Sponsor',
-    'zh-hk': '擺放自備易拉架',
+    'zh-hk': '擺放自己帶嚟嘅易拉架',
     'zh-hant': '擺放自備易拉架',
     'zh-hans': '摆放自备易拉架',
     ja: '自社ロールアップ持参可',
@@ -313,7 +317,7 @@ export const featureLabels: Record<string, Record<CfpLocale, string>> = {
   },
   pressReleases: {
     en: 'Press Releases',
-    'zh-hk': '新聞稿及媒體通知',
+    'zh-hk': '新聞稿同媒體通知',
     'zh-hant': '新聞稿及媒體通知',
     'zh-hans': '新闻稿及媒体通知',
     ja: 'プレスリリース',
@@ -329,7 +333,7 @@ export const featureLabels: Record<string, Record<CfpLocale, string>> = {
   },
   openingClosing: {
     en: 'Opening & Closing',
-    'zh-hk': '開幕及閉幕鳴謝',
+    'zh-hk': '開幕同閉幕鳴謝',
     'zh-hant': '開幕及閉幕鳴謝',
     'zh-hans': '开幕及闭幕鸣谢',
     ja: '開会・閉会での謝辞',

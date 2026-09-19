@@ -1,4 +1,7 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const cantonese = getChineseTerms('zh-hk');
 
 export type SocialLink = {
   label: string;
@@ -29,14 +32,14 @@ export const pageCopyByLocale: Record<CfpLocale, AboutPageCopy> = {
   },
   'zh-hk': {
     title: '關於 PyCon Hong Kong',
-    subtitle: '凝聚 Python 愛好者，賦能創新',
+    subtitle: '聚埋 Python 愛好者，一齊創新',
     imageAlt: 'PyCon Hong Kong 大會活動合照',
     paragraphs: [
-      'PyCon Hong Kong（PyCon HK）是香港具代表性的 Python 年度會議，匯聚來自不同背景的 Python 愛好者，分享經驗、交流想法，並促進合作。全球每年有超過五十個城市及地區舉辦 PyCon，而 PyCon HK 很榮幸成為其中一員。',
-      'PyCon HK 的起點可追溯至 Sammy Fung 參與 2013 年東京 PyCon APAC 之後。當時他意識到，亞洲多個城市都有自己的 PyCon，但香港仍然缺少一個屬於本地 Python 社群的重要年度聚會。於是，Sammy 與開源香港合作，在 2015 年舉辦了首屆 PyCon HK。自此，PyCon HK 一直在香港推動 Python 技術交流與社群發展。',
-      '2026 年，PyCon Hong Kong 延續歷年熱情，連結本地與國際的 Python 開發者與開源社群。在熱心義工、資深工程師、教育工作者與科技創新者的共同努力下，PyCon HK 2026 帶來兼具深度與前瞻性的技術交流平台。',
+      'PyCon Hong Kong（PyCon HK）係香港具代表性嘅 Python 年度大會。唔同背景嘅 Python 愛好者聚埋一齊，分享經驗、交流諗法，再搵機會合作。全球每年有超過五十個城市同地區舉辦 PyCon，PyCon HK 好榮幸都係其中一員。',
+      '講起 PyCon HK 嘅起點，要由 Sammy Fung 參加 2013 年東京 PyCon APAC 講起。當時佢發現，亞洲好多城市都有自己嘅 PyCon，但香港仲未有一個屬於本地 Python 社群嘅年度聚會。於是，Sammy 同開源香港合作，喺 2015 年舉辦咗首屆 PyCon HK。由嗰陣開始，PyCon HK 一直喺香港推動 Python 技術交流同社群發展。',
+      '2026 年，PyCon Hong Kong 繼續帶住歷年嘅熱情，將本地同世界各地嘅 Python 開發者同開源社群連埋一齊。靠住熱心義工、資深工程師、教育工作者同科技創新者一齊出力，PyCon HK 2026 會帶嚟有深度、又着眼未來嘅技術交流。',
     ],
-    socialHeading: '關注我們',
+    socialHeading: cantonese.followUs,
   },
   'zh-hant': {
     title: '關於 PyCon Hong Kong',

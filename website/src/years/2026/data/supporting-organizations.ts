@@ -1,4 +1,7 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const cantonese = getChineseTerms('zh-hk');
 
 export type SupportingOrganization = {
   slug: string;
@@ -26,11 +29,11 @@ export const pageCopyByLocale: Record<CfpLocale, SupportingOrganizationsCopy> = 
     visitWebsite: 'Visit Website',
   },
   'zh-hk': {
-    title: '支持組織',
-    subtitle: '社群夥伴',
+    title: '支持機構',
+    subtitle: cantonese.communities,
     intro:
-      '衷心感謝所有支持 PyCon HK 2026 的組織。你們的參與讓大會能夠與香港及亞洲地區更廣泛的 Python、教育與科技社群保持緊密連結。',
-    visitWebsite: '造訪網站',
+      '衷心多謝所有支持 PyCon HK 2026 嘅組織。有你哋參與，大會先可以同香港及亞洲各地更多 Python、教育同科技社群保持緊密聯繫。',
+    visitWebsite: cantonese.visitWebsite,
   },
   'zh-hant': {
     title: '支持組織',
@@ -80,7 +83,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: 'Hong Kong meetup community for people who want to learn, practice, and share agile ideas together.',
       'zh-hk':
-        '香港的 Agile 社群聚會，讓有興趣學習、實踐及分享 agile 理念的人一起交流。',
+        '香港嘅 Agile 社群聚會，畀有興趣學習、實踐同分享 agile 理念嘅朋友一齊交流。',
       'zh-hant':
         '香港的 Agile 社群聚會，讓有興趣學習、實踐及分享 agile 理念的人一起交流。',
       'zh-hans':
@@ -106,7 +109,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: 'Volunteer-led community for AWS learners and practitioners across talks, workshops, and networking sessions.',
       'zh-hk':
-        '由義工推動的 AWS 社群，透過講座、工作坊及聚會連結不同程度的雲端學習者與實踐者。',
+        '由義工推動嘅 AWS 社群，透過講座、工作坊同聚會，畀唔同程度嘅朋友一齊學習同實踐雲端技術。',
       'zh-hant':
         '由義工推動的 AWS 社群，透過講座、工作坊及聚會連結不同程度的雲端學習者與實踐者。',
       'zh-hans':
@@ -132,7 +135,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: "Hong Kong's first Hackerspace, providing open creative spaces and resources for makers, coders, and artists.",
       'zh-hk':
-        '香港首個 Hackerspace，為創客、程式設計師與藝術家提供開放的創作空間與社群資源。',
+        '香港首個 Hackerspace，畀創客、程式設計師同藝術家一個開放嘅創作空間，亦提供社群資源。',
       'zh-hant':
         '香港首個 Hackerspace，為創客、程式設計師與藝術家提供開放的創作空間與社群資源。',
       'zh-hans':
@@ -157,7 +160,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.hkace.org.hk/',
     summary: {
       en: 'Professional association supporting computer education, teachers, students, and technology learning in Hong Kong.',
-      'zh-hk': '支援香港電腦教育、教師發展、學生培育及科技學習的專業團體。',
+      'zh-hk': '支援香港電腦教育嘅專業團體，同時推動教師發展、學生培育同科技學習。',
       'zh-hant': '支援香港電腦教育、教師發展、學生培育及科技學習的專業團體。',
       'zh-hans': '支援香港电脑教育、教师发展、学生培育及科技学习的专业团体。',
       ja: 'コンピュータ教育と指導者育成を支援する香港の専門教育団体。',
@@ -180,7 +183,8 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.cs.cityu.edu.hk/',
     summary: {
       en: 'Student chapter fostering technical skills, hackathons, and industry exposure for aspiring computer scientists at CityU.',
-      'zh-hk': '致力培育城大計算機科學系學生的技術能力、黑客松競賽經驗與業界交流機會。',
+      'zh-hk':
+        '幫城大計算機科學系學生提升技術能力，累積黑客松比賽經驗，亦提供同業界交流嘅機會。',
       'zh-hant':
         '致力培育城大計算機科學系學生的技術能力、黑客松競賽經驗與業界交流機會。',
       'zh-hans':
@@ -205,7 +209,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.facebook.com/codeaholics/',
     summary: {
       en: 'Developer community focused on practical talks and workshops that connect local engineers in Hong Kong.',
-      'zh-hk': '以務實技術分享和工作坊為主的開發者社群，連結香港本地工程師。',
+      'zh-hk': '香港本地開發者嘅社群，透過實用嘅技術分享同工作坊，畀工程師一齊交流。',
       'zh-hant': '以務實技術分享和工作坊為主的開發者社群，連結香港本地工程師。',
       'zh-hans': '以务实技术分享和工作坊为主的开发者社区，连接香港本地工程师。',
       ja: '実践的な技術トークやワークショップを開催する開発者コミュニティ。',
@@ -228,7 +232,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.eduhk.hk/mit/en/',
     summary: {
       en: 'Academic department advancing mathematics, information technology, research, and pedagogy for future educators.',
-      'zh-hk': '致力推動數學、資訊科技、研究及教學發展，培育未來教育工作者的學術部門。',
+      'zh-hk': '推動數學、資訊科技、研究同教學發展嘅學術部門，培育未來嘅教育工作者。',
       'zh-hant':
         '致力推動數學、資訊科技、研究及教學發展，培育未來教育工作者的學術部門。',
       'zh-hans':
@@ -254,7 +258,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: 'Community for developers exploring Google Cloud topics from machine learning to serverless and containers.',
       'zh-hk':
-        '讓開發者交流 Google Cloud 主題的社群，涵蓋機器學習、serverless、容器等方向。',
+        '畀開發者交流 Google Cloud 技術嘅社群，主題包括機器學習、serverless 同容器。',
       'zh-hant':
         '讓開發者交流 Google Cloud 主題的社群，涵蓋機器學習、serverless、容器等方向。',
       'zh-hans':
@@ -280,7 +284,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: 'Long-running developer community sharing Google technologies through study groups, workshops, and DevFest events.',
       'zh-hk':
-        '歷史悠久的開發者社群，透過讀書會、工作坊及 DevFest 等活動分享 Google 技術。',
+        '成立咗好多年嘅開發者社群，透過讀書會、工作坊同 DevFest 等活動，一齊分享 Google 技術。',
       'zh-hant':
         '歷史悠久的開發者社群，透過讀書會、工作坊及 DevFest 等活動分享 Google 技術。',
       'zh-hans':
@@ -305,7 +309,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://hkwtia.org/',
     summary: {
       en: 'Trade association helping advance wireless, mobile, and emerging technology communities in Hong Kong.',
-      'zh-hk': '推動香港無線、流動及新興科技產業與社群發展的業界組織。',
+      'zh-hk': '推動香港無線、流動同新興科技產業，以及相關社群發展嘅業界組織。',
       'zh-hant': '推動香港無線、流動及新興科技產業與社群發展的業界組織。',
       'zh-hans': '推动香港无线、流动及新兴科技产业与社区发展的业界组织。',
       ja: '無線・モバイル・スマート技術産業の発展を後押しする業界団体。',
@@ -328,7 +332,8 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.isoc.hk/',
     summary: {
       en: 'Advocates for an open, neutral, reliable, and accessible internet through standards, governance, and infrastructure work.',
-      'zh-hk': '透過標準、治理及基礎建設工作，推動開放、中立、可靠且可及的互聯網。',
+      'zh-hk':
+        '透過標準、治理同基礎建設方面嘅工作，推動開放、中立、可靠，而且人人都用得到嘅互聯網。',
       'zh-hant': '透過標準、治理及基礎建設工作，推動開放、中立、可靠且可及的互聯網。',
       'zh-hans': '通过标准、治理及基础建设工作，推动开放、中立、可靠且可及的互联网。',
       ja: 'オープンで中立なインターネットの普及とガバナンスを推進する団体。',
@@ -352,7 +357,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: 'Raspberry Pi community from Japan supporting hardware learning, making, and regional meetup collaboration.',
       'zh-hk':
-        '來自日本的 Raspberry Pi 社群，推動硬件學習、創作實踐及跨地區 meetup 協作。',
+        '嚟自日本嘅 Raspberry Pi 社群，推動硬件學習、動手創作，同唔同地區嘅 meetup 合作。',
       'zh-hant':
         '來自日本的 Raspberry Pi 社群，推動硬件學習、創作實踐及跨地區 meetup 協作。',
       'zh-hans':
@@ -377,7 +382,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.mindtheproduct.com/producttank/hong-kong/',
     summary: {
       en: 'Informal community meetups for product managers, UX designers, and tech leaders to share insights and build connections.',
-      'zh-hk': '為產品經理、UX 設計師與技術團隊提供交流與分享實戰經驗的社群。',
+      'zh-hk': '畀產品經理、UX 設計師同技術團隊一齊交流，分享實戰經驗嘅社群。',
       'zh-hant': '為產品經理、UX 設計師與技術團隊提供交流與分享實戰經驗的社群。',
       'zh-hans': '为产品经理、UX 设计师与技术团队提供交流与分享实战经验的社区。',
       ja: 'プロダクトマネージャーやデザイナーがつながる香港のミートアップ。',
@@ -400,7 +405,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://linktr.ee/pyladieshk',
     summary: {
       en: 'Community that encourages women to participate, lead, and build lasting connections in Python and open source.',
-      'zh-hk': '鼓勵女性參與、帶領並在 Python 與開源社群中建立長遠連結的社群。',
+      'zh-hk': '鼓勵女性參與同帶領 Python 及開源活動，喺社群入面建立長遠聯繫。',
       'zh-hant': '鼓勵女性參與、帶領並在 Python 與開源社群中建立長遠連結的社群。',
       'zh-hans': '鼓励女性参与、带领并在 Python 与开源社区中建立长远连接的社区。',
       ja: '女性エンジニアの Python コミュニティ参加とリーダーシップを支援する団体。',
@@ -424,7 +429,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     summary: {
       en: 'Korean chapter of PyLadies connecting female Python developers through study jams, workshops, and friendly meetups.',
       'zh-hk':
-        'PyLadies 韓國分會，透過讀書會、工作坊及技術聚會連結女性 Python 開發者。',
+        'PyLadies 韓國分會，透過讀書會、工作坊同技術聚會，畀女性 Python 開發者一齊交流。',
       'zh-hant':
         'PyLadies 韓國分會，透過讀書會、工作坊及技術聚會連結女性 Python 開發者。',
       'zh-hans':
@@ -449,7 +454,8 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://tokyo.pyladies.com/',
     summary: {
       en: 'Tokyo branch of PyLadies connecting Python practitioners through regular meetups and collaborative events.',
-      'zh-hk': 'PyLadies 東京分會，透過定期聚會與合作活動連結不同 Python 實踐者。',
+      'zh-hk':
+        'PyLadies 東京分會，透過定期聚會同合作活動，將唔同嘅 Python 實踐者連埋一齊。',
       'zh-hant': 'PyLadies 東京分會，透過定期聚會與合作活動連結不同 Python 實踐者。',
       'zh-hans': 'PyLadies 东京分会，通过定期聚会与合作活动连接不同 Python 实践者。',
       ja: '月例ミートアップや協同イベントを通じて活動する PyLadies 東京支部。',
@@ -472,7 +478,8 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://pythonasia.org/',
     summary: {
       en: 'Non-profit supporting regional Python conferences, leadership development, and cross-community collaboration across Asia.',
-      'zh-hk': '支援亞洲區域 Python 會議、社群領袖培育及跨社群協作的非牟利組織。',
+      'zh-hk':
+        '支援亞洲各地 Python 會議嘅非牟利組織，亦幫手培育社群領袖，推動唔同社群合作。',
       'zh-hant': '支援亞洲區域 Python 會議、社群領袖培育及跨社群協作的非牟利組織。',
       'zh-hans': '支援亚洲区域 Python 会议、社区领袖培育及跨社区协作的非牟利组织。',
       ja: 'アジア各地の Python カンファレンス開催とリーダー育成を推進する非営利組織。',
@@ -495,7 +502,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     url: 'https://www.womentechmakers.com/',
     summary: {
       en: 'Google program providing visibility, community, and resources for women in technology to thrive and lead in Hong Kong.',
-      'zh-hk': '為女性科技從業者提供社群支持、技術培訓與發揮潛能平台的計劃。',
+      'zh-hk': '為科技界女性提供社群支援、技術培訓同發揮潛能機會嘅計劃。',
       'zh-hant': '為女性科技從業者提供社群支持、技術培訓與發揮潛能平台的計劃。',
       'zh-hans': '为女性科技从业者提供社区支持、技术培训与发挥潜能平台的计划。',
       ja: 'テクノロジー分野で活躍する女性を支援する Google 主導のプログラム。',
