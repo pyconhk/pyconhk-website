@@ -12,12 +12,12 @@ const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
 // Follow the website-logo hierarchy in the sponsorship packages.
 // Prize keeps the regular size used in 2025; media and unknown tiers stay compact.
 const tierWidths: Record<string, string> = {
-  diamond: 'max-w-64 sm:max-w-[32rem]',
-  platinum: 'max-w-60 sm:max-w-[28rem]',
-  gold: 'max-w-56 sm:max-w-[24rem]',
-  silver: 'max-w-52 sm:max-w-[20rem]',
-  bronze: 'max-w-44 sm:max-w-[16rem]',
-  prize: 'max-w-52 sm:max-w-[20rem]',
+  diamond: 'max-w-[30rem] sm:max-w-[48rem]',
+  platinum: 'max-w-[25rem] sm:max-w-[40rem]',
+  gold: 'max-w-80 sm:max-w-[32rem]',
+  silver: 'max-w-60 sm:max-w-96',
+  bronze: 'max-w-40 sm:max-w-64',
+  prize: 'max-w-60 sm:max-w-96',
 };
 // Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
 const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
@@ -53,9 +53,9 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
                 group.widthClass,
                 href && 'cursor-pointer',
               ]}>
-              {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] border border-[#e0dbd2] bg-[#fffaf2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
+              {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] bg-[#fffaf2] inset-ring-1 inset-ring-[#e0dbd2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
                 <img src={item.logo} alt="" width="320" height="180" loading="lazy"
-                  class="absolute inset-0 block h-full w-full object-contain p-[7%]" />
+                  class="absolute left-[7%] top-[7%] block h-[86%] w-[86%] object-contain" />
               </span>}
               <NameHeading class:list={[
                 'text-base font-bold leading-snug underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-[1.0625rem]',
