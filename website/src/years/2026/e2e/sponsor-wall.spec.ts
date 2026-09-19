@@ -47,6 +47,10 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
               tiers.map((tier) => tier.getAttribute('data-sponsor-tier'))
             )
         ).toEqual(['Silver', 'Bronze', 'Prize Sponsor', 'Media Sponsor']);
+        const logoSizes: Record<
+          string,
+          { width: number; height: number; artworkWidth: number; artworkHeight: number }
+        > = {};
         for (const [id, tier, name, url] of sponsorships) {
           const link = wall
             .locator(`[data-sponsor-tier="${tier}"]`)
@@ -84,7 +88,47 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           if (!plate) throw new Error(`${name} has no visible logo plate`);
           expect(plate.width / plate.height).toBeGreaterThanOrEqual(1.85);
           expect(plate.width / plate.height).toBeLessThanOrEqual(1.95);
+          const artwork = await image.evaluate((img: HTMLImageElement) => {
+            const style = getComputedStyle(img);
+            const width =
+              img.clientWidth -
+              Number.parseFloat(style.paddingLeft) -
+              Number.parseFloat(style.paddingRight);
+            const height =
+              img.clientHeight -
+              Number.parseFloat(style.paddingTop) -
+              Number.parseFloat(style.paddingBottom);
+            const scale = Math.min(
+              width / img.naturalWidth,
+              height / img.naturalHeight
+            );
+            return {
+              artworkWidth: img.naturalWidth * scale,
+              artworkHeight: img.naturalHeight * scale,
+            };
+          });
+          logoSizes[id] = { width: plate.width, height: plate.height, ...artwork };
         }
+        for (const dimension of ['width', 'height'] as const) {
+          expect(logoSizes.navicat[dimension]).toBeGreaterThan(
+            logoSizes['calomei-bronze'][dimension] + 1
+          );
+          for (const id of ['jetbrains', 'calomei-prize'])
+            expect(logoSizes[id][dimension]).toBeCloseTo(
+              logoSizes.navicat[dimension],
+              0
+            );
+          expect(logoSizes.lihkg[dimension]).toBeCloseTo(
+            logoSizes['calomei-bronze'][dimension],
+            0
+          );
+        }
+        expect(logoSizes['calomei-prize'].artworkWidth).toBeGreaterThan(
+          logoSizes['calomei-bronze'].artworkWidth + 1
+        );
+        expect(logoSizes['calomei-prize'].artworkHeight).toBeGreaterThan(
+          logoSizes['calomei-bronze'].artworkHeight + 1
+        );
         const prize = wall.locator('[data-sponsor-tier="Prize Sponsor"] li');
         const first = await prize.nth(0).boundingBox();
         const second = await prize.nth(1).boundingBox();

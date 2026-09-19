@@ -9,9 +9,20 @@ interface Props {
 }
 const { items, headingLevel: TierHeading = 'h3', descriptions = false, detailsHref } = Astro.props;
 const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
+// Follow the website-logo hierarchy in the sponsorship packages.
+// Prize keeps the regular size used in 2025; media and unknown tiers stay compact.
+const tierWidths: Record<string, string> = {
+  diamond: 'max-w-64 sm:max-w-[32rem]',
+  platinum: 'max-w-60 sm:max-w-[28rem]',
+  gold: 'max-w-56 sm:max-w-[24rem]',
+  silver: 'max-w-52 sm:max-w-[20rem]',
+  bronze: 'max-w-44 sm:max-w-[16rem]',
+  prize: 'max-w-52 sm:max-w-[20rem]',
+};
 // Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
 const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
   tier,
+  widthClass: tierWidths[tier.trim().toLowerCase().replace(/\s+sponsors?$/, '')] ?? tierWidths.bronze,
   items: items.filter((item) => item.tier === tier),
 }));
 ---
@@ -22,7 +33,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
       <TierHeading class="mb-6 text-2xl font-extrabold leading-tight tracking-tight text-conference-ink sm:mb-8 sm:text-3xl">
         {group.tier}
       </TierHeading>
-      <ul class="flex flex-col items-center justify-center gap-6 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-10 sm:gap-y-8">
+      <ul class="flex flex-col items-center justify-center gap-6 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-8">
         {group.items.map((item) => {
           const href = detailsHref ? `${detailsHref}#sponsor-${item.id}` : item.url;
           const external = !detailsHref && Boolean(item.url);
@@ -31,19 +42,20 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
           const isJetBrains = item.logo === '/2026/sponsors/jetbrains.svg';
           const hasWordmark = isNavicat || isJetBrains;
           return <li id={`sponsor-${item.id}`} class:list={[
-            'min-w-0 w-full max-w-76 scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
-            group.items.length === 1 && descriptions && item.description && 'max-w-prose',
+            'min-w-0 w-full scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
+            group.items.length === 1 && descriptions && item.description ? 'max-w-prose' : group.widthClass,
           ]}>
             <Link href={href || undefined} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}
               aria-label={item.name}
               data-sponsor-link={href ? item.id : undefined}
               class:list={[
-                'group mx-auto flex w-full max-w-76 flex-col items-center gap-3 rounded-[10px] text-conference-ink outline-offset-4 focus-visible:outline-3 focus-visible:outline-conference-blue',
+                'group mx-auto flex w-full flex-col items-center gap-3 rounded-[10px] text-conference-ink outline-offset-4 focus-visible:outline-3 focus-visible:outline-conference-blue',
+                group.widthClass,
                 href && 'cursor-pointer',
               ]}>
               {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] border border-[#e0dbd2] bg-[#fffaf2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
                 <img src={item.logo} alt="" width="320" height="180" loading="lazy"
-                  class="absolute inset-0 block h-full w-full object-contain p-5" />
+                  class="absolute inset-0 block h-full w-full object-contain p-[7%]" />
               </span>}
               <NameHeading class:list={[
                 'text-base font-bold leading-snug underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-[1.0625rem]',
