@@ -87,13 +87,13 @@ const shareLocales = [
     locale: 'zh-hk',
     ogLocale: 'zh_HK',
     title: '編程・連結・前行',
-    description: '匯聚 Python 社群',
+    description: '同世界各地嘅 Python 社群喺香港見面',
   },
   {
     locale: 'zh-hant',
     ogLocale: 'zh_TW',
     title: '編程・連結・前行',
-    description: '匯聚 Python 社群',
+    description: '與來自各地的 Python 社群相聚香港',
   },
   {
     locale: 'zh-hans',
