@@ -10,8 +10,7 @@ for (const locale of ['ja', 'ko']) {
       await page.setViewportSize({ width, height: 900 });
       await page.evaluate(() => document.fonts.ready);
       const clipped = await page
-        .locator('[data-site-header] > div')
-        .first()
+        .locator('[data-header-row]')
         .evaluate((row) => {
           // Page-level overflow checks miss controls hidden by overflow-x: clip.
           return [...row.children]
