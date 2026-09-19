@@ -1,0 +1,15 @@
+---
+interface Props { className?: string }
+const { className } = Astro.props;
+---
+
+<!-- Use the hero logo's exact letter shapes, with the current theme's text colour. -->
+<span
+  role="img"
+  aria-label="PYCON HK 2026"
+  data-brand-wordmark
+  class:list={[
+    'block shrink-0 aspect-[598/56] bg-current text-conference-ink [mask:url(/2026/logos/wordmark.svg)_center/contain_no-repeat]',
+    className,
+  ]}
+/>

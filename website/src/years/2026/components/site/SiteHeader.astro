@@ -1,4 +1,5 @@
 ---
+import BrandWordmark from '@/years/2026/components/ui/BrandWordmark.astro';
 import LanguageSwitcher from '@/years/2026/components/ui/LanguageSwitcher.astro';
 import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
 import ThemeSwitcher from '@/years/2026/components/ui/ThemeSwitcher.astro';
@@ -35,9 +36,7 @@ const homeHref = `/2026/${locale}/`;
           height="45"
           class="h-6 sm:h-7.5 min-[1500px]:h-8.5 w-auto max-w-[95px] sm:max-w-[125px] min-[1500px]:max-w-[150px] object-contain"
         />
-        <span class="font-sans text-base min-[1440px]:text-lg text-conference-ink hidden min-[440px]:inline-block whitespace-nowrap leading-none font-black uppercase tracking-wider">
-          PYCON HK 2026
-        </span>
+        <BrandWordmark className="hidden w-33 min-[440px]:block min-[1440px]:w-37" />
       </a>
     </div>
 
@@ -136,7 +135,7 @@ const homeHref = `/2026/${locale}/`;
       data-mobile-nav-panel
     >
       <div class="flex items-center justify-between pb-4 border-b border-conference-outline/15">
-        <span class="font-sans text-lg text-conference-ink  leading-none font-black uppercase tracking-wider">PYCON HK 2026</span>
+        <BrandWordmark className="w-42" />
         <button
           type="button"
           class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-conference-outline  bg-conference-surface  text-conference-ink  shadow-conference-control"
