@@ -9,17 +9,15 @@ for (const locale of ['ja', 'ko']) {
     for (const width of [390, 768, 1439, 1440, 1600, 1699, 1700, 1920]) {
       await page.setViewportSize({ width, height: 900 });
       await page.evaluate(() => document.fonts.ready);
-      const clipped = await page
-        .locator('[data-header-row]')
-        .evaluate((row) => {
-          // Page-level overflow checks miss controls hidden by overflow-x: clip.
-          return [...row.children]
-            .filter((element) => {
-              const bounds = element.getBoundingClientRect();
-              return bounds.width > 0 && (bounds.left < 0 || bounds.right > innerWidth);
-            })
-            .map((element) => element.textContent?.trim());
-        });
+      const clipped = await page.locator('[data-header-row]').evaluate((row) => {
+        // Page-level overflow checks miss controls hidden by overflow-x: clip.
+        return [...row.children]
+          .filter((element) => {
+            const bounds = element.getBoundingClientRect();
+            return bounds.width > 0 && (bounds.left < 0 || bounds.right > innerWidth);
+          })
+          .map((element) => element.textContent?.trim());
+      });
       expect(clipped, `${width}px`).toEqual([]);
       const trigger = page.locator('[data-mobile-nav-trigger]');
       if (await trigger.isVisible()) {
