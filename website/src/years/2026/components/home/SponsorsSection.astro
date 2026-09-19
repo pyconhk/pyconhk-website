@@ -1,5 +1,6 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
+import SponsorWall from '@/years/2026/components/content/SponsorWall.astro';
 import { contentUi } from '@/years/2026/data/content-ui';
 import type { CfpLocale } from '@/years/2026/locales';
 
@@ -7,129 +8,20 @@ interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
 const { sponsors } = getConferenceContent(locale);
 const copy = contentUi[locale];
-const motionLabels = {
-  en: ['Pause sponsor carousel', 'Play sponsor carousel'],
-  'zh-hk': ['暫停贊助夥伴輪播', '播放贊助夥伴輪播'],
-  'zh-hant': ['暫停贊助夥伴輪播', '播放贊助夥伴輪播'],
-  'zh-hans': ['暂停赞助伙伴轮播', '播放赞助伙伴轮播'],
-  ja: ['スポンサーの自動スクロールを一時停止', 'スポンサーの自動スクロールを再生'],
-  ko: ['후원사 자동 스크롤 일시 정지', '후원사 자동 스크롤 재생'],
-}[locale];
-// One logo per brand, even when a sponsor supports more than one tier.
-const seen = new Set<string>();
-const brands = sponsors.items.filter((item) => {
-  const key = item.url || item.logo || item.name;
-  if (seen.has(key)) return false;
-  seen.add(key);
-  return true;
-});
+const detailsHref = `/2026/${locale}/sponsorships/`;
 ---
-{sponsors.status === 'published' && brands.length > 0 && (
-<div id="sponsors" class="sponsor-strip bg-conference-paper py-9 sm:py-12">
-  <h2 id="sponsors-title" class="px-5 text-center text-lg font-bold text-conference-body sm:text-xl">{copy.titles.sponsors}</h2>
-  <pycon-sponsor-carousel data-pause-label={motionLabels[0]} data-play-label={motionLabels[1]}>
-    <section data-sponsor-overview tabindex="0" aria-labelledby="sponsors-title" class="sponsor-viewport my-5 sm:my-7">
-      {[false, true].map((duplicate) => (
-        <ul data-published-sponsors={duplicate ? undefined : ''} aria-hidden={duplicate ? 'true' : undefined} inert={duplicate} class="sponsor-loop">
-          {brands.map((item) => {
-            const wordmark = item.logo === '/2026/sponsors/navicat.svg' || item.logo === '/2026/sponsors/jetbrains.svg';
-            return <li data-sponsor-brand={duplicate ? undefined : item.id} class="sponsor-slot">
-              {item.logo ? <img src={item.logo} alt={duplicate ? '' : item.name} width="240" height="120" loading="lazy" class:list={['sponsor-logo', wordmark && 'sponsor-wordmark']} /> : <span class="font-bold text-conference-ink">{item.name}</span>}
-            </li>;
-          })}
-        </ul>
-      ))}
-    </section>
-    <div class="flex items-center justify-center gap-4 px-5">
-      <a href={`/2026/${locale}/sponsorships/`} data-sponsors-details class="group inline-flex min-h-11 cursor-pointer items-center gap-2 py-2 text-sm font-bold text-conference-blue underline-offset-4 hover:underline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue sm:text-base">
-        {copy.viewSponsors}
-        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 fill-none stroke-current stroke-2"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
-      </a>
-      <button type="button" data-sponsor-motion hidden aria-label={motionLabels[0]} class="sponsor-motion flex h-11 w-11 items-center justify-center rounded-full border border-conference-outline/30 text-conference-body hover:bg-conference-surface focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
-        <span data-pause-icon aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M6 4h4v16H6zm8 0h4v16h-4z" /></svg></span>
-        <span data-play-icon hidden aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="m7 4 13 8-13 8z" /></svg></span>
-      </button>
+{sponsors.status === 'published' && sponsors.items.length > 0 && (
+<section id="sponsors" aria-labelledby="sponsors-title" class="bg-conference-paper px-5 py-12 sm:px-6 sm:py-16">
+  <div class="mx-auto w-full max-w-[65rem] text-center">
+    <h2 id="sponsors-title" class="text-3xl font-extrabold leading-tight text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
+    <div aria-hidden="true" class="mx-auto mt-5 flex h-1 w-24"><span class="flex-1 bg-[#d71920]" /><span class="flex-1 bg-white" /><span class="flex-1 bg-[#2f559a]" /></div>
+    <div data-published-sponsors data-sponsor-overview>
+      <SponsorWall items={sponsors.items} detailsHref={detailsHref} />
     </div>
-  </pycon-sponsor-carousel>
-</div>
+    <a href={detailsHref} data-sponsors-details class="inline-flex min-h-11 cursor-pointer items-center gap-2 py-2 text-base font-bold text-conference-blue underline-offset-4 hover:underline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+      {copy.viewSponsors}
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 fill-none stroke-current stroke-2"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+    </a>
+  </div>
+</section>
 )}
-
-<style>
-  .sponsor-strip { scroll-margin-top: var(--conference-header-height); }
-  pycon-sponsor-carousel { display: block; }
-  .sponsor-viewport { display: flex; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
-  .sponsor-viewport::-webkit-scrollbar { display: none; }
-  .sponsor-viewport:focus-visible { outline: 2px solid var(--conference-blue); outline-offset: -2px; }
-  .sponsor-loop { display: flex; flex: 0 0 auto; min-width: 100%; }
-  .sponsor-slot { display: flex; flex: 1 0 14rem; height: 8.5rem; align-items: center; justify-content: center; padding: .75rem 2rem; }
-  .sponsor-logo { display: block; width: auto; height: auto; max-width: 11rem; max-height: 6rem; object-fit: contain; }
-  .sponsor-motion[hidden], .sponsor-motion [hidden] { display: none; }
-  :global(html[data-conference-theme='dark']) .sponsor-wordmark { box-sizing: content-box; background: white; border-radius: .5rem; padding: .625rem; }
-  @media (min-width: 768px) {
-    .sponsor-slot { flex-basis: 18rem; height: 10rem; padding-inline: 3rem; }
-    .sponsor-logo { max-width: 14rem; max-height: 7.5rem; }
-  }
-</style>
-
-<script>
-  class SponsorCarousel extends HTMLElement {
-    private cleanup?: () => void;
-
-    connectedCallback() {
-      const viewport = this.querySelector<HTMLElement>('[data-sponsor-overview]');
-      const group = this.querySelector<HTMLElement>('[data-published-sponsors]');
-      const button = this.querySelector<HTMLButtonElement>('[data-sponsor-motion]');
-      const pauseIcon = this.querySelector<HTMLElement>('[data-pause-icon]');
-      const playIcon = this.querySelector<HTMLElement>('[data-play-icon]');
-      if (!viewport || !group || !button || !pauseIcon || !playIcon) return;
-      const events = new AbortController();
-      const options = { signal: events.signal };
-      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-      let paused = reducedMotion.matches;
-      let visible = false;
-      let hovering = false;
-      let focused = false;
-      let frame = 0;
-      let previousTime = 0;
-      let position = viewport.scrollLeft;
-      let cycleWidth = group.offsetWidth;
-      const tick = (time: number) => {
-        if (previousTime) position += Math.min(time - previousTime, 50) * .028;
-        previousTime = time;
-        if (cycleWidth > 0) position %= cycleWidth;
-        viewport.scrollLeft = position;
-        frame = requestAnimationFrame(tick);
-      };
-      const update = () => {
-        cancelAnimationFrame(frame);
-        previousTime = 0;
-        position = viewport.scrollLeft;
-        button.setAttribute('aria-label', (paused ? this.dataset.playLabel : this.dataset.pauseLabel) || '');
-        pauseIcon.toggleAttribute('hidden', paused);
-        playIcon.toggleAttribute('hidden', !paused);
-        if (!paused && visible && !hovering && !focused && !document.hidden) frame = requestAnimationFrame(tick);
-      };
-      const pause = () => { paused = true; update(); };
-      button.hidden = false;
-      button.addEventListener('click', () => { paused = !paused; update(); }, options);
-      // Stop while a visitor reads, tabs into, or manually scrolls the strip.
-      viewport.addEventListener('mouseenter', () => { hovering = true; update(); }, options);
-      viewport.addEventListener('mouseleave', () => { hovering = false; update(); }, options);
-      viewport.addEventListener('focusin', () => { focused = true; update(); }, options);
-      viewport.addEventListener('focusout', () => { focused = false; update(); }, options);
-      viewport.addEventListener('pointerdown', pause, options);
-      viewport.addEventListener('wheel', pause, { ...options, passive: true });
-      document.addEventListener('visibilitychange', update, options);
-      reducedMotion.addEventListener('change', () => { paused = reducedMotion.matches; update(); }, options);
-      const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); });
-      visibility.observe(viewport);
-      const resize = new ResizeObserver(() => { cycleWidth = group.offsetWidth; update(); });
-      resize.observe(group);
-      this.cleanup = () => { cancelAnimationFrame(frame); events.abort(); visibility.disconnect(); resize.disconnect(); };
-      update();
-    }
-
-    disconnectedCallback() { this.cleanup?.(); }
-  }
-  if (!customElements.get('pycon-sponsor-carousel')) customElements.define('pycon-sponsor-carousel', SponsorCarousel);
-</script>
