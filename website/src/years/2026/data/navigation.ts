@@ -125,7 +125,7 @@ export const headerNavigation: NavigationItem[] = [
       'zh-hant': written.organizingTeam,
       'zh-hans': '筹办团队',
       ja: '運営チーム',
-      ko: '주최자',
+      ko: '운영진',
     },
     children: [
       {
@@ -180,7 +180,7 @@ export const headerNavigation: NavigationItem[] = [
           'zh-hk': cantonese.patrons,
           'zh-hant': written.patrons,
           'zh-hans': '个人赞助',
-          ja: 'パトロン',
+          ja: '個人スポンサー',
           ko: '개인 후원자',
         },
         href: (locale) => `/2026/${locale}/sponsorships/patrons/`,
@@ -191,8 +191,8 @@ export const headerNavigation: NavigationItem[] = [
           'zh-hk': cantonese.sponsorshipOpportunities,
           'zh-hant': written.sponsorshipOpportunities,
           'zh-hans': '赞助机会',
-          ja: '協賛募集',
-          ko: '후원 기회',
+          ja: 'スポンサー募集',
+          ko: '후원 안내',
         },
         href: (locale) => `/2026/${locale}/sponsorships/opportunities/`,
       },

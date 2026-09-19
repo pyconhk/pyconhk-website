@@ -65,7 +65,7 @@ export const pageCopyByLocale: Record<CfpLocale, AboutPageCopy> = {
   },
   ja: {
     title: 'PyCon Hong Kong について',
-    subtitle: 'Pythonistas をつなぎ、革新を推進する',
+    subtitle: 'Python の仲間をつなぎ、新たな挑戦を支える',
     imageAlt: 'PyCon Hong Kong コミュニティ記念写真',
     paragraphs: [
       'PyCon Hong Kong（PyCon HK）は、香港を代表する Python カンファレンスです。さまざまな背景を持つ Python 愛好家が集まり、知見を共有し、交流し、協力関係を育む場となっています。世界では毎年 50 を超える都市や地域で PyCon が開催されており、PyCon HK もその一つであることを誇りに思っています。',

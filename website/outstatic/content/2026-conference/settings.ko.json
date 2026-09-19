@@ -17,9 +17,9 @@
   "venue": {
     "status": "published",
     "title": "HKIIT (미정)",
-    "address": "캠퍼스와 주소는 추후 안내합니다.",
-    "description": "PyCon HK 2026의 개최 장소는 HKIIT로 예정되어 있으나 아직 확정되지 않았습니다. 캠퍼스, 출입구, 강의실 안내는 이 페이지에 게시합니다.",
-    "directions": "캠퍼스가 확정되면 교통편과 접근성 정보를 추가합니다.",
+    "address": "캠퍼스와 주소는 추후 안내해 드립니다.",
+    "description": "PyCon HK 2026은 HKIIT에서 개최할 예정이나, 아직 확정되지 않았습니다. 캠퍼스, 출입구, 강의실에 관한 자세한 내용은 이 페이지에서 안내해 드립니다.",
+    "directions": "캠퍼스가 확정되면 교통편과 접근성 정보를 안내해 드립니다.",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -88,20 +88,20 @@
   },
   "patrons": {
     "status": "published",
-    "whyTitle": "개인 후원자가 되는 이유",
-    "intro": "PyCon Hong Kong(PyCon HK)은 홍콩과 아시아의 Python 및 오픈 소스 문화를 발전시키기 위해 자원봉사자들이 운영하는 비영리 콘퍼런스입니다. 개인 후원은 다음 활동을 직접 지원합니다.",
+    "whyTitle": "개인 후원이 필요한 이유",
+    "intro": "PyCon Hong Kong(PyCon HK)은 홍콩과 아시아의 Python 및 오픈소스 문화를 발전시키기 위해 자원봉사자들이 운영하는 비영리 컨퍼런스입니다. 여러분의 개인 후원금은 다음과 같은 활동에 사용됩니다.",
     "benefits": [
-      "누구나 참여할 수 있도록 무료 또는 부담 없는 참가비 유지",
-      "훌륭한 발표자 초청 및 홍콩에서 양질의 워크숍 개최",
-      "지역 Python 및 오픈 소스 커뮤니티와 생태계 강화",
+      "누구나 참여할 수 있도록 무료 또는 저렴한 참가비 유지",
+      "우수한 발표자 초청과 홍콩에서의 양질의 워크숍 개최",
+      "지역 Python 및 오픈소스 커뮤니티와 생태계 강화",
       "PyCon HK가 매년 성장할 수 있도록 지속적인 운영 지원"
     ],
     "joiningTitle": "개인 후원 참여",
-    "joining": "후원 신청서를 작성하고 PyCon HK 2026에 힘을 보태 주세요. Python과 오픈 소스의 가능성에 공감하는 누구나 일회성 개인 후원으로 참여할 수 있습니다.",
+    "joining": "후원 신청서를 작성하고 PyCon HK 2026에 힘을 보태 주세요. Python과 오픈소스의 가능성에 공감하는 분이라면 누구나 일회성 개인 후원으로 참여하실 수 있습니다.",
     "buttonLabel": "개인 후원자 되기",
-    "pendingMessage": "HKCOTA의 준비가 완료되면 후원 신청서를 공개합니다.",
+    "pendingMessage": "HKCOTA의 준비가 완료되면 후원 신청서를 공개할 예정입니다.",
     "thanksTitle": "개인 후원자",
-    "thanks": "PyCon HK 2026을 가능하게 해 주신 아래 후원자 여러분의 따뜻한 지원에 진심으로 감사드립니다.",
+    "thanks": "PyCon HK 2026을 함께 만들어 주시는 아래 개인 후원자 여러분께 진심으로 감사드립니다.",
     "registrationUrl": "",
     "items": []
   },
@@ -112,7 +112,7 @@
         "name": "Hong Kong Python User Group / 홍콩 파이썬 사용자 모임",
         "logo": "/2026/organizers-volunteers/organizers/hkpug.webp",
         "url": "https://www.facebook.com/groups/hkpug",
-        "description": "홍콩 파이썬 사용자 모임은 홍콩 내 파이썬 프로그래밍 언어의 보급과 발전을 위해 활동하는 열정적인 커뮤니티입니다. 정기 모임과 워크숍을 통해 지식 공유와 협력의 장을 만들어가고 있습니다.",
+        "description": "홍콩 파이썬 사용자 모임은 홍콩에서 Python을 널리 알리고자 활동하는 커뮤니티입니다. 정기 모임과 워크숍, 다양한 행사를 통해 함께 배우고 Python 지식을 나누는 협력의 장을 만들어 갑니다.",
         "kind": "organizer",
         "id": "organizations-1"
       },
@@ -120,7 +120,7 @@
         "name": "Open Source Hong Kong (OSHK) / 오픈소스 홍콩",
         "logo": "/2026/organizers-volunteers/organizers/oshk.webp",
         "url": "https://opensource.hk/",
-        "description": "오픈소스 홍콩(OSHK)은 오픈소스 문화 확산과 실용적인 기술 공유를 장려하는 전통 있는 커뮤니티입니다. 개발자와 교육자가 지속 가능한 오픈 커뮤니티를 구축할 수 있도록 지원하고 있습니다.",
+        "description": "오픈소스 홍콩(OSHK)은 오랫동안 오픈소스 문화와 협업, 실용적인 기술 공유를 장려해 온 홍콩의 커뮤니티입니다. 개발자, 교육자, 커뮤니티 운영자들이 교류하며 지속 가능한 열린 커뮤니티를 만들어 갈 수 있도록 지원합니다.",
         "kind": "organizer",
         "id": "organizations-2"
       },
@@ -128,7 +128,7 @@
         "name": "Hong Kong Creative Open Technology Association (HKCOTA) / 홍콩 크리에이티브 오픈 테크놀로지 협회",
         "logo": "/2026/organizers-volunteers/organizers/hkcota.webp",
         "url": "https://hkcota.org/",
-        "description": "2014년에 설립된 HKCOTA는 비영리 면세 자선 단체로, 오픈 표준, 오픈소스 소프트웨어, 오픈 하드웨어 및 오픈 데이터의 교육과 보급에 힘쓰며 홍콩의 기술 생태계 발전을 이끌고 있습니다.",
+        "description": "2014년에 설립된 HKCOTA는 세금 면제 혜택을 받는 비영리 자선 단체입니다. 개방형 표준, 자유·오픈소스 소프트웨어, 오픈 하드웨어, 오픈 데이터, 크리에이티브 커먼즈를 알리고 교육하는 데 힘쓰고 있습니다. 학생 및 업계 종사자들과 긴밀히 협력하며 홍콩의 열린 기술 문화를 발전시켜 나갑니다.",
         "kind": "organizer",
         "id": "organizations-3"
       },
@@ -399,33 +399,33 @@
   "about": {
     "status": "published",
     "paragraphs": [
-      "PyCon Hong Kong(PyCon HK)은 Python 애호가들이 지식을 나누고 협력하는 홍콩의 대표적인 Python 콘퍼런스입니다. 전 세계 여러 도시와 국가에서 매년 열리는 50개 이상의 PyCon 가운데 하나로서 지역 커뮤니티를 연결합니다.",
-      "PyCon HK의 시작은 Sammy Fung이 도쿄에서 열린 PyCon APAC 2013에서 받은 영감으로 거슬러 올라갑니다. 아시아 여러 도시에서 PyCon이 열리고 있었지만 홍콩에는 이 중요한 교류의 장이 없었습니다. Sammy는 Open Source Hong Kong과 함께 2015년 첫 PyCon HK를 개최했습니다. 이후 홍콩에서 Python의 발전과 보급을 이끄는 역할을 해 왔습니다.",
-      "2026년 PyCon HK의 의장은 Calvin Tsang입니다. Python Asia Organisation 커뮤니티의 활발한 구성원으로서 아시아 각지의 PyCon에 꾸준히 참여하고 있습니다. 본업은 Technology Manager이며, 첫 행사부터 PyCon HK 자원봉사를 이어 왔습니다. 지역에 대한 헌신과 국제적인 시각을 바탕으로 세계 Python 및 오픈 소스 커뮤니티의 경험을 연결하고 PyCon HK의 새로운 가능성을 열어 갑니다.",
-      "헌신적인 자원봉사자, 숙련된 개발자, 교육자, 기술 혁신가들이 함께 PyCon HK 2026을 만들어 갑니다. 홍콩과 세계 Python 커뮤니티의 열정과 창의성을 기념하고, Pythonista를 연결하며, 오픈 소스 협력과 혁신을 촉진하는 뜻깊은 행사를 선보입니다."
+      "PyCon Hong Kong(PyCon HK)은 Python에 관심 있는 사람들이 모여 지식을 나누고 협업하는 홍콩의 대표적인 Python 컨퍼런스입니다. 세계 여러 도시와 국가에서 매년 열리는 50개 이상의 PyCon 중 하나로, 지역 커뮤니티와 세계 Python 커뮤니티를 잇고 있습니다.",
+      "PyCon HK는 Sammy Fung이 도쿄에서 열린 PyCon APAC 2013에 참가한 것을 계기로 시작되었습니다. 당시 아시아 여러 도시에서 PyCon이 열리고 있었지만 홍콩에는 이런 교류의 장이 없었습니다. Sammy는 Open Source Hong Kong과 함께 2015년 첫 PyCon HK를 개최했습니다. 이후 PyCon HK는 홍콩에서 Python의 발전과 보급을 이끌어 왔습니다.",
+      "PyCon HK 2026의 의장은 Calvin Tsang입니다. Python Asia Organisation 커뮤니티에서 활발히 활동하며 아시아 각지의 PyCon에 꾸준히 참여하고 있습니다. 본업은 Technology Manager이며, 첫 행사부터 PyCon HK 자원봉사를 이어 왔습니다. 지역 커뮤니티에 대한 헌신과 국제적인 경험을 바탕으로 세계 각지의 Python 및 오픈소스 커뮤니티를 잇고 PyCon HK의 새로운 가능성을 열어 갑니다.",
+      "자원봉사자, 숙련된 개발자, 교육자, 기술 혁신가들이 함께 PyCon HK 2026을 만들어 갑니다. 홍콩과 세계 Python 커뮤니티의 열정과 창의성을 나누고, Python 사용자들을 연결하며, 오픈소스 협업과 혁신을 뒷받침하는 뜻깊은 행사를 준비하고 있습니다."
     ]
   },
   "sponsorship": {
     "status": "published",
     "intro": [
-      "PyCon HK 2026은 홍콩의 열정적인 파이썬 개발자, 혁신 기술 리더 및 기업들과 소통할 수 있는 특별한 기회입니다.",
-      "아시아 최고의 파이썬 컨퍼런스 후원사가 되어 수백 명의 개발자, 엔지니어, 데이터 과학자 및 기술 기업가들과 교류하세요.",
-      "스폰서십은 단순한 홍보를 넘어 오픈소스 생태계 발전과 혁신을 지원하는 의미 있는 참여입니다."
+      "PyCon HK 2026은 홍콩의 열정적인 Python 개발자, 기술 분야의 혁신가, 미래를 준비하는 기업·단체와 교류할 수 있는 기회입니다.",
+      "아시아의 대표적인 Python 컨퍼런스에서 새로운 아이디어와 실무 경험을 만나 보세요. 후원사로 참여해 수백 명의 개발자, 엔지니어, 데이터 과학자, 기술 분야 창업가들과 교류할 수 있습니다.",
+      "후원은 브랜드를 알리는 동시에 오픈소스 커뮤니티와 혁신을 지원하는 방법입니다. 홍콩을 비롯한 여러 지역의 기술 발전에 함께해 주세요."
     ],
     "benefits": [
       {
         "title": "브랜드 홍보",
-        "description": "전문 엔지니어 대상 브랜드 인지도 제고",
+        "description": "기술 분야 종사자들에게 브랜드 알리기",
         "id": "benefits-1"
       },
       {
         "title": "네트워킹",
-        "description": "업계 리더 및 잠재 고객과의 깊이 있는 네트워킹",
+        "description": "업계 리더 및 잠재 고객과 교류하기",
         "id": "benefits-2"
       },
       {
         "title": "커뮤니티 지원",
-        "description": "홍콩 및 아시아 파이썬 생태계 성장 기여",
+        "description": "홍콩 Python 커뮤니티의 성장 지원하기",
         "id": "benefits-3"
       }
     ],
@@ -437,7 +437,7 @@
         "maxSlots": "1",
         "features": [
           {
-            "label": "스폰서 세션",
+            "label": "후원사 발표",
             "value": "30분 강연 2회",
             "id": "feature-1"
           },
@@ -447,7 +447,7 @@
             "id": "feature-2"
           },
           {
-            "label": "강연대 로고",
+            "label": "연단 로고",
             "value": "포함",
             "id": "feature-3"
           },
@@ -492,7 +492,7 @@
             "id": "feature-11"
           },
           {
-            "label": "개회 및 폐회 감사 발표",
+            "label": "개회·폐회 시 감사 인사",
             "value": "포함",
             "id": "feature-12"
           }
@@ -506,7 +506,7 @@
         "maxSlots": "2",
         "features": [
           {
-            "label": "스폰서 세션",
+            "label": "후원사 발표",
             "value": "30분 강연 1회",
             "id": "feature-1"
           },
@@ -556,7 +556,7 @@
             "id": "feature-10"
           },
           {
-            "label": "개회 및 폐회 감사 발표",
+            "label": "개회·폐회 시 감사 인사",
             "value": "포함",
             "id": "feature-11"
           }
@@ -570,7 +570,7 @@
         "maxSlots": "4",
         "features": [
           {
-            "label": "스폰서 세션",
+            "label": "후원사 발표",
             "value": "15분 강연 1회",
             "id": "feature-1"
           },
@@ -615,7 +615,7 @@
             "id": "feature-9"
           },
           {
-            "label": "개회 및 폐회 감사 발표",
+            "label": "개회·폐회 시 감사 인사",
             "value": "포함",
             "id": "feature-10"
           }
@@ -659,7 +659,7 @@
             "id": "feature-6"
           },
           {
-            "label": "개회 및 폐회 감사 발표",
+            "label": "개회·폐회 시 감사 인사",
             "value": "포함",
             "id": "feature-7"
           }
@@ -693,7 +693,7 @@
             "id": "feature-4"
           },
           {
-            "label": "개회 및 폐회 감사 발표",
+            "label": "개회·폐회 시 감사 인사",
             "value": "포함",
             "id": "feature-5"
           }

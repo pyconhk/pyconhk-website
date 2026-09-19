@@ -4,7 +4,7 @@ export const ko: HomeMessages = {
   meta: {
     title: 'PyCon HK 2026 | 코딩하고, 연결하고, 계속 나아가다',
     description:
-      '인간 중심의 AI 시대, Python 커뮤니티와 아이디어, 오픈 소스의 가능성이 홍콩의 중심에서 만나는 활기찬 기술 행사입니다.',
+      '인간 중심의 AI 시대를 맞아, 홍콩에서 Python 커뮤니티가 모여 아이디어를 나누고 오픈소스의 가능성을 함께 살펴봅니다.',
   },
   nav: {
     brand: 'PyCon HK 2026',
@@ -22,7 +22,7 @@ export const ko: HomeMessages = {
     headline: '코딩하고, 연결하고, 계속 나아가다',
     headlineAccent: '',
     subheadline:
-      '인간 중심의 AI 시대, Python 커뮤니티와 아이디어, 오픈 소스의 가능성이 홍콩의 중심에서 만나는 활기찬 기술 행사입니다.',
+      '인간 중심의 AI 시대를 맞아, 홍콩에서 Python 커뮤니티가 모여 아이디어를 나누고 오픈소스의 가능성을 함께 살펴봅니다.',
     registerCta: '지금 등록하기',
     calendarCta: '캘린더에 추가',
     whenLabel: '일정',
@@ -30,7 +30,7 @@ export const ko: HomeMessages = {
     whereLabel: '장소',
     whereValue: '홍콩 (Hong Kong)',
     forLabel: '대상',
-    forValue: '전 세계의 모든 Python 개발자와 열정가',
+    forValue: '전 세계의 Python 사용자와 애호가',
   },
   highlights: [
     {
@@ -91,7 +91,7 @@ export const ko: HomeMessages = {
     eyebrow: '함께하기 JOIN US',
     title: '호기심을 가져오세요. 커뮤니티가 기다리고 있습니다.',
     description:
-      'Python을 처음 접하시든, 대형 프로젝트를 운영하시든, 새로운 협업자를 찾고 계시든, PyCon HK는 연결의 공간입니다.',
+      'Python을 처음 배우는 분도, 대규모 프로젝트를 운영하는 분도, 함께할 동료를 찾는 분도 환영합니다. PyCon HK에서 만나 함께 이야기해 보세요.',
     ctaAria: '자세히 알아보고 커뮤니티와 연결하기',
     atAGlanceTitle: '개요 AT A GLANCE',
     datesLabel: '일정 DATES',
@@ -112,7 +112,7 @@ export const ko: HomeMessages = {
       { name: '실버 파트너 Silver', tier: 'silver' },
       { name: '커뮤니티 파트너 Community', tier: 'community' },
     ],
-    prospectusCta: '후원사 참여하기',
+    prospectusCta: '후원사로 참여하기',
   },
   footer: {
     brand: 'PyCon HK 2026',
@@ -120,7 +120,7 @@ export const ko: HomeMessages = {
       '홍콩 Python 커뮤니티의 연례 모임 — 기술은 공유될 때 더 나아진다고 믿는 사람들이 함께 만듭니다.',
     conferenceGuideTitle: '컨퍼런스 안내',
     aboutLink: 'PyCon HK 소개',
-    sponsorLink: '후원사 참여하기',
+    sponsorLink: '후원사로 참여하기',
     registrationLink: '참가 등록',
     codeOfConductLink: '행동 강령',
     privacyPolicyLink: '개인정보처리방침',

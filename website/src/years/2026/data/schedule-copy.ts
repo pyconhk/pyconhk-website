@@ -113,7 +113,7 @@ export const scheduleCopy: Record<CfpLocale, typeof en> = {
   },
   ko: {
     sample:
-      '2025 예시 프로그램 — 아래 세션과 날짜는 2025년 원본이며, 2026년 프로그램이 아닙니다.',
+      '2025년 예시 프로그램 — 아래는 2025년의 실제 세션과 일정으로, 2026년 프로그램이 아닙니다.',
     comingSoon: '2026년 프로그램이 공개되면 여기에 표시됩니다.',
     search: '발표, 발표자 및 강의실 검색',
     allRooms: '모든 강의실',

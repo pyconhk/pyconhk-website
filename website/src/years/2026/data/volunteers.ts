@@ -147,15 +147,15 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     intro:
       'PyCon Hong Kong 2026 を支えているのは、ボランティアの皆さんです。ここ数か月にわたる尽力に心から感謝します。以下に、本大会を支えるメンバーをご紹介します。',
     committeeHeading: '実行委員会',
-    chairHeading: '大会長',
-    coChairsHeading: '共同チェア',
-    membersHeading: '運営委員',
+    chairHeading: '実行委員長',
+    coChairsHeading: '共同実行委員長',
+    membersHeading: '実行委員',
   },
   ko: {
     title: '자원봉사자',
     subtitle: 'PyCon HK 2026의 원동력',
     intro:
-      '자원봉사자는 PyCon Hong Kong 2026의 핵심 원동력입니다. 수개월 동안 아낌없이 헌신해 주신 자원봉사자분들께 진심으로 감사드리며, 아래는 이번 대회를 이끄는 봉사자 명단입니다.',
+      '자원봉사자는 PyCon Hong Kong 2026의 핵심 원동력입니다. 수개월 동안 아낌없이 헌신해 주신 자원봉사자분들께 진심으로 감사드리며, 아래는 이번 행사를 이끄는 봉사자 명단입니다.',
     committeeHeading: '집행위원회',
     chairHeading: '컨퍼런스 의장',
     coChairsHeading: '컨퍼런스 공동 의장',

@@ -547,7 +547,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
     programWall: {
       title: '프로그램 메모 보드',
       caption:
-        '좋은 제안서는 대상, 취득 가능한 사항, 세션 진행 방식을 분명히 보여 줍니다.',
+        '좋은 제안서는 발표 대상, 참가자가 배울 내용, 세션 진행 방식을 분명히 설명합니다.',
     },
     keyDates: {
       title: '중요 일정',
@@ -570,7 +570,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
     },
     proposals: {
       title: '열려 있는 프로그램 형식',
-      intro: '아이디어가 가장 잘 들리는 형식을 선택해 주세요.',
+      intro: '아이디어를 가장 잘 전달할 수 있는 형식을 선택해 주세요.',
       types: [
         {
           index: '01',
@@ -606,14 +606,14 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
     },
     guidance: {
       kicker: '제안 작성 안내',
-      title: '지금 서 있는 자리에서 이야기해 주세요.',
-      body: '첫 발표자, 지역 이야기, 다국어 세션, 실용적인 경험, 솔직한 실험을 모두 환영합니다.',
+      title: '여러분의 경험을 들려주세요.',
+      body: '처음 발표하는 분도 환영합니다. 지역 커뮤니티의 이야기, 다양한 언어의 세션, 실무 경험과 실험에서 배운 점을 들려주세요.',
       items: [
         {
           mark: '+',
-          text: '누구를 위한 발표인지, 무엇을 가져갈 수 있는지 설명해 주세요.',
+          text: '누구를 위한 발표인지, 참가자가 무엇을 배울 수 있는지 설명해 주세요.',
         },
-        { mark: '?', text: '아이디어가 가장 강하게 전달되는 언어로 작성해 주세요.' },
+        { mark: '?', text: '아이디어를 가장 잘 전달할 수 있는 언어로 작성해 주세요.' },
         { mark: '!', text: '문제, 청중, 세션 형식을 구체적으로 적어 주세요.' },
       ],
     },
@@ -623,7 +623,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
       body: '2026년 6월 20일 23:59 HKT 전에 제출하고 PyCon Hong Kong 2026을 함께 만들어 주세요.',
     },
     decorativeFragments: [
-      '첫 발표자도 환영합니다',
+      '처음 발표하는 분도 환영합니다',
       '지역 경험과 커뮤니티 이야기',
       '도구, 시스템, 데모',
       '함께 나눌 만한 질문',
@@ -706,21 +706,21 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
         {
           index: '05',
           title: 'Sprint',
-          description: 'オープンソースの課題を中心に人を集めてください。',
+          description: '仲間と一緒に、オープンソースの課題に取り組みましょう。',
           tone: 'white',
         },
       ],
     },
     guidance: {
       kicker: '提出のヒント',
-      title: 'あなたの場所から話してください。',
-      body: '初めての登壇者、ローカルな話、多言語セッション、実践的な学び、正直な実験を歓迎します。',
+      title: 'あなたの経験を聞かせてください。',
+      body: '初めての登壇も歓迎します。地域での取り組み、多言語での発表、実践から得た学び、試行錯誤の経験など、ぜひお聞かせください。',
       items: [
         {
           mark: '+',
           text: '誰のための発表か、参加者が何を持ち帰れるかを書いてください。',
         },
-        { mark: '?', text: 'アイデアがもっとも強く伝わる言語で書いてください。' },
+        { mark: '?', text: 'アイデアを最も伝えやすい言語で書いてください。' },
         { mark: '!', text: '問題、対象者、セッション形式を具体的に書いてください。' },
       ],
     },
