@@ -190,52 +190,53 @@ for (const viewport of [
   { width: 1920, height: 1080 },
   { width: 390, height: 844 },
 ]) {
-  test(`homepage sections fill the screen below the header at ${viewport.width}px`, async ({
+  test(`homepage content stays compact when the viewport height changes at ${viewport.width}px`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
     await page.goto('/2026/en/');
     await page.evaluate(() => document.fonts.ready);
+    let contentHeights: Record<string, number> | undefined;
     for (const height of [viewport.height, viewport.height - 100]) {
       await page.setViewportSize({ width: viewport.width, height });
-      const { available, sections } = await page.evaluate(() => ({
+      const { available, sections, emptyNews, overflows } = await page.evaluate(() => ({
         available:
           innerHeight -
           (document.querySelector('[data-site-header]')?.getBoundingClientRect()
             .height ?? Number.NaN),
         sections: [...document.querySelectorAll('main > section')].map((section) => {
           const box = section.getBoundingClientRect();
-          const content = section.firstElementChild?.getBoundingClientRect();
-          if (!content) throw new Error('Section has no content');
           return {
             id: section.id,
             height: box.height,
-            minimum: Number.parseFloat(getComputedStyle(section).minHeight),
-            topGap:
-              content.top -
-              box.top -
-              Number.parseFloat(getComputedStyle(section).borderTopWidth),
-            bottomGap:
-              box.bottom -
-              content.bottom -
-              Number.parseFloat(getComputedStyle(section).borderBottomWidth),
           };
         }),
+        emptyNews: Boolean(document.querySelector('[data-news-empty]')),
+        overflows: document.documentElement.scrollWidth > innerWidth,
       }));
-      for (const section of sections) {
-        expect(section.minimum).toBeCloseTo(available, 0);
-        expect(section.height).toBeGreaterThanOrEqual(available - 1);
-        expect(section.topGap).toBeGreaterThanOrEqual(0);
-        expect(section.bottomGap).toBeGreaterThanOrEqual(0);
-        if (viewport.width >= 1440) {
-          expect(section.height).toBeCloseTo(available, 0);
-          expect(section.topGap).toBeCloseTo(section.bottomGap, 0);
-        }
+      expect(overflows).toBe(false);
+      expect(
+        sections.find((section) => section.id === 'home')?.height
+      ).toBeGreaterThanOrEqual(available - 1);
+      const lowerSections = sections.filter((section) => section.id !== 'home');
+      expect(lowerSections.map((section) => section.id)).toEqual(
+        expect.arrayContaining(['news', 'featured-speakers', 'participate'])
+      );
+      for (const section of lowerSections) {
+        expect(section.height).toBeGreaterThan(0);
+        if (contentHeights)
+          expect(
+            section.height,
+            `${section.id} height should follow its content`
+          ).toBeCloseTo(contentHeights[section.id], 0);
       }
+      contentHeights = Object.fromEntries(
+        lowerSections.map((section) => [section.id, section.height])
+      );
+      if (viewport.width >= 1440 && emptyNews)
+        expect(contentHeights.news).toBeLessThan(450);
       if (viewport.width === 390) {
-        expect(
-          sections.find((section) => section.id === 'featured-speakers')?.height
-        ).toBeGreaterThan(available);
+        expect(contentHeights['featured-speakers']).toBeGreaterThan(available);
       }
     }
     await page.goto('/2026/en/#featured-speakers');
@@ -253,6 +254,9 @@ for (const viewport of [
       )
       .toBeLessThan(2);
     await page.locator('[data-featured-speaker]').first().click();
-    await expect(page.locator('main')).not.toHaveAttribute('data-full-screen-sections');
+    await expect(page).toHaveURL(
+      /\/2026\/en\/talks\/python-history-software-engineering-and-ai\/?$/
+    );
+    await expect(page.locator('main h1')).toBeVisible();
   });
 }
