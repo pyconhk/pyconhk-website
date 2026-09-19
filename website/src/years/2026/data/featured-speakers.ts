@@ -2,6 +2,7 @@ import indy from '@/years/2026/assets/speakers/indy-ho.jpg';
 import jacky from '@/years/2026/assets/speakers/jacky-chan.webp';
 import paul from '@/years/2026/assets/speakers/paul-everitt.jpg';
 import quinson from '@/years/2026/assets/speakers/quinson-hon.webp';
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 import talks from './featured-talks.json';
 
@@ -67,13 +68,13 @@ export const featuredLabels: Record<
   'zh-hk': {
     keynote: '主題演講',
     talk: '精選演講',
-    view: '睇講題詳情',
+    view: getChineseTerms('zh-hk').viewTalk,
     back: '返回精選講者',
   },
   'zh-hant': {
     keynote: '主題演講',
     talk: '精選演講',
-    view: '查看講題詳情',
+    view: getChineseTerms('zh-hant').viewTalk,
     back: '返回精選講者',
   },
   'zh-hans': {

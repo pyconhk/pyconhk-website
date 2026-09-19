@@ -1,11 +1,14 @@
 ---
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '../../locales';
 
 interface Props { locale: CfpLocale }
+const zhHk = getChineseTerms('zh-hk');
+const zhHant = getChineseTerms('zh-hant');
 const copy = {
   en: { label: 'Appearance', system: 'System', light: 'Light', dark: 'Dark', next: 'Switch to' },
-  'zh-hk': { label: '顯示模式', system: '跟系統', light: '淺色', dark: '深色', next: '切換至' },
-  'zh-hant': { label: '顯示模式', system: '跟隨系統', light: '淺色', dark: '深色', next: '切換至' },
+  'zh-hk': { label: zhHk.appearance, system: zhHk.system, light: zhHk.light, dark: zhHk.dark, next: zhHk.next },
+  'zh-hant': { label: zhHant.appearance, system: zhHant.system, light: zhHant.light, dark: zhHant.dark, next: zhHant.next },
   'zh-hans': { label: '显示模式', system: '跟随系统', light: '浅色', dark: '深色', next: '切换至' },
   ja: { label: '表示モード', system: 'システム', light: 'ライト', dark: 'ダーク', next: '切り替え先' },
   ko: { label: '화면 모드', system: '시스템', light: '라이트', dark: '다크', next: '다음 모드' },

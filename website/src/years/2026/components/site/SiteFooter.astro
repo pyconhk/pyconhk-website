@@ -1,5 +1,6 @@
 ---
 import WovenRibbon from '@/years/2026/components/ui/WovenRibbon.astro';
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props {
@@ -11,8 +12,8 @@ const privacyHref = `/2026/${locale}/privacy-policy`;
 
 const footerLabels = {
   en: { followUs: 'Follow Us', history: 'History' },
-  'zh-hk': { followUs: '追蹤我哋', history: '歷屆大會' },
-  'zh-hant': { followUs: '追蹤我們', history: '歷屆大會' },
+  'zh-hk': { followUs: getChineseTerms('zh-hk').followUs, history: getChineseTerms('zh-hk').history },
+  'zh-hant': { followUs: getChineseTerms('zh-hant').followUs, history: getChineseTerms('zh-hant').history },
   'zh-hans': { followUs: '关注我们', history: '历届大会' },
   ja: { followUs: 'フォローする', history: '過去の開催' },
   ko: { followUs: '팔로우', history: '지난 행사' },

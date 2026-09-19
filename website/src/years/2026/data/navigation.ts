@@ -1,4 +1,8 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const written = getChineseTerms('zh-hant');
+const cantonese = getChineseTerms('zh-hk');
 
 export type NavLinkItem = {
   kind: 'link';
@@ -24,8 +28,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'link',
     label: {
       en: 'News',
-      'zh-hk': '最新消息',
-      'zh-hant': '最新消息',
+      'zh-hk': cantonese.news,
+      'zh-hant': written.news,
       'zh-hans': '最新消息',
       ja: 'ニュース',
       ko: '뉴스',
@@ -36,8 +40,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'group',
     label: {
       en: 'Conference',
-      'zh-hk': '會議資訊',
-      'zh-hant': '會議資訊',
+      'zh-hk': cantonese.conference,
+      'zh-hant': written.conference,
       'zh-hans': '会议信息',
       ja: 'カンファレンス',
       ko: '컨퍼런스',
@@ -46,8 +50,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Conference Schedule',
-          'zh-hk': '大會議程',
-          'zh-hant': '大會議程',
+          'zh-hk': cantonese.programme,
+          'zh-hant': written.programme,
           'zh-hans': '大会议程',
           ja: 'スケジュール',
           ko: '컨퍼런스 일정',
@@ -57,8 +61,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Access Guide',
-          'zh-hk': '交通指南',
-          'zh-hant': '交通指南',
+          'zh-hk': cantonese.accessGuide,
+          'zh-hant': written.accessGuide,
           'zh-hans': '交通指南',
           ja: 'アクセスガイド',
           ko: '오시는 길',
@@ -68,8 +72,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Catering Guide',
-          'zh-hk': '餐飲指南',
-          'zh-hant': '餐飲指南',
+          'zh-hk': cantonese.cateringGuide,
+          'zh-hant': written.cateringGuide,
           'zh-hans': '餐饮指南',
           ja: '食事ガイド',
           ko: '식사 안내',
@@ -82,8 +86,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'group',
     label: {
       en: 'Sprint',
-      'zh-hk': '衝刺開發',
-      'zh-hant': '衝刺開發',
+      'zh-hk': cantonese.sprint,
+      'zh-hant': written.sprint,
       'zh-hans': '冲刺开发',
       ja: 'スプリント',
       ko: '스프린트',
@@ -92,8 +96,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Sprint Day',
-          'zh-hk': '衝刺開發日',
-          'zh-hant': '衝刺開發日',
+          'zh-hk': cantonese.sprintDay,
+          'zh-hant': written.sprintDay,
           'zh-hans': '冲刺开发日',
           ja: 'スプリントデー',
           ko: '스프린트 데이',
@@ -103,8 +107,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Sprint Q&A',
-          'zh-hk': '衝刺開發常見問題',
-          'zh-hant': '衝刺開發常見問題',
+          'zh-hk': cantonese.sprintQa,
+          'zh-hant': written.sprintQa,
           'zh-hans': '冲刺开发常见问题',
           ja: 'スプリント Q&A',
           ko: '스프린트 Q&A',
@@ -117,8 +121,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'group',
     label: {
       en: 'Organizers',
-      'zh-hk': '籌辦團隊',
-      'zh-hant': '籌辦團隊',
+      'zh-hk': cantonese.organizingTeam,
+      'zh-hant': written.organizingTeam,
       'zh-hans': '筹办团队',
       ja: '運営チーム',
       ko: '주최자',
@@ -127,8 +131,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Organizations',
-          'zh-hk': '主辦單位',
-          'zh-hant': '主辦單位',
+          'zh-hk': cantonese.organizers,
+          'zh-hant': written.organizers,
           'zh-hans': '主办单位',
           ja: '主催団体',
           ko: '주최 단체',
@@ -138,8 +142,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Volunteers',
-          'zh-hk': '義工團隊',
-          'zh-hant': '義工團隊',
+          'zh-hk': cantonese.volunteers,
+          'zh-hant': written.volunteers,
           'zh-hans': '志愿者团队',
           ja: 'ボランティア',
           ko: '자원봉사자',
@@ -152,8 +156,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'group',
     label: {
       en: 'Sponsorships',
-      'zh-hk': '贊助合作',
-      'zh-hant': '贊助合作',
+      'zh-hk': cantonese.sponsorships,
+      'zh-hant': written.sponsorships,
       'zh-hans': '赞助合作',
       ja: 'スポンサーシップ',
       ko: '후원',
@@ -162,8 +166,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Sponsors',
-          'zh-hk': '贊助夥伴',
-          'zh-hant': '贊助夥伴',
+          'zh-hk': cantonese.sponsors,
+          'zh-hant': written.sponsors,
           'zh-hans': '赞助伙伴',
           ja: 'スポンサー',
           ko: '후원사',
@@ -173,8 +177,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Patrons',
-          'zh-hk': '個人贊助',
-          'zh-hant': '個人贊助',
+          'zh-hk': cantonese.patrons,
+          'zh-hant': written.patrons,
           'zh-hans': '个人赞助',
           ja: 'パトロン',
           ko: '개인 후원자',
@@ -184,8 +188,8 @@ export const headerNavigation: NavigationItem[] = [
       {
         label: {
           en: 'Opportunities',
-          'zh-hk': '贊助機會',
-          'zh-hant': '贊助機會',
+          'zh-hk': cantonese.sponsorshipOpportunities,
+          'zh-hant': written.sponsorshipOpportunities,
           'zh-hans': '赞助机会',
           ja: '協賛募集',
           ko: '후원 기회',
@@ -198,8 +202,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'link',
     label: {
       en: 'Communities',
-      'zh-hk': '社群夥伴',
-      'zh-hant': '社群夥伴',
+      'zh-hk': cantonese.communities,
+      'zh-hant': written.communities,
       'zh-hans': '社区伙伴',
       ja: 'コミュニティ',
       ko: '커뮤니티',
@@ -210,8 +214,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'link',
     label: {
       en: 'About',
-      'zh-hk': '關於大會',
-      'zh-hant': '關於大會',
+      'zh-hk': cantonese.aboutConference,
+      'zh-hant': written.aboutConference,
       'zh-hans': '关于大会',
       ja: '概要',
       ko: '소개',
@@ -268,8 +272,8 @@ export const headerNavigation: NavigationItem[] = [
     kind: 'link',
     label: {
       en: 'Contact Us',
-      'zh-hk': '聯絡我們',
-      'zh-hant': '聯絡我們',
+      'zh-hk': cantonese.contactUs,
+      'zh-hant': written.contactUs,
       'zh-hans': '联系我们',
       ja: 'お問い合わせ',
       ko: '문의하기',

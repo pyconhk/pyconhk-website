@@ -1,4 +1,8 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const written = getChineseTerms('zh-hant');
+const cantonese = getChineseTerms('zh-hk');
 
 type NewsMessages = {
   title: string;
@@ -23,22 +27,22 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     allNews: 'All news',
   },
   'zh-hk': {
-    title: '最新消息',
-    subtitle: '大會公告與社群動態',
+    title: cantonese.news,
+    subtitle: '大會公告同社群動態',
     description: '睇吓 PyCon HK 2026 最新公告、議程更新同社群消息。',
-    empty: '公告準備好就會喺呢度發佈，請稍後再嚟睇吓。',
-    readArticle: '閱讀文章',
-    backToNews: '返回最新消息',
-    allNews: '所有消息',
+    empty: '最新公告會喺呢度發布，記得返嚟睇吓。',
+    readArticle: cantonese.readArticle,
+    backToNews: cantonese.backToNews,
+    allNews: cantonese.allNews,
   },
   'zh-hant': {
-    title: '最新消息',
+    title: written.news,
     subtitle: '大會公告與社群動態',
     description: '查看 PyCon HK 2026 最新公告、議程更新及社群消息。',
-    empty: '公告準備就緒後將在此發佈，請稍後再查看。',
-    readArticle: '閱讀文章',
-    backToNews: '返回最新消息',
-    allNews: '所有消息',
+    empty: '最新公告將在這裏發布，歡迎稍後再查看。',
+    readArticle: written.readArticle,
+    backToNews: written.backToNews,
+    allNews: written.allNews,
   },
   'zh-hans': {
     title: '最新消息',
