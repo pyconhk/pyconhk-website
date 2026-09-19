@@ -1,0 +1,80 @@
+---
+import { getSocialImagePath } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteFooter from '@/years/2026/components/site/SiteFooter.astro';
+import SiteHeader from '@/years/2026/components/site/SiteHeader.astro';
+import ThemeInit from '@/years/2026/components/ui/ThemeInit.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: CfpLocale;
+  imagePath?: string;
+}
+
+const {
+  title,
+  description,
+  locale,
+  imagePath = getSocialImagePath(locale),
+} = Astro.props;
+
+const htmlLangByLocale: Record<CfpLocale, string> = {
+  en: 'en',
+  'zh-hk': 'zh-Hant-HK',
+  'zh-hant': 'zh-Hant',
+  'zh-hans': 'zh-Hans',
+  ja: 'ja-JP',
+  ko: 'ko-KR',
+};
+
+const htmlLang = htmlLangByLocale[locale] ?? 'en';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  htmlLang={htmlLang}
+  imagePath={imagePath}
+  iconPath="/2026/logos/logo.png"
+>
+  <ThemeInit slot="head" />
+  <div data-conference-site class="min-h-screen bg-conference-paper text-conference-ink flex flex-col selection:bg-conference-yellow selection:text-conference-ink">
+    <SiteHeader locale={locale} />
+    
+    <main
+      class="w-full flex-1 overflow-x-clip"
+      data-pagefind-body
+      data-pagefind-filter="year:2026"
+      data-pagefind-meta="year:2026"
+    >
+      <slot />
+    </main>
+
+    <SiteFooter locale={locale} />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  [data-conference-site] {
+    --conference-ribbon-height: 1.25rem;
+    --conference-nav-height: 4rem;
+    --conference-header-height: calc(var(--conference-ribbon-height) + var(--conference-nav-height) + 1px);
+  }
+  @media (min-width: 640px) {
+    [data-conference-site] {
+      --conference-ribbon-height: 1.75rem;
+      --conference-nav-height: 5rem;
+    }
+  }
+  [data-conference-site] main:has(> #home) > section {
+    scroll-margin-top: var(--conference-header-height);
+  }
+  [data-conference-site] :is(a[href], button, select, summary, [role='button'], input[type='button'], input[type='submit'], input[type='reset'], input[type='checkbox'], input[type='radio']):not(:disabled):not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+  [data-conference-site] :is(:disabled, [aria-disabled='true']) {
+    cursor: not-allowed;
+  }
+</style>

@@ -7,6 +7,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "functions/**/*", "astro.config.mjs"],
+  "include": ["src/**/*", "functions/**/*", "astro.config.ts"],
   "exclude": ["archived", "dist", "node_modules", "outstatic", "public"]
 }

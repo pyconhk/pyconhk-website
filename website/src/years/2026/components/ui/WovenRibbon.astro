@@ -1,0 +1,23 @@
+---
+interface Props {
+  /** Optional custom Tailwind height class (default: h-5 sm:h-7) */
+  heightClass?: string;
+  /** Optional custom class name */
+  className?: string;
+}
+
+const {
+  heightClass = 'h-5 sm:h-7',
+  className = '',
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'w-full shrink-0 select-none bg-repeat-x bg-center',
+    heightClass,
+    className,
+  ]}
+  style="background-image: url('/2026/header/top-0817.svg'); background-size: auto 100%;"
+  aria-hidden="true"
+/>

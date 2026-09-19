@@ -1,0 +1,37 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getConferenceContent } from '@/lib/conference-content';
+import CommunityPageFrame from '@/years/2026/components/content/CommunityPageFrame.astro';
+import WovenCardCorners from '@/years/2026/components/content/WovenCardCorners.astro';
+import { contentUi } from '@/years/2026/data/content-ui';
+import { pageCopyByLocale } from '@/years/2026/data/organizers';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const { organizations } = getConferenceContent(locale);
+const copy = pageCopyByLocale[locale];
+const organizers = organizations.items.filter((item) => item.kind === 'organizer');
+---
+<CommunityPageFrame locale={locale} title={copy.title} subtitle="PyCon HK 2026" intro={copy.intro} framed={false}>
+  {organizations.status !== 'published' || organizers.length === 0 ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
+    <div data-conference-content="organizers" class="space-y-8 sm:space-y-10">
+      {organizers.map((item) => {
+        const Tag = item.url ? 'a' : 'div';
+        return <section data-organizer class="relative isolate overflow-hidden rounded-2xl border border-conference-outline/40 bg-conference-surface p-8 shadow-conference-card sm:p-10 lg:p-12">
+          <WovenCardCorners />
+          <div class="relative grid items-center gap-7 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10">
+            {item.logo && <Tag href={item.url || undefined} target={item.url ? '_blank' : undefined} rel={item.url ? 'noopener noreferrer' : undefined} aria-label={item.url ? `${contentUi[locale].visitWebsite}: ${item.name}` : undefined} class="organization-logo mx-auto flex aspect-square w-full max-w-60 items-center justify-center rounded-lg bg-(--conference-logo-plate) p-7 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+              <img src={item.logo} alt={item.name} width="300" height="300" loading="lazy" class="h-full w-full object-contain" />
+            </Tag>}
+            <div class:list={['min-w-0', !item.logo && 'md:col-span-2']}>
+              <h2 class="text-xl font-black leading-snug text-conference-ink sm:text-2xl">{item.name}</h2>
+              <p class="mt-4 whitespace-pre-line text-sm font-medium leading-relaxed text-conference-body sm:text-base">{item.description}</p>
+              {item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-conference-blue underline decoration-conference-blue/30 underline-offset-4 hover:decoration-current focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{contentUi[locale].visitWebsite}<Icon name="heroicons-outline:arrow-right" class="h-4 w-4 -rotate-45" aria-hidden="true" /></a>}
+            </div>
+          </div>
+        </section>;
+      })}
+    </div>
+  )}
+</CommunityPageFrame>

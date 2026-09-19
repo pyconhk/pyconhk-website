@@ -1,0 +1,42 @@
+---
+import { scheduleCopy } from '../../data/schedule-copy';
+import type { CfpLocale } from '../../locales';
+import WovenRibbon from '../ui/WovenRibbon.astro';
+
+interface Props { locale: CfpLocale }
+const copy = scheduleCopy[Astro.props.locale];
+---
+<dialog id="session-modal" aria-labelledby="modal-session-title" class="m-auto w-[calc(100%_-_2rem)] max-w-2xl max-h-[85vh] rounded-3xl border-2 border-conference-outline bg-conference-surface p-0 text-conference-ink shadow-conference-panel backdrop:bg-slate-900/60">
+  <WovenRibbon heightClass="h-5" />
+  <div class="modal-heading flex items-start justify-between gap-4 border-b-2 border-conference-outline/15 bg-conference-paper p-5">
+    <p class="text-xs font-black uppercase tracking-widest text-conference-red">{copy.details}</p>
+    <form method="dialog"><button type="submit" class="rounded-xl border-2 border-conference-outline bg-conference-surface px-3 py-2 text-sm font-bold" aria-label={copy.close}>{copy.close}</button></form>
+  </div>
+  <div data-modal-body class="space-y-5 p-5">
+    <h2 id="modal-session-title" class="font-sans text-2xl font-black leading-snug sm:text-3xl">{copy.details}</h2>
+    <dl class="grid gap-4 rounded-2xl border-2 border-dashed border-conference-outline/25 bg-conference-paper p-4 text-sm sm:grid-cols-2">
+      <div><dt class="font-bold text-conference-muted">{copy.time}</dt><dd id="modal-time"></dd></div>
+      <div><dt class="font-bold text-conference-muted">{copy.room}</dt><dd id="modal-room"></dd></div>
+      <div data-modal-speakers><dt class="font-bold text-conference-muted">{copy.speakers}</dt><dd id="modal-speakers"></dd></div>
+    </dl>
+    <div id="modal-details"></div>
+    <div class="flex flex-wrap gap-3 border-t border-conference-line pt-4">
+      <button type="button" data-modal-save class="rounded-xl border-2 border-conference-outline bg-conference-paper px-4 py-2 text-sm font-bold" aria-pressed="false">{copy.save}</button>
+      <a href="https://calendar.google.com/calendar/" data-modal-calendar class="rounded-xl border-2 border-conference-outline bg-[#2f559a] px-4 py-2 text-sm font-bold text-white" target="_blank" rel="noopener noreferrer">{copy.calendar}</a>
+      <a href="https://pretalx.com/" data-modal-source class="px-2 py-2 text-sm font-bold underline" target="_blank" rel="noopener noreferrer">{copy.source}</a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  dialog { max-height: calc(100dvh - 2rem); overflow-wrap: anywhere; }
+  dialog[open] { display: flex; flex-direction: column; }
+  .modal-heading { flex: 0 0 auto; max-height: 40dvh; min-height: 0; overflow-y: auto; }
+  .modal-heading p { min-width: 0; }
+  .modal-heading form { position: sticky; top: 0; flex-shrink: 0; }
+  .modal-heading + div { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  button, a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  @media (max-width: 639px), (max-height: 500px) {
+    .modal-heading, .modal-heading + div { padding: 1rem; }
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import { type FeaturedSpeaker, featuredLabels } from '../../data/featured-speakers';
+import { scheduleCopy } from '../../data/schedule-copy';
+import type { CfpLocale } from '../../locales';
+import ContentPageFrame from '../content/ContentPageFrame.astro';
+import DoodleButton from '../DoodleButton.astro';
+import { renderProgrammeMarkdown } from '../schedule/programme-content';
+import WovenRibbon from '../ui/WovenRibbon.astro';
+
+interface Props { locale: CfpLocale; speaker: FeaturedSpeaker }
+const { locale, speaker } = Astro.props;
+const labels = featuredLabels[locale];
+const copy = scheduleCopy[locale];
+const [abstract, biography] = await Promise.all([
+  renderProgrammeMarkdown(speaker.abstract),
+  renderProgrammeMarkdown(speaker.biography),
+]);
+---
+<ContentPageFrame locale={locale} title={speaker.title} titleLang={speaker.language} description={`${speaker.title} — ${speaker.name} | PyCon HK 2026`}>
+  <WovenRibbon />
+  <article data-featured-talk={speaker.code} class="min-w-0 space-y-8 [overflow-wrap:anywhere]">
+    <p class="text-center text-sm font-bold text-conference-blue">{speaker.keynote ? labels.keynote : labels.talk} · <span lang="en">{speaker.name}</span></p>
+    <section aria-labelledby="talk-description">
+      <h2 id="talk-description" class="mb-4 text-xl font-black text-conference-ink">{copy.description}</h2>
+      <div data-talk-abstract lang={speaker.language} class="programme-richtext prose max-w-none text-conference-body" set:html={abstract} />
+    </section>
+    <section aria-labelledby="talk-speaker" class="border-t-2 border-dashed border-conference-outline/25 pt-8">
+      <h2 id="talk-speaker" class="mb-6 text-xl font-black text-conference-ink">{copy.aboutSpeaker}</h2>
+      <div class="grid min-w-0 gap-6 sm:grid-cols-[7rem_minmax(0,1fr)]">
+        <Image src={speaker.image} alt={speaker.name} width={224} height={224} format="webp" class="h-28 w-28 rounded-full border-2 border-conference-outline/40 object-cover" />
+        <div class="min-w-0" lang="en">
+          <h3 class="mb-3 text-xl font-black text-conference-ink">{speaker.name}</h3>
+          <div data-talk-biography class="programme-richtext prose max-w-none text-conference-body" set:html={biography} />
+        </div>
+      </div>
+    </section>
+    <DoodleButton href={`/2026/${locale}/#featured-speakers`} label={labels.back} variant="secondary"><span aria-hidden="true" class="mr-2">←</span>{labels.back}</DoodleButton>
+  </article>
+</ContentPageFrame>
+<style>
+  .programme-richtext :global(pre) { max-width: 100%; overflow-x: auto; }
+  .programme-richtext :global(img) { max-width: 100%; height: auto; }
+</style>

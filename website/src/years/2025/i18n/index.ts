@@ -1,4 +1,4 @@
-import type { SiteLocale } from '@/config/site';
+import type { ArchiveLocale, SiteLocale } from '@/config/site';
 import { createI18nHelpers, type TranslationCatalog } from '@/i18n/factory';
 import enMessages from '@/years/2025/i18n/messages/en';
 import jaMessages from '@/years/2025/i18n/messages/ja';
@@ -13,7 +13,7 @@ export const languages = {
   'zh-hant': '繁體中文',
   'zh-hans': '简体中文',
   ja: '日本語',
-} as const satisfies Record<SiteLocale, string>;
+} as const satisfies Record<ArchiveLocale, string>;
 
 export const defaultLang = 'en' satisfies SiteLocale;
 

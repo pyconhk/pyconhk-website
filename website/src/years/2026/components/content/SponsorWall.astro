@@ -1,0 +1,75 @@
+---
+import type { ConferenceContent } from '@/lib/conference-schema';
+
+interface Props {
+  items: ConferenceContent['sponsors']['items'];
+  headingLevel?: 'h2' | 'h3';
+  descriptions?: boolean;
+  detailsHref?: string;
+}
+const { items, headingLevel: TierHeading = 'h3', descriptions = false, detailsHref } = Astro.props;
+const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
+// Follow the website-logo hierarchy in the sponsorship packages.
+// Prize and media sponsors use the same compact size as bronze.
+const compactTierWidth = 'max-w-40 sm:max-w-64';
+const tierWidths: Record<string, string> = {
+  diamond: 'max-w-90 sm:max-w-[36rem]',
+  platinum: 'max-w-80 sm:max-w-[32rem]',
+  gold: 'max-w-70 sm:max-w-[28rem]',
+  silver: 'max-w-60 sm:max-w-96',
+  bronze: compactTierWidth,
+  prize: compactTierWidth,
+  media: compactTierWidth,
+};
+// Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
+const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
+  tier,
+  widthClass: tierWidths[tier.trim().toLowerCase().replace(/\s+sponsors?$/, '')] ?? tierWidths.bronze,
+  items: items.filter((item) => item.tier === tier),
+}));
+---
+
+<div data-sponsor-wall class="mx-auto w-full max-w-[65rem] divide-y divide-conference-line">
+  {groups.map((group) => (
+    <section data-sponsor-tier={group.tier} class="min-w-0 px-3 py-8 text-center sm:px-6 sm:py-10">
+      <TierHeading class="mb-6 text-2xl font-extrabold leading-tight tracking-tight text-conference-ink sm:mb-8 sm:text-3xl">
+        {group.tier}
+      </TierHeading>
+      <ul class="flex flex-col items-center justify-center gap-6 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-8">
+        {group.items.map((item) => {
+          const href = detailsHref ? `${detailsHref}#sponsor-${item.id}` : item.url;
+          const external = !detailsHref && Boolean(item.url);
+          const Link = href ? 'a' : 'div';
+          const isNavicat = item.logo === '/2026/sponsors/navicat.svg';
+          const isJetBrains = item.logo === '/2026/sponsors/jetbrains.svg';
+          const hasWordmark = isNavicat || isJetBrains;
+          return <li id={`sponsor-${item.id}`} class:list={[
+            'min-w-0 w-full scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
+            group.items.length === 1 && descriptions && item.description ? 'max-w-prose' : group.widthClass,
+          ]}>
+            <Link href={href || undefined} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}
+              aria-label={item.name}
+              data-sponsor-link={href ? item.id : undefined}
+              class:list={[
+                'group mx-auto flex w-full flex-col items-center gap-3 rounded-[10px] text-conference-ink outline-offset-4 focus-visible:outline-3 focus-visible:outline-conference-blue',
+                group.widthClass,
+                href && 'cursor-pointer',
+              ]}>
+              {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] bg-[#fffaf2] inset-ring-1 inset-ring-[#e0dbd2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
+                <img src={item.logo} alt="" width="320" height="180" loading="lazy"
+                  class="absolute left-[7%] top-[7%] block h-[86%] w-[86%] object-contain" />
+              </span>}
+              <NameHeading class:list={[
+                'text-base font-bold leading-snug underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-[1.0625rem]',
+                hasWordmark && 'sr-only',
+              ]}>
+                {item.name}
+              </NameHeading>
+            </Link>
+            {descriptions && item.description && <p class="mx-auto mt-6 max-w-prose whitespace-pre-line text-base leading-relaxed text-conference-body">{item.description}</p>}
+          </li>;
+        })}
+      </ul>
+    </section>
+  ))}
+</div>

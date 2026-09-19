@@ -1,0 +1,44 @@
+<meta name="pycon-conference" content="2026" />
+<script is:inline data-astro-rerun>
+  (() => {
+    const initVersion = 'cycle-button-v1';
+    if (window.pyconThemeReady === initVersion) return;
+    const key = 'pyconhk-2026-theme';
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const modes = ['system', 'light', 'dark'];
+    const valid = value => modes.includes(value);
+    const nextMode = () => modes[(modes.indexOf(preference) + 1) % modes.length];
+    let preference = 'system';
+    try { const stored = localStorage.getItem(key); if (valid(stored)) preference = stored; } catch { /* System theme works without storage. */ }
+    const apply = (target = document) => {
+      if (!target.querySelector('meta[name="pycon-conference"][content="2026"]')) {
+        target.documentElement.removeAttribute('data-conference-theme');
+        return;
+      }
+      target.documentElement.dataset.conferenceTheme = preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
+      target.querySelectorAll('[data-theme-toggle]').forEach(button => {
+        button.dataset.themeMode = preference;
+        const label = `${button.dataset.themeLabel}: ${button.getAttribute(`data-theme-${preference}`)}. ${button.dataset.themeNextLabel}: ${button.getAttribute(`data-theme-${nextMode()}`)}`;
+        button.setAttribute('aria-label', label);
+        button.title = label;
+      });
+    };
+    apply();
+    // The head script also runs on client navigation. Keep one set of listeners.
+    window.pyconThemeReady = initVersion;
+    document.addEventListener('click', event => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
+      preference = nextMode();
+      try { localStorage.setItem(key, preference); } catch { /* Keep the choice in memory. */ }
+      apply();
+    });
+    media.addEventListener('change', () => apply());
+    window.addEventListener('storage', event => {
+      if (event.key !== key && event.key !== null) return;
+      preference = valid(event.newValue) ? event.newValue : 'system';
+      apply();
+    });
+    document.addEventListener('astro:before-swap', event => apply(event.newDocument));
+    document.addEventListener('astro:page-load', () => apply());
+  })();
+</script>

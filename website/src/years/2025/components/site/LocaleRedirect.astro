@@ -1,7 +1,7 @@
 ---
 import {
   defaultLocale,
-  locales,
+  getLocalesForYear,
   preferredLocaleCookie,
   type SiteYear,
 } from '@/config/site';
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const { year, title, description } = Astro.props;
+const locales = getLocalesForYear(year);
 
 const localeLinks = locales.map((locale) => ({
   ...locale,

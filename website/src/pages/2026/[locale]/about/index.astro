@@ -1,0 +1,14 @@
+---
+import AboutPage from '@/years/2026/components/pages/AboutPage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/data/cfp';
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+
+<AboutPage locale={locale} />

@@ -1,0 +1,41 @@
+---
+import { formatDate } from '@/lib/date';
+import type { NewsSummary } from '@/lib/news';
+import { newsMessages } from '@/years/2026/i18n/news';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  article: NewsSummary;
+  locale: CfpLocale;
+}
+
+const { article, locale } = Astro.props;
+---
+
+<a
+  href={`/2026/${locale}/news/${article.slug}/`}
+  class="group flex flex-col overflow-hidden rounded-2xl border-2 border-conference-outline bg-conference-surface shadow-conference-card transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-red"
+>
+  <div class="aspect-[16/9] border-b-2 border-conference-outline bg-conference-paper p-6">
+    <img
+      src={article.coverImage}
+      alt=""
+      width="600"
+      height="338"
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-contain duration-300"
+    />
+  </div>
+  <div class="flex flex-1 flex-col justify-between gap-4 p-5 sm:p-6">
+    <div>
+      {article.tags.length > 0 && <p class="mb-2 text-xs font-bold text-conference-red">{article.tags.join(' · ')}</p>}
+      <h2 class="text-lg font-black leading-snug text-conference-ink group-hover:text-conference-red">{article.title}</h2>
+      <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-conference-body">{article.excerpt}</p>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-2 border-t border-conference-outline/15 pt-4 text-xs font-bold text-conference-muted">
+      <time datetime={article.publishedAt}>{formatDate(article.publishedAt, locale)}</time>
+      <span class="text-conference-red">{newsMessages[locale].readArticle} <span aria-hidden="true">→</span></span>
+    </div>
+  </div>
+</a>

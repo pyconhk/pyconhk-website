@@ -12,43 +12,22 @@ export const GET: APIRoute = ({ url }) => {
   const siteUrl = getCmsSiteUrl(url, environment);
   const backendMode = url.searchParams.get("backend");
 
-  const cmsConfig =
-    backendMode === "local"
-      ? createCmsConfig(environment, {
-          contentRoot: "sandbox-content",
-          mediaFolder: "public/sandbox-images",
-          publicFolder: "/sandbox-images",
-          publishMode: "simple",
-        })
-      : createCmsConfig(environment);
+  const cmsConfig = createCmsConfig(environment);
 
   const backend =
     backendMode === "test"
       ? { name: "test-repo" }
-      : backendMode === "local"
-        ? {
-            name: "git-gateway",
-            branch: getCmsBranch(environment),
-          }
-        : {
-            name: "github",
-            repo: getCmsRepo(environment),
-            branch: getCmsBranch(environment),
-            base_url: siteUrl,
-            auth_endpoint: "api/decap/auth",
-            site_domain: new URL(siteUrl).host,
-          };
-
-  const localBackend =
-    backendMode === "local"
-      ? {
-          url: "http://localhost:8081/api/v1",
-        }
-      : undefined;
+      : {
+          name: "github",
+          repo: getCmsRepo(environment),
+          branch: getCmsBranch(environment),
+          base_url: siteUrl,
+          auth_endpoint: "api/decap/auth",
+          site_domain: new URL(siteUrl).host,
+        };
 
   const config = {
     backend,
-    local_backend: localBackend,
     publish_mode: cmsConfig.publishMode,
     media_folder: cmsConfig.mediaFolder,
     public_folder: cmsConfig.publicFolder,

@@ -1,0 +1,27 @@
+---
+import { getConferenceContent } from '@/lib/conference-content';
+import SponsorWall from '@/years/2026/components/content/SponsorWall.astro';
+import { contentUi } from '@/years/2026/data/content-ui';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const { sponsors } = getConferenceContent(locale);
+const copy = contentUi[locale];
+const detailsHref = `/2026/${locale}/sponsorships/`;
+---
+{sponsors.status === 'published' && sponsors.items.length > 0 && (
+<section id="sponsors" aria-labelledby="sponsors-title" class="bg-conference-paper px-5 py-12 sm:px-6 sm:py-16">
+  <div class="mx-auto w-full max-w-[65rem] text-center">
+    <h2 id="sponsors-title" class="text-3xl font-extrabold leading-tight text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
+    <div aria-hidden="true" class="mx-auto mt-5 flex h-1 w-24"><span class="flex-1 bg-[#d71920]" /><span class="flex-1 bg-white" /><span class="flex-1 bg-[#2f559a]" /></div>
+    <div data-published-sponsors data-sponsor-overview>
+      <SponsorWall items={sponsors.items} detailsHref={detailsHref} />
+    </div>
+    <a href={detailsHref} data-sponsors-details class="inline-flex min-h-11 cursor-pointer items-center gap-2 py-2 text-base font-bold text-conference-blue underline-offset-4 hover:underline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+      {copy.viewSponsors}
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 fill-none stroke-current stroke-2"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+    </a>
+  </div>
+</section>
+)}

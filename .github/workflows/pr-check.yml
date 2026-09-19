@@ -4,82 +4,181 @@ on:
   pull_request:
     branches: [main, test, cms]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   pull_request_check:
     name: Branch Rules
+    if: github.base_ref != 'cms'
     runs-on: ubuntu-latest
     steps:
       - name: Check PR branch rules
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
         run: |
           # Rule 1: Only test can merge to main.
           # The cms branch is promoted by the scheduled content workflow, not by PR.
-          if [ "${{ github.base_ref }}" == "main" ]; then
-            if [ "${{ github.head_ref }}" != "test" ]; then
+          if [ "$BASE_BRANCH" == "main" ]; then
+            if [ "$HEAD_BRANCH" != "test" ]; then
               echo "❌ Error: Only 'test' can merge to 'main'"
-              echo "Current source branch: ${{ github.head_ref }}"
-              echo "Target branch: ${{ github.base_ref }}"
+              echo "Current source branch: $HEAD_BRANCH"
+              echo "Target branch: $BASE_BRANCH"
               echo ""
               echo "Please merge code changes to 'test' first. CMS content is promoted by workflow."
               exit 1
             else
-              echo "✅ Valid: ${{ github.head_ref }} branch merging to main"
+              echo "✅ Valid: $HEAD_BRANCH branch merging to main"
             fi
 
-          # Rule 2: No branch can merge to cms
-          elif [ "${{ github.base_ref }}" == "cms" ]; then
-            echo "❌ Error: No branches can merge to 'cms'"
-            echo "Current source branch: ${{ github.head_ref }}"
-            echo "Target branch: ${{ github.base_ref }}"
-            echo ""
-            echo "The 'cms' branch is protected and should only be modified through the CMS interface"
-            exit 1
+          # Rule 2: Only validated Decap editorial content can merge to cms.
+          elif [ "$BASE_BRANCH" == "cms" ]; then
+            echo "Validated same-repository Decap editorial content targeting cms."
 
           # Rule 3: All other branches must merge to test
-          elif [ "${{ github.base_ref }}" != "test" ]; then
+          elif [ "$BASE_BRANCH" != "test" ]; then
             echo "❌ Error: All feature branches must merge to 'test'"
-            echo "Current source branch: ${{ github.head_ref }}"
-            echo "Target branch: ${{ github.base_ref }}"
+            echo "Current source branch: $HEAD_BRANCH"
+            echo "Target branch: $BASE_BRANCH"
             echo ""
             echo "Please change your pull request target to 'test' branch"
             exit 1
 
           # Valid case: Merging to test
           else
-            echo "✅ Valid: PR targeting 'test' from '${{ github.head_ref }}'"
+            echo "✅ Valid: PR targeting 'test' from '$HEAD_BRANCH'"
             echo "This follows the correct branching strategy"
           fi
 
-  validate:
-    name: Validate Monorepo
+
+  discover:
+    name: Discover E2E suites
+    runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.suites.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v4
+      - id: suites
+        run: |
+          mise tasks ls --all --json > /tmp/tasks.json
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const tasks = JSON.parse(fs.readFileSync('/tmp/tasks.json', 'utf8'));
+          const directories = fs.globSync('**/e2e/mise.toml', { exclude: ['**/node_modules/**', '**/.git/**'] });
+          const suites = directories.map(file => {
+            const dir = path.dirname(file);
+            const task = `//${dir}:e2e`;
+            const definition = tasks.find(candidate => candidate.name === task);
+            if (!definition) throw new Error(`Unregistered E2E task: ${task}`);
+            return { name: dir.replaceAll('/', '-'), task, website: dir.startsWith('website/'), browser: !definition.env.includes('E2E_BROWSER=none') };
+          });
+          if (!suites.length) throw new Error('No E2E suites discovered');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include:suites})}\n`);
+          JS
+
+  build:
+    name: Build shared website
+    runs-on: ubuntu-latest
+    env:
+      PROGRAMME_ENVIRONMENT: test
+      PROGRAMME_SOURCE_EVENT: pyconhk2025
+      PROGRAMME_SNAPSHOT_PATH: src/years/2026/data/programme/pyconhk2025.public.json
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v4
+      - uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock', 'cms/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
+      - run: mise run //website:install
+      - run: mise run //website:build
+      - run: tar -cf website-dist.tar -C website dist public/pagefind
+      - uses: actions/upload-artifact@v6
+        with:
+          name: website-dist
+          path: website-dist.tar
+          compression-level: 0
+          retention-days: 1
+
+  checks:
+    name: Type and lint checks
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v4
+      - uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock', 'cms/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
+      - run: mise run install
+      - run: mise run check-cms-content
+      - run: mise run check-cms-release
+      - run: mise run //...:check
 
-      - name: Set up mise
-        uses: jdx/mise-action@v4
+  e2e:
+    name: E2E ${{ matrix.name }}
+    needs: [discover, build]
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.discover.outputs.suites) }}
+    env:
+      PROGRAMME_ENVIRONMENT: test
+      PROGRAMME_SOURCE_EVENT: pyconhk2025
+      PROGRAMME_SNAPSHOT_PATH: src/years/2026/data/programme/pyconhk2025.public.json
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v4
+      - uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'website/bun.lock', 'cms/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
+      - run: mise run install
+      - uses: actions/download-artifact@v7
+        if: matrix.website
+        with:
+          name: website-dist
+      - if: matrix.website
+        run: |
+          tar -xf website-dist.tar -C website
+          echo 'PLAYWRIGHT_SKIP_BUILD=1' >> "$GITHUB_ENV"
+      - name: Use runner Chrome
+        if: matrix.browser
+        run: google-chrome --version
+      - name: Run complete E2E suite
+        env:
+          E2E_TASK: ${{ matrix.task }}
+        run: mise run "$E2E_TASK"
+      - uses: actions/upload-artifact@v6
+        if: failure()
+        with:
+          name: test-failures-${{ matrix.name }}
+          path: |
+            website/test-results
+            cms/test-results
+            test-results/publishing
+          retention-days: 3
 
-      - name: Install dependencies
-        run: mise run install
-
-      - name: Validate CMS operations policy
-        run: mise run validate-cms-ops
-
-      - name: Validate deployable CMS branch content
-        run: mise run check-cms-release
-
-      - name: Check website and CMS
-        run: mise run '//...:check'
-
-      - name: Build website
-        run: mise run '//website:build'
-
-      - name: Validate Cloudflare Worker package
-        run: mise run '//cms:deploy-dry-run'
-
-      - name: Install Playwright browser
-        working-directory: website
-        run: mise exec -- bunx playwright install chromium
-
-      - name: Run website e2e smoke tests
-        run: mise run '//website:e2e'
+  validate:
+    name: Validate Monorepo
+    if: always()
+    needs: [discover, build, checks, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all checks to pass
+        env:
+          DISCOVER: ${{ needs.discover.result }}
+          BUILD: ${{ needs.build.result }}
+          CHECKS: ${{ needs.checks.result }}
+          E2E: ${{ needs.e2e.result }}
+        run: test "$DISCOVER" = success && test "$BUILD" = success && test "$CHECKS" = success && test "$E2E" = success

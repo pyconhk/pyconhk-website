@@ -6,13 +6,15 @@
       "src/**",
       "package.json",
       "tsconfig.json",
-      "astro.config.mjs",
+      "astro.config.ts",
       "biome.json",
       "vercel.json",
       "mise.toml",
       "!dist",
       "!.astro",
-      "!node_modules"
+      "!node_modules",
+      "e2e/**",
+      "playwright.config.ts"
     ]
   },
   "formatter": {

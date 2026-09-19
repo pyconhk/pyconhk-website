@@ -11,12 +11,16 @@
     "cms"
   ],
   "devDependencies": {
-    "yaml": "^2.8.0"
+    "yaml": "^2.8.0",
+    "@playwright/test": "^1.61.1"
+  },
+  "patchedDependencies": {
+    "decap-cms-core@3.16.0": "cms/patches/decap-cms-core@3.16.0.patch"
   },
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",
     "dev": "mise //website:dev",
-    "e2e": "mise //website:e2e",
+    "e2e": "mise run //:e2e",
     "build": "mise //...:build",
     "preview": "mise //website:preview",
     "check": "mise //...:check",
@@ -37,7 +41,6 @@
     "cms:preview": "mise //cms:preview",
     "cms:check": "mise //cms:check",
     "cms:lint": "mise //cms:lint",
-    "cms:format": "mise //cms:format",
-    "cms:local-backend": "mise //cms:local-backend"
+    "cms:format": "mise //cms:format"
   }
 }

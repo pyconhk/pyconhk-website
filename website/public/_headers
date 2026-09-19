@@ -1,0 +1,7 @@
+# Reuse prefetched conference pages during navigation, then revalidate promptly.
+/2026/*
+  Cache-Control: public, max-age=60, must-revalidate
+
+# Astro changes these filenames whenever their contents change.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

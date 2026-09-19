@@ -1,8 +1,9 @@
 import {
+  archiveLocales,
   archiveSocialImagePaths,
   currentConferenceYear,
   defaultLocale,
-  locales,
+  getSocialImagePath,
   type SiteLocale,
   siteUrl,
   socialImagePath,
@@ -37,7 +38,7 @@ type SeoLocale = {
 
 const archiveConferenceYear = 2025;
 const archiveRootAliases = new Set(['news']);
-const siteLocaleDefinitions = locales.map((locale) => ({
+const siteLocaleDefinitions = archiveLocales.map((locale) => ({
   code: locale.code,
   htmlLang: locale.htmlLang,
 })) satisfies SeoLocale[];
@@ -67,7 +68,10 @@ function buildPath(...segments: string[]): string {
     return '/';
   }
 
-  return `/${normalizedSegments.join('/')}`;
+  const pathname = `/${normalizedSegments.join('/')}`;
+  return /^\/2026\/[^/]+\/(speakers|talks)\/[^/]+$/u.test(pathname)
+    ? `${pathname}/`
+    : pathname;
 }
 
 function isFourDigitYear(value: string | undefined): boolean {
@@ -168,7 +172,7 @@ function getDefaultSocialImagePath(parsedPath: ParsedLocalizedPath | null): stri
     return archiveSocialImagePaths[archiveConferenceYear] ?? socialImagePath;
   }
 
-  return socialImagePath;
+  return getSocialImagePath(parsedPath.locale);
 }
 
 export function buildCanonicalPath(pathname: string): string {
@@ -245,5 +249,14 @@ export function buildSeoMetadata({ pathname, imagePath }: SeoMetadataInput) {
 }
 
 export function toOpenGraphLocale(htmlLang: string): string {
-  return htmlLang.replaceAll('-', '_');
+  const locales: Record<string, string> = {
+    en: 'en_HK',
+    'zh-HK': 'zh_HK',
+    'zh-Hant-HK': 'zh_HK',
+    'zh-Hant': 'zh_TW',
+    'zh-Hans': 'zh_CN',
+    ja: 'ja_JP',
+    ko: 'ko_KR',
+  };
+  return locales[htmlLang] ?? htmlLang.replaceAll('-', '_');
 }

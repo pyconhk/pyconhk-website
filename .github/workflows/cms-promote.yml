@@ -16,12 +16,14 @@ jobs:
   promote:
     name: Promote cms to main
     runs-on: ubuntu-latest
+    outputs:
+      promoted: ${{ steps.push.outputs.promoted }}
     env:
       CMS_BRANCH: cms
       PRODUCTION_BRANCH: main
     steps:
       - name: Check out production branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ env.PRODUCTION_BRANCH }}
           fetch-depth: 0
@@ -31,8 +33,14 @@ jobs:
         run: |
           git fetch origin "${PRODUCTION_BRANCH}" "${CMS_BRANCH}"
 
+      - name: Set up mise
+        uses: jdx/mise-action@v4
+
+      - name: Install website dependencies and content parser
+        run: mise run //website:install
+
       - name: Validate CMS branch locale files
-        run: node scripts/check-cms-content-locales.mjs "origin/${CMS_BRANCH}"
+        run: CMS_CONTENT_REF="origin/${CMS_BRANCH}" node cms/publication/content.ts
 
       - name: Check for CMS changes
         id: changes
@@ -46,17 +54,12 @@ jobs:
           fi
 
           echo "has_changes=true" >> "${GITHUB_OUTPUT}"
-          {
-            echo "changed_files<<EOF"
-            echo "${changed_files}"
-            echo "EOF"
-          } >> "${GITHUB_OUTPUT}"
 
       - name: Refuse non-CMS changes
         if: steps.changes.outputs.has_changes == 'true'
         run: |
           disallowed_files="$(
-            printf '%s\n' "${{ steps.changes.outputs.changed_files }}" |
+            git diff --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}" |
               grep -Ev '^(website/outstatic/content/|website/outstatic/media/|website/public/outstatic/images/)' || true
           )"
 
@@ -74,14 +77,6 @@ jobs:
           git checkout -B cms-content-promotion "origin/${PRODUCTION_BRANCH}"
           git merge --no-ff --no-edit "origin/${CMS_BRANCH}"
 
-      - name: Set up mise
-        if: steps.changes.outputs.has_changes == 'true'
-        uses: jdx/mise-action@v4
-
-      - name: Install website dependencies
-        if: steps.changes.outputs.has_changes == 'true'
-        run: mise run //website:install
-
       - name: Validate CMS locale files
         if: steps.changes.outputs.has_changes == 'true'
         run: mise run check-cms-content
@@ -93,6 +88,16 @@ jobs:
           mise run //website:build
 
       - name: Push promoted content
+        id: push
         if: steps.changes.outputs.has_changes == 'true'
         run: |
           git push origin HEAD:"${PRODUCTION_BRANCH}"
+          echo 'promoted=true' >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: promote
+    if: needs.promote.outputs.promoted == 'true'
+    uses: ./.github/workflows/deploy-website-reusable.yml
+    with:
+      target: production
+    secrets: inherit

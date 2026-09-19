@@ -1,12 +1,14 @@
 export const siteName = 'PyCon HK';
-export const siteUrl = 'https://pycon.hk';
+export const siteUrl = new URL(import.meta.env?.PUBLIC_SITE_URL || 'https://pycon.hk')
+  .origin;
 export const currentConferenceYear = 2026 as const;
-export const defaultSeoTitle = 'PyCon HK 2026 CFP | Many Voices, One Python Story';
+export const defaultSeoTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
 export const defaultSeoDescription =
-  'Submit a proposal for PyCon Hong Kong 2026. Many voices, one Python story.';
-export const defaultOpenGraphTitle = 'PyCon HK 2026 CFP';
-export const defaultOpenGraphDescription = 'Many Voices, One Python Story';
-export const socialImagePath = '/2026/open-graph.webp';
+  'PyCon Hong Kong 2026 — A spirited gathering for Python people, ideas, and open-source possibility right in the heart of Hong Kong.';
+export const defaultOpenGraphTitle = 'PyCon HK 2026 | Ride and Leverage with AI';
+export const defaultOpenGraphDescription =
+  'Ride and Leverage with AI — 14–15 November 2026';
+export const socialImagePath = '/2026/share/en.png';
 export const archiveSocialImagePaths = {
   2025: '/2025/landing-pages/open-graph.webp',
 } as const;
@@ -14,7 +16,7 @@ export const socialHandle = '@pyconhk';
 
 export type SiteYear = 2025 | typeof currentConferenceYear;
 
-export const locales = [
+export const archiveLocales = [
   {
     code: 'en',
     label: 'English',
@@ -47,6 +49,17 @@ export const locales = [
   },
 ] as const;
 
+export const locales = [
+  ...archiveLocales,
+  {
+    code: 'ko',
+    label: 'Korean',
+    nativeLabel: '한국어',
+    htmlLang: 'ko-KR',
+  },
+] as const;
+
+export type ArchiveLocale = (typeof archiveLocales)[number]['code'];
 export type SiteLocale = (typeof locales)[number]['code'];
 export type LocalizedValue<T> = Partial<Record<SiteLocale, T>> & { en: T };
 
@@ -59,10 +72,19 @@ const localeFallbacks = {
   'zh-hant': ['zh-hant', 'en'],
   'zh-hans': ['zh-hans', 'zh-hant', 'en'],
   ja: ['ja', 'en'],
+  ko: ['ko', 'en'],
 } as const satisfies Record<SiteLocale, readonly SiteLocale[]>;
+
+export function getLocalesForYear(year: number) {
+  return year >= 2026 ? locales : archiveLocales;
+}
 
 export function isSupportedLocale(value: string): value is SiteLocale {
   return locales.some((locale) => locale.code === value);
+}
+
+export function getSocialImagePath(locale: string = defaultLocale): string {
+  return `/2026/share/${isSupportedLocale(locale) ? locale : defaultLocale}.png`;
 }
 
 export function getLocaleFallbackChain(locale: SiteLocale): readonly SiteLocale[] {

@@ -1,0 +1,13 @@
+---
+import FeaturedTalkPage from '@/years/2026/components/pages/FeaturedTalkPage.astro';
+import { featuredSpeakers } from '@/years/2026/data/featured-speakers';
+import { supportedLocales } from '@/years/2026/locales';
+
+export function getStaticPaths() {
+  return supportedLocales.flatMap((locale) => featuredSpeakers.map((speaker) => ({
+    params: { locale, slug: speaker.slug },
+    props: { locale, speaker },
+  })));
+}
+---
+<FeaturedTalkPage {...Astro.props} />

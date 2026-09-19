@@ -1,0 +1,13 @@
+---
+import SpeakerPage from '@/years/2026/components/pages/SpeakerPage.astro';
+import { programmeSpeakers } from '@/years/2026/data/speakers';
+import { supportedLocales } from '@/years/2026/locales';
+
+export function getStaticPaths() {
+  return supportedLocales.flatMap((locale) => programmeSpeakers.map((speaker) => ({
+    params: { locale, slug: speaker.slug },
+    props: { locale, speaker },
+  })));
+}
+---
+<SpeakerPage {...Astro.props} />

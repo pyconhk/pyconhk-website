@@ -85,7 +85,7 @@ export type CfpPageCopy = {
 
 export const localeMetadata: Record<CfpLocale, LocaleMeta> = {
   en: { label: 'English', shortLabel: 'EN', htmlLang: 'en' },
-  'zh-hk': { label: '香港粵語', shortLabel: '粵', htmlLang: 'zh-HK' },
+  'zh-hk': { label: '廣東話', shortLabel: '粵', htmlLang: 'zh-Hant-HK' },
   'zh-hant': { label: '繁體中文', shortLabel: '繁', htmlLang: 'zh-Hant' },
   'zh-hans': { label: '简体中文', shortLabel: '简', htmlLang: 'zh-Hans' },
   ko: { label: '한국어', shortLabel: 'KR', htmlLang: 'ko' },
@@ -227,16 +227,17 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
       badge: '以講者為本',
       headline: '多元聲音，\n同一個 Python 故事',
       subheadline: 'PyCon Hong Kong 2026 徵集提案',
-      body: '分享你嘅想法、專案、經驗同社群故事，讓更多人聽見你嘅 Python 觀點。',
+      body: '分享你嘅諗法、項目、經驗同社群故事，等更多人聽到你對 Python 嘅睇法。',
     },
     cta: {
       submit: '提交提案',
-      edit: '編輯或查看提案',
+      edit: '修改或者睇返提案',
       sponsorship: '贊助合作',
     },
     programWall: {
       title: '節目筆記板',
-      caption: '好嘅提案會清楚講明受眾、聽眾可以帶走咩，以及議程會點樣進行。',
+      caption:
+        '一份好嘅提案，會講清楚適合邊啲人聽、大家可以學到啲咩，同埋你會點樣分享。',
     },
     keyDates: {
       title: '重要日期',
@@ -253,54 +254,54 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
           label: 'Sprint',
           value: '2026年11月15日',
           status: '（暫定）',
-          note: '一齊動手實作',
+          note: '一齊動手做',
         },
       ],
     },
     proposals: {
       title: '開放徵集形式',
-      intro: '選擇最能清楚傳達想法嘅形式。',
+      intro: '揀一個最適合表達你諗法嘅形式。',
       types: [
         {
           index: '01',
           title: '閃電演講',
-          description: '用短時間分享一個清楚嘅想法、展示或經驗。',
+          description: '用短短嘅時間講一個諗法、做個示範，或者分享一次經驗。',
           tone: 'yellow',
         },
         {
           index: '02',
           title: '短講',
-          description: '聚焦說明一個重點，令聽眾容易帶走。',
+          description: '集中講清楚一個重點，等大家聽完有所收穫。',
           tone: 'white',
         },
         {
           index: '03',
           title: '演講',
-          description: '深入分享故事、系統、專案同實務經驗。',
+          description: '深入分享你嘅故事、系統設計、項目同實際經驗。',
           tone: 'lilac',
         },
         {
           index: '04',
           title: '海報展示',
-          description: '展示研究、工具、圖解或進行中嘅作品。',
+          description: '展示研究、工具、圖解，或者仲做緊嘅作品。',
           tone: 'sky',
         },
         {
           index: '05',
           title: 'Sprint',
-          description: '邀請大家一齊投入一個開源任務。',
+          description: '約埋大家一齊做開源項目。',
           tone: 'white',
         },
       ],
     },
     guidance: {
-      kicker: '提交建議',
-      title: '由你所在嘅位置開始講起。',
-      body: '我哋歡迎第一次上台嘅講者、本地故事、多語言議程、實用經驗，以及誠實嘅實驗。',
+      kicker: '投稿小貼士',
+      title: '由你自己嘅經驗講起。',
+      body: '第一次上台都歡迎！你可以講本地故事、分享實用經驗，或者講吓試過啲咩、學到啲咩。我哋亦歡迎用唔同語言分享。',
       items: [
-        { mark: '+', text: '講明你嘅分享適合邊個，以及聽眾可以帶走咩。' },
-        { mark: '?', text: '用最能展現想法嘅語言撰寫草稿。' },
-        { mark: '!', text: '清楚講明問題、受眾，以及議程形式。' },
+        { mark: '+', text: '講清楚適合邊啲人聽，同埋大家聽完可以學到啲咩。' },
+        { mark: '?', text: '用你最能夠表達諗法嘅語言寫草稿。' },
+        { mark: '!', text: '講清楚想解決咩問題、適合邊啲人，同埋會用咩形式分享。' },
       ],
     },
     finalCta: {

@@ -563,7 +563,7 @@ function maxSlotsLabel(
   <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3">
     {sponsorBenefits.map((benefit) => (
       <div class="flex flex-col items-center rounded-lg px-6 text-center">
-        <div class:list={['mt-4 rounded-full bg-gradient-to-br p-4', benefit.bgClass]}>
+        <div class:list={['mt-4 rounded-full bg-linear-to-br p-4', benefit.bgClass]}>
           <Icon name={benefit.icon} className={`h-12 w-12 ${benefit.iconClass}`} />
         </div>
         <h3 class="mt-4 text-lg font-semibold">{resolveRequiredLocalizedValue(benefit.title, locale)}</h3>
@@ -602,7 +602,7 @@ function maxSlotsLabel(
                   </div>
                 )}
 
-                <div class:list={['relative h-16 bg-gradient-to-br', tierColors[plan.tier]]}>
+                <div class:list={['relative h-16 bg-linear-to-br', tierColors[plan.tier]]}>
                   <div class="relative z-10 p-3 text-white">
                     <h3 class="mb-0.5 text-lg font-bold">
                       {resolveRequiredLocalizedValue(plan.name, locale)}
@@ -756,7 +756,7 @@ function maxSlotsLabel(
   </script>
 
   <div class="mt-2 text-center lg:mt-6">
-    <div class="rounded-2xl bg-gradient-to-r from-brand-blue to-brand-yellow p-8">
+    <div class="rounded-2xl bg-linear-to-r from-brand-blue to-brand-yellow p-8">
       <h2 class="text-3xl font-bold xl:text-4xl">{content.ctaTitle}</h2>
       <p class="mt-8 text-lg opacity-90">{content.ctaDescription}</p>
       <div class="mt-6">

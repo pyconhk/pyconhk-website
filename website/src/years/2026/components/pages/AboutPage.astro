@@ -1,0 +1,35 @@
+---
+import { getConferenceContent } from '@/lib/conference-content';
+import CommunityPageFrame from '@/years/2026/components/content/CommunityPageFrame.astro';
+import SocialIcon from '@/years/2026/components/ui/SocialIcon.astro';
+import { pageCopyByLocale, socialLinks } from '@/years/2026/data/about';
+import { contentUi } from '@/years/2026/data/content-ui';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const { about } = getConferenceContent(locale);
+const copy = pageCopyByLocale[locale];
+---
+<CommunityPageFrame locale={locale} title={copy.title} subtitle={copy.subtitle}>
+  {about.status !== 'published' ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
+    <div data-conference-content="about" class="space-y-10">
+      <div class="overflow-hidden rounded-2xl border-3 border-conference-outline bg-conference-paper shadow-conference-panel">
+        <img src="/2026/events/events.webp" alt={copy.imageAlt} width="1200" height="675" class="max-h-[560px] w-full object-cover" />
+      </div>
+      <div class="space-y-6 text-sm font-medium leading-relaxed text-conference-ink sm:text-base md:text-lg">
+        {about.paragraphs.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}
+      </div>
+      <section data-social-links class="space-y-6 border-t-2 border-conference-outline/15 pt-8">
+        <h2 class="font-sans text-2xl font-black uppercase text-conference-ink sm:text-3xl">{copy.socialHeading}</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {socialLinks.map((item) => <a href={item.href} target="_blank" rel="noopener noreferrer" class="group flex min-w-0 items-center justify-between gap-3 rounded-2xl border-2 border-conference-outline bg-conference-paper p-4 shadow-conference-card hover:bg-conference-surface">
+            <SocialIcon name={item.iconName} />
+            <span class="min-w-0 flex-1"><span class="block text-xs font-black uppercase tracking-wider text-conference-muted">{item.label}</span><span class="mt-1 block break-words text-sm font-bold text-conference-ink">{item.display.split('/').map((part, index) => <>{index > 0 && <>/<wbr /></>}{part}</>)}</span></span>
+            <span aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border-2 border-conference-outline bg-conference-surface font-bold shadow-conference-control">↗</span>
+          </a>)}
+        </div>
+      </section>
+    </div>
+  )}
+</CommunityPageFrame>

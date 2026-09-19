@@ -25,6 +25,7 @@ export const supportedCmsLocales = [
   "zh-hant",
   "zh-hans",
   "ja",
+  "ko",
 ] as const;
 
 const defaultCmsLocales = supportedCmsLocales.join(",");

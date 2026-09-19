@@ -1,0 +1,249 @@
+---
+import { allScheduleItems, formatProgrammeDate, isSampleProgramme, programmeSnapshot, roomColumns } from '../../data/schedule';
+import { scheduleCopy } from '../../data/schedule-copy';
+import { getTranslations } from '../../i18n';
+import ConferenceLayout from '../../layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '../../locales';
+import ScheduleModal from '../schedule/ScheduleModal.astro';
+import SessionDetails from '../schedule/SessionDetails.astro';
+import WovenRibbon from '../ui/WovenRibbon.astro';
+
+interface Props { locale: CfpLocale }
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const copy = scheduleCopy[locale];
+const languages = [...new Set(allScheduleItems.map((session) => session.language).filter(Boolean))].sort();
+const initialDay = programmeSnapshot.days[0]?.date ?? '';
+const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSnapshot.event, initialDay, copy }).replaceAll('<', '\\u003c');
+---
+<ConferenceLayout title={t.schedule.pageTitle} description={t.schedule.pageDescription} locale={locale}>
+  <section class="bg-conference-paper py-10 sm:py-14" data-programme-status={programmeSnapshot.status} data-programme-event={programmeSnapshot.event}>
+    <div>
+      <div class="programme-intro">
+      <h1 class="text-center text-3xl font-black tracking-tight text-conference-ink sm:text-5xl">{t.schedule.heroTitle}</h1>
+      {isSampleProgramme && <p class="mt-5 rounded-2xl border-2 border-amber-600 bg-amber-50 p-4 font-bold text-amber-950" data-sample-notice>{copy.sample}</p>}
+      </div>
+      {programmeSnapshot.status === 'unpublished' ? <p class="mt-8 rounded-2xl border-2 border-conference-outline bg-conference-surface p-8 text-lg" data-programme-coming-soon>{copy.comingSoon}</p> : <>
+        <div class="programme-intro">
+        <p class="mt-4 text-sm font-medium text-conference-body">{copy.timezone}</p>
+        <fieldset class="mt-6 flex flex-wrap gap-3">
+          <legend class="sr-only">{copy.time}</legend>
+          {programmeSnapshot.days.map((day) => <button type="button" class="day-button rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-black shadow-conference-control" data-day={day.date} aria-pressed={day.date === initialDay ? 'true' : 'false'}>{formatProgrammeDate(day.date, locale)}</button>)}
+        </fieldset>
+        <div class="programme-filters mt-5 grid gap-3 rounded-2xl border-2 border-conference-outline bg-conference-surface p-4">
+          <label><span class="sr-only">{copy.search}</span><input type="search" data-programme-search placeholder={copy.search} class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm" /></label>
+          <label><span class="sr-only">{copy.allRooms}</span><select data-room-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allRooms}</option>{roomColumns.map((room) => <option value={room.id}>{room.name}</option>)}</select></label>
+          <label><span class="sr-only">{copy.allLanguages}</span><select data-language-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allLanguages}</option>{languages.map((language) => <option value={language}>{language}</option>)}</select></label>
+          <button type="button" data-saved-filter aria-pressed="false" class="rounded-lg border-2 border-conference-outline px-3 py-2 text-sm font-bold">{copy.saved} <span data-saved-count>0</span></button>
+          <button type="button" data-clear-filters class="px-3 py-2 text-sm font-bold underline">{copy.clear}</button>
+        </div>
+        <p data-programme-empty role="status" hidden class="mt-8 rounded-2xl border-2 border-conference-outline bg-conference-surface p-8 text-center">{copy.noResults}</p>
+        </div>
+        <div class="programme-scroll mt-7" data-room-count={roomColumns.length} style={`--room-count:${Math.max(roomColumns.length, 1)}`}>
+          <div class="programme-room-headings" aria-hidden="true"><span>{copy.time}</span>{roomColumns.map((room) => <span>{room.name}</span>)}</div>
+          {programmeSnapshot.days.map((day) => {
+            const times = [...new Set(allScheduleItems.filter((session) => session.date === day.date).map((session) => session.startTime))].sort();
+            return <div data-day-panel={day.date} hidden={day.date !== initialDay}>
+              {times.map((time) => <section class="programme-slot" data-programme-slot>
+                <h2 class="programme-time font-black text-conference-ink">{time}</h2>
+                {allScheduleItems.filter((session) => session.date === day.date && session.startTime === time).map((session) => <article class="programme-card rounded-2xl border-2 border-conference-outline bg-conference-surface p-4 shadow-conference-card" data-session-card={session.id} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2}`}>
+                  <div class="pointer-events-none absolute inset-x-0 top-0 overflow-hidden rounded-t-[14px] border-b-2 border-[#2f559a] bg-white"><WovenRibbon heightClass="h-6" /></div>
+                  <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
+                  <p class="mt-2 text-xs font-medium text-conference-body">{session.startTime}–{session.endTime} · {session.duration} {copy.minutes}{session.language && ` · ${session.language}`}</p>
+                  <h3 class="mt-3 text-base font-black leading-snug text-conference-ink"><button type="button" data-session-details={session.id} class="session-open text-left" aria-haspopup="dialog">{session.title}</button></h3>
+                  {session.speakers.length > 0 && <p class="mt-3 text-sm text-conference-body">{session.speakers.join(', ')}</p>}
+                  <button type="button" class="mt-4 rounded-lg border border-conference-outline bg-conference-surface px-2.5 py-1.5 text-xs font-bold" data-save-session={session.id} aria-pressed="false">{copy.save}</button>
+                </article>)}
+              </section>)}
+            </div>;
+          })}
+        </div>
+        <ScheduleModal locale={locale} />
+        {allScheduleItems.map((session) => <template data-session-content={session.id}><SessionDetails session={session} locale={locale} /></template>)}
+        <script is:inline id="programme-data" type="application/json" set:html={payload} />
+      </>}
+    </div>
+  </section>
+</ConferenceLayout>
+
+<style>
+  .day-button { min-height: 44px; max-width: 100%; background: var(--conference-surface); color: var(--conference-ink); }
+  .day-button[aria-pressed='true'] { background: #d71920; color: white; }
+  [data-saved-filter][aria-pressed='true'], .programme-card [data-save-session][aria-pressed='true'] { background: #d71920; border-color: #d71920; color: white; }
+  .programme-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .programme-filters label { min-width: 0; }
+  .programme-filters label:first-child { grid-column: 1 / -1; }
+  .programme-filters input, .programme-filters select { min-height: 44px; min-width: 0; font-size: 1rem; }
+  .programme-filters button, [data-save-session], [data-session-details] { min-height: 44px; }
+  .programme-filters button { grid-column: 1 / -1; text-wrap: balance; }
+  .programme-intro { width: 100%; padding-inline: 1rem; }
+  .programme-scroll { width: 100%; padding-bottom: 4px; }
+  .programme-card, .session-open { scroll-margin-top: calc(var(--site-header-height, 0px) + var(--track-header-height, 0px) + 1rem); }
+  .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid var(--conference-line); }
+  .programme-time { grid-column: 1 / -1; }
+  .programme-room-headings { display: none; padding-inline: 1rem; }
+  .programme-card { position: relative; isolation: isolate; min-width: 0; overflow-wrap: anywhere; padding-top: 3rem; background: var(--conference-surface); transition: background-color .15s ease; }
+  .programme-room { display: inline-block; border-radius: .5rem; padding: .375rem .5rem; background: #2f559a; color: white; }
+  .session-open::after { content: ''; position: absolute; inset: 0; border-radius: 1rem; cursor: pointer; }
+  .programme-card [data-save-session] { position: relative; z-index: 1; border-color: var(--conference-blue); color: var(--conference-blue); }
+  .programme-card:has(.session-open:focus-visible) { outline: 3px solid var(--conference-blue); outline-offset: 5px; }
+  .session-open:focus-visible { outline: none; }
+  @media (hover: hover) {
+    .programme-card:hover { background: var(--conference-paper); }
+  }
+  @media (prefers-reduced-motion: reduce) { .programme-card { transition: none; } }
+  @media (min-width: 640px) {
+    .programme-filters button { grid-column: auto; }
+    .programme-slot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1024px) {
+    .programme-filters { grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)) auto auto; align-items: center; }
+    .programme-filters label:first-child { grid-column: auto; }
+    .programme-slot { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .programme-scroll[data-room-layout='true'] .programme-room-headings,
+  .programme-scroll[data-room-layout='true'] .programme-slot { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(0, 1fr)); gap: 1rem; }
+  .programme-scroll[data-room-layout='true'] .programme-room-headings { position: sticky; top: var(--site-header-height, 0px); z-index: 30; background: var(--conference-paper); border-bottom: 3px solid var(--conference-outline); padding-block: 1rem; color: var(--conference-ink); font-size: .8rem; font-weight: 900; overflow-wrap: anywhere; }
+  .programme-room-headings > span { display: flex; align-items: center; justify-content: center; text-align: center; text-wrap: balance; line-height: 1.5; }
+  /* Keep each card's room available to screen readers when columns provide the visual label. */
+  .programme-scroll[data-room-layout='true'] .programme-room { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .programme-scroll[data-room-layout='true'] .programme-time { grid-column: 1; grid-row: 1; }
+  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: 1; }
+  :global(html:has(#session-modal[open])) { overflow: hidden; }
+  [hidden] { display: none; }
+</style>
+
+<script>
+  import type { ScheduleItem } from '../../data/schedule';
+  import type { scheduleCopy } from '../../data/schedule-copy';
+  import { sessionCalendarUrl, sessionMatches } from '../schedule/schedule-interactions';
+
+  document.addEventListener('astro:page-load', () => {
+  const dataElement = document.querySelector('#programme-data');
+  if (dataElement) {
+    const data = JSON.parse(dataElement.textContent ?? '{}') as { sessions: ScheduleItem[]; event: string; initialDay: string; copy: (typeof scheduleCopy)['en'] };
+    const byId = new Map(data.sessions.map((session) => [session.id, session]));
+    const key = `pyconhk-programme-${data.event}`;
+    let saved = new Set<string>();
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem(key) ?? '[]');
+      if (Array.isArray(stored)) saved = new Set(stored.filter((id): id is string => typeof id === 'string' && byId.has(id)));
+    } catch { /* Bookmarks still work in memory when storage is unavailable. */ }
+    const filters = { date: data.initialDay, query: '', room: '', language: '', savedOnly: false };
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-session-card]'));
+    const dialog = document.querySelector<HTMLDialogElement>('#session-modal');
+    const empty = document.querySelector<HTMLElement>('[data-programme-empty]');
+    const programme = document.querySelector<HTMLElement>('.programme-scroll');
+    const siteHeader = document.querySelector<HTMLElement>('[data-site-header]');
+    const trackHeadings = programme?.querySelector<HTMLElement>('.programme-room-headings');
+    function updateLayout() {
+      if (!programme) return;
+      // Use room columns only when every room fits at a readable width, including at zoom.
+      const rootSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const requiredWidth = (4 + Number(programme.dataset.roomCount) * 14) * rootSize;
+      const style = getComputedStyle(trackHeadings ?? programme);
+      const contentWidth = programme.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight);
+      programme.dataset.roomLayout = String(!filters.room && contentWidth >= Math.max(1024, requiredWidth));
+      programme.style.setProperty('--site-header-height', `${siteHeader?.getBoundingClientRect().height ?? 0}px`);
+      programme.style.setProperty('--track-header-height', `${trackHeadings?.getBoundingClientRect().height ?? 0}px`);
+    }
+    if (programme) {
+      const observer = new ResizeObserver(updateLayout);
+      observer.observe(programme);
+      if (siteHeader) observer.observe(siteHeader);
+      if (trackHeadings) observer.observe(trackHeadings);
+      document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+    }
+    let activeSession: ScheduleItem | undefined;
+    let previousFocus: HTMLElement | null = null;
+
+    function refresh() {
+      let visible = 0;
+      for (const card of cards) {
+        const session = byId.get(card.dataset.sessionCard ?? '');
+        card.hidden = !session || !sessionMatches(session, filters, saved);
+        if (!card.hidden) visible += 1;
+      }
+      document.querySelectorAll<HTMLElement>('[data-day-panel]').forEach((panel) => { panel.hidden = panel.dataset.dayPanel !== filters.date; });
+      document.querySelectorAll<HTMLElement>('[data-programme-slot]').forEach((slot) => { slot.hidden = !Array.from(slot.querySelectorAll<HTMLElement>('[data-session-card]')).some((card) => !card.hidden); });
+      document.querySelectorAll<HTMLButtonElement>('[data-day]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.day === filters.date)); });
+      document.querySelectorAll<HTMLButtonElement>('[data-save-session]').forEach((button) => {
+        const isSaved = saved.has(button.dataset.saveSession ?? '');
+        button.setAttribute('aria-pressed', String(isSaved));
+        button.textContent = isSaved ? data.copy.unsave : data.copy.save;
+      });
+      const count = document.querySelector('[data-saved-count]');
+      if (count) count.textContent = String(saved.size);
+      const savedFilter = document.querySelector('[data-saved-filter]');
+      savedFilter?.setAttribute('aria-pressed', String(filters.savedOnly));
+      if (empty) {
+        empty.hidden = visible > 0;
+        empty.textContent = data.sessions.some((session) => session.date === filters.date) ? data.copy.noResults : data.copy.emptyDay;
+      }
+      if (programme) programme.hidden = visible === 0;
+      updateLayout();
+      const modalSave = dialog?.querySelector<HTMLButtonElement>('[data-modal-save]');
+      if (modalSave && activeSession) {
+        modalSave.textContent = saved.has(activeSession.id) ? data.copy.unsave : data.copy.save;
+        modalSave.setAttribute('aria-pressed', String(saved.has(activeSession.id)));
+      }
+    }
+    function toggleSave(id: string) {
+      if (saved.has(id)) saved.delete(id); else saved.add(id);
+      try { localStorage.setItem(key, JSON.stringify([...saved])); } catch { /* Keep the in-memory selection. */ }
+      refresh();
+    }
+    document.querySelectorAll<HTMLButtonElement>('[data-day]').forEach((button) => { button.addEventListener('click', () => { filters.date = button.dataset.day ?? ''; refresh(); }); });
+    const search = document.querySelector<HTMLInputElement>('[data-programme-search]');
+    search?.addEventListener('input', () => { filters.query = search.value; refresh(); });
+    const room = document.querySelector<HTMLSelectElement>('[data-room-filter]');
+    room?.addEventListener('change', () => { filters.room = room.value; refresh(); });
+    const language = document.querySelector<HTMLSelectElement>('[data-language-filter]');
+    language?.addEventListener('change', () => { filters.language = language.value; refresh(); });
+    document.querySelector('[data-saved-filter]')?.addEventListener('click', () => { filters.savedOnly = !filters.savedOnly; refresh(); });
+    document.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
+      filters.query = ''; filters.room = ''; filters.language = ''; filters.savedOnly = false;
+      if (search) search.value = ''; if (room) room.value = ''; if (language) language.value = ''; refresh();
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-save-session]').forEach((button) => { button.addEventListener('click', () => toggleSave(button.dataset.saveSession ?? '')); });
+    document.querySelectorAll<HTMLButtonElement>('[data-session-details]').forEach((button) => { button.addEventListener('click', () => {
+      const session = byId.get(button.dataset.sessionDetails ?? '');
+      if (!session || !dialog) return;
+      activeSession = session;
+      previousFocus = button;
+      const setText = (selector: string, text: string) => { const element = dialog.querySelector(selector); if (element) element.textContent = text; };
+      setText('#modal-session-title', session.title);
+      setText('#modal-time', `${session.date} · ${session.startTime}–${session.endTime} (UTC+8)`);
+      setText('#modal-room', session.room);
+      setText('#modal-speakers', session.speakers.join(', '));
+      const content = Array.from(document.querySelectorAll<HTMLTemplateElement>('[data-session-content]')).find((template) => template.dataset.sessionContent === session.id);
+      const details = dialog.querySelector('#modal-details');
+      if (details) details.replaceChildren(...(content ? [content.content.cloneNode(true)] : []));
+      dialog.querySelectorAll<HTMLImageElement>('[data-speaker-avatar]').forEach((avatar) => {
+        avatar.addEventListener('error', () => { avatar.hidden = true; }, { once: true });
+      });
+      const speakerSection = dialog.querySelector<HTMLElement>('[data-modal-speakers]');
+      if (speakerSection) speakerSection.hidden = session.speakers.length === 0;
+      const calendar = dialog.querySelector<HTMLAnchorElement>('[data-modal-calendar]');
+      if (calendar) calendar.href = sessionCalendarUrl(session);
+      const source = dialog.querySelector<HTMLAnchorElement>('[data-modal-source]');
+      if (source) { source.hidden = !session.url; source.href = session.url; }
+      refresh();
+      dialog.showModal();
+      const scrollBody = dialog.querySelector<HTMLElement>('[data-modal-body]');
+      if (scrollBody) scrollBody.scrollTop = 0;
+    }); });
+    dialog?.querySelector('[data-modal-save]')?.addEventListener('click', () => { if (activeSession) toggleSave(activeSession.id); });
+    dialog?.addEventListener('close', () => previousFocus?.focus());
+    dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    refresh();
+    const linkedSession = byId.get(new URLSearchParams(location.search).get('session') ?? '');
+    if (linkedSession) {
+      filters.date = linkedSession.date;
+      refresh();
+      const trigger = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-session-details]')).find((button) => button.dataset.sessionDetails === linkedSession.id);
+      trigger?.click();
+    }
+  }
+  });
+</script>

@@ -1,0 +1,50 @@
+<script is:inline>
+  (() => {
+    const update = (image) => {
+      image.toggleAttribute('data-image-loading', Boolean(image.getAttribute('src') || image.getAttribute('srcset')) && !image.complete);
+    };
+    const scan = (root) => {
+      if (root instanceof HTMLImageElement) update(root);
+      root?.querySelectorAll?.('img').forEach(update);
+    };
+    const finish = (event) => {
+      if (event.target instanceof HTMLImageElement) event.target.removeAttribute('data-image-loading');
+    };
+
+    document.addEventListener('load', finish, true);
+    document.addEventListener('error', finish, true);
+    document.addEventListener('astro:after-swap', () => scan(document));
+    new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.type === 'childList') record.addedNodes.forEach(scan);
+        else if (record.target instanceof HTMLImageElement) update(record.target);
+        else if (record.target instanceof HTMLSourceElement) scan(record.target.parentElement);
+      }
+    }).observe(document, { subtree: true, childList: true, attributes: true, attributeFilter: ['src', 'srcset'] });
+    scan(document);
+  })();
+</script>
+
+<style is:global>
+  img[data-image-loading] {
+    color: transparent;
+    background-color: #e2e8f0;
+    background-image: linear-gradient(100deg, transparent 20%, #f8fafc 50%, transparent 80%);
+    background-size: 200% 100%;
+    animation: image-loading-shimmer 1.5s ease-in-out infinite;
+  }
+
+  html[data-conference-theme='dark'] img[data-image-loading] {
+    background-color: #29384d;
+    background-image: linear-gradient(100deg, transparent 20%, #40516a 50%, transparent 80%);
+  }
+
+  @keyframes image-loading-shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img[data-image-loading] { animation: none; }
+  }
+</style>

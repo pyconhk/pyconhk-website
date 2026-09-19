@@ -1,0 +1,4 @@
+[tasks.e2e]
+extends = "playwright:e2e"
+description = "Run publishing and editorial workflow E2E tests"
+env = { E2E_BROWSER = "none" }

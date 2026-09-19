@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import WovenCardCorners from '@/years/2026/components/content/WovenCardCorners.astro';
+import { contentUi } from '@/years/2026/data/content-ui';
+import { featuredLabels, featuredSpeakers } from '@/years/2026/data/featured-speakers';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const labels = featuredLabels[locale];
+---
+
+<section id="featured-speakers" class="scroll-mt-32 bg-conference-soft px-4 py-16 sm:px-6 sm:py-24 lg:px-8" data-featured-speakers aria-labelledby="featured-title">
+  <div class="mx-auto max-w-6xl">
+    <h2 id="featured-title" class="text-center text-3xl font-black text-conference-ink sm:text-4xl">{contentUi[locale].speakers}</h2>
+    <div class="mx-auto mt-5 flex h-1 w-24" aria-hidden="true"><span class="flex-1 bg-[#d71920]"></span><span class="flex-1 bg-white"></span><span class="flex-1 bg-[#2f559a]"></span></div>
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      {featuredSpeakers.map((speaker) => (
+        <a data-astro-prefetch="viewport" href={`/2026/${locale}/talks/${speaker.slug}/`} aria-labelledby={`featured-name-${speaker.code} featured-talk-${speaker.code}`} data-featured-speaker data-keynote={speaker.keynote ? 'true' : 'false'} class="group relative isolate block overflow-hidden rounded-2xl border border-conference-outline/40 bg-conference-surface px-6 pt-8 pb-16 shadow-conference-card hover:border-conference-blue focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+          <div class="speaker-weave"><WovenCardCorners /></div>
+          <div class="relative flex flex-col items-center text-center">
+            <Image src={speaker.image} alt={speaker.name} width={224} height={224} format="webp" class="h-28 w-28 rounded-full border-2 border-conference-line object-cover" loading="lazy" />
+            <h3 id={`featured-name-${speaker.code}`} class="mt-5 text-lg font-bold text-conference-ink" lang="en">{speaker.name}</h3>
+            <p class:list={['mt-3 rounded-full px-3 py-1 text-xs font-bold text-white', speaker.keynote ? 'bg-[#d71920]' : 'bg-[#2f559a]']} data-speaker-role>{speaker.keynote ? labels.keynote : labels.talk}</p>
+            <p id={`featured-talk-${speaker.code}`} lang={speaker.language} class="mt-4 text-base leading-relaxed text-conference-body group-hover:underline group-focus-visible:underline underline-offset-4">{speaker.title}</p>
+            <span class="mt-5 text-sm font-bold text-conference-blue">{labels.view} <span aria-hidden="true">→</span></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .speaker-weave :global(svg) { width: 3rem; height: 3rem; }
+</style>

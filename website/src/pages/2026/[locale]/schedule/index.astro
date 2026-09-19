@@ -1,0 +1,17 @@
+---
+import SchedulePage from '@/years/2026/components/pages/SchedulePage.astro';
+import {
+  resolveCfpLocale,
+  supportedLocales,
+} from '@/years/2026/data/cfp';
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+
+<SchedulePage locale={locale} />

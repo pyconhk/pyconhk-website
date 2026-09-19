@@ -1,0 +1,98 @@
+---
+import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const attendeeReportingHref = `/2026/${locale}/code-of-conduct/attendee-reporting/`;
+const staffProceduresHref = `/2026/${locale}/code-of-conduct/staff-procedures/`;
+---
+<ConferenceLayout title="Code of Conduct Overview | PyCon HK 2026" description="Code of Conduct Overview and community standards for PyCon Hong Kong 2026." locale={locale}>
+  <section lang="en" data-policy-body class="bg-conference-paper px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-4xl rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10 lg:p-12">
+            <div>
+              <h1 class="font-sans text-[clamp(1.375rem,7vw,1.875rem)] sm:text-4xl md:text-5xl text-conference-ink font-black uppercase text-center tracking-tight mb-8">
+                Code of Conduct Overview
+              </h1>
+              <div class="space-y-6 text-conference-body leading-relaxed font-medium">
+                <p>
+                  PyCon Hong Kong is a community conference intended for networking and collaboration in the developer community.
+                </p>
+                <p>
+                  We value the participation of each member of the Python community and want all attendees to have an enjoyable and fulfilling experience. Accordingly, all attendees are expected to show respect and courtesy to other attendees throughout the conference and at all conference events, whether officially sponsored by the PyCon Hong Kong organisers or not.
+                </p>
+                <p>
+                  To make clear what is expected, all staff, attendees, speakers, exhibitors, organizers, and volunteers at any PyCon event are required to conform to the following Code of Conduct. Organizers will enforce this code throughout the event.
+                </p>
+
+                <h2 class="text-xl sm:text-2xl font-black text-conference-blue pt-4">Our Standards</h2>
+                <p>
+                  PyCon is dedicated to providing a positive conference experience for everyone, regardless of age, gender identity and expression, sexual orientation, disability, physical appearance, body size, ethnicity, nationality, race, or religion (or lack thereof), education, or socio-economic status.
+                </p>
+                <p>Examples of behavior that contributes to creating a positive environment include:</p>
+                <ul class="list-disc ml-6 space-y-2">
+                  <li>Being kind to others</li>
+                  <li>Behaving professionally</li>
+                  <li>Using welcoming and inclusive language</li>
+                  <li>Being respectful of differing viewpoints and experiences</li>
+                  <li>Gracefully accepting constructive criticism</li>
+                  <li>Focusing on what is best for the community</li>
+                  <li>Showing empathy towards other community members</li>
+                </ul>
+
+                <p class="pt-2">Examples of unacceptable behavior by participants include:</p>
+                <ul class="list-disc ml-6 space-y-2">
+                  <li>Harassment of conference participants in any form</li>
+                  <li>Deliberate intimidation, stalking, or following</li>
+                  <li>Violent threats or language directed against another person</li>
+                  <li>Sexual language and imagery in any conference venue, including talks</li>
+                  <li>Insults or put downs</li>
+                  <li>Sexist, racist, homophobic, transphobic, ableist, or exclusionary jokes</li>
+                  <li>Excessive swearing</li>
+                  <li>Unwelcome sexual attention or advances</li>
+                  <li>Unwelcome physical contact</li>
+                  <li>Sustained disruption of talks or other events</li>
+                  <li>Other conduct that is inappropriate for a professional audience including people of many different backgrounds</li>
+                </ul>
+                <p>Participants asked to stop any inappropriate behavior are expected to comply immediately.</p>
+                <p>
+                  If a participant engages in behavior that violates this code of conduct, the conference organizers may take any action they deem appropriate, including warning the offender or expulsion from the conference with no refund.
+                </p>
+                <p>Thank you for helping make this a welcoming, friendly event for all.</p>
+
+                <h2 class="text-xl sm:text-2xl font-black text-conference-blue pt-4">Weapons Policy</h2>
+                <p>
+                  No weapons are allowed at conference venues, including but not limited to explosives (including fireworks), guns, and large knives such as those used for hunting or display, as well as any other item used for the purpose of causing injury or harm to others. Anyone seen in possession of one of these items will be asked to leave immediately, and will only be allowed to return without the weapon.
+                </p>
+
+                <h2 class="text-xl sm:text-2xl font-black text-conference-blue pt-4">Scope</h2>
+                <p>
+                  All PyCon Hong Kong attendees are subject to the Code of Conduct. This includes PyCon Hong Kong staff and volunteers, as well as attendees of the tutorials, workshops, summits, poster sessions, receptions, conference, sprints, and sponsored or unofficial events.
+                </p>
+
+                <h2 class="text-xl sm:text-2xl font-black text-conference-blue pt-4">Contact Information</h2>
+                <p>
+                  If you believe that someone is violating the code of conduct during a PyCon event, or have any other concerns, please contact a member of the event staff immediately.
+                </p>
+                <p>
+                  PyCon Hong Kong<br />
+                  Email: <a href="mailto:pycon@pycon.hk" class="font-bold text-conference-red underline">pycon@pycon.hk</a>
+                </p>
+
+                <h2 class="text-xl sm:text-2xl font-black text-conference-blue pt-4">Procedure for Handling Incidents</h2>
+                <p class="space-x-4">
+                  <a href={attendeeReportingHref} class="font-bold text-conference-red underline">
+                    Procedures for Reporting Incidents →
+                  </a>
+                  <a href={staffProceduresHref} class="font-bold text-conference-blue underline">
+                    Enforcement Procedures →
+                  </a>
+                </p>
+                <p class="text-xs text-conference-muted pt-4">
+                  This Code of Conduct was forked from PyCon US from the Python GitHub. The PyCon Code of Conduct is licensed under a Creative Commons Attribution 3.0 Unported License.
+                </p>
+              </div>
+            </div>
+    </div>
+  </section>
+</ConferenceLayout>

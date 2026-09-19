@@ -1,0 +1,56 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [main, test, alex-dev]
+  schedule:
+    - cron: "2-59/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Website to update
+        type: choice
+        options: [test, production, preview]
+        default: test
+      force:
+        description: Rebuild even when code and programme are unchanged
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.targets.outputs.targets }}
+    steps:
+      - id: targets
+        env:
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          if [ "$EVENT" = schedule ]; then
+            echo 'targets=["test","production"]' >> "$GITHUB_OUTPUT"
+          elif [ "$EVENT" = workflow_dispatch ]; then
+            echo "targets=[\"$TARGET\"]" >> "$GITHUB_OUTPUT"
+          elif [ "$BRANCH" = main ]; then
+            echo 'targets=["production"]' >> "$GITHUB_OUTPUT"
+          elif [ "$BRANCH" = test ]; then
+            echo 'targets=["test"]' >> "$GITHUB_OUTPUT"
+          else
+            echo 'targets=["preview"]' >> "$GITHUB_OUTPUT"
+          fi
+  deploy:
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJSON(needs.select.outputs.targets) }}
+    uses: ./.github/workflows/deploy-website-reusable.yml
+    with:
+      target: ${{ matrix.target }}
+      force: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
+    secrets: inherit
