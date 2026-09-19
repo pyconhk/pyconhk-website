@@ -47,6 +47,58 @@ async function preferredLocaleCookie(context: BrowserContext) {
 }
 
 test.describe('2026 conference locale switcher', () => {
+  for (const width of [390, 1440]) {
+    test(`written Chinese and Cantonese stay distinct when switching at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('/2026/zh-hant/');
+      for (const locale of ['zh-hant', 'zh-hk', 'zh-hant']) {
+        if (!new URL(page.url()).pathname.includes(`/${locale}/`)) {
+          if (width < 768) {
+            await page.locator('[data-mobile-nav-trigger]').click();
+            await page
+              .locator(`[data-mobile-nav-panel] [data-locale-switch="${locale}"]`)
+              .click();
+          } else {
+            await selectLocale(page, locale);
+          }
+          await expect(page).toHaveURL(new RegExp(`/2026/${locale}/?$`));
+        }
+        const cantonese = locale === 'zh-hk';
+        await expect(page.locator('html')).toHaveAttribute(
+          'lang',
+          cantonese ? 'zh-Hant-HK' : 'zh-Hant'
+        );
+        await expect(page.locator('#home-title')).toHaveText('編程・連結・前行');
+        await expect(page.locator('#home')).toContainText('HKIIT（待定）');
+        await expect(page.locator('#home a[aria-label]')).toHaveAttribute(
+          'aria-label',
+          cantonese ? '加入日曆' : '加入行事曆'
+        );
+        await expect(page.locator('[data-sponsors-details]')).toHaveText(
+          cantonese ? '睇晒贊助夥伴' : '查看所有贊助夥伴'
+        );
+        const introduction = page.locator('#participate');
+        if (cantonese) {
+          await expect(introduction).toContainText(/[嘅喺唔冇哋嚟睇畀咗]/);
+        } else {
+          await expect(introduction).not.toContainText(/[嘅喺唔冇哋嚟睇畀咗]/);
+        }
+        // Original talk titles remain untouched even when the interface is written Chinese.
+        await expect(page.locator('#featured-talk-TSBGZH')).toHaveText(
+          'AI 聽到聲音時，會聯想到乜嘢？'
+        );
+        await expect(page.locator('footer a[href$="privacy-policy"]')).toHaveText(
+          'Privacy Policy'
+        );
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth)
+        ).toBeLessThanOrEqual(width);
+      }
+    });
+  }
+
   test('redirects latest locale entry aliases before rendering HTML', async ({
     request,
   }) => {

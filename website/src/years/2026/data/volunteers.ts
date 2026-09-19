@@ -1,4 +1,8 @@
+import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+
+const written = getChineseTerms('zh-hant');
+const cantonese = getChineseTerms('zh-hk');
 
 export type VolunteerProfile = {
   name: string;
@@ -108,20 +112,20 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     membersHeading: 'Organizing Committee Members',
   },
   'zh-hk': {
-    title: '義工團隊',
-    subtitle: 'PyCon HK 2026 的核心力量',
+    title: cantonese.volunteers,
+    subtitle: 'PyCon HK 2026 嘅核心力量',
     intro:
-      '義工是 PyCon Hong Kong 2026 的核心力量。感謝他們在過去數月默默付出，讓這場會議得以成形。以下是本屆大會的義工名單。',
+      '義工係 PyCon Hong Kong 2026 嘅核心力量。多謝大家過去幾個月默默付出，一齊籌備呢場大會。以下係今年大會嘅義工名單。',
     committeeHeading: '執行委員會',
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
     membersHeading: '籌委會成員',
   },
   'zh-hant': {
-    title: '義工團隊',
+    title: written.volunteers,
     subtitle: 'PyCon HK 2026 的核心力量',
     intro:
-      '義工是 PyCon Hong Kong 2026 的核心力量。感謝他們在過去數月默默付出，讓這場會議得以成形。以下是本屆大會的義工名單。',
+      '義工是 PyCon Hong Kong 2026 的核心力量。感謝大家在過去數月默默付出，共同籌備這場大會。以下是本屆大會的義工名單。',
     committeeHeading: '執行委員會',
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',

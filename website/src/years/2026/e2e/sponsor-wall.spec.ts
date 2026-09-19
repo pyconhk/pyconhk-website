@@ -79,6 +79,8 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
             )
             .toBe(true);
           await expect(image).toHaveCSS('filter', 'none');
+          await expect(image).toHaveCSS('object-fit', 'contain');
+          await expect(image).toHaveCSS('object-position', '50% 50%');
           const box = await link.boundingBox();
           expect(box?.x).toBeGreaterThanOrEqual(0);
           expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(width);
@@ -88,14 +90,33 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           if (!plate) throw new Error(`${name} has no visible logo plate`);
           expect(plate.width / plate.height).toBeGreaterThanOrEqual(1.85);
           expect(plate.width / plate.height).toBeLessThanOrEqual(1.95);
+          const imageBox = await image.boundingBox();
+          if (!imageBox) throw new Error(`${name} has no visible artwork bounds`);
+          expect(imageBox.x).toBeGreaterThanOrEqual(plate.x);
+          expect(imageBox.y).toBeGreaterThanOrEqual(plate.y);
+          expect(imageBox.x + imageBox.width).toBeLessThanOrEqual(
+            plate.x + plate.width
+          );
+          expect(imageBox.y + imageBox.height).toBeLessThanOrEqual(
+            plate.y + plate.height
+          );
+          expect(imageBox.x + imageBox.width / 2).toBeCloseTo(
+            plate.x + plate.width / 2,
+            0
+          );
+          expect(imageBox.y + imageBox.height / 2).toBeCloseTo(
+            plate.y + plate.height / 2,
+            0
+          );
           const artwork = await image.evaluate((img: HTMLImageElement) => {
             const style = getComputedStyle(img);
+            const bounds = img.getBoundingClientRect();
             const width =
-              img.clientWidth -
+              bounds.width -
               Number.parseFloat(style.paddingLeft) -
               Number.parseFloat(style.paddingRight);
             const height =
-              img.clientHeight -
+              bounds.height -
               Number.parseFloat(style.paddingTop) -
               Number.parseFloat(style.paddingBottom);
             const scale = Math.min(
@@ -110,9 +131,9 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           logoSizes[id] = { width: plate.width, height: plate.height, ...artwork };
         }
         for (const dimension of ['width', 'height'] as const) {
-          expect(logoSizes.navicat[dimension]).toBeGreaterThan(
-            logoSizes['calomei-bronze'][dimension] + 1
-          );
+          expect(
+            logoSizes.navicat[dimension] / logoSizes['calomei-bronze'][dimension]
+          ).toBeCloseTo(1.5, 2);
           for (const id of ['jetbrains', 'calomei-prize'])
             expect(logoSizes[id][dimension]).toBeCloseTo(
               logoSizes.navicat[dimension],
@@ -123,17 +144,28 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
             0
           );
         }
-        expect(logoSizes['calomei-prize'].artworkWidth).toBeGreaterThan(
-          logoSizes['calomei-bronze'].artworkWidth + 1
-        );
-        expect(logoSizes['calomei-prize'].artworkHeight).toBeGreaterThan(
-          logoSizes['calomei-bronze'].artworkHeight + 1
-        );
-        const prize = wall.locator('[data-sponsor-tier="Prize Sponsor"] li');
+        for (const dimension of ['artworkWidth', 'artworkHeight'] as const) {
+          expect(
+            logoSizes['calomei-prize'][dimension] /
+              logoSizes['calomei-bronze'][dimension]
+          ).toBeCloseTo(1.5, 2);
+        }
+        const prizeRow = wall.locator('[data-sponsor-tier="Prize Sponsor"] ul');
+        const row = await prizeRow.evaluate((element) => {
+          const style = getComputedStyle(element);
+          return {
+            width:
+              element.clientWidth -
+              Number.parseFloat(style.paddingLeft) -
+              Number.parseFloat(style.paddingRight),
+            gap: Number.parseFloat(style.columnGap),
+          };
+        });
+        const prize = prizeRow.locator('li');
         const first = await prize.nth(0).boundingBox();
         const second = await prize.nth(1).boundingBox();
         if (!first || !second) throw new Error('Prize sponsors have no visible bounds');
-        if (width <= 640) {
+        if (first.width + second.width + row.gap > row.width + 1) {
           expect(second.y).toBeGreaterThanOrEqual(first.y + first.height);
         } else {
           expect(second.y).toBeCloseTo(first.y, 0);
