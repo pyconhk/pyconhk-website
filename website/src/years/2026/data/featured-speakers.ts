@@ -93,6 +93,6 @@ export const featuredLabels: Record<
     keynote: '기조연설',
     talk: '주목할 발표',
     view: '발표 자세히 보기',
-    back: '주목할 연사로 돌아가기',
+    back: '주요 연사로 돌아가기',
   },
 };

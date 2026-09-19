@@ -105,7 +105,7 @@ const shareLocales = [
     locale: 'ja',
     ogLocale: 'ja_JP',
     title: 'コードを書き、つながり、前へ',
-    description: '人間中心の AI 時代',
+    description: '人を中心に考える AI 時代',
   },
   {
     locale: 'ko',

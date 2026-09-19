@@ -167,7 +167,7 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
       '아시아 최고의 파이썬 컨퍼런스 후원사가 되어 수백 명의 개발자, 엔지니어, 데이터 과학자 및 기술 기업가들과 교류하세요.',
       '스폰서십은 단순한 홍보를 넘어 오픈소스 생태계 발전과 혁신을 지원하는 의미 있는 참여입니다.',
     ],
-    whySponsorTitle: '왜 후원해야 할까요?',
+    whySponsorTitle: '후원으로 함께하는 이유',
     plansTitle: '후원 패키지',
     plansDescription:
       'PyCon HK 2026을 후원하고 파이썬 커뮤니티에 브랜드를 알릴 수 있는 최적의 패키지를 선택하세요.',

@@ -69,7 +69,7 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     subtitle: '공지사항 및 커뮤니티 소식',
     description:
       'PyCon HK 2026의 최신 공지사항, 프로그램 업데이트 및 커뮤니티 소식을 확인하세요.',
-    empty: '공지사항은 준비되는 대로 게시됩니다. 잠시 후 다시 확인해 주세요.',
+    empty: '새로운 소식은 준비되는 대로 안내해 드립니다.',
     readArticle: '기사 읽기',
     backToNews: '뉴스로 돌아가기',
     allNews: '전체 뉴스',

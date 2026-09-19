@@ -35,11 +35,18 @@ async function currentLocaleLabels(page: Page) {
     .allTextContents();
 }
 
-async function selectLocale(page: Page, locale: string) {
+async function selectLocale(page: Page, locale: string, subpath = '') {
   const header = page.locator('[data-site-header]');
-  await header.locator('summary').first().click();
-  await header.locator(`[data-locale-switch="${locale}"]`).first().click();
-  await expect(page).toHaveURL(new RegExp(`/2026/${locale}/?$`));
+  if (await header.locator('[data-mobile-nav-trigger]').isVisible()) {
+    await header.locator('[data-mobile-nav-trigger]').click();
+    await header
+      .locator(`[data-mobile-nav-panel] [data-locale-switch="${locale}"]`)
+      .click();
+  } else {
+    await header.locator('summary').first().click();
+    await header.locator(`[data-locale-switch="${locale}"]`).first().click();
+  }
+  await expect(page).toHaveURL(new RegExp(`/2026/${locale}${subpath}/?$`));
 }
 
 async function preferredLocaleCookie(context: BrowserContext) {
@@ -97,6 +104,85 @@ test.describe('2026 conference locale switcher', () => {
         ).toBeLessThanOrEqual(width);
       }
     });
+
+    for (const { route, titles } of [
+      {
+        route: 'about',
+        titles: { ja: 'PyCon Hong Kong について', ko: 'PyCon Hong Kong 소개' },
+      },
+      {
+        route: 'sponsorships/opportunities',
+        titles: { ja: 'スポンサー募集', ko: '후원 안내' },
+      },
+    ]) {
+      test(`Japanese and Korean retain ${route} and localized metadata when switching at ${width}px`, async ({
+        page,
+        context,
+      }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`/2026/ja/${route}/`);
+
+        for (const locale of ['ja', 'ko', 'ja'] as const) {
+          if (!new URL(page.url()).pathname.includes(`/${locale}/`))
+            await selectLocale(page, locale, `/${route}`);
+
+          const title = titles[locale];
+          const pageTitle = `${title} | PyCon HK 2026`;
+          await expect(page).toHaveURL(new RegExp(`/2026/${locale}/${route}/?$`));
+          await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+          await expect(page).toHaveTitle(pageTitle);
+          await expect(page.locator('html')).toHaveAttribute(
+            'lang',
+            locale === 'ja' ? 'ja-JP' : 'ko-KR'
+          );
+          await expect
+            .poll(() => currentLocaleLabels(page))
+            .toContain(locale === 'ja' ? '日本語' : '한국어');
+          expect(await preferredLocaleCookie(context)).toMatchObject({ value: locale });
+
+          for (const selector of [
+            'meta[property="og:title"]',
+            'meta[name="twitter:title"]',
+          ])
+            await expect(page.locator(selector)).toHaveAttribute('content', pageTitle);
+          for (const selector of [
+            'meta[name="description"]',
+            'meta[property="og:description"]',
+            'meta[name="twitter:description"]',
+          ])
+            await expect(page.locator(selector)).toHaveAttribute(
+              'content',
+              locale === 'ja' ? /[ぁ-ゟァ-ヿ]/u : /[가-힣]/u
+            );
+          await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+            'content',
+            locale === 'ja' ? 'ja_JP' : 'ko_KR'
+          );
+          const canonicalPath = new RegExp(`/2026/${locale}/${route}/?$`);
+          await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+            'href',
+            canonicalPath
+          );
+          await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+            'content',
+            canonicalPath
+          );
+          for (const selector of [
+            'meta[property="og:image"]',
+            'meta[name="twitter:image"]',
+          ])
+            await expect(page.locator(selector)).toHaveAttribute(
+              'content',
+              new RegExp(`/2026/share/${locale}\\.png$`)
+            );
+
+          await page.evaluate(() => document.fonts.ready);
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth)
+          ).toBeLessThanOrEqual(width);
+        }
+      });
+    }
   }
 
   test('redirects latest locale entry aliases before rendering HTML', async ({
@@ -287,43 +373,51 @@ test.describe('2026 conference locale switcher', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant-HK');
   });
 
-  test('keeps Japanese and Korean CFP guidance with the closed status and current theme', async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+  for (const width of [390, 1440]) {
+    test(`keeps Japanese and Korean CFP guidance with the closed status and current theme at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('/2026/ja/cfp');
 
-    await page.goto('/2026/ja/cfp');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'コードを書き、つながり、前へ'
-    );
-    await expect(page.locator('[data-cfp-closed]').first()).toHaveText(
-      'プロポーザル募集は終了しました'
-    );
-    await expect(
-      page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')
-    ).toHaveCount(0);
-    await expect(
-      page.getByText(
-        'よいプロポーザルは、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
-        { exact: true }
-      )
-    ).toBeVisible();
-
-    await page.goto('/2026/ko/cfp');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      '코딩하고, 연결하고, 계속 나아가다'
-    );
-    await expect(page.locator('[data-cfp-closed]').first()).toHaveText(
-      '발표 제안 모집 마감'
-    );
-    await expect(
-      page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')
-    ).toHaveCount(0);
-    await expect(
-      page.getByText(
-        '좋은 제안서는 대상, 취득 가능한 사항, 세션 진행 방식을 분명히 보여 줍니다.',
-        { exact: true }
-      )
-    ).toBeVisible();
-  });
+      for (const copy of [
+        {
+          locale: 'ja',
+          theme: 'コードを書き、つながり、前へ',
+          closed: 'プロポーザル募集は終了しました',
+          guidance: 'プログラムメモボード',
+          guidanceExcerpt: 'セッションの進め方',
+          edit: '提出済みのプロポーザルを見る',
+        },
+        {
+          locale: 'ko',
+          theme: '코딩하고, 연결하고, 계속 나아가다',
+          closed: '발표 제안 모집 마감',
+          guidance: '프로그램 메모 보드',
+          guidanceExcerpt: '참가자가 배울 내용',
+          edit: '제출한 제안 보기',
+        },
+      ]) {
+        if (copy.locale === 'ko') await selectLocale(page, copy.locale, '/cfp');
+        await expect(page.getByRole('heading', { level: 1 })).toHaveText(copy.theme);
+        await expect(page.locator('[data-cfp-closed]').first()).toHaveText(copy.closed);
+        await expect(
+          page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')
+        ).toHaveCount(0);
+        await expect(
+          page.getByRole('heading', { level: 2, name: copy.guidance, exact: true })
+        ).toBeVisible();
+        await expect(page.getByText(copy.guidanceExcerpt)).toBeVisible();
+        await expect(
+          page
+            .locator('a[href="https://cfp.pycon.hk/pyconhk2026/me/submissions/"]')
+            .first()
+        ).toHaveText(copy.edit);
+        await page.evaluate(() => document.fonts.ready);
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth)
+        ).toBeLessThanOrEqual(width);
+      }
+    });
+  }
 });
