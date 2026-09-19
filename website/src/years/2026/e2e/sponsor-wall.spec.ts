@@ -134,21 +134,17 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           expect(
             logoSizes.navicat[dimension] / logoSizes['calomei-bronze'][dimension]
           ).toBeCloseTo(1.5, 2);
-          for (const id of ['jetbrains', 'calomei-prize'])
+          for (const id of ['jetbrains', 'calomei-prize', 'lihkg'])
             expect(logoSizes[id][dimension]).toBeCloseTo(
-              logoSizes.navicat[dimension],
+              logoSizes['calomei-bronze'][dimension],
               0
             );
-          expect(logoSizes.lihkg[dimension]).toBeCloseTo(
-            logoSizes['calomei-bronze'][dimension],
-            0
-          );
         }
         for (const dimension of ['artworkWidth', 'artworkHeight'] as const) {
-          expect(
-            logoSizes['calomei-prize'][dimension] /
-              logoSizes['calomei-bronze'][dimension]
-          ).toBeCloseTo(1.5, 2);
+          for (const id of ['calomei-prize', 'lihkg'])
+            expect(
+              logoSizes[id][dimension] / logoSizes['calomei-bronze'][dimension]
+            ).toBeCloseTo(1, 2);
         }
         const prizeRow = wall.locator('[data-sponsor-tier="Prize Sponsor"] ul');
         const row = await prizeRow.evaluate((element) => {
