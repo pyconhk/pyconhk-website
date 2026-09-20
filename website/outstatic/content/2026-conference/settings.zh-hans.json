@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT（待定）",
-    "address": "校区及地址稍后公布。",
-    "description": "PyCon HK 2026 场地暂定 HKIIT，仍待确认。校区、入口及教室安排将在此页公布。",
-    "directions": "校区确认后将补充交通及无障碍通道信息。",
+    "title": "HKIIT（将军澳李惠利，待定）",
+    "address": "详细地址及场地安排稍后公布。",
+    "description": "PyCon HK 2026 场地暂定 HKIIT（将军澳李惠利），仍待确认。入口及教室安排将在此页公布。",
+    "directions": "场地确认后将补充交通及无障碍通道信息。",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""

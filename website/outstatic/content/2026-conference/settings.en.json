@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT (to be confirmed)",
-    "address": "Campus and address to be announced.",
-    "description": "HKIIT is the proposed venue for PyCon HK 2026, subject to confirmation. The campus, entrance and room arrangements will be announced here.",
-    "directions": "Travel directions and accessibility information will be added when the campus is confirmed.",
+    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee) — to be confirmed",
+    "address": "Detailed address and venue arrangements to be announced.",
+    "description": "HKIIT (Tseung Kwan O, Lee Wai Lee) is the proposed venue for PyCon HK 2026, subject to confirmation. Entrance and room arrangements will be announced here.",
+    "directions": "Travel directions and accessibility information will be added when the venue is confirmed.",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""

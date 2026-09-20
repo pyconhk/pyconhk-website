@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT（未確定）",
-    "address": "キャンパスと住所は後日発表します。",
-    "description": "PyCon HK 2026 の会場は HKIIT を予定していますが、まだ確定していません。キャンパス、入口、教室の案内はこのページで発表します。",
-    "directions": "キャンパス確定後に、交通アクセスとバリアフリー情報を掲載します。",
+    "title": "HKIIT（將軍澳・李惠利、未確定）",
+    "address": "詳しい住所と会場の案内は後日発表します。",
+    "description": "PyCon HK 2026 の会場は、將軍澳の HKIIT（IVE 李惠利校）を予定していますが、まだ確定していません。入口や教室の案内は、このページで発表します。",
+    "directions": "会場が確定次第、交通アクセスとバリアフリー情報を掲載します。",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -91,7 +91,7 @@
     "whyTitle": "個人スポンサーとしてのご支援",
     "intro": "PyCon Hong Kong（PyCon HK）は、香港とアジアで Python とオープンソース文化を広める、ボランティア運営の非営利カンファレンスです。個人スポンサーの皆様のご支援は、次の活動に直接役立ちます。",
     "benefits": [
-      "参加を希望する方のために、無料または手頃な参加費を維持する",
+      "誰もが参加できるよう、参加費を無料または手頃な金額に抑える",
       "優れた登壇者を招き、香港で質の高いワークショップを開催する",
       "地域の Python とオープンソースのコミュニティの発展を支える",
       "PyCon HK の継続的な開催と成長を支える"
@@ -181,7 +181,7 @@
         "id": "organizations-9"
       },
       {
-        "name": "香港教育大学 数学・情報技術学部",
+        "name": "香港教育大学 数学・情報技術学科",
         "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",

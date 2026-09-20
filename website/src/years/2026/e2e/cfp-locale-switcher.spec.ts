@@ -78,7 +78,9 @@ test.describe('2026 conference locale switcher', () => {
           cantonese ? 'zh-Hant-HK' : 'zh-Hant'
         );
         await expect(page.locator('#home-title')).toHaveText('編程・連結・前行');
-        await expect(page.locator('#home')).toContainText('HKIIT（待定）');
+        await expect(page.locator('#home')).toContainText(
+          'HKIIT（將軍澳李惠利，待定）'
+        );
         await expect(page.locator('#home a[aria-label]')).toHaveAttribute(
           'aria-label',
           cantonese ? '加入日曆' : '加入行事曆'
@@ -385,7 +387,8 @@ test.describe('2026 conference locale switcher', () => {
           locale: 'ja',
           theme: 'コードを書き、つながり、前へ',
           closed: 'プロポーザル募集は終了しました',
-          guidance: 'プログラムメモボード',
+          subtitle: 'PyCon Hong Kong 2026 プロポーザルのご案内',
+          guidance: '発表アイデア',
           guidanceExcerpt: 'セッションの進め方',
           edit: '提出済みのプロポーザルを見る',
         },
@@ -393,7 +396,8 @@ test.describe('2026 conference locale switcher', () => {
           locale: 'ko',
           theme: '코딩하고, 연결하고, 계속 나아가다',
           closed: '발표 제안 모집 마감',
-          guidance: '프로그램 메모 보드',
+          subtitle: 'PyCon Hong Kong 2026 발표 제안 안내',
+          guidance: '발표 제안 아이디어',
           guidanceExcerpt: '참가자가 배울 내용',
           edit: '제출한 제안 보기',
         },
@@ -401,6 +405,7 @@ test.describe('2026 conference locale switcher', () => {
         if (copy.locale === 'ko') await selectLocale(page, copy.locale, '/cfp');
         await expect(page.getByRole('heading', { level: 1 })).toHaveText(copy.theme);
         await expect(page.locator('[data-cfp-closed]').first()).toHaveText(copy.closed);
+        await expect(page.getByText(copy.subtitle, { exact: true })).toBeVisible();
         await expect(
           page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')
         ).toHaveCount(0);

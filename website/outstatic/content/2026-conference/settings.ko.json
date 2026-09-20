@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT (미정)",
-    "address": "캠퍼스와 주소는 추후 안내해 드립니다.",
-    "description": "PyCon HK 2026은 HKIIT에서 개최할 예정이나, 아직 확정되지 않았습니다. 캠퍼스, 출입구, 강의실에 관한 자세한 내용은 이 페이지에서 안내해 드립니다.",
-    "directions": "캠퍼스가 확정되면 교통편과 접근성 정보를 안내해 드립니다.",
+    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee) — 미정",
+    "address": "상세 주소와 장소 안내는 추후 공지합니다.",
+    "description": "PyCon HK 2026은 Tseung Kwan O에 있는 HKIIT(IVE Lee Wai Lee)에서 개최할 예정이나, 아직 확정되지 않았습니다. 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
+    "directions": "장소가 확정되면 교통편과 접근성 정보를 안내해 드립니다.",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
