@@ -12,11 +12,12 @@ interface Props { locale: CfpLocale }
 const { locale } = Astro.props;
 const t = getTranslations(locale);
 const copy = scheduleCopy[locale];
+const description = programmeSnapshot.status === 'unpublished' ? copy.comingSoon : isSampleProgramme ? copy.sample : t.schedule.pageDescription;
 const languages = [...new Set(allScheduleItems.map((session) => session.language).filter(Boolean))].sort();
 const initialDay = programmeSnapshot.days[0]?.date ?? '';
 const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSnapshot.event, initialDay, copy }).replaceAll('<', '\\u003c');
 ---
-<ConferenceLayout title={t.schedule.pageTitle} description={t.schedule.pageDescription} locale={locale}>
+<ConferenceLayout title={t.schedule.pageTitle} description={description} locale={locale}>
   <section class="bg-conference-paper py-10 sm:py-14" data-programme-status={programmeSnapshot.status} data-programme-event={programmeSnapshot.event}>
     <div>
       <div class="programme-intro">

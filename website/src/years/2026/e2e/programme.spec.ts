@@ -23,6 +23,19 @@ for (const locale of locales) {
       await expect(page.locator('[data-programme-coming-soon]')).toBeVisible();
       await expect(page.locator('[data-session-card]')).toHaveCount(0);
     }
+    const publicationNotice = await page
+      .locator(sample ? '[data-sample-notice]' : '[data-programme-coming-soon]')
+      .innerText();
+    for (const selector of [
+      'meta[name="description"]',
+      'meta[property="og:description"]',
+      'meta[name="twitter:description"]',
+    ]) {
+      await expect(page.locator(selector)).toHaveAttribute(
+        'content',
+        publicationNotice
+      );
+    }
     expect(errors).toEqual([]);
   });
 }

@@ -120,9 +120,13 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     await expect(page.locator('#participate details, [data-home-dates]')).toHaveCount(
       0
     );
-    await page.locator(`#participate a[href="/2026/${locale}/sprint/"]`).click();
+    const sprintCard = page.locator(`#participate a[href="/2026/${locale}/sprint/"]`);
+    const sprintIntro = await sprintCard.innerText();
+    await sprintCard.click();
     await expect(page).toHaveURL(new RegExp(`/2026/${locale}/sprint/?$`));
     await expect(page.locator('main h1')).toBeVisible();
+    const pending = page.locator('[data-content-pending]');
+    if (await pending.count()) expect(sprintIntro).toContain(await pending.innerText());
     expect(errors).toEqual([]);
   });
 }

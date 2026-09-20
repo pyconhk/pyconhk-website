@@ -87,7 +87,7 @@ export const en: HomeMessages = {
   },
   joinUs: {
     sprintDescription:
-      'Work on Python projects together, share ideas, and contribute to open source. Explore the Sprint and how to take part.',
+      'Work on Python projects together, share ideas, and contribute to open source.',
     sponsorDescription:
       'Support the Python community in Hong Kong. Explore sponsorship options and find out how your organisation can get involved.',
     eyebrow: 'JOIN US',
