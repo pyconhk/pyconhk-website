@@ -23,7 +23,26 @@ test('meeting updates expose confirmed content and keep unavailable patron forms
     await expect(
       supporters.getByRole('heading', { name: 'HKU Computer Science Association' })
     ).toBeVisible();
-    await expect(supporters).not.toContainText('City University');
+    for (const [name, href] of [
+      [
+        'City University of Hong Kong Computer Science Student Chapter',
+        'https://www.instagram.com/cssc.cityu',
+      ],
+      ['Python Software Foundation', 'https://www.python.org/psf-landing/'],
+    ]) {
+      const card = supporters
+        .locator('article')
+        .filter({ has: page.getByRole('heading', { name, exact: true }) });
+      await expect(card).toHaveCount(1);
+      await expect(card.getByRole('heading', { name, exact: true })).toBeVisible();
+      await expect(card.locator('a')).toHaveCount(2);
+      for (const link of await card.locator('a').all())
+        await expect(link).toHaveAttribute('href', href);
+      await expect(card.getByRole('img', { name, exact: true })).toHaveAttribute(
+        'src',
+        /^\/2026\/supporting-organizations\//
+      );
+    }
     await expect(supporters.locator('p:not([lang="en"])')).toHaveCount(0);
     for (const href of [
       'https://www.meetup.com/producttank-hong-kong/',
