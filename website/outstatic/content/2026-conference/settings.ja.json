@@ -91,7 +91,7 @@
     "whyTitle": "個人スポンサーとしてのご支援",
     "intro": "PyCon Hong Kong（PyCon HK）は、香港とアジアで Python とオープンソース文化を広める、ボランティア運営の非営利カンファレンスです。個人スポンサーの皆様のご支援は、次の活動に直接役立ちます。",
     "benefits": [
-      "参加を希望する方のために、無料または手頃な参加費を維持する",
+      "誰もが参加できるよう、参加費を無料または手頃な金額に抑える",
       "優れた登壇者を招き、香港で質の高いワークショップを開催する",
       "地域の Python とオープンソースのコミュニティの発展を支える",
       "PyCon HK の継続的な開催と成長を支える"
@@ -181,7 +181,7 @@
         "id": "organizations-9"
       },
       {
-        "name": "香港教育大学 数学・情報技術学部",
+        "name": "香港教育大学 数学・情報技術学科",
         "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",

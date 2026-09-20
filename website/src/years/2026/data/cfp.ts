@@ -536,16 +536,16 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
     hero: {
       badge: '발표자를 위한 CFP',
       headline: '여러 목소리, 하나의\nPython 이야기',
-      subheadline: 'PyCon Hong Kong 2026 발표 제안 모집',
+      subheadline: 'PyCon Hong Kong 2026 발표 제안 안내',
       body: '아이디어, 프로젝트, 배운 점, 커뮤니티 이야기를 홍콩 Python 커뮤니티와 나눠 주세요.',
     },
     cta: {
       submit: '제안 제출하기',
       edit: '제안 수정 또는 보기',
-      sponsorship: '스폰서십',
+      sponsorship: '후원 안내',
     },
     programWall: {
-      title: '프로그램 메모 보드',
+      title: '발표 제안 아이디어',
       caption:
         '좋은 제안서는 발표 대상, 참가자가 배울 내용, 세션 진행 방식을 분명히 설명합니다.',
     },
@@ -561,7 +561,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
           note: '컨퍼런스 데이',
         },
         {
-          label: 'Sprint',
+          label: '스프린트',
           value: '2026년 11월 15일',
           status: '(예정)',
           note: '함께 만들어 봅시다',
@@ -598,7 +598,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
         },
         {
           index: '05',
-          title: 'Sprint',
+          title: '스프린트',
           description: '오픈소스 과제를 중심으로 사람들을 모아 주세요.',
           tone: 'white',
         },
@@ -643,7 +643,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
     hero: {
       badge: '登壇者歓迎',
       headline: '多くの声、ひとつの\nPython ストーリー',
-      subheadline: 'PyCon Hong Kong 2026 プロポーザル募集',
+      subheadline: 'PyCon Hong Kong 2026 プロポーザルのご案内',
       body: 'アイデア、プロジェクト、学び、コミュニティの物語を香港の Python コミュニティと共有してください。',
     },
     cta: {
@@ -652,9 +652,9 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
       sponsorship: 'スポンサー募集',
     },
     programWall: {
-      title: 'プログラムメモボード',
+      title: '発表アイデア',
       caption:
-        'よいプロポーザルは、対象者、持ち帰れること、セッションの進め方がはっきりしています。',
+        'よいプロポーザルには、想定する参加者、参加者が得られる知識や経験、セッションの進め方が明確に書かれています。',
     },
     keyDates: {
       title: '重要な日程',
@@ -668,7 +668,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
           note: 'カンファレンスの日',
         },
         {
-          label: 'Sprint',
+          label: 'スプリント',
           value: '2026年11月15日',
           status: '（予定）',
           note: '一緒に手を動かす日',
@@ -705,7 +705,7 @@ export const contentByLocale: Record<CfpLocale, CfpPageCopy> = {
         },
         {
           index: '05',
-          title: 'Sprint',
+          title: 'スプリント',
           description: '仲間と一緒に、オープンソースの課題に取り組みましょう。',
           tone: 'white',
         },

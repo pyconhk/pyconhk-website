@@ -51,7 +51,7 @@ export const pageCopyByLocale: Record<CfpLocale, SupportingOrganizationsCopy> = 
   },
   ja: {
     title: 'コミュニティパートナー',
-    subtitle: '協賛組織',
+    subtitle: '協力団体',
     intro:
       'PyCon HK 2026 を支えてくださるすべての団体に、心より感謝します。皆さまの参加と協力により、香港そしてアジアの Python、教育、テクノロジーの各コミュニティと、より強くつながることができています。',
     visitWebsite: 'ウェブサイトを見る',
@@ -223,7 +223,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       'zh-hk': '香港教育大學數學與資訊科技學系',
       'zh-hant': '香港教育大學數學與資訊科技學系',
       'zh-hans': '香港教育大学数学与资讯科技学系',
-      ja: '香港教育大学 数学・情報技術学部',
+      ja: '香港教育大学 数学・情報技術学科',
       ko: '홍콩교육대학교 수학 및 정보기술학과',
     },
     nameLines: ['Department of Mathematics and', 'Information Techonology, The EdUHK'],
@@ -237,7 +237,7 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
         '致力推動數學、資訊科技、研究及教學發展，培育未來教育工作者的學術部門。',
       'zh-hans':
         '致力推动数学、信息技术、研究及教学发展，培育未来教育工作者的学术部门。',
-      ja: '数学・IT・教育研究の発展を担う香港教育大学の学部。',
+      ja: '数学・IT・教育研究の発展を担う香港教育大学の学科。',
       ko: '수학, 정보기술 및 교육학 발전을 선도하는 홍콩교육대학교 학과.',
     },
   },
