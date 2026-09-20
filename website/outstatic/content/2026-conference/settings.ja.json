@@ -173,6 +173,14 @@
         "id": "organizations-7"
       },
       {
+        "name": "City University of Hong Kong Computer Science Student Chapter",
+        "logo": "/2026/supporting-organizations/cityu-cssc.png",
+        "url": "https://www.instagram.com/cssc.cityu",
+        "description": "The CityUHK Computer Science Student Chapter (CSSC) is a student-led organization within the Department of Computer Science at City University of Hong Kong, dedicated to connecting students with industry professionals and the tech community, while cultivating peer support and mentorship across all year groups.",
+        "kind": "supporter",
+        "id": "organizations-8"
+      },
+      {
         "name": "Codeaholics",
         "logo": "/2026/supporting-organizations/codeaholics.webp",
         "url": "https://www.facebook.com/codeaholics/",
@@ -275,6 +283,14 @@
         "description": "Non-profit supporting regional Python conferences, leadership development, and cross-community collaboration across Asia.",
         "kind": "supporter",
         "id": "organizations-20"
+      },
+      {
+        "name": "Python Software Foundation",
+        "logo": "/2026/supporting-organizations/psf.webp",
+        "url": "https://www.python.org/psf-landing/",
+        "description": "The Python Software Foundation (PSF) is a non-profit membership organization devoted to advancing open source technology related to the Python programming language. The mission of PSF is to promote, protect, and advance the Python programming language, and to support and facilitate the growth of a diverse and international community of Python programmers.",
+        "kind": "supporter",
+        "id": "python-software-foundation"
       },
       {
         "name": "Women Techmakers Hong Kong",

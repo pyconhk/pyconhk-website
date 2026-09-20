@@ -178,9 +178,9 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       ko: '홍콩시립대학교 컴퓨터과학과 학생 챕터',
     },
     nameLines: ['City University of Hong Kong', 'Computer Science Student Chapter'],
-    imagePath: '/2026/supporting-organizations/cityu_cssc.webp',
+    imagePath: '/2026/supporting-organizations/cityu-cssc.png',
     logoAlt: 'City University of Hong Kong CS Student Chapter Logo',
-    url: 'https://www.cs.cityu.edu.hk/',
+    url: 'https://www.instagram.com/cssc.cityu',
     summary: {
       en: 'Student chapter fostering technical skills, hackathons, and industry exposure for aspiring computer scientists at CityU.',
       'zh-hk':
