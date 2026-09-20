@@ -22,9 +22,9 @@ const availability = {
 }[locale];
 // Feature IDs are positions within each plan, not shared benefit identifiers.
 const featureLabels = [...new Set(sponsorship.plans.flatMap((plan) => plan.features.map((feature) => feature.label)))];
-const slotLabels = { en: 'Available packages', 'zh-hk': '贊助名額', 'zh-hant': '贊助名額', 'zh-hans': '赞助名额', ja: '募集枠数', ko: '모집 구좌' };
+const slotLabels = { en: 'Available packages', 'zh-hk': '贊助名額', 'zh-hant': '贊助名額', 'zh-hans': '赞助名额', ja: '募集枠数', ko: '모집 후원사 수' };
 const unlimitedLabels = { en: 'Unlimited', 'zh-hk': '不限', 'zh-hant': '不限', 'zh-hans': '不限', ja: '制限なし', ko: '제한 없음' };
-const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'], 'zh-hk': ['上一個贊助方案', '下一個贊助方案'], 'zh-hant': ['上一個贊助方案', '下一個贊助方案'], 'zh-hans': ['上一个赞助方案', '下一个赞助方案'], ja: ['前のスポンサー枠', '次のスポンサー枠'], ko: ['이전 후원 패키지', '다음 후원 패키지'] }[locale];
+const navigation = { en: ['Previous sponsorship plan', 'Next sponsorship plan'], 'zh-hk': ['上一個贊助方案', '下一個贊助方案'], 'zh-hant': ['上一個贊助方案', '下一個贊助方案'], 'zh-hans': ['上一个赞助方案', '下一个赞助方案'], ja: ['前のスポンサープラン', '次のスポンサープラン'], ko: ['이전 후원 패키지', '다음 후원 패키지'] }[locale];
 ---
 <CommunityPageFrame locale={locale} title={pageCopy.title} subtitle={pageCopy.subtitle} wide>
   {sponsorship.status !== 'published' ? <p data-content-pending>{copy.comingSoon}</p> : (

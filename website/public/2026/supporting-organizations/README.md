@@ -23,9 +23,15 @@ Sources refreshed in September 2026:
 | `aws_ug_hk.svg` | [2025 organizer-supplied original](https://drive.google.com/file/d/1SBHyTOONAoOX6qbW1z7AW95WEoY7nmtG/view) | Native vector |
 | `japan_rpi_ug.svg` | [2025 organizer-supplied original](https://drive.google.com/file/d/1NAqfH-DBMlognJBkowikup89FPplhW1a/view) | Native vector |
 | `hku-csa.png` | [2026 organizer-supplied original](https://drive.google.com/file/d/1NpYRPcc2ByNIRC0RoxV42Sk9T5etb8ns/view) | 2400 × 2200, transparent PNG |
+| `cityu-cssc.png` | [2026 chapter-supplied original](https://drive.google.com/file/d/1Q7Sk4IU12_5kcc3M1jJNMtK1MsEt-as5/view) | Original transparent PNG |
+| `psf.webp` | [2026 supplied original](https://drive.google.com/file/d/1-_TKwbFSbxLzL7ZkKTpGuT-ravCfV3Z3/view) | 1000 × 1000, edge-connected white background removed |
 
 HKU CSA's supplied white artwork uses a black display plate in both themes.
-CityU CSSC is retained as an archive asset but is not listed among confirmed 2026 supporters.
+CityU CSSC and the Python Software Foundation use the names, descriptions, and
+links supplied in rows 7 and 20 of the 2026 Engagement Tracker's Supporting tab.
+CityU CSSC's new transparent original replaces the old archive artwork. The PSF
+logo retains its original RGB pixels and shadow; only the edge-connected near-white
+background (all RGB channels at least 250) is made transparent, then saved losslessly.
 
 The previous WebPs remain available for existing image URLs. All six CMS
 locales and the fallback data use the new originals.
@@ -38,7 +44,6 @@ The 2025 Drive includes a 1400 × 700 GDG Cloud PNG with an opaque white backgro
 Its GDG HK SVG contains an embedded raster and a white background; the SVG
 extension alone does not make it a usable transparent vector replacement.
 
-CityU CSSC is 447 × 447; larger originals would also help at high pixel densities.
 Other current supporting logos are SVG or at least 609 pixels on their shortest
 canvas side. Canvas size alone does not guarantee fine detail: check the visible
 artwork at the rendered size before replacing assets.

@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT (to be confirmed)",
-    "address": "Campus and address to be announced.",
-    "description": "HKIIT is the proposed venue for PyCon HK 2026, subject to confirmation. The campus, entrance and room arrangements will be announced here.",
-    "directions": "Travel directions and accessibility information will be added when the campus is confirmed.",
+    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee) — to be confirmed",
+    "address": "Detailed address and venue arrangements to be announced.",
+    "description": "HKIIT (Tseung Kwan O, Lee Wai Lee) is the proposed venue for PyCon HK 2026, subject to confirmation. Entrance and room arrangements will be announced here.",
+    "directions": "Travel directions and accessibility information will be added when the venue is confirmed.",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -97,7 +97,7 @@
       "Sustain PyCon HK so it can expand with each passing year"
     ],
     "joiningTitle": "Joining as a Patron",
-    "joining": "It only takes a moment. Complete the patron application form and make your contribution towards PyCon HK 2026. Individual one-off contributions are warmly welcomed from anyone who believes in what Python and open source can achieve.",
+    "joining": "Support PyCon HK 2026 through individual sponsorship. One-off contributions are warmly welcomed from anyone who believes in what Python and open source can achieve.",
     "buttonLabel": "Become a Patron",
     "pendingMessage": "The patron application form will be available once HKCOTA completes the arrangements.",
     "thanksTitle": "Our Patrons",
@@ -171,6 +171,14 @@
         "description": "Professional association supporting computer education, teachers, students, and technology learning in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-7"
+      },
+      {
+        "name": "City University of Hong Kong Computer Science Student Chapter",
+        "logo": "/2026/supporting-organizations/cityu-cssc.png",
+        "url": "https://www.instagram.com/cssc.cityu",
+        "description": "The CityUHK Computer Science Student Chapter (CSSC) is a student-led organization within the Department of Computer Science at City University of Hong Kong, dedicated to connecting students with industry professionals and the tech community, while cultivating peer support and mentorship across all year groups.",
+        "kind": "supporter",
+        "id": "organizations-8"
       },
       {
         "name": "Codeaholics",
@@ -275,6 +283,14 @@
         "description": "Non-profit supporting regional Python conferences, leadership development, and cross-community collaboration across Asia.",
         "kind": "supporter",
         "id": "organizations-20"
+      },
+      {
+        "name": "Python Software Foundation",
+        "logo": "/2026/supporting-organizations/psf.webp",
+        "url": "https://www.python.org/psf-landing/",
+        "description": "The Python Software Foundation (PSF) is a non-profit membership organization devoted to advancing open source technology related to the Python programming language. The mission of PSF is to promote, protect, and advance the Python programming language, and to support and facilitate the growth of a diverse and international community of Python programmers.",
+        "kind": "supporter",
+        "id": "python-software-foundation"
       },
       {
         "name": "Women Techmakers Hong Kong",

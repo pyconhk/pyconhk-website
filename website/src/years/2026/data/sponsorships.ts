@@ -156,7 +156,7 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
     promotionHeading: 'SNS・広報',
     ctaTitle: 'スポンサーをご検討中ですか？',
     ctaDescription:
-      'スポンサー内容やカスタマイズ可能な連携方法について、お気軽にご相談ください。',
+      '協賛プランやご希望に応じた協賛内容について、お気軽にご相談ください。',
     ctaButtonLabel: 'お問い合わせ',
   },
   ko: {
@@ -167,7 +167,7 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
       '아시아 최고의 파이썬 컨퍼런스 후원사가 되어 수백 명의 개발자, 엔지니어, 데이터 과학자 및 기술 기업가들과 교류하세요.',
       '스폰서십은 단순한 홍보를 넘어 오픈소스 생태계 발전과 혁신을 지원하는 의미 있는 참여입니다.',
     ],
-    whySponsorTitle: '왜 후원해야 할까요?',
+    whySponsorTitle: '후원 혜택',
     plansTitle: '후원 패키지',
     plansDescription:
       'PyCon HK 2026을 후원하고 파이썬 커뮤니티에 브랜드를 알릴 수 있는 최적의 패키지를 선택하세요.',
@@ -177,7 +177,7 @@ export const pageCopyByLocale: Record<CfpLocale, SponsorshipPageCopy> = {
     logoHeading: '로고 노출',
     promotionHeading: '소셜 미디어 및 홍보',
     ctaTitle: '후원사가 될 준비가 되셨나요?',
-    ctaDescription: '맞춤형 스폰서십 패키지 상담을 원하시면 언제든 문의해 주세요.',
+    ctaDescription: '맞춤형 후원 패키지 상담을 원하시면 언제든 문의해 주세요.',
     ctaButtonLabel: '문의하기',
   },
 };

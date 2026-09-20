@@ -23,7 +23,26 @@ test('meeting updates expose confirmed content and keep unavailable patron forms
     await expect(
       supporters.getByRole('heading', { name: 'HKU Computer Science Association' })
     ).toBeVisible();
-    await expect(supporters).not.toContainText('City University');
+    for (const [name, href] of [
+      [
+        'City University of Hong Kong Computer Science Student Chapter',
+        'https://www.instagram.com/cssc.cityu',
+      ],
+      ['Python Software Foundation', 'https://www.python.org/psf-landing/'],
+    ]) {
+      const card = supporters
+        .locator('article')
+        .filter({ has: page.getByRole('heading', { name, exact: true }) });
+      await expect(card).toHaveCount(1);
+      await expect(card.getByRole('heading', { name, exact: true })).toBeVisible();
+      await expect(card.locator('a')).toHaveCount(2);
+      for (const link of await card.locator('a').all())
+        await expect(link).toHaveAttribute('href', href);
+      await expect(card.getByRole('img', { name, exact: true })).toHaveAttribute(
+        'src',
+        /^\/2026\/supporting-organizations\//
+      );
+    }
     await expect(supporters.locator('p:not([lang="en"])')).toHaveCount(0);
     for (const href of [
       'https://www.meetup.com/producttank-hong-kong/',
@@ -49,6 +68,14 @@ test('meeting updates expose confirmed content and keep unavailable patron forms
     await expect(page.locator('[data-conference-content="venue"]')).toContainText(
       'HKIIT'
     );
+    const venueTitle = page
+      .locator('[data-conference-content="venue"]')
+      .getByRole('heading', { name: /^HKIIT/ });
+    await expect(venueTitle).toContainText(/李惠利|Lee Wai Lee/);
+    await expect(venueTitle).toContainText(/待定|未確定|미정|to be confirmed/);
+    const venue = await venueTitle.innerText();
+    await page.goto(`/2026/${locale}/`);
+    await expect(page.locator('#home')).toContainText(venue);
   }
 });
 
@@ -298,7 +325,7 @@ for (const width of [390, 1440]) {
         'patrons',
         '維持免費或者大家負擔得起嘅票價，等更多人可以參加',
       ],
-      ['access-guide', 'venue', '確認校園之後，我哋會補返交通同無障礙通道資料。'],
+      ['access-guide', 'venue', '確認場地之後，我哋會補返交通同無障礙通道資料。'],
     ]) {
       await page.goto(`/2026/zh-hk/${route}/`);
       await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant-HK');

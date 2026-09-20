@@ -4,7 +4,7 @@ export const ja: HomeMessages = {
   meta: {
     title: 'PyCon HK 2026 | コードを書き、つながり、前へ',
     description:
-      '人間中心の AI 時代に、Python の仲間、アイデア、オープンソースの可能性が香港の中心に集う、活気あふれるカンファレンス。',
+      '人を中心に考える AI 時代に、香港で Python の仲間とアイデアを分かち合い、オープンソースの可能性を広げるカンファレンス。',
   },
   nav: {
     brand: 'PyCon HK 2026',
@@ -13,7 +13,7 @@ export const ja: HomeMessages = {
     venue: '会場',
     sponsors: 'スポンサー',
     register: '今すぐ登録',
-    cfp: 'プロポーザル募集 CFP',
+    cfp: 'プロポーザル募集（CFP）',
     menuLabel: 'メニューを開く',
     closeMenu: 'メニューを閉じる',
   },
@@ -22,7 +22,7 @@ export const ja: HomeMessages = {
     headline: 'コードを書き、つながり、前へ',
     headlineAccent: '',
     subheadline:
-      '人間中心の AI 時代に、Python の仲間、アイデア、オープンソースの可能性が香港の中心に集う、活気あふれるカンファレンス。',
+      '人を中心に考える AI 時代に、香港で Python の仲間とアイデアを分かち合い、オープンソースの可能性を広げるカンファレンス。',
     registerCta: '今すぐ登録',
     calendarCta: 'カレンダーに追加',
     whenLabel: '日程',
@@ -30,7 +30,7 @@ export const ja: HomeMessages = {
     whereLabel: '場所',
     whereValue: '香港',
     forLabel: '対象',
-    forValue: '世界中の Python エンジニア・愛好者',
+    forValue: '世界中の Python エンジニア・愛好家',
   },
   highlights: [
     {
@@ -42,7 +42,7 @@ export const ja: HomeMessages = {
     {
       icon: 'calendar',
       title: '2日間の充実した体験',
-      description: '学び、共有し、新たなつながりを作るエキサイティングな週末。',
+      description: '学びを深め、経験を共有し、新たな仲間と出会う週末。',
     },
     {
       icon: 'pin',
@@ -54,13 +54,13 @@ export const ja: HomeMessages = {
     eyebrow: 'プログラム PROGRAMME',
     title: 'あらゆる Python のアイデアに出会える場所',
     description:
-      '洗練されたコードからシステムやコミュニティまで、実践的なスキルと仲間を持ち帰れるよう設計されています。',
+      'コードの書き方からシステム設計、コミュニティづくりまで。実践に役立つ知識を学び、新たな仲間と出会えるプログラムです。',
     tracks: [
       {
         number: '01',
         icon: 'code',
         title: 'Build with Python',
-        description: '実践的なツール、よりシャープな設計パターン、物を作る楽しさ。',
+        description: '実践的なツール、洗練された設計パターン、ものづくりの楽しさ。',
       },
       {
         number: '02',
@@ -85,13 +85,13 @@ export const ja: HomeMessages = {
   },
   joinUs: {
     sprintDescription:
-      'Python プロジェクトに一緒に取り組み、アイデアを交換して、オープンソースに貢献しましょう。スプリントの内容と参加方法をご覧ください。',
+      'Python プロジェクトに一緒に取り組み、アイデアを交換して、オープンソースに貢献しましょう。',
     sponsorDescription:
       '香港の Python コミュニティを応援しませんか。スポンサーシップのプランと、企業・団体として参加する方法をご覧ください。',
     eyebrow: '参加する JOIN US',
-    title: 'あなたの好奇心をお持ちください。コミュニティが迎えます。',
+    title: '好奇心をきっかけに、新たな仲間と出会いましょう。',
     description:
-      'Python を始めたばかりの方も、大規模プロジェクトを保守している方も、次の共同作業者を探している方も、PyCon HK はつながりの場です。',
+      'Python を始めたばかりの方も、大規模プロジェクトを支える方も、一緒に活動する仲間を探している方も。PyCon HK でつながりましょう。',
     ctaAria: '詳細を見てコミュニティとつながる',
     atAGlanceTitle: '概要 AT A GLANCE',
     datesLabel: '日程 DATES',
@@ -103,7 +103,7 @@ export const ja: HomeMessages = {
   },
   sponsors: {
     eyebrow: 'コミュニティパートナー PARTNER WITH THE COMMUNITY',
-    title: '強固な織り目を支えるパートナー',
+    title: 'コミュニティを支えるパートナー',
     description:
       'PyCon HK は、オープンソース、継続的な学習、次世代の技術者を支援する企業・団体の皆様に支えられています。',
     tiers: [
@@ -117,7 +117,7 @@ export const ja: HomeMessages = {
   footer: {
     brand: 'PyCon HK 2026',
     summary:
-      '香港の Python コミュニティの集い — 技術は共有されることでより良くなると信じる人々によって創られています。',
+      '技術は分かち合うことでより良くなる。その思いで、香港の Python コミュニティが作り上げるカンファレンスです。',
     conferenceGuideTitle: 'カンファレンスガイド',
     aboutLink: 'PyCon HK について',
     sponsorLink: 'スポンサーになる',
@@ -142,7 +142,7 @@ export const ja: HomeMessages = {
     searchPlaceholder: 'セッション、登壇者、キーワードで検索...',
     mySchedule: 'ブックマークしたセッション',
     myScheduleEmpty:
-      'まだブックマークがありません。セッションの星アイコンをクリックしてお気に入りに追加してください！',
+      'まだ保存したセッションはありません。気になるセッションを保存して、自分だけのスケジュールを作りましょう。',
     noResults: '条件に一致するセッションが見つかりませんでした。',
     details: 'セッション詳細',
     addToCalendar: 'カレンダーに追加',

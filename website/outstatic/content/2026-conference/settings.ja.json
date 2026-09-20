@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT（未確定）",
-    "address": "キャンパスと住所は後日発表します。",
-    "description": "PyCon HK 2026 の会場は HKIIT を予定していますが、まだ確定していません。キャンパス、入口、教室の案内はこのページで発表します。",
-    "directions": "キャンパス確定後に、交通アクセスとバリアフリー情報を掲載します。",
+    "title": "HKIIT（將軍澳・李惠利、未確定）",
+    "address": "詳しい住所と会場の案内は後日発表します。",
+    "description": "PyCon HK 2026 の会場は、將軍澳の HKIIT（IVE 李惠利校）を予定していますが、まだ確定していません。入口や教室の案内は、このページで発表します。",
+    "directions": "会場が確定次第、交通アクセスとバリアフリー情報を掲載します。",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -88,16 +88,16 @@
   },
   "patrons": {
     "status": "published",
-    "whyTitle": "個人スポンサーになる理由",
+    "whyTitle": "個人スポンサーとしてのご支援",
     "intro": "PyCon Hong Kong（PyCon HK）は、香港とアジアで Python とオープンソース文化を広める、ボランティア運営の非営利カンファレンスです。個人スポンサーの皆様のご支援は、次の活動に直接役立ちます。",
     "benefits": [
-      "参加を希望する方のために、無料または手頃な参加費を維持する",
+      "誰もが参加できるよう、参加費を無料または手頃な金額に抑える",
       "優れた登壇者を招き、香港で質の高いワークショップを開催する",
-      "地域の Python とオープンソースのコミュニティやエコシステムを強化する",
-      "PyCon HK が毎年成長できるよう継続を支える"
+      "地域の Python とオープンソースのコミュニティの発展を支える",
+      "PyCon HK の継続的な開催と成長を支える"
     ],
-    "joiningTitle": "個人スポンサーへの参加",
-    "joining": "申込フォームにご記入のうえ、PyCon HK 2026 をご支援ください。Python とオープンソースの可能性に共感する方からの、一回限りの個人のご支援を歓迎します。",
+    "joiningTitle": "個人スポンサーのお申し込み",
+    "joining": "Python とオープンソースの可能性に共感する皆様から、PyCon HK 2026 へのご支援をお待ちしています。個人での一度限りのご支援も歓迎します。",
     "buttonLabel": "個人スポンサーになる",
     "pendingMessage": "HKCOTA の準備が整い次第、申込フォームを公開します。",
     "thanksTitle": "個人スポンサーの皆様",
@@ -173,6 +173,14 @@
         "id": "organizations-7"
       },
       {
+        "name": "City University of Hong Kong Computer Science Student Chapter",
+        "logo": "/2026/supporting-organizations/cityu-cssc.png",
+        "url": "https://www.instagram.com/cssc.cityu",
+        "description": "The CityUHK Computer Science Student Chapter (CSSC) is a student-led organization within the Department of Computer Science at City University of Hong Kong, dedicated to connecting students with industry professionals and the tech community, while cultivating peer support and mentorship across all year groups.",
+        "kind": "supporter",
+        "id": "organizations-8"
+      },
+      {
         "name": "Codeaholics",
         "logo": "/2026/supporting-organizations/codeaholics.webp",
         "url": "https://www.facebook.com/codeaholics/",
@@ -181,7 +189,7 @@
         "id": "organizations-9"
       },
       {
-        "name": "香港教育大学 数学・情報技術学部",
+        "name": "香港教育大学 数学・情報技術学科",
         "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",
@@ -277,6 +285,14 @@
         "id": "organizations-20"
       },
       {
+        "name": "Python Software Foundation",
+        "logo": "/2026/supporting-organizations/psf.webp",
+        "url": "https://www.python.org/psf-landing/",
+        "description": "The Python Software Foundation (PSF) is a non-profit membership organization devoted to advancing open source technology related to the Python programming language. The mission of PSF is to promote, protect, and advance the Python programming language, and to support and facilitate the growth of a diverse and international community of Python programmers.",
+        "kind": "supporter",
+        "id": "python-software-foundation"
+      },
+      {
         "name": "Women Techmakers Hong Kong",
         "logo": "/2026/supporting-organizations/WTMHK.webp",
         "url": "https://wtmhk.org/",
@@ -291,21 +307,21 @@
     "items": [
       {
         "name": "Mr. Calvin Tsang",
-        "role": "大会長",
+        "role": "実行委員長",
         "image": "/2026/organizers-volunteers/volunteers/calvin-tsang-compressed.webp",
         "url": "https://www.linkedin.com/in/calvin-tyl/",
         "id": "people-1"
       },
       {
         "name": "Mr. Alex Au",
-        "role": "共同チェア",
+        "role": "共同実行委員長",
         "image": "/2026/organizers-volunteers/volunteers/alex-au-compressed.webp",
         "url": "https://www.linkedin.com/in/alex-au-606901206/",
         "id": "people-2"
       },
       {
         "name": "Ms. Daisy Maris Fung",
-        "role": "共同チェア",
+        "role": "共同実行委員長",
         "image": "/2026/organizers-volunteers/volunteers/daisy-maris-fung-compressed.webp",
         "url": "https://www.daisymarisfung.com/",
         "id": "people-3"
@@ -408,19 +424,19 @@
   "sponsorship": {
     "status": "published",
     "intro": [
-      "PyCon HK 2026 は、香港で最も熱量の高い Python 開発者、技術チーム、革新的な組織とつながる絶好の機会です。",
-      "スポンサーとして参加することで、アジアを代表する Python カンファレンスの中心に立ち、数百名の開発者、経験豊富なエンジニア、データサイエンティスト、テック起業家と出会えます。",
-      "スポンサーシップは単なるブランド露出ではありません。イノベーションを後押しし、オープンソースコミュニティを支え、香港と地域全体の技術発展に貢献する意思を示すものです。"
+      "PyCon HK 2026 は、香港で活躍する Python 開発者、技術チーム、新しい技術に取り組む企業・団体とつながる機会です。",
+      "アジアを代表する Python カンファレンスのスポンサーとして、数百名の開発者、経験豊富なエンジニア、データサイエンティスト、技術分野の起業家と交流できます。",
+      "協賛を通じて自社の活動を広く知ってもらうとともに、オープンソースコミュニティを支え、香港とアジアの技術発展に貢献できます。"
     ],
     "benefits": [
       {
-        "title": "ブランド露出",
-        "description": "技術コミュニティの中で認知を高める",
+        "title": "ブランド認知の向上",
+        "description": "技術コミュニティに自社の活動を知ってもらう",
         "id": "benefits-1"
       },
       {
-        "title": "ネットワーク形成",
-        "description": "業界リーダーや潜在的な顧客とつながる",
+        "title": "交流の機会",
+        "description": "業界をリードする人々や将来の顧客とつながる",
         "id": "benefits-2"
       },
       {
@@ -438,7 +454,7 @@
         "features": [
           {
             "label": "スポンサー講演",
-            "value": "2 × 30分 講演",
+            "value": "30分 × 2回",
             "id": "feature-1"
           },
           {
@@ -447,17 +463,17 @@
             "id": "feature-2"
           },
           {
-            "label": "登壇台ロゴ",
+            "label": "演台のロゴ",
             "value": "含まれます",
             "id": "feature-3"
           },
           {
-            "label": "会場ロールアップ",
+            "label": "会場バナーのロゴ",
             "value": "特大サイズ",
             "id": "feature-4"
           },
           {
-            "label": "YouTube 録画フレーム",
+            "label": "YouTube 動画ロゴ",
             "value": "特大サイズ",
             "id": "feature-5"
           },
@@ -467,17 +483,17 @@
             "id": "feature-6"
           },
           {
-            "label": "自社ロールアップ持参可",
+            "label": "自社バナーの持ち込み",
             "value": "含まれます",
             "id": "feature-7"
           },
           {
-            "label": "休憩中広告",
+            "label": "休憩時間の広告",
             "value": "含まれます",
             "id": "feature-8"
           },
           {
-            "label": "事前メール告知",
+            "label": "開催前メール告知",
             "value": "含まれます",
             "id": "feature-9"
           },
@@ -507,7 +523,7 @@
         "features": [
           {
             "label": "スポンサー講演",
-            "value": "1 × 30分 講演",
+            "value": "30分 × 1回",
             "id": "feature-1"
           },
           {
@@ -516,12 +532,12 @@
             "id": "feature-2"
           },
           {
-            "label": "会場ロールアップ",
+            "label": "会場バナーのロゴ",
             "value": "大サイズ",
             "id": "feature-3"
           },
           {
-            "label": "YouTube 録画フレーム",
+            "label": "YouTube 動画ロゴ",
             "value": "大サイズ",
             "id": "feature-4"
           },
@@ -531,17 +547,17 @@
             "id": "feature-5"
           },
           {
-            "label": "自社ロールアップ持参可",
+            "label": "自社バナーの持ち込み",
             "value": "含まれます",
             "id": "feature-6"
           },
           {
-            "label": "休憩中広告",
+            "label": "休憩時間の広告",
             "value": "含まれます",
             "id": "feature-7"
           },
           {
-            "label": "事前メール告知",
+            "label": "開催前メール告知",
             "value": "含まれます",
             "id": "feature-8"
           },
@@ -571,7 +587,7 @@
         "features": [
           {
             "label": "スポンサー講演",
-            "value": "1 × 15分 講演",
+            "value": "15分 × 1回",
             "id": "feature-1"
           },
           {
@@ -580,12 +596,12 @@
             "id": "feature-2"
           },
           {
-            "label": "会場ロールアップ",
+            "label": "会場バナーのロゴ",
             "value": "中サイズ",
             "id": "feature-3"
           },
           {
-            "label": "YouTube 録画フレーム",
+            "label": "YouTube 動画ロゴ",
             "value": "中サイズ",
             "id": "feature-4"
           },
@@ -595,12 +611,12 @@
             "id": "feature-5"
           },
           {
-            "label": "休憩中広告",
+            "label": "休憩時間の広告",
             "value": "+ HKD 3,100",
             "id": "feature-6"
           },
           {
-            "label": "事前メール告知",
+            "label": "開催前メール告知",
             "value": "含まれます",
             "id": "feature-7"
           },
@@ -634,22 +650,22 @@
             "id": "feature-1"
           },
           {
-            "label": "会場ロールアップ",
-            "value": "レギュラー",
+            "label": "会場バナーのロゴ",
+            "value": "標準サイズ",
             "id": "feature-2"
           },
           {
-            "label": "YouTube 録画フレーム",
-            "value": "レギュラー",
+            "label": "YouTube 動画ロゴ",
+            "value": "標準サイズ",
             "id": "feature-3"
           },
           {
             "label": "ウェブサイト掲載",
-            "value": "レギュラー",
+            "value": "標準サイズ",
             "id": "feature-4"
           },
           {
-            "label": "休憩中広告",
+            "label": "休憩時間の広告",
             "value": "+ HKD 3,100",
             "id": "feature-5"
           },
@@ -673,12 +689,12 @@
         "maxSlots": "unlimited",
         "features": [
           {
-            "label": "会場ロールアップ",
+            "label": "会場バナーのロゴ",
             "value": "小サイズ",
             "id": "feature-1"
           },
           {
-            "label": "YouTube 録画フレーム",
+            "label": "YouTube 動画ロゴ",
             "value": "小サイズ",
             "id": "feature-2"
           },
@@ -688,7 +704,7 @@
             "id": "feature-3"
           },
           {
-            "label": "休憩中広告",
+            "label": "休憩時間の広告",
             "value": "+ HKD 3,100",
             "id": "feature-4"
           },

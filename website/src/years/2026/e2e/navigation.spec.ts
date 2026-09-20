@@ -1,6 +1,40 @@
 import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
+for (const locale of ['ja', 'ko']) {
+  test(`${locale} navigation and ticket controls stay within the viewport`, async ({
+    page,
+  }) => {
+    await page.goto(`/2026/${locale}/`);
+    for (const width of [390, 768, 1439, 1440, 1600, 1699, 1700, 1920]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.evaluate(() => document.fonts.ready);
+      const clipped = await page.locator('[data-header-row]').evaluate((row) => {
+        // Page-level overflow checks miss controls hidden by overflow-x: clip.
+        return [...row.children]
+          .filter((element) => {
+            const bounds = element.getBoundingClientRect();
+            return bounds.width > 0 && (bounds.left < 0 || bounds.right > innerWidth);
+          })
+          .map((element) => element.textContent?.trim());
+      });
+      expect(clipped, `${width}px`).toEqual([]);
+      const trigger = page.locator('[data-mobile-nav-trigger]');
+      if (await trigger.isVisible()) {
+        await trigger.click();
+        await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        await expect(page.locator('[data-mobile-nav-panel]')).toBeInViewport();
+        await page.keyboard.press('Escape');
+        await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      } else {
+        await expect(
+          page.getByRole('navigation', { name: 'Main Navigation', exact: true })
+        ).toBeVisible();
+      }
+    }
+  });
+}
+
 test('visible talk links reuse prefetched HTML without another stylesheet round trip', async ({
   page,
   context,
