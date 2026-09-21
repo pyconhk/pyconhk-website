@@ -126,30 +126,29 @@ test('preference synchronizes across tabs and invalid storage falls back to syst
 });
 
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
-  test(`dark surfaces and responsive controls in ${locale}`, async ({ page }) => {
-    test.setTimeout(90_000);
-    await page.emulateMedia({ colorScheme: 'dark' });
-    const errors: string[] = [];
-    page.on('pageerror', (error) => errors.push(error.message));
-    for (const route of [
-      '',
-      'about',
-      'organizers',
-      'volunteers',
-      'supporting-organizations',
-      'news',
-      'schedule',
-      'speakers/peter-ho/',
-      'sponsorships/opportunities',
-      'privacy-policy',
-      'code-of-conduct',
-      'code-of-conduct/attendee-reporting',
-      'code-of-conduct/staff-procedures',
-      'cfp',
-      'access-guide',
-      'catering-guide',
-      'sprint/qna',
-    ]) {
+  for (const route of [
+    '',
+    'about',
+    'organizers',
+    'volunteers',
+    'supporting-organizations',
+    'news',
+    'schedule',
+    'speakers/peter-ho/',
+    'sponsorships/opportunities',
+    'privacy-policy',
+    'code-of-conduct',
+    'code-of-conduct/attendee-reporting',
+    'code-of-conduct/staff-procedures',
+    'cfp',
+    'access-guide',
+    'catering-guide',
+    'sprint/qna',
+  ]) {
+    test(`dark surfaces on ${route || 'home'} in ${locale}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: 'dark' });
+      const errors: string[] = [];
+      page.on('pageerror', (error) => errors.push(error.message));
       const response = await page.goto(`/2026/${locale}/${route}`);
       expect(response?.status()).toBe(200);
       await expect(page.locator('html')).toHaveAttribute(
@@ -161,7 +160,15 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
         'rgb(16, 24, 39)'
       );
       await expect(page.locator('main h1').first()).toBeVisible();
-    }
+      expect(errors).toEqual([]);
+    });
+  }
+
+  test(`responsive controls in dark theme in ${locale}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto(`/2026/${locale}/sprint/qna`);
     for (const width of [320, 390, 640, 768, 1024, 1280, 1440, 1920]) {
       await page.setViewportSize({ width, height: 900 });
       for (const control of await page
@@ -176,6 +183,14 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
       ).toBe(true);
     }
+    expect(errors).toEqual([]);
+  });
+
+  test(`schedule modal uses dark surfaces in ${locale}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await page.setViewportSize({ width: 1920, height: 900 });
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
     await page.goto(`/2026/${locale}/schedule/`);
     await page
       .locator('[data-session-details]')

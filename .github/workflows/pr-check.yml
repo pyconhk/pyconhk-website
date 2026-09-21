@@ -72,14 +72,26 @@ jobs:
           import path from 'node:path';
           const tasks = JSON.parse(fs.readFileSync('/tmp/tasks.json', 'utf8'));
           const directories = fs.globSync('**/e2e/mise.toml', { exclude: ['**/node_modules/**', '**/.git/**'] });
-          const suites = directories.map(file => {
+          const suites = directories.flatMap(file => {
             const dir = path.dirname(file);
             const task = `//${dir}:e2e`;
             const definition = tasks.find(candidate => candidate.name === task);
             if (!definition) throw new Error(`Unregistered E2E task: ${task}`);
-            return { name: dir.replaceAll('/', '-'), task, website: dir.startsWith('website/'), browser: !definition.env.includes('E2E_BROWSER=none') };
+            const configuredShards = definition.env.find(value => value.startsWith('E2E_SHARDS='))?.slice('E2E_SHARDS='.length) ?? '1';
+            const shardTotal = Number(configuredShards);
+            if (!/^[1-9]\d*$/.test(configuredShards) || !Number.isSafeInteger(shardTotal) || shardTotal > 256)
+              throw new Error(`${file}: E2E_SHARDS must be an integer from 1 to 256`);
+            return Array.from({ length: shardTotal }, (_, index) => ({
+              name: dir.replaceAll('/', '-') + (shardTotal > 1 ? `-shard-${index + 1}-of-${shardTotal}` : ''),
+              task,
+              website: dir.startsWith('website/'),
+              browser: !definition.env.includes('E2E_BROWSER=none'),
+              shardIndex: index + 1,
+              shardTotal,
+            }));
           });
           if (!suites.length) throw new Error('No E2E suites discovered');
+          if (suites.length > 256) throw new Error('E2E shards exceed the GitHub Actions 256-job matrix limit');
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include:suites})}\n`);
           JS
 
@@ -158,7 +170,9 @@ jobs:
       - name: Run complete E2E suite
         env:
           E2E_TASK: ${{ matrix.task }}
-        run: mise run "$E2E_TASK"
+          E2E_SHARD_INDEX: ${{ matrix.shardIndex }}
+          E2E_SHARD_TOTAL: ${{ matrix.shardTotal }}
+        run: mise run "$E2E_TASK" -- --shard="$E2E_SHARD_INDEX/$E2E_SHARD_TOTAL"
       - uses: actions/upload-artifact@v6
         if: failure()
         with:

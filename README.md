@@ -138,13 +138,24 @@ that extends the root `playwright:e2e` task template:
 [tasks.e2e]
 extends = "playwright:e2e"
 dir = "{{config_root}}/../../../.."
-env = { E2E_SUITE = "2025" }
+env = { E2E_SUITE = "2025", E2E_SHARDS = "1" }
 ```
 
 Add a new year by adding its directory, specs and task. Website Playwright discovers
 these directories automatically. CI dynamically walks `**/e2e/mise.toml`, validates
-the discovered mise tasks, and creates one matrix job per suite, including CMS.
+the discovered mise tasks, and creates the configured number of matrix jobs per suite.
 No central year list, filename mapping or test-title grep needs updating.
+
+Set `E2E_SHARDS` in that year's `e2e/mise.toml` to control its CI parallelism:
+`"1"` runs the complete year on one runner, `"4"` runs it across four runners.
+2026 uses four shards; the other years currently use one. Suites without this setting
+default to one. CI rejects invalid counts and a matrix exceeding GitHub's 256-job limit.
+Playwright automatically distributes individual tests with `fullyParallel: true`;
+adding tests does not require assigning files or locales to shards. Distribution is
+by test count, not historical duration. Every shard must pass the existing CI gate.
+
+Local year tasks still run the full suite by default. To reproduce one CI shard, run
+`mise run //website/src/years/2026/e2e:e2e -- --shard=2/4`.
 
 `mise run e2e` runs the website, CMS and publishing suites concurrently. Website
 projects share one build and one local Pages server. The CMS suite builds and starts
