@@ -92,9 +92,6 @@ jobs:
           });
           if (!suites.length) throw new Error('No E2E suites discovered');
           if (suites.length > 256) throw new Error('E2E shards exceed the GitHub Actions 256-job matrix limit');
-          // Temporary same-revision baseline; removed after this PR's timing comparison.
-          const baseline = suites.find(suite => suite.task === '//website/src/years/2026/e2e:e2e');
-          suites.push({ ...baseline, name: 'benchmark-2026-unsharded', shardIndex: 1, shardTotal: 1 });
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include:suites})}\n`);
           JS
 
