@@ -24,10 +24,13 @@ The Worker exposes:
 
 ## Content Model
 
-The CMS uses Decap's `multiple_files` i18n structure with `en`, `zh-hk`,
-`zh-hant`, `zh-hans`, and `ja`. The sidebar exposes one folder collection per
-conference year, currently `2026 Posts` and `2025 Posts`. The year is determined
-by the collection, so editors do not enter it as post metadata.
+The CMS uses Decap's `multiple_files` i18n structure. The 2026 collections use
+`en`, `zh-hk`, `zh-hant`, `zh-hans`, `ja`, and `ko`; 2025 retains its five locales
+without `ko`. General content requires every locale for its year before it can
+be published. Privacy and Code of Conduct content share a single English source.
+The sidebar exposes one posts collection per conference year, currently
+`2026 Posts` and `2025 Posts`. The year is determined by the collection, so editors
+do not enter it as post metadata.
 
 A 2026 post such as `hello-world` is stored as:
 
@@ -37,6 +40,7 @@ website/outstatic/content/2026-posts/hello-world.zh-hk.mdx
 website/outstatic/content/2026-posts/hello-world.zh-hant.mdx
 website/outstatic/content/2026-posts/hello-world.zh-hans.mdx
 website/outstatic/content/2026-posts/hello-world.ja.mdx
+website/outstatic/content/2026-posts/hello-world.ko.mdx
 ```
 
 The `cms` branch must be seeded with this locale-coded shape before editors use
@@ -103,6 +107,27 @@ The local editor fixture is skipped against a hosted origin. A real OAuth login
 and authorized content publication remain release acceptance steps.
 
 ## Cloudflare Deployment
+
+The `Deploy CMS` GitHub Actions workflow deploys the Worker when CMS build inputs
+change on `main`. It uses the repository's mise versions (Node 24 and Bun), restores
+the Bun dependency cache, and serializes releases in `cms-deploy-production`.
+PR branches, `test`, and the editorial `cms` branch do not deploy the application.
+For a manual release, run `Deploy CMS` from `main`; enable `force` only when an
+unchanged build must be uploaded again, such as after a Worker secret change.
+
+Configure the encrypted repository secret `CLOUDFLARE_CMS_API_TOKEN` with a Worker
+deployment token scoped to the Website PyCon HK account. Start from Cloudflare's
+[Edit Cloudflare Workers token permissions](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)
+and restrict account and zone resources to the CMS deployment. This is separate
+from the website's Pages-only `CLOUDFLARE_API_TOKEN`; the workflow maps the dedicated
+CMS secret to Wrangler's `CLOUDFLARE_API_TOKEN` environment variable only for deployment.
+The GitHub OAuth client ID and client secret remain encrypted Worker secrets.
+Adding the workflow does not create credentials, switch DNS, or update OAuth URLs.
+
+Both automated and local deployment use `.github/deploy/cms.ts`, including its
+release content gate, source-hash comparison and hosted manifest verification.
+The workflow verifies the stable `workers.dev` origin before and after the custom
+domain cutover.
 
 Switch Chrome to the `website pyconhk` profile, then create and activate the
 dedicated Wrangler profile. Do not create or share a Global API key:
