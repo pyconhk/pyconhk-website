@@ -14,10 +14,10 @@ const publishedRoutes = [
   'volunteers',
 ];
 
-test('meeting updates expose confirmed content and keep unavailable patron forms inactive', async ({
-  page,
-}) => {
-  for (const locale of locales) {
+for (const locale of locales) {
+  test(`meeting updates expose confirmed content and keep unavailable patron forms inactive in ${locale}`, async ({
+    page,
+  }) => {
     await page.goto(`/2026/${locale}/supporting-organizations/`);
     const supporters = page.locator('[data-conference-content="supporters"]');
     await expect(
@@ -76,8 +76,8 @@ test('meeting updates expose confirmed content and keep unavailable patron forms
     const venue = await venueTitle.innerText();
     await page.goto(`/2026/${locale}/`);
     await expect(page.locator('#home')).toContainText(venue);
-  }
-});
+  });
+}
 
 for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
   test(`visible supporter artwork stays centered at ${width}px in both themes`, async ({
@@ -253,11 +253,10 @@ test('every conference logo and placeholder has a transparent image background',
   }
 });
 
-test('unpublished conference details show pending content in all six locales', async ({
-  page,
-}) => {
-  test.setTimeout(90_000);
-  for (const locale of locales) {
+for (const locale of locales) {
+  test(`unpublished conference details show pending content in ${locale}`, async ({
+    page,
+  }) => {
     for (const route of pendingRoutes) {
       const response = await page.goto(`/2026/${locale}/${route}/`);
       expect(response?.status()).toBe(200);
@@ -265,14 +264,11 @@ test('unpublished conference details show pending content in all six locales', a
       await expect(page.locator('[data-content-pending]')).toBeVisible();
       await expect(page.locator('[data-conference-content]')).toHaveCount(0);
     }
-  }
-});
+  });
 
-test('complete migrated conference content remains public in all six locales', async ({
-  page,
-}) => {
-  test.setTimeout(90_000);
-  for (const locale of locales) {
+  test(`complete migrated conference content remains public in ${locale}`, async ({
+    page,
+  }) => {
     for (const route of publishedRoutes) {
       const response = await page.goto(`/2026/${locale}/${route}/`);
       expect(response?.status()).toBe(200);
@@ -284,8 +280,8 @@ test('complete migrated conference content remains public in all six locales', a
     expect(response?.status()).toBe(200);
     await expect(page.locator('[data-content-pending]')).toHaveCount(0);
     await expect(page.locator('[data-published-sponsorship]')).toBeVisible();
-  }
-});
+  });
+}
 
 for (const width of [390, 1440]) {
   test(`Cantonese CMS content stays distinct from written Chinese at ${width}px`, async ({

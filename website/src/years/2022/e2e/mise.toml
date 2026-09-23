@@ -2,4 +2,5 @@
 extends = "playwright:e2e"
 description = "Run the complete 2022 website E2E suite"
 dir = "{{config_root}}/../../../.."
-env = { E2E_SUITE = "2022" }
+# Number of CI runners; Playwright assigns tests to shards automatically.
+env = { E2E_SUITE = "2022", E2E_SHARDS = "1" }

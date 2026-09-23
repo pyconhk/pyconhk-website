@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { getConferenceContent } from '@/lib/conference-content';
+import eventPhoto from '@/years/2026/assets/events/events.webp';
 import CommunityPageFrame from '@/years/2026/components/content/CommunityPageFrame.astro';
 import SocialIcon from '@/years/2026/components/ui/SocialIcon.astro';
 import { pageCopyByLocale, socialLinks } from '@/years/2026/data/about';
@@ -15,7 +17,19 @@ const copy = pageCopyByLocale[locale];
   {about.status !== 'published' ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
     <div data-conference-content="about" class="space-y-10">
       <div class="overflow-hidden rounded-2xl border-3 border-conference-outline bg-conference-paper shadow-conference-panel">
-        <img src="/2026/events/events.webp" alt={copy.imageAlt} width="1200" height="675" class="max-h-[560px] w-full object-cover" />
+        <Image
+          src={eventPhoto}
+          alt={copy.imageAlt}
+          width={1280}
+          widths={[1280, 1800, 2400, 2700]}
+          sizes="(min-width: 1088px) 900px, (min-width: 1024px) calc(100vw - 188px), (min-width: 768px) calc(100vw - 172px), (min-width: 640px) calc(100vw - 140px), calc(100vw - 84px)"
+          format="webp"
+          quality={90}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="max-h-[560px] w-full object-cover"
+        />
       </div>
       <div class="space-y-6 text-sm font-medium leading-relaxed text-conference-ink sm:text-base md:text-lg">
         {about.paragraphs.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}
