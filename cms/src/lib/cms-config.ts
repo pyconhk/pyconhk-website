@@ -167,7 +167,7 @@ export function createCmsConfig(
       ),
       {
         name: "conference_2026",
-        label: "2026 Conference",
+        label: "2026 Website Content",
         folder: `${contentRoot}/2026-conference`,
         create: false,
         delete: false,
@@ -176,7 +176,7 @@ export function createCmsConfig(
         format: "json",
         identifier_field: "slug",
         slug: "{{slug}}",
-        summary: "Conference settings",
+        summary: "Pages and event settings",
         editor: { preview: false },
         fields: createConferenceFields(),
       },

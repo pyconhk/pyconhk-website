@@ -31,6 +31,14 @@ be published. Privacy and Code of Conduct content share a single English source.
 The sidebar exposes one posts collection per conference year, currently
 `2026 Posts` and `2025 Posts`. The year is determined by the collection, so editors
 do not enter it as post metadata.
+`2026 Website Content` edits the existing pages and event settings, including
+tickets, venue, sponsors, organizations and the team. It is not another event.
+
+Published content stays on `cms`. Editorial drafts use
+`cms-editorial/<collection>/<slug>`: Git cannot store the branch `cms` alongside
+Decap's default `cms/...` draft branches. The checked-in Bun patches change
+Decap's shared branch prefix, and the editorial PR validator permits this same
+namespace while enforcing the existing content-only boundary.
 
 A 2026 post such as `hello-world` is stored as:
 

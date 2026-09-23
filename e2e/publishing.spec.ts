@@ -1,12 +1,16 @@
 import { execFile } from 'node:child_process';
 import { cp, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { expect, test } from '@playwright/test';
 const exec = promisify(execFile);
 const root=fileURLToPath(new URL('..',import.meta.url));
+const cmsRequire = createRequire(new URL('../cms/package.json', import.meta.url));
+const appRequire = createRequire(cmsRequire.resolve('decap-cms-app/package.json'));
+const { branchFromContentKey, contentKeyFromBranch, generateContentKey } = await import(appRequire.resolve('decap-cms-lib-util/dist/esm/APIUtils.js'));
 const locales=['en','zh-hk','zh-hant','zh-hans','ja','ko'];
 async function fixture() {
   const dir=await mkdtemp(path.join(tmpdir(),'pycon-publishing-'));
@@ -51,12 +55,21 @@ test('editorial PR command permits content commits and rejects code, forks and d
     await git('init','-q');await git('config','user.name','E2E');await git('config','user.email','e2e@example.invalid');
     await git('add','cms/publication','package.json');await git('commit','-qm','Base');
     const base=(await git('rev-parse','HEAD')).stdout.trim();
+    await git('branch','cms');
+    const contentKey=generateContentKey('posts','e2e');
+    const editorialBranch=branchFromContentKey(contentKey);
+    expect(editorialBranch).toBe('cms-editorial/posts/e2e');
+    expect(contentKeyFromBranch(editorialBranch)).toBe(contentKey);
+    // Exercise the actual Decap branch helper against Git's ref namespace.
+    // The existing production content branch must coexist with a saved draft.
+    await expect(git('branch','cms/posts/e2e')).rejects.toThrow();
+    await git('checkout','-qb',editorialBranch);
     await writeFile(path.join(dir,'website/outstatic/content/2026-posts/e2e.en.mdx'),article('draft'));
     await git('add','website');await git('commit','-qm','Draft');
     const head=(await git('rev-parse','HEAD')).stdout.trim();
-    const env={CMS_PR_HEAD:'cms/posts/e2e',CMS_PR_HEAD_REPO:'pyconhk/pyconhk-website',CMS_PR_BASE_REPO:'pyconhk/pyconhk-website',CMS_PR_BASE_SHA:base,CMS_PR_HEAD_SHA:head};
+    const env={CMS_PR_HEAD:editorialBranch,CMS_PR_HEAD_REPO:'pyconhk/pyconhk-website',CMS_PR_BASE_REPO:'pyconhk/pyconhk-website',CMS_PR_BASE_SHA:base,CMS_PR_HEAD_SHA:head};
     expect((await run(dir,'editorial',env)).code).toBe(0);
-    for(const patch of [{CMS_PR_HEAD:'alex-dev'},{CMS_PR_HEAD_REPO:'another/repo'}])expect((await run(dir,'editorial',{...env,...patch})).code).not.toBe(0);
+    for(const patch of [{CMS_PR_HEAD:'alex-dev'},{CMS_PR_HEAD:'cms/posts/e2e'},{CMS_PR_HEAD:'cms-editorial-spoof/posts/e2e'},{CMS_PR_HEAD_REPO:'another/repo'}])expect((await run(dir,'editorial',{...env,...patch})).code).not.toBe(0);
     await writeFile(path.join(dir,'app.ts'),'export const injected = true;');await git('add','app.ts');await git('commit','-qm','Code change');
     expect((await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()})).code).not.toBe(0);
   } finally {await rm(dir,{recursive:true,force:true});}
