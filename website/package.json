@@ -17,7 +17,7 @@
     "lint:fix": "biome check package.json astro.config.ts playwright.config.ts tsconfig.json biome.json functions src integrations e2e --write",
     "format": "biome format package.json astro.config.ts playwright.config.ts tsconfig.json biome.json functions src integrations e2e --write",
     "format:check": "biome format package.json astro.config.ts playwright.config.ts tsconfig.json biome.json functions src integrations e2e",
-    "check": "astro check && bun run lint"
+    "check": "astro check && bun run lint && node --test src/lib/programme/snapshot.test.ts"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

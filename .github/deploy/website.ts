@@ -98,7 +98,8 @@ async function prepare(environment, force) {
   }
   // Preflight decides whether a build is needed; Astro owns build data generation.
   const current = await fetchProgramme({ event: target.event, sourceUrl: target.source,
-    environment, baseline: previousSnapshot, allowUnpublished: true });
+    environment, baseline: previousSnapshot,
+    allowUnpublished: target.event === "pyconhk2026" });
   const manifest = {
     sourceSha,
     sourceHash: deploymentSourceHash("website", root, { externalNews: news.newsSource === "external" }),
