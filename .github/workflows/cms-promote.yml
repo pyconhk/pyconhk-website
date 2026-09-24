@@ -15,6 +15,7 @@ permissions:
 jobs:
   promote:
     name: Promote cms to main
+    if: vars.NEWS_SOURCE != 'external'
     runs-on: ubuntu-latest
     outputs:
       promoted: ${{ steps.push.outputs.promoted }}

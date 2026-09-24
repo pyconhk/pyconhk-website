@@ -178,6 +178,11 @@ manifest. Tests, CI, docs and changes confined to the other app do not deploy an
 unchanged app. Shared dependencies and build configuration invalidate both apps.
 The website also compares the public Pretalx hash, event and environment. A manual
 force bypasses the skip; a missing manifest triggers the first deployment.
+After the News repository cutover, set `NEWS_SOURCE=external` in the website
+repository variables. The website then pins `pyconhk/pyconhk-news` `test` for
+test/preview and `main` for production, builds from that exact commit, and records
+its SHA in the deployment manifest. A new News commit causes a build at the next
+scheduled website check; unchanged code, News and programme skip upload.
 
 `PUBLIC_SITE_URL` sets the website origin at build time for canonical, Open Graph,
 social image and sitemap URLs (default: `https://pycon.hk`). The website deployment
@@ -190,8 +195,13 @@ alongside `PLAYWRIGHT_BASE_URL` when running its E2E tests.
 - the public website lives at `website/`
 - the CMS app lives at `cms/`
 - root `.gitignore` covers Astro/Bun build output and local tooling artifacts for both apps
-- `cms` is a marketing-owned content branch; the CMS application itself deploys from the production code branch
-- Decap writes content and media under `website/outstatic/...` and `website/public/outstatic/images/...`
+- `cms` is the transitional marketing content branch; it stops promoting to the
+  website when `NEWS_SOURCE=external`
+- the split CMS uses the public `pyconhk/pyconhk-news` repository: test edits its
+  `test` branch, production edits `main`, while developer-authored pages remain
+  in this website repository
+- Decap keeps News content and media paths under `website/outstatic/...` and
+  `website/public/outstatic/images/...` in the News repository
 
 ## Build Output
 

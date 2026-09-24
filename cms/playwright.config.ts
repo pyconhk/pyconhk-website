@@ -2,6 +2,11 @@ import { defineConfig, devices } from "@playwright/test";
 
 const origin = process.env.CMS_BASE_URL;
 const port = Number(process.env.CMS_E2E_PORT ?? 8791);
+const profile = process.env.CMS_E2E_PROFILE ?? "legacy";
+if (!["legacy", "test", "production"].includes(profile)) {
+  throw new Error("CMS_E2E_PROFILE must be legacy, test or production");
+}
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -19,7 +24,7 @@ export default defineConfig({
   webServer: origin
     ? undefined
     : {
-        command: `${process.env.PLAYWRIGHT_SKIP_BUILD === "1" ? "" : "bun run build && "}bunx wrangler dev --port ${port} --ip 127.0.0.1 --var CMS_GITHUB_CLIENT_ID:e2e-local-client --var CMS_GITHUB_CLIENT_SECRET:e2e-local-secret`,
+        command: `${process.env.PLAYWRIGHT_SKIP_BUILD === "1" ? "" : `CMS_BUILD_PROFILE=${profile} bun run build && `}bunx wrangler dev --port ${port} --ip 127.0.0.1 --var CMS_GITHUB_CLIENT_ID:e2e-local-client --var CMS_GITHUB_CLIENT_SECRET:e2e-local-secret`,
         url: `http://127.0.0.1:${port}/admin/`,
         env: {
           CMS_GITHUB_CLIENT_ID: "e2e-local-client",

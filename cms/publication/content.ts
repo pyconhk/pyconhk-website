@@ -13,6 +13,37 @@ export const cmsRepoRoot = path.resolve(
 
 const contentRoot = "website/outstatic/content";
 const newsContentFile = /^website\/outstatic\/content\/(?:2025|2026)-posts\/[^/]+\.mdx$/u;
+const rasterImagePath = /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/iu;
+
+function validateNewsFrontmatterTypes(data) {
+  for (const field of ["title", "slug", "publishedAt", "description", "coverImage"]) {
+    if (field in data && typeof data[field] !== "string") {
+      throw new Error(`${field} must be a string`);
+    }
+  }
+
+  if (data.coverImage && !rasterImagePath.test(data.coverImage)) {
+    throw new Error("coverImage must use a raster image (AVIF, GIF, JPEG, PNG or WebP)");
+  }
+
+  if (
+    "tags" in data &&
+    (!Array.isArray(data.tags) || data.tags.some((tag) => typeof tag !== "string"))
+  ) {
+    throw new Error("tags must be a list of strings");
+  }
+
+  if ("author" in data) {
+    if (!data.author || typeof data.author !== "object" || Array.isArray(data.author)) {
+      throw new Error("author must be an object");
+    }
+    for (const field of ["name", "picture"]) {
+      if (field in data.author && typeof data.author[field] !== "string") {
+        throw new Error(`author.${field} must be a string`);
+      }
+    }
+  }
+}
 
 function listWorkingTreeFiles(directory, root = directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -79,6 +110,7 @@ export function collectCmsLocaleProblems(files, readContent) {
       if (!data || !["draft", "published"].includes(data.status)) {
         throw new Error("status must be draft or published");
       }
+      validateNewsFrontmatterTypes(data);
       const group = entries.get(entry) || {
         requiredLocales,
         variants: new Map(),
