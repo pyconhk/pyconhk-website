@@ -1,4 +1,3 @@
-import { createConferenceFields } from "./conference-fields";
 import {
   type CmsEnvironment,
   getCmsContentRoot,
@@ -105,8 +104,8 @@ function createPostFields(): CmsField[] {
 }
 
 const postCollectionDefinitions = [
-  { name: "posts", label: "2026 Posts", year: 2026 },
-  { name: "posts_2025", label: "2025 Posts", year: 2025 },
+  { name: "posts", label: "2026 News", year: 2026 },
+  { name: "posts_2025", label: "2025 News", year: 2025 },
 ] as const;
 
 type CmsConfig = {
@@ -161,25 +160,8 @@ export function createCmsConfig(
     publicFolder: options.publicFolder || getCmsPublicFolder(environment),
     locales,
     defaultLocale: getCmsDefaultLocale(environment, locales),
-    collections: [
-      ...postCollectionDefinitions.map((definition) =>
-        createPostCollection(contentRoot, definition),
-      ),
-      {
-        name: "conference_2026",
-        label: "2026 Conference",
-        folder: `${contentRoot}/2026-conference`,
-        create: false,
-        delete: false,
-        i18n: true,
-        extension: "json",
-        format: "json",
-        identifier_field: "slug",
-        slug: "{{slug}}",
-        summary: "Conference settings",
-        editor: { preview: false },
-        fields: createConferenceFields(),
-      },
-    ],
+    collections: postCollectionDefinitions.map((definition) =>
+      createPostCollection(contentRoot, definition),
+    ),
   };
 }

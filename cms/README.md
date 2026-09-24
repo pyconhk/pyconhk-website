@@ -22,12 +22,26 @@ The Worker exposes:
 - `/admin/config.yml`: generated Decap configuration
 - `/api/decap/auth` and `/api/decap/callback`: GitHub OAuth
 
+`/admin/test/` is a browser-only fixture, not a GitHub-backed staging CMS. The
+current Worker still targets one `cms` branch in the website repository. Marketing
+accounts must not be granted website repository write access just to edit News.
+The intended split uses a separate public News repository with test and production
+branches, two CMS origins, and website builds pinned to each News commit.
+
 ## Content Model
 
-The CMS uses Decap's `multiple_files` i18n structure with `en`, `zh-hk`,
-`zh-hant`, `zh-hans`, and `ja`. The sidebar exposes one folder collection per
-conference year, currently `2026 Posts` and `2025 Posts`. The year is determined
-by the collection, so editors do not enter it as post metadata.
+The CMS uses Decap's `multiple_files` i18n structure. The 2026 news collection uses
+`en`, `zh-hk`, `zh-hant`, `zh-hans`, `ja`, and `ko`; 2025 retains its five locales
+without `ko`. Published news requires every locale for its year. The sidebar
+exposes only news collections, currently `2026 News` and `2025 News`. The year is
+determined by the collection, so editors do not enter it as post metadata.
+Conference pages and event settings are maintained in the website source.
+
+Published content stays on `cms`. Editorial drafts use
+`cms-editorial/<collection>/<slug>`: Git cannot store the branch `cms` alongside
+Decap's default `cms/...` draft branches. The checked-in Bun patches change
+Decap's shared branch prefix, and the editorial PR validator permits this same
+namespace while enforcing the existing content-only boundary.
 
 A 2026 post such as `hello-world` is stored as:
 
@@ -37,6 +51,7 @@ website/outstatic/content/2026-posts/hello-world.zh-hk.mdx
 website/outstatic/content/2026-posts/hello-world.zh-hant.mdx
 website/outstatic/content/2026-posts/hello-world.zh-hans.mdx
 website/outstatic/content/2026-posts/hello-world.ja.mdx
+website/outstatic/content/2026-posts/hello-world.ko.mdx
 ```
 
 The `cms` branch must be seeded with this locale-coded shape before editors use
@@ -103,6 +118,11 @@ The local editor fixture is skipped against a hosted origin. A real OAuth login
 and authorized content publication remain release acceptance steps.
 
 ## Cloudflare Deployment
+
+The site uses `.github/deploy/cms.ts` for manual Worker releases, including its
+release content gate, source-hash comparison and hosted manifest verification.
+Automated deployment awaits separate test and production Worker configuration and
+credentials; the existing Pages-only `CLOUDFLARE_API_TOKEN` cannot deploy Workers.
 
 Switch Chrome to the `website pyconhk` profile, then create and activate the
 dedicated Wrangler profile. Do not create or share a Global API key:

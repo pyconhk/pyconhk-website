@@ -1,0 +1,94 @@
+diff --git a/dist/esm/API.js b/dist/esm/API.js
+index 6949c1436f1546bcf526360259866e58a6364eb9..437b04d16d0bf2a755afa3e338f0370eace88dd2 100644
+--- a/dist/esm/API.js
++++ b/dist/esm/API.js
+@@ -551,9 +551,9 @@ export default class API {
+   };
+   async migrateToVersion1(pullRequest, metadata) {
+     // hard code key/branch generation logic to ignore future changes
+-    const oldContentKey = pullRequest.head.ref.slice(`cms/`.length);
++    const oldContentKey = pullRequest.head.ref.slice(`${CMS_BRANCH_PREFIX}/`.length);
+     const newContentKey = `${metadata.collection}/${oldContentKey}`;
+-    const newBranchName = `cms/${newContentKey}`;
++    const newBranchName = `${CMS_BRANCH_PREFIX}/${newContentKey}`;
+ 
+     // retrieve or create new branch and pull request in new format
+     const branch = await this.getBranch(newBranchName).catch(() => undefined);
+@@ -585,7 +585,7 @@ export default class API {
+   }
+   async migrateToPullRequestLabels(pullRequest, metadata) {
+     await this.setPullRequestStatus(pullRequest, metadata.status);
+-    const contentKey = pullRequest.head.ref.slice(`cms/`.length);
++    const contentKey = pullRequest.head.ref.slice(`${CMS_BRANCH_PREFIX}/`.length);
+     await this.deleteMetadata(contentKey);
+   }
+   async migratePullRequest(pullRequest, countMessage) {
+@@ -625,7 +625,7 @@ export default class API {
+     console.log(`Done migrating Pull Request '${number === newNumber ? newNumber : `${number} => ${newNumber}`}'`);
+   }
+   async getOpenAuthoringBranches() {
+-    const cmsBranches = await this.requestAllPages(`${this.repoURL}/git/refs/heads/cms/${this.repo}`).catch(() => []);
++    const cmsBranches = await this.requestAllPages(`${this.repoURL}/git/refs/heads/${CMS_BRANCH_PREFIX}/${this.repo}`).catch(() => []);
+     return cmsBranches;
+   }
+   async listUnpublishedBranches() {
+diff --git a/dist/esm/GraphQLAPI.js b/dist/esm/GraphQLAPI.js
+index 17b01546a05e9cde10dae656505c9a8995b34950..b8b2f9d27c888cc5af0a44d52ec8d970f20b5633 100644
+--- a/dist/esm/GraphQLAPI.js
++++ b/dist/esm/GraphQLAPI.js
+@@ -304,7 +304,7 @@ export default class GraphQLAPI extends API {
+       variables: {
+         owner,
+         name,
+-        refPrefix: `refs/heads/cms/${this.repo}/`
++        refPrefix: `refs/heads/${CMS_BRANCH_PREFIX}/${this.repo}/`
+       }
+     });
+     return data.repository.refs.nodes.map(({
+diff --git a/src/API.ts b/src/API.ts
+index a37691221478739051f2e54e559d1613adb2e811..f93a687255089b07de30c2776177dbb6debeccbb 100644
+--- a/src/API.ts
++++ b/src/API.ts
+@@ -760,9 +760,9 @@ export default class API {
+ 
+   async migrateToVersion1(pullRequest: GitHubPull, metadata: Metadata) {
+     // hard code key/branch generation logic to ignore future changes
+-    const oldContentKey = pullRequest.head.ref.slice(`cms/`.length);
++    const oldContentKey = pullRequest.head.ref.slice(`${CMS_BRANCH_PREFIX}/`.length);
+     const newContentKey = `${metadata.collection}/${oldContentKey}`;
+-    const newBranchName = `cms/${newContentKey}`;
++    const newBranchName = `${CMS_BRANCH_PREFIX}/${newContentKey}`;
+ 
+     // retrieve or create new branch and pull request in new format
+     const branch = await this.getBranch(newBranchName).catch(() => undefined);
+@@ -797,7 +797,7 @@ export default class API {
+   async migrateToPullRequestLabels(pullRequest: GitHubPull, metadata: Metadata) {
+     await this.setPullRequestStatus(pullRequest, metadata.status);
+ 
+-    const contentKey = pullRequest.head.ref.slice(`cms/`.length);
++    const contentKey = pullRequest.head.ref.slice(`${CMS_BRANCH_PREFIX}/`.length);
+     await this.deleteMetadata(contentKey);
+   }
+ 
+@@ -846,7 +846,7 @@ export default class API {
+   async getOpenAuthoringBranches() {
+     const cmsBranches = await this.requestAllPages<
+       Endpoints['GET /repos/{owner}/{repo}/git/matching-refs/{ref}']['response']['data'][0]
+-    >(`${this.repoURL}/git/refs/heads/cms/${this.repo}`).catch(
++    >(`${this.repoURL}/git/refs/heads/${CMS_BRANCH_PREFIX}/${this.repo}`).catch(
+       () =>
+         [] as Endpoints['GET /repos/{owner}/{repo}/git/matching-refs/{ref}']['response']['data'],
+     );
+diff --git a/src/GraphQLAPI.ts b/src/GraphQLAPI.ts
+index 65151801b734b780c1ed210c91867613d7dbe44c..5411994316416c4d4feac4d79b454a96629205e0 100644
+--- a/src/GraphQLAPI.ts
++++ b/src/GraphQLAPI.ts
+@@ -332,7 +332,7 @@ export default class GraphQLAPI extends API {
+       variables: {
+         owner,
+         name,
+-        refPrefix: `refs/heads/cms/${this.repo}/`,
++        refPrefix: `refs/heads/${CMS_BRANCH_PREFIX}/${this.repo}/`,
+       },
+     });
+ 

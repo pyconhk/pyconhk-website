@@ -45,7 +45,7 @@ jobs:
       - name: Check for CMS changes
         id: changes
         run: |
-          changed_files="$(git diff --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}")"
+          changed_files="$(git diff --no-renames --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}")"
 
           if [ -z "${changed_files}" ]; then
             echo "has_changes=false" >> "${GITHUB_OUTPUT}"
@@ -59,8 +59,8 @@ jobs:
         if: steps.changes.outputs.has_changes == 'true'
         run: |
           disallowed_files="$(
-            git diff --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}" |
-              grep -Ev '^(website/outstatic/content/|website/outstatic/media/|website/public/outstatic/images/)' || true
+            git diff --no-renames --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}" |
+              grep -Ev '^(website/outstatic/content/(2025-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja)\.mdx|2026-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.mdx)$|website/outstatic/media/|website/public/outstatic/images/)' || true
           )"
 
           if [ -n "${disallowed_files}" ]; then
