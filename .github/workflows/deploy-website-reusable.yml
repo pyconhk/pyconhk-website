@@ -83,7 +83,7 @@ jobs:
           while IFS= read -r -d '' file; do
             if [[ "$file" =~ ^website/outstatic/content/2025-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja)\.mdx$ ]] ||
                [[ "$file" =~ ^website/outstatic/content/2026-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.mdx$ ]] ||
-               [[ "$file" =~ ^website/public/outstatic/images/[^/]+\.(png|jpe?g|webp|avif|gif|svg)$ ]]; then
+               [[ "$file" =~ ^website/public/outstatic/images/[^/]+\.(png|jpe?g|webp|avif|gif)$ ]]; then
               continue
             fi
             echo "News checkout contains an unsupported website file: $file" >&2
