@@ -27,6 +27,8 @@ jobs:
     env:
       CLOUDFLARE_ACCOUNT_ID: "043801e2f5b9cf2685593bd9098e98b1"
       PROGRAMME_ENVIRONMENT: ${{ inputs.target }}
+      NEWS_SOURCE: ${{ vars.NEWS_SOURCE }}
+      NEWS_REPOSITORY: pyconhk/pyconhk-news
     steps:
       - name: Validate target
         env:
@@ -62,6 +64,45 @@ jobs:
             echo 'Set CLOUDFLARE_API_TOKEN with Pages Edit access to the PyCon Cloudflare account before enabling uploads.' >&2
             exit 1
           fi
+      - name: Check out the pinned News revision
+        if: steps.prepare.outputs.changed == 'true' && steps.prepare.outputs.news_sha != ''
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ steps.prepare.outputs.news_repo }}
+          ref: ${{ steps.prepare.outputs.news_sha }}
+          path: news-source
+          persist-credentials: false
+      - name: Stage only News and uploaded media
+        if: steps.prepare.outputs.changed == 'true' && steps.prepare.outputs.news_sha != ''
+        env:
+          EXPECTED_NEWS_SHA: ${{ steps.prepare.outputs.news_sha }}
+        run: |
+          actual="$(git -C news-source rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_NEWS_SHA" || { echo 'News checkout does not match the pinned revision.' >&2; exit 1; }
+          test -d news-source/website/outstatic/content/2025-posts || { echo 'News checkout is missing the 2025 posts directory.' >&2; exit 1; }
+          while IFS= read -r -d '' file; do
+            if [[ "$file" =~ ^website/outstatic/content/2025-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja)\.mdx$ ]] ||
+               [[ "$file" =~ ^website/outstatic/content/2026-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.mdx$ ]] ||
+               [[ "$file" =~ ^website/public/outstatic/images/[^/]+\.(png|jpe?g|webp|avif|gif|svg)$ ]]; then
+              continue
+            fi
+            echo "News checkout contains an unsupported website file: $file" >&2
+            exit 1
+          done < <(git -C news-source ls-files -z -- website)
+          if [ -n "$(find news-source/website -type l -print -quit)" ]; then
+            echo 'News content must not contain symlinks.' >&2
+            exit 1
+          fi
+          for year in 2025 2026; do
+            rm -rf "website/outstatic/content/${year}-posts"
+            if [ -d "news-source/website/outstatic/content/${year}-posts" ]; then
+              cp -R "news-source/website/outstatic/content/${year}-posts" "website/outstatic/content/${year}-posts"
+            fi
+          done
+          rm -rf website/public/outstatic/images
+          if [ -d news-source/website/public/outstatic/images ]; then
+            cp -R news-source/website/public/outstatic/images website/public/outstatic/images
+          fi
       - name: Restore dependency cache
         if: steps.prepare.outputs.changed == 'true'
         uses: actions/cache@v5
@@ -80,6 +121,7 @@ jobs:
           PROGRAMME_SOURCE_URL: ${{ steps.prepare.outputs.source_url }}
           PROGRAMME_BASELINE_PATH: ${{ steps.prepare.outputs.baseline_path }}
           PROGRAMME_SOURCE_EVENT: ${{ steps.prepare.outputs.event }}
+          NEWS_CHECKOUT_DIR: ${{ steps.prepare.outputs.news_sha != '' && 'news-source' || '' }}
         run: |
           mise exec -- node cms/publication/content.ts
           mise run //website:typecheck
@@ -93,6 +135,14 @@ jobs:
         run: |
           latest="$(git ls-remote origin "refs/heads/$SOURCE_BRANCH" | cut -f1)"
           test "$latest" = "$EXPECTED_SHA" || { echo 'Branch advanced; the next queued deployment will build it.' >&2; exit 1; }
+      - name: Reject a superseded News revision
+        if: steps.prepare.outputs.changed == 'true' && steps.prepare.outputs.news_sha != ''
+        env:
+          EXPECTED_NEWS_SHA: ${{ steps.prepare.outputs.news_sha }}
+          NEWS_REF: ${{ steps.prepare.outputs.news_ref }}
+        run: |
+          latest="$(git ls-remote "https://github.com/${NEWS_REPOSITORY}.git" "$NEWS_REF" | cut -f1)"
+          test "$latest" = "$EXPECTED_NEWS_SHA" || { echo 'News branch advanced; the next queued deployment will build it.' >&2; exit 1; }
       - name: Upload website and Pages Functions
         if: steps.prepare.outputs.changed == 'true'
         working-directory: website
@@ -114,9 +164,10 @@ jobs:
           CHANGED: ${{ steps.prepare.outputs.changed }}
           SOURCE_SHA: ${{ steps.prepare.outputs.source_sha }}
           ORIGIN: ${{ steps.prepare.outputs.origin }}
+          NEWS_SHA: ${{ steps.prepare.outputs.news_sha }}
         run: |
           if [ "$CHANGED" = true ]; then
-            echo "Verified $TARGET at $ORIGIN (commit $SOURCE_SHA)." >> "$GITHUB_STEP_SUMMARY"
+            echo "Verified $TARGET at $ORIGIN (website $SOURCE_SHA, News ${NEWS_SHA:-local})." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Website inputs and public programme are unchanged for $TARGET; build and upload skipped." >> "$GITHUB_STEP_SUMMARY"
           fi

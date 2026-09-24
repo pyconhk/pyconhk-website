@@ -7,6 +7,7 @@ import { deploymentSourceHash } from "./source.ts";
 import { fetchProgramme, validateSnapshot } from "../../website/src/lib/programme/snapshot.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const defaultNewsRepository = "pyconhk/pyconhk-news";
 
 export const deploymentTargets = {
   production: {
@@ -32,8 +33,36 @@ export const deploymentTargets = {
   },
 };
 
+export function newsRefForEnvironment(environment) {
+  assert.ok(deploymentTargets[environment], `Unsupported deployment target: ${environment}`);
+  return environment === "production" ? "refs/heads/main" : "refs/heads/test";
+}
+
+export function resolveNewsRevision(environment, {
+  source = process.env.NEWS_SOURCE || "local",
+  repository = process.env.NEWS_REPOSITORY || defaultNewsRepository,
+  lookup = (url, ref) => execFileSync("git", ["ls-remote", "--exit-code", "--refs", url, ref], {
+    cwd: root, encoding: "utf8", timeout: 20_000, stdio: ["ignore", "pipe", "pipe"],
+  }),
+} = {}) {
+  const ref = newsRefForEnvironment(environment);
+  assert.ok(["local", "external"].includes(source), `Unsupported NEWS_SOURCE: ${source}`);
+  if (source === "local") return { newsSource: "local", newsRepository: "", newsRef: "", newsSha: "" };
+  assert.match(repository, /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/, "NEWS_REPOSITORY must be owner/repo");
+  let result;
+  try {
+    result = lookup(`https://github.com/${repository}.git`, ref).trim();
+  } catch {
+    throw new Error(`NEWS_SOURCE=external cannot resolve ${repository} ${ref}; build and deployment stopped`);
+  }
+  const match = /^([a-f0-9]{40})\t(refs\/heads\/[A-Za-z0-9_.\/-]+)$/.exec(result);
+  assert.ok(match && match[2] === ref, `NEWS_SOURCE=external returned no valid ${ref} commit for ${repository}`);
+  return { newsSource: "external", newsRepository: repository, newsRef: ref, newsSha: match[1] };
+}
+
 export function needsDeployment(previous, next, force = false) {
-  return force || !previous || !next.sourceHash || ["sourceHash", "programmeHash", "event", "environment", "sourceUrl"]
+  return force || !previous || !next.sourceHash || ["sourceHash", "programmeHash", "event", "environment", "sourceUrl",
+    "newsSource", "newsRepository", "newsRef", "newsSha"]
     .some((key) => previous[key] !== next[key]);
 }
 
@@ -52,6 +81,7 @@ async function prepare(environment, force) {
   const target = deploymentTargets[environment];
   assert.ok(target, `Unsupported deployment target: ${environment}`);
   const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+  const news = resolveNewsRevision(environment);
   const directory = path.join(root, "website/.cache/deployment", environment, target.event);
   await fs.mkdir(directory, { recursive: true });
   const [previous, baseline] = await Promise.all([
@@ -71,7 +101,8 @@ async function prepare(environment, force) {
     environment, baseline: previousSnapshot, allowUnpublished: true });
   const manifest = {
     sourceSha,
-    sourceHash: deploymentSourceHash("website", root),
+    sourceHash: deploymentSourceHash("website", root, { externalNews: news.newsSource === "external" }),
+    ...news,
     programmeHash: current.hash,
     event: target.event,
     environment,
@@ -82,6 +113,8 @@ async function prepare(environment, force) {
   await fs.writeFile(path.join(directory, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
   const outputs = { changed: String(changed), snapshot_path: snapshotPath,
     manifest_path: path.join(directory, "manifest.json"), source_sha: sourceSha,
+    news_source: news.newsSource, news_sha: news.newsSha, news_ref: news.newsRef,
+    news_repo: news.newsRepository,
     project: target.project, branch: target.branch, origin: target.origin, event: target.event,
     source_url: target.source, baseline_path: baselinePath };
   if (process.env.GITHUB_OUTPUT) await fs.appendFile(process.env.GITHUB_OUTPUT,
@@ -92,6 +125,13 @@ async function prepare(environment, force) {
 async function finalize(snapshotPath, manifestPath) {
   assert.ok(snapshotPath && manifestPath, "Both snapshot and manifest paths are required");
   const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  if (manifest.newsSource === "external") {
+    assert.ok(process.env.NEWS_CHECKOUT_DIR, "NEWS_CHECKOUT_DIR is required for an external News build");
+    const checkedOutSha = execFileSync("git", ["rev-parse", "HEAD"], {
+      cwd: process.env.NEWS_CHECKOUT_DIR, encoding: "utf8",
+    }).trim();
+    assert.equal(checkedOutSha, manifest.newsSha, "News checkout changed after deployment preflight");
+  }
   const snapshot = validateSnapshot(JSON.parse(await fs.readFile(snapshotPath, "utf8")), manifest.event, manifest.environment);
   manifest.programmeHash = snapshot.hash;
   manifest.builtAt = new Date().toISOString();
@@ -115,6 +155,14 @@ export async function verifyDeployment(environment, expected, {
   assert.match(expected.sourceSha, /^[a-f0-9]{40}$/, "Expected source SHA is invalid");
   assert.match(expected.sourceHash, /^[a-f0-9]{64}$/, "Expected source hash is invalid");
   assert.match(expected.programmeHash, /^[a-f0-9]{64}$/, "Expected programme hash is invalid");
+  assert.ok(["local", "external"].includes(expected.newsSource), "Expected News source is invalid");
+  if (expected.newsSource === "external") {
+    assert.match(expected.newsRepository, /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/, "Expected News repository is invalid");
+    assert.equal(expected.newsRef, newsRefForEnvironment(environment), "Expected News ref belongs to another environment");
+    assert.match(expected.newsSha, /^[a-f0-9]{40}$/, "Expected News SHA is invalid");
+  } else {
+    assert.equal(expected.newsSha, "", "Local News must not specify an external SHA");
+  }
   let lastError;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     try {
@@ -122,7 +170,8 @@ export async function verifyDeployment(environment, expected, {
         readJson(target.origin, "/deployment-manifest.json"),
         readJson(target.origin, "/programme-snapshot.json"),
       ]);
-      for (const key of ["sourceSha", "sourceHash", "programmeHash", "event", "environment"]) {
+      for (const key of ["sourceSha", "sourceHash", "programmeHash", "event", "environment",
+        "newsSource", "newsRepository", "newsRef", "newsSha"]) {
         assert.equal(manifest?.[key], expected[key], `Hosted deployment ${key} has not reached the expected value`);
       }
       validateSnapshot(snapshot, target.event, environment);
@@ -131,7 +180,7 @@ export async function verifyDeployment(environment, expected, {
       assert.equal(response.status, 200);
       const html = await response.text();
       assert.ok(html.includes("PyCon"), "Hosted home page is missing");
-      console.log(`Verified ${environment}: ${expected.sourceSha}, programme ${expected.programmeHash} at ${target.origin}`);
+      console.log(`Verified ${environment}: ${expected.sourceSha}, news ${expected.newsSha || "local"}, programme ${expected.programmeHash} at ${target.origin}`);
       return;
     } catch (error) {
       lastError = error;

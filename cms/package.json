@@ -14,8 +14,8 @@
     "deploy:dry-run": "bun run build && wrangler deploy --dry-run",
     "types": "wrangler types worker-configuration.d.ts",
     "check": "astro check",
-    "lint": "biome check src package.json tsconfig.json astro.config.ts biome.json wrangler.jsonc mise.toml e2e playwright.config.ts",
-    "format": "biome format --write src package.json tsconfig.json astro.config.ts biome.json wrangler.jsonc mise.toml e2e playwright.config.ts",
+    "lint": "biome check src package.json tsconfig.json astro.config.ts biome.json wrangler.jsonc wrangler.test.jsonc wrangler.production.jsonc mise.toml e2e playwright.config.ts",
+    "format": "biome format --write src package.json tsconfig.json astro.config.ts biome.json wrangler.jsonc wrangler.test.jsonc wrangler.production.jsonc mise.toml e2e playwright.config.ts",
     "e2e": "playwright test"
   },
   "dependencies": {
