@@ -30,7 +30,8 @@ export default function conferenceBuild(): AstroIntegration {
         const output = resolve(root, process.env.PROGRAMME_OUTPUT_PATH ?? `.cache/programme/${environment}/${event}.json`);
         const baselinePath = process.env.PROGRAMME_BASELINE_PATH;
         const baseline = baselinePath ? validateSnapshot(JSON.parse(await readFile(baselinePath, 'utf8')), event, environment) : undefined;
-        const snapshot = await fetchProgramme({ event, environment, sourceUrl, baseline, allowUnpublished: true });
+        const snapshot = await fetchProgramme({ event, environment, sourceUrl, baseline,
+          allowUnpublished: event === 'pyconhk2026' });
         await mkdir(dirname(output), { recursive: true });
         const temporary = `${output}.${process.pid}.tmp`;
         await writeFile(temporary, `${JSON.stringify(snapshot, null, 2)}\n`);
