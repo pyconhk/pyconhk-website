@@ -22,17 +22,20 @@ The Worker exposes:
 - `/admin/config.yml`: generated Decap configuration
 - `/api/decap/auth` and `/api/decap/callback`: GitHub OAuth
 
+`/admin/test/` is a browser-only fixture, not a GitHub-backed staging CMS. The
+current Worker still targets one `cms` branch in the website repository. Marketing
+accounts must not be granted website repository write access just to edit News.
+The intended split uses a separate public News repository with test and production
+branches, two CMS origins, and website builds pinned to each News commit.
+
 ## Content Model
 
-The CMS uses Decap's `multiple_files` i18n structure. The 2026 collections use
+The CMS uses Decap's `multiple_files` i18n structure. The 2026 news collection uses
 `en`, `zh-hk`, `zh-hant`, `zh-hans`, `ja`, and `ko`; 2025 retains its five locales
-without `ko`. General content requires every locale for its year before it can
-be published. Privacy and Code of Conduct content share a single English source.
-The sidebar exposes one posts collection per conference year, currently
-`2026 Posts` and `2025 Posts`. The year is determined by the collection, so editors
-do not enter it as post metadata.
-`2026 Website Content` edits the existing pages and event settings, including
-tickets, venue, sponsors, organizations and the team. It is not another event.
+without `ko`. Published news requires every locale for its year. The sidebar
+exposes only news collections, currently `2026 News` and `2025 News`. The year is
+determined by the collection, so editors do not enter it as post metadata.
+Conference pages and event settings are maintained in the website source.
 
 Published content stays on `cms`. Editorial drafts use
 `cms-editorial/<collection>/<slug>`: Git cannot store the branch `cms` alongside
@@ -116,26 +119,10 @@ and authorized content publication remain release acceptance steps.
 
 ## Cloudflare Deployment
 
-The `Deploy CMS` GitHub Actions workflow deploys the Worker when CMS build inputs
-change on `main`. It uses the repository's mise versions (Node 24 and Bun), restores
-the Bun dependency cache, and serializes releases in `cms-deploy-production`.
-PR branches, `test`, and the editorial `cms` branch do not deploy the application.
-For a manual release, run `Deploy CMS` from `main`; enable `force` only when an
-unchanged build must be uploaded again, such as after a Worker secret change.
-
-Configure the encrypted repository secret `CLOUDFLARE_CMS_API_TOKEN` with a Worker
-deployment token scoped to the Website PyCon HK account. Start from Cloudflare's
-[Edit Cloudflare Workers token permissions](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)
-and restrict account and zone resources to the CMS deployment. This is separate
-from the website's Pages-only `CLOUDFLARE_API_TOKEN`; the workflow maps the dedicated
-CMS secret to Wrangler's `CLOUDFLARE_API_TOKEN` environment variable only for deployment.
-The GitHub OAuth client ID and client secret remain encrypted Worker secrets.
-Adding the workflow does not create credentials, switch DNS, or update OAuth URLs.
-
-Both automated and local deployment use `.github/deploy/cms.ts`, including its
+The site uses `.github/deploy/cms.ts` for manual Worker releases, including its
 release content gate, source-hash comparison and hosted manifest verification.
-The workflow verifies the stable `workers.dev` origin before and after the custom
-domain cutover.
+Automated deployment awaits separate test and production Worker configuration and
+credentials; the existing Pages-only `CLOUDFLARE_API_TOKEN` cannot deploy Workers.
 
 Switch Chrome to the `website pyconhk` profile, then create and activate the
 dedicated Wrangler profile. Do not create or share a Global API key:

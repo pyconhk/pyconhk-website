@@ -35,6 +35,14 @@ test("admin loads the published Decap configuration and login screen", async ({
   ]);
   expect(config.media_folder).toBe("website/public/outstatic/images");
   expect(config.public_folder).toBe("/outstatic/images");
+  expect(config.collections.map((collection) => collection.name)).toEqual([
+    "posts",
+    "posts_2025",
+  ]);
+  expect(config.collections.map((collection) => collection.label)).toEqual([
+    "2026 News",
+    "2025 News",
+  ]);
   for (const collection of config.collections) {
     if (collection.folder)
       expect(collection.folder).toMatch(/^website\/outstatic\/content\//);

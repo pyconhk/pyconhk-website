@@ -191,7 +191,6 @@ alongside `PLAYWRIGHT_BASE_URL` when running its E2E tests.
 - the CMS app lives at `cms/`
 - root `.gitignore` covers Astro/Bun build output and local tooling artifacts for both apps
 - `cms` is a marketing-owned content branch; the CMS application itself deploys from the production code branch
-- `Deploy CMS` builds and uploads the Worker on CMS input changes to `main`, or by manual dispatch from `main`; it skips unchanged builds and uses the dedicated `CLOUDFLARE_CMS_API_TOKEN` secret. See [CMS deployment](cms/README.md#cloudflare-deployment).
 - Decap writes content and media under `website/outstatic/...` and `website/public/outstatic/images/...`
 
 ## Build Output

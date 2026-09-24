@@ -53,7 +53,9 @@ test('editorial PR command permits content commits and rejects code, forks and d
   const git=(...args:string[])=>exec('git',args,{cwd:dir});
   try {
     await git('init','-q');await git('config','user.name','E2E');await git('config','user.email','e2e@example.invalid');
-    await git('add','cms/publication','package.json');await git('commit','-qm','Base');
+    await mkdir(path.join(dir,'website/src'));
+    await writeFile(path.join(dir,'website/src/developer-owned.md'),article('draft'));
+    await git('add','cms/publication','package.json','website/src');await git('commit','-qm','Base');
     const base=(await git('rev-parse','HEAD')).stdout.trim();
     await git('branch','cms');
     const contentKey=generateContentKey('posts','e2e');
@@ -70,6 +72,24 @@ test('editorial PR command permits content commits and rejects code, forks and d
     const env={CMS_PR_HEAD:editorialBranch,CMS_PR_HEAD_REPO:'pyconhk/pyconhk-website',CMS_PR_BASE_REPO:'pyconhk/pyconhk-website',CMS_PR_BASE_SHA:base,CMS_PR_HEAD_SHA:head};
     expect((await run(dir,'editorial',env)).code).toBe(0);
     for(const patch of [{CMS_PR_HEAD:'alex-dev'},{CMS_PR_HEAD:'cms/posts/e2e'},{CMS_PR_HEAD:'cms-editorial-spoof/posts/e2e'},{CMS_PR_HEAD_REPO:'another/repo'}])expect((await run(dir,'editorial',{...env,...patch})).code).not.toBe(0);
+    await git('mv','website/src/developer-owned.md','website/outstatic/content/2026-posts/renamed.en.mdx');
+    await git('commit','-qm','Rename developer content into news folder');
+    expect((await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()})).code).not.toBe(0);
+    await git('mv','website/outstatic/content/2026-posts/renamed.en.mdx','website/src/developer-owned.md');
+    await git('commit','-qm','Restore developer content');
+    await mkdir(path.join(dir,'website/outstatic/content/2026-conference'));
+    await writeFile(path.join(dir,'website/outstatic/content/2026-conference/settings.en.json'),'{}');
+    await git('add','website');await git('commit','-qm','Conference settings change');
+    const conferenceChange=(await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()}));
+    expect(conferenceChange.code).not.toBe(0);
+    expect(conferenceChange.text).toContain('only news and media paths');
+    await rm(path.join(dir,'website/outstatic/content/2026-conference/settings.en.json'));
+    await git('add','website');await git('commit','-qm','Remove conference settings change');
+    await mkdir(path.join(dir,'website/outstatic/content/2026-posts/nested'));
+    await writeFile(path.join(dir,'website/outstatic/content/2026-posts/nested/settings.en.mdx'),article());
+    await writeFile(path.join(dir,'website/outstatic/content/2026-posts/settings.json'),'{}');
+    await git('add','website');await git('commit','-qm','Non-news files in the news folder');
+    expect((await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()})).code).not.toBe(0);
     await writeFile(path.join(dir,'app.ts'),'export const injected = true;');await git('add','app.ts');await git('commit','-qm','Code change');
     expect((await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()})).code).not.toBe(0);
   } finally {await rm(dir,{recursive:true,force:true});}

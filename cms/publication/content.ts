@@ -12,6 +12,7 @@ export const cmsRepoRoot = path.resolve(
 );
 
 const contentRoot = "website/outstatic/content";
+const newsContentFile = /^website\/outstatic\/content\/(?:2025|2026)-posts\/[^/]+\.mdx$/u;
 
 function listWorkingTreeFiles(directory, root = directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -33,10 +34,12 @@ export function listCmsContentFiles(ref) {
       { cwd: cmsRepoRoot, encoding: "utf8" },
     )
       .split("\n")
-      .filter(Boolean);
+      .filter((file) => newsContentFile.test(file));
   }
 
-  return listWorkingTreeFiles(path.join(cmsRepoRoot, contentRoot));
+  return listWorkingTreeFiles(path.join(cmsRepoRoot, contentRoot)).filter(
+    (file) => newsContentFile.test(file),
+  );
 }
 
 export function collectCmsLocaleProblems(files, readContent) {
