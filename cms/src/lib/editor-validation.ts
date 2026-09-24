@@ -1,10 +1,4 @@
-import {
-  type ConferenceContent,
-  type ConferenceLocale,
-  conferenceLocales,
-  parseConferenceContent,
-  validateConferenceTranslations,
-} from "../../../website/src/lib/conference-schema";
+import { supportedCmsLocales } from "./env";
 
 type EntryData = Record<string, unknown>;
 type EditorialEntry = {
@@ -24,8 +18,8 @@ export function validateEditorialPublish(entry: EditorialEntry): void {
   if (entry.collection === "posts" || entry.collection === "posts_2025") {
     const locales =
       entry.collection === "posts"
-        ? conferenceLocales
-        : conferenceLocales.filter((locale) => locale !== "ko");
+        ? supportedCmsLocales
+        : supportedCmsLocales.filter((locale) => locale !== "ko");
     const published = locales.some(
       (locale) => localizedData(entry, locale)?.status === "published",
     );
@@ -71,18 +65,5 @@ export function validateEditorialPublish(entry: EditorialEntry): void {
         }
       }
     }
-  }
-
-  if (entry.collection === "conference_2026") {
-    const contents: Partial<Record<ConferenceLocale, ConferenceContent>> = {};
-    for (const locale of conferenceLocales) {
-      const data = localizedData(entry, locale);
-      if (!data) continue;
-      contents[locale] = parseConferenceContent(
-        { ...data, slug: data.slug ?? entry.data?.slug },
-        locale,
-      );
-    }
-    validateConferenceTranslations(contents);
   }
 }

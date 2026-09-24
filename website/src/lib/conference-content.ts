@@ -1,9 +1,9 @@
-import en from '../../outstatic/content/2026-conference/settings.en.json';
-import ja from '../../outstatic/content/2026-conference/settings.ja.json';
-import ko from '../../outstatic/content/2026-conference/settings.ko.json';
-import zhHans from '../../outstatic/content/2026-conference/settings.zh-hans.json';
-import zhHant from '../../outstatic/content/2026-conference/settings.zh-hant.json';
-import zhHk from '../../outstatic/content/2026-conference/settings.zh-hk.json';
+import en from '../years/2026/data/conference/settings.en.json';
+import ja from '../years/2026/data/conference/settings.ja.json';
+import ko from '../years/2026/data/conference/settings.ko.json';
+import zhHans from '../years/2026/data/conference/settings.zh-hans.json';
+import zhHant from '../years/2026/data/conference/settings.zh-hant.json';
+import zhHk from '../years/2026/data/conference/settings.zh-hk.json';
 import {
   type ConferenceContent,
   type ConferenceLocale,

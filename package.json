@@ -15,7 +15,9 @@
     "@playwright/test": "^1.61.1"
   },
   "patchedDependencies": {
-    "decap-cms-core@3.16.0": "cms/patches/decap-cms-core@3.16.0.patch"
+    "decap-cms-core@3.16.0": "cms/patches/decap-cms-core@3.16.0.patch",
+    "decap-cms-lib-util@3.7.1": "cms/patches/decap-cms-lib-util@3.7.1.patch",
+    "decap-cms-backend-github@3.7.0": "cms/patches/decap-cms-backend-github@3.7.0.patch"
   },
   "scripts": {
     "install:apps": "mise //website:install && mise //cms:install",

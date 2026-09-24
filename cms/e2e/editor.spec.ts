@@ -11,7 +11,7 @@ test("an editor can upload a portrait, save a partial draft and change its workf
   );
   await page.goto("/admin/test/");
   await page.getByRole("button", { name: "Login", exact: true }).click();
-  await page.getByText("＋ 2026 Posts", { exact: true }).click();
+  await page.getByText("＋ 2026 News", { exact: true }).click();
   await page
     .locator('input[id^="title-field"]')
     .first()

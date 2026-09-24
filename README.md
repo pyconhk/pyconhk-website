@@ -89,13 +89,14 @@ The site uses explicit locale-prefixed routes.
 - archived year pages: `/<year>/<locale>/...`
 - `/` resolves the preferred locale from cookies and redirects accordingly
 
-Configured locales:
+Configured 2026 locales (2025 retains the first five):
 
 - `en`
 - `zh-hk`
 - `zh-hant`
 - `zh-hans`
 - `ja`
+- `ko`
 
 ## Content Model
 

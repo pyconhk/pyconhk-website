@@ -403,8 +403,10 @@ export async function fetchProgramme({
     }
     await wait((attempt + 1) * 1_000);
   }
+  // An unpublished event may deny anonymous exports (403) or have no export
+  // yet (404). Once a published snapshot exists, neither response may replace it.
   if (
-    response?.status === 404 &&
+    (response?.status === 403 || response?.status === 404) &&
     allowUnpublished &&
     baseline?.status !== 'published'
   ) {
