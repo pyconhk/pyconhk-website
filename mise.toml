@@ -34,9 +34,14 @@ run = "mise //website:dev"
 description = "Run static checks and all E2E suites"
 run = """
 mise run check-cms-content
+mise run test-deployments
 mise //...:check
 mise run e2e
 """
+
+[tasks.test-deployments]
+description = "Test website and CMS deployment environment isolation"
+run = "node --test .github/deploy/*.test.ts"
 
 [tasks.check-cms-content]
 description = "Validate locale-coded Decap content in the working tree or a git ref"
