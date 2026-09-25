@@ -122,87 +122,87 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
       </button>
     </div>
   </div>
+</header>
 
-  <!-- Mobile Drawer -->
-  <div class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200" data-mobile-nav-drawer>
-    <button
-      type="button"
-      class="absolute inset-0 bg-slate-900/60  backdrop-blur-xs opacity-0 transition-opacity duration-200"
-      aria-label={t.nav.closeMenu}
-      data-mobile-nav-close
-      data-mobile-nav-backdrop
-    ></button>
+<!-- Mobile Drawer -->
+<div class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200" data-mobile-nav-drawer>
+  <button
+    type="button"
+    class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-200"
+    aria-label={t.nav.closeMenu}
+    data-mobile-nav-close
+    data-mobile-nav-backdrop
+  ></button>
 
-    <div
-      class="fixed right-0 top-0 flex h-dvh w-84 max-w-[88vw] translate-x-full flex-col overflow-y-auto bg-conference-paper  border-l-2 border-conference-outline  p-5 text-conference-ink  shadow-conference-panel transition-transform duration-200"
-      data-mobile-nav-panel
-    >
-      <div class="flex items-center justify-between pb-4 border-b border-conference-outline/15">
-        <BrandWordmark className="w-42" />
-        <button
-          type="button"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-conference-outline  bg-conference-surface  text-conference-ink  shadow-conference-control"
-          aria-label={t.nav.closeMenu}
-          data-mobile-nav-close
-        >
-          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <title>Close Menu</title>
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-        </button>
-      </div>
+  <div
+    class="fixed right-0 top-0 flex h-dvh w-84 max-w-[88vw] translate-x-full flex-col overflow-y-auto bg-conference-paper border-l-2 border-conference-outline p-5 text-conference-ink shadow-conference-panel transition-transform duration-200"
+    data-mobile-nav-panel
+  >
+    <div class="flex items-center justify-between pb-4 border-b border-conference-outline/15">
+      <BrandWordmark className="w-42" />
+      <button
+        type="button"
+        class="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-conference-outline bg-conference-surface text-conference-ink shadow-conference-control"
+        aria-label={t.nav.closeMenu}
+        data-mobile-nav-close
+      >
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <title>Close Menu</title>
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
 
-      <!-- Mobile Navigation List -->
-      <nav class="flex flex-col gap-2 py-4 border-b border-conference-outline/15  text-sm font-bold">
-        {headerNavigation.map((item) => {
-          if (item.kind === 'link') {
-            return (
-              <a data-astro-prefetch="viewport"
-                href={item.href(locale)}
-                class="rounded-xl px-3 py-2.5 transition-colors hover:bg-conference-surface  hover:text-conference-red"
-                data-mobile-nav-link
-              >
-                {item.label[locale] ?? item.label.en}
-              </a>
-            );
-          }
-
+    <!-- Mobile Navigation List -->
+    <nav class="flex flex-col gap-2 py-4 border-b border-conference-outline/15 text-sm font-bold">
+      {headerNavigation.map((item) => {
+        if (item.kind === 'link') {
           return (
-            <details class="group/m rounded-xl border border-transparent transition-colors open:border-conference-outline/10  open:bg-conference-surface/60">
-              <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2.5 hover:bg-conference-surface  hover:text-conference-red  [&::-webkit-details-marker]:hidden">
-                <span>{item.label[locale] ?? item.label.en}</span>
-                <svg class="h-4 w-4 transition-transform duration-200 group-open/m:rotate-180" viewBox="0 0 20 20" fill="currentColor">
-                  <title>Toggle group</title>
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </summary>
-              <div class="space-y-1 pb-2 pl-4 pr-2">
-                {item.children.map((child) => (
-                  <a data-astro-prefetch="viewport"
-                    href={child.href(locale)}
-                    class="block rounded-lg px-3 py-2 text-xs text-conference-body  hover:bg-conference-surface  hover:text-conference-red"
-                    data-mobile-nav-link
-                  >
-                    {child.label[locale] ?? child.label.en}
-                  </a>
-                ))}
-              </div>
-            </details>
+            <a data-astro-prefetch="viewport"
+              href={item.href(locale)}
+              class="rounded-xl px-3 py-2.5 transition-colors hover:bg-conference-surface hover:text-conference-red"
+              data-mobile-nav-link
+            >
+              {item.label[locale] ?? item.label.en}
+            </a>
           );
-        })}
-      </nav>
+        }
 
-      <div class="py-4 space-y-4">
-        <RegistrationButton locale={locale} className="flex w-full items-center justify-center rounded-full bg-[#d71920] py-3 text-center text-sm font-bold text-white border-2 border-conference-outline  shadow-conference-card" />
+        return (
+          <details class="group/m rounded-xl border border-transparent transition-colors open:border-conference-outline/10 open:bg-conference-surface/60">
+            <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2.5 hover:bg-conference-surface hover:text-conference-red [&::-webkit-details-marker]:hidden">
+              <span>{item.label[locale] ?? item.label.en}</span>
+              <svg class="h-4 w-4 transition-transform duration-200 group-open/m:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                <title>Toggle group</title>
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </summary>
+            <div class="space-y-1 pb-2 pl-4 pr-2">
+              {item.children.map((child) => (
+                <a data-astro-prefetch="viewport"
+                  href={child.href(locale)}
+                  class="block rounded-lg px-3 py-2 text-xs text-conference-body hover:bg-conference-surface hover:text-conference-red"
+                  data-mobile-nav-link
+                >
+                  {child.label[locale] ?? child.label.en}
+                </a>
+              ))}
+            </div>
+          </details>
+        );
+      })}
+    </nav>
 
-        <div class="pt-2">
-          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-conference-muted">Language / 語言</p>
-          <LanguageSwitcher locale={locale} mobile={true} />
-        </div>
+    <div class="py-4 space-y-4">
+      <RegistrationButton locale={locale} className="flex w-full items-center justify-center rounded-full bg-[#d71920] py-3 text-center text-sm font-bold text-white border-2 border-conference-outline shadow-conference-card" />
+
+      <div class="pt-2">
+        <p class="mb-2 text-xs font-bold uppercase tracking-wider text-conference-muted">Language / 語言</p>
+        <LanguageSwitcher locale={locale} mobile={true} />
       </div>
     </div>
   </div>
-</header>
+</div>
 
 <script is:inline data-astro-rerun>
   for (const header of document.querySelectorAll('[data-site-header]')) {
@@ -212,13 +212,17 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     header.dataset.mobileNavReady = 'true';
 
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
-    const drawer = header.querySelector('[data-mobile-nav-drawer]');
-    const backdrop = header.querySelector('[data-mobile-nav-backdrop]');
-    const panel = header.querySelector('[data-mobile-nav-panel]');
-    const closeButtons = header.querySelectorAll('[data-mobile-nav-close]');
-    const links = header.querySelectorAll('[data-mobile-nav-link]');
+    const drawer = header.parentElement?.querySelector('[data-mobile-nav-drawer]') || document.querySelector('[data-mobile-nav-drawer]');
+    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
+      continue;
+    }
 
-    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+    const backdrop = drawer.querySelector('[data-mobile-nav-backdrop]');
+    const panel = drawer.querySelector('[data-mobile-nav-panel]');
+    const closeButtons = drawer.querySelectorAll('[data-mobile-nav-close]');
+    const links = drawer.querySelectorAll('[data-mobile-nav-link]');
+
+    if (!(panel instanceof HTMLElement)) {
       continue;
     }
 
