@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT（將軍澳李惠利，待定）",
+    "title": "HKIIT（將軍澳李惠利）",
     "address": "詳細地址及場地安排稍後公布。",
-    "description": "PyCon HK 2026 場地暫定 HKIIT（將軍澳李惠利），仍待確認。入口及課室安排將於此頁公布。",
-    "directions": "場地確認後將補上交通及無障礙通道資料。",
+    "description": "PyCon HK 2026 場地位於 HKIIT（將軍澳李惠利）。入口及課室安排將於此頁公布。",
+    "directions": "稍後將補上交通及無障礙通道資料。",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -136,7 +136,7 @@
         "id": "hkiit",
         "name": "香港資訊科技學院（HKIIT）",
         "kind": "organizer",
-        "logo": "/2026/organizers-volunteers/organizers/hkiit.png",
+        "logo": "/2026/organizers-volunteers/organizers/hkiit.svg",
         "url": "https://hkiit.edu.hk/",
         "description": "香港資訊科技學院由職業訓練局於 2023 年成立，提供資訊科技及數碼媒體專業教育。"
       },

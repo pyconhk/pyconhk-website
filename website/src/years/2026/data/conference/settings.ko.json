@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee) — 미정",
+    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee)",
     "address": "상세 주소와 장소 안내는 추후 공지합니다.",
-    "description": "PyCon HK 2026은 Tseung Kwan O에 있는 HKIIT(IVE Lee Wai Lee)에서 개최할 예정이나, 아직 확정되지 않았습니다. 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
-    "directions": "장소가 확정되면 교통편과 접근성 정보를 안내해 드립니다.",
+    "description": "PyCon HK 2026은 Tseung Kwan O에 있는 HKIIT(IVE Lee Wai Lee)에서 개최됩니다. 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
+    "directions": "교통편과 접근성 정보는 추후 안내해 드립니다.",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -136,7 +136,7 @@
         "id": "hkiit",
         "name": "홍콩정보기술학원(HKIIT)",
         "kind": "organizer",
-        "logo": "/2026/organizers-volunteers/organizers/hkiit.png",
+        "logo": "/2026/organizers-volunteers/organizers/hkiit.svg",
         "url": "https://hkiit.edu.hk/",
         "description": "HKIIT는 VTC가 2023년에 설립한 정보 기술 및 디지털 미디어 전문 교육 기관입니다."
       },

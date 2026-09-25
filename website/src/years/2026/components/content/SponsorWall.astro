@@ -55,7 +55,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
                 group.widthClass,
                 href && 'cursor-pointer',
               ]}>
-              {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] bg-[#fffaf2] inset-ring-1 inset-ring-[#e0dbd2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
+              {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] bg-white inset-ring-1 inset-ring-[#e0dbd2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
                 <img src={item.logo} alt="" width="320" height="180" loading="lazy"
                   class="absolute left-[7%] top-[7%] block h-[86%] w-[86%] object-contain" />
               </span>}

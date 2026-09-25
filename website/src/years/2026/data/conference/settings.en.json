@@ -16,10 +16,10 @@
   },
   "venue": {
     "status": "published",
-    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee) — to be confirmed",
+    "title": "HKIIT (Tseung Kwan O, Lee Wai Lee)",
     "address": "Detailed address and venue arrangements to be announced.",
-    "description": "HKIIT (Tseung Kwan O, Lee Wai Lee) is the proposed venue for PyCon HK 2026, subject to confirmation. Entrance and room arrangements will be announced here.",
-    "directions": "Travel directions and accessibility information will be added when the venue is confirmed.",
+    "description": "HKIIT (Tseung Kwan O, Lee Wai Lee) is the venue for PyCon HK 2026. Entrance and room arrangements will be announced here.",
+    "directions": "Travel directions and accessibility information will be added soon.",
     "wifi": "",
     "mapImage": "",
     "mapUrl": ""
@@ -136,7 +136,7 @@
         "id": "hkiit",
         "name": "Hong Kong Institute of Information Technology (HKIIT)",
         "kind": "organizer",
-        "logo": "/2026/organizers-volunteers/organizers/hkiit.png",
+        "logo": "/2026/organizers-volunteers/organizers/hkiit.svg",
         "url": "https://hkiit.edu.hk/",
         "description": "Established by VTC in 2023, HKIIT offers specialised education in information technology and digital media."
       },
