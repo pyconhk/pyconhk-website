@@ -1,4 +1,5 @@
 export const cmsEnvironmentKeys = [
+  "CMS_ENVIRONMENT",
   "CMS_PUBLIC_URL",
   "CMS_GITHUB_CLIENT_ID",
   "CMS_GITHUB_CLIENT_SECRET",
@@ -18,6 +19,18 @@ type CmsEnvironmentKey = (typeof cmsEnvironmentKeys)[number];
 export type CmsEnvironment = Readonly<
   Partial<Record<CmsEnvironmentKey, string>>
 >;
+
+export type CmsStage = "legacy" | "test" | "production";
+
+export function getCmsStage(environment: CmsEnvironment): CmsStage {
+  const stage = environment.CMS_ENVIRONMENT || "legacy";
+
+  if (stage !== "legacy" && stage !== "test" && stage !== "production") {
+    throw new Error("CMS_ENVIRONMENT must be legacy, test or production");
+  }
+
+  return stage;
+}
 
 export const supportedCmsLocales = [
   "en",

@@ -4,3 +4,6 @@ CMS_GITHUB_CLIENT_SECRET=YOUR_GITHUB_OAUTH_APP_CLIENT_SECRET
 
 # Optional. Leave unset to use the current request origin.
 # CMS_PUBLIC_URL=http://localhost:4321
+
+# The default Wrangler config targets the transitional website/cms branch.
+# Use wrangler.test.jsonc or wrangler.production.jsonc for the separate News repo.
