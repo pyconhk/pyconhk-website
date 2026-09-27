@@ -16,7 +16,7 @@ interface Props {
 const { year, locale, currentSection } = Astro.props;
 const t = getTranslations('en', 'home');
 const homeHref = buildLocalizedPath(year, locale);
-const mobileNavDrawerId = `site-mobile-nav-${year}-${locale}`;
+const mobileNavDrawerId = `site-mobile-nav-${year}-${locale.replace(/[^a-z0-9-]+/giu, '-')}`;
 ---
 
 <header class="sticky top-0 z-50 h-20 w-full px-4 backdrop-blur-sm" data-site-header>
