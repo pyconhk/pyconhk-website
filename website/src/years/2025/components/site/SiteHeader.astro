@@ -16,7 +16,8 @@ interface Props {
 const { year, locale, currentSection } = Astro.props;
 const t = getTranslations('en', 'home');
 const homeHref = buildLocalizedPath(year, locale);
-const encodedLocale = Array.from(locale, (char) =>
+const normalizedLocale = locale.toLowerCase();
+const encodedLocale = Array.from(normalizedLocale, (char) =>
   /[a-z0-9-]/iu.test(char) ? char : `-${char.codePointAt(0)?.toString(16)}-`
 ).join('');
 const mobileNavDrawerId = `site-mobile-nav-${year}-${encodedLocale}`;
