@@ -16,6 +16,7 @@ interface Props {
 const { year, locale, currentSection } = Astro.props;
 const t = getTranslations('en', 'home');
 const homeHref = buildLocalizedPath(year, locale);
+const mobileNavDrawerId = `site-mobile-nav-${year}-${locale}`;
 ---
 
 <header class="sticky top-0 z-50 h-20 w-full px-4 backdrop-blur-sm" data-site-header>
@@ -40,6 +41,7 @@ const homeHref = buildLocalizedPath(year, locale);
         class="inline-flex items-center justify-center text-slate-600"
         aria-label={t('menuLabel')}
         aria-expanded="false"
+        aria-controls={mobileNavDrawerId}
         data-mobile-nav-trigger
       >
         <Icon name="menu" className="h-7 w-7" />
@@ -48,7 +50,11 @@ const homeHref = buildLocalizedPath(year, locale);
   </div>
 </header>
 
-<div class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200" data-mobile-nav-drawer>
+<div
+  id={mobileNavDrawerId}
+  class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200"
+  data-mobile-nav-drawer
+>
   <button
     type="button"
     class="absolute inset-0 bg-slate-950/45 backdrop-blur-sm opacity-0 transition-opacity duration-200"
@@ -88,7 +94,8 @@ const homeHref = buildLocalizedPath(year, locale);
     header.dataset.mobileNavReady = 'true';
 
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
-    const drawer = header.nextElementSibling;
+    const drawerId = trigger?.getAttribute('aria-controls');
+    const drawer = drawerId ? document.getElementById(drawerId) : null;
     if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
       continue;
     }
