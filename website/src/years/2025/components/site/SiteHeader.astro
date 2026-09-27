@@ -62,6 +62,7 @@ const mobileNavDrawerId = `site-mobile-nav-${year}-${encodedLocale}`;
   aria-label={t('menuLabel')}
   aria-hidden="true"
   inert
+  data-mobile-nav-owner={mobileNavDrawerId}
   data-mobile-nav-drawer
 >
   <button
@@ -108,7 +109,10 @@ const mobileNavDrawerId = `site-mobile-nav-${year}-${encodedLocale}`;
     if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
       continue;
     }
-    if (!drawer.hasAttribute('data-mobile-nav-drawer')) {
+    if (
+      !drawer.hasAttribute('data-mobile-nav-drawer') ||
+      drawer.dataset.mobileNavOwner !== drawerId
+    ) {
       continue;
     }
 
