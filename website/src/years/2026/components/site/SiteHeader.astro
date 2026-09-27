@@ -144,8 +144,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
         aria-label={t.nav.closeMenu}
         data-mobile-nav-close
       >
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <title>Close Menu</title>
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </button>
@@ -170,8 +169,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
           <details class="group/m rounded-xl border border-transparent transition-colors open:border-conference-outline/10 open:bg-conference-surface/60">
             <summary class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2.5 hover:bg-conference-surface hover:text-conference-red [&::-webkit-details-marker]:hidden">
               <span>{item.label[locale] ?? item.label.en}</span>
-              <svg class="h-4 w-4 transition-transform duration-200 group-open/m:rotate-180" viewBox="0 0 20 20" fill="currentColor">
-                <title>Toggle group</title>
+              <svg class="h-4 w-4 transition-transform duration-200 group-open/m:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
               </svg>
             </summary>

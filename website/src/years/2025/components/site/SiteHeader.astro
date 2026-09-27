@@ -16,7 +16,10 @@ interface Props {
 const { year, locale, currentSection } = Astro.props;
 const t = getTranslations('en', 'home');
 const homeHref = buildLocalizedPath(year, locale);
-const mobileNavDrawerId = `site-mobile-nav-${year}-${locale.replace(/[^a-z0-9-]+/giu, '-')}`;
+const encodedLocale = Array.from(locale, (char) =>
+  /[a-z0-9-]/iu.test(char) ? char : `-${char.codePointAt(0)?.toString(16)}-`
+).join('');
+const mobileNavDrawerId = `site-mobile-nav-${year}-${encodedLocale}`;
 ---
 
 <header class="sticky top-0 z-50 h-20 w-full px-4 backdrop-blur-sm" data-site-header>
