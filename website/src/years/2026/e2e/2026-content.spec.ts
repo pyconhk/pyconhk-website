@@ -298,9 +298,9 @@ for (const width of [390, 1440]) {
     const header = page.locator('[data-site-header]');
     if (width < 768) {
       await header.locator('[data-mobile-nav-trigger]').click();
-      await header
-        .locator('[data-mobile-nav-panel] [data-locale-switch="zh-hant"]')
-        .click();
+      const panel = page.locator('[data-mobile-nav-panel]');
+      await expect(panel).toBeInViewport();
+      await panel.locator('[data-locale-switch="zh-hant"]').click();
     } else {
       await header.locator('summary').first().click();
       await header.locator('[data-locale-switch="zh-hant"]').first().click();

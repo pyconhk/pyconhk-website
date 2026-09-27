@@ -122,13 +122,15 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
       </button>
     </div>
   </div>
-  <!-- Mobile Drawer -->
-  <div
-    class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200"
-    aria-hidden="true"
-    inert
-    data-mobile-nav-drawer
-  >
+</header>
+
+<!-- Keep the drawer outside the backdrop-filtered header so its backdrop covers the viewport. -->
+<div
+  class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200"
+  aria-hidden="true"
+  inert
+  data-mobile-nav-drawer
+>
   <button
     type="button"
     class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-200"
@@ -204,7 +206,6 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     </div>
   </div>
 </div>
-</header>
 
 <script is:inline data-astro-rerun>
   for (const header of document.querySelectorAll('[data-site-header]')) {
@@ -214,7 +215,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     header.dataset.mobileNavReady = 'true';
 
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
-    const drawer = header.querySelector(':scope > [data-mobile-nav-drawer]');
+    const drawer = header.nextElementSibling;
     if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
       continue;
     }

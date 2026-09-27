@@ -1,6 +1,33 @@
 import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
+test('mobile menu backdrop covers the viewport before and after scrolling', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/2026/en/');
+  const trigger = page.locator('[data-mobile-nav-trigger]');
+  const backdrop = page.locator('[data-mobile-nav-backdrop]');
+
+  for (const scrollY of [0, 700]) {
+    await page.evaluate((top) => window.scrollTo(0, top), scrollY);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(scrollY);
+    await trigger.click();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(backdrop).toBeVisible();
+    await expect
+      .poll(() => backdrop.boundingBox())
+      .toEqual({
+        x: 0,
+        y: 0,
+        width: 390,
+        height: 844,
+      });
+    await backdrop.click({ position: { x: 10, y: 800 } });
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  }
+});
+
 for (const locale of ['ja', 'ko']) {
   test(`${locale} navigation and ticket controls stay within the viewport`, async ({
     page,

@@ -39,9 +39,9 @@ async function selectLocale(page: Page, locale: string, subpath = '') {
   const header = page.locator('[data-site-header]');
   if (await header.locator('[data-mobile-nav-trigger]').isVisible()) {
     await header.locator('[data-mobile-nav-trigger]').click();
-    await header
-      .locator(`[data-mobile-nav-panel] [data-locale-switch="${locale}"]`)
-      .click();
+    const panel = page.locator('[data-mobile-nav-panel]');
+    await expect(panel).toBeInViewport();
+    await panel.locator(`[data-locale-switch="${locale}"]`).click();
   } else {
     await header.locator('summary').first().click();
     await header.locator(`[data-locale-switch="${locale}"]`).first().click();
