@@ -88,8 +88,11 @@ const homeHref = buildLocalizedPath(year, locale);
     header.dataset.mobileNavReady = 'true';
 
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
-    const drawer = header.parentElement?.querySelector('[data-mobile-nav-drawer]') || document.querySelector('[data-mobile-nav-drawer]');
+    const drawer = header.nextElementSibling;
     if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
+      continue;
+    }
+    if (!drawer.hasAttribute('data-mobile-nav-drawer')) {
       continue;
     }
 

@@ -211,8 +211,11 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     header.dataset.mobileNavReady = 'true';
 
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
-    const drawer = header.parentElement?.querySelector('[data-mobile-nav-drawer]') || document.querySelector('[data-mobile-nav-drawer]');
+    const drawer = header.querySelector(':scope > [data-mobile-nav-drawer]');
     if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
+      continue;
+    }
+    if (!drawer.hasAttribute('data-mobile-nav-drawer')) {
       continue;
     }
 
