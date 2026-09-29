@@ -67,8 +67,8 @@ jobs:
     env:
       CMS_BUILD_PROFILE: ${{ needs.select.outputs.target }}
       CMS_E2E_PROFILE: ${{ needs.select.outputs.target }}
-      CMS_DEPLOY_ORIGIN: ${{ needs.select.outputs.target == 'test' && 'https://pyconhk-cms-test.website-pyconhk.workers.dev' || vars.CMS_PRODUCTION_ORIGIN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ needs.select.outputs.target == 'test' && '043801e2f5b9cf2685593bd9098e98b1' || '364d9bd5080fe5ed0c756c60627a4420' }}
+      CMS_DEPLOY_ORIGIN: ${{ needs.select.outputs.target == 'test' && 'https://pyconhk-cms-test.website-pyconhk.workers.dev' || vars.CMS_PRODUCTION_ORIGIN || 'https://pyconhk-cms.pages.dev' }}
+      CLOUDFLARE_ACCOUNT_ID: '043801e2f5b9cf2685593bd9098e98b1'
       FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
     steps:
       - uses: actions/checkout@v5
@@ -95,6 +95,7 @@ jobs:
       - name: Check CMS code and local Worker
         run: |
           mise run //cms:check
+          mise run test-deployments
           mise run //cms:e2e
       - name: Deploy test CMS Worker
         if: needs.select.outputs.target == 'test'
@@ -108,10 +109,12 @@ jobs:
           args=()
           if [ "$FORCE" = true ]; then args+=(--force); fi
           mise exec -- node .github/deploy/cms.ts "${args[@]}"
-      - name: Deploy production CMS Worker
+      - name: Deploy production CMS Worker and Pages gateway
         if: needs.select.outputs.target == 'production'
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_CMS_PRODUCTION_API_TOKEN }}
+          # Both Workers belong to Website PyCon HK; the existing account token has a historical TEST name.
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_CMS_PRODUCTION_API_TOKEN || secrets.CLOUDFLARE_CMS_TEST_API_TOKEN }}
+          CLOUDFLARE_PAGES_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CMS_GITHUB_CLIENT_ID: ${{ secrets.CMS_GITHUB_CLIENT_ID_PRODUCTION }}
           CMS_GITHUB_CLIENT_SECRET: ${{ secrets.CMS_GITHUB_CLIENT_SECRET_PRODUCTION }}
         run: |

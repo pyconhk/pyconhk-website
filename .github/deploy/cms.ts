@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,11 +21,39 @@ const profiles = {
     contentBranch: "test",
   },
   production: {
-    origin: "",
+    origin: "https://pyconhk-cms.website-pyconhk.workers.dev",
     contentRepo: "pyconhk/pyconhk-news",
     contentBranch: "main",
   },
 } as const;
+
+const websiteAccount = "043801e2f5b9cf2685593bd9098e98b1";
+const gatewayOrigin = "https://pyconhk-cms.pages.dev";
+
+export async function ensureGatewayProject(request = fetch) {
+  const token = process.env.CLOUDFLARE_PAGES_API_TOKEN;
+  assert.ok(token, "CLOUDFLARE_PAGES_API_TOKEN is required for the production CMS gateway");
+  const endpoint = `https://api.cloudflare.com/client/v4/accounts/${websiteAccount}/pages/projects`;
+  const options = { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, signal: AbortSignal.timeout(20_000) };
+  const existing = await request(`${endpoint}/pyconhk-cms`, options);
+  if (existing.ok) return;
+  assert.equal(existing.status, 404, `Cannot inspect CMS Pages project: ${existing.status}`);
+  const created = await request(endpoint, { ...options, method: "POST", body: JSON.stringify({ name: "pyconhk-cms", production_branch: "main" }) });
+  assert.ok(created.ok, `Cannot create CMS Pages project: ${created.status}`);
+}
+
+async function readGatewayManifest() {
+  try {
+    const response = await fetch(`${gatewayOrigin}/cms-gateway-manifest.json?deployment-check=${Date.now()}`, { signal: AbortSignal.timeout(20_000), cache: "no-store" });
+    if ([404, 502, 503].includes(response.status)) return null;
+    assert.ok(response.ok, `Cannot read CMS gateway manifest: ${response.status}`);
+    return response.headers.get("content-type")?.includes("application/json") ? response.json() : null;
+  } catch (error) {
+    // A newly created Pages project may not have a resolving hostname yet.
+    if (error instanceof TypeError && (error.cause as NodeJS.ErrnoException)?.code === "ENOTFOUND") return null;
+    throw error;
+  }
+}
 
 export async function deployCms({
   root = fileURLToPath(new URL("../..", import.meta.url)),
@@ -33,18 +61,20 @@ export async function deployCms({
   origin = process.env.CMS_DEPLOY_ORIGIN,
   force = false,
   readManifest = readDeploymentManifest,
+  readGateway = readGatewayManifest,
+  ensureGateway = ensureGatewayProject,
   run = execFileSync,
 } = {}) {
   assert.ok(profile in profiles, "CMS_BUILD_PROFILE must be legacy, test or production");
   const target = profiles[profile as keyof typeof profiles];
-  origin ||= target.origin;
+  origin ||= profile === "production" ? gatewayOrigin : target.origin;
   assert.ok(origin, `CMS_DEPLOY_ORIGIN is required for ${profile}`);
   assert.equal(new URL(origin).protocol, "https:");
   if (profile === "production") {
     assert.equal(
       process.env.CLOUDFLARE_ACCOUNT_ID,
-      "364d9bd5080fe5ed0c756c60627a4420",
-      "Production CMS must deploy to the Cloudflare account that owns cms.pycon.hk",
+      websiteAccount,
+      "Production CMS must deploy to the Website PyCon HK Cloudflare account",
     );
   } else if (profile === "test" && process.env.CLOUDFLARE_ACCOUNT_ID) {
     assert.equal(
@@ -58,7 +88,8 @@ export async function deployCms({
     manifest?.app === "cms" && manifest.sourceHash === sourceHash &&
     manifest.environment === profile && manifest.contentRepo === target.contentRepo &&
     manifest.contentBranch === target.contentBranch;
-  const previous = await readManifest(origin);
+  const workerOrigin = profile === "production" ? target.origin : origin;
+  const previous = await readManifest(workerOrigin);
   if (!force && matchesTarget(previous)) {
     console.log("CMS inputs are unchanged; build and deployment skipped.");
   } else {
@@ -95,7 +126,7 @@ export async function deployCms({
     }
     let verified = false;
     for (let attempt = 0; attempt < 6; attempt += 1) {
-      const manifest = await readManifest(origin);
+      const manifest = await readManifest(workerOrigin);
       if (matchesTarget(manifest)) {
         verified = true;
         break;
@@ -106,7 +137,37 @@ export async function deployCms({
       verified,
       "CMS deployment did not publish the expected source hash",
     );
-    console.log(`Verified CMS deployment at ${origin}.`);
+    console.log(`Verified CMS Worker at ${workerOrigin}.`);
+  }
+  if (profile === "production") {
+    await ensureGateway();
+    const matchesGateway = (manifest: Record<string, unknown> | null) =>
+      manifest?.app === "cms-gateway" && manifest.sourceHash === sourceHash &&
+      manifest.contentRepo === target.contentRepo && manifest.contentBranch === target.contentBranch;
+    if (!force && matchesGateway(await readGateway())) {
+      console.log("CMS gateway inputs are unchanged; upload skipped.");
+    } else {
+      const staging = mkdtempSync(path.join(tmpdir(), "pyconhk-cms-gateway-"));
+      try {
+        cpSync(path.join(root, "cms/gateway/wrangler.jsonc"), path.join(staging, "wrangler.jsonc"));
+        cpSync(path.join(root, "cms/gateway/public"), path.join(staging, "dist"), { recursive: true });
+        writeFileSync(path.join(staging, "dist/cms-gateway-manifest.json"), JSON.stringify({ app: "cms-gateway", sourceHash, contentRepo: target.contentRepo, contentBranch: target.contentBranch }));
+        const env = { ...process.env, CLOUDFLARE_API_TOKEN: process.env.CLOUDFLARE_PAGES_API_TOKEN };
+        delete env.CMS_GITHUB_CLIENT_ID;
+        delete env.CMS_GITHUB_CLIENT_SECRET;
+        run(process.execPath, [path.join(root, "cms/node_modules/wrangler/bin/wrangler.js"), "pages", "deploy", "dist", "--project-name", "pyconhk-cms", "--branch", "main"], { cwd: staging, stdio: "inherit", env });
+      } finally {
+        rmSync(staging, { recursive: true, force: true });
+      }
+      let verified = false;
+      for (let attempt = 0; attempt < 6; attempt += 1) {
+        if (matchesGateway(await readGateway())) { verified = true; break; }
+        await new Promise((resolve) => setTimeout(resolve, 5_000));
+      }
+      assert.ok(verified, "CMS gateway did not publish the expected source hash");
+    }
+    assert.ok(matchesTarget(await readManifest(origin)), "CMS gateway must forward to the expected production Worker");
+    console.log(`Verified production CMS through ${origin}.`);
   }
 }
 

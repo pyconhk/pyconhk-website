@@ -27,10 +27,11 @@ The Worker exposes:
 The real test CMS uses `wrangler.test.jsonc`, Worker `pyconhk-cms-test` and News
 branch `test`. Production uses `wrangler.production.jsonc`, Worker `pyconhk-cms`
 and News branch `main`. Their OAuth applications, Worker secrets and origins must
-be separate. The production config intentionally leaves `account_id` unset:
-`cms.pycon.hk` is in a different Cloudflare account from the existing Worker.
-Deployment must supply the verified zone-owning `CLOUDFLARE_ACCOUNT_ID`; do not
-deploy it with the transitional Website account.
+be separate. Both Workers belong to the Website PyCon HK Cloudflare account
+`043801e2f5b9cf2685593bd9098e98b1`. Production has a Pages gateway named
+`pyconhk-cms` in the same account. Its `CMS` service binding forwards requests
+unchanged to the production Worker, including OAuth cookies and asset requests.
+The `pycon.hk` DNS zone stays in OSHK; only its CMS CNAME is edited in the console.
 
 ## Content Model
 
@@ -141,8 +142,9 @@ releases, including profile-specific source-hash comparison and hosted manifest
 verification. The transitional `legacy` profile also runs its existing CMS
 content release gate. News content in the separate repository is validated by
 its own CI and by the website build before deployment.
-The existing Pages-only `CLOUDFLARE_API_TOKEN` cannot deploy Workers. Test and
-production need distinct deployment credentials and GitHub OAuth callbacks.
+The existing Pages-only `CLOUDFLARE_API_TOKEN` deploys the gateway. Worker releases
+use the Website account's Worker Edit token. Test and production have separate
+GitHub OAuth applications and secrets.
 
 Switch Chrome to the `website pyconhk` profile, then create and activate the
 dedicated Wrangler profile. Do not create or share a Global API key:
@@ -156,8 +158,8 @@ mise exec -- bun x wrangler whoami
 
 `wrangler.jsonc` pins the Website PyCon HK Cloudflare account ID for the
 transitional Worker. `wrangler.test.jsonc` pins that account for the test Worker.
-The production account must be supplied explicitly after verifying ownership of
-the `cms.pycon.hk` zone. Validate the two Worker bundles without deploying:
+`wrangler.production.jsonc` pins the same Website account. Validate the two
+Worker bundles without deploying:
 
 ```bash
 cd cms
@@ -206,12 +208,18 @@ skips build/upload when unchanged. The first release with no manifest deploys no
 The legacy default origin is `https://pyconhk-cms.website-pyconhk.workers.dev`.
 For a test release, set `CMS_BUILD_PROFILE=test`; its default origin is
 `https://pyconhk-cms-test.website-pyconhk.workers.dev`. For production, set
-`CMS_BUILD_PROFILE=production`, the verified OSHK `CLOUDFLARE_ACCOUNT_ID`, and
-the exact `CMS_DEPLOY_ORIGIN`. Both new profiles require their own
+`CMS_BUILD_PROFILE=production` and the Website `CLOUDFLARE_ACCOUNT_ID`.
+`CMS_DEPLOY_ORIGIN` defaults to `https://pyconhk-cms.pages.dev`; after DNS cutover
+use `https://cms.pycon.hk`. Both new profiles require their own
 `CMS_GITHUB_CLIENT_ID` and `CMS_GITHUB_CLIENT_SECRET` for a changed release.
 The deploy script rejects another production
 account ID and verifies the hosted repo, branch and environment as well as the
-source hash.
+source hash. Production verifies the Worker directly first, then deploys and
+verifies the Pages gateway independently. A failed gateway upload can be retried
+without rebuilding an already matching Worker. Pages is staged outside `cms/`
+to avoid Astro's generated Wrangler config; only the gateway handler, 404 and
+deployment marker are uploaded. It holds no OAuth credentials. Preview gateways
+have no production service binding and return 503.
 Use `mise exec -- bun run deploy --force` from `cms/` to force a release (including
 after external variable/secret changes). Website content edits do not redeploy the CMS.
 When a release is needed, Wrangler requires both OAuth secrets, and the hosted
@@ -226,14 +234,18 @@ repository credentials/configuration:
 
 - `CLOUDFLARE_CMS_TEST_API_TOKEN`: Worker Edit token scoped to the Website
   PyCon HK account.
-- `CLOUDFLARE_CMS_PRODUCTION_API_TOKEN`: Worker Edit token scoped to the OSHK
-  account that owns `cms.pycon.hk`.
+- `CLOUDFLARE_CMS_PRODUCTION_API_TOKEN`: optional separate Worker Edit token
+  scoped to Website PyCon HK. When absent, production uses the existing
+  `CLOUDFLARE_CMS_TEST_API_TOKEN`, whose account-wide scope already covers both
+  Workers despite its historical name.
+- `CLOUDFLARE_API_TOKEN`: existing Website account Pages Edit token, passed to
+  the deployment script as `CLOUDFLARE_PAGES_API_TOKEN`.
 - `CMS_GITHUB_CLIENT_ID_TEST` and `CMS_GITHUB_CLIENT_SECRET_TEST`: test OAuth
   application credentials.
 - `CMS_GITHUB_CLIENT_ID_PRODUCTION` and `CMS_GITHUB_CLIENT_SECRET_PRODUCTION`:
   production OAuth application credentials.
-- `CMS_PRODUCTION_ORIGIN`: exact HTTPS origin of the production Worker, initially
-  its `workers.dev` address and later `https://cms.pycon.hk`.
+- `CMS_PRODUCTION_ORIGIN`: optional hosted verification origin, initially
+  `https://pyconhk-cms.pages.dev` and later `https://cms.pycon.hk`.
 
 The workflow checks the selected News branch and local CMS runtime, then deploys
 and verifies the hosted Worker. The two CMS deploys have independent concurrency
@@ -255,15 +267,19 @@ for promotion from `test` before relying on this role boundary.
 
 ## Production Cutover
 
-Do not attach `cms.pycon.hk` until the `workers.dev` deployment passes the HTTP
-E2E checks, browser config load, real OAuth, image upload, and test commit checks.
-
-The existing Vercel DNS record for `cms.pycon.hk` must be removed before adding
-the Worker custom domain. After the custom domain is attached:
+First verify the Worker and Pages gateway with the hosted CMS checks. This is a
+Pages custom domain, not a Worker custom domain: the DNS zone and deployment
+account are separate. Associate `cms.pycon.hk` in Website PyCon HK → Pages →
+`pyconhk-cms` → Custom domains. Then, in the OSHK DNS console, edit only the
+existing `cms` CNAME to `pyconhk-cms.pages.dev` (DNS only). The previous Vercel
+target is `a0a85bda7ab07c4d.vercel-dns-017.com`; record it for rollback. Do not
+change nameservers, the website domains, or the test CMS record. After DNS/TLS
+activation:
 
 1. Set the GitHub OAuth app homepage and callback to `https://cms.pycon.hk` and
    `https://cms.pycon.hk/api/decap/callback`.
 2. Run the hosted CMS tests against `https://cms.pycon.hk`.
+   Set `CMS_PRODUCTION_ORIGIN=https://cms.pycon.hk` for future CI verification.
 3. Complete one real edit and confirm the locale-coded files land on News
    branch `main`, while test edits remain on News branch `test`.
 4. Confirm each website build consumes the matching News branch at a recorded
