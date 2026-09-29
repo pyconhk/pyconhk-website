@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
-import { deployCms, ensureGatewayProject } from "./cms.ts";
+import { deployCms, ensureGatewayProject, readGatewayManifest, readGatewayWorkerManifest } from "./cms.ts";
 import { deploymentSourceHash } from "./source.ts";
 
 function setEnvironment(t: { after: (fn: () => void) => void }, name: string, value: string) {
@@ -102,6 +102,7 @@ test("unchanged production Worker still deploys a missing gateway and retries a 
   const options = {
     root, profile: "production", origin: "https://pyconhk-cms.pages.dev", ensureGateway: async () => {},
     readManifest: async (url: string) => { origins.push(url); return manifest; },
+    readGatewayWorker: async (url: string) => { origins.push(url); return manifest; },
     readGateway: async () => uploaded ? marker : null,
     run: (_command: string, args: readonly string[], opts: any) => {
       assert.ok(args.includes("pages"));
@@ -141,4 +142,103 @@ test("Pages project creation only follows a confirmed 404", async (t) => {
   let attempts = 0;
   await assert.rejects(ensureGatewayProject((async () => { attempts++; return new Response(null, { status: 403 }); }) as typeof fetch), /Cannot inspect/);
   assert.equal(attempts, 1);
+});
+
+test("gateway readers tolerate propagation responses but reject authorization and configuration failures", async () => {
+  const origin = "https://cms.pycon.hk";
+  const readers = [
+    { read: (request: typeof fetch) => readGatewayManifest(request), path: "/cms-gateway-manifest.json" },
+    { read: (request: typeof fetch) => readGatewayWorkerManifest(origin, request), path: "/deployment-manifest.json" },
+  ];
+  for (const { read, path } of readers) {
+    for (const status of [404, 500, 502, 503, 504, 520, 521, 522, 523, 524]) {
+      const request = (async (url, options) => {
+        assert.equal(new URL(String(url)).pathname, path);
+        assert.ok(new URL(String(url)).searchParams.has("deployment-check"));
+        assert.equal(options?.cache, "no-store");
+        assert.ok(options?.signal);
+        return new Response(null, { status });
+      }) as typeof fetch;
+      assert.equal(await read(request), null, `${path}: ${status} must remain pending`);
+    }
+    for (const status of [401, 403, 501, 525, 526]) {
+      await assert.rejects(read((async () => new Response(null, { status })) as typeof fetch), new RegExp(`manifest: ${status}`));
+    }
+    const wrongTarget = { app: "cms", contentBranch: "test", sourceHash: "old" };
+    assert.deepEqual(await read((async () => Response.json(wrongTarget)) as typeof fetch), wrongTarget);
+  }
+});
+
+test("production verification retries temporary Pages and service-binding failures without reuploading", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
+  const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  const marker = { ...manifest, app: "cms-gateway" };
+  const markerResponses = [new Response(null, { status: 404 }), new Response(null, { status: 522 }), new Response(null, { status: 503 }), Response.json(marker)];
+  const workerResponses = [new Response(null, { status: 522 }), new Response(null, { status: 504 }), Response.json(manifest)];
+  let uploads = 0;
+  const waits: number[] = [];
+  await deployCms({
+    root, profile: "production", origin: "https://cms.pycon.hk", ensureGateway: async () => {},
+    readManifest: async () => manifest,
+    readGateway: () => readGatewayManifest((async () => markerResponses.shift()!) as typeof fetch),
+    readGatewayWorker: (url) => {
+      assert.equal(url, "https://cms.pycon.hk");
+      return readGatewayWorkerManifest(url, (async () => workerResponses.shift()!) as typeof fetch);
+    },
+    run: () => { uploads++; return Buffer.alloc(0); },
+    wait: async (milliseconds) => { waits.push(milliseconds); },
+  });
+  assert.equal(uploads, 1);
+  assert.equal(markerResponses.length, 0);
+  assert.equal(workerResponses.length, 0);
+  assert.deepEqual(waits, [5_000, 5_000, 5_000, 5_000]);
+});
+
+test("gateway verification stops after six checks for persistent outages or wrong targets", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
+  const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  const marker = { ...manifest, app: "cms-gateway" };
+  for (const stage of ["marker", "Worker"]) {
+    for (const failure of ["outage", "wrong app", "wrong branch", "wrong hash"]) {
+      let reads = 0;
+      let waits = 0;
+      const request = (async () => {
+        reads++;
+        if (failure === "outage") return new Response(null, { status: 522 });
+        const result = { ...(stage === "marker" ? marker : manifest) };
+        if (failure === "wrong app") result.app = "unrelated";
+        if (failure === "wrong branch") result.contentBranch = "test";
+        if (failure === "wrong hash") result.sourceHash = "stale";
+        return Response.json(result);
+      }) as typeof fetch;
+      await assert.rejects(deployCms({
+        root, profile: "production", origin: "https://cms.pycon.hk", ensureGateway: async () => {},
+        readManifest: async () => manifest,
+        readGateway: stage === "marker" ? () => readGatewayManifest(request) : async () => marker,
+        readGatewayWorker: (url) => readGatewayWorkerManifest(url, request),
+        run: () => Buffer.alloc(0),
+        wait: async () => { waits++; },
+      }), /after 6 readiness checks/, `${stage}: ${failure}`);
+      assert.equal(reads, stage === "marker" ? 7 : 6, `${stage}: initial check plus bounded verification`);
+      assert.equal(waits, 5, "do not sleep after the final failed check");
+    }
+  }
+});
+
+test("public CMS authorization failures stop verification immediately", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
+  const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  let reads = 0;
+  await assert.rejects(deployCms({
+    root, profile: "production", origin: "https://cms.pycon.hk", ensureGateway: async () => {},
+    readManifest: async () => manifest,
+    readGateway: async () => ({ ...manifest, app: "cms-gateway" }),
+    readGatewayWorker: (url) => readGatewayWorkerManifest(url, (async () => { reads++; return new Response(null, { status: 403 }); }) as typeof fetch),
+    run: () => { throw new Error("must not upload"); },
+    wait: async () => { throw new Error("must not retry authorization failures"); },
+  }), /manifest: 403/);
+  assert.equal(reads, 1);
 });
