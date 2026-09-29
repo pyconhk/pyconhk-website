@@ -1,0 +1,13 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "pyconhk-cms",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-07-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "services": [{ "binding": "CMS", "service": "pyconhk-cms" }],
+  "env": {
+    "preview": {
+      "services": []
+    }
+  }
+}
