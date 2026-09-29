@@ -17,16 +17,16 @@
   "venue": {
     "status": "published",
     "title": "HKIIT (Tseung Kwan O, Lee Wai Lee)",
-    "address": "Detailed address and venue arrangements to be announced.",
-    "description": "HKIIT (Tseung Kwan O, Lee Wai Lee) is the venue for PyCon HK 2026. Entrance and room arrangements will be announced here.",
-    "directions": "Travel directions and accessibility information will be added soon.",
+    "address": "3 King Ling Road, Tseung Kwan O, New Territories, Hong Kong",
+    "description": "The Hong Kong Institute of Information Technology (HKIIT) shares the IVE (Lee Wai Lee) and Hong Kong Design Institute (HKDI) campus. Conference entrance and room arrangements will be announced here.",
+    "directions": "Take the MTR to Tiu Keng Leng Station and leave via Exit A2. Walk along King Ling Road to the campus; the walk takes about two minutes.",
     "wifi": "",
     "mapImage": "",
-    "mapUrl": ""
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=HKDI%2C%203%20King%20Ling%20Road%2C%20Tseung%20Kwan%20O%2C%20Hong%20Kong"
   },
   "catering": {
-    "status": "draft",
-    "intro": "",
+    "status": "published",
+    "intro": "Choi Ming Shopping Centre and Metro Town are nearby options for meals. You can find Hong Kong-style cafés, fast food, noodle shops, Japanese food and chain restaurants in the area.",
     "items": []
   },
   "sprint": {
@@ -245,7 +245,7 @@
         "id": "organizations-15"
       },
       {
-        "name": "Product Tank Hong Kong",
+        "name": "ProductTank Hong Kong",
         "logo": "/2026/supporting-organizations/ProductTank.webp",
         "url": "https://www.meetup.com/producttank-hong-kong/",
         "description": "Informal community meetups for product managers, UX designers, and tech leaders to share insights and build connections.",
