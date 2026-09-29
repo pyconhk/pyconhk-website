@@ -42,10 +42,13 @@ export async function ensureGatewayProject(request = fetch) {
   assert.ok(created.ok, `Cannot create CMS Pages project: ${created.status}`);
 }
 
-async function readGatewayManifest() {
+async function readGatewayJson(url: URL, request = fetch) {
+  url.searchParams.set("deployment-check", Date.now().toString());
   try {
-    const response = await fetch(`${gatewayOrigin}/cms-gateway-manifest.json?deployment-check=${Date.now()}`, { signal: AbortSignal.timeout(20_000), cache: "no-store" });
-    if ([404, 502, 503].includes(response.status)) return null;
+    const response = await request(url, { signal: AbortSignal.timeout(20_000), cache: "no-store" });
+    // New Pages aliases and their service bindings can be temporarily unavailable
+    // after upload. Authentication and TLS configuration errors remain fatal.
+    if ([404, 500, 502, 503, 504, 520, 521, 522, 523, 524].includes(response.status)) return null;
     assert.ok(response.ok, `Cannot read CMS gateway manifest: ${response.status}`);
     return response.headers.get("content-type")?.includes("application/json") ? response.json() : null;
   } catch (error) {
@@ -55,6 +58,28 @@ async function readGatewayManifest() {
   }
 }
 
+export async function readGatewayManifest(request = fetch) {
+  return readGatewayJson(new URL("/cms-gateway-manifest.json", gatewayOrigin), request);
+}
+
+export async function readGatewayWorkerManifest(origin: string, request = fetch) {
+  return readGatewayJson(new URL("/deployment-manifest.json", origin), request);
+}
+
+async function verifyGateway(
+  read: () => Promise<Record<string, unknown> | null>,
+  matches: (manifest: Record<string, unknown> | null) => boolean,
+  message: string,
+  wait: (milliseconds: number) => Promise<void>,
+) {
+  const attempts = 6;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    if (matches(await read())) return;
+    if (attempt + 1 < attempts) await wait(5_000);
+  }
+  assert.fail(`${message} after ${attempts} readiness checks`);
+}
+
 export async function deployCms({
   root = fileURLToPath(new URL("../..", import.meta.url)),
   profile = process.env.CMS_BUILD_PROFILE || "legacy",
@@ -62,7 +87,9 @@ export async function deployCms({
   force = false,
   readManifest = readDeploymentManifest,
   readGateway = readGatewayManifest,
+  readGatewayWorker = readGatewayWorkerManifest,
   ensureGateway = ensureGatewayProject,
+  wait = (milliseconds: number) => new Promise<void>((resolve) => setTimeout(resolve, milliseconds)),
   run = execFileSync,
 } = {}) {
   assert.ok(profile in profiles, "CMS_BUILD_PROFILE must be legacy, test or production");
@@ -159,14 +186,9 @@ export async function deployCms({
       } finally {
         rmSync(staging, { recursive: true, force: true });
       }
-      let verified = false;
-      for (let attempt = 0; attempt < 6; attempt += 1) {
-        if (matchesGateway(await readGateway())) { verified = true; break; }
-        await new Promise((resolve) => setTimeout(resolve, 5_000));
-      }
-      assert.ok(verified, "CMS gateway did not publish the expected source hash");
+      await verifyGateway(readGateway, matchesGateway, "CMS gateway did not publish the expected source hash", wait);
     }
-    assert.ok(matchesTarget(await readManifest(origin)), "CMS gateway must forward to the expected production Worker");
+    await verifyGateway(() => readGatewayWorker(origin), matchesTarget, "CMS gateway must forward to the expected production Worker", wait);
     console.log(`Verified production CMS through ${origin}.`);
   }
 }
