@@ -17,16 +17,16 @@
   "venue": {
     "status": "published",
     "title": "HKIIT（将军澳李惠利）",
-    "address": "详细地址及场地安排稍后公布。",
-    "description": "PyCon HK 2026 场地位于 HKIIT（将军澳李惠利）。入口及教室安排将在此页公布。",
-    "directions": "稍后将补充交通及无障碍通道信息。",
+    "address": "香港新界将军澳景岭路 3 号",
+    "description": "香港资讯科技学院（HKIIT）与 IVE（李惠利）及香港知专设计学院（HKDI）共用校园。大会入口及教室安排将在此页公布。",
+    "directions": "乘坐港铁至调景岭站，从 A2 出口出站，再沿景岭路步行约两分钟即可到达校园。",
     "wifi": "",
     "mapImage": "",
-    "mapUrl": ""
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=HKDI%2C%203%20King%20Ling%20Road%2C%20Tseung%20Kwan%20O%2C%20Hong%20Kong"
   },
   "catering": {
-    "status": "draft",
-    "intro": "",
+    "status": "published",
+    "intro": "附近的彩明商场及都会駅提供多种餐饮选择，包括茶餐厅、快餐店、面馆、日式餐厅及连锁餐厅，方便参会者在用餐时间前往。",
     "items": []
   },
   "sprint": {

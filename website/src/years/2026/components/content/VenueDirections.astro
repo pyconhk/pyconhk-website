@@ -1,0 +1,52 @@
+---
+import { Icon } from 'astro-icon/components';
+import { busRoutes, fareSaverUrl, visitorGuide } from '@/years/2026/data/visitor-guide';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; directions: string; }
+const { locale, directions } = Astro.props;
+const copy = visitorGuide[locale];
+---
+
+<div data-venue-directions class="space-y-8 border-t border-conference-outline/25 pt-6">
+  <section aria-labelledby="mtr-heading" class="space-y-3">
+    <h2 id="mtr-heading" class="flex items-center gap-3 text-xl font-bold text-conference-ink">
+      <Icon name="fa6-solid:train-subway" class="size-5 shrink-0 text-conference-blue" aria-hidden="true" />
+      {copy.mtrTitle}
+    </h2>
+    <p>{directions}</p>
+  </section>
+
+  <section aria-labelledby="bus-heading" class="space-y-4">
+    <h2 id="bus-heading" class="text-xl font-bold text-conference-ink">{copy.busTitle}</h2>
+    <p>{copy.busIntro}</p>
+    <ul class="divide-y divide-conference-outline/25 border-y border-conference-outline/25">
+      {busRoutes.map((route) => (
+        <li data-bus-route={route.id} class="grid gap-4 py-5 sm:grid-cols-[6rem_1fr] sm:gap-6">
+          <a href={route.url} target="_blank" rel="noopener noreferrer" aria-label={`${copy.routeLabel} ${route.id} · ${route.operator}`} class="flex min-h-11 w-fit items-center gap-2 self-start rounded-lg border-2 border-conference-outline px-3 py-2 font-bold text-conference-blue underline decoration-1 underline-offset-4 hover:bg-conference-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue sm:flex-col sm:items-start sm:gap-0">
+            <span class="text-lg">{route.id}</span>
+            <span lang="en" class="text-xs">{route.operator}</span>
+          </a>
+          <dl class="grid min-w-0 gap-3 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] md:gap-6">
+            <div><dt class="text-sm font-bold text-conference-blue">{copy.journeyLabel}</dt><dd>{copy.routes[route.id].journey}</dd></div>
+            <div><dt class="text-sm font-bold text-conference-blue">{copy.stopLabel}</dt><dd>{copy.routes[route.id].stop}</dd></div>
+          </dl>
+        </li>
+      ))}
+    </ul>
+    <p data-bus-service-note class="text-sm">{copy.serviceNote}</p>
+    <aside aria-labelledby="fare-saver-heading" class="space-y-3 rounded-xl border border-conference-outline/30 bg-conference-paper p-4 sm:p-5">
+      <h3 id="fare-saver-heading" class="font-bold text-conference-ink">{copy.discountTitle}</h3>
+      <p>{copy.discount}</p>
+      <a href={fareSaverUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.discountLinkLabel}</a>
+    </aside>
+  </section>
+
+  <section aria-labelledby="taxi-heading" class="space-y-3">
+    <h2 id="taxi-heading" class="flex items-center gap-3 text-xl font-bold text-conference-ink">
+      <Icon name="fa6-solid:taxi" class="size-5 shrink-0 text-conference-blue" aria-hidden="true" />
+      {copy.taxiTitle}
+    </h2>
+    <p>{copy.taxi}</p>
+  </section>
+</div>
