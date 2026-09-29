@@ -17,16 +17,16 @@
   "venue": {
     "status": "published",
     "title": "HKIIT (Tseung Kwan O, Lee Wai Lee)",
-    "address": "상세 주소와 장소 안내는 추후 공지합니다.",
-    "description": "PyCon HK 2026은 Tseung Kwan O에 있는 HKIIT(IVE Lee Wai Lee)에서 개최됩니다. 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
-    "directions": "교통편과 접근성 정보는 추후 안내해 드립니다.",
+    "address": "3 King Ling Road, Tseung Kwan O, New Territories, Hong Kong",
+    "description": "홍콩 정보기술원(Hong Kong Institute of Information Technology, HKIIT)은 IVE(Lee Wai Lee) 및 홍콩 디자인 인스티튜트(HKDI)와 같은 캠퍼스에 있습니다. 행사 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
+    "directions": "MTR 티우켕렝(Tiu Keng Leng)역 A2 출구로 나와 King Ling Road를 따라 약 2분 걸으면 캠퍼스에 도착합니다.",
     "wifi": "",
     "mapImage": "",
-    "mapUrl": ""
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=HKDI%2C%203%20King%20Ling%20Road%2C%20Tseung%20Kwan%20O%2C%20Hong%20Kong"
   },
   "catering": {
-    "status": "draft",
-    "intro": "",
+    "status": "published",
+    "intro": "인근 Choi Ming Shopping Centre(彩明商場)와 Metro Town(都會駅)에서 식사하실 수 있습니다. 주변에는 홍콩식 카페인 차찬텡, 패스트푸드점, 국수 전문점, 일식당, 프랜차이즈 음식점 등이 있습니다.",
     "items": []
   },
   "sprint": {

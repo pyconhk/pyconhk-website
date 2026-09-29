@@ -2,10 +2,11 @@ import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
-const pendingRoutes = ['catering-guide', 'sprint', 'sprint/qna'];
+const pendingRoutes = ['sprint', 'sprint/qna'];
 
 const publishedRoutes = [
   'access-guide',
+  'catering-guide',
   'sponsorships',
   'sponsorships/patrons',
   'about',
@@ -73,7 +74,29 @@ for (const locale of locales) {
       .getByRole('heading', { name: /^HKIIT/ });
     await expect(venueTitle).toContainText(/李惠利|Lee Wai Lee/);
     await expect(venueTitle).not.toContainText(/待定|未確定|미정|to be confirmed/);
+    const directions = page.locator('[data-venue-directions]');
+    await expect(directions).toContainText('A2');
+    await expect(directions.locator('[data-bus-route]')).toHaveCount(4);
+    for (const route of ['793', '795X', '796X', '290X']) {
+      await expect(directions.locator(`[data-bus-route="${route}"] a`)).toHaveAttribute(
+        'href',
+        /^https:\/\/(?:[^/]+\.)?(?:citybus|kmb)\./
+      );
+    }
+    // E22S is a weekday-only route, not a bus for the conference weekend.
+    await expect(directions.locator('[data-bus-route="E22S"]')).toHaveCount(0);
+    await expect(directions.locator('[data-bus-service-note]')).toContainText('E22S');
     const venue = await venueTitle.innerText();
+    await page.goto(`/2026/${locale}/catering-guide/`);
+    await expect(page.locator('[data-content-pending]')).toHaveCount(0);
+    await expect(page.locator('[data-dining-place="choiMing"]')).toHaveAttribute(
+      'href',
+      'https://www.linkhk.com/en/shopCentre/chmxc2'
+    );
+    await expect(page.locator('[data-dining-place="metroTown"]')).toHaveAttribute(
+      'href',
+      'https://www.fortunemalls.com.hk/en/shopping/8'
+    );
     await page.goto(`/2026/${locale}/`);
     await expect(page.locator('#home')).toContainText(venue);
   });
@@ -321,7 +344,7 @@ for (const width of [390, 1440]) {
         'patrons',
         '維持免費或者大家負擔得起嘅票價，等更多人可以參加',
       ],
-      ['access-guide', 'venue', '我哋稍後會補返交通同無障礙通道資料。'],
+      ['access-guide', 'venue', 'A2'],
     ]) {
       await page.goto(`/2026/zh-hk/${route}/`);
       await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant-HK');
