@@ -1,6 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "pyconhk-cms",
+  "account_id": "043801e2f5b9cf2685593bd9098e98b1",
+  "workers_dev": true,
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-07-14",
   "compatibility_flags": ["nodejs_compat"],
