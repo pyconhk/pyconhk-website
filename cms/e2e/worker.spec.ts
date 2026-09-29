@@ -1,6 +1,19 @@
 import { expect, test } from "@playwright/test";
 import { parse } from "yaml";
 
+const profile = process.env.CMS_E2E_PROFILE ?? "legacy";
+const expectedBackend = {
+  legacy: { repo: "pyconhk/pyconhk-website", branch: "cms" },
+  test: { repo: "pyconhk/pyconhk-news", branch: "test" },
+  production: { repo: "pyconhk/pyconhk-news", branch: "main" },
+}[profile];
+
+if (!expectedBackend) {
+  throw new Error("CMS_E2E_PROFILE must be legacy, test or production");
+}
+
+const collectionSuffix = profile === "test" ? "_test" : "";
+
 test("admin loads the published Decap configuration and login screen", async ({
   page,
   request,
@@ -10,7 +23,12 @@ test("admin loads the published Decap configuration and login screen", async ({
   expect(root.status()).toBe(302);
   expect(root.headers().location).toBe("/admin/");
   await page.goto("/admin/");
-  await expect(page).toHaveTitle("PyCon HK CMS");
+  await expect(page).toHaveTitle(
+    `PyCon HK News CMS · ${profile === "legacy" ? "TRANSITION" : profile.toUpperCase()}`,
+  );
+  await expect(page.getByLabel("CMS environment")).toContainText(
+    expectedBackend.branch,
+  );
   await expect(
     page.getByRole("button", { name: /Login with GitHub/i }),
   ).toBeVisible();
@@ -20,8 +38,7 @@ test("admin loads the published Decap configuration and login screen", async ({
   const config = parse(await response.text());
   expect(config.backend).toMatchObject({
     name: "github",
-    repo: "pyconhk/pyconhk-website",
-    branch: "cms",
+    ...expectedBackend,
     base_url: baseURL,
   });
   expect(config.publish_mode).toBe("editorial_workflow");
@@ -36,8 +53,8 @@ test("admin loads the published Decap configuration and login screen", async ({
   expect(config.media_folder).toBe("website/public/outstatic/images");
   expect(config.public_folder).toBe("/outstatic/images");
   expect(config.collections.map((collection) => collection.name)).toEqual([
-    "posts",
-    "posts_2025",
+    `posts${collectionSuffix}`,
+    `posts_2025${collectionSuffix}`,
   ]);
   expect(config.collections.map((collection) => collection.label)).toEqual([
     "2026 News",
@@ -51,8 +68,23 @@ test("admin loads the published Decap configuration and login screen", async ({
         expect(file.file).toMatch(/^website\/outstatic\/content\//);
   }
   expect(
-    config.collections.find((c) => c.name === "posts_2025").i18n.locales,
+    config.collections.find((c) => c.name === `posts_2025${collectionSuffix}`)
+      .i18n.locales,
   ).toEqual(["en", "zh-hk", "zh-hant", "zh-hans", "ja"]);
+});
+
+test("deployment manifest identifies the CMS content environment", async ({
+  request,
+}) => {
+  const response = await request.get("/deployment-manifest.json");
+  expect(response.status()).toBe(200);
+  expect(response.headers()["cache-control"]).toBe("no-store");
+  expect(await response.json()).toMatchObject({
+    app: "cms",
+    environment: profile,
+    contentRepo: expectedBackend.repo,
+    contentBranch: expectedBackend.branch,
+  });
 });
 
 test("OAuth starts with state and PKCE and rejects an invalid callback", async ({

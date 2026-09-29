@@ -15,11 +15,15 @@ function localizedData(
 }
 
 export function validateEditorialPublish(entry: EditorialEntry): void {
-  if (entry.collection === "posts" || entry.collection === "posts_2025") {
-    const locales =
-      entry.collection === "posts"
-        ? supportedCmsLocales
-        : supportedCmsLocales.filter((locale) => locale !== "ko");
+  const isCurrentNews =
+    entry.collection === "posts" || entry.collection === "posts_test";
+  const isArchivedNews =
+    entry.collection === "posts_2025" || entry.collection === "posts_2025_test";
+
+  if (isCurrentNews || isArchivedNews) {
+    const locales = isCurrentNews
+      ? supportedCmsLocales
+      : supportedCmsLocales.filter((locale) => locale !== "ko");
     const published = locales.some(
       (locale) => localizedData(entry, locale)?.status === "published",
     );

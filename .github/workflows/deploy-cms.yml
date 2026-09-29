@@ -1,0 +1,128 @@
+name: Deploy CMS Workers
+
+on:
+  push:
+    branches: [test, main]
+    paths:
+      - .github/deploy/cms.ts
+      - .github/deploy/source.ts
+      - .github/workflows/deploy-cms.yml
+      - cms/**
+      - bun.lock
+      - package.json
+      - mise.toml
+  workflow_dispatch:
+    inputs:
+      target:
+        description: CMS environment
+        type: choice
+        options: [test, production]
+        default: test
+      force:
+        description: Rebuild even when CMS code is unchanged
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    if: vars.CMS_DUAL_ENV_ENABLED == 'true'
+    outputs:
+      target: ${{ steps.target.outputs.target }}
+      source_branch: ${{ steps.target.outputs.source_branch }}
+    steps:
+      - id: target
+        env:
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          REQUESTED: ${{ inputs.target }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            target="$REQUESTED"
+          elif [ "$BRANCH" = main ]; then
+            target='production'
+          elif [ "$BRANCH" = test ]; then
+            target='test'
+          else
+            echo 'Unsupported CMS deployment branch.' >&2
+            exit 1
+          fi
+          case "$target" in
+            production) source_branch='main' ;;
+            test) source_branch='test' ;;
+            *) echo 'Unsupported CMS environment.' >&2; exit 1 ;;
+          esac
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+          echo "source_branch=$source_branch" >> "$GITHUB_OUTPUT"
+  deploy:
+    needs: select
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: cms-deploy-${{ needs.select.outputs.target }}
+      cancel-in-progress: false
+    env:
+      CMS_BUILD_PROFILE: ${{ needs.select.outputs.target }}
+      CMS_E2E_PROFILE: ${{ needs.select.outputs.target }}
+      CMS_DEPLOY_ORIGIN: ${{ needs.select.outputs.target == 'test' && 'https://pyconhk-cms-test.website-pyconhk.workers.dev' || vars.CMS_PRODUCTION_ORIGIN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ needs.select.outputs.target == 'test' && '043801e2f5b9cf2685593bd9098e98b1' || '364d9bd5080fe5ed0c756c60627a4420' }}
+      FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.select.outputs.source_branch }}
+          persist-credentials: false
+      - name: Require News repository and deployment origin
+        env:
+          NEWS_SOURCE: ${{ vars.NEWS_SOURCE }}
+        run: |
+          test "$NEWS_SOURCE" = external || { echo 'Enable the external News source before deploying the split CMS.' >&2; exit 1; }
+          test -n "$CMS_DEPLOY_ORIGIN" || { echo 'Set CMS_PRODUCTION_ORIGIN before deploying the production CMS.' >&2; exit 1; }
+          git ls-remote --exit-code --refs https://github.com/pyconhk/pyconhk-news.git "refs/heads/${{ needs.select.outputs.source_branch }}" >/dev/null
+      - name: Set up mise
+        uses: jdx/mise-action@v4
+      - name: Restore dependency cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'cms/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
+      - name: Install dependencies
+        run: mise run //cms:install
+      - name: Check CMS code and local Worker
+        run: |
+          mise run //cms:check
+          mise run //cms:e2e
+      - name: Deploy test CMS Worker
+        if: needs.select.outputs.target == 'test'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_CMS_TEST_API_TOKEN }}
+          CMS_GITHUB_CLIENT_ID: ${{ secrets.CMS_GITHUB_CLIENT_ID_TEST }}
+          CMS_GITHUB_CLIENT_SECRET: ${{ secrets.CMS_GITHUB_CLIENT_SECRET_TEST }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Set CLOUDFLARE_CMS_TEST_API_TOKEN.' >&2; exit 1; }
+          test -n "$CMS_GITHUB_CLIENT_ID" && test -n "$CMS_GITHUB_CLIENT_SECRET" || { echo 'Set the test CMS GitHub OAuth credentials.' >&2; exit 1; }
+          args=()
+          if [ "$FORCE" = true ]; then args+=(--force); fi
+          mise exec -- node .github/deploy/cms.ts "${args[@]}"
+      - name: Deploy production CMS Worker
+        if: needs.select.outputs.target == 'production'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_CMS_PRODUCTION_API_TOKEN }}
+          CMS_GITHUB_CLIENT_ID: ${{ secrets.CMS_GITHUB_CLIENT_ID_PRODUCTION }}
+          CMS_GITHUB_CLIENT_SECRET: ${{ secrets.CMS_GITHUB_CLIENT_SECRET_PRODUCTION }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Set CLOUDFLARE_CMS_PRODUCTION_API_TOKEN.' >&2; exit 1; }
+          test -n "$CMS_GITHUB_CLIENT_ID" && test -n "$CMS_GITHUB_CLIENT_SECRET" || { echo 'Set the production CMS GitHub OAuth credentials.' >&2; exit 1; }
+          args=()
+          if [ "$FORCE" = true ]; then args+=(--force); fi
+          mise exec -- node .github/deploy/cms.ts "${args[@]}"
+      - name: Verify hosted CMS
+        run: CMS_BASE_URL="$CMS_DEPLOY_ORIGIN" mise run //cms:e2e
+      - name: Summarize
+        env:
+          TARGET: ${{ needs.select.outputs.target }}
+        run: echo "Verified $TARGET CMS at $CMS_DEPLOY_ORIGIN." >> "$GITHUB_STEP_SUMMARY"

@@ -1,5 +1,19 @@
 ---
-export const prerender = true;
+import { getCmsBranch, getCmsRepo, getCmsStage } from "../../lib/env";
+import { getRuntimeEnvironment } from "../../lib/runtime-env";
+
+export const prerender = false;
+
+const environment = getRuntimeEnvironment();
+const stage = getCmsStage(environment);
+const stageLabel =
+  stage === "test"
+    ? "TEST"
+    : stage === "production"
+      ? "PRODUCTION"
+      : "TRANSITION";
+const title = `PyCon HK News CMS · ${stageLabel}`;
+const target = `${getCmsRepo(environment)} · ${getCmsBranch(environment)}`;
 ---
 
 <!doctype html>
@@ -8,11 +22,39 @@ export const prerender = true;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>PyCon HK CMS</title>
+    <title>{title}</title>
     <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
     <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
   </head>
   <body>
+    <aside class:list={["cms-environment", `cms-environment--${stage}`]} aria-label="CMS environment">
+      <strong>{stageLabel} NEWS CMS</strong>
+      <span>{target}</span>
+    </aside>
+    <style>
+      .cms-environment {
+        position: fixed;
+        z-index: 10000;
+        right: 0.75rem;
+        bottom: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        max-width: calc(100vw - 1.5rem);
+        padding: 0.5rem 0.7rem;
+        border: 1px solid #aab6ca;
+        border-radius: 0.65rem;
+        background: #172033;
+        box-shadow: 0 4px 14px #17203333;
+        color: #fff;
+        font: 0.7rem/1.25 system-ui, sans-serif;
+        pointer-events: none;
+      }
+      .cms-environment strong { letter-spacing: 0.06em; }
+      .cms-environment span { overflow-wrap: anywhere; opacity: 0.85; }
+      .cms-environment--test { border-color: #e7ac36; background: #5c3600; }
+      .cms-environment--production { border-color: #53b68b; background: #104932; }
+    </style>
     <script>
       import CMS from "decap-cms-app";
       import { validateEditorialPublish } from "../../lib/editor-validation";

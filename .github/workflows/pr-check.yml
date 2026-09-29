@@ -133,7 +133,9 @@ jobs:
           restore-keys: bun-${{ runner.os }}-
       - run: mise run install
       - run: mise run check-cms-content
-      - run: mise run check-cms-release
+      - run: mise run test-deployments
+      - if: vars.NEWS_SOURCE != 'external'
+        run: mise run check-cms-release
       - run: mise run //...:check
 
   e2e:

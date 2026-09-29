@@ -16,6 +16,11 @@ interface Props {
 const { year, locale, currentSection } = Astro.props;
 const t = getTranslations('en', 'home');
 const homeHref = buildLocalizedPath(year, locale);
+const normalizedLocale = locale.toLowerCase();
+const encodedLocale = Array.from(normalizedLocale, (char) =>
+  /[a-z0-9-]/iu.test(char) ? char : `-${char.codePointAt(0)?.toString(16)}-`
+).join('');
+const mobileNavDrawerId = `site-mobile-nav-${year}-${encodedLocale}`;
 ---
 
 <header class="sticky top-0 z-50 h-20 w-full px-4 backdrop-blur-sm" data-site-header>
@@ -40,44 +45,55 @@ const homeHref = buildLocalizedPath(year, locale);
         class="inline-flex items-center justify-center text-slate-600"
         aria-label={t('menuLabel')}
         aria-expanded="false"
+        aria-controls={mobileNavDrawerId}
         data-mobile-nav-trigger
       >
         <Icon name="menu" className="h-7 w-7" />
       </button>
-
-      <div class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200" data-mobile-nav-drawer>
-        <button
-          type="button"
-          class="absolute inset-0 bg-slate-950/45 opacity-0 transition-opacity duration-200"
-          aria-label="Close menu"
-          data-mobile-nav-close
-          data-mobile-nav-backdrop
-        ></button>
-
-        <div
-          class="fixed right-0 top-0 flex h-dvh w-80 max-w-[calc(100vw-0.75rem)] translate-x-full flex-col overflow-hidden bg-gray-800 p-4 text-white shadow-2xl transition-transform duration-200 sm:max-w-[calc(100vw-1rem)] sm:p-6"
-          data-mobile-nav-panel
-        >
-          <div class="flex shrink-0 items-center justify-end">
-            <button
-              type="button"
-              class="rounded-full p-1 text-white transition-colors hover:bg-white/10"
-              aria-label="Close menu"
-              data-mobile-nav-close
-            >
-              <Icon name="close" className="h-6 w-6" />
-            </button>
-          </div>
-
-          <div class="mt-6 min-h-0 flex-1 overflow-y-auto pr-1 sm:mt-8">
-            <PrimaryNavigation year={year} locale={locale} currentSection={currentSection} mobile />
-          </div>
-
-        </div>
-      </div>
     </div>
   </div>
 </header>
+
+<div
+  id={mobileNavDrawerId}
+  class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t('menuLabel')}
+  aria-hidden="true"
+  inert
+  data-mobile-nav-owner={mobileNavDrawerId}
+  data-mobile-nav-drawer
+>
+  <button
+    type="button"
+    class="absolute inset-0 bg-slate-950/45 backdrop-blur-sm opacity-0 transition-opacity duration-200"
+    aria-label="Close menu"
+    data-mobile-nav-close
+    data-mobile-nav-backdrop
+  ></button>
+
+  <div
+    class="fixed right-0 top-0 flex h-dvh w-80 max-w-[calc(100vw-0.75rem)] translate-x-full flex-col overflow-hidden bg-gray-800 p-4 text-white shadow-2xl transition-transform duration-200 sm:max-w-[calc(100vw-1rem)] sm:p-6"
+    data-mobile-nav-panel
+  >
+    <div class="flex shrink-0 items-center justify-end">
+      <button
+        type="button"
+        class="rounded-full p-1 text-white transition-colors hover:bg-white/10"
+        aria-label="Close menu"
+        data-mobile-nav-close
+      >
+        <Icon name="close" className="h-6 w-6" />
+      </button>
+    </div>
+
+    <div class="mt-6 min-h-0 flex-1 overflow-y-auto pr-1 sm:mt-8">
+      <PrimaryNavigation year={year} locale={locale} currentSection={currentSection} mobile />
+    </div>
+
+  </div>
+</div>
 
 <script is:inline data-astro-rerun>
   for (const header of document.querySelectorAll('[data-site-header]')) {
@@ -88,13 +104,24 @@ const homeHref = buildLocalizedPath(year, locale);
     header.dataset.mobileNavReady = 'true';
 
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
-    const drawer = header.querySelector('[data-mobile-nav-drawer]');
-    const backdrop = header.querySelector('[data-mobile-nav-backdrop]');
-    const panel = header.querySelector('[data-mobile-nav-panel]');
-    const closeButtons = header.querySelectorAll('[data-mobile-nav-close]');
-    const links = header.querySelectorAll('[data-mobile-nav-link]');
+    const drawerId = trigger?.getAttribute('aria-controls');
+    const drawer = drawerId ? document.getElementById(drawerId) : null;
+    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
+      continue;
+    }
+    if (
+      !drawer.hasAttribute('data-mobile-nav-drawer') ||
+      drawer.dataset.mobileNavOwner !== drawerId
+    ) {
+      continue;
+    }
 
-    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+    const backdrop = drawer.querySelector('[data-mobile-nav-backdrop]');
+    const panel = drawer.querySelector('[data-mobile-nav-panel]');
+    const closeButtons = drawer.querySelectorAll('[data-mobile-nav-close]');
+    const links = drawer.querySelectorAll('[data-mobile-nav-link]');
+
+    if (!(panel instanceof HTMLElement)) {
       continue;
     }
 
@@ -106,6 +133,13 @@ const homeHref = buildLocalizedPath(year, locale);
       drawer.classList.toggle('opacity-100', isOpen);
       panel.classList.toggle('translate-x-full', !isOpen);
       panel.classList.toggle('translate-x-0', isOpen);
+      drawer.setAttribute('aria-hidden', String(!isOpen));
+
+      if (isOpen) {
+        drawer.removeAttribute('inert');
+      } else {
+        drawer.setAttribute('inert', '');
+      }
 
       if (backdrop instanceof HTMLElement) {
         backdrop.classList.toggle('opacity-0', !isOpen);

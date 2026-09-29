@@ -5,6 +5,7 @@ import {
   getCmsLocales,
   getCmsMediaFolder,
   getCmsPublicFolder,
+  getCmsStage,
 } from "./env";
 
 type CmsField = Record<string, unknown>;
@@ -121,11 +122,14 @@ type CmsConfig = {
 function createPostCollection(
   contentRoot: string,
   definition: (typeof postCollectionDefinitions)[number],
+  stage: ReturnType<typeof getCmsStage>,
 ): CmsCollection {
   const { label, name, year } = definition;
 
   return {
-    name,
+    // Editorial branch names contain the collection ID. Distinct IDs prevent
+    // test drafts from colliding with production drafts for the same slug.
+    name: stage === "test" ? `${name}_test` : name,
     label,
     folder: `${contentRoot}/${year}-posts`,
     create: true,
@@ -152,6 +156,7 @@ export function createCmsConfig(
 ): CmsConfig {
   const contentRoot = options.contentRoot || getCmsContentRoot(environment);
   const locales = getCmsLocales(environment);
+  const stage = getCmsStage(environment);
 
   return {
     i18nStructure: "multiple_files",
@@ -161,7 +166,7 @@ export function createCmsConfig(
     locales,
     defaultLocale: getCmsDefaultLocale(environment, locales),
     collections: postCollectionDefinitions.map((definition) =>
-      createPostCollection(contentRoot, definition),
+      createPostCollection(contentRoot, definition, stage),
     ),
   };
 }

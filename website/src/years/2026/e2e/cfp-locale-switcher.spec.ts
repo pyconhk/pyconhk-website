@@ -39,9 +39,9 @@ async function selectLocale(page: Page, locale: string, subpath = '') {
   const header = page.locator('[data-site-header]');
   if (await header.locator('[data-mobile-nav-trigger]').isVisible()) {
     await header.locator('[data-mobile-nav-trigger]').click();
-    await header
-      .locator(`[data-mobile-nav-panel] [data-locale-switch="${locale}"]`)
-      .click();
+    const panel = page.locator('[data-mobile-nav-panel]');
+    await expect(panel).toBeInViewport();
+    await panel.locator(`[data-locale-switch="${locale}"]`).click();
   } else {
     await header.locator('summary').first().click();
     await header.locator(`[data-locale-switch="${locale}"]`).first().click();
@@ -78,9 +78,7 @@ test.describe('2026 conference locale switcher', () => {
           cantonese ? 'zh-Hant-HK' : 'zh-Hant'
         );
         await expect(page.locator('#home-title')).toHaveText('編程・連結・前行');
-        await expect(page.locator('#home')).toContainText(
-          'HKIIT（將軍澳李惠利，待定）'
-        );
+        await expect(page.locator('#home')).toContainText('HKIIT（將軍澳李惠利）');
         await expect(page.locator('#home a[aria-label]')).toHaveAttribute(
           'aria-label',
           cantonese ? '加入日曆' : '加入行事曆'
