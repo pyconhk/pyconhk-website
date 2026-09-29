@@ -100,7 +100,7 @@ test("unchanged production Worker still deploys a missing gateway and retries a 
   let staging = "";
   const origins: string[] = [];
   const options = {
-    root, profile: "production", ensureGateway: async () => {},
+    root, profile: "production", origin: "https://pyconhk-cms.pages.dev", ensureGateway: async () => {},
     readManifest: async (url: string) => { origins.push(url); return manifest; },
     readGateway: async () => uploaded ? marker : null,
     run: (_command: string, args: readonly string[], opts: any) => {
