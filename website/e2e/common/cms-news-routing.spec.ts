@@ -17,7 +17,7 @@ const fixturePost = `---
 title: Future-Year CMS Fixture
 slug: cms-route-fixture
 status: published
-publishedAt: "2026-02-03T04:05:06.000Z"
+publishedAt: 2026-09-30T00:43:00.000+08:00
 description: A synthetic CMS post for year-owned routing coverage.
 coverImage: /2025/landing-pages/open-graph.webp
 author:
@@ -159,10 +159,12 @@ test.describe('CMS news routing', () => {
       const sitemapXml = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
 
       expect(futurePostHtml).toContain('Future-Year CMS Fixture');
+      expect(futurePostHtml).toContain('datetime="2026-09-29T16:43:00.000Z"');
       expect(futurePostHtml).toContain(
         'This future-year CMS post should build under its own localized year route.'
       );
       expect(futureKoreanHtml).toContain('Future-Year CMS Fixture');
+      expect(futureKoreanHtml).toContain('datetime="2026-09-29T16:43:00.000Z"');
       expect(futureKoreanHtml).toContain('뉴스로 돌아가기');
       expect(futurePostHtml).not.toContain('Register for your Ticket NOW!');
       await expect(

@@ -15,6 +15,7 @@ import {
   parseCollectionYearFromDirectoryName,
   parseLocalizedContentFilename,
 } from '@/lib/localized-content';
+import { defaultPublishedAt, normalizePublishedAt } from '@/lib/news-date';
 
 type PostStatus = 'draft' | 'published';
 
@@ -27,7 +28,7 @@ type RawPostFrontmatter = {
   coverImage?: string;
   description?: string;
   locale?: string;
-  publishedAt?: string;
+  publishedAt?: string | Date;
   slug?: string;
   status?: string;
   tags?: string[];
@@ -85,7 +86,6 @@ export type NewsPost = NewsSummary & {
 };
 
 const contentRoot = path.join(process.cwd(), 'outstatic/content');
-const defaultPublishedAt = '1970-01-01T00:00:00.000Z';
 const defaultAuthorName = 'PyCon HK';
 
 let indexedNewsStorePromise: Promise<IndexedNewsStore> | null = null;
@@ -251,7 +251,7 @@ async function loadVariantsFromDirectory(
       }
       const slug = frontmatter.slug?.trim() || parsedFilename.slug;
       const title = frontmatter.title?.trim() || (collectionYear < 2026 ? slug : '');
-      const publishedAt = frontmatter.publishedAt?.trim() || defaultPublishedAt;
+      const publishedAt = normalizePublishedAt(frontmatter.publishedAt);
       const description =
         frontmatter.description?.trim() || createExcerpt(parsedSource.content);
 
