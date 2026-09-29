@@ -2,7 +2,9 @@
 import { getConferenceContent } from '@/lib/conference-content';
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
 import SponsorWall from '@/years/2026/components/content/SponsorWall.astro';
+import VenueDirections from '@/years/2026/components/content/VenueDirections.astro';
 import { type ContentPageKind, contentUi } from '@/years/2026/data/content-ui';
+import { diningDestinations, visitorGuide } from '@/years/2026/data/visitor-guide';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; kind: ContentPageKind; }
@@ -26,11 +28,20 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
           {content.venue.description && <p class="whitespace-pre-line">{content.venue.description}</p>}
           {content.venue.mapImage && <img src={content.venue.mapImage} alt={content.venue.title || copy.titles.venue} width="1200" height="800" class="h-auto w-full rounded-2xl" />}
           {content.venue.mapUrl && <a href={content.venue.mapUrl} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.viewMap}</a>}
-          {content.venue.directions && <section><h2 class="mb-3 text-xl font-bold">{copy.directions}</h2><p class="whitespace-pre-line">{content.venue.directions}</p></section>}
+          {content.venue.directions && <VenueDirections locale={locale} directions={content.venue.directions} />}
           {content.venue.wifi && <section><h2 class="mb-3 text-xl font-bold">{copy.wifi}</h2><p class="whitespace-pre-line">{content.venue.wifi}</p></section>}
         </>
       )}
-      {kind === 'catering' && <><p class="whitespace-pre-line">{content.catering.intro}</p><ul class="list-disc space-y-3 pl-6">{content.catering.items.map((item) => <li class="whitespace-pre-line">{item}</li>)}</ul></>}
+      {kind === 'catering' && <>
+        <p class="whitespace-pre-line">{content.catering.intro}</p>
+        <section class="space-y-4" aria-labelledby="nearby-dining-heading">
+          <h2 id="nearby-dining-heading" class="text-xl font-bold text-conference-ink">{visitorGuide[locale].diningTitle}</h2>
+          <ul class="grid gap-4 sm:grid-cols-2">
+            {diningDestinations.map((place) => <li><a data-dining-place={place.id} href={place.url} target="_blank" rel="noopener noreferrer" class="flex h-full min-h-16 items-center justify-between gap-4 rounded-xl border-2 border-conference-outline bg-conference-paper p-5 font-bold text-conference-blue underline underline-offset-4 hover:bg-conference-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"><span>{visitorGuide[locale].diningLinks[place.id]}</span><span aria-hidden="true">↗</span></a></li>)}
+          </ul>
+        </section>
+        {content.catering.items.length > 0 && <ul class="list-disc space-y-3 pl-6">{content.catering.items.map((item) => <li class="whitespace-pre-line">{item}</li>)}</ul>}
+      </>}
       {kind === 'sprint' && (
         <>
           <p class="whitespace-pre-line">{content.sprint.intro}</p>
