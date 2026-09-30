@@ -21,7 +21,7 @@ const expected = {
   sourceHash: deploymentSourceHash("cms", root, { cmsProfile: "test" }),
   environment: "test",
   contentRepo: "pyconhk/pyconhk-news",
-  contentBranch: "test",
+  contentBranch: "cms-test",
 };
 
 test("matching test CMS code and target skip build and deployment", async () => {
@@ -93,7 +93,7 @@ test("unchanged production Worker still deploys a missing gateway and retries a 
   setEnvironment(t, "CLOUDFLARE_PAGES_API_TOKEN", "pages-token");
   setEnvironment(t, "CMS_GITHUB_CLIENT_SECRET", "must-not-reach-pages");
   const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
-  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "cms" };
   const marker = { ...manifest, app: "cms-gateway" };
   let uploaded = false;
   let fail = true;
@@ -164,7 +164,7 @@ test("gateway readers tolerate propagation responses but reject authorization an
     for (const status of [401, 403, 501, 525, 526]) {
       await assert.rejects(read((async () => new Response(null, { status })) as typeof fetch), new RegExp(`manifest: ${status}`));
     }
-    const wrongTarget = { app: "cms", contentBranch: "test", sourceHash: "old" };
+    const wrongTarget = { app: "cms", contentBranch: "cms-test", sourceHash: "old" };
     assert.deepEqual(await read((async () => Response.json(wrongTarget)) as typeof fetch), wrongTarget);
   }
 });
@@ -172,7 +172,7 @@ test("gateway readers tolerate propagation responses but reject authorization an
 test("production verification retries temporary Pages and service-binding failures without reuploading", async (t) => {
   setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
   const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
-  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "cms" };
   const marker = { ...manifest, app: "cms-gateway" };
   const markerResponses = [new Response(null, { status: 404 }), new Response(null, { status: 522 }), new Response(null, { status: 503 }), Response.json(marker)];
   const workerResponses = [new Response(null, { status: 522 }), new Response(null, { status: 504 }), Response.json(manifest)];
@@ -198,7 +198,7 @@ test("production verification retries temporary Pages and service-binding failur
 test("gateway verification stops after six checks for persistent outages or wrong targets", async (t) => {
   setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
   const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
-  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "cms" };
   const marker = { ...manifest, app: "cms-gateway" };
   for (const stage of ["marker", "Worker"]) {
     for (const failure of ["outage", "wrong app", "wrong branch", "wrong hash"]) {
@@ -230,7 +230,7 @@ test("gateway verification stops after six checks for persistent outages or wron
 test("public CMS authorization failures stop verification immediately", async (t) => {
   setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
   const sourceHash = deploymentSourceHash("cms", root, { cmsProfile: "production" });
-  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "main" };
+  const manifest = { ...expected, sourceHash, environment: "production", contentBranch: "cms" };
   let reads = 0;
   await assert.rejects(deployCms({
     root, profile: "production", origin: "https://cms.pycon.hk", ensureGateway: async () => {},
