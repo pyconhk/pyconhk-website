@@ -5,12 +5,6 @@ import path from "node:path";
 
 export type App = "website" | "cms";
 
-export function isExternalNewsInput(filename: string) {
-  return /^website\/outstatic\/content\/(?:2025|2026)-posts\//.test(filename)
-    || filename.startsWith("website/outstatic/media/")
-    || filename.startsWith("website/public/outstatic/images/");
-}
-
 export function isDeploymentInput(app: App, filename: string) {
   if (/\.(test|spec)\.[cm]?[jt]sx?$/.test(filename)) return false;
   if (/(^|\/)(tests|e2e)(\/|$)/.test(filename)) return false;
@@ -25,7 +19,7 @@ export function isDeploymentInput(app: App, filename: string) {
 
 // Hash actual build inputs, not commits: merges, docs and another app's edits
 // must not invalidate a successful deployment. Include working files for local releases.
-export function deploymentSourceHash(app: App, root: string, { externalNews = false, cmsProfile = "legacy" } = {}) {
+export function deploymentSourceHash(app: App, root: string, { cmsProfile = "legacy" } = {}) {
   if (app === "cms" && !["legacy", "test", "production"].includes(cmsProfile)) {
     throw new Error(`Unsupported CMS build profile: ${cmsProfile}`);
   }
@@ -34,7 +28,7 @@ export function deploymentSourceHash(app: App, root: string, { externalNews = fa
     app === "cms" ? `deployment-inputs-v2:cms:${cmsProfile}\0` : "deployment-inputs-v1:website\0",
   );
   for (const filename of [...new Set(files.split("\0").filter(Boolean))].sort()) {
-    if (!isDeploymentInput(app, filename) || (app === "website" && externalNews && isExternalNewsInput(filename))) continue;
+    if (!isDeploymentInput(app, filename)) continue;
     if (app === "cms" && /^cms\/wrangler(?:\.(?:test|production))?\.jsonc$/.test(filename)) {
       const selectedConfig = cmsProfile === "legacy" ? "cms/wrangler.jsonc" : `cms/wrangler.${cmsProfile}.jsonc`;
       if (filename !== selectedConfig) continue;

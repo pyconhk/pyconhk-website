@@ -1,0 +1,123 @@
+name: Publish CMS environment
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        description: test or production
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cms-publication-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/main' && (inputs.target == 'test' || inputs.target == 'production')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      changed: ${{ steps.prepare.outputs.changed }}
+      candidate: ${{ steps.stage.outputs.candidate }}
+      candidate_sha: ${{ steps.stage.outputs.candidate_sha }}
+      target_sha: ${{ steps.stage.outputs.target_sha }}
+      head_branch: ${{ steps.stage.outputs.head_branch }}
+      target_branch: ${{ steps.stage.outputs.target_branch }}
+    steps:
+      - name: Check out trusted publication tools
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: automation
+          persist-credentials: false
+      - name: Check out publication target history
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.target == 'test' && 'test' || 'main' }}
+          path: website
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Test publication safeguards
+        run: node --test automation/cms/publication/promotion.test.ts
+      - name: Prepare pinned content merge
+        id: prepare
+        env:
+          CMS_SOURCE: ${{ inputs.target == 'test' && 'cms-test' || 'cms' }}
+          CMS_TARGET: ${{ inputs.target == 'test' && 'test' || 'main' }}
+        run: node automation/cms/publication/promotion.ts prepare website "$CMS_SOURCE" "$CMS_TARGET"
+      - name: Stage candidate for full website CI
+        if: steps.prepare.outputs.changed == 'true'
+        id: stage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node automation/cms/publication/promotion.ts stage website
+
+  validate:
+    needs: prepare
+    if: needs.prepare.outputs.changed == 'true'
+    permissions:
+      contents: read
+      pull-requests: read
+    uses: ./.github/workflows/pr-check.yml
+    with:
+      ref: ${{ needs.prepare.outputs.candidate_sha }}
+      cms_base: ${{ needs.prepare.outputs.target_branch }}
+      cms_head: ${{ needs.prepare.outputs.head_branch }}
+      cms_base_sha: ${{ needs.prepare.outputs.target_sha }}
+
+  finalize:
+    needs: [prepare, validate]
+    if: needs.prepare.outputs.changed == 'true' && needs.validate.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    outputs:
+      promoted: ${{ steps.publish.outputs.promoted }}
+    steps:
+      - name: Check out trusted publication tools
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: automation
+          persist-credentials: false
+      - name: Check out the exact validated candidate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.prepare.outputs.candidate_sha }}
+          path: website
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Publish only after full CI passes
+        id: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CMS_PUBLICATION_CANDIDATE: ${{ needs.prepare.outputs.candidate }}
+          CMS_VALIDATION_RESULT: ${{ needs.validate.result }}
+          CMS_VALIDATED_SHA: ${{ needs.prepare.outputs.candidate_sha }}
+        run: node automation/cms/publication/promotion.ts finalize website
+
+  deploy:
+    needs: finalize
+    if: needs.finalize.outputs.promoted == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/deploy-website-reusable.yml
+    with:
+      target: ${{ inputs.target }}
+    secrets: inherit

@@ -20,10 +20,10 @@
   },
   "vars": {
     "CMS_ENVIRONMENT": "test",
-    "CMS_GITHUB_REPO": "pyconhk/pyconhk-news",
+    "CMS_GITHUB_REPO": "pyconhk/pyconhk-website",
     "CMS_GITHUB_BRANCH": "cms-test",
     "CMS_GITHUB_OAUTH_SCOPE": "public_repo",
-    "CMS_ACCESS_REPO": "pyconhk/pyconhk-news",
+    "CMS_ACCESS_REPO": "pyconhk/pyconhk-website",
     "CMS_CONTENT_ROOT": "website/outstatic/content",
     "CMS_MEDIA_FOLDER": "website/public/outstatic/images",
     "CMS_PUBLIC_FOLDER": "/outstatic/images",

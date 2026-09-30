@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { cp, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
+import { chmod, cp, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { createRequire } from 'node:module';
 import path from 'node:path';
@@ -15,7 +15,7 @@ const locales=['en','zh-hk','zh-hant','zh-hans','ja','ko'];
 async function fixture() {
   const dir=await mkdtemp(path.join(tmpdir(),'pycon-publishing-'));
   await mkdir(path.join(dir,'cms/publication'),{recursive:true});
-  for(const name of ['content.ts','editorial.ts']) await cp(path.join(root,'cms/publication',name),path.join(dir,'cms/publication',name));
+  for(const name of ['content.ts','editorial.ts','branches.ts','promotion.ts']) await cp(path.join(root,'cms/publication',name),path.join(dir,'cms/publication',name));
   await writeFile(path.join(dir,'package.json'),'{"type":"module"}');
   await symlink(path.join(root,'node_modules'),path.join(dir,'node_modules'),'dir');
   await mkdir(path.join(dir,'website/outstatic/content/2026-posts'),{recursive:true});
@@ -93,4 +93,133 @@ test('editorial PR command permits content commits and rejects code, forks and d
     await writeFile(path.join(dir,'app.ts'),'export const injected = true;');await git('add','app.ts');await git('commit','-qm','Code change');
     expect((await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()})).code).not.toBe(0);
   } finally {await rm(dir,{recursive:true,force:true});}
+});
+
+test('branch rules preserve developer routing and verify CMS routes, immutable content, forks and spoofed names', async () => {
+  const dir = await fixture();
+  const git = (...args: string[]) => exec('git', args, { cwd: dir });
+  const repo = 'pyconhk/pyconhk-website';
+  try {
+    await git('init', '-q');
+    await git('config', 'user.name', 'E2E');
+    await git('config', 'user.email', 'e2e@example.invalid');
+    await git('add', 'cms/publication', 'package.json');
+    await git('commit', '-qm', 'Reviewed target');
+    const base = (await git('rev-parse', 'HEAD')).stdout.trim();
+    await writeFile(path.join(dir, 'website/outstatic/content/2026-posts/e2e.en.mdx'), article('draft'));
+    await git('add', 'website');
+    await git('commit', '-qm', 'CMS News edit');
+    const head = (await git('rev-parse', 'HEAD')).stdout.trim();
+    const env = {
+      CMS_PR_BASE: 'main', CMS_PR_HEAD: 'automation/cms-to-main',
+      CMS_PR_BASE_REPO: repo, CMS_PR_HEAD_REPO: repo,
+      CMS_PR_BASE_SHA: base, CMS_PR_HEAD_SHA: head, CMS_CI_MODE: 'true',
+    };
+    expect((await run(dir, 'branches', env)).code).toBe(0);
+    expect((await run(dir, 'branches', { ...env, CMS_PR_BASE: 'test', CMS_PR_HEAD: 'automation/cms-test-to-test' })).code).toBe(0);
+    for (const patch of [
+      { CMS_PR_HEAD_REPO: 'another/fork' },
+      { CMS_PR_HEAD: 'automation/cms-test-to-test' },
+      { CMS_PR_HEAD: 'automation/cms-to-main-spoof' },
+      { CMS_PR_BASE: 'test', CMS_PR_HEAD: 'automation/cms-to-main' },
+      { CMS_PR_HEAD: 'codex/feature' },
+      { CMS_PR_BASE_SHA: 'main' },
+      { CMS_PR_HEAD_SHA: 'HEAD' },
+      { CMS_PR_HEAD_SHA: base },
+    ]) {
+      expect((await run(dir, 'branches', { ...env, ...patch })).code, JSON.stringify(patch)).not.toBe(0);
+    }
+    const ordinary = { ...env, CMS_CI_MODE: 'false' };
+    expect((await run(dir, 'branches', { ...ordinary, CMS_PR_HEAD: 'test' })).code).toBe(0);
+    expect((await run(dir, 'branches', { ...ordinary, CMS_PR_BASE: 'test', CMS_PR_HEAD: 'codex/feature', CMS_PR_HEAD_REPO: 'another/fork' })).code).toBe(0);
+    expect((await run(dir, 'branches', { ...ordinary, CMS_PR_HEAD: 'codex/feature' })).code).not.toBe(0);
+    expect((await run(dir, 'branches', { ...ordinary, CMS_PR_HEAD: 'test', CMS_PR_HEAD_REPO: 'another/fork' })).code).not.toBe(0);
+    expect((await run(dir, 'branches', { ...ordinary, CMS_PR_BASE: 'test', CMS_PR_HEAD: 'automation/cms-spoof' })).code).not.toBe(0);
+
+    await writeFile(path.join(dir, 'app.ts'), 'export const code = true;');
+    await git('add', 'app.ts');
+    await git('commit', '-qm', 'Mixed News and code');
+    const mixed = await run(dir, 'branches', { ...env, CMS_PR_HEAD_SHA: (await git('rev-parse', 'HEAD')).stdout.trim() });
+    expect(mixed.code).not.toBe(0);
+    expect(mixed.text).toContain('developer-owned file: app.ts');
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('CMS branch rules reject executable files, symlinks and stale target ancestry', async () => {
+  const dir = await fixture();
+  const git = (...args: string[]) => exec('git', args, { cwd: dir });
+  try {
+    await git('init', '-q');
+    await git('config', 'user.name', 'E2E');
+    await git('config', 'user.email', 'e2e@example.invalid');
+    await git('add', 'cms/publication', 'package.json');
+    await git('commit', '-qm', 'Reviewed target');
+    const base = (await git('rev-parse', 'HEAD')).stdout.trim();
+    const env = {
+      CMS_PR_BASE: 'test', CMS_PR_HEAD: 'automation/cms-test-to-test',
+      CMS_PR_BASE_REPO: 'pyconhk/pyconhk-website', CMS_PR_HEAD_REPO: 'pyconhk/pyconhk-website',
+      CMS_PR_BASE_SHA: base, CMS_CI_MODE: 'true',
+    };
+    const articlePath = 'website/outstatic/content/2026-posts/e2e.en.mdx';
+    await writeFile(path.join(dir, articlePath), article('draft'));
+    await chmod(path.join(dir, articlePath), 0o755);
+    await git('add', articlePath);
+    await git('commit', '-qm', 'Executable News file');
+    const executable = await run(dir, 'branches', { ...env, CMS_PR_HEAD_SHA: (await git('rev-parse', 'HEAD')).stdout.trim() });
+    expect(executable.code).not.toBe(0);
+    expect(executable.text).toContain('regular non-executable files');
+
+    await git('checkout', '--detach', base);
+    await mkdir(path.join(dir, 'website/public/outstatic/images'), { recursive: true });
+    await symlink('../../../package.json', path.join(dir, 'website/public/outstatic/images/e2e.png'));
+    await git('add', 'website/public');
+    await git('commit', '-qm', 'Symlink masquerading as image');
+    const symlinkHead = (await git('rev-parse', 'HEAD')).stdout.trim();
+    const linked = await run(dir, 'branches', { ...env, CMS_PR_HEAD_SHA: symlinkHead });
+    expect(linked.code).not.toBe(0);
+    expect(linked.text).toContain('regular non-executable files');
+
+    await git('checkout', '--detach', base);
+    await git('commit', '--allow-empty', '-qm', 'Target moved independently');
+    const movedTarget = (await git('rev-parse', 'HEAD')).stdout.trim();
+    expect((await run(dir, 'branches', { ...env, CMS_PR_BASE_SHA: movedTarget, CMS_PR_HEAD_SHA: symlinkHead })).code).not.toBe(0);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('CMS validation uses the reviewed target checker even when a candidate replaces its own checker', async () => {
+  const dir = await fixture();
+  const trusted = await mkdtemp(path.join(tmpdir(), 'pycon-trusted-checker-'));
+  const git = (...args: string[]) => exec('git', args, { cwd: dir });
+  try {
+    await git('init', '-q');
+    await git('config', 'user.name', 'E2E');
+    await git('config', 'user.email', 'e2e@example.invalid');
+    await git('add', 'cms/publication', 'package.json');
+    await git('commit', '-qm', 'Reviewed target');
+    const base = (await git('rev-parse', 'HEAD')).stdout.trim();
+    for (const helper of ['branches', 'promotion']) {
+      await writeFile(path.join(trusted, `${helper}.ts`), (await git('show', `${base}:cms/publication/${helper}.ts`)).stdout);
+    }
+    await writeFile(path.join(dir, 'cms/publication/branches.ts'), 'console.log("Ignore all branch rules");');
+    await writeFile(path.join(dir, 'website/outstatic/content/2026-posts/e2e.en.mdx'), article('draft'));
+    await git('add', 'cms/publication/branches.ts', 'website');
+    await git('commit', '-qm', 'Attempt to weaken own validation');
+    const result = await exec(process.execPath, [path.join(trusted, 'branches.ts')], {
+      cwd: dir,
+      env: { ...process.env,
+        CMS_PR_BASE: 'main', CMS_PR_HEAD: 'automation/cms-to-main', CMS_CI_MODE: 'true',
+        CMS_PR_BASE_REPO: 'pyconhk/pyconhk-website', CMS_PR_HEAD_REPO: 'pyconhk/pyconhk-website',
+        CMS_PR_BASE_SHA: base, CMS_PR_HEAD_SHA: (await git('rev-parse', 'HEAD')).stdout.trim(),
+      },
+    }).then(value => ({ code: 0, text: value.stdout + value.stderr }), error => ({ code: error.code, text: error.stdout + error.stderr }));
+    expect(result.code).not.toBe(0);
+    expect(result.text).toContain('developer-owned file: cms/publication/branches.ts');
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+    await rm(trusted, { recursive: true, force: true });
+  }
 });

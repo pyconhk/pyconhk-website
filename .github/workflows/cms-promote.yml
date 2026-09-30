@@ -2,103 +2,46 @@ name: Promote CMS Content
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: '1-59/5 * * * *'
   workflow_dispatch:
-
-concurrency:
-  group: promote-cms-content
-  cancel-in-progress: false
+    inputs:
+      target:
+        description: CMS publication environment
+        type: choice
+        options: [both, test, production]
+        default: both
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  promote:
-    name: Promote cms to main
-    if: vars.NEWS_SOURCE != 'external'
+  select:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
-      promoted: ${{ steps.push.outputs.promoted }}
-    env:
-      CMS_BRANCH: cms
-      PRODUCTION_BRANCH: main
+      targets: ${{ steps.select.outputs.targets }}
     steps:
-      - name: Check out production branch
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ env.PRODUCTION_BRANCH }}
-          fetch-depth: 0
-          token: ${{ secrets.CMS_PROMOTION_TOKEN || github.token }}
-
-      - name: Fetch deployment branches
+      - id: select
+        env:
+          REQUESTED: ${{ inputs.target || 'both' }}
         run: |
-          git fetch origin "${PRODUCTION_BRANCH}" "${CMS_BRANCH}"
-
-      - name: Set up mise
-        uses: jdx/mise-action@v4
-
-      - name: Install website dependencies and content parser
-        run: mise run //website:install
-
-      - name: Validate CMS branch locale files
-        run: CMS_CONTENT_REF="origin/${CMS_BRANCH}" node cms/publication/content.ts
-
-      - name: Check for CMS changes
-        id: changes
-        run: |
-          changed_files="$(git diff --no-renames --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}")"
-
-          if [ -z "${changed_files}" ]; then
-            echo "has_changes=false" >> "${GITHUB_OUTPUT}"
-            echo "No CMS changes to promote."
-            exit 0
-          fi
-
-          echo "has_changes=true" >> "${GITHUB_OUTPUT}"
-
-      - name: Refuse non-CMS changes
-        if: steps.changes.outputs.has_changes == 'true'
-        run: |
-          disallowed_files="$(
-            git diff --no-renames --name-only "origin/${PRODUCTION_BRANCH}...origin/${CMS_BRANCH}" |
-              grep -Ev '^(website/outstatic/content/(2025-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja)\.mdx|2026-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.mdx)$|website/outstatic/media/|website/public/outstatic/images/)' || true
-          )"
-
-          if [ -n "${disallowed_files}" ]; then
-            echo "The cms branch contains changes outside CMS-owned content paths:"
-            printf '%s\n' "${disallowed_files}"
-            exit 1
-          fi
-
-      - name: Merge CMS content locally
-        if: steps.changes.outputs.has_changes == 'true'
-        run: |
-          git config user.name "pyconhk-cms-promoter"
-          git config user.email "actions@github.com"
-          git checkout -B cms-content-promotion "origin/${PRODUCTION_BRANCH}"
-          git merge --no-ff --no-edit "origin/${CMS_BRANCH}"
-
-      - name: Validate CMS locale files
-        if: steps.changes.outputs.has_changes == 'true'
-        run: mise run check-cms-content
-
-      - name: Validate website with promoted content
-        if: steps.changes.outputs.has_changes == 'true'
-        run: |
-          mise run //website:check
-          mise run //website:build
-
-      - name: Push promoted content
-        id: push
-        if: steps.changes.outputs.has_changes == 'true'
-        run: |
-          git push origin HEAD:"${PRODUCTION_BRANCH}"
-          echo 'promoted=true' >> "$GITHUB_OUTPUT"
-
-  deploy:
-    needs: promote
-    if: needs.promote.outputs.promoted == 'true'
-    uses: ./.github/workflows/deploy-website-reusable.yml
+          case "$REQUESTED" in
+            both) echo 'targets=["test","production"]' >> "$GITHUB_OUTPUT" ;;
+            test) echo 'targets=["test"]' >> "$GITHUB_OUTPUT" ;;
+            production) echo 'targets=["production"]' >> "$GITHUB_OUTPUT" ;;
+            *) echo 'Unknown publication environment.' >&2; exit 1 ;;
+          esac
+  publish:
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJSON(needs.select.outputs.targets) }}
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    uses: ./.github/workflows/cms-publish-environment.yml
     with:
-      target: production
+      target: ${{ matrix.target }}
     secrets: inherit

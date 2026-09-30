@@ -1,338 +1,110 @@
-# PyCon HK Website CMS
+# PyCon HK News CMS
 
-Astro 7 and Decap CMS run as Cloudflare Workers with static assets. The CMS
-edits News only. `wrangler.jsonc` is the transitional Worker targeting the
-website repository's `cms` branch. The new test and production configs target
-separate branches in `pyconhk/pyconhk-news`, a public content repository.
+The public website, CMS, articles and uploaded images live together in
+`pyconhk/pyconhk-website`. The CMS edits News only; conference pages are written
+in the website source.
 
-## Runtime Shape
+| Environment | Editor | Content branch | Published branch |
+| --- | --- | --- | --- |
+| Test | https://cms-test.pycon.hk/admin/ | `cms-test` | `test` |
+| Production | https://cms.pycon.hk/admin/ | `cms` | `main` |
 
-- `@astrojs/cloudflare` builds the Astro server for Workers.
-- Cloudflare serves the generated client files through the `ASSETS` binding.
-- OAuth state and PKCE values use short-lived, HttpOnly browser cookies.
-- No KV, D1, R2, Durable Object, or Astro session storage is required.
-- `nodejs_compat` is enabled because the OAuth implementation uses
-  `node:crypto`.
-- Worker variables come from the selected Wrangler config; OAuth credentials
-  are Worker secrets and are never committed.
+## Saving and publishing
 
-The Worker exposes:
+Decap uses simple publishing. **Publish now** saves directly to the selected CMS
+branch. The entry's **Status** controls visibility: `draft` can be saved with
+incomplete translations; `published` requires all six 2026 locales (`en`, `zh-hk`,
+`zh-hant`, `zh-hans`, `ja`, `ko`). The 2025 archive requires five, without Korean.
 
-- `/admin/`: GitHub-backed CMS
-- `/admin/test/`: in-memory Decap test backend
-- `/admin/config.yml`: generated Decap configuration
-- `/api/decap/auth` and `/api/decap/callback`: GitHub OAuth
+The promotion workflow checks the CMS branches every five minutes and can be run
+manually. It prepares a merge candidate using the current published branch,
+rejects changes outside localized News and raster uploads, and runs the full
+website/CMS validation workflow on that exact candidate. On success, its bot PR
+merges automatically and explicitly invokes GitHub Actions website deployment.
+Cloudflare receives the built output. Invalid content, conflicts or a newer
+published revision stop publication and leave the existing site intact.
 
-`/admin/test/` is an in-memory browser fixture, not the GitHub-backed test CMS.
-The real test CMS uses `wrangler.test.jsonc`, Worker `pyconhk-cms-test` and News
-branch `cms-test`. Production uses `wrangler.production.jsonc`, Worker `pyconhk-cms`
-and News branch `cms`. Their OAuth applications, Worker secrets and origins must
-be separate. Both Workers belong to the Website PyCon HK Cloudflare account
-`043801e2f5b9cf2685593bd9098e98b1`. Each has a dedicated Pages gateway in the
-same account: `pyconhk-cms-test` binds only to Worker `pyconhk-cms-test`, while
-`pyconhk-cms` binds only to Worker `pyconhk-cms`. Their `CMS` service bindings
-forward requests unchanged, including OAuth cookies and asset requests.
-The public URLs are `https://cms-test.pycon.hk` and `https://cms.pycon.hk` once
-their custom domains are activated. The `pycon.hk` DNS zone stays in OSHK; each
-CMS CNAME is edited manually in the console.
+Test publication only updates `test`; it does not automatically promote to
+production. Code changes follow feature branch → `test` → `main` with developer
+review. GitHub schedules can be delayed; five minutes is a check interval, not a
+publication deadline.
 
-## Content Model
+Article files are `website/outstatic/content/<year>-posts/<slug>.<locale>.mdx`.
+Uploaded images are `website/public/outstatic/images/`. Existing public image
+paths remain `/outstatic/images/`. The former external News repository is retained
+as history; neither CMS nor website deployment reads it.
 
-The CMS uses Decap's `multiple_files` i18n structure. The 2026 news collection uses
-`en`, `zh-hk`, `zh-hant`, `zh-hans`, `ja`, and `ko`; 2025 retains its five locales
-without `ko`. Published news requires every locale for its year. The sidebar
-exposes only news collections, currently `2026 News` and `2025 News`. The year is
-determined by the collection, so editors do not enter it as post metadata.
-Conference pages and event settings are maintained in the website source.
+## Roles and branch protection
 
-Decap uses simple publishing: its **Publish now** button saves directly to the
-CMS branch, with no per-article pull request or review step. The entry's **Status**
-field controls whether the website displays it. Leave it as `draft` to save an
-unfinished translation; select `published` when the article is ready. Before
-saving a published entry, the editor checks all required translations and shared
-fields. CI repeats the content validation before promotion.
+The GitHub OAuth callback checks the configured repository and allowed teams.
+Both environments use their own OAuth application and secrets. `CMS_ACCESS_REPO`
+and `CMS_GITHUB_REPO` point to `pyconhk/pyconhk-website`.
 
-Production commits land on `cms` and automatically promote to `main` after
-validation. Test commits land on `cms-test` and promote only to `test`.
-The website's scheduled GitHub Actions workflow checks the matching published
-News branch and builds and uploads changed content to Cloudflare. Cloudflare
-does not build the website. The schedule checks every five minutes; GitHub can
-delay scheduled runs. Failed validation leaves the last published site intact.
+For both `main` and `test`, require PRs, the existing GitHub Actions `Branch Rules`
+and `Validate Monorepo` checks, resolved conversations, and code-owner review.
+Use zero general approvals and no latest-push approval, so unowned News-only
+changes can publish automatically. `.github/CODEOWNERS` assigns all other files
+(including itself and workflows) to the Website team. Do not add a bot bypass or
+exempt whole image directories; the exceptions are limited to raster extensions.
 
-The test collections keep IDs `posts_test` and `posts_2025_test`, while production
-uses `posts` and `posts_2025`. Existing `cms-editorial/<collection>/<slug>` drafts
-are legacy pending changes and must be recovered before removing those branches;
-new saves do not create them.
+These controls protect merges. GitHub write permission applies to the repository,
+not a content folder. A repository writer can use GitHub outside the CMS and can
+access repository-level Actions secrets through workflows. Strict separation of
+those credentials requires deployment environments restricted to reviewed branches;
+the News-only editor alone is not that security boundary.
 
-A 2026 post such as `hello-world` is stored as:
+## Cloudflare runtime
 
-```text
-website/outstatic/content/2026-posts/hello-world.en.mdx
-website/outstatic/content/2026-posts/hello-world.zh-hk.mdx
-website/outstatic/content/2026-posts/hello-world.zh-hant.mdx
-website/outstatic/content/2026-posts/hello-world.zh-hans.mdx
-website/outstatic/content/2026-posts/hello-world.ja.mdx
-website/outstatic/content/2026-posts/hello-world.ko.mdx
-```
+Astro and Decap run as Workers with static assets. Both Workers and their dedicated
+Pages gateways belong to Website PyCon HK account
+`043801e2f5b9cf2685593bd9098e98b1`:
 
-Both News branches must be seeded with this locale-coded shape before editors
-use them. Legacy files such as `hello-world.mdx` are not entries in a
-`multiple_files` collection.
+- Test: Worker and gateway `pyconhk-cms-test`, configured by `wrangler.test.jsonc`
+  and `gateway/wrangler.test.jsonc`.
+- Production: Worker and gateway `pyconhk-cms`, configured by
+  `wrangler.production.jsonc` and `gateway/wrangler.jsonc`.
 
-## Local Development
+Each gateway's `CMS` service binding forwards the original request, including
+OAuth cookies, only to its matching Worker. Preview gateways have no binding.
+The `pycon.hk` DNS zone remains in OSHK; edit CMS CNAMEs in its Cloudflare console.
 
-Install all monorepo dependencies from the repository root:
+OAuth callback URLs are `https://cms-test.pycon.hk/api/decap/callback` and
+`https://cms.pycon.hk/api/decap/callback`. GitHub must approve both apps for the
+organization. OAuth state and PKCE cookies are short-lived and HttpOnly; credentials
+remain Worker secrets. No KV, D1 or R2 is required.
 
-```bash
+The Worker serves `/admin/`, `/admin/config.yml`, `/api/decap/auth` and
+`/api/decap/callback`. `/admin/test/` is an in-memory editor fixture, not the real
+test CMS. Test collection IDs are `posts_test` and `posts_2025_test`; production
+uses `posts` and `posts_2025`.
+
+## Development and verification
+
+Use Node.js 24 and the pinned Bun runtime through mise:
+
+```sh
 mise run install
-```
-
-Copy `cms/.dev.vars.example` to `cms/.dev.vars` and fill in the credentials for
-a local GitHub OAuth app. Keep `CMS_PUBLIC_URL` unset unless an external origin
-must override the current request origin.
-
-Start Astro development:
-
-```bash
 mise run //cms:dev
-```
-
-The OAuth app callback must exactly match the local callback URL, normally
-`http://localhost:4321/api/decap/callback`.
-
-To exercise the built Cloudflare runtime instead of Astro development:
-
-```bash
-mise run //cms:build
-cd cms
-mise exec -- astro preview --host 127.0.0.1 --port 4323
-CMS_BASE_URL=http://127.0.0.1:4323 mise run //cms:e2e
-```
-
-Use `/admin/test/` to verify the multilingual editor without GitHub. Nothing is
-persisted; automated checks use isolated fixtures in the test suite.
-
-## Validation
-
-Run static checks, the release content gate and the complete CMS E2E suite:
-
-```bash
 mise run //cms:check
-mise run check-cms-release
-mise run //cms:e2e
-```
-
-The E2E task builds and starts a local Worker. It verifies the admin screen,
-served Decap configuration, OAuth redirect and PKCE cookies, invalid callbacks,
-media redirects, and the editor's image upload, direct draft save and published
-translation validation.
-The editor uses Decap's in-memory test repository; no live GitHub commits are made.
-Publication language and editorial branch rules run as command-level E2E tests
-in disposable repositories via `mise run //e2e:e2e`.
-
-Exercise each real config without touching GitHub or Cloudflare:
-
-```bash
+mise run check-cms-content
 CMS_E2E_PROFILE=test mise run //cms:e2e
 CMS_E2E_PROFILE=production mise run //cms:e2e
+mise run //e2e:e2e
 ```
 
-The runtime checks verify the configured repository, branch, visible environment
-label and distinct test collection IDs. They still use dummy OAuth credentials
-and an in-memory editor for mutations.
+Local browser tests use dummy OAuth credentials and an in-memory editor. They
+cover draft saving, published translation validation and image upload. Publication
+tests use disposable Git repositories and never write live articles.
 
-After deployment, run the read-only Worker cases against its origin:
+Hosted checks are read-only:
 
-```bash
-CMS_BASE_URL=https://your-test-worker.example CMS_E2E_PROFILE=test mise run //cms:e2e
+```sh
+CMS_BASE_URL=https://cms-test.pycon.hk CMS_E2E_PROFILE=test mise run //cms:e2e
+CMS_BASE_URL=https://cms.pycon.hk CMS_E2E_PROFILE=production mise run //cms:e2e
 ```
 
-The local editor fixture is skipped against a hosted origin. A real OAuth login
-and authorized content publication remain release acceptance steps.
-
-## Cloudflare Deployment
-
-The site uses `.github/deploy/cms.ts` for manual and GitHub Actions Worker
-releases, including profile-specific source-hash comparison and hosted manifest
-verification. The transitional `legacy` profile also runs its existing CMS
-content release gate. News content in the separate repository is validated by
-its own CI and by the website build before deployment.
-The existing Pages-only `CLOUDFLARE_API_TOKEN` deploys the gateway. Worker releases
-use the Website account's Worker Edit token. Test and production have separate
-GitHub OAuth applications and secrets.
-
-Switch Chrome to the `website pyconhk` profile, then create and activate the
-dedicated Wrangler profile. Do not create or share a Global API key:
-
-```bash
-cd cms
-mise exec -- bun x wrangler auth create website-pyconhk
-mise exec -- bun x wrangler auth activate website-pyconhk .
-mise exec -- bun x wrangler whoami
-```
-
-`wrangler.jsonc` pins the Website PyCon HK Cloudflare account ID for the
-transitional Worker. `wrangler.test.jsonc` pins that account for the test Worker.
-`wrangler.production.jsonc` pins the same Website account. Validate the two
-Worker bundles without deploying:
-
-```bash
-cd cms
-CMS_BUILD_PROFILE=test mise exec -- bun run build
-mise exec -- bunx wrangler deploy --dry-run
-CMS_BUILD_PROFILE=production mise exec -- bun run build
-mise exec -- bunx wrangler deploy --dry-run
-```
-
-The Astro adapter reads the selected config at build time and writes a generated
-`dist/server/wrangler.json`. Run Wrangler without `--config` after that build so
-it deploys the generated Worker entrypoint. Passing one of the source configs
-directly to `wrangler deploy` leaves the Astro entrypoint unresolved.
-
-Create a GitHub OAuth app to obtain its client ID and client secret. Its URLs can
-be updated after Wrangler reports the generated `workers.dev` origin.
-
-For the already deployed **transitional** Worker only, store both credentials
-as encrypted Worker secrets. Wrangler prompts for each value, so they do not
-appear in shell history:
-
-```bash
-cd cms
-mise exec -- bunx wrangler secret put CMS_GITHUB_CLIENT_ID --config wrangler.jsonc
-mise exec -- bunx wrangler secret put CMS_GITHUB_CLIENT_SECRET --config wrangler.jsonc
-mise exec -- bunx wrangler secret list --config wrangler.jsonc
-```
-
-For the new test and production Workers, the first deployment supplies both
-environment-specific OAuth credentials through Wrangler's `--secrets-file`.
-The deploy script writes a private temporary file and removes it after Wrangler
-exits. This avoids creating a placeholder Worker while setting secrets one at a
-time. After the first release, rotate a secret with `wrangler secret put
---config wrangler.test.jsonc` or `--config wrangler.production.jsonc`, setting
-the correct Cloudflare account first. A bare `secret put` in `cms/` targets the
-transitional Worker and is unsafe here.
-
-Deploy the transitional Worker to its existing `workers.dev` URL:
-
-```bash
-mise run //cms:deploy
-```
-
-Deployment compares CMS build inputs with the hosted `/deployment-manifest.json` and
-skips build/upload when unchanged. The first release with no manifest deploys normally.
-The legacy default origin is `https://pyconhk-cms.website-pyconhk.workers.dev`.
-For a test release, set `CMS_BUILD_PROFILE=test`; its default gateway origin is
-`https://pyconhk-cms-test.pages.dev`. After custom-domain activation, set
-`CMS_DEPLOY_ORIGIN=https://cms-test.pycon.hk`. For production, set
-`CMS_BUILD_PROFILE=production` and the Website `CLOUDFLARE_ACCOUNT_ID`.
-`CMS_DEPLOY_ORIGIN` defaults to `https://pyconhk-cms.pages.dev`; after DNS cutover
-use `https://cms.pycon.hk`. Both new profiles require their own
-`CMS_GITHUB_CLIENT_ID` and `CMS_GITHUB_CLIENT_SECRET` for a changed release.
-The deploy script rejects another production
-account ID for either environment and verifies the hosted repo, branch and
-environment as well as the source hash. Both profiles verify their Worker
-directly first, then deploy and verify their Pages gateway independently. A failed gateway upload can be retried
-without rebuilding an already matching Worker. Pages is staged outside `cms/`
-to avoid Astro's generated Wrangler config; only the gateway handler, 404 and
-deployment marker are uploaded. Gateways hold no OAuth credentials. Preview
-gateways have no CMS service binding and return 503. Each profile hashes only
-its selected gateway config; shared gateway code changes invalidate both profiles.
-Use `mise exec -- bun run deploy --force` from `cms/` to force a release (including
-after external variable/secret changes). Website content edits do not redeploy the CMS.
-When a release is needed, Wrangler requires both OAuth secrets, and the hosted
-manifest is verified after upload.
-
-`.github/workflows/deploy-cms.yml` builds and deploys the test Worker from the
-website `test` branch and the production Worker from `main`. It is disabled until
-the repository variable `CMS_DUAL_ENV_ENABLED=true` is set. Before enabling it,
-create `pyconhk/pyconhk-news`, set `NEWS_SOURCE=external`, create distinct GitHub
-OAuth applications and callback URLs, and set these website
-repository credentials/configuration:
-
-- `CLOUDFLARE_CMS_TEST_API_TOKEN`: Worker Edit token scoped to the Website
-  PyCon HK account.
-- `CLOUDFLARE_CMS_PRODUCTION_API_TOKEN`: optional separate Worker Edit token
-  scoped to Website PyCon HK. When absent, production uses the existing
-  `CLOUDFLARE_CMS_TEST_API_TOKEN`, whose account-wide scope already covers both
-  Workers despite its historical name.
-- `CLOUDFLARE_API_TOKEN`: existing Website account Pages Edit token, passed to
-  the deployment script as `CLOUDFLARE_PAGES_API_TOKEN`.
-- `CMS_GITHUB_CLIENT_ID_TEST` and `CMS_GITHUB_CLIENT_SECRET_TEST`: test OAuth
-  application credentials.
-- `CMS_GITHUB_CLIENT_ID_PRODUCTION` and `CMS_GITHUB_CLIENT_SECRET_PRODUCTION`:
-  production OAuth application credentials.
-- `CMS_PRODUCTION_ORIGIN`: optional hosted verification origin, initially
-  `https://pyconhk-cms.pages.dev` and later `https://cms.pycon.hk`.
-- `CMS_TEST_ORIGIN`: optional test verification origin, initially
-  `https://pyconhk-cms-test.pages.dev` and later `https://cms-test.pycon.hk`.
-
-The workflow checks the selected News branch and local CMS runtime, then deploys
-and verifies the hosted Worker. The two CMS deploys have independent concurrency
-groups; unchanged source/profile inputs skip the upload. Marketing needs News
-repository write access only, not website repository or Cloudflare access.
-
-Create or update the GitHub OAuth app with:
-
-- Homepage URL: the exact Worker origin
-- Authorization callback URL: `<worker-origin>/api/decap/callback`
-
-Then complete a real login and a test News commit with an account that has
-push permission to `pyconhk/pyconhk-news`. The callback rejects users whose
-GitHub repository response does not report `permissions.push: true`. The default
-OAuth scope is `public_repo`, matching the public News repository. Developers
-keep website code and deploy permissions; marketing receives write access to
-the News repository only. The published branches accept validated automatic
-promotion from their matching CMS branch; test content never promotes into
-production. Developers maintain the promotion workflow and validation code.
-
-## Test Custom Domain
-
-The test CMS has its own Worker, Pages gateway, OAuth application and News
-branch. Restoring `cms-test.pycon.hk` does not reuse the legacy
-`pyconhk-website-cms` project or the production gateway.
-
-1. Deploy the test profile and verify `https://pyconhk-cms-test.pages.dev`.
-2. In Website PyCon HK → Pages → `pyconhk-cms-test`, associate custom domain
-   `cms-test.pycon.hk`. Remove its association from the old Pages project first
-   if Cloudflare reports it is already assigned.
-3. In the OSHK DNS console, change only `cms-test` to the DNS-only CNAME
-   `pyconhk-cms-test.pages.dev`.
-4. Set the **Test** GitHub OAuth application's homepage to
-   `https://cms-test.pycon.hk/admin/` and allow callback
-   `https://cms-test.pycon.hk/api/decap/callback`.
-5. After DNS/TLS activation, set repository variable
-   `CMS_TEST_ORIGIN=https://cms-test.pycon.hk` and run hosted CMS checks with
-   `CMS_E2E_PROFILE=test`. Confirm its manifest says `test` and `cms-test`.
-
-## Production Cutover
-
-First verify the Worker and Pages gateway with the hosted CMS checks. This is a
-Pages custom domain, not a Worker custom domain: the DNS zone and deployment
-account are separate. Associate `cms.pycon.hk` in Website PyCon HK → Pages →
-`pyconhk-cms` → Custom domains. Then, in the OSHK DNS console, edit only the
-existing `cms` CNAME to `pyconhk-cms.pages.dev` (DNS only). The previous Vercel
-target is `a0a85bda7ab07c4d.vercel-dns-017.com`; record it for rollback. Do not
-change nameservers, the website domains, or the test CMS record. After DNS/TLS
-activation:
-
-1. Set the GitHub OAuth app homepage and callback to `https://cms.pycon.hk` and
-   `https://cms.pycon.hk/api/decap/callback`.
-2. Run the hosted CMS tests against `https://cms.pycon.hk`.
-   Set `CMS_PRODUCTION_ORIGIN=https://cms.pycon.hk` for future CI verification.
-3. Complete one real edit and confirm the locale-coded files land on News
-   branch `cms` and automatically promote to `main` after validation. Confirm
-   test edits follow `cms-test` to `test` without changing production.
-4. Confirm each website build consumes the matching News branch at a recorded
-   commit and the public website update succeeds.
-
-`CMS_PUBLIC_URL` is normally unnecessary because routes derive their canonical
-origin from the request. Set it only when a trusted proxy makes that origin
-incorrect; its value must be an `http` or `https` origin without a path.
-
-## Decap compatibility
-
-`patches/decap-cms-core@3.16.0.patch` guards the optional locale callback in the
-second editor pane. Bun applies it through the root workspace `patchedDependencies`.
-The CMS editor E2E exercises the patched editor. Published core versions
-3.0.0, 3.6.3, 3.8.1, 3.10.1, 3.12.0–3.15.0 and 3.18.1 still contain this bug;
-remove the patch when upgrading to a release that fixes it.
+`Deploy CMS Workers` runs for CMS changes on `test` and `main`, or manually with a
+target. `CMS_TEST_ORIGIN` and `CMS_PRODUCTION_ORIGIN` select the public URLs.
+Deployment verifies repository, branch, environment and source hash; unchanged
+Worker and gateway inputs skip builds/uploads. Real GitHub login and article
+publication should also be checked during a CMS release.

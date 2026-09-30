@@ -45,14 +45,7 @@ run = "node --test .github/deploy/*.test.ts cms/gateway/*.test.ts"
 
 [tasks.check-cms-content]
 description = "Validate locale-coded Decap content in the working tree or a git ref"
-run = "node --test cms/publication/content.test.ts && node cms/publication/content.ts"
-
-[tasks.check-cms-release]
-description = "Fetch and validate the CMS branch before deployment"
-run = """
-git fetch origin +refs/heads/cms:refs/remotes/origin/cms
-CMS_CONTENT_REF=origin/cms node cms/publication/content.ts
-"""
+run = "node --test cms/publication/*.test.ts && node cms/publication/content.ts"
 
 [tasks.preview]
 description = "Build and preview the public website locally"
