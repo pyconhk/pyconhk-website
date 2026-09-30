@@ -39,6 +39,13 @@ export function deploymentSourceHash(app: App, root: string, { externalNews = fa
       const selectedConfig = cmsProfile === "legacy" ? "cms/wrangler.jsonc" : `cms/wrangler.${cmsProfile}.jsonc`;
       if (filename !== selectedConfig) continue;
     }
+    if (app === "cms" && filename.startsWith("cms/gateway/")) {
+      if (cmsProfile === "legacy") continue;
+      if (/^cms\/gateway\/wrangler(?:\.[^/]+)?\.jsonc$/.test(filename)) {
+        const selectedConfig = cmsProfile === "test" ? "cms/gateway/wrangler.test.jsonc" : "cms/gateway/wrangler.jsonc";
+        if (filename !== selectedConfig) continue;
+      }
+    }
     const absolute = path.join(root, filename);
     let contents: Buffer;
     let executable: number;

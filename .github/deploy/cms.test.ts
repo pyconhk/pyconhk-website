@@ -15,7 +15,8 @@ function setEnvironment(t: { after: (fn: () => void) => void }, name: string, va
 }
 
 const root = fileURLToPath(new URL("../..", import.meta.url));
-const origin = "https://pyconhk-cms-test.website-pyconhk.workers.dev";
+const origin = "https://cms-test.pycon.hk";
+const productionGatewayOrigin = "https://pyconhk-cms.pages.dev";
 const expected = {
   app: "cms",
   sourceHash: deploymentSourceHash("cms", root, { cmsProfile: "test" }),
@@ -24,19 +25,27 @@ const expected = {
   contentBranch: "cms-test",
 };
 
-test("matching test CMS code and target skip build and deployment", async () => {
+test("matching test CMS code and both gateway targets skip build and deployment", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
   const calls: string[] = [];
   await deployCms({
     root,
     profile: "test",
     origin,
     readManifest: async () => expected,
+    readGateway: async (url) => {
+      assert.equal(url, "https://pyconhk-cms-test.pages.dev");
+      return { ...expected, app: "cms-gateway" };
+    },
+    readGatewayWorker: async (url) => { assert.equal(url, origin); return expected; },
+    ensureGateway: async (project) => { assert.equal(project, "pyconhk-cms-test"); },
     run: (command) => { calls.push(command); return Buffer.alloc(0); },
   });
   assert.deepEqual(calls, []);
 });
 
-test("a target mismatch rebuilds and verifies the test Worker", async () => {
+test("a target mismatch rebuilds and verifies the test Worker", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
   const calls: string[] = [];
   let reads = 0;
   let secretsPath = "";
@@ -50,6 +59,9 @@ test("a target mismatch rebuilds and verifies the test Worker", async () => {
       profile: "test",
       origin,
       readManifest: async () => ++reads === 1 ? { ...expected, contentBranch: "main" } : expected,
+      readGateway: async () => ({ ...expected, app: "cms-gateway" }),
+      readGatewayWorker: async () => expected,
+      ensureGateway: async () => {},
       run: (command, args) => {
         calls.push(`${command} ${args.slice(0, 3).join(" ")}`);
         if (args.includes("--secrets-file")) {
@@ -73,14 +85,16 @@ test("a target mismatch rebuilds and verifies the test Worker", async () => {
   assert.equal(reads, 2);
 });
 
-test("production refuses the DNS-owning OSHK account as a deployment target", async () => {
+test("both CMS profiles refuse the DNS-owning OSHK account as a deployment target", async () => {
   const previousAccount = process.env.CLOUDFLARE_ACCOUNT_ID;
   process.env.CLOUDFLARE_ACCOUNT_ID = "364d9bd5080fe5ed0c756c60627a4420";
   try {
-    await assert.rejects(
-      deployCms({ root, profile: "production", origin: "https://cms.pycon.hk" }),
-      /Website PyCon HK Cloudflare account/,
-    );
+    for (const profile of ["test", "production"]) {
+      await assert.rejects(
+        deployCms({ root, profile }),
+        /Website PyCon HK Cloudflare account/,
+      );
+    }
   } finally {
     if (previousAccount === undefined) delete process.env.CLOUDFLARE_ACCOUNT_ID;
     else process.env.CLOUDFLARE_ACCOUNT_ID = previousAccount;
@@ -128,6 +142,73 @@ test("unchanged production Worker still deploys a missing gateway and retries a 
   assert.ok(origins.includes("https://pyconhk-cms.pages.dev"));
 });
 
+test("test gateway deploys only its own project and Worker binding, then skips an unchanged upload", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
+  setEnvironment(t, "CLOUDFLARE_PAGES_API_TOKEN", "test-pages-token");
+  setEnvironment(t, "CMS_GITHUB_CLIENT_ID", "must-not-reach-pages");
+  setEnvironment(t, "CMS_GITHUB_CLIENT_SECRET", "must-not-reach-pages");
+  const marker = { ...expected, app: "cms-gateway" };
+  let uploaded = false;
+  let markerReads = 0;
+  let uploads = 0;
+  let staging = "";
+  const waits: number[] = [];
+  const options = {
+    root, profile: "test", origin,
+    ensureGateway: async (project: string) => { assert.equal(project, "pyconhk-cms-test"); },
+    readManifest: async (url: string) => {
+      assert.equal(url, "https://pyconhk-cms-test.website-pyconhk.workers.dev");
+      return expected;
+    },
+    readGateway: async (url: string) => {
+      assert.equal(url, "https://pyconhk-cms-test.pages.dev");
+      if (!uploaded) return { ...marker, environment: "production", contentBranch: "cms" };
+      return ++markerReads === 1 ? null : marker;
+    },
+    readGatewayWorker: async (url: string) => { assert.equal(url, origin); return expected; },
+    run: (_command: string, args: readonly string[], opts: any) => {
+      uploads++;
+      assert.equal(args[args.indexOf("--project-name") + 1], "pyconhk-cms-test");
+      assert.equal(args[args.indexOf("--branch") + 1], "main");
+      assert.equal(opts.env.CLOUDFLARE_API_TOKEN, "test-pages-token");
+      assert.equal(opts.env.CMS_GITHUB_CLIENT_ID, undefined);
+      assert.equal(opts.env.CMS_GITHUB_CLIENT_SECRET, undefined);
+      staging = opts.cwd;
+      const config = JSON.parse(readFileSync(`${staging}/wrangler.jsonc`, "utf8"));
+      assert.equal(config.name, "pyconhk-cms-test");
+      assert.deepEqual(config.services, [{ binding: "CMS", service: "pyconhk-cms-test" }]);
+      assert.deepEqual(config.env.preview.services, []);
+      assert.deepEqual(JSON.parse(readFileSync(`${staging}/dist/cms-gateway-manifest.json`, "utf8")), marker);
+      uploaded = true;
+      return Buffer.alloc(0);
+    },
+    wait: async (milliseconds: number) => { waits.push(milliseconds); },
+  };
+  await deployCms(options);
+  assert.equal(uploads, 1);
+  assert.deepEqual(waits, [5_000]);
+  assert.ok(!existsSync(staging));
+  await deployCms(options);
+  assert.equal(uploads, 1, "matching Worker and gateway must not rebuild or upload");
+});
+
+test("a matching test gateway marker cannot hide a production upstream Worker", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
+  let reads = 0;
+  let waits = 0;
+  await assert.rejects(deployCms({
+    root, profile: "test", origin,
+    ensureGateway: async () => {},
+    readManifest: async () => expected,
+    readGateway: async () => ({ ...expected, app: "cms-gateway" }),
+    readGatewayWorker: async () => { reads++; return { ...expected, environment: "production", contentBranch: "cms" }; },
+    run: () => { throw new Error("must not upload unchanged inputs"); },
+    wait: async () => { waits++; },
+  }), /expected test Worker after 6 readiness checks/);
+  assert.equal(reads, 6);
+  assert.equal(waits, 5);
+});
+
 test("Pages project creation only follows a confirmed 404", async (t) => {
   setEnvironment(t, "CLOUDFLARE_PAGES_API_TOKEN", "pages-token");
   const calls: RequestInit[] = [];
@@ -135,19 +216,31 @@ test("Pages project creation only follows a confirmed 404", async (t) => {
     calls.push(options);
     return new Response("{}", { status: calls.length === 1 ? 404 : 200 });
   };
-  await ensureGatewayProject(request as typeof fetch);
+  await ensureGatewayProject("pyconhk-cms", request as typeof fetch);
   assert.equal(calls[1].method, "POST");
   assert.deepEqual(JSON.parse(String(calls[1].body)), { name: "pyconhk-cms", production_branch: "main" });
   assert.equal(calls[1].headers?.["Authorization"], "Bearer pages-token");
   let attempts = 0;
-  await assert.rejects(ensureGatewayProject((async () => { attempts++; return new Response(null, { status: 403 }); }) as typeof fetch), /Cannot inspect/);
+  await assert.rejects(ensureGatewayProject("pyconhk-cms", (async () => { attempts++; return new Response(null, { status: 403 }); }) as typeof fetch), /Cannot inspect/);
   assert.equal(attempts, 1);
+});
+
+test("test Pages project creation never inspects or creates the production gateway", async (t) => {
+  setEnvironment(t, "CLOUDFLARE_PAGES_API_TOKEN", "pages-token");
+  const calls: Array<{ url: string; options: RequestInit }> = [];
+  await ensureGatewayProject("pyconhk-cms-test", (async (url, options) => {
+    calls.push({ url: String(url), options: options! });
+    return new Response("{}", { status: calls.length === 1 ? 404 : 200 });
+  }) as typeof fetch);
+  assert.ok(calls[0].url.endsWith("/pages/projects/pyconhk-cms-test"));
+  assert.deepEqual(JSON.parse(String(calls[1].options.body)), { name: "pyconhk-cms-test", production_branch: "main" });
+  await assert.rejects(ensureGatewayProject("unrelated", (() => assert.fail("must not contact Cloudflare")) as typeof fetch), /Unsupported CMS Pages project/);
 });
 
 test("gateway readers tolerate propagation responses but reject authorization and configuration failures", async () => {
   const origin = "https://cms.pycon.hk";
   const readers = [
-    { read: (request: typeof fetch) => readGatewayManifest(request), path: "/cms-gateway-manifest.json" },
+    { read: (request: typeof fetch) => readGatewayManifest(productionGatewayOrigin, request), path: "/cms-gateway-manifest.json" },
     { read: (request: typeof fetch) => readGatewayWorkerManifest(origin, request), path: "/deployment-manifest.json" },
   ];
   for (const { read, path } of readers) {
@@ -181,7 +274,7 @@ test("production verification retries temporary Pages and service-binding failur
   await deployCms({
     root, profile: "production", origin: "https://cms.pycon.hk", ensureGateway: async () => {},
     readManifest: async () => manifest,
-    readGateway: () => readGatewayManifest((async () => markerResponses.shift()!) as typeof fetch),
+    readGateway: () => readGatewayManifest(productionGatewayOrigin, (async () => markerResponses.shift()!) as typeof fetch),
     readGatewayWorker: (url) => {
       assert.equal(url, "https://cms.pycon.hk");
       return readGatewayWorkerManifest(url, (async () => workerResponses.shift()!) as typeof fetch);
@@ -216,7 +309,7 @@ test("gateway verification stops after six checks for persistent outages or wron
       await assert.rejects(deployCms({
         root, profile: "production", origin: "https://cms.pycon.hk", ensureGateway: async () => {},
         readManifest: async () => manifest,
-        readGateway: stage === "marker" ? () => readGatewayManifest(request) : async () => marker,
+        readGateway: stage === "marker" ? () => readGatewayManifest(productionGatewayOrigin, request) : async () => marker,
         readGatewayWorker: (url) => readGatewayWorkerManifest(url, request),
         run: () => Buffer.alloc(0),
         wait: async () => { waits++; },
