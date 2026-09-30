@@ -59,7 +59,9 @@ const target = `${getCmsRepo(environment)} · ${getCmsBranch(environment)}`;
       import CMS from "decap-cms-app";
       import { validateEditorialPublish } from "../../lib/editor-validation";
 
-      CMS.registerEventListener({ name: "prePublish", handler: ({ entry }) => validateEditorialPublish(entry.toJS()) });
+      // Simple publishing commits on save. Validate without returning a value:
+      // Decap treats a returned value as replacement entry data.
+      CMS.registerEventListener({ name: "preSave", handler: ({ entry }) => { validateEditorialPublish(entry.toJS()); } });
       CMS.init();
     </script>
   </body>

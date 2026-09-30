@@ -4,8 +4,8 @@ import { parse } from "yaml";
 const profile = process.env.CMS_E2E_PROFILE ?? "legacy";
 const expectedBackend = {
   legacy: { repo: "pyconhk/pyconhk-website", branch: "cms" },
-  test: { repo: "pyconhk/pyconhk-news", branch: "test" },
-  production: { repo: "pyconhk/pyconhk-news", branch: "main" },
+  test: { repo: "pyconhk/pyconhk-news", branch: "cms-test" },
+  production: { repo: "pyconhk/pyconhk-news", branch: "cms" },
 }[profile];
 
 if (!expectedBackend) {
@@ -41,7 +41,7 @@ test("admin loads the published Decap configuration and login screen", async ({
     ...expectedBackend,
     base_url: baseURL,
   });
-  expect(config.publish_mode).toBe("editorial_workflow");
+  expect(config.publish_mode).toBe("simple");
   expect(config.i18n.locales).toEqual([
     "en",
     "zh-hk",

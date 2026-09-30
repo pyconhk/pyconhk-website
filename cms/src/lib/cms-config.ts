@@ -45,6 +45,7 @@ function createPostFields(): CmsField[] {
       label: "Status",
       name: "status",
       widget: "select",
+      hint: "Drafts can be saved unfinished. Published entries go live automatically after all translations pass validation.",
       options: ["draft", "published"],
       default: "draft",
       i18n: "duplicate",
@@ -127,8 +128,7 @@ function createPostCollection(
   const { label, name, year } = definition;
 
   return {
-    // Editorial branch names contain the collection ID. Distinct IDs prevent
-    // test drafts from colliding with production drafts for the same slug.
+    // Keep the test editor's collection IDs distinct from production.
     name: stage === "test" ? `${name}_test` : name,
     label,
     folder: `${contentRoot}/${year}-posts`,
@@ -160,7 +160,7 @@ export function createCmsConfig(
 
   return {
     i18nStructure: "multiple_files",
-    publishMode: options.publishMode || "editorial_workflow",
+    publishMode: options.publishMode || "simple",
     mediaFolder: options.mediaFolder || getCmsMediaFolder(environment),
     publicFolder: options.publicFolder || getCmsPublicFolder(environment),
     locales,

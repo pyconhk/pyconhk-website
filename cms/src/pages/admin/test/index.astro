@@ -21,7 +21,7 @@ export const prerender = true;
       import CMS from "decap-cms-app";
       import { validateEditorialPublish } from "../../../lib/editor-validation";
 
-      CMS.registerEventListener({ name: "prePublish", handler: ({ entry }) => validateEditorialPublish(entry.toJS()) });
+      CMS.registerEventListener({ name: "preSave", handler: ({ entry }) => { validateEditorialPublish(entry.toJS()); } });
       CMS.init();
     </script>
   </body>

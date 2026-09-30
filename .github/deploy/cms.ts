@@ -18,12 +18,12 @@ const profiles = {
   test: {
     origin: "https://pyconhk-cms-test.website-pyconhk.workers.dev",
     contentRepo: "pyconhk/pyconhk-news",
-    contentBranch: "test",
+    contentBranch: "cms-test",
   },
   production: {
     origin: "https://pyconhk-cms.website-pyconhk.workers.dev",
     contentRepo: "pyconhk/pyconhk-news",
-    contentBranch: "main",
+    contentBranch: "cms",
   },
 } as const;
 

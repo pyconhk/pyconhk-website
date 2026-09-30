@@ -25,8 +25,8 @@ The Worker exposes:
 
 `/admin/test/` is an in-memory browser fixture, not the GitHub-backed test CMS.
 The real test CMS uses `wrangler.test.jsonc`, Worker `pyconhk-cms-test` and News
-branch `test`. Production uses `wrangler.production.jsonc`, Worker `pyconhk-cms`
-and News branch `main`. Their OAuth applications, Worker secrets and origins must
+branch `cms-test`. Production uses `wrangler.production.jsonc`, Worker `pyconhk-cms`
+and News branch `cms`. Their OAuth applications, Worker secrets and origins must
 be separate. Both Workers belong to the Website PyCon HK Cloudflare account
 `043801e2f5b9cf2685593bd9098e98b1`. Production has a Pages gateway named
 `pyconhk-cms` in the same account. Its `CMS` service binding forwards requests
@@ -42,13 +42,24 @@ exposes only news collections, currently `2026 News` and `2025 News`. The year i
 determined by the collection, so editors do not enter it as post metadata.
 Conference pages and event settings are maintained in the website source.
 
-Published content goes to `test` or `main` in the News repository. Editorial
-drafts use `cms-editorial/<collection>/<slug>`; the test CMS uses collection IDs
-`posts_test` and `posts_2025_test`, while production uses `posts` and
-`posts_2025`. This keeps draft branch names distinct when both environments edit
-the same slug. The transitional `cms` branch also uses `posts` IDs until retired.
-The checked-in Bun patches give Decap this branch prefix, because Git cannot
-store a branch called `cms` alongside branches named `cms/...`.
+Decap uses simple publishing: its **Publish now** button saves directly to the
+CMS branch, with no per-article pull request or review step. The entry's **Status**
+field controls whether the website displays it. Leave it as `draft` to save an
+unfinished translation; select `published` when the article is ready. Before
+saving a published entry, the editor checks all required translations and shared
+fields. CI repeats the content validation before promotion.
+
+Production commits land on `cms` and automatically promote to `main` after
+validation. Test commits land on `cms-test` and promote only to `test`.
+The website's scheduled GitHub Actions workflow checks the matching published
+News branch and builds and uploads changed content to Cloudflare. Cloudflare
+does not build the website. The schedule checks every five minutes; GitHub can
+delay scheduled runs. Failed validation leaves the last published site intact.
+
+The test collections keep IDs `posts_test` and `posts_2025_test`, while production
+uses `posts` and `posts_2025`. Existing `cms-editorial/<collection>/<slug>` drafts
+are legacy pending changes and must be recovered before removing those branches;
+new saves do not create them.
 
 A 2026 post such as `hello-world` is stored as:
 
@@ -110,7 +121,8 @@ mise run //cms:e2e
 
 The E2E task builds and starts a local Worker. It verifies the admin screen,
 served Decap configuration, OAuth redirect and PKCE cookies, invalid callbacks,
-media redirects, and the editor's image upload, draft save and review flow.
+media redirects, and the editor's image upload, direct draft save and published
+translation validation.
 The editor uses Decap's in-memory test repository; no live GitHub commits are made.
 Publication language and editorial branch rules run as command-level E2E tests
 in disposable repositories via `mise run //e2e:e2e`.
@@ -262,8 +274,9 @@ push permission to `pyconhk/pyconhk-news`. The callback rejects users whose
 GitHub repository response does not report `permissions.push: true`. The default
 OAuth scope is `public_repo`, matching the public News repository. Developers
 keep website code and deploy permissions; marketing receives write access to
-the News repository only. Protect its production branch and require a reviewer
-for promotion from `test` before relying on this role boundary.
+the News repository only. The published branches accept validated automatic
+promotion from their matching CMS branch; test content never promotes into
+production. Developers maintain the promotion workflow and validation code.
 
 ## Production Cutover
 
@@ -281,7 +294,8 @@ activation:
 2. Run the hosted CMS tests against `https://cms.pycon.hk`.
    Set `CMS_PRODUCTION_ORIGIN=https://cms.pycon.hk` for future CI verification.
 3. Complete one real edit and confirm the locale-coded files land on News
-   branch `main`, while test edits remain on News branch `test`.
+   branch `cms` and automatically promote to `main` after validation. Confirm
+   test edits follow `cms-test` to `test` without changing production.
 4. Confirm each website build consumes the matching News branch at a recorded
    commit and the public website update succeeds.
 
