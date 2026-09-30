@@ -42,6 +42,8 @@ and `CMS_GITHUB_REPO` point to `pyconhk/pyconhk-website`.
 
 For both `main` and `test`, require PRs, the existing GitHub Actions `Branch Rules`
 and `Validate Monorepo` checks, resolved conversations, and code-owner review.
+Enable **Require branches to be up to date before merging** so GitHub rejects
+any candidate whose target changed after validation.
 Use zero general approvals and no latest-push approval, so unowned News-only
 changes can publish automatically. `.github/CODEOWNERS` assigns all other files
 (including itself and workflows) to the Website team. Do not add a bot bypass or

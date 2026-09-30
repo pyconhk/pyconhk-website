@@ -223,3 +223,26 @@ test('CMS validation uses the reviewed target checker even when a candidate repl
     await rm(trusted, { recursive: true, force: true });
   }
 });
+
+test('the website News loader rejects executable draft frontmatter before publication filtering', async () => {
+  const dir = await fixture();
+  try {
+    const post = path.join(dir, 'website/outstatic/content/2026-posts/probe.en.mdx');
+    const loader = path.join(root, 'website/src/lib/news.ts');
+    const script = `
+      import { getPublishedPosts } from ${JSON.stringify(loader)};
+      let error = '';
+      try { await getPublishedPosts(2026, 'en'); } catch (problem) { error = problem.message; }
+      console.log(JSON.stringify({ error, executed: globalThis.__pyconNewsExecutionProbe === true }));
+    `;
+    for (const opener of ['---js', '--- JavaScript', '\uFEFF---js']) {
+      await writeFile(post, `${opener}\n({ status: 'draft', title: (globalThis.__pyconNewsExecutionProbe = true, 'probe') })\n---\nBody`);
+      const result = await exec('bun', ['--tsconfig-override', path.join(root, 'website/tsconfig.json'), '--eval', script], { cwd: path.join(dir, 'website') });
+      const parsed = JSON.parse(result.stdout.trim());
+      expect(parsed.executed).toBe(false);
+      expect(parsed.error).toContain('plain YAML frontmatter');
+    }
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});

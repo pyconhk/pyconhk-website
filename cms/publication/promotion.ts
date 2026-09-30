@@ -109,7 +109,7 @@ async function stageCandidate(directory, candidate) {
   const branch = `automation/${candidate.source}-to-${candidate.target}`;
   const previousHead = await readRemoteRef(branch);
   // No credential persists in the candidate checkout. The helper reads GH_TOKEN
-  // only in this trusted staging step; CI has read-only permissions and no token.
+  // only in this trusted staging step; CI has no write token or deploy secrets.
   git(directory, ['-c', 'credential.helper=', '-c', 'credential.helper=!gh auth git-credential',
     'push', `--force-with-lease=refs/heads/${branch}:${previousHead || ''}`, 'origin', `${candidate.candidateSha}:refs/heads/${branch}`]);
   const matches = await api(`pulls?state=open&base=${candidate.target}&head=${encodeURIComponent(`pyconhk:${branch}`)}`);
