@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
 const sponsorships = [
+  ['databricks', 'Gold', 'Databricks', 'https://www.databricks.com/'],
   ['navicat', 'Silver', 'Navicat', 'https://www.navicat.com/'],
   ['calomei-bronze', 'Bronze', 'CaLoMei Studio', 'https://www.calomei.com/'],
   ['jetbrains', 'Prize Sponsor', 'JetBrains', 'https://www.jetbrains.com/'],
@@ -39,14 +40,14 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
       for (const theme of ['light', 'dark']) {
         await setTheme(page, theme);
         await expect(wall).toBeVisible();
-        await expect(wall.locator('a')).toHaveCount(5);
+        await expect(wall.locator('a')).toHaveCount(sponsorships.length);
         expect(
           await wall
             .locator('[data-sponsor-tier]')
             .evaluateAll((tiers) =>
               tiers.map((tier) => tier.getAttribute('data-sponsor-tier'))
             )
-        ).toEqual(['Silver', 'Bronze', 'Prize Sponsor', 'Media Sponsor']);
+        ).toEqual(['Gold', 'Silver', 'Bronze', 'Prize Sponsor', 'Media Sponsor']);
         const logoSizes: Record<
           string,
           { width: number; height: number; artworkWidth: number; artworkHeight: number }
@@ -131,6 +132,16 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           logoSizes[id] = { width: plate.width, height: plate.height, ...artwork };
         }
         for (const dimension of ['width', 'height'] as const) {
+          const goldToSilver =
+            logoSizes.databricks[dimension] / logoSizes.navicat[dimension];
+          // The narrowest phone constrains the gold plate to the available
+          // space; wider viewports retain the package's 7:6 size ratio.
+          if (width >= 390) {
+            expect(goldToSilver).toBeCloseTo(7 / 6, 2);
+          } else {
+            expect(goldToSilver).toBeGreaterThan(1);
+            expect(goldToSilver).toBeLessThanOrEqual(7 / 6 + 0.01);
+          }
           expect(
             logoSizes.navicat[dimension] / logoSizes['calomei-bronze'][dimension]
           ).toBeCloseTo(1.5, 2);
@@ -181,25 +192,25 @@ test('a homepage sponsor logo opens its own details before opening the vendor wi
   context,
 }) => {
   // Isolate the outbound navigation from the vendor's network availability.
-  await context.route('https://www.navicat.com/**', (route) =>
-    route.fulfill({ body: '<title>Navicat</title>' })
+  await context.route('https://www.databricks.com/**', (route) =>
+    route.fulfill({ body: '<title>Databricks</title>' })
   );
   await page.goto('/2026/en/#sponsors');
   const overviewLink = page
     .locator('[data-sponsor-overview]')
-    .getByRole('link', { name: 'Navicat', exact: true });
+    .getByRole('link', { name: 'Databricks', exact: true });
   await overviewLink.focus();
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/2026\/en\/sponsorships\/#sponsor-navicat$/);
-  const sponsor = page.locator('li#sponsor-navicat');
+  await expect(page).toHaveURL(/\/2026\/en\/sponsorships\/#sponsor-databricks$/);
+  const sponsor = page.locator('li#sponsor-databricks');
   await expect(sponsor).toBeInViewport();
-  const link = sponsor.getByRole('link', { name: 'Navicat', exact: true });
+  const link = sponsor.getByRole('link', { name: 'Databricks', exact: true });
   await link.focus();
   await expect(link).toBeFocused();
   const popupPromise = page.waitForEvent('popup');
   await page.keyboard.press('Enter');
   const popup = await popupPromise;
-  await expect(popup).toHaveURL('https://www.navicat.com/');
-  await expect(page).toHaveURL(/\/2026\/en\/sponsorships\/#sponsor-navicat$/);
+  await expect(popup).toHaveURL('https://www.databricks.com/');
+  await expect(page).toHaveURL(/\/2026\/en\/sponsorships\/#sponsor-databricks$/);
   await popup.close();
 });

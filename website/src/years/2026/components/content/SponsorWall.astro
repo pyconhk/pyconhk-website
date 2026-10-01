@@ -42,7 +42,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
           const Link = href ? 'a' : 'div';
           const isNavicat = item.logo === '/2026/sponsors/navicat.svg';
           const isJetBrains = item.logo === '/2026/sponsors/jetbrains.svg';
-          const hasWordmark = isNavicat || isJetBrains;
+          const hasWordmark = isNavicat || isJetBrains || item.logo === '/2026/sponsors/databricks.svg';
           return <li id={`sponsor-${item.id}`} class:list={[
             'min-w-0 w-full scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
             group.items.length === 1 && descriptions && item.description ? 'max-w-prose' : group.widthClass,
