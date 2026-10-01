@@ -2,6 +2,7 @@
 import { scheduleCopy } from '../../data/schedule-copy';
 import type { CfpLocale } from '../../locales';
 import WovenRibbon from '../ui/WovenRibbon.astro';
+import SaveSessionButton from './SaveSessionButton.astro';
 
 interface Props { locale: CfpLocale }
 const copy = scheduleCopy[Astro.props.locale];
@@ -10,7 +11,7 @@ const copy = scheduleCopy[Astro.props.locale];
   <WovenRibbon heightClass="h-5" />
   <div class="modal-heading flex items-start justify-between gap-4 border-b-2 border-conference-outline/15 bg-conference-paper p-5">
     <p class="text-xs font-black uppercase tracking-widest text-conference-red">{copy.details}</p>
-    <form method="dialog"><button type="submit" class="rounded-xl border-2 border-conference-outline bg-conference-surface px-3 py-2 text-sm font-bold" aria-label={copy.close}>{copy.close}</button></form>
+    <form method="dialog"><button type="submit" data-modal-close class="h-11 w-11 rounded-xl border border-conference-outline bg-conference-surface" aria-label={copy.close} title={copy.close}><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-6 w-6"><path d="m6 6 12 12M18 6 6 18" /></svg></button></form>
   </div>
   <div data-modal-body class="space-y-5 p-5">
     <h2 id="modal-session-title" class="font-sans text-2xl font-black leading-snug sm:text-3xl">{copy.details}</h2>
@@ -21,8 +22,9 @@ const copy = scheduleCopy[Astro.props.locale];
     </dl>
     <div id="modal-details"></div>
     <div class="flex flex-wrap gap-3 border-t border-conference-line pt-4">
-      <button type="button" data-modal-save class="rounded-xl border-2 border-conference-outline bg-conference-paper px-4 py-2 text-sm font-bold" aria-pressed="false">{copy.save}</button>
-      <a href="https://calendar.google.com/calendar/" data-modal-calendar class="rounded-xl border-2 border-conference-outline bg-[#2f559a] px-4 py-2 text-sm font-bold text-white" target="_blank" rel="noopener noreferrer">{copy.calendar}</a>
+      <SaveSessionButton modal label={copy.save} />
+      <button type="button" data-modal-calendar class="gap-2 rounded-xl border-2 border-conference-outline bg-[#2f559a] px-4 py-2 text-sm font-bold text-white"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg>{copy.downloadCalendar}</button>
+      <a href="https://calendar.google.com/calendar/" data-modal-google-calendar class="px-2 py-2 text-sm font-bold underline" target="_blank" rel="noopener noreferrer">{copy.googleCalendar}</a>
       <a href="https://pretalx.com/" data-modal-source class="px-2 py-2 text-sm font-bold underline" target="_blank" rel="noopener noreferrer">{copy.source}</a>
     </div>
   </div>

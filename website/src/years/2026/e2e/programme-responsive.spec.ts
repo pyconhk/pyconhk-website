@@ -41,7 +41,7 @@ test.describe('responsive public programme', () => {
           const programme = document.querySelector<HTMLElement>('.programme-scroll')!;
           const visible = [
             ...document.querySelectorAll<HTMLElement>(
-              '[data-session-card], .programme-filters button, .programme-filters input, .programme-filters select'
+              '[data-session-card], .programme-filters button, .programme-filters input, .programme-filters select, [data-export-saved]'
             ),
           ].filter((element) => element.getClientRects().length);
           return {
@@ -71,7 +71,7 @@ test.describe('responsive public programme', () => {
             }),
             touchTargetsFit: [
               ...document.querySelectorAll<HTMLElement>(
-                '[data-day], .programme-filters button, .programme-filters input, .programme-filters select, [data-save-session], [data-session-details]'
+                '[data-day], .programme-filters button, .programme-filters input, .programme-filters select, [data-save-session], [data-session-details], [data-export-saved]'
               ),
             ]
               .filter((element) => element.getClientRects().length)
