@@ -4,6 +4,21 @@ import type { CfpLocale } from '../locales';
 const written = getChineseTerms('zh-hant');
 const cantonese = getChineseTerms('zh-hk');
 
+// Preserve the published language: a script code does not identify a spoken dialect.
+export function sessionLanguageLabel(language: string): string {
+  const names: Record<string, string> = {
+    en: 'English',
+    zh: '中文',
+    'zh-hant': '繁體中文',
+    'zh-hans': '简体中文',
+    'zh-hk': '廣東話',
+    yue: '廣東話',
+    ja: '日本語',
+    ko: '한국어',
+  };
+  return names[language.toLowerCase()] ?? language;
+}
+
 const en = {
   sample:
     '2025 sample programme — these are the original 2025 sessions and dates, not the 2026 programme.',
