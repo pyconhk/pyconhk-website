@@ -358,6 +358,17 @@ export function validateSnapshot(
   return snapshot;
 }
 
+function isCloudflareError(response: Response): boolean {
+  // Cloudflare may inject scripts into ordinary origin pages. Only its explicit
+  // response headers distinguish a challenge/error from a Pretalx denial.
+  return (
+    response.headers.get('cf-mitigated') === 'challenge' ||
+    (!response.ok &&
+      (response.headers.has('cf-error-type') ||
+        response.headers.has('cf-error-origin')))
+  );
+}
+
 export async function fetchProgramme({
   event,
   environment,
@@ -395,6 +406,28 @@ export async function fetchProgramme({
         headers: { Accept: 'application/json', 'Cache-Control': 'no-cache' },
         signal: AbortSignal.timeout(20_000),
       });
+      const responseHeaders = response.headers;
+      console.info(
+        `[programme] response ${JSON.stringify({
+          event,
+          environment,
+          source: `${url.origin}${url.pathname}`,
+          attempt: attempt + 1,
+          status: response.status,
+          headers: Object.fromEntries(
+            [
+              'content-type',
+              'cache-control',
+              'age',
+              'cf-cache-status',
+              'cf-mitigated',
+              'cf-ray',
+              'cf-error-type',
+              'cf-error-origin',
+            ].map((name) => [name, responseHeaders.get(name)])
+          ),
+        })}`
+      );
       if (response.status !== 429 && response.status < 500) break;
       if (attempt === 2)
         throw new Error(`Pretalx fetch failed: HTTP ${response.status}.`);
@@ -403,15 +436,38 @@ export async function fetchProgramme({
     }
     await wait((attempt + 1) * 1_000);
   }
+  if (response && isCloudflareError(response)) {
+    throw new Error(
+      `Pretalx fetch failed: HTTP ${response.status} (Cloudflare challenge or error; see programme response diagnostics).`
+    );
+  }
   // An unpublished event may deny anonymous exports (403) or have no export
   // yet (404). Once a published snapshot exists, neither response may replace it.
+  let snapshot: ProgrammeSnapshot;
   if (
     (response?.status === 403 || response?.status === 404) &&
     allowUnpublished &&
     baseline?.status !== 'published'
   ) {
-    return unpublishedSnapshot({ event, environment, sourceUrl });
+    snapshot = unpublishedSnapshot({ event, environment, sourceUrl });
+  } else {
+    if (!response?.ok)
+      throw new Error(`Pretalx fetch failed: HTTP ${response?.status}.`);
+    snapshot = normalizeProgramme(await response.json(), {
+      event,
+      environment,
+      sourceUrl,
+    });
   }
-  if (!response?.ok) throw new Error(`Pretalx fetch failed: HTTP ${response?.status}.`);
-  return normalizeProgramme(await response.json(), { event, environment, sourceUrl });
+  console.info(
+    `[programme] snapshot ${JSON.stringify({
+      event,
+      environment,
+      status: snapshot.status,
+      sourceVersion: snapshot.sourceVersion,
+      sessions: snapshot.sessions.length,
+      hash: snapshot.hash,
+    })}`
+  );
+  return snapshot;
 }
