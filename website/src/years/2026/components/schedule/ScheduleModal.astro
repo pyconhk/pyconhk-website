@@ -21,11 +21,15 @@ const copy = scheduleCopy[Astro.props.locale];
       <div data-modal-speakers><dt class="font-bold text-conference-muted">{copy.speakers}</dt><dd id="modal-speakers"></dd></div>
     </dl>
     <div id="modal-details"></div>
-    <div class="flex flex-wrap gap-3 border-t border-conference-line pt-4">
-      <SaveSessionButton modal label={copy.save} />
-      <button type="button" data-modal-calendar class="gap-2 rounded-xl border-2 border-conference-outline bg-[#2f559a] px-4 py-2 text-sm font-bold text-white"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg>{copy.downloadCalendar}</button>
-      <a href="https://calendar.google.com/calendar/" data-modal-google-calendar class="px-2 py-2 text-sm font-bold underline" target="_blank" rel="noopener noreferrer">{copy.googleCalendar}</a>
-      <a href="https://pretalx.com/" data-modal-source class="px-2 py-2 text-sm font-bold underline" target="_blank" rel="noopener noreferrer">{copy.source}</a>
+    <div class="modal-actions">
+      <div class="modal-primary-actions">
+        <SaveSessionButton modal label={copy.save} />
+        <button type="button" data-modal-calendar class="modal-calendar"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg><span>{copy.downloadCalendar}</span></button>
+      </div>
+      <div class="modal-secondary-actions">
+        <a href="https://calendar.google.com/calendar/" data-modal-google-calendar class="modal-secondary-link" target="_blank" rel="noopener noreferrer"><span>{copy.googleCalendar}</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7" /></svg></a>
+        <a href="https://pretalx.com/" data-modal-source class="modal-secondary-link" target="_blank" rel="noopener noreferrer"><span>{copy.source}</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7" /></svg></a>
+      </div>
     </div>
   </div>
 </dialog>
@@ -38,6 +42,23 @@ const copy = scheduleCopy[Astro.props.locale];
   .modal-heading form { position: sticky; top: 0; flex-shrink: 0; }
   .modal-heading + div { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   button, a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .modal-actions { display: grid; gap: .75rem; padding-top: 1.25rem; border-top: 1px solid var(--conference-line); }
+  .modal-primary-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+  .modal-primary-actions :global([data-modal-save]), .modal-calendar { width: 100%; min-width: 0; min-height: 52px; gap: .625rem; padding: .75rem 1rem; border: 1px solid var(--conference-outline); border-radius: .75rem; font-size: .875rem; font-weight: 700; line-height: 1.4; text-align: center; text-wrap: balance; }
+  .modal-calendar { background: #2f559a; color: white; cursor: pointer; }
+  .modal-calendar svg { width: 24px; height: 24px; flex-shrink: 0; }
+  .modal-calendar span, .modal-secondary-link span { min-width: 0; }
+  .modal-secondary-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .modal-secondary-link { min-width: 0; gap: .5rem; padding: .5rem .75rem; border: 1px solid var(--conference-line); border-radius: .625rem; color: var(--conference-body); font-size: .8125rem; font-weight: 600; line-height: 1.4; text-align: center; text-decoration: none; text-wrap: balance; }
+  .modal-secondary-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .modal-secondary-link[hidden] { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .modal-calendar:hover { background: #24467f; }
+    .modal-secondary-link:hover { background: var(--conference-paper); color: var(--conference-blue); }
+  }
+  @media (min-width: 640px) {
+    .modal-primary-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @media (max-width: 639px), (max-height: 500px) {
     .modal-heading, .modal-heading + div { padding: 1rem; }
   }

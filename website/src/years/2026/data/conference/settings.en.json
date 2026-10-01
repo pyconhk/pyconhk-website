@@ -45,6 +45,14 @@
     "status": "published",
     "items": [
       {
+        "id": "databricks",
+        "name": "Databricks",
+        "tier": "Gold",
+        "logo": "/2026/sponsors/databricks.svg",
+        "url": "https://www.databricks.com/",
+        "description": ""
+      },
+      {
         "id": "navicat",
         "name": "Navicat",
         "tier": "Silver",

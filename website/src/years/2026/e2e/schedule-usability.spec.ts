@@ -66,6 +66,65 @@ function expectCalendarSessions(
   expect(new Set(uids).size).toBe(sessions.length);
 }
 
+async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean) {
+  const selectors = [
+    '[data-modal-save]',
+    '[data-modal-calendar]',
+    '[data-modal-google-calendar]',
+    '[data-modal-source]',
+  ];
+  await page.locator('[data-modal-source]').scrollIntoViewIfNeeded();
+  for (const selector of selectors) {
+    await expect(page.locator(selector)).toBeInViewport();
+  }
+  const geometry = await page.locator('[data-modal-body]').evaluate((body, targets) => {
+    const bodyBounds = body.getBoundingClientRect();
+    const controls = targets.map((selector) => {
+      const control = body.querySelector<HTMLElement>(selector);
+      if (!control) throw new Error(`Missing calendar action: ${selector}`);
+      const bounds = control.getBoundingClientRect();
+      return {
+        left: bounds.left,
+        right: bounds.right,
+        top: bounds.top,
+        bottom: bounds.bottom,
+        fits:
+          bounds.left >= bodyBounds.left &&
+          bounds.right <= bodyBounds.right &&
+          bounds.width >= 44 &&
+          bounds.height >= 44 &&
+          control.scrollWidth <= control.clientWidth + 1,
+      };
+    });
+    const [save, calendar, google, source] = controls;
+    return {
+      controlsFit: controls.every((control) => control.fits),
+      noOverlap: controls.every((control, index) =>
+        controls
+          .slice(index + 1)
+          .every(
+            (other) =>
+              Math.min(control.right, other.right) -
+                Math.max(control.left, other.left) <=
+                1 ||
+              Math.min(control.bottom, other.bottom) -
+                Math.max(control.top, other.top) <=
+                1
+          )
+      ),
+      primaryAligned:
+        Math.abs(save.top - calendar.top) < 1 &&
+        Math.abs(save.bottom - calendar.bottom) < 1,
+      secondaryBelowPrimary:
+        Math.min(google.top, source.top) >= Math.max(save.bottom, calendar.bottom) - 1,
+    };
+  }, selectors);
+  expect(geometry.controlsFit).toBe(true);
+  expect(geometry.noOverlap).toBe(true);
+  expect(geometry.secondaryBelowPrimary).toBe(true);
+  if (primaryActionsShareRow) expect(geometry.primaryAligned).toBe(true);
+}
+
 for (const width of [390, 1440]) {
   test(`speaker portraits, star bookmarks and portable calendars work at ${width}px`, async ({
     page,
@@ -128,6 +187,7 @@ for (const width of [390, 1440]) {
     const close = page.locator('[data-modal-close]');
     await expect(close).toHaveAccessibleName('Close');
     await expect(close.locator('svg')).toHaveCount(1);
+    await expectModalActionsFit(page, width >= 640);
     const single = await calendarDownload(page, page.locator('[data-modal-calendar]'));
     expectCalendarSessions(single, [first], programme.event);
     const google = new URL(
@@ -375,6 +435,17 @@ for (const [locale, labels] of Object.entries(localizedSessionLanguages)) {
           )
         )
       ).toBe(true);
+    }
+
+    if (locale === 'ja' || locale === 'ko') {
+      await page.setViewportSize({ width: 320, height: 844 });
+      await page.locator('[data-clear-filters]').click();
+      const session = programme.sessions.find((item) => !item.isBreak && item.url);
+      if (!session) throw new Error('No public session with calendar source link');
+      const card = await showSession(page, session);
+      await card.locator('[data-session-details]').click();
+      await expect(page.locator('#session-modal')).toBeVisible();
+      await expectModalActionsFit(page, false);
     }
   });
 }
