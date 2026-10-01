@@ -325,8 +325,10 @@ for (const locale of ['en', 'zh-hk']) {
       const badge = card.locator('[data-session-language]');
       await expect(badge).toBeVisible();
       await expect(badge).toHaveAttribute('data-session-language', language);
-      if (labels[language]) await expect(badge).toHaveText(labels[language]);
-      await expect(badge).not.toHaveText(language);
+      if (labels[language]) {
+        await expect(badge).toHaveText(labels[language]);
+        await expect(badge).not.toHaveText(language);
+      }
       expect(
         await badge.evaluate((element) => {
           const style = getComputedStyle(element);
