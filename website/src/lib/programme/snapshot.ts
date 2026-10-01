@@ -1,4 +1,9 @@
 import { createHash } from 'node:crypto';
+import {
+  programmeApiExpansion,
+  programmeApiExport,
+  programmeApiMetadata,
+} from './api.ts';
 import type { ProgrammeSnapshot, ScheduleItem } from './types';
 
 type SourceOptions = {
@@ -18,6 +23,7 @@ type PublicSession = {
   date: string;
   title: string;
   code?: string;
+  slotId?: string;
   guid?: string;
   id?: string | number;
   persons?: PublicPerson[];
@@ -184,7 +190,9 @@ export function normalizeProgramme(
           throw new Error('Public session date/title is invalid.');
         }
         const code = text(item.code) || text(item.guid) || String(item.id ?? '');
-        const id = code ? `${room.id}-${code}` : `${room.id}-${start}`;
+        const id = code
+          ? `${room.id}-${text(item.slotId) || code}`
+          : `${room.id}-${start}`;
         if (ids.has(id)) throw new Error('Duplicate public session ID.');
         ids.add(id);
         const speakerProfiles = (Array.isArray(item.persons) ? item.persons : [])
@@ -375,6 +383,7 @@ export async function fetchProgramme({
   sourceUrl,
   baseline,
   allowUnpublished = false,
+  apiToken,
   fetchImpl = fetch,
   wait = (ms) => new Promise<void>((resolve) => setTimeout(resolve, ms)),
 }: {
@@ -383,35 +392,59 @@ export async function fetchProgramme({
   sourceUrl: string;
   baseline?: ProgrammeSnapshot;
   allowUnpublished?: boolean;
+  apiToken?: string;
   fetchImpl?: typeof fetch;
   wait?: (ms: number) => Promise<void>;
 }): Promise<ProgrammeSnapshot> {
   const url = new URL(sourceUrl);
+  const apiSource =
+    url.origin === 'https://cfp.pycon.hk' &&
+    url.pathname === `/api/events/${event}/schedules/latest/` &&
+    !url.search &&
+    !url.hash;
   if (
     !/^pyconhk\d{4}$/.test(event) ||
     url.protocol !== 'https:' ||
     url.username ||
     url.password ||
-    !url.pathname.includes(`/${event}/schedule/export/`)
+    (!apiSource && !url.pathname.includes(`/${event}/schedule/export/`))
   ) {
     throw new Error(
-      'Use the anonymous public HTTPS schedule export for the configured event.'
+      'Use the public HTTPS schedule export or the approved latest schedule API for the configured event.'
     );
   }
+  if (apiToken !== undefined && (!apiSource || !/^[!-~]+$/.test(apiToken)))
+    throw new Error(
+      'A valid programme API token may only be used with the approved latest schedule API.'
+    );
   if (baseline) validateSnapshot(baseline, event, environment);
-  let response: Response | undefined;
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    try {
-      response = await fetchImpl(sourceUrl, {
-        headers: { Accept: 'application/json', 'Cache-Control': 'no-cache' },
-        signal: AbortSignal.timeout(20_000),
-      });
+  async function request(requestUrl: URL): Promise<Response> {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      let response: Response;
+      try {
+        response = await fetchImpl(requestUrl.href, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Cache-Control': 'no-cache',
+            ...(apiSource ? { 'Pretalx-Version': 'v2' } : {}),
+            ...(apiToken ? { Authorization: `Token ${apiToken}` } : {}),
+          },
+          ...(apiSource ? { redirect: 'manual' as const } : {}),
+          signal: AbortSignal.timeout(20_000),
+        });
+      } catch {
+        // Transport errors must not echo request headers or a supplied token.
+        if (attempt === 2) throw new Error('Pretalx fetch failed after 3 attempts.');
+        await wait((attempt + 1) * 1_000);
+        continue;
+      }
       const responseHeaders = response.headers;
       console.info(
         `[programme] response ${JSON.stringify({
           event,
           environment,
-          source: `${url.origin}${url.pathname}`,
+          source: `${requestUrl.origin}${requestUrl.pathname}`,
           attempt: attempt + 1,
           status: response.status,
           headers: Object.fromEntries(
@@ -428,32 +461,52 @@ export async function fetchProgramme({
           ),
         })}`
       );
-      if (response.status !== 429 && response.status < 500) break;
+      if (
+        apiSource &&
+        (response.redirected ||
+          (response.status >= 300 && response.status < 400) ||
+          (response.url && response.url !== requestUrl.href))
+      )
+        throw new Error('Pretalx API redirects are not permitted.');
+      if (isCloudflareError(response)) {
+        throw new Error(
+          `Pretalx fetch failed: HTTP ${response.status} (Cloudflare challenge or error; see programme response diagnostics).`
+        );
+      }
+      if (response.status !== 429 && response.status < 500) return response;
       if (attempt === 2)
         throw new Error(`Pretalx fetch failed: HTTP ${response.status}.`);
-    } catch (error) {
-      if (attempt === 2) throw error;
+      await wait((attempt + 1) * 1_000);
     }
-    await wait((attempt + 1) * 1_000);
+    throw new Error('Pretalx fetch failed after 3 attempts.');
   }
-  if (response && isCloudflareError(response)) {
-    throw new Error(
-      `Pretalx fetch failed: HTTP ${response.status} (Cloudflare challenge or error; see programme response diagnostics).`
-    );
-  }
+  const requestUrl = new URL(url);
+  if (apiSource) requestUrl.searchParams.set('expand', programmeApiExpansion);
+  const response = await request(requestUrl);
   // An unpublished event may deny anonymous exports (403) or have no export
   // yet (404). Once a published snapshot exists, neither response may replace it.
   let snapshot: ProgrammeSnapshot;
   if (
-    (response?.status === 403 || response?.status === 404) &&
+    (response.status === 404 || (!apiSource && response.status === 403)) &&
     allowUnpublished &&
     baseline?.status !== 'published'
   ) {
     snapshot = unpublishedSnapshot({ event, environment, sourceUrl });
   } else {
-    if (!response?.ok)
-      throw new Error(`Pretalx fetch failed: HTTP ${response?.status}.`);
-    snapshot = normalizeProgramme(await response.json(), {
+    if (!response.ok) throw new Error(`Pretalx fetch failed: HTTP ${response.status}.`);
+    let payload: unknown = await response.json();
+    if (apiSource) {
+      const metadataResponse = await request(
+        new URL(`/api/events/${event}/`, url.origin)
+      );
+      if (!metadataResponse.ok)
+        throw new Error(
+          `Pretalx event metadata fetch failed: HTTP ${metadataResponse.status}.`
+        );
+      const metadata = programmeApiMetadata(await metadataResponse.json(), event);
+      payload = programmeApiExport(payload, { event, sourceUrl, ...metadata });
+    }
+    snapshot = normalizeProgramme(payload, {
       event,
       environment,
       sourceUrl,
