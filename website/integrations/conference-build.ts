@@ -26,11 +26,14 @@ export default function conferenceBuild(): AstroIntegration {
           return;
         }
         const sourceUrl = process.env.PROGRAMME_SOURCE_URL
-          ?? `https://${event === 'pyconhk2026' ? 'cfp.pycon.hk' : 'pretalx.com'}/${event}/schedule/export/schedule.json`;
+          ?? (event === 'pyconhk2026'
+            ? `https://pretalx.com/api/events/${event}/schedules/latest/`
+            : `https://pretalx.com/${event}/schedule/export/schedule.json`);
         const output = resolve(root, process.env.PROGRAMME_OUTPUT_PATH ?? `.cache/programme/${environment}/${event}.json`);
         const baselinePath = process.env.PROGRAMME_BASELINE_PATH;
         const baseline = baselinePath ? validateSnapshot(JSON.parse(await readFile(baselinePath, 'utf8')), event, environment) : undefined;
         const snapshot = await fetchProgramme({ event, environment, sourceUrl, baseline,
+          apiToken: process.env.PRETALX_API_TOKEN || undefined,
           allowUnpublished: event === 'pyconhk2026' });
         await mkdir(dirname(output), { recursive: true });
         const temporary = `${output}.${process.pid}.tmp`;

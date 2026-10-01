@@ -114,14 +114,32 @@ The conference schedule page no longer embeds the Pretalx widget.
 
 Instead:
 
-- Astro fetches the public Pretalx schedule JSON during its build lifecycle
+- Astro fetches the latest published Pretalx API schedule during its build lifecycle; the 2025 test programme continues to use its public JSON export
 - current programme normalization lives in `website/src/lib/programme/`
 - `PROGRAMME_SOURCE_EVENT`, `PROGRAMME_SOURCE_URL` and `PROGRAMME_ENVIRONMENT` select the source
 - `PROGRAMME_SNAPSHOT_PATH` can explicitly select a checked-in fixture for offline tests
 - speaker routes are generated as `2026/<locale>/speakers/<name-slug>/index.html`
 - the build output acts as the schedule snapshot for deployment
 
+Production uses `https://pretalx.com/api/events/pyconhk2026/schedules/latest/`.
+The canonical hosted API avoids the website's Cloudflare cache and bot rules on
+the event's custom domain, `cfp.pycon.hk`.
+Store the dedicated read-only token in the repository's GitHub Actions secret
+`PRETALX_API_TOKEN`; it is passed only to the production preflight and Astro build.
+The token must be able to read event metadata and the published schedule with its
+rooms, sessions and speakers. Use public `list`/`view` permissions, without
+`orga_view`, write, review or user-management permissions.
+The event is selected by `PROGRAMME_SOURCE_EVENT`, independently of the credential.
+Only public display fields are retained in the generated snapshot; raw API responses
+and the token must never be written to build artifacts. The sync never requests `wip`.
+An anonymous latest-release request supplies the allowed slot IDs. Authenticated
+results must match that release, and any additional organizer-only slots are discarded.
+
 This means `mise run //website:build` currently expects network access to Pretalx.
+Locally, set `PRETALX_API_TOKEN` in the build environment if authentication is needed,
+or use an explicit snapshot for offline work. A Cloudflare challenge is a fetch error,
+not an unpublished schedule, and aborts deployment to preserve the last good site.
+API authentication does not itself exempt a request from Cloudflare bot protection.
 
 ## Tests and CI
 

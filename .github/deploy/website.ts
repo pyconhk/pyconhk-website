@@ -15,7 +15,7 @@ export const deploymentTargets = {
     project: "pyconhk-website-prod",
     origin: "https://pyconhk-website-prod.pages.dev",
     event: "pyconhk2026",
-    source: "https://cfp.pycon.hk/pyconhk2026/schedule/export/schedule.json",
+    source: "https://pretalx.com/api/events/pyconhk2026/schedules/latest/",
   },
   test: {
     branch: "test",
@@ -80,6 +80,9 @@ async function readDeployedJson(origin, filename) {
 async function prepare(environment, force) {
   const target = deploymentTargets[environment];
   assert.ok(target, `Unsupported deployment target: ${environment}`);
+  const apiToken = environment === "production" ? process.env.PRETALX_API_TOKEN : undefined;
+  assert.ok(environment !== "production" || apiToken,
+    "Set PRETALX_API_TOKEN with read-only access to the published programme before deploying production");
   const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
   const news = resolveNewsRevision(environment);
   const directory = path.join(root, "website/.cache/deployment", environment, target.event);
@@ -97,7 +100,7 @@ async function prepare(environment, force) {
     await fs.writeFile(baselinePath, JSON.stringify(baseline));
   }
   // Preflight decides whether a build is needed; Astro owns build data generation.
-  const current = await fetchProgramme({ event: target.event, sourceUrl: target.source,
+  const current = await fetchProgramme({ event: target.event, sourceUrl: target.source, apiToken,
     environment, baseline: previousSnapshot,
     allowUnpublished: target.event === "pyconhk2026" });
   const manifest = {
