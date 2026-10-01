@@ -6,6 +6,7 @@ import {
 } from '../../../lib/programme/snapshot.ts';
 
 import type { ProgrammeSnapshot } from '../../../lib/programme/types';
+import { withOfficialSpeakerPhoto } from './speaker-photos';
 
 export type { ProgrammeSnapshot, ScheduleItem } from '../../../lib/programme/types';
 
@@ -25,7 +26,10 @@ export const programmeSnapshot: ProgrammeSnapshot = snapshotPath
     )
   : unpublishedSnapshot({ event: sourceEvent, environment });
 
-export const allScheduleItems = programmeSnapshot.sessions;
+export const allScheduleItems = programmeSnapshot.sessions.map((session) => ({
+  ...session,
+  speakerProfiles: session.speakerProfiles?.map(withOfficialSpeakerPhoto),
+}));
 export const roomColumns = programmeSnapshot.rooms;
 export const isSampleProgramme = programmeSnapshot.event !== 'pyconhk2026';
 
