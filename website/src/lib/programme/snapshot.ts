@@ -398,7 +398,7 @@ export async function fetchProgramme({
 }): Promise<ProgrammeSnapshot> {
   const url = new URL(sourceUrl);
   const apiSource =
-    url.origin === 'https://cfp.pycon.hk' &&
+    url.origin === 'https://pretalx.com' &&
     url.pathname === `/api/events/${event}/schedules/latest/` &&
     !url.search &&
     !url.hash;
@@ -418,7 +418,7 @@ export async function fetchProgramme({
       'A valid programme API token may only be used with the approved latest schedule API.'
     );
   if (baseline) validateSnapshot(baseline, event, environment);
-  async function request(requestUrl: URL): Promise<Response> {
+  async function request(requestUrl: URL, authenticated = true): Promise<Response> {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       let response: Response;
       try {
@@ -428,7 +428,9 @@ export async function fetchProgramme({
             Accept: 'application/json',
             'Cache-Control': 'no-cache',
             ...(apiSource ? { 'Pretalx-Version': 'v2' } : {}),
-            ...(apiToken ? { Authorization: `Token ${apiToken}` } : {}),
+            ...(authenticated && apiToken
+              ? { Authorization: `Token ${apiToken}` }
+              : {}),
           },
           ...(apiSource ? { redirect: 'manual' as const } : {}),
           signal: AbortSignal.timeout(20_000),
@@ -480,9 +482,9 @@ export async function fetchProgramme({
     }
     throw new Error('Pretalx fetch failed after 3 attempts.');
   }
-  const requestUrl = new URL(url);
-  if (apiSource) requestUrl.searchParams.set('expand', programmeApiExpansion);
-  const response = await request(requestUrl);
+  // A token may have organiser access. The anonymous published release defines
+  // which slots are public, independent of the credential's permissions.
+  const response = await request(url, !apiSource);
   // An unpublished event may deny anonymous exports (403) or have no export
   // yet (404). Once a published snapshot exists, neither response may replace it.
   let snapshot: ProgrammeSnapshot;
@@ -496,6 +498,15 @@ export async function fetchProgramme({
     if (!response.ok) throw new Error(`Pretalx fetch failed: HTTP ${response.status}.`);
     let payload: unknown = await response.json();
     if (apiSource) {
+      const publicSchedule = payload;
+      const expandedUrl = new URL(url);
+      expandedUrl.searchParams.set('expand', programmeApiExpansion);
+      const expandedResponse = await request(expandedUrl);
+      if (!expandedResponse.ok)
+        throw new Error(
+          `Pretalx expanded schedule fetch failed: HTTP ${expandedResponse.status}.`
+        );
+      payload = await expandedResponse.json();
       const metadataResponse = await request(
         new URL(`/api/events/${event}/`, url.origin)
       );
@@ -504,7 +515,11 @@ export async function fetchProgramme({
           `Pretalx event metadata fetch failed: HTTP ${metadataResponse.status}.`
         );
       const metadata = programmeApiMetadata(await metadataResponse.json(), event);
-      payload = programmeApiExport(payload, { event, sourceUrl, ...metadata });
+      payload = programmeApiExport(
+        payload,
+        { event, sourceUrl, ...metadata },
+        publicSchedule
+      );
     }
     snapshot = normalizeProgramme(payload, {
       event,

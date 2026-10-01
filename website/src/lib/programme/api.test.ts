@@ -5,7 +5,7 @@ import { normalizeProgramme } from './snapshot.ts';
 
 const source = {
   event: 'pyconhk2026',
-  sourceUrl: 'https://cfp.pycon.hk/api/events/pyconhk2026/schedules/latest/',
+  sourceUrl: 'https://pretalx.com/api/events/pyconhk2026/schedules/latest/',
   title: 'PyCon HK 2026',
   timezone: 'Asia/Hong_Kong',
   startDate: '2026-11-14',
@@ -65,8 +65,29 @@ function publishedSchedule() {
   };
 }
 
-function snapshot(payload: unknown, metadata = source) {
-  return normalizeProgramme(programmeApiExport(payload, metadata), {
+function anonymousSchedule(payload: unknown = publishedSchedule()) {
+  const release = payload as {
+    id?: unknown;
+    version?: unknown;
+    published?: unknown;
+    slots?: unknown[];
+  };
+  return {
+    id: release.id,
+    version: release.version,
+    published: release.published,
+    slots: release.slots?.map((slot) =>
+      slot && typeof slot === 'object' ? (slot as { id?: unknown }).id : slot
+    ),
+  };
+}
+
+function snapshot(
+  payload: unknown,
+  metadata = source,
+  publicManifest: unknown = anonymousSchedule(payload)
+) {
+  return normalizeProgramme(programmeApiExport(payload, metadata, publicManifest), {
     event: metadata.event,
     environment: 'production',
     sourceUrl: metadata.sourceUrl,
@@ -100,7 +121,7 @@ test('expanded latest schedule maps public talks and breaks using trusted event 
   assert.equal(talk.endTime, '10:30');
   assert.equal(talk.duration, 30);
   assert.equal(talk.isBreak, false);
-  assert.equal(talk.url, 'https://cfp.pycon.hk/pyconhk2026/talk/PUBLIC1/');
+  assert.equal(talk.url, 'https://pretalx.com/pyconhk2026/talk/PUBLIC1/');
   assert.deepEqual(talk.speakers, ['Example Speaker']);
   assert.ok(talk.speakerProfiles);
   assert.equal(talk.speakerProfiles[0].name, 'Example Speaker');
@@ -111,7 +132,7 @@ test('expanded latest schedule maps public talks and breaks using trusted event 
   );
   assert.equal(
     talk.speakerProfiles[0].url,
-    'https://cfp.pycon.hk/pyconhk2026/speaker/SPEAKER1/'
+    'https://pretalx.com/pyconhk2026/speaker/SPEAKER1/'
   );
   assert.equal(pause.title, 'Break');
   assert.equal(pause.isBreak, true);
@@ -122,7 +143,11 @@ test('expanded latest schedule maps public talks and breaks using trusted event 
 });
 
 test('API conversion allowlists public fields before normalization', () => {
-  const converted = programmeApiExport(publishedSchedule(), source);
+  const converted = programmeApiExport(
+    publishedSchedule(),
+    source,
+    anonymousSchedule()
+  );
   const result = normalizeProgramme(converted, {
     event: source.event,
     environment: 'production',
@@ -267,9 +292,148 @@ for (const relation of ['room', 'submission', 'speaker'] as const) {
 test('duplicate API slots cannot produce duplicate normalized sessions', () => {
   const payload = publishedSchedule();
   assert.throws(() =>
-    snapshot({ ...payload, slots: [...payload.slots, payload.slots[0]] })
+    snapshot(
+      { ...payload, slots: [...payload.slots, payload.slots[0]] },
+      source,
+      anonymousSchedule(payload)
+    )
   );
 });
+
+test('authenticated-only private breaks and other entries are discarded before field mapping', () => {
+  const payload = publishedSchedule();
+  const result = snapshot(
+    {
+      ...payload,
+      slots: [
+        ...payload.slots,
+        {
+          ...payload.slots[1],
+          id: 999,
+          description: { en: 'private-team-only-break' },
+        },
+        {
+          id: 1000,
+          get room() {
+            throw new Error('Private slot fields must not be inspected.');
+          },
+        },
+      ],
+    },
+    source,
+    anonymousSchedule(payload)
+  );
+  assert.deepEqual(result.sessions, snapshot(payload).sessions);
+  assert.doesNotMatch(JSON.stringify(result), /private-team-only-break/);
+});
+
+test('numeric and string release and slot IDs normalize to the same public identities', () => {
+  const payload = publishedSchedule();
+  const result = snapshot(payload, source, {
+    ...anonymousSchedule(payload),
+    id: '42',
+    slots: ['101', '102'],
+  });
+  assert.deepEqual(result.sessions, snapshot(payload).sessions);
+});
+
+for (const changed of [
+  { id: 43 },
+  { version: '1.1' },
+  { published: '2026-10-01T12:00:01Z' },
+]) {
+  test(`authenticated release must match anonymous release ${Object.keys(changed)[0]}`, () => {
+    const payload = publishedSchedule();
+    assert.throws(
+      () => snapshot({ ...payload, ...changed }, source, anonymousSchedule(payload)),
+      /does not match the anonymous public release/
+    );
+  });
+}
+
+test('every anonymous public slot must exist in the expanded response', () => {
+  const payload = publishedSchedule();
+  assert.throws(
+    () =>
+      snapshot(
+        { ...payload, slots: [payload.slots[0]] },
+        source,
+        anonymousSchedule(payload)
+      ),
+    /missing anonymous public slots/
+  );
+});
+
+test('duplicate public slot IDs fail even if one duplicate would be hidden', () => {
+  const payload = publishedSchedule();
+  assert.throws(
+    () =>
+      snapshot(
+        {
+          ...payload,
+          slots: [
+            ...payload.slots,
+            { ...payload.slots[0], id: '101', is_visible: false },
+          ],
+        },
+        source,
+        anonymousSchedule(payload)
+      ),
+    /Duplicate published programme API slot ID/
+  );
+});
+
+test('anonymous manifest cannot repeat a public slot using a different ID representation', () => {
+  assert.throws(
+    () =>
+      snapshot(publishedSchedule(), source, {
+        ...anonymousSchedule(),
+        slots: [101, '101'],
+      }),
+    /Duplicate anonymous programme slot ID/
+  );
+});
+
+for (const invalidId of [
+  null,
+  { id: 101 },
+  [101],
+  true,
+  0,
+  -1,
+  1.5,
+  'private',
+  '1e2',
+  Number.MAX_SAFE_INTEGER + 1,
+]) {
+  test(`anonymous manifest rejects malformed slot ID ${JSON.stringify(invalidId)}`, () => {
+    assert.throws(
+      () =>
+        snapshot(publishedSchedule(), source, {
+          ...anonymousSchedule(),
+          slots: [invalidId],
+        }),
+      /Invalid published programme API anonymous slot ID/
+    );
+  });
+}
+
+for (const invalidManifest of [
+  { id: undefined },
+  { version: 'wip' },
+  { published: null },
+  { slots: null },
+  { next: 'https://pretalx.com/api/events/pyconhk2026/schedules/?page=2' },
+]) {
+  test(`anonymous manifest requires a complete published release (${Object.keys(invalidManifest)[0]})`, () => {
+    assert.throws(() =>
+      snapshot(publishedSchedule(), source, {
+        ...anonymousSchedule(),
+        ...invalidManifest,
+      })
+    );
+  });
+}
 
 test('the same submission in distinct slots remains separate public sessions', () => {
   const payload = publishedSchedule();

@@ -6,7 +6,7 @@ import { fetchProgramme, normalizeProgramme } from './snapshot.ts';
 const options = {
   event: 'pyconhk2026',
   environment: 'production',
-  sourceUrl: 'https://cfp.pycon.hk/api/events/pyconhk2026/schedules/latest/',
+  sourceUrl: 'https://pretalx.com/api/events/pyconhk2026/schedules/latest/',
   apiToken: 'test-token-never-publish',
 };
 const metadata = {
@@ -19,6 +19,7 @@ const metadata = {
   email: 'private@example.invalid',
 };
 const schedule = {
+  id: 42,
   version: '0.1',
   published: '2026-10-01T14:35:12+08:00',
   slots: [
@@ -33,7 +34,9 @@ const schedule = {
   ],
 };
 
-test('API fetch uses only pinned published latest and event metadata with a private token', async (t) => {
+const publicSchedule = { ...schedule, slots: schedule.slots.map((slot) => slot.id) };
+
+test('API fetch authenticates only expanded latest and metadata, never the public-slot manifest', async (t) => {
   const logs = t.mock.method(console, 'info', () => {});
   const requests: { url: string; init?: RequestInit }[] = [];
   const snapshot = await fetchProgramme({
@@ -41,21 +44,21 @@ test('API fetch uses only pinned published latest and event metadata with a priv
     fetchImpl: async (input, init) => {
       const url = String(input);
       requests.push({ url, init });
-      return Response.json(requests.length === 1 ? schedule : metadata);
+      return Response.json([publicSchedule, schedule, metadata][requests.length - 1]);
     },
   });
   const expected = new URL(options.sourceUrl);
   expected.searchParams.set('expand', programmeApiExpansion);
   assert.deepEqual(
     requests.map(({ url }) => url),
-    [expected.href, 'https://cfp.pycon.hk/api/events/pyconhk2026/']
+    [options.sourceUrl, expected.href, 'https://pretalx.com/api/events/pyconhk2026/']
   );
-  for (const { init } of requests) {
+  for (const [index, { init }] of requests.entries()) {
     assert.equal(init?.method, 'GET');
     assert.equal(init?.redirect, 'manual');
     assert.equal(
       new Headers(init?.headers).get('authorization'),
-      `Token ${options.apiToken}`
+      index === 0 ? null : `Token ${options.apiToken}`
     );
     assert.equal(new Headers(init?.headers).get('pretalx-version'), 'v2');
   }
@@ -77,11 +80,11 @@ test('approved API tokens can serve another configured PyCon HK year', async () 
   const snapshot = await fetchProgramme({
     ...options,
     event: 'pyconhk2027',
-    sourceUrl: 'https://cfp.pycon.hk/api/events/pyconhk2027/schedules/latest/',
+    sourceUrl: 'https://pretalx.com/api/events/pyconhk2027/schedules/latest/',
     fetchImpl: async (input) => {
       urls.push(String(input));
       return Response.json(
-        urls.length === 1
+        urls.length <= 2
           ? { ...schedule, slots: [] }
           : {
               ...metadata,
@@ -94,15 +97,16 @@ test('approved API tokens can serve another configured PyCon HK year', async () 
   });
   assert.equal(snapshot.event, 'pyconhk2027');
   assert.ok(
-    urls.every((url) => url.startsWith('https://cfp.pycon.hk/api/events/pyconhk2027/'))
+    urls.every((url) => url.startsWith('https://pretalx.com/api/events/pyconhk2027/'))
   );
 });
 
 for (const sourceUrl of [
   'https://example.invalid/api/events/pyconhk2026/schedules/latest/',
-  'https://cfp.pycon.hk/api/events/pyconhk2025/schedules/latest/',
-  'https://cfp.pycon.hk/api/events/pyconhk2026/schedules/wip/',
-  'https://cfp.pycon.hk/api/events/pyconhk2026/schedules/latest/?expand=private',
+  'https://cfp.pycon.hk/api/events/pyconhk2026/schedules/latest/',
+  'https://pretalx.com/api/events/pyconhk2025/schedules/latest/',
+  'https://pretalx.com/api/events/pyconhk2026/schedules/wip/',
+  'https://pretalx.com/api/events/pyconhk2026/schedules/latest/?expand=private',
   'https://cfp.pycon.hk/pyconhk2026/schedule/export/schedule.json',
 ]) {
   test(`token is never sent to an unapproved source: ${sourceUrl}`, async () => {
@@ -147,16 +151,18 @@ test('API pagination cannot redirect token requests or silently truncate the sch
       fetchImpl: async (input) => {
         urls.push(String(input));
         return Response.json(
-          urls.length === 1
-            ? { ...schedule, next: 'https://example.invalid/page2' }
-            : metadata
+          [
+            publicSchedule,
+            { ...schedule, next: 'https://example.invalid/page2' },
+            metadata,
+          ][urls.length - 1]
         );
       },
     }),
     /complete published latest schedule/
   );
-  assert.equal(urls.length, 2);
-  assert.ok(urls.every((url) => url.startsWith('https://cfp.pycon.hk/')));
+  assert.equal(urls.length, 3);
+  assert.ok(urls.every((url) => url.startsWith('https://pretalx.com/')));
 });
 
 for (const status of [401, 403]) {
@@ -170,7 +176,62 @@ for (const status of [401, 403]) {
       new RegExp(`HTTP ${status}`)
     );
   });
+  test(`authenticated API HTTP ${status} cannot replace a public release with an unpublished schedule`, async () => {
+    let requests = 0;
+    await assert.rejects(
+      fetchProgramme({
+        ...options,
+        allowUnpublished: true,
+        fetchImpl: async () =>
+          ++requests === 1
+            ? Response.json(publicSchedule)
+            : new Response(null, { status }),
+      }),
+      new RegExp(`expanded schedule fetch failed: HTTP ${status}`)
+    );
+    assert.equal(requests, 2);
+  });
 }
+
+test('an overprivileged token cannot publish slots absent from the anonymous release', async (t) => {
+  const logs = t.mock.method(console, 'info', () => {});
+  let requests = 0;
+  const privilegedSchedule = {
+    ...schedule,
+    slots: [
+      ...schedule.slots,
+      {
+        ...schedule.slots[0],
+        id: 2,
+        description: { en: 'private-organiser-only-slot' },
+      },
+    ],
+  };
+  const snapshot = await fetchProgramme({
+    ...options,
+    fetchImpl: async () =>
+      Response.json([publicSchedule, privilegedSchedule, metadata][requests++]),
+  });
+  assert.equal(snapshot.sessions.length, 1);
+  assert.doesNotMatch(JSON.stringify(snapshot), /private-organiser-only-slot/);
+  assert.doesNotMatch(JSON.stringify(logs.mock.calls), /private-organiser-only-slot/);
+});
+
+test('a schedule published between anonymous and authenticated reads aborts deployment', async () => {
+  let requests = 0;
+  await assert.rejects(
+    fetchProgramme({
+      ...options,
+      fetchImpl: async () =>
+        Response.json(
+          [publicSchedule, { ...schedule, id: 43, version: '0.2' }, metadata][
+            requests++
+          ]
+        ),
+    }),
+    /release/
+  );
+});
 
 test('API Cloudflare challenge cannot become an unpublished schedule', async () => {
   await assert.rejects(
@@ -222,7 +283,7 @@ for (const eventMetadata of [
       fetchProgramme({
         ...options,
         fetchImpl: async () =>
-          Response.json(++requests === 1 ? schedule : eventMetadata),
+          Response.json([publicSchedule, schedule, eventMetadata][requests++]),
       }),
       /configured public event/
     );

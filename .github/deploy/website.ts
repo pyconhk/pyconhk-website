@@ -15,7 +15,7 @@ export const deploymentTargets = {
     project: "pyconhk-website-prod",
     origin: "https://pyconhk-website-prod.pages.dev",
     event: "pyconhk2026",
-    source: "https://cfp.pycon.hk/api/events/pyconhk2026/schedules/latest/",
+    source: "https://pretalx.com/api/events/pyconhk2026/schedules/latest/",
   },
   test: {
     branch: "test",

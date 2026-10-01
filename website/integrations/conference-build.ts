@@ -27,7 +27,7 @@ export default function conferenceBuild(): AstroIntegration {
         }
         const sourceUrl = process.env.PROGRAMME_SOURCE_URL
           ?? (event === 'pyconhk2026'
-            ? `https://cfp.pycon.hk/api/events/${event}/schedules/latest/`
+            ? `https://pretalx.com/api/events/${event}/schedules/latest/`
             : `https://pretalx.com/${event}/schedule/export/schedule.json`);
         const output = resolve(root, process.env.PROGRAMME_OUTPUT_PATH ?? `.cache/programme/${environment}/${event}.json`);
         const baselinePath = process.env.PROGRAMME_BASELINE_PATH;

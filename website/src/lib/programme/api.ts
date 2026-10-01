@@ -26,6 +26,44 @@ function identifier(value: unknown, field: string): string {
   throw new Error(`Invalid published programme API ${field}.`);
 }
 
+function numericIdentifier(value: unknown, field: string): string {
+  const number =
+    typeof value === 'number'
+      ? value
+      : typeof value === 'string' && /^\d+$/.test(value)
+        ? Number(value)
+        : NaN;
+  if (!Number.isSafeInteger(number) || number <= 0)
+    throw new Error(`Invalid published programme API ${field}.`);
+  return String(number);
+}
+
+function publishedRelease(
+  value: unknown,
+  field: string
+): {
+  id: string;
+  version: string;
+  published: string;
+  slots: unknown[];
+} {
+  const release = record(value, field);
+  const id = numericIdentifier(release.id, `${field} ID`);
+  const version = text(release.version);
+  const published = text(release.published);
+  const slots = release.slots;
+  if (
+    !version.trim() ||
+    version.trim().toLowerCase() === 'wip' ||
+    !published ||
+    !Number.isFinite(Date.parse(published)) ||
+    !Array.isArray(slots) ||
+    release.next != null
+  )
+    throw new Error('Programme API must return a complete published latest schedule.');
+  return { id, version, published, slots };
+}
+
 function calendarDate(value: string): number {
   const timestamp = Date.parse(`${value}T00:00:00.000Z`);
   if (
@@ -69,18 +107,38 @@ export function programmeApiExport(
     timezone: string;
     startDate: string;
     endDate: string;
-  }
+  },
+  publicSchedule: unknown
 ) {
-  const schedule = record(payload, 'schedule');
+  const schedule = publishedRelease(payload, 'schedule');
+  const publicManifest = publishedRelease(publicSchedule, 'anonymous schedule');
   if (
-    !text(schedule.version) ||
-    text(schedule.version).toLowerCase() === 'wip' ||
-    !text(schedule.published) ||
-    !Number.isFinite(Date.parse(text(schedule.published))) ||
-    !Array.isArray(schedule.slots) ||
-    schedule.next != null
+    schedule.id !== publicManifest.id ||
+    schedule.version !== publicManifest.version ||
+    schedule.published !== publicManifest.published
   )
-    throw new Error('Programme API must return a complete published latest schedule.');
+    throw new Error(
+      'Authenticated programme release does not match the anonymous public release.'
+    );
+  const publicIds = new Set<string>();
+  for (const candidate of publicManifest.slots) {
+    const id = numericIdentifier(candidate, 'anonymous slot ID');
+    if (publicIds.has(id)) throw new Error('Duplicate anonymous programme slot ID.');
+    publicIds.add(id);
+  }
+  const seenIds = new Set<string>();
+  const publicSlots: RecordValue[] = [];
+  for (const candidate of schedule.slots) {
+    const slot = record(candidate, 'expanded slot');
+    const id = numericIdentifier(slot.id, 'slot ID');
+    // Authentication may expose private entries: read only their ID, then discard.
+    if (!publicIds.has(id)) continue;
+    if (seenIds.has(id)) throw new Error('Duplicate published programme API slot ID.');
+    seenIds.add(id);
+    publicSlots.push(slot);
+  }
+  if (seenIds.size !== publicIds.size)
+    throw new Error('Authenticated programme is missing anonymous public slots.');
   const firstDay = calendarDate(startDate);
   const lastDay = calendarDate(endDate);
   const dayMilliseconds = 86_400_000;
@@ -103,9 +161,7 @@ export function programmeApiExport(
       .slice(0, 10);
     days.set(date, Object.create(null) as Record<string, unknown[]>);
   }
-  const ids = new Set<string>();
-  for (const candidate of schedule.slots) {
-    const slot = record(candidate, 'expanded slot');
+  for (const slot of publicSlots) {
     if (slot.is_visible === false || slot.slot_type === 'blocker') continue;
     // Unscheduled submissions are not public programme entries.
     if (slot.start === null || slot.room === null) continue;
@@ -115,9 +171,7 @@ export function programmeApiExport(
       slot.submission === null ? null : record(slot.submission, 'expanded submission');
     if (submission && !['accepted', 'confirmed'].includes(text(submission.state)))
       continue;
-    const slotId = identifier(slot.id, 'slot ID');
-    if (ids.has(slotId)) throw new Error('Duplicate published programme API slot ID.');
-    ids.add(slotId);
+    const slotId = numericIdentifier(slot.id, 'slot ID');
     const roomId = identifier(room.id, 'room ID');
     const roomName = localized(room.name);
     if (!roomName) throw new Error('Invalid published programme API room name.');
