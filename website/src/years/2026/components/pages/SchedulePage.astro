@@ -37,7 +37,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
         <div class="programme-filters mt-5 grid gap-3 rounded-2xl border-2 border-conference-outline bg-conference-surface p-4">
           <label><span class="sr-only">{copy.search}</span><input type="search" data-programme-search placeholder={copy.search} class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm" /></label>
           <label><span class="sr-only">{copy.allRooms}</span><select data-room-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allRooms}</option>{roomColumns.map((room) => <option value={room.id}>{room.name}</option>)}</select></label>
-          <label><span class="sr-only">{copy.allLanguages}</span><select data-language-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allLanguages}</option>{languages.map((language) => <option value={language}>{sessionLanguageLabel(language)}</option>)}</select></label>
+          <label><span class="sr-only">{copy.allLanguages}</span><select data-language-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allLanguages}</option>{languages.map((language) => <option value={language}>{sessionLanguageLabel(language, locale)}</option>)}</select></label>
           <button type="button" data-saved-filter aria-pressed="false" class="rounded-lg border-2 border-conference-outline px-3 py-2 text-sm font-bold">{copy.saved} <span data-saved-count>0</span></button>
           <button type="button" data-clear-filters class="px-3 py-2 text-sm font-bold underline">{copy.clear}</button>
         </div>
@@ -58,7 +58,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
                   <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
                   <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
                     <p class="text-xs font-medium text-conference-body">{session.startTime}–{session.endTime} · {session.duration} {copy.minutes}</p>
-                    {!session.isBreak && session.language && <span class="programme-language" data-session-language={session.language}>{sessionLanguageLabel(session.language)}</span>}
+                    {!session.isBreak && session.language && <span class="programme-language" data-session-language={session.language}>{sessionLanguageLabel(session.language, locale)}</span>}
                   </div>
                   {session.isBreak ? <h3 class="mt-2 text-sm font-bold leading-snug text-conference-body">{session.title}</h3> : <>
                     <div class="mt-2 flex items-start gap-1">

@@ -293,20 +293,21 @@ test.describe('touch star controls', () => {
   });
 });
 
-for (const locale of ['en', 'zh-hk']) {
-  test(`${locale}: session language badges and filter options use readable language names`, async ({
+const localizedSessionLanguages: Record<string, Record<string, string>> = {
+  en: { en: 'English', 'zh-hant': 'Cantonese' },
+  'zh-hk': { en: '英文', 'zh-hant': '中文' },
+  'zh-hant': { en: '英文', 'zh-hant': '中文' },
+  'zh-hans': { en: '英文', 'zh-hant': '中文' },
+  ja: { en: '英語', 'zh-hant': '広東語' },
+  ko: { en: '영어', 'zh-hant': '광둥어' },
+};
+
+for (const [locale, labels] of Object.entries(localizedSessionLanguages)) {
+  test(`${locale}: session language badges and filters use the page locale without changing source codes`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     const programme = await openProgramme(page, locale);
-    const labels: Record<string, string> = {
-      en: 'English',
-      'zh-hant': '繁體中文',
-      'zh-hans': '简体中文',
-      'zh-hk': '廣東話',
-      ja: '日本語',
-      ko: '한국어',
-    };
     const languages = [
       ...new Set(
         programme.sessions
@@ -339,6 +340,41 @@ for (const locale of ['en', 'zh-hk']) {
         `[data-language-filter] option[value=${JSON.stringify(language)}]`
       );
       await expect(filterOption).toHaveText((await badge.textContent())?.trim() ?? '');
+    }
+
+    const cantoneseSession = programme.sessions.find(
+      (session) => !session.isBreak && session.language === 'zh-hant'
+    );
+    if (cantoneseSession) {
+      await showSession(page, cantoneseSession);
+      await page.locator('[data-language-filter]').selectOption('zh-hant');
+      await expect(page.locator('[data-language-filter]')).toHaveValue('zh-hant');
+      const expectedIds = programme.sessions
+        .filter(
+          (session) =>
+            !session.isBreak &&
+            session.language === 'zh-hant' &&
+            session.date === cantoneseSession.date
+        )
+        .map((session) => session.id)
+        .sort();
+      const visibleCards = page.locator('[data-session-card]:visible');
+      await expect(visibleCards).toHaveCount(expectedIds.length);
+      expect(
+        await visibleCards.evaluateAll((cards) =>
+          cards.map((card) => card.getAttribute('data-session-card')).sort()
+        )
+      ).toEqual(expectedIds);
+      expect(
+        await visibleCards.evaluateAll((cards) =>
+          cards.every(
+            (card) =>
+              card
+                .querySelector('[data-session-language]')
+                ?.getAttribute('data-session-language') === 'zh-hant'
+          )
+        )
+      ).toBe(true);
     }
   });
 }
