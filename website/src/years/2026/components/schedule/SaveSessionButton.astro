@@ -7,11 +7,11 @@ const { label, sessionId, modal = false, compact = false } = Astro.props;
   {!compact && <span data-save-label>{label}</span>}
 </button>
 <style>
-  .save-session { display: inline-flex; position: relative; z-index: 1; flex: 0 0 auto; align-items: center; justify-content: center; gap: .5rem; min-width: 44px; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-paper); color: var(--conference-ink); cursor: pointer; font-size: .875rem; font-weight: 700; }
+  .save-session { display: inline-flex; position: relative; z-index: 1; flex: 0 0 auto; align-items: center; justify-content: center; gap: .5rem; min-width: 44px; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--conference-outline); border-radius: .75rem; background: var(--conference-paper); color: var(--conference-ink); cursor: pointer; font-size: .875rem; font-weight: 700; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .save-session.compact { width: 44px; padding: .5rem; border-color: transparent; background: transparent; color: var(--conference-blue); }
   .save-session svg { width: 24px; height: 24px; flex-shrink: 0; }
-  .save-session[aria-pressed='true'] { color: var(--conference-ink); background: var(--conference-soft); }
+  .save-session:not(.compact)[aria-pressed='true'] { color: var(--conference-ink); background: var(--conference-soft); }
   .save-session[aria-pressed='true'] svg { fill: #fbbf24; stroke: #a16207; }
   .save-session:focus-visible { outline: 3px solid var(--conference-blue); outline-offset: 2px; }
-  @media (hover: hover) { .save-session:hover { background: var(--conference-soft); } }
+  @media (hover: hover) and (pointer: fine) { .save-session:not(.compact):hover { background: var(--conference-soft); } }
 </style>
