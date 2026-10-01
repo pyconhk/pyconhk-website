@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test';
 const sample = process.env.PROGRAMME_SOURCE_EVENT === 'pyconhk2025';
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
 const widths = [
-  320, 360, 390, 639, 640, 767, 768, 1023, 1024, 1279, 1280, 1459, 1460, 1535, 1536,
-  1920, 2560, 3440,
+  320, 360, 390, 639, 640, 767, 768, 1023, 1024, 1279, 1280, 1459, 1460, 1482, 1483,
+  1535, 1536, 1920, 2560, 3440,
 ];
 
 test.describe('responsive public programme', () => {
@@ -121,7 +121,7 @@ test.describe('responsive public programme', () => {
       await page.goto(`/2026/${locale}/schedule`);
       const programme = page.locator('.programme-scroll');
       const headings = page.locator('.programme-room-headings');
-      for (const width of [1920, 1460]) {
+      for (const width of [1920, 1536]) {
         await page.setViewportSize({ width, height: 900 });
         await expect(programme).toHaveAttribute('data-room-layout', 'true');
         for (const top of [1100, 1700]) {
@@ -235,5 +235,67 @@ test.describe('responsive public programme', () => {
         await expect(page.locator('[data-session-card]:visible')).toHaveCount(1);
       });
     }
+  }
+});
+
+test('programme rules span the viewport with aligned centered 95% content', async ({
+  page,
+}) => {
+  await page.goto('/2026/en/schedule/');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published public programme.'
+  );
+  for (const width of [390, 768, 1440, 1920, 3440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const viewport = document.documentElement.clientWidth;
+          const leftEdge = viewport * 0.025;
+          const rightEdge = viewport * 0.975;
+          const close = (a: number, b: number) => Math.abs(a - b) < 1;
+          const visible = (element: HTMLElement) => element.getClientRects().length > 0;
+          const intros = [
+            ...document.querySelectorAll<HTMLElement>('.programme-intro'),
+          ];
+          const rows = [
+            ...document.querySelectorAll<HTMLElement>(
+              '.programme-slot, .programme-room-headings'
+            ),
+          ].filter(visible);
+          return {
+            introCentered: intros.every((element) => {
+              const box = element.getBoundingClientRect();
+              return close(box.left, leftEdge) && close(box.right, rightEdge);
+            }),
+            linesFullWidth: rows.every((element) => {
+              const box = element.getBoundingClientRect();
+              return (
+                close(box.left, 0) &&
+                close(box.right, viewport) &&
+                Number.parseFloat(getComputedStyle(element).borderBottomWidth) > 0
+              );
+            }),
+            contentAligned: rows.every((element) => {
+              const box = element.getBoundingClientRect();
+              const style = getComputedStyle(element);
+              return (
+                close(box.left + Number.parseFloat(style.paddingLeft), leftEdge) &&
+                close(box.right - Number.parseFloat(style.paddingRight), rightEdge)
+              );
+            }),
+            noHorizontalOverflow: document.documentElement.scrollWidth <= viewport,
+          };
+        })
+      )
+      .toEqual({
+        introCentered: true,
+        linesFullWidth: true,
+        contentAligned: true,
+        noHorizontalOverflow: true,
+      });
   }
 });

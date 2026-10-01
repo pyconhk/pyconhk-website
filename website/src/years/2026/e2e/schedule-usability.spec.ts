@@ -108,9 +108,20 @@ for (const width of [390, 1440]) {
     await expect(star).toHaveAttribute('aria-pressed', 'false');
     await star.click();
     await expect(star).toHaveAttribute('aria-pressed', 'true');
+    await expect(star).not.toBeFocused();
     await expect(star.locator('svg')).toHaveCount(1);
     await expect(page.locator('#session-modal')).not.toBeVisible();
     await expect(page.locator('[data-saved-count]')).toHaveText('1');
+
+    // Pointer activation leaves no focus highlight; keyboard users keep their place.
+    await star.focus();
+    await page.keyboard.press('Enter');
+    await expect(star).toHaveAttribute('aria-pressed', 'false');
+    await expect(star).toBeFocused();
+    await page.keyboard.press('Space');
+    await expect(star).toHaveAttribute('aria-pressed', 'true');
+    await expect(star).toBeFocused();
+    await expect(page.locator('#session-modal')).not.toBeVisible();
 
     await firstCard.locator('[data-session-details]').click();
     await expect(page.locator('#session-modal')).toBeVisible();
@@ -157,6 +168,7 @@ for (const width of [390, 1440]) {
     await showSession(page, first);
     await firstCard.locator('[data-session-details]').click();
     await page.locator('[data-modal-save]').click();
+    await expect(page.locator('[data-modal-save]')).not.toBeFocused();
     await expect(page.locator('[data-modal-save]')).toHaveAttribute(
       'aria-pressed',
       'false'
@@ -202,6 +214,7 @@ test('breaks remain timetable information and stale break bookmarks are removed'
     const card = sessionCard(page, item);
     await expect(card).toHaveAttribute('data-session-kind', 'break');
     await expect(card.locator('button, a, [role="button"]')).toHaveCount(0);
+    await expect(card.locator('[data-session-language]')).toHaveCount(0);
   }
   const firstBreak = await showSession(page, breaks[0]);
   await firstBreak.click();
@@ -256,3 +269,74 @@ test('Cantonese modal uses a standard accessible close icon', async ({ page }) =
   await close.click();
   await expect(page.locator('#session-modal')).not.toBeVisible();
 });
+
+test.describe('touch star controls', () => {
+  test.use({ hasTouch: true, viewport: { width: 390, height: 844 } });
+
+  test('tapping a star updates selection without leaving focus or opening details', async ({
+    page,
+  }) => {
+    const programme = await openProgramme(page);
+    const session = programme.sessions.find((item) => !item.isBreak);
+    expect(session).toBeDefined();
+    if (!session) return;
+    const card = await showSession(page, session);
+    const star = card.locator('[data-save-session]');
+    await star.tap();
+    await expect(star).toHaveAttribute('aria-pressed', 'true');
+    await expect(star).not.toBeFocused();
+    await expect(page.locator('#session-modal')).not.toBeVisible();
+    await star.tap();
+    await expect(star).toHaveAttribute('aria-pressed', 'false');
+    await expect(star).not.toBeFocused();
+    await expect(page.locator('[data-saved-count]')).toHaveText('0');
+  });
+});
+
+for (const locale of ['en', 'zh-hk']) {
+  test(`${locale}: session language badges and filter options use readable language names`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    const programme = await openProgramme(page, locale);
+    const labels: Record<string, string> = {
+      en: 'English',
+      'zh-hant': '繁體中文',
+      'zh-hans': '简体中文',
+      'zh-hk': '廣東話',
+      ja: '日本語',
+      ko: '한국어',
+    };
+    const languages = [
+      ...new Set(
+        programme.sessions
+          .filter((session) => !session.isBreak)
+          .map((session) => session.language)
+          .filter(Boolean)
+      ),
+    ];
+    expect(languages.length).toBeGreaterThan(0);
+    for (const language of languages) {
+      const session = programme.sessions.find(
+        (item) => !item.isBreak && item.language === language
+      );
+      if (!session) throw new Error(`No session found for ${language}`);
+      const card = await showSession(page, session);
+      const badge = card.locator('[data-session-language]');
+      await expect(badge).toBeVisible();
+      await expect(badge).toHaveAttribute('data-session-language', language);
+      if (labels[language]) await expect(badge).toHaveText(labels[language]);
+      await expect(badge).not.toHaveText(language);
+      expect(
+        await badge.evaluate((element) => {
+          const style = getComputedStyle(element);
+          return Number.parseInt(style.fontWeight, 10) >= 600;
+        })
+      ).toBe(true);
+      const filterOption = page.locator(
+        `[data-language-filter] option[value=${JSON.stringify(language)}]`
+      );
+      await expect(filterOption).toHaveText((await badge.textContent())?.trim() ?? '');
+    }
+  });
+}
