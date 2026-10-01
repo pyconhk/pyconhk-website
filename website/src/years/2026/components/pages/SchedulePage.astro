@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { allScheduleItems, formatProgrammeDate, isSampleProgramme, programmeSnapshot, roomColumns } from '../../data/schedule';
-import { scheduleCopy } from '../../data/schedule-copy';
+import { scheduleCopy, sessionLanguageLabel } from '../../data/schedule-copy';
 import { sessionProfiles } from '../../data/speakers';
 import { getTranslations } from '../../i18n';
 import ConferenceLayout from '../../layouts/ConferenceLayout.astro';
@@ -37,7 +37,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
         <div class="programme-filters mt-5 grid gap-3 rounded-2xl border-2 border-conference-outline bg-conference-surface p-4">
           <label><span class="sr-only">{copy.search}</span><input type="search" data-programme-search placeholder={copy.search} class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm" /></label>
           <label><span class="sr-only">{copy.allRooms}</span><select data-room-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allRooms}</option>{roomColumns.map((room) => <option value={room.id}>{room.name}</option>)}</select></label>
-          <label><span class="sr-only">{copy.allLanguages}</span><select data-language-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allLanguages}</option>{languages.map((language) => <option value={language}>{language}</option>)}</select></label>
+          <label><span class="sr-only">{copy.allLanguages}</span><select data-language-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allLanguages}</option>{languages.map((language) => <option value={language}>{sessionLanguageLabel(language)}</option>)}</select></label>
           <button type="button" data-saved-filter aria-pressed="false" class="rounded-lg border-2 border-conference-outline px-3 py-2 text-sm font-bold">{copy.saved} <span data-saved-count>0</span></button>
           <button type="button" data-clear-filters class="px-3 py-2 text-sm font-bold underline">{copy.clear}</button>
         </div>
@@ -56,7 +56,10 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
                 {allScheduleItems.filter((session) => session.date === day.date && session.startTime === time).map((session) => <article class:list={['programme-card rounded-2xl border border-conference-outline bg-conference-surface p-4', { 'programme-break': session.isBreak, 'shadow-conference-card': !session.isBreak }]} data-session-card={session.id} data-session-kind={session.isBreak ? 'break' : 'session'} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2}`}>
                   {!session.isBreak && <div class="pointer-events-none absolute inset-x-0 top-0 overflow-hidden rounded-t-[14px] border-b-2 border-[#2f559a] bg-white"><WovenRibbon heightClass="h-4" /></div>}
                   <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
-                  <p class="mt-2 text-xs font-medium text-conference-body">{session.startTime}–{session.endTime} · {session.duration} {copy.minutes}{session.language && ` · ${session.language}`}</p>
+                  <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
+                    <p class="text-xs font-medium text-conference-body">{session.startTime}–{session.endTime} · {session.duration} {copy.minutes}</p>
+                    {!session.isBreak && session.language && <span class="programme-language" data-session-language={session.language}>{sessionLanguageLabel(session.language)}</span>}
+                  </div>
                   {session.isBreak ? <h3 class="mt-2 text-sm font-bold leading-snug text-conference-body">{session.title}</h3> : <>
                     <div class="mt-2 flex items-start gap-1">
                       <h3 class="min-w-0 flex-1 text-base font-black leading-snug text-conference-ink"><button type="button" data-session-details={session.id} class="session-open text-left" aria-haspopup="dialog">{session.title}</button></h3>
@@ -92,15 +95,16 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-filters input, .programme-filters select { min-height: 44px; min-width: 0; font-size: 1rem; }
   .programme-filters button, [data-save-session], [data-session-details] { min-height: 44px; }
   .programme-filters button { grid-column: 1 / -1; text-wrap: balance; }
-  .programme-intro { width: 100%; padding-inline: 1rem; }
+  .programme-intro { width: 95%; margin-inline: auto; }
   .programme-scroll { width: 100%; padding-bottom: 4px; }
   .programme-card, .session-open { scroll-margin-top: calc(var(--site-header-height, 0px) + var(--track-header-height, 0px) + 1rem); }
-  .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid var(--conference-line); }
+  .programme-slot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.25rem 2.5%; border-bottom: 1px solid var(--conference-line); }
   .programme-time { grid-column: 1 / -1; }
-  .programme-room-headings { display: none; padding-inline: 1rem; }
+  .programme-room-headings { display: none; padding-inline: 2.5%; }
   .programme-card { position: relative; isolation: isolate; min-width: 0; overflow-wrap: anywhere; padding-top: 2rem; background: var(--conference-surface); transition: background-color .15s ease; }
   .programme-break { padding-top: .75rem; padding-bottom: .75rem; background: var(--conference-soft); border-color: var(--conference-line); border-radius: .75rem; align-self: start; }
   .programme-room { display: inline-block; border-radius: .5rem; padding: .375rem .5rem; background: #2f559a; color: white; }
+  .programme-language { display: inline-flex; align-items: center; border-radius: .5rem; padding: .25rem .625rem; background: #2f559a; color: white; font-size: .75rem; font-weight: 800; line-height: 1.5; }
   .session-open::after { content: ''; position: absolute; inset: 0; border-radius: 1rem; cursor: pointer; }
   .programme-card:has(.session-open:focus-visible) { outline: 3px solid var(--conference-blue); outline-offset: 5px; }
   .session-open:focus-visible { outline: none; }
@@ -255,7 +259,14 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       filters.query = ''; filters.room = ''; filters.language = ''; filters.savedOnly = false;
       if (search) search.value = ''; if (room) room.value = ''; if (language) language.value = ''; refresh();
     });
-    document.querySelectorAll<HTMLButtonElement>('[data-save-session]').forEach((button) => { button.addEventListener('click', () => toggleSave(button.dataset.saveSession ?? '')); });
+    function releasePointerFocus(event: MouseEvent, button: HTMLButtonElement) {
+      // Pointer/touch clicks have a click count; keyboard and assistive activation do not.
+      if (event.detail > 0) button.blur();
+    }
+    document.querySelectorAll<HTMLButtonElement>('[data-save-session]').forEach((button) => { button.addEventListener('click', (event) => {
+      toggleSave(button.dataset.saveSession ?? '');
+      releasePointerFocus(event, button);
+    }); });
     document.querySelectorAll<HTMLButtonElement>('[data-session-details]').forEach((button) => { button.addEventListener('click', () => {
       const session = byId.get(button.dataset.sessionDetails ?? '');
       if (!session || session.isBreak || !dialog) return;
@@ -287,7 +298,11 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       const scrollBody = dialog.querySelector<HTMLElement>('[data-modal-body]');
       if (scrollBody) scrollBody.scrollTop = 0;
     }); });
-    dialog?.querySelector('[data-modal-save]')?.addEventListener('click', () => { if (activeSession) toggleSave(activeSession.id); });
+    const modalSaveButton = dialog?.querySelector<HTMLButtonElement>('[data-modal-save]');
+    modalSaveButton?.addEventListener('click', (event) => {
+      if (activeSession) toggleSave(activeSession.id);
+      releasePointerFocus(event, modalSaveButton);
+    });
     dialog?.querySelector('[data-modal-calendar]')?.addEventListener('click', () => { if (activeSession) exportCalendar([activeSession]); });
     dialog?.addEventListener('close', () => {
       const target = previousFocus?.getClientRects().length ? previousFocus : document.querySelector<HTMLButtonElement>('[data-saved-filter]');
