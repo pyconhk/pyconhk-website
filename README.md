@@ -121,7 +121,9 @@ Instead:
 - speaker routes are generated as `2026/<locale>/speakers/<name-slug>/index.html`
 - the build output acts as the schedule snapshot for deployment
 
-Production uses `https://cfp.pycon.hk/api/events/pyconhk2026/schedules/latest/`.
+Production uses `https://pretalx.com/api/events/pyconhk2026/schedules/latest/`.
+The canonical hosted API avoids the website's Cloudflare cache and bot rules on
+the event's custom domain, `cfp.pycon.hk`.
 Store the dedicated read-only token in the repository's GitHub Actions secret
 `PRETALX_API_TOKEN`; it is passed only to the production preflight and Astro build.
 The token must be able to read event metadata and the published schedule with its
@@ -130,6 +132,8 @@ rooms, sessions and speakers. Use public `list`/`view` permissions, without
 The event is selected by `PROGRAMME_SOURCE_EVENT`, independently of the credential.
 Only public display fields are retained in the generated snapshot; raw API responses
 and the token must never be written to build artifacts. The sync never requests `wip`.
+An anonymous latest-release request supplies the allowed slot IDs. Authenticated
+results must match that release, and any additional organizer-only slots are discarded.
 
 This means `mise run //website:build` currently expects network access to Pretalx.
 Locally, set `PRETALX_API_TOKEN` in the build environment if authentication is needed,
