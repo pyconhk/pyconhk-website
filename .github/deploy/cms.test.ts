@@ -21,7 +21,7 @@ const expected = {
   app: "cms",
   sourceHash: deploymentSourceHash("cms", root, { cmsProfile: "test" }),
   environment: "test",
-  contentRepo: "pyconhk/pyconhk-news",
+  contentRepo: "pyconhk/pyconhk-website",
   contentBranch: "cms-test",
 };
 
@@ -44,7 +44,7 @@ test("matching test CMS code and both gateway targets skip build and deployment"
   assert.deepEqual(calls, []);
 });
 
-test("a target mismatch rebuilds and verifies the test Worker", async (t) => {
+test("the old external News backend rebuilds and verifies the test Worker", async (t) => {
   setEnvironment(t, "CLOUDFLARE_ACCOUNT_ID", "043801e2f5b9cf2685593bd9098e98b1");
   const calls: string[] = [];
   let reads = 0;
@@ -58,7 +58,7 @@ test("a target mismatch rebuilds and verifies the test Worker", async (t) => {
       root,
       profile: "test",
       origin,
-      readManifest: async () => ++reads === 1 ? { ...expected, contentBranch: "main" } : expected,
+      readManifest: async () => ++reads === 1 ? { ...expected, contentRepo: "pyconhk/pyconhk-news" } : expected,
       readGateway: async () => ({ ...expected, app: "cms-gateway" }),
       readGatewayWorker: async () => expected,
       ensureGateway: async () => {},

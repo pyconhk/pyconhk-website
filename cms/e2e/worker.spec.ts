@@ -4,8 +4,8 @@ import { parse } from "yaml";
 const profile = process.env.CMS_E2E_PROFILE ?? "legacy";
 const expectedBackend = {
   legacy: { repo: "pyconhk/pyconhk-website", branch: "cms" },
-  test: { repo: "pyconhk/pyconhk-news", branch: "cms-test" },
-  production: { repo: "pyconhk/pyconhk-news", branch: "cms" },
+  test: { repo: "pyconhk/pyconhk-website", branch: "cms-test" },
+  production: { repo: "pyconhk/pyconhk-website", branch: "cms" },
 }[profile];
 
 if (!expectedBackend) {

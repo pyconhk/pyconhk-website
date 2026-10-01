@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 import {
@@ -16,6 +15,7 @@ import {
   parseLocalizedContentFilename,
 } from '@/lib/localized-content';
 import { defaultPublishedAt, normalizePublishedAt } from '@/lib/news-date';
+import { parseNewsFrontmatter } from '@/lib/news-frontmatter';
 
 type PostStatus = 'draft' | 'published';
 
@@ -243,7 +243,7 @@ async function loadVariantsFromDirectory(
 
       const absolutePath = path.join(directoryPath, entry.name);
       const source = await fs.readFile(absolutePath, 'utf8');
-      const parsedSource = matter(source);
+      const parsedSource = parseNewsFrontmatter(source);
       const frontmatter = parsedSource.data as RawPostFrontmatter;
       const locale = parsedFilename.locale;
       if (!getLocalesForYear(collectionYear).some(({ code }) => code === locale)) {

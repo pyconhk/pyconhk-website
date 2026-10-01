@@ -178,11 +178,10 @@ manifest. Tests, CI, docs and changes confined to the other app do not deploy an
 unchanged app. Shared dependencies and build configuration invalidate both apps.
 The website also compares the public Pretalx hash, event and environment. A manual
 force bypasses the skip; a missing manifest triggers the first deployment.
-After the News repository cutover, set `NEWS_SOURCE=external` in the website
-repository variables. The website then pins `pyconhk/pyconhk-news` `test` for
-test/preview and `main` for production, builds from that exact commit, and records
-its SHA in the deployment manifest. A new News commit causes a build at the next
-scheduled website check; unchanged code, News and programme skip upload.
+News and uploaded images are built from the same website commit. The CMS promotion
+workflow explicitly invokes deployment after a successful automatic merge, because
+merges made with `GITHUB_TOKEN` do not trigger another push workflow. The five-minute
+website schedule remains a fallback. Unchanged code, News and programme skip upload.
 
 `PUBLIC_SITE_URL` sets the website origin at build time for canonical, Open Graph,
 social image and sitemap URLs (default: `https://pycon.hk`). The website deployment
@@ -195,13 +194,16 @@ alongside `PLAYWRIGHT_BASE_URL` when running its E2E tests.
 - the public website lives at `website/`
 - the CMS app lives at `cms/`
 - root `.gitignore` covers Astro/Bun build output and local tooling artifacts for both apps
-- `cms` is the transitional marketing content branch; it stops promoting to the
-  website when `NEWS_SOURCE=external`
-- the split CMS uses the public `pyconhk/pyconhk-news` repository: test edits its
-  `test` branch, production edits `main`, while developer-authored pages remain
-  in this website repository
+- both CMS environments use this repository: production saves to `cms` and test
+  saves to `cms-test`; validated News changes automatically promote to `main` and
+  `test`, respectively
 - Decap keeps News content and media paths under `website/outstatic/...` and
-  `website/public/outstatic/images/...` in the News repository
+  `website/public/outstatic/images/...` in this repository
+- `.github/CODEOWNERS` requires Website team approval for code changes; exact News
+  and raster image paths are excluded so validated content can publish automatically
+- GitHub repository write access is not a folder-level permission. The News-only
+  CMS UI and merge checks do not prevent a repository writer from accessing other
+  branches or repository-level Actions secrets
 
 ## Build Output
 
@@ -220,8 +222,8 @@ Raw HTML is rejected and Markdown output is sanitized. Archived HTML stays in th
 year-specific archive data and is covered by the archive regression tests.
 
 Checks belong in the Node/Bun test suites or Playwright, not standalone verification
-programs. `mise run check-cms-content` tests local content; `mise run check-cms-release`
-fetches and tests `origin/cms`. `CMS_BASE_URL=https://cms.pycon.hk mise run //cms:check`
+programs. `mise run check-cms-content` tests the checked-out content.
+`CMS_BASE_URL=https://cms.pycon.hk mise run //cms:check`
 also runs the hosted editor, configuration and OAuth checks. Without that variable,
 hosted tests are skipped. Build helpers are Astro integration functions; deployment
 orchestration lives with its workflows in `.github/deploy/`.

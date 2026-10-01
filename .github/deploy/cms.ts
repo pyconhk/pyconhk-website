@@ -18,7 +18,7 @@ const profiles = {
   },
   test: {
     origin: "https://pyconhk-cms-test.website-pyconhk.workers.dev",
-    contentRepo: "pyconhk/pyconhk-news",
+    contentRepo: "pyconhk/pyconhk-website",
     contentBranch: "cms-test",
     gateway: {
       project: "pyconhk-cms-test",
@@ -28,7 +28,7 @@ const profiles = {
   },
   production: {
     origin: "https://pyconhk-cms.website-pyconhk.workers.dev",
-    contentRepo: "pyconhk/pyconhk-news",
+    contentRepo: "pyconhk/pyconhk-website",
     contentBranch: "cms",
     gateway: {
       project: "pyconhk-cms",
@@ -132,7 +132,7 @@ export async function deployCms({
     console.log("CMS inputs are unchanged; build and deployment skipped.");
   } else {
     if (profile === "legacy") {
-      run("mise", ["run", "check-cms-release"], {
+      run("mise", ["run", "check-cms-content"], {
         cwd: root,
         stdio: "inherit",
       });

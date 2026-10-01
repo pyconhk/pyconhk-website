@@ -56,9 +56,11 @@ jobs:
             test) source_branch='test'; content_branch='cms-test' ;;
             *) echo 'Unsupported CMS environment.' >&2; exit 1 ;;
           esac
-          echo "target=$target" >> "$GITHUB_OUTPUT"
-          echo "source_branch=$source_branch" >> "$GITHUB_OUTPUT"
-          echo "content_branch=$content_branch" >> "$GITHUB_OUTPUT"
+          {
+            echo "target=$target"
+            echo "source_branch=$source_branch"
+            echo "content_branch=$content_branch"
+          } >> "$GITHUB_OUTPUT"
   deploy:
     needs: select
     runs-on: ubuntu-latest
@@ -77,13 +79,12 @@ jobs:
         with:
           ref: ${{ needs.select.outputs.source_branch }}
           persist-credentials: false
-      - name: Require News repository and deployment origin
+      - name: Require CMS content branch and deployment origin
         env:
-          NEWS_SOURCE: ${{ vars.NEWS_SOURCE }}
+          CMS_CONTENT_BRANCH: ${{ needs.select.outputs.content_branch }}
         run: |
-          test "$NEWS_SOURCE" = external || { echo 'Enable the external News source before deploying the split CMS.' >&2; exit 1; }
-          test -n "$CMS_DEPLOY_ORIGIN" || { echo 'Set CMS_PRODUCTION_ORIGIN before deploying the production CMS.' >&2; exit 1; }
-          git ls-remote --exit-code --refs https://github.com/pyconhk/pyconhk-news.git "refs/heads/${{ needs.select.outputs.content_branch }}" >/dev/null
+          test -n "$CMS_DEPLOY_ORIGIN" || { echo 'Set the CMS deployment origin before deploying.' >&2; exit 1; }
+          git ls-remote --exit-code --refs origin "refs/heads/$CMS_CONTENT_BRANCH" >/dev/null
       - name: Set up mise
         uses: jdx/mise-action@v4
       - name: Restore dependency cache

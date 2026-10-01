@@ -5,7 +5,7 @@ export function normalizePublishedAt(value: string | Date | null | undefined): s
     return defaultPublishedAt;
   }
 
-  // gray-matter parses unquoted YAML timestamps from Decap as Date objects.
+  // Preserve Date values from legacy callers as well as Decap timestamp strings.
   const date = value instanceof Date ? value : new Date(value.trim());
   if (Number.isNaN(date.getTime())) {
     throw new Error('News publishedAt must be a valid date');

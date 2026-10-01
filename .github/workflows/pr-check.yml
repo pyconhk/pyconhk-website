@@ -3,66 +3,83 @@ name: Pull Request Check
 on:
   pull_request:
     branches: [main, test, cms]
+  workflow_call:
+    inputs:
+      ref:
+        description: Exact CMS merge candidate commit to validate
+        type: string
+        default: ''
+      cms_base:
+        description: Published target branch (main or test)
+        type: string
+        default: ''
+      cms_head:
+        description: Reserved CMS publication branch for the target
+        type: string
+        default: ''
+      cms_base_sha:
+        description: Exact target commit used to prepare the candidate
+        type: string
+        default: ''
 
 permissions:
   contents: read
 
 concurrency:
-  group: pr-check-${{ github.event.pull_request.number }}
+  group: pr-check-${{ github.event.pull_request.number || format('{0}-{1}', inputs.cms_base || github.ref, inputs.ref || github.sha) }}
   cancel-in-progress: true
 
 jobs:
   pull_request_check:
     name: Branch Rules
-    if: github.base_ref != 'cms'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
       - name: Check PR branch rules
         env:
-          BASE_BRANCH: ${{ github.base_ref }}
-          HEAD_BRANCH: ${{ github.head_ref }}
+          CMS_CI_MODE: ${{ inputs.ref != '' }}
+          CMS_PR_BASE: ${{ inputs.cms_base || github.base_ref }}
+          CMS_PR_HEAD: ${{ inputs.cms_head || github.head_ref }}
+          CMS_PR_BASE_REPO: ${{ github.repository }}
+          CMS_PR_HEAD_REPO: ${{ inputs.ref && github.repository || github.event.pull_request.head.repo.full_name }}
+          CMS_PR_BASE_SHA: ${{ inputs.cms_base_sha || github.event.pull_request.base.sha }}
+          CMS_PR_HEAD_SHA: ${{ inputs.ref || github.event.pull_request.head.sha }}
         run: |
-          # Rule 1: Only test can merge to main.
-          # The cms branch is promoted by the scheduled content workflow, not by PR.
-          if [ "$BASE_BRANCH" == "main" ]; then
-            if [ "$HEAD_BRANCH" != "test" ]; then
-              echo "❌ Error: Only 'test' can merge to 'main'"
-              echo "Current source branch: $HEAD_BRANCH"
-              echo "Target branch: $BASE_BRANCH"
-              echo ""
-              echo "Please merge code changes to 'test' first. CMS content is promoted by workflow."
-              exit 1
-            else
-              echo "✅ Valid: $HEAD_BRANCH branch merging to main"
-            fi
-
-          # Rule 2: Only validated Decap editorial content can merge to cms.
-          elif [ "$BASE_BRANCH" == "cms" ]; then
-            echo "Validated same-repository Decap editorial content targeting cms."
-
-          # Rule 3: All other branches must merge to test
-          elif [ "$BASE_BRANCH" != "test" ]; then
-            echo "❌ Error: All feature branches must merge to 'test'"
-            echo "Current source branch: $HEAD_BRANCH"
-            echo "Target branch: $BASE_BRANCH"
-            echo ""
-            echo "Please change your pull request target to 'test' branch"
-            exit 1
-
-          # Valid case: Merging to test
+          if [ "$CMS_CI_MODE" = true ]; then
+            # A CMS candidate cannot replace the checker that approves itself.
+            # Extract both helpers from the immutable, reviewed target commit.
+            [[ "$CMS_PR_BASE_SHA" =~ ^[a-f0-9]{40}$ ]] || exit 1
+            [[ "$CMS_PR_HEAD_SHA" =~ ^[a-f0-9]{40}$ ]] || exit 1
+            test "$(git rev-parse HEAD)" = "$CMS_PR_HEAD_SHA"
+            checker_dir="$(mktemp -d "$RUNNER_TEMP/cms-branch-rules.XXXXXX")"
+            trap 'rm -rf "$checker_dir"' EXIT
+            for helper in branches promotion; do
+              git show "$CMS_PR_BASE_SHA:cms/publication/$helper.ts" > "$checker_dir/$helper.ts"
+            done
+            node "$checker_dir/branches.ts"
           else
-            echo "✅ Valid: PR targeting 'test' from '$HEAD_BRANCH'"
-            echo "This follows the correct branching strategy"
+            node cms/publication/branches.ts
           fi
 
 
   discover:
     name: Discover E2E suites
+    needs: pull_request_check
     runs-on: ubuntu-latest
     outputs:
       suites: ${{ steps.suites.outputs.matrix }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
       - uses: jdx/mise-action@v4
       - id: suites
         run: |
@@ -97,6 +114,7 @@ jobs:
 
   build:
     name: Build shared website
+    needs: pull_request_check
     runs-on: ubuntu-latest
     env:
       PROGRAMME_ENVIRONMENT: test
@@ -104,6 +122,9 @@ jobs:
       PROGRAMME_SNAPSHOT_PATH: src/years/2026/data/programme/pyconhk2025.public.json
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
       - uses: jdx/mise-action@v4
       - uses: actions/cache@v5
         with:
@@ -115,16 +136,20 @@ jobs:
       - run: tar -cf website-dist.tar -C website dist public/pagefind
       - uses: actions/upload-artifact@v6
         with:
-          name: website-dist
+          name: website-dist-${{ inputs.cms_base || 'pr' }}-${{ inputs.ref || github.sha }}
           path: website-dist.tar
           compression-level: 0
           retention-days: 1
 
   checks:
     name: Type and lint checks
+    needs: pull_request_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
       - uses: jdx/mise-action@v4
       - uses: actions/cache@v5
         with:
@@ -134,8 +159,6 @@ jobs:
       - run: mise run install
       - run: mise run check-cms-content
       - run: mise run test-deployments
-      - if: vars.NEWS_SOURCE != 'external'
-        run: mise run check-cms-release
       - run: mise run //...:check
 
   e2e:
@@ -151,6 +174,9 @@ jobs:
       PROGRAMME_SNAPSHOT_PATH: src/years/2026/data/programme/pyconhk2025.public.json
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
       - uses: jdx/mise-action@v4
       - uses: actions/cache@v5
         with:
@@ -161,7 +187,7 @@ jobs:
       - uses: actions/download-artifact@v7
         if: matrix.website
         with:
-          name: website-dist
+          name: website-dist-${{ inputs.cms_base || 'pr' }}-${{ inputs.ref || github.sha }}
       - if: matrix.website
         run: |
           tar -xf website-dist.tar -C website
@@ -178,7 +204,7 @@ jobs:
       - uses: actions/upload-artifact@v6
         if: failure()
         with:
-          name: test-failures-${{ matrix.name }}
+          name: test-failures-${{ matrix.name }}-${{ inputs.cms_base || 'pr' }}-${{ inputs.ref || github.sha }}
           path: |
             website/test-results
             cms/test-results
@@ -188,13 +214,14 @@ jobs:
   validate:
     name: Validate Monorepo
     if: always()
-    needs: [discover, build, checks, e2e]
+    needs: [pull_request_check, discover, build, checks, e2e]
     runs-on: ubuntu-latest
     steps:
       - name: Require all checks to pass
         env:
+          BRANCH_RULES: ${{ needs.pull_request_check.result }}
           DISCOVER: ${{ needs.discover.result }}
           BUILD: ${{ needs.build.result }}
           CHECKS: ${{ needs.checks.result }}
           E2E: ${{ needs.e2e.result }}
-        run: test "$DISCOVER" = success && test "$BUILD" = success && test "$CHECKS" = success && test "$E2E" = success
+        run: test "$BRANCH_RULES" = success && test "$DISCOVER" = success && test "$BUILD" = success && test "$CHECKS" = success && test "$E2E" = success

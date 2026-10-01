@@ -1,0 +1,24 @@
+# Developer approval is required for every path unless explicitly excluded below.
+# This includes this file, CI workflows, CMS code and conference content.
+* @pyconhk/pycon-hk-website-team
+
+# News files published through the CMS; language completeness is checked by CI.
+/website/outstatic/content/2025-posts/*.en.mdx
+/website/outstatic/content/2025-posts/*.zh-hk.mdx
+/website/outstatic/content/2025-posts/*.zh-hant.mdx
+/website/outstatic/content/2025-posts/*.zh-hans.mdx
+/website/outstatic/content/2025-posts/*.ja.mdx
+/website/outstatic/content/2026-posts/*.en.mdx
+/website/outstatic/content/2026-posts/*.zh-hk.mdx
+/website/outstatic/content/2026-posts/*.zh-hant.mdx
+/website/outstatic/content/2026-posts/*.zh-hans.mdx
+/website/outstatic/content/2026-posts/*.ja.mdx
+/website/outstatic/content/2026-posts/*.ko.mdx
+
+# Raster uploads only. Scripts, HTML, SVG and other file types remain owned.
+/website/public/outstatic/images/*.png
+/website/public/outstatic/images/*.jpg
+/website/public/outstatic/images/*.jpeg
+/website/public/outstatic/images/*.webp
+/website/public/outstatic/images/*.gif
+/website/public/outstatic/images/*.avif
