@@ -87,7 +87,7 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
     page.locator('#modal-details [data-speaker-link]').first()
   ).toHaveAttribute('href', '/2026/en/speakers/georgi-ker/');
   const calendar = new URL(
-    (await page.locator('[data-modal-calendar]').getAttribute('href')) ?? ''
+    (await page.locator('[data-modal-google-calendar]').getAttribute('href')) ?? ''
   );
   expect(calendar.searchParams.get('dates')).toBe('20251011T022500Z/20251011T025500Z');
   expect(calendar.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
