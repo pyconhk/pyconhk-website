@@ -12,6 +12,8 @@ on:
     secrets:
       CLOUDFLARE_API_TOKEN:
         required: true
+      PRETALX_API_TOKEN:
+        required: false
 
 permissions:
   contents: read
@@ -51,6 +53,7 @@ jobs:
         env:
           TARGET: ${{ inputs.target }}
           FORCE: ${{ inputs.force }}
+          PRETALX_API_TOKEN: ${{ inputs.target == 'production' && secrets.PRETALX_API_TOKEN || '' }}
         run: |
           args=(prepare "$TARGET")
           if [ "$FORCE" = true ]; then args+=(--force); fi
@@ -121,6 +124,7 @@ jobs:
           PROGRAMME_SOURCE_URL: ${{ steps.prepare.outputs.source_url }}
           PROGRAMME_BASELINE_PATH: ${{ steps.prepare.outputs.baseline_path }}
           PROGRAMME_SOURCE_EVENT: ${{ steps.prepare.outputs.event }}
+          PRETALX_API_TOKEN: ${{ inputs.target == 'production' && secrets.PRETALX_API_TOKEN || '' }}
           NEWS_CHECKOUT_DIR: ${{ steps.prepare.outputs.news_sha != '' && 'news-source' || '' }}
         run: |
           mise exec -- node cms/publication/content.ts
