@@ -15,7 +15,7 @@ permissions:
 jobs:
   promote:
     name: Promote cms to main
-    if: vars.NEWS_SOURCE != 'external'
+    if: vars.NEWS_SOURCE != 'external' && (github.event_name != 'schedule' || vars.CONTENT_RECONCILIATION_ENABLED != 'true')
     runs-on: ubuntu-latest
     outputs:
       promoted: ${{ steps.push.outputs.promoted }}

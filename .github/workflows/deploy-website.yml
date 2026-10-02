@@ -1,4 +1,5 @@
 name: Deploy Website
+run-name: "Deploy Website [${{ inputs.target || (github.ref_name == 'main' && 'production' || (github.ref_name == 'test' && 'test' || 'preview')) }}] ${{ inputs.reconcile_id }}"
 
 on:
   push:
@@ -12,6 +13,14 @@ on:
         type: choice
         options: [test, production, preview]
         default: test
+      repair_completion:
+        description: Retry verification or invalidation of already uploaded content
+        type: boolean
+        default: false
+      reconcile_id:
+        description: Correlation ID from content reconciliation
+        type: string
+        default: ''
       force:
         description: Rebuild even when code and programme are unchanged
         type: boolean
@@ -22,6 +31,8 @@ permissions:
 
 jobs:
   select:
+    # Keep existing polling until the approved Worker is active.
+    if: github.event_name != 'schedule' || vars.CONTENT_RECONCILIATION_ENABLED != 'true'
     runs-on: ubuntu-latest
     outputs:
       targets: ${{ steps.targets.outputs.targets }}
@@ -52,5 +63,6 @@ jobs:
     uses: ./.github/workflows/deploy-website-reusable.yml
     with:
       target: ${{ matrix.target }}
+      repair_completion: ${{ github.event_name == 'workflow_dispatch' && inputs.repair_completion || false }}
       force: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
     secrets: inherit

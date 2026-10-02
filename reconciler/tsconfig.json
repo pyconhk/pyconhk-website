@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "typeRoots": ["../website/node_modules/@types"]
+  },
+  "include": ["./*.ts", "../.github/deploy/cache.ts", "../.github/deploy/cache.test.ts"]
+}

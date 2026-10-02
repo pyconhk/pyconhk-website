@@ -32,7 +32,7 @@ test("News preflight resolves the test and production refs to immutable commits"
   assert.ok(lookups.every(({ url }) => url === "https://github.com/pyconhk/pyconhk-news.git"));
   assert.throws(() => resolveNewsRevision("test", { source: "external", lookup: () => { throw new Error("missing"); } }),
     /cannot resolve/);
-  assert.throws(() => resolveNewsRevision("production", { source: "external", lookup: () => `${firstSha}\trefs\/heads\/test\n` }),
+  assert.throws(() => resolveNewsRevision("production", { source: "external", lookup: () => `${firstSha}\trefs/heads/test\n` }),
     /no valid refs\/heads\/main/);
 });
 
@@ -82,4 +82,13 @@ test("hosted verification rejects a different News revision", async () => {
       ? { ...expected, newsSha: secondSha } : {},
     attempts: 1,
   }), /newsSha/);
+});
+
+test('published News content hash ignores maintenance commits but detects posts/images', () => {
+  const previous = { sourceHash: 'a'.repeat(64), programmeHash: 'b'.repeat(64), newsSha: firstSha,
+    newsContentHash: 'c'.repeat(64), newsSource: 'external', newsRepository: 'pyconhk/pyconhk-news',
+    newsRef: 'refs/heads/main', environment: 'production', event: 'pyconhk2026', sourceUrl: 'https://example.invalid' };
+  assert.equal(needsDeployment(previous, { ...previous, newsSha: secondSha }), false);
+  assert.equal(needsDeployment(previous, { ...previous, newsContentHash: 'd'.repeat(64) }), true);
+  assert.equal(needsDeployment({ ...previous, newsContentHash: undefined }, previous), true, 'migrate old manifest once');
 });

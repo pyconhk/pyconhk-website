@@ -1,0 +1,31 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "pyconhk-content-reconciler",
+  "main": "worker.ts",
+  "compatibility_date": "2026-10-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "RECONCILIATION",
+        "class_name": "ContentReconciliation"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ContentReconciliation"]
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "account_id": "043801e2f5b9cf2685593bd9098e98b1",
+  "vars": {
+    "ENABLED": "false"
+  }
+}
