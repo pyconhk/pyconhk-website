@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import worker, { ContentReconciliation } from './worker.ts';
+import { programmeApiExport } from '../website/src/lib/programme/api.ts';
 import { normalizeProgramme } from '../website/src/lib/programme/snapshot.ts';
 import { newsContentHash } from './content.ts';
 import type { State } from './state.ts';
@@ -34,12 +35,12 @@ function fixture(t: test.TestContext) {
       version: 'same-version',
       conference: {
         time_zone_name: 'Asia/Hong_Kong',
-        start: '2025-10-04',
-        end: '2025-10-04',
+        start: '2026-10-04',
+        end: '2026-10-04',
         rooms: [{ name: 'Hall', slug: 'hall' }],
         days: [
           {
-            date: '2025-10-04',
+            date: '2026-10-04',
             rooms: {
               Hall: [
                 {
@@ -48,7 +49,7 @@ function fixture(t: test.TestContext) {
                   title: 'Session',
                   abstract: 'Abstract',
                   description: 'Description',
-                  date: '2025-10-04T10:00:00+08:00',
+                  date: '2026-10-04T10:00:00+08:00',
                   duration: '01:00',
                   persons: [{ name: 'Speaker', biography: 'Biography' }],
                 },
@@ -59,10 +60,24 @@ function fixture(t: test.TestContext) {
       },
     },
   };
-  const baseline = normalizeProgramme(payload, {
-    event: 'pyconhk2025',
+  const sourceUrl = 'https://pretalx.com/api/events/pyconhk2026/schedules/latest/';
+  const metadata = { title: '', timezone: 'Asia/Hong_Kong', startDate: '2026-10-04', endDate: '2026-10-04' };
+  const release = () => ({
+    id: 1, version: payload.schedule.version, published: '2026-10-01T00:00:00Z',
+    slots: payload.schedule.conference.days[0].rooms.Hall.map(item => ({
+      id: item.id, start: item.date,
+      end: new Date(Date.parse(item.date) + 60 * 60_000).toISOString(),
+      room: {id: 1, name: 'Hall', hidden: false}, is_visible: true, slot_type: 'talk',
+      submission: { code: item.code, title: item.title, abstract: item.abstract, description: item.description,
+        state: 'confirmed', content_locale: '', track: null, submission_type: {name: ''},
+        speakers: item.persons.map((person, index) => ({ code: `speaker${index}`, name: person.name, biography: person.biography, avatar_url: '' })) },
+    })),
+  });
+  const publicRelease = () => ({ ...release(), slots: release().slots.map(slot => slot.id) });
+  const baseline = normalizeProgramme(programmeApiExport(release(), {event: 'pyconhk2026', sourceUrl, ...metadata}, publicRelease()), {
+    event: 'pyconhk2026',
     environment: 'test',
-    sourceUrl: 'https://pretalx.com/pyconhk2025/schedule/export/schedule.json',
+    sourceUrl,
   });
   const tree = {
     tree: [
@@ -76,7 +91,7 @@ function fixture(t: test.TestContext) {
   };
   const deployed = {
     environment: 'test',
-    event: 'pyconhk2025',
+    event: 'pyconhk2026',
     newsSource: 'external',
     newsContentHash: newsContentHash(tree),
     programmeHash: baseline.hash,
@@ -131,7 +146,8 @@ function fixture(t: test.TestContext) {
     if (href.includes('/git/trees/')) return Response.json(tree);
     if (href.includes('/deployment-manifest.json')) return Response.json(deployed);
     if (href.includes('/programme-snapshot.json')) return Response.json(baseline);
-    if (href.includes('/schedule/export/')) return Response.json(payload);
+    if (href.includes('/schedules/latest/')) return Response.json(href.includes('expand=') ? release() : publicRelease());
+    if (href.endsWith('/api/events/pyconhk2026/')) return Response.json({slug: 'pyconhk2026', is_public: true, name: '', timezone: metadata.timezone, date_from: metadata.startDate, date_to: metadata.endDate});
     throw new Error(`Unexpected test request ${href}`);
   };
   const instance = new ContentReconciliation({ storage }, env);
@@ -149,6 +165,7 @@ function fixture(t: test.TestContext) {
     payload,
     tree,
     deployed,
+    baseline,
     dispatches,
     check,
     callback,
@@ -351,4 +368,13 @@ test('a later no-op workflow cannot acknowledge an earlier failed uploaded versi
   await f.check();
   assert.equal(f.dispatches.length, 1);
   assert.equal(f.state().repairCompletion, true);
+});
+
+
+test('test event migration ignores an old sample baseline and dispatches published2026 content', async (t) => {
+  const f = fixture(t);
+  f.baseline.event = 'pyconhk2025';
+  f.deployed.event = 'pyconhk2025';
+  assert.equal((await f.check()).status, 200);
+  assert.equal(f.dispatches.length, 1);
 });
