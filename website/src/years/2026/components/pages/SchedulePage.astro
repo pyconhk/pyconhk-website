@@ -56,7 +56,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
             return <div class="programme-day" data-day-panel={day.date} hidden={day.date !== initialDay} style={`--timeline-minutes:${timeline.minutes}`}>
               {times.map((time) => <section class="programme-slot" data-programme-slot style={`--time-line:${timeline.position(sessions.filter((session) => session.startTime === time)[0]).start}`}>
                 <h2 class="programme-time font-black text-conference-ink">{time}</h2>
-                {sessions.filter((session) => session.startTime === time).map((session) => <article class:list={['programme-card rounded-2xl border border-conference-outline bg-conference-surface p-4', { 'programme-break': session.isBreak, 'programme-short': session.duration <= 10, 'shadow-conference-card': !session.isBreak }]} data-session-card={session.id} data-session-kind={session.isBreak ? 'break' : 'session'} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2};--start-line:${timeline.position(session).start};--end-line:${timeline.position(session).end}`}>
+                {sessions.filter((session) => session.startTime === time).map((session) => <article class:list={['programme-card rounded-2xl border border-conference-outline bg-conference-surface p-4', { 'programme-break': session.isBreak, 'programme-quarter': session.duration <= 15, 'programme-short': session.duration <= 10, 'shadow-conference-card': !session.isBreak }]} data-session-card={session.id} data-session-kind={session.isBreak ? 'break' : 'session'} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2};--start-line:${timeline.position(session).start};--end-line:${timeline.position(session).end}`}>
                   {!session.isBreak && <div class="pointer-events-none absolute inset-x-0 top-0 overflow-hidden rounded-t-[14px] border-b-2 border-[#2f559a] bg-white"><WovenRibbon heightClass="h-4" /></div>}
                   <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
                   <div class="programme-session-meta mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -143,6 +143,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-scroll[data-room-layout='true'] .programme-break { align-self: stretch; display: flex; align-items: center; }
   .programme-scroll[data-room-layout='true'] .programme-break h3 { margin: 0; }
   .programme-scroll[data-room-layout='true'] .programme-break .programme-session-meta { display: none; }
+  .programme-scroll[data-room-layout='true'] .programme-quarter:not(.programme-break) { padding-top: 1.5rem; padding-bottom: .75rem; }
+  .programme-scroll[data-room-layout='true'] .programme-quarter .session-open { -webkit-line-clamp: 2; }
   .programme-scroll[data-room-layout='true'] .programme-short:not(.programme-break) { padding-block: .5rem; }
   .programme-scroll[data-room-layout='true'] .programme-short .programme-session-meta,
   .programme-scroll[data-room-layout='true'] .programme-short .programme-speakers { display: none; }
