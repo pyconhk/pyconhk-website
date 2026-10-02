@@ -23,8 +23,8 @@ export const deploymentTargets = {
     branch: "test",
     project: "pyconhk-website-test",
     origin: "https://pyconhk-website-test.pages.dev",
-    event: "pyconhk2025",
-    source: "https://pretalx.com/pyconhk2025/schedule/export/schedule.json",
+    event: "pyconhk2026",
+    source: "https://pretalx.com/api/events/pyconhk2026/schedules/latest/",
   },
   preview: {
     branch: "alex-dev",

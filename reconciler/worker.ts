@@ -13,9 +13,9 @@ const targets = {
   test: {
     branch: 'test',
     cms: 'cms-test',
-    event: 'pyconhk2025',
+    event: 'pyconhk2026',
     origin: 'https://pyconhk-website-test.pages.dev',
-    source: 'https://pretalx.com/pyconhk2025/schedule/export/schedule.json',
+    source: 'https://pretalx.com/api/events/pyconhk2026/schedules/latest/',
   },
 };
 type Environment = keyof typeof targets;
@@ -253,7 +253,8 @@ export class ContentReconciliation {
           event: target.event,
           environment: name,
           sourceUrl: target.source,
-          baseline: baseline ? validateSnapshot(baseline, target.event, name) : undefined,
+          baseline: baseline?.event === target.event && baseline?.environment === name
+            ? validateSnapshot(baseline, target.event, name) : undefined,
           allowUnpublished: name === 'production',
           ...(name === 'production' && this.env.PRETALX_API_TOKEN
             ? { apiToken: this.env.PRETALX_API_TOKEN }
