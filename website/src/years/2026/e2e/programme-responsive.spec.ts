@@ -52,6 +52,18 @@ test.describe('responsive public programme', () => {
                   document.documentElement.clientWidth
               ) < 1,
             programmeFits: programme.scrollWidth <= programme.clientWidth + 1,
+            speakerContentFits: [
+              ...programme.querySelectorAll<HTMLElement>('.programme-speakers'),
+            ]
+              .filter((element) => element.getClientRects().length)
+              .every((element) => {
+                const card = element.closest('article');
+                return (
+                  card &&
+                  element.getBoundingClientRect().bottom <=
+                    card.getBoundingClientRect().bottom - 8
+                );
+              }),
             roomLabelsMatchLayout: [
               ...programme.querySelectorAll<HTMLElement>('.programme-room'),
             ]
@@ -89,6 +101,7 @@ test.describe('responsive public programme', () => {
           documentFits: true,
           fillsViewport: true,
           programmeFits: true,
+          speakerContentFits: true,
           roomLabelsMatchLayout: true,
           allElementsFit: true,
           touchTargetsFit: true,
