@@ -20,6 +20,11 @@ test('mixed sessions and five-minute gaps share an exact elapsed-minute timescal
   ];
   const timeline = programmeTimeline(sessions);
   assert.equal(timeline.minutes, 65);
+  assert.deepEqual(timeline.guides, [
+    { line: 1, label: '11:25' },
+    { line: 6, label: '11:30' },
+    { line: 36, label: '12:00' },
+  ]);
   assert.deepEqual(sessions.map(timeline.position), [
     { start: 1, end: 16 },
     { start: 1, end: 31 },
@@ -43,4 +48,9 @@ test('positions use actual timestamps rather than a stale duration field or inpu
   assert.deepEqual(timeline.position(first), { start: 1, end: 11 });
   assert.deepEqual(timeline.position(next), { start: 11, end: 31 });
   assert.equal(programmeTimeline([]).minutes, 0);
+  assert.deepEqual(programmeTimeline([]).guides, []);
+  assert.deepEqual(timeline.guides, [
+    { line: 1, label: '23:45' },
+    { line: 16, label: '00:00' },
+  ]);
 });
