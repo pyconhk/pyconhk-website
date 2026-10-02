@@ -692,3 +692,107 @@ for (const theme of ['light', 'dark']) {
     expect(restored).toBe(true);
   });
 }
+
+for (const locale of locales) {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`${locale}/${theme}: breaks retain padding, duration and exact boundaries`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.goto(`/2026/${locale}/schedule`);
+      const breaks = page.locator('[data-session-kind="break"]');
+      test.skip((await breaks.count()) === 0, 'Requires published breaks.');
+      // Stress wrapping independently of the published title length.
+      await breaks
+        .first()
+        .locator('h3')
+        .evaluate((title) => {
+          title.textContent = `${title.textContent} — A comfortably readable transition with a very long room announcement`;
+        });
+      for (const [width, scale] of [
+        [1483, 1],
+        [1920, 1.25],
+        [390, 1],
+        [320, 1.25],
+      ]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.evaluate((scale) => {
+          document.documentElement.style.fontSize = `${16 * scale}px`;
+        }, scale);
+        const evidence = await page.evaluate(() => {
+          const data = JSON.parse(
+            document.querySelector('#programme-data')?.textContent ?? '{}'
+          ) as {
+            sessions: { id: string; start: string; end: string }[];
+            copy: { minutes: string };
+          };
+          return [
+            ...document.querySelectorAll<HTMLElement>('[data-session-kind="break"]'),
+          ]
+            .filter((card) => card.getClientRects().length)
+            .map((card) => {
+              const session = data.sessions.find(
+                (session) => session.id === card.dataset.sessionCard
+              );
+              const duration = card.querySelector<HTMLElement>(
+                '[data-session-duration]'
+              );
+              const title = card.querySelector('h3');
+              const day = card.closest('.programme-day');
+              if (!session || !duration || !title || !day)
+                throw new Error('Incomplete break card');
+              const style = getComputedStyle(card);
+              const box = card.getBoundingClientRect();
+              const titleBox = title.getBoundingClientRect();
+              const durationBox = duration.getBoundingClientRect();
+              const guide = [
+                ...day.querySelectorAll<HTMLElement>('.programme-time-guide'),
+              ].find(
+                (guide) =>
+                  guide.style.getPropertyValue('--guide-line') ===
+                  card.style.getPropertyValue('--end-line')
+              );
+              return {
+                text: duration.textContent?.trim(),
+                expected: `${(Date.parse(session.end) - Date.parse(session.start)) / 60_000} ${data.copy.minutes}`,
+                visible: durationBox.width > 0 && durationBox.height > 0,
+                padding: [
+                  style.paddingTop,
+                  style.paddingRight,
+                  style.paddingBottom,
+                  style.paddingLeft,
+                ].map(Number.parseFloat),
+                rootSize: Number.parseFloat(
+                  getComputedStyle(document.documentElement).fontSize
+                ),
+                overflow:
+                  card.scrollWidth > card.clientWidth + 1 ||
+                  card.scrollHeight > card.clientHeight + 1,
+                contained: [titleBox, durationBox].every(
+                  (child) =>
+                    child.left >= box.left &&
+                    child.right <= box.right + 1 &&
+                    child.top >= box.top &&
+                    child.bottom <= box.bottom + 1
+                ),
+                margin: style.marginBottom,
+                edgeError: guide?.getClientRects().length
+                  ? Math.abs(box.bottom - guide.getBoundingClientRect().top)
+                  : 0,
+              };
+            });
+        });
+        expect(evidence.length).toBeGreaterThan(0);
+        for (const card of evidence) {
+          expect(card.text).toBe(card.expected);
+          expect(card.visible).toBe(true);
+          expect(card.padding.every((padding) => padding >= card.rootSize)).toBe(true);
+          expect(card.overflow).toBe(false);
+          expect(card.contained).toBe(true);
+          expect(card.margin).toBe('0px');
+          expect(card.edgeError).toBeLessThan(1);
+        }
+      }
+    });
+  }
+}
