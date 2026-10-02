@@ -401,7 +401,7 @@ test('compact room timeline shares boundaries without overlap and keeps speaker 
       );
       return {
         startError: Math.abs(box.top - boundary(start)),
-        endError: Math.abs(box.bottom + 8 - boundary(end)),
+        endError: Math.abs(box.bottom - boundary(end)),
         contentFits: card.scrollHeight <= card.clientHeight + 1,
         ordinaryCompact: session.duration !== 30 || box.height < 400,
         noOverlap: sameRoom.every((other) => {
@@ -617,3 +617,78 @@ test('filtering rebuilds the shared time axis and restores its scoped guide styl
     )
   ).toBe(true);
 });
+
+for (const theme of ['light', 'dark']) {
+  test(`${theme}: visible card ends coincide exactly with clock guides`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: theme as 'light' | 'dark' });
+    await page.setViewportSize({ width: 1920, height: 900 });
+    await page.goto('/2026/en/schedule');
+    test.skip(
+      (await page
+        .locator('[data-programme-status]')
+        .getAttribute('data-programme-status')) !== 'published',
+      'Requires a published programme.'
+    );
+    for (const scale of [1, 1.25]) {
+      await page.evaluate((scale) => {
+        document.documentElement.style.fontSize = `${16 * scale}px`;
+      }, scale);
+      await expect(page.locator('.programme-scroll')).toHaveAttribute(
+        'data-room-layout',
+        'true'
+      );
+      const edges = await page.locator('.programme-day:visible').evaluate((day) => {
+        const guides = [...day.querySelectorAll<HTMLElement>('.programme-time-guide')];
+        const cards = [
+          ...day.querySelectorAll<HTMLElement>('[data-session-card]'),
+        ].filter((card) => card.getClientRects().length);
+        return cards.flatMap((card) => {
+          const end = card.style.getPropertyValue('--end-line');
+          const guide = guides.find(
+            (guide) => guide.style.getPropertyValue('--guide-line') === end
+          );
+          return guide
+            ? [
+                {
+                  error: Math.abs(
+                    card.getBoundingClientRect().bottom -
+                      guide.getBoundingClientRect().top
+                  ),
+                  margin: getComputedStyle(card).marginBottom,
+                },
+              ]
+            : [];
+        });
+      });
+      expect(edges.length).toBeGreaterThan(0);
+      for (const edge of edges) {
+        expect(edge.error).toBeLessThan(1);
+        expect(edge.margin).toBe('0px');
+      }
+    }
+    await page.locator('[data-programme-search]').fill('no-matching-endpoint-session');
+    await expect(page.locator('.programme-scroll')).toBeHidden();
+    await page.locator('[data-programme-search]').fill('');
+    const restored = await page.locator('.programme-day:visible').evaluate((day) => {
+      const guides = [...day.querySelectorAll<HTMLElement>('.programme-time-guide')];
+      return [...day.querySelectorAll<HTMLElement>('[data-session-card]')]
+        .filter((card) => card.getClientRects().length)
+        .every((card) => {
+          const guide = guides.find(
+            (guide) =>
+              guide.style.getPropertyValue('--guide-line') ===
+              card.style.getPropertyValue('--end-line')
+          );
+          return (
+            !guide ||
+            Math.abs(
+              card.getBoundingClientRect().bottom - guide.getBoundingClientRect().top
+            ) < 1
+          );
+        });
+    });
+    expect(restored).toBe(true);
+  });
+}
