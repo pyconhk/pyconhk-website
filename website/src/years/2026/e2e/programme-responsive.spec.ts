@@ -263,7 +263,7 @@ test('programme rules span the viewport with aligned centered 95% content', asyn
           ];
           const rows = [
             ...document.querySelectorAll<HTMLElement>(
-              '.programme-slot, .programme-room-headings'
+              '.programme-scroll[data-room-layout="false"] .programme-slot, .programme-scroll[data-room-layout="true"] .programme-day, .programme-room-headings'
             ),
           ].filter(visible);
           return {
@@ -298,4 +298,83 @@ test('programme rules span the viewport with aligned centered 95% content', asyn
         noHorizontalOverflow: true,
       });
   }
+});
+
+test('room timeline ends each card at its actual end and keeps speaker names compact', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/schedule/');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  await expect(page.locator('.programme-scroll')).toHaveAttribute(
+    'data-room-layout',
+    'true'
+  );
+  const geometry = await page.evaluate(() => {
+    const payload = document.querySelector('#programme-data')?.textContent;
+    if (!payload) throw new Error('Published programme data is missing');
+    const { sessions } = JSON.parse(payload);
+    const cards = [
+      ...document.querySelectorAll<HTMLElement>('[data-session-card]'),
+    ].filter((card) => card.getClientRects().length);
+    const earliest = Math.min(
+      ...cards.map((card) =>
+        Date.parse(
+          sessions.find(
+            (session: { id: string }) => session.id === card.dataset.sessionCard
+          ).start
+        )
+      )
+    );
+    const firstTop = Math.min(...cards.map((card) => card.getBoundingClientRect().top));
+    return cards.map((card) => {
+      const session = sessions.find(
+        (session: { id: string }) => session.id === card.dataset.sessionCard
+      );
+      const box = card.getBoundingClientRect();
+      const minute = 14;
+      return {
+        startError: Math.abs(
+          box.top -
+            firstTop -
+            ((Date.parse(session.start) - earliest) / 60_000) * minute
+        ),
+        endError: Math.abs(
+          box.bottom +
+            8 -
+            firstTop -
+            ((Date.parse(session.end) - earliest) / 60_000) * minute
+        ),
+      };
+    });
+  });
+  for (const card of geometry) {
+    expect(card.startError).toBeLessThan(1);
+    expect(card.endError).toBeLessThan(1);
+  }
+  const multiple = page
+    .locator('[data-session-card]')
+    .filter({ hasText: 'Kubernetes Isekai' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await multiple.scrollIntoViewIfNeeded();
+  const speakers = multiple.locator('.programme-speakers');
+  await expect(speakers.locator('[data-card-speaker-avatar]')).toHaveCount(3);
+  const compact = await speakers.evaluate((element) => {
+    const images = [...element.querySelectorAll('img')].map((image) =>
+      image.getBoundingClientRect()
+    );
+    return (
+      images.every((box) => box.top === images[0].top) &&
+      images[1].left < images[0].right &&
+      element.getBoundingClientRect().height < 65
+    );
+  });
+  expect(compact).toBe(true);
+  await multiple.locator('[data-session-details]').click();
+  await expect(page.locator('#session-modal')).toBeVisible();
 });
