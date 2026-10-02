@@ -9,6 +9,7 @@ import type { CfpLocale } from '../../locales';
 import SaveSessionButton from '../schedule/SaveSessionButton.astro';
 import ScheduleModal from '../schedule/ScheduleModal.astro';
 import SessionDetails from '../schedule/SessionDetails.astro';
+import { programmeTimeline } from '../schedule/timeline';
 import WovenRibbon from '../ui/WovenRibbon.astro';
 
 interface Props { locale: CfpLocale }
@@ -49,14 +50,16 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
         <div class="programme-scroll mt-7" data-room-count={roomColumns.length} style={`--room-count:${Math.max(roomColumns.length, 1)}`}>
           <div class="programme-room-headings" aria-hidden="true"><span>{copy.time}</span>{roomColumns.map((room) => <span>{room.name}</span>)}</div>
           {programmeSnapshot.days.map((day) => {
-            const times = [...new Set(allScheduleItems.filter((session) => session.date === day.date).map((session) => session.startTime))].sort();
-            return <div data-day-panel={day.date} hidden={day.date !== initialDay}>
-              {times.map((time) => <section class="programme-slot" data-programme-slot>
+            const sessions = allScheduleItems.filter((session) => session.date === day.date);
+            const timeline = programmeTimeline(sessions);
+            const times = [...new Set(sessions.map((session) => session.startTime))].sort();
+            return <div class="programme-day" data-day-panel={day.date} hidden={day.date !== initialDay} style={`--timeline-minutes:${timeline.minutes}`}>
+              {times.map((time) => <section class="programme-slot" data-programme-slot style={`--time-line:${timeline.position(sessions.filter((session) => session.startTime === time)[0]).start}`}>
                 <h2 class="programme-time font-black text-conference-ink">{time}</h2>
-                {allScheduleItems.filter((session) => session.date === day.date && session.startTime === time).map((session) => <article class:list={['programme-card rounded-2xl border border-conference-outline bg-conference-surface p-4', { 'programme-break': session.isBreak, 'shadow-conference-card': !session.isBreak }]} data-session-card={session.id} data-session-kind={session.isBreak ? 'break' : 'session'} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2}`}>
+                {sessions.filter((session) => session.startTime === time).map((session) => <article class:list={['programme-card rounded-2xl border border-conference-outline bg-conference-surface p-4', { 'programme-break': session.isBreak, 'programme-quarter': session.duration <= 15, 'programme-short': session.duration <= 10, 'shadow-conference-card': !session.isBreak }]} data-session-card={session.id} data-session-kind={session.isBreak ? 'break' : 'session'} style={`--room-column:${roomColumns.findIndex((room) => room.id === session.roomKey) + 2};--start-line:${timeline.position(session).start};--end-line:${timeline.position(session).end}`}>
                   {!session.isBreak && <div class="pointer-events-none absolute inset-x-0 top-0 overflow-hidden rounded-t-[14px] border-b-2 border-[#2f559a] bg-white"><WovenRibbon heightClass="h-4" /></div>}
                   <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
-                  <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
+                  <div class="programme-session-meta mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
                     <p class="text-xs font-medium text-conference-body">{session.startTime}–{session.endTime} · {session.duration} {copy.minutes}</p>
                     {!session.isBreak && session.language && <span class="programme-language" data-session-language={session.language}>{sessionLanguageLabel(session.language, locale)}</span>}
                   </div>
@@ -65,12 +68,10 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
                       <h3 class="min-w-0 flex-1 text-base font-black leading-snug text-conference-ink"><button type="button" data-session-details={session.id} class="session-open text-left" aria-haspopup="dialog">{session.title}</button></h3>
                       <SaveSessionButton sessionId={session.id} label={`${copy.save}: ${session.title}`} compact />
                     </div>
-                    {session.speakers.length > 0 && <ul class="mt-3 space-y-2 text-sm text-conference-body" aria-label={copy.speakers}>
-                      {sessionProfiles(session).map((person) => <li class="flex min-w-0 items-center gap-2">
-                        {person.avatar && <Image data-card-speaker-avatar src={person.avatar} alt="" width={80} height={80} format="webp" loading="lazy" decoding="async" class="h-9 w-9 shrink-0 rounded-full object-cover" />}
-                        <span class="min-w-0">{person.name}</span>
-                      </li>)}
-                    </ul>}
+                    {session.speakers.length > 0 && <div class="programme-speakers mt-3 text-sm text-conference-body">
+                      <div class="programme-avatars" aria-hidden="true">{sessionProfiles(session).map((person) => person.avatar && <Image data-card-speaker-avatar src={person.avatar} alt="" width={80} height={80} format="webp" loading="lazy" decoding="async" class="h-8 w-8 rounded-full object-cover" />)}</div>
+                      <p><span class="sr-only">{copy.speakers}: </span>{sessionProfiles(session).map((person) => person.name).join(', ')}</p>
+                    </div>}
                   </>}
                 </article>)}
               </section>)}
@@ -102,6 +103,12 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-time { grid-column: 1 / -1; }
   .programme-room-headings { display: none; padding-inline: 2.5%; }
   .programme-card { position: relative; isolation: isolate; min-width: 0; overflow-wrap: anywhere; padding-top: 2rem; background: var(--conference-surface); transition: background-color .15s ease; }
+  .programme-speakers { display: flex; align-items: center; gap: .5rem; }
+  .programme-speakers p { min-width: 0; }
+  .programme-avatars { display: flex; flex-shrink: 0; }
+  .programme-avatars img { border: 2px solid var(--conference-surface); }
+  .programme-avatars img + img { margin-left: -.75rem; }
+  .programme-avatars:empty { display: none; }
   .programme-break { padding-top: .75rem; padding-bottom: .75rem; background: var(--conference-soft); border-color: var(--conference-line); border-radius: .75rem; align-self: start; }
   .programme-room { display: inline-block; border-radius: .5rem; padding: .375rem .5rem; background: #2f559a; color: white; }
   .programme-language { display: inline-flex; align-items: center; border-radius: .5rem; padding: .25rem .625rem; background: #2f559a; color: white; font-size: .75rem; font-weight: 800; line-height: 1.5; }
@@ -122,15 +129,30 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     .programme-slot { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   .programme-scroll[data-room-layout='true'] .programme-room-headings,
-  .programme-scroll[data-room-layout='true'] .programme-slot { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(0, 1fr)); gap: 1rem; }
+  .programme-scroll[data-room-layout='true'] .programme-day { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(0, 1fr)); column-gap: 1rem; }
+  .programme-scroll[data-room-layout='true'] .programme-day { grid-template-rows: repeat(var(--timeline-minutes), 14px); padding: 1.25rem 2.5%; border-bottom: 1px solid var(--conference-line); }
+  .programme-scroll[data-room-layout='true'] .programme-slot { display: contents; }
   .programme-scroll[data-room-layout='true'] .programme-room-headings { position: sticky; top: var(--site-header-height, 0px); z-index: 30; background: var(--conference-paper); border-bottom: 3px solid var(--conference-outline); padding-block: 1rem; color: var(--conference-ink); font-size: .8rem; font-weight: 900; overflow-wrap: anywhere; }
   .programme-room-headings > span { display: flex; align-items: center; justify-content: center; text-align: center; text-wrap: balance; line-height: 1.5; }
   /* Keep each card's room available to screen readers when columns provide the visual label. */
   .programme-scroll[data-room-layout='true'] .programme-room { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .programme-scroll[data-room-layout='true'] .programme-time { grid-column: 1; grid-row: 1; }
-  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: 1; }
+  .programme-scroll[data-room-layout='true'] .programme-time { grid-column: 1; grid-row: var(--time-line); font-size: .875rem; }
+  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: var(--start-line) / var(--end-line); min-height: 0; margin-bottom: 8px; overflow: hidden; }
+  .programme-scroll[data-room-layout='true'] .programme-card h3 { font-size: .875rem; }
+  .programme-scroll[data-room-layout='true'] .session-open { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+  .programme-scroll[data-room-layout='true'] .programme-break { align-self: stretch; display: flex; align-items: center; }
+  .programme-scroll[data-room-layout='true'] .programme-break h3 { margin: 0; }
+  .programme-scroll[data-room-layout='true'] .programme-break .programme-session-meta { display: none; }
+  .programme-scroll[data-room-layout='true'] .programme-quarter:not(.programme-break) { padding-top: 1.5rem; padding-bottom: .75rem; }
+  .programme-scroll[data-room-layout='true'] .programme-quarter .session-open { -webkit-line-clamp: 2; }
+  .programme-scroll[data-room-layout='true'] .programme-short:not(.programme-break) { padding-block: .5rem; }
+  .programme-scroll[data-room-layout='true'] .programme-short .programme-session-meta,
+  .programme-scroll[data-room-layout='true'] .programme-short .programme-speakers { display: none; }
+  .programme-scroll[data-room-layout='true'] .programme-short:not(.programme-break) > div:first-child { display: none; }
+  .programme-scroll[data-room-layout='true'] .programme-short h3 { margin-top: 0; }
+  .programme-scroll[data-room-layout='true'] .programme-short .session-open { -webkit-line-clamp: 2; }
   :global(html:has(#session-modal[open])) { overflow: hidden; }
-  [hidden] { display: none; }
+  [hidden], .programme-scroll[data-room-layout] [hidden] { display: none; }
 </style>
 
 <script>
@@ -167,8 +189,10 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       // Use room columns only when every room fits at a readable width, including at zoom.
       const rootSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
       const requiredWidth = (4 + Number(programme.dataset.roomCount) * 14) * rootSize;
-      const style = getComputedStyle(trackHeadings ?? programme);
-      const contentWidth = programme.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight);
+      // Hidden headings retain percentage padding in computed style; parsing that
+      // as pixels would alternate list/columns on every ResizeObserver callback.
+      // Both views use the same 2.5% gutters, independent of heading visibility.
+      const contentWidth = programme.clientWidth * .95;
       programme.dataset.roomLayout = String(!filters.room && contentWidth >= Math.max(1024, requiredWidth));
       programme.style.setProperty('--site-header-height', `${siteHeader?.getBoundingClientRect().height ?? 0}px`);
       programme.style.setProperty('--track-header-height', `${trackHeadings?.getBoundingClientRect().height ?? 0}px`);
