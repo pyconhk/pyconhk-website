@@ -3,6 +3,8 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { pageHashes, affectedPaths } from "./cache.ts";
+import { newsContentHash } from "../../reconciler/content.ts";
 import { deploymentSourceHash } from "./source.ts";
 import { fetchProgramme, validateSnapshot } from "../../website/src/lib/programme/snapshot.ts";
 
@@ -49,20 +51,20 @@ export function resolveNewsRevision(environment, {
   assert.ok(["local", "external"].includes(source), `Unsupported NEWS_SOURCE: ${source}`);
   if (source === "local") return { newsSource: "local", newsRepository: "", newsRef: "", newsSha: "" };
   assert.match(repository, /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/, "NEWS_REPOSITORY must be owner/repo");
-  let result;
+  let result: string;
   try {
     result = lookup(`https://github.com/${repository}.git`, ref).trim();
   } catch {
     throw new Error(`NEWS_SOURCE=external cannot resolve ${repository} ${ref}; build and deployment stopped`);
   }
-  const match = /^([a-f0-9]{40})\t(refs\/heads\/[A-Za-z0-9_.\/-]+)$/.exec(result);
+  const match = /^([a-f0-9]{40})\t(refs\/heads\/[A-Za-z0-9_./-]+)$/.exec(result);
   assert.ok(match && match[2] === ref, `NEWS_SOURCE=external returned no valid ${ref} commit for ${repository}`);
   return { newsSource: "external", newsRepository: repository, newsRef: ref, newsSha: match[1] };
 }
 
 export function needsDeployment(previous, next, force = false) {
   return force || !previous || !next.sourceHash || ["sourceHash", "programmeHash", "event", "environment", "sourceUrl",
-    "newsSource", "newsRepository", "newsRef", "newsSha"]
+    "newsSource", "newsRepository", "newsRef", ...(next.newsContentHash ? ["newsContentHash"] : ["newsSha"])]
     .some((key) => previous[key] !== next[key]);
 }
 
@@ -85,15 +87,27 @@ async function prepare(environment, force) {
     "Set PRETALX_API_TOKEN with read-only access to the published programme before deploying production");
   const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
   const news = resolveNewsRevision(environment);
+  let contentHash = '';
+  if (news.newsSource === 'external') {
+    const response = await fetch(`https://api.github.com/repos/${news.newsRepository}/git/trees/${news.newsSha}?recursive=1`, {
+      headers: { Accept: 'application/vnd.github+json',
+        ...(process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}) },
+      signal: AbortSignal.timeout(20_000),
+    });
+    if (!response.ok) throw new Error(`Cannot resolve pinned News content version: ${response.status}`);
+    contentHash = newsContentHash(await response.json());
+  }
   const directory = path.join(root, "website/.cache/deployment", environment, target.event);
   await fs.mkdir(directory, { recursive: true });
   const [previous, baseline] = await Promise.all([
     readDeployedJson(target.origin, "/deployment-manifest.json"),
     readDeployedJson(target.origin, "/programme-snapshot.json"),
   ]);
+  const previousPath = path.join(directory, 'previous-manifest.json');
+  await fs.writeFile(previousPath, JSON.stringify(previous || {}));
   const snapshotPath = path.join(directory, "programme.json");
   let baselinePath = "";
-  let previousSnapshot;
+  let previousSnapshot: ReturnType<typeof validateSnapshot> | undefined;
   if (baseline?.event === target.event && baseline?.environment === environment) {
     previousSnapshot = validateSnapshot(baseline, target.event, environment);
     baselinePath = path.join(directory, "baseline.json");
@@ -107,6 +121,7 @@ async function prepare(environment, force) {
     sourceSha,
     sourceHash: deploymentSourceHash("website", root, { externalNews: news.newsSource === "external" }),
     ...news,
+    newsContentHash: contentHash,
     programmeHash: current.hash,
     event: target.event,
     environment,
@@ -116,7 +131,7 @@ async function prepare(environment, force) {
   const changed = needsDeployment(previous, manifest, force);
   await fs.writeFile(path.join(directory, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
   const outputs = { changed: String(changed), snapshot_path: snapshotPath,
-    manifest_path: path.join(directory, "manifest.json"), source_sha: sourceSha,
+    manifest_path: path.join(directory, "manifest.json"), previous_manifest_path: previousPath, source_sha: sourceSha,
     news_source: news.newsSource, news_sha: news.newsSha, news_ref: news.newsRef,
     news_repo: news.newsRepository,
     project: target.project, branch: target.branch, origin: target.origin, event: target.event,
@@ -135,10 +150,21 @@ async function finalize(snapshotPath, manifestPath) {
       cwd: process.env.NEWS_CHECKOUT_DIR, encoding: "utf8",
     }).trim();
     assert.equal(checkedOutSha, manifest.newsSha, "News checkout changed after deployment preflight");
+    const entries = execFileSync('git', ['ls-tree', '-r', '-z', 'HEAD', '--', 'website'], {
+      cwd: process.env.NEWS_CHECKOUT_DIR, encoding: 'utf8',
+    }).split('\0').filter(Boolean).map(entry => {
+      const [metadata, filename] = entry.split('\t');
+      const [mode, type, sha] = metadata.split(' ');
+      return { mode, type, sha, path: filename };
+    });
+    assert.equal(newsContentHash({ tree: entries }), manifest.newsContentHash, 'Built News content differs from preflight');
   }
   const snapshot = validateSnapshot(JSON.parse(await fs.readFile(snapshotPath, "utf8")), manifest.event, manifest.environment);
   manifest.programmeHash = snapshot.hash;
   manifest.builtAt = new Date().toISOString();
+  const previous = JSON.parse(await fs.readFile(path.join(path.dirname(manifestPath), 'previous-manifest.json'), 'utf8'));
+  manifest.pageHashes = await pageHashes(path.join(root, 'website/dist'));
+  manifest.affectedPaths = affectedPaths(previous.pageHashes, manifest.pageHashes);
   await fs.copyFile(snapshotPath, path.join(root, "website/dist/programme-snapshot.json"));
   await fs.writeFile(path.join(root, "website/dist/deployment-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
   const headersPath = path.join(root, "website/dist/_headers");
@@ -167,7 +193,7 @@ export async function verifyDeployment(environment, expected, {
   } else {
     assert.equal(expected.newsSha, "", "Local News must not specify an external SHA");
   }
-  let lastError;
+  let lastError: unknown;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     try {
       const [manifest, snapshot] = await Promise.all([
@@ -175,7 +201,7 @@ export async function verifyDeployment(environment, expected, {
         readJson(target.origin, "/programme-snapshot.json"),
       ]);
       for (const key of ["sourceSha", "sourceHash", "programmeHash", "event", "environment",
-        "newsSource", "newsRepository", "newsRef", "newsSha"]) {
+        "newsSource", "newsRepository", "newsRef", "newsSha", ...(expected.newsContentHash ? ["newsContentHash"] : [])]) {
         assert.equal(manifest?.[key], expected[key], `Hosted deployment ${key} has not reached the expected value`);
       }
       validateSnapshot(snapshot, target.event, environment);
