@@ -433,3 +433,46 @@ test('room timeline ends each card at its actual end and keeps speaker names com
   await multiple.locator('[data-session-details]').click();
   await expect(page.locator('#session-modal')).toBeVisible();
 });
+
+test('half-hour guides align with the timestamp grid behind cards and disappear on mobile', async ({
+  page,
+}) => {
+  test.skip(!sample, 'Requires the public 2025 sample build.');
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/schedule');
+  await expect(page.locator('.programme-scroll')).toHaveAttribute(
+    'data-room-layout',
+    'true'
+  );
+  const guides = page.locator('.programme-day:visible .programme-time-guide');
+  expect(await guides.count()).toBeGreaterThan(1);
+  const geometry = await guides.evaluateAll((elements) =>
+    elements.map((element) => {
+      const guide = element as HTMLElement;
+      const day = guide.closest('.programme-day') as HTMLElement;
+      return {
+        line: Number(guide.style.getPropertyValue('--guide-line')),
+        top: guide.getBoundingClientRect().top - day.getBoundingClientRect().top,
+        width: guide.getBoundingClientRect().width,
+        dayWidth: day.clientWidth,
+        zIndex: getComputedStyle(guide).zIndex,
+        label: guide.textContent?.trim(),
+      };
+    })
+  );
+  for (const guide of geometry) {
+    expect(guide.top).toBeCloseTo(20 + (guide.line - 1) * 14, 0);
+    expect(guide.width).toBeCloseTo(guide.dayWidth * 0.95, 0);
+    expect(guide.zIndex).toBe('-1');
+  }
+  expect(geometry.slice(1).every((guide) => /:(00|30)$/.test(guide.label ?? ''))).toBe(
+    true
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.programme-scroll')).toHaveAttribute(
+    'data-room-layout',
+    'false'
+  );
+  await expect(page.locator('.programme-time-guide:visible')).toHaveCount(0);
+  await expect(page.locator('.programme-time:visible').first()).toBeVisible();
+});
