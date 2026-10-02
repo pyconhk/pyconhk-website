@@ -141,7 +141,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   /* Keep each card's room available to screen readers when columns provide the visual label. */
   .programme-scroll[data-room-layout='true'] .programme-room { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .programme-scroll[data-room-layout='true'] .programme-time { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: var(--start-line) / var(--end-line); min-height: min-content; margin-bottom: 8px; }
+  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: var(--start-line) / var(--end-line); min-height: min-content; }
   .programme-scroll[data-room-layout='true'] .programme-card h3 { font-size: .875rem; }
   .programme-scroll[data-room-layout='true'] .programme-break { align-self: stretch; display: flex; align-items: center; }
   .programme-scroll[data-room-layout='true'] .programme-break h3 { margin: 0; }
