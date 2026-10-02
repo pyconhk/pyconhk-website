@@ -26,3 +26,7 @@ console.log(JSON.stringify({ operation: 'find-existing-zone', status: zones.stat
   })) : undefined,
   deploymentAccount: account,
 }));
+const scripts = await read(`accounts/${account}/workers/scripts`);
+console.log(JSON.stringify({ operation: 'read-existing-worker-access', status: scripts.status,
+  reconcilerExists: scripts.ok ? scripts.result?.some((script: { id: string }) => script.id === 'pyconhk-content-reconciler') : undefined,
+}));
