@@ -53,7 +53,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
             const sessions = allScheduleItems.filter((session) => session.date === day.date);
             const timeline = programmeTimeline(sessions);
             const times = [...new Set(sessions.map((session) => session.startTime))].sort();
-            return <div class="programme-day" data-day-panel={day.date} hidden={day.date !== initialDay} style={`--timeline-minutes:${timeline.minutes}`}>
+            return <div class="programme-day" data-day-panel={day.date} hidden={day.date !== initialDay} style={`--timeline-intervals:${timeline.intervals}`}>
               {timeline.guides.map((guide) => <div class="programme-time-guide" aria-hidden="true" style={`--guide-line:${guide.line}`}><span>{guide.label}</span></div>)}
               {times.map((time) => <section class="programme-slot" data-programme-slot style={`--time-line:${timeline.position(sessions.filter((session) => session.startTime === time)[0]).start}`}>
                 <h2 class="programme-time font-black text-conference-ink">{time}</h2>
@@ -132,7 +132,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-scroll[data-room-layout='true'] .programme-room-headings,
   .programme-scroll[data-room-layout='true'] .programme-day { display: grid; grid-template-columns: 4rem repeat(var(--room-count), minmax(0, 1fr)); column-gap: 1rem; }
   .programme-time-guide { display: none; }
-  .programme-scroll[data-room-layout='true'] .programme-day { isolation: isolate; grid-template-rows: repeat(var(--timeline-minutes), 14px); padding: 1.25rem 2.5%; border-bottom: 1px solid var(--conference-line); }
+  .programme-scroll[data-room-layout='true'] .programme-day { isolation: isolate; grid-template-rows: repeat(var(--timeline-intervals), minmax(24px, auto)); padding: 1.25rem 2.5%; border-bottom: 1px solid var(--conference-line); }
   .programme-scroll[data-room-layout='true'] .programme-time-guide { display: flex; align-items: flex-start; grid-column: 1 / -1; grid-row: var(--guide-line); z-index: -1; pointer-events: none; border-top: 1px solid var(--conference-line); font-size: .875rem; font-weight: 900; color: var(--conference-ink); }
   .programme-time-guide > span { background: var(--conference-paper); padding-right: .5rem; transform: translateY(-.65em); }
   .programme-scroll[data-room-layout='true'] .programme-slot { display: contents; }
@@ -141,20 +141,11 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   /* Keep each card's room available to screen readers when columns provide the visual label. */
   .programme-scroll[data-room-layout='true'] .programme-room { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .programme-scroll[data-room-layout='true'] .programme-time { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: var(--start-line) / var(--end-line); min-height: 0; margin-bottom: 8px; overflow: hidden; }
+  .programme-scroll[data-room-layout='true'] .programme-card { grid-column: var(--room-column); grid-row: var(--start-line) / var(--end-line); min-height: min-content; margin-bottom: 8px; }
   .programme-scroll[data-room-layout='true'] .programme-card h3 { font-size: .875rem; }
-  .programme-scroll[data-room-layout='true'] .session-open { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
   .programme-scroll[data-room-layout='true'] .programme-break { align-self: stretch; display: flex; align-items: center; }
   .programme-scroll[data-room-layout='true'] .programme-break h3 { margin: 0; }
   .programme-scroll[data-room-layout='true'] .programme-break .programme-session-meta { display: none; }
-  .programme-scroll[data-room-layout='true'] .programme-quarter:not(.programme-break) { padding-top: 1.5rem; padding-bottom: .75rem; }
-  .programme-scroll[data-room-layout='true'] .programme-quarter .session-open { -webkit-line-clamp: 2; }
-  .programme-scroll[data-room-layout='true'] .programme-short:not(.programme-break) { padding-block: .5rem; }
-  .programme-scroll[data-room-layout='true'] .programme-short .programme-session-meta,
-  .programme-scroll[data-room-layout='true'] .programme-short .programme-speakers { display: none; }
-  .programme-scroll[data-room-layout='true'] .programme-short:not(.programme-break) > div:first-child { display: none; }
-  .programme-scroll[data-room-layout='true'] .programme-short h3 { margin-top: 0; }
-  .programme-scroll[data-room-layout='true'] .programme-short .session-open { -webkit-line-clamp: 2; }
   :global(html:has(#session-modal[open])) { overflow: hidden; }
   [hidden], .programme-scroll[data-room-layout] [hidden] { display: none; }
 </style>

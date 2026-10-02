@@ -1,10 +1,10 @@
 import type { ScheduleItem } from '../../data/schedule';
 
-/** Grid lines are elapsed minutes, so an end boundary never depends on card content. */
+/** Shared ordered time boundaries align rooms; content determines interval height. */
 export function programmeTimeline(sessions: ScheduleItem[]) {
   const start = Math.min(...sessions.map((session) => Date.parse(session.start)));
   const end = Math.max(...sessions.map((session) => Date.parse(session.end)));
-  const line = (timestamp: string) => (Date.parse(timestamp) - start) / 60_000 + 1;
+
   const halfHour = 30 * 60_000;
   const guideTimes = sessions.length
     ? [
@@ -20,10 +20,20 @@ export function programmeTimeline(sessions: ScheduleItem[]) {
         ),
       ]
     : [];
+  const boundaries = [
+    ...new Set([
+      ...sessions.flatMap((session) => [
+        Date.parse(session.start),
+        Date.parse(session.end),
+      ]),
+      ...guideTimes,
+    ]),
+  ].sort((a, b) => a - b);
+  const line = (timestamp: number) => boundaries.indexOf(timestamp) + 1;
   return {
-    minutes: sessions.length ? (end - start) / 60_000 : 0,
+    intervals: Math.max(0, boundaries.length - 1),
     guides: guideTimes.map((timestamp) => ({
-      line: (timestamp - start) / 60_000 + 1,
+      line: line(timestamp),
       label: new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Asia/Hong_Kong',
         hour: '2-digit',
@@ -32,8 +42,8 @@ export function programmeTimeline(sessions: ScheduleItem[]) {
       }).format(timestamp),
     })),
     position: (session: ScheduleItem) => ({
-      start: line(session.start),
-      end: line(session.end),
+      start: line(Date.parse(session.start)),
+      end: line(Date.parse(session.end)),
     }),
   };
 }

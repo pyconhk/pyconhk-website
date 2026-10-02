@@ -355,7 +355,7 @@ test('programme rules span the viewport with aligned centered 95% content', asyn
   }
 });
 
-test('room timeline ends each card at its actual end and keeps speaker names compact', async ({
+test('compact room timeline shares boundaries without overlap and keeps speaker names compact', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1920, height: 900 });
@@ -377,41 +377,48 @@ test('room timeline ends each card at its actual end and keeps speaker names com
     const cards = [
       ...document.querySelectorAll<HTMLElement>('[data-session-card]'),
     ].filter((card) => card.getClientRects().length);
-    const earliest = Math.min(
-      ...cards.map((card) =>
-        Date.parse(
-          sessions.find(
-            (session: { id: string }) => session.id === card.dataset.sessionCard
-          ).start
-        )
-      )
-    );
-    const firstTop = Math.min(...cards.map((card) => card.getBoundingClientRect().top));
+    const day = cards[0].closest('.programme-day') as HTMLElement;
+    const rows = getComputedStyle(day)
+      .gridTemplateRows.split(' ')
+      .map(Number.parseFloat);
+    const firstTop =
+      day.getBoundingClientRect().top +
+      Number.parseFloat(getComputedStyle(day).paddingTop);
+    const boundary = (line: number) =>
+      firstTop + rows.slice(0, line - 1).reduce((sum, height) => sum + height, 0);
     return cards.map((card) => {
       const session = sessions.find(
         (session: { id: string }) => session.id === card.dataset.sessionCard
       );
       const box = card.getBoundingClientRect();
-      const minute = 14;
+      const start = Number(card.style.getPropertyValue('--start-line'));
+      const end = Number(card.style.getPropertyValue('--end-line'));
+      const sameRoom = cards.filter(
+        (other) =>
+          other !== card &&
+          other.style.getPropertyValue('--room-column') ===
+            card.style.getPropertyValue('--room-column')
+      );
       return {
-        startError: Math.abs(
-          box.top -
-            firstTop -
-            ((Date.parse(session.start) - earliest) / 60_000) * minute
-        ),
-        endError: Math.abs(
-          box.bottom +
-            8 -
-            firstTop -
-            ((Date.parse(session.end) - earliest) / 60_000) * minute
-        ),
+        startError: Math.abs(box.top - boundary(start)),
+        endError: Math.abs(box.bottom + 8 - boundary(end)),
+        contentFits: card.scrollHeight <= card.clientHeight + 1,
+        ordinaryCompact: session.duration !== 30 || box.height < 400,
+        noOverlap: sameRoom.every((other) => {
+          const otherBox = other.getBoundingClientRect();
+          return box.bottom <= otherBox.top + 1 || otherBox.bottom <= box.top + 1;
+        }),
       };
     });
   });
   for (const card of geometry) {
     expect(card.startError).toBeLessThan(1);
     expect(card.endError).toBeLessThan(1);
+    expect(card.contentFits).toBe(true);
+    expect(card.ordinaryCompact).toBe(true);
+    expect(card.noOverlap).toBe(true);
   }
+  if (!sample) return;
   const multiple = page
     .locator('[data-session-card]')
     .filter({ hasText: 'Kubernetes Isekai' });
@@ -434,12 +441,17 @@ test('room timeline ends each card at its actual end and keeps speaker names com
   await expect(page.locator('#session-modal')).toBeVisible();
 });
 
-test('half-hour guides align with the timestamp grid behind cards and disappear on mobile', async ({
+test('half-hour guides align with compact boundaries behind cards and disappear on mobile', async ({
   page,
 }) => {
-  test.skip(!sample, 'Requires the public 2025 sample build.');
   await page.setViewportSize({ width: 1920, height: 900 });
   await page.goto('/2026/en/schedule');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
   await expect(page.locator('.programme-scroll')).toHaveAttribute(
     'data-room-layout',
     'true'
@@ -450,8 +462,14 @@ test('half-hour guides align with the timestamp grid behind cards and disappear 
     elements.map((element) => {
       const guide = element as HTMLElement;
       const day = guide.closest('.programme-day') as HTMLElement;
+      const rows = getComputedStyle(day)
+        .gridTemplateRows.split(' ')
+        .map(Number.parseFloat);
+      const line = Number(guide.style.getPropertyValue('--guide-line'));
       return {
-        line: Number(guide.style.getPropertyValue('--guide-line')),
+        expectedTop:
+          20 + rows.slice(0, line - 1).reduce((sum, height) => sum + height, 0),
+        line,
         top: guide.getBoundingClientRect().top - day.getBoundingClientRect().top,
         width: guide.getBoundingClientRect().width,
         dayWidth: day.clientWidth,
@@ -461,7 +479,7 @@ test('half-hour guides align with the timestamp grid behind cards and disappear 
     })
   );
   for (const guide of geometry) {
-    expect(guide.top).toBeCloseTo(20 + (guide.line - 1) * 14, 0);
+    expect(guide.top).toBeCloseTo(guide.expectedTop, 0);
     expect(guide.width).toBeCloseTo(guide.dayWidth * 0.95, 0);
     expect(guide.zIndex).toBe('-1');
   }
@@ -476,3 +494,79 @@ test('half-hour guides align with the timestamp grid behind cards and disappear 
   await expect(page.locator('.programme-time-guide:visible')).toHaveCount(0);
   await expect(page.locator('.programme-time:visible').first()).toBeVisible();
 });
+
+for (const locale of locales) {
+  test(`${locale}: published compact cards fit content and share room boundaries`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 900 });
+    await page.goto(`/2026/${locale}/schedule`);
+    test.skip(
+      (await page
+        .locator('[data-programme-status]')
+        .getAttribute('data-programme-status')) !== 'published',
+      'Requires a published programme.'
+    );
+    const programme = page.locator('.programme-scroll');
+    await expect(programme).toHaveAttribute('data-room-layout', 'true');
+    const geometry = await programme.evaluate((element) => {
+      const cards = [
+        ...element.querySelectorAll<HTMLElement>('[data-session-card]'),
+      ].filter((card) => card.getClientRects().length);
+      const guides = [
+        ...element.querySelectorAll<HTMLElement>('.programme-time-guide'),
+      ].filter((guide) => guide.getClientRects().length);
+      return {
+        contentFits: cards.every((card) => card.scrollHeight <= card.clientHeight + 1),
+        orderedGuides: guides.every(
+          (guide, index) =>
+            index === 0 ||
+            guide.getBoundingClientRect().top >
+              guides[index - 1].getBoundingClientRect().top
+        ),
+        sameStartAligned: cards.every((card) =>
+          cards
+            .filter(
+              (other) =>
+                other.style.getPropertyValue('--start-line') ===
+                card.style.getPropertyValue('--start-line')
+            )
+            .every(
+              (other) =>
+                Math.abs(
+                  other.getBoundingClientRect().top - card.getBoundingClientRect().top
+                ) < 1
+            )
+        ),
+        noOverlap: cards.every((card) =>
+          cards
+            .filter(
+              (other) =>
+                other !== card &&
+                other.style.getPropertyValue('--room-column') ===
+                  card.style.getPropertyValue('--room-column')
+            )
+            .every((other) => {
+              const a = card.getBoundingClientRect();
+              const b = other.getBoundingClientRect();
+              return a.bottom <= b.top + 1 || b.bottom <= a.top + 1;
+            })
+        ),
+      };
+    });
+    expect(geometry).toEqual({
+      contentFits: true,
+      orderedGuides: true,
+      sameStartAligned: true,
+      noOverlap: true,
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(programme).toHaveAttribute('data-room-layout', 'false');
+    await expect(page.locator('.programme-time-guide:visible')).toHaveCount(0);
+    expect(
+      await programme.evaluate(
+        (element) => element.scrollWidth <= element.clientWidth + 1
+      )
+    ).toBe(true);
+  });
+}
