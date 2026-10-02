@@ -570,3 +570,50 @@ for (const locale of locales) {
     ).toBe(true);
   });
 }
+
+test('filtering rebuilds the shared time axis and restores its scoped guide styles', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/schedule');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  const first = page.locator('[data-session-card]:visible').first();
+  const title = await first.locator('h3').innerText();
+  const search = page.locator('[data-programme-search]');
+  await search.fill(title);
+  await expect(page.locator('[data-session-card]:visible')).toHaveCount(1);
+  expect(
+    await page
+      .locator('[data-session-card]:visible')
+      .evaluate((card) => card.style.getPropertyValue('--start-line'))
+  ).toBe('1');
+  await search.fill('no-such-published-session-xyz');
+  await expect(page.locator('.programme-scroll')).toBeHidden();
+  await search.fill('');
+  await expect(page.locator('.programme-scroll')).toBeVisible();
+  const styles = await page
+    .locator('.programme-day:visible .programme-time-guide')
+    .evaluateAll((guides) =>
+      guides.map((guide) => ({
+        position: getComputedStyle(guide).position,
+        height: guide.getBoundingClientRect().height,
+        labelTransform: guide.querySelector('span')
+          ? getComputedStyle(guide.querySelector('span') as HTMLElement).transform
+          : 'none',
+      }))
+    );
+  expect(styles.length).toBeGreaterThan(1);
+  expect(
+    styles.every(
+      (style) =>
+        style.position === 'absolute' &&
+        style.height <= 2 &&
+        style.labelTransform !== 'none'
+    )
+  ).toBe(true);
+});

@@ -24,6 +24,7 @@ test('mixed sessions and five-minute gaps share ordered boundaries', () => {
     { line: 1, label: '11:25' },
     { line: 2, label: '11:30' },
     { line: 5, label: '12:00' },
+    { line: 8, label: '12:30' },
   ]);
   assert.deepEqual(sessions.map(timeline.position), [
     { start: 1, end: 3 },
@@ -53,4 +54,26 @@ test('positions use actual timestamps rather than a stale duration field or inpu
     { line: 1, label: '23:45' },
     { line: 3, label: '00:00' },
   ]);
+});
+
+test('long empty gaps and break interiors do not manufacture half-hour rows', () => {
+  const sessions = [
+    item('10:55', '11:25'),
+    { ...item('11:25', '13:00'), isBreak: true },
+    item('15:00', '15:30'),
+  ];
+  const timeline = programmeTimeline(sessions);
+  assert.equal(timeline.intervals, 6);
+  assert.equal(
+    timeline.rows,
+    'minmax(10px, auto) minmax(50px, auto) minmax(10px, auto) minmax(60px, auto) minmax(60px, auto) minmax(60px, auto)'
+  );
+  assert.deepEqual(
+    timeline.guides.map((guide) => guide.label),
+    ['10:55', '11:00', '11:30', '13:00', '15:00', '15:30']
+  );
+  assert.deepEqual(programmeTimeline([sessions[2]]).position(sessions[2]), {
+    start: 1,
+    end: 2,
+  });
 });
