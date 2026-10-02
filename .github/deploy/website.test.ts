@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { deploymentSourceHash } from "./source.ts";
-import { needsDeployment, resolveNewsRevision, verifyDeployment } from "./website.ts";
+import { deploymentTargets, needsDeployment, resolveNewsRevision, verifyDeployment } from "./website.ts";
 
 const firstSha = "a".repeat(40);
 const secondSha = "b".repeat(40);
@@ -38,7 +38,7 @@ test("News preflight resolves the test and production refs to immutable commits"
 
 test("a News SHA change deploys, while unchanged inputs skip", () => {
   const previous = { sourceHash: "c".repeat(64), programmeHash: "d".repeat(64),
-    event: "pyconhk2025", environment: "test", sourceUrl: "https://example.invalid/programme.json",
+    event: "pyconhk2026", environment: "test", sourceUrl: "https://example.invalid/programme.json",
     newsSource: "external", newsRepository: "pyconhk/pyconhk-news",
     newsRef: "refs/heads/test", newsSha: firstSha };
   assert.equal(needsDeployment(previous, { ...previous }), false);
@@ -74,7 +74,7 @@ test("external News replaces checked-in News as the build input", () => {
 
 test("hosted verification rejects a different News revision", async () => {
   const expected = { sourceSha: firstSha, sourceHash: "c".repeat(64), programmeHash: "d".repeat(64),
-    event: "pyconhk2025", environment: "test", sourceUrl: "https://example.invalid/programme.json",
+    event: "pyconhk2026", environment: "test", sourceUrl: "https://example.invalid/programme.json",
     newsSource: "external", newsRepository: "pyconhk/pyconhk-news",
     newsRef: "refs/heads/test", newsSha: firstSha };
   await assert.rejects(verifyDeployment("test", expected, {
@@ -91,4 +91,13 @@ test('published News content hash ignores maintenance commits but detects posts/
   assert.equal(needsDeployment(previous, { ...previous, newsSha: secondSha }), false);
   assert.equal(needsDeployment(previous, { ...previous, newsContentHash: 'd'.repeat(64) }), true);
   assert.equal(needsDeployment({ ...previous, newsContentHash: undefined }, previous), true, 'migrate old manifest once');
+});
+
+
+test("test uses published2026 while retaining independent deployment and News refs", () => {
+  assert.equal(deploymentTargets.test.event, "pyconhk2026");
+  assert.equal(deploymentTargets.test.source, "https://pretalx.com/api/events/pyconhk2026/schedules/latest/");
+  assert.equal(deploymentTargets.test.branch, "test");
+  assert.notEqual(deploymentTargets.test.project, deploymentTargets.production.project);
+  assert.equal(deploymentTargets.preview.event, "pyconhk2025");
 });
