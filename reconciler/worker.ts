@@ -20,6 +20,7 @@ const targets = {
 };
 type Environment = keyof typeof targets;
 type Run = {
+  id: number;
   name: string;
   display_title: string;
   status: string;
@@ -258,11 +259,39 @@ export class ContentReconciliation {
             ? { apiToken: this.env.PRETALX_API_TOKEN }
             : {}),
         });
-        const latestWebsite = (await readRuns())
-          .filter((run) => forTarget(run) && run.repository === 'pyconhk-website')
-          .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
-        const failedDeployment =
-          latestWebsite?.status === 'completed' && latestWebsite.conclusion !== 'success';
+        let failedDeployment = false;
+        const candidates = [
+          ...new Map(
+            (await readRuns())
+              .filter((run) => forTarget(run) && run.repository === 'pyconhk-website')
+              .map((run) => [run.id, run])
+          ).values(),
+        ].sort((a, b) => b.created_at.localeCompare(a.created_at));
+        for (const run of candidates) {
+          if (run.status !== 'completed') continue;
+          const jobs = await github(
+            this.env,
+            'pyconhk-website',
+            `actions/runs/${run.id}/jobs?per_page=100`
+          );
+          const deployment = jobs.jobs.find((job: { name: string }) =>
+            job.name.endsWith(`Deploy ${name}`)
+          );
+          if (!deployment || deployment.conclusion === 'skipped') continue;
+          if (deployment.conclusion !== 'success') {
+            failedDeployment = true;
+            break;
+          }
+          // A successful no-op/inspection workflow is not proof that an uploaded
+          // version passed verification. Ignore it and inspect the last real attempt.
+          if (
+            deployment.steps.some(
+              (step: { name: string; conclusion: string }) =>
+                step.name === 'Verify deployed website' && step.conclusion === 'success'
+            )
+          )
+            break;
+        }
         state.repairCompletion = Boolean(failedDeployment);
         return (
           failedDeployment ||

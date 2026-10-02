@@ -85,6 +85,7 @@ function fixture(t: test.TestContext) {
     display_title: string;
     status: string;
     conclusion: string | null;
+    verifyConclusion?: string;
     created_at: string;
   }[] = [];
   let cmsChanged = false;
@@ -97,7 +98,29 @@ function fixture(t: test.TestContext) {
       return new Response(null, { status: 204 });
     }
     if (href.includes('/runs?'))
-      return Response.json({ workflow_runs: href.includes('pyconhk-website') ? runs : [] });
+      return Response.json({
+        workflow_runs: href.includes('pyconhk-website')
+          ? runs.map((run, index) => ({ ...run, id: index + 1 }))
+          : [],
+      });
+    if (href.includes('/actions/runs/')) {
+      const id = Number(/\/runs\/(\d+)\//u.exec(href)?.[1]);
+      const run = runs[id - 1];
+      return Response.json({
+        jobs: [
+          {
+            name: 'deploy / Deploy test',
+            conclusion: run?.conclusion,
+            steps: [
+              {
+                name: 'Verify deployed website',
+                conclusion: run?.verifyConclusion || run?.conclusion,
+              },
+            ],
+          },
+        ],
+      });
+    }
     if (href.includes('/compare/'))
       return Response.json({
         status: cmsChanged ? 'ahead' : 'behind',
@@ -306,4 +329,26 @@ test('disabled Worker performs no scheduled checks before credentials are approv
   });
   assert.equal(scheduled, false);
   assert.equal(f.dispatches.length, 0);
+});
+
+test('a later no-op workflow cannot acknowledge an earlier failed uploaded version', async (t) => {
+  const f = fixture(t);
+  f.setRuns([
+    {
+      display_title: 'Deploy Website [test] no-op',
+      status: 'completed',
+      conclusion: 'success',
+      verifyConclusion: 'skipped',
+      created_at: '2026-10-02T07:00:00Z',
+    },
+    {
+      display_title: 'Deploy Website [test] failed-upload',
+      status: 'completed',
+      conclusion: 'failure',
+      created_at: '2026-10-02T06:00:00Z',
+    },
+  ]);
+  await f.check();
+  assert.equal(f.dispatches.length, 1);
+  assert.equal(f.state().repairCompletion, true);
 });
