@@ -189,8 +189,10 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       // Use room columns only when every room fits at a readable width, including at zoom.
       const rootSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
       const requiredWidth = (4 + Number(programme.dataset.roomCount) * 14) * rootSize;
-      const style = getComputedStyle(trackHeadings ?? programme);
-      const contentWidth = programme.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight);
+      // Hidden headings retain percentage padding in computed style; parsing that
+      // as pixels would alternate list/columns on every ResizeObserver callback.
+      // Both views use the same 2.5% gutters, independent of heading visibility.
+      const contentWidth = programme.clientWidth * .95;
       programme.dataset.roomLayout = String(!filters.room && contentWidth >= Math.max(1024, requiredWidth));
       programme.style.setProperty('--site-header-height', `${siteHeader?.getBoundingClientRect().height ?? 0}px`);
       programme.style.setProperty('--track-header-height', `${trackHeadings?.getBoundingClientRect().height ?? 0}px`);

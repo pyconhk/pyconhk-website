@@ -22,15 +22,9 @@ test.describe('responsive public programme', () => {
         const programme = page.locator('.programme-scroll');
         // Account for browser scrollbars at the exact six-room fit boundary.
         const roomColumnsFit = await programme.evaluate((element) => {
-          const style = getComputedStyle(
-            element.querySelector('.programme-room-headings') ?? element
-          );
-          return (
-            element.clientWidth -
-              Number.parseFloat(style.paddingLeft) -
-              Number.parseFloat(style.paddingRight) >=
-            1408
-          );
+          const intro = element.closest('section')?.querySelector('.programme-intro');
+          if (!intro) throw new Error('Programme content gutters are missing');
+          return intro.getBoundingClientRect().width >= 1408;
         });
         await expect(programme).toHaveAttribute(
           'data-room-layout',
@@ -248,6 +242,54 @@ test.describe('responsive public programme', () => {
         await expect(page.locator('[data-session-card]:visible')).toHaveCount(1);
       });
     }
+  }
+});
+
+test('room layout remains stable around the readable column boundary', async ({
+  page,
+}) => {
+  await page.goto('/2026/en/schedule/');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of [1408, 1440, 1459, 1460, 1482, 1483, 1536]) {
+    await page.setViewportSize({ width, height: 900 });
+    const expected = await page.locator('.programme-scroll').evaluate((element) => {
+      const rootSize = Number.parseFloat(
+        getComputedStyle(document.documentElement).fontSize
+      );
+      const rooms = Number((element as HTMLElement).dataset.roomCount);
+      const intro = element.closest('section')?.querySelector('.programme-intro');
+      if (!intro) throw new Error('Programme content gutters are missing');
+      return String(
+        intro.getBoundingClientRect().width >=
+          Math.max(1024, (4 + rooms * 14) * rootSize)
+      );
+    });
+    await expect(page.locator('.programme-scroll')).toHaveAttribute(
+      'data-room-layout',
+      expected
+    );
+    const frames = await page.locator('.programme-scroll').evaluate(async (element) => {
+      const states = [];
+      for (let frame = 0; frame < 20; frame += 1) {
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        states.push({
+          layout: (element as HTMLElement).dataset.roomLayout,
+          height: element.getBoundingClientRect().height,
+        });
+      }
+      return states;
+    });
+    expect(new Set(frames.map((frame) => frame.layout))).toEqual(new Set([expected]));
+    expect(
+      Math.max(...frames.map((frame) => frame.height)) -
+        Math.min(...frames.map((frame) => frame.height))
+    ).toBeLessThan(1);
   }
 });
 
