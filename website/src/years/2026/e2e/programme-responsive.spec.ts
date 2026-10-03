@@ -22,15 +22,9 @@ test.describe('responsive public programme', () => {
         const programme = page.locator('.programme-scroll');
         // Account for browser scrollbars at the exact six-room fit boundary.
         const roomColumnsFit = await programme.evaluate((element) => {
-          const style = getComputedStyle(
-            element.querySelector('.programme-room-headings') ?? element
-          );
-          return (
-            element.clientWidth -
-              Number.parseFloat(style.paddingLeft) -
-              Number.parseFloat(style.paddingRight) >=
-            1408
-          );
+          const intro = element.closest('section')?.querySelector('.programme-intro');
+          if (!intro) throw new Error('Programme content gutters are missing');
+          return intro.getBoundingClientRect().width >= 1408;
         });
         await expect(programme).toHaveAttribute(
           'data-room-layout',
@@ -52,6 +46,18 @@ test.describe('responsive public programme', () => {
                   document.documentElement.clientWidth
               ) < 1,
             programmeFits: programme.scrollWidth <= programme.clientWidth + 1,
+            speakerContentFits: [
+              ...programme.querySelectorAll<HTMLElement>('.programme-speakers'),
+            ]
+              .filter((element) => element.getClientRects().length)
+              .every((element) => {
+                const card = element.closest('article');
+                return (
+                  card &&
+                  element.getBoundingClientRect().bottom <=
+                    card.getBoundingClientRect().bottom - 8
+                );
+              }),
             roomLabelsMatchLayout: [
               ...programme.querySelectorAll<HTMLElement>('.programme-room'),
             ]
@@ -89,6 +95,7 @@ test.describe('responsive public programme', () => {
           documentFits: true,
           fillsViewport: true,
           programmeFits: true,
+          speakerContentFits: true,
           roomLabelsMatchLayout: true,
           allElementsFit: true,
           touchTargetsFit: true,
@@ -238,6 +245,54 @@ test.describe('responsive public programme', () => {
   }
 });
 
+test('room layout remains stable around the readable column boundary', async ({
+  page,
+}) => {
+  await page.goto('/2026/en/schedule/');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of [1408, 1440, 1459, 1460, 1482, 1483, 1536]) {
+    await page.setViewportSize({ width, height: 900 });
+    const expected = await page.locator('.programme-scroll').evaluate((element) => {
+      const rootSize = Number.parseFloat(
+        getComputedStyle(document.documentElement).fontSize
+      );
+      const rooms = Number((element as HTMLElement).dataset.roomCount);
+      const intro = element.closest('section')?.querySelector('.programme-intro');
+      if (!intro) throw new Error('Programme content gutters are missing');
+      return String(
+        intro.getBoundingClientRect().width >=
+          Math.max(1024, (4 + rooms * 14) * rootSize)
+      );
+    });
+    await expect(page.locator('.programme-scroll')).toHaveAttribute(
+      'data-room-layout',
+      expected
+    );
+    const frames = await page.locator('.programme-scroll').evaluate(async (element) => {
+      const states = [];
+      for (let frame = 0; frame < 20; frame += 1) {
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        states.push({
+          layout: (element as HTMLElement).dataset.roomLayout,
+          height: element.getBoundingClientRect().height,
+        });
+      }
+      return states;
+    });
+    expect(new Set(frames.map((frame) => frame.layout))).toEqual(new Set([expected]));
+    expect(
+      Math.max(...frames.map((frame) => frame.height)) -
+        Math.min(...frames.map((frame) => frame.height))
+    ).toBeLessThan(1);
+  }
+});
+
 test('programme rules span the viewport with aligned centered 95% content', async ({
   page,
 }) => {
@@ -263,7 +318,7 @@ test('programme rules span the viewport with aligned centered 95% content', asyn
           ];
           const rows = [
             ...document.querySelectorAll<HTMLElement>(
-              '.programme-slot, .programme-room-headings'
+              '.programme-scroll[data-room-layout="false"] .programme-slot, .programme-scroll[data-room-layout="true"] .programme-day, .programme-room-headings'
             ),
           ].filter(visible);
           return {
@@ -299,3 +354,474 @@ test('programme rules span the viewport with aligned centered 95% content', asyn
       });
   }
 });
+
+test('compact room timeline shares boundaries without overlap and keeps speaker names compact', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/schedule/');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  await expect(page.locator('.programme-scroll')).toHaveAttribute(
+    'data-room-layout',
+    'true'
+  );
+  const geometry = await page.evaluate(() => {
+    const payload = document.querySelector('#programme-data')?.textContent;
+    if (!payload) throw new Error('Published programme data is missing');
+    const { sessions } = JSON.parse(payload);
+    const cards = [
+      ...document.querySelectorAll<HTMLElement>('[data-session-card]'),
+    ].filter((card) => card.getClientRects().length);
+    const day = cards[0].closest('.programme-day') as HTMLElement;
+    const rows = getComputedStyle(day)
+      .gridTemplateRows.split(' ')
+      .map(Number.parseFloat);
+    const firstTop =
+      day.getBoundingClientRect().top +
+      Number.parseFloat(getComputedStyle(day).paddingTop);
+    const boundary = (line: number) =>
+      firstTop + rows.slice(0, line - 1).reduce((sum, height) => sum + height, 0);
+    return cards.map((card) => {
+      const session = sessions.find(
+        (session: { id: string }) => session.id === card.dataset.sessionCard
+      );
+      const box = card.getBoundingClientRect();
+      const start = Number(card.style.getPropertyValue('--start-line'));
+      const end = Number(card.style.getPropertyValue('--end-line'));
+      const sameRoom = cards.filter(
+        (other) =>
+          other !== card &&
+          other.style.getPropertyValue('--room-column') ===
+            card.style.getPropertyValue('--room-column')
+      );
+      return {
+        startError: Math.abs(
+          box.top -
+            Number.parseFloat(getComputedStyle(card).marginTop) -
+            boundary(start)
+        ),
+        endError: Math.abs(
+          box.bottom +
+            Number.parseFloat(getComputedStyle(card).marginBottom) -
+            boundary(end)
+        ),
+        contentFits: card.scrollHeight <= card.clientHeight + 1,
+        ordinaryCompact: session.duration !== 30 || box.height < 400,
+        noOverlap: sameRoom.every((other) => {
+          const otherBox = other.getBoundingClientRect();
+          return box.bottom <= otherBox.top + 1 || otherBox.bottom <= box.top + 1;
+        }),
+      };
+    });
+  });
+  for (const card of geometry) {
+    expect(card.startError).toBeLessThan(1);
+    expect(card.endError).toBeLessThan(1);
+    expect(card.contentFits).toBe(true);
+    expect(card.ordinaryCompact).toBe(true);
+    expect(card.noOverlap).toBe(true);
+  }
+  if (!sample) return;
+  const multiple = page
+    .locator('[data-session-card]')
+    .filter({ hasText: 'Kubernetes Isekai' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await multiple.scrollIntoViewIfNeeded();
+  const speakers = multiple.locator('.programme-speakers');
+  await expect(speakers.locator('[data-card-speaker-avatar]')).toHaveCount(3);
+  const compact = await speakers.evaluate((element) => {
+    const images = [...element.querySelectorAll('img')].map((image) =>
+      image.getBoundingClientRect()
+    );
+    return (
+      images.every((box) => box.top === images[0].top) &&
+      images[1].left < images[0].right &&
+      element.getBoundingClientRect().height < 65
+    );
+  });
+  expect(compact).toBe(true);
+  await multiple.locator('[data-session-details]').click();
+  await expect(page.locator('#session-modal')).toBeVisible();
+});
+
+test('half-hour guides align with compact boundaries behind cards and disappear on mobile', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/schedule');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  await expect(page.locator('.programme-scroll')).toHaveAttribute(
+    'data-room-layout',
+    'true'
+  );
+  const guides = page.locator('.programme-day:visible .programme-time-guide');
+  expect(await guides.count()).toBeGreaterThan(1);
+  const geometry = await guides.evaluateAll((elements) =>
+    elements.map((element) => {
+      const guide = element as HTMLElement;
+      const day = guide.closest('.programme-day') as HTMLElement;
+      const rows = getComputedStyle(day)
+        .gridTemplateRows.split(' ')
+        .map(Number.parseFloat);
+      const line = Number(guide.style.getPropertyValue('--guide-line'));
+      return {
+        expectedTop:
+          20 + rows.slice(0, line - 1).reduce((sum, height) => sum + height, 0),
+        line,
+        top: guide.getBoundingClientRect().top - day.getBoundingClientRect().top,
+        width: guide.getBoundingClientRect().width,
+        dayWidth: day.clientWidth,
+        zIndex: getComputedStyle(guide).zIndex,
+        label: guide.textContent?.trim(),
+      };
+    })
+  );
+  for (const guide of geometry) {
+    expect(guide.top).toBeCloseTo(guide.expectedTop, 0);
+    expect(guide.width).toBeCloseTo(guide.dayWidth * 0.95, 0);
+    expect(guide.zIndex).toBe('-1');
+  }
+  expect(geometry.slice(1).every((guide) => /:(00|30)$/.test(guide.label ?? ''))).toBe(
+    true
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.programme-scroll')).toHaveAttribute(
+    'data-room-layout',
+    'false'
+  );
+  await expect(page.locator('.programme-time-guide:visible')).toHaveCount(0);
+  await expect(page.locator('.programme-time:visible').first()).toBeVisible();
+});
+
+for (const locale of locales) {
+  test(`${locale}: published compact cards fit content and share room boundaries`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 900 });
+    await page.goto(`/2026/${locale}/schedule`);
+    test.skip(
+      (await page
+        .locator('[data-programme-status]')
+        .getAttribute('data-programme-status')) !== 'published',
+      'Requires a published programme.'
+    );
+    const programme = page.locator('.programme-scroll');
+    await expect(programme).toHaveAttribute('data-room-layout', 'true');
+    const geometry = await programme.evaluate((element) => {
+      const cards = [
+        ...element.querySelectorAll<HTMLElement>('[data-session-card]'),
+      ].filter((card) => card.getClientRects().length);
+      const guides = [
+        ...element.querySelectorAll<HTMLElement>('.programme-time-guide'),
+      ].filter((guide) => guide.getClientRects().length);
+      return {
+        contentFits: cards.every((card) => card.scrollHeight <= card.clientHeight + 1),
+        orderedGuides: guides.every(
+          (guide, index) =>
+            index === 0 ||
+            guide.getBoundingClientRect().top >
+              guides[index - 1].getBoundingClientRect().top
+        ),
+        sameStartAligned: cards.every((card) =>
+          cards
+            .filter(
+              (other) =>
+                other.style.getPropertyValue('--start-line') ===
+                card.style.getPropertyValue('--start-line')
+            )
+            .every(
+              (other) =>
+                Math.abs(
+                  other.getBoundingClientRect().top - card.getBoundingClientRect().top
+                ) < 1
+            )
+        ),
+        noOverlap: cards.every((card) =>
+          cards
+            .filter(
+              (other) =>
+                other !== card &&
+                other.style.getPropertyValue('--room-column') ===
+                  card.style.getPropertyValue('--room-column')
+            )
+            .every((other) => {
+              const a = card.getBoundingClientRect();
+              const b = other.getBoundingClientRect();
+              return a.bottom <= b.top + 1 || b.bottom <= a.top + 1;
+            })
+        ),
+      };
+    });
+    expect(geometry).toEqual({
+      contentFits: true,
+      orderedGuides: true,
+      sameStartAligned: true,
+      noOverlap: true,
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(programme).toHaveAttribute('data-room-layout', 'false');
+    await expect(page.locator('.programme-time-guide:visible')).toHaveCount(0);
+    expect(
+      await programme.evaluate(
+        (element) => element.scrollWidth <= element.clientWidth + 1
+      )
+    ).toBe(true);
+  });
+}
+
+test('filtering rebuilds the shared time axis and restores its scoped guide styles', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/schedule');
+  test.skip(
+    (await page
+      .locator('[data-programme-status]')
+      .getAttribute('data-programme-status')) !== 'published',
+    'Requires a published programme.'
+  );
+  const first = page.locator('[data-session-card]:visible').first();
+  const title = await first.locator('h3').innerText();
+  const search = page.locator('[data-programme-search]');
+  await search.fill(title);
+  await expect(page.locator('[data-session-card]:visible')).toHaveCount(1);
+  expect(
+    await page
+      .locator('[data-session-card]:visible')
+      .evaluate((card) => card.style.getPropertyValue('--start-line'))
+  ).toBe('1');
+  await search.fill('no-such-published-session-xyz');
+  await expect(page.locator('.programme-scroll')).toBeHidden();
+  await search.fill('');
+  await expect(page.locator('.programme-scroll')).toBeVisible();
+  const styles = await page
+    .locator('.programme-day:visible .programme-time-guide')
+    .evaluateAll((guides) =>
+      guides.map((guide) => ({
+        position: getComputedStyle(guide).position,
+        height: guide.getBoundingClientRect().height,
+        labelTransform: guide.querySelector('span')
+          ? getComputedStyle(guide.querySelector('span') as HTMLElement).transform
+          : 'none',
+      }))
+    );
+  expect(styles.length).toBeGreaterThan(1);
+  expect(
+    styles.every(
+      (style) =>
+        style.position === 'absolute' &&
+        style.height <= 2 &&
+        style.labelTransform !== 'none'
+    )
+  ).toBe(true);
+});
+
+for (const theme of ['light', 'dark']) {
+  test(`${theme}: logical slot ends remain aligned while cards retain visual spacing`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: theme as 'light' | 'dark' });
+    await page.setViewportSize({ width: 1920, height: 900 });
+    await page.goto('/2026/en/schedule');
+    test.skip(
+      (await page
+        .locator('[data-programme-status]')
+        .getAttribute('data-programme-status')) !== 'published',
+      'Requires a published programme.'
+    );
+    for (const scale of [1, 1.25]) {
+      await page.evaluate((scale) => {
+        document.documentElement.style.fontSize = `${16 * scale}px`;
+      }, scale);
+      await expect(page.locator('.programme-scroll')).toHaveAttribute(
+        'data-room-layout',
+        'true'
+      );
+      const edges = await page.locator('.programme-day:visible').evaluate((day) => {
+        const guides = [...day.querySelectorAll<HTMLElement>('.programme-time-guide')];
+        const cards = [
+          ...day.querySelectorAll<HTMLElement>('[data-session-card]'),
+        ].filter((card) => card.getClientRects().length);
+        return cards.flatMap((card) => {
+          const end = card.style.getPropertyValue('--end-line');
+          const guide = guides.find(
+            (guide) => guide.style.getPropertyValue('--guide-line') === end
+          );
+          return guide
+            ? [
+                {
+                  error: Math.abs(
+                    card.getBoundingClientRect().bottom +
+                      Number.parseFloat(getComputedStyle(card).marginBottom) -
+                      guide.getBoundingClientRect().top
+                  ),
+                  margin: Number.parseFloat(getComputedStyle(card).marginBottom),
+                  topMargin: Number.parseFloat(getComputedStyle(card).marginTop),
+                  rootSize: Number.parseFloat(
+                    getComputedStyle(document.documentElement).fontSize
+                  ),
+                },
+              ]
+            : [];
+        });
+      });
+      expect(edges.length).toBeGreaterThan(0);
+      for (const edge of edges) {
+        expect(edge.error).toBeLessThan(1);
+        expect(edge.margin).toBeCloseTo(edge.rootSize * 0.375, 0);
+        expect(edge.topMargin).toBeCloseTo(edge.margin, 1);
+      }
+    }
+    await page.locator('[data-programme-search]').fill('no-matching-endpoint-session');
+    await expect(page.locator('.programme-scroll')).toBeHidden();
+    await page.locator('[data-programme-search]').fill('');
+    const restored = await page.locator('.programme-day:visible').evaluate((day) => {
+      const guides = [...day.querySelectorAll<HTMLElement>('.programme-time-guide')];
+      return [...day.querySelectorAll<HTMLElement>('[data-session-card]')]
+        .filter((card) => card.getClientRects().length)
+        .every((card) => {
+          const guide = guides.find(
+            (guide) =>
+              guide.style.getPropertyValue('--guide-line') ===
+              card.style.getPropertyValue('--end-line')
+          );
+          return (
+            !guide ||
+            Math.abs(
+              card.getBoundingClientRect().bottom +
+                Number.parseFloat(getComputedStyle(card).marginBottom) -
+                guide.getBoundingClientRect().top
+            ) < 1
+          );
+        });
+    });
+    expect(restored).toBe(true);
+  });
+}
+
+for (const locale of locales) {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`${locale}/${theme}: breaks retain padding, duration and correctly spaced slot boundaries`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.goto(`/2026/${locale}/schedule`);
+      const breaks = page.locator('[data-session-kind="break"]');
+      test.skip((await breaks.count()) === 0, 'Requires published breaks.');
+      // Stress wrapping independently of the published title length.
+      await breaks
+        .first()
+        .locator('h3')
+        .evaluate((title) => {
+          title.textContent = `${title.textContent} — A comfortably readable transition with a very long room announcement`;
+        });
+      for (const [width, scale] of [
+        [1483, 1],
+        [1920, 1.25],
+        [390, 1],
+        [320, 1.25],
+      ]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.evaluate((scale) => {
+          document.documentElement.style.fontSize = `${16 * scale}px`;
+        }, scale);
+        const evidence = await page.evaluate(() => {
+          const data = JSON.parse(
+            document.querySelector('#programme-data')?.textContent ?? '{}'
+          ) as {
+            sessions: { id: string; start: string; end: string }[];
+            copy: { minutes: string };
+          };
+          return [
+            ...document.querySelectorAll<HTMLElement>('[data-session-kind="break"]'),
+          ]
+            .filter((card) => card.getClientRects().length)
+            .map((card) => {
+              const session = data.sessions.find(
+                (session) => session.id === card.dataset.sessionCard
+              );
+              const duration = card.querySelector<HTMLElement>(
+                '[data-session-duration]'
+              );
+              const title = card.querySelector('h3');
+              const day = card.closest('.programme-day');
+              if (!session || !duration || !title || !day)
+                throw new Error('Incomplete break card');
+              const style = getComputedStyle(card);
+              const box = card.getBoundingClientRect();
+              const titleBox = title.getBoundingClientRect();
+              const durationBox = duration.getBoundingClientRect();
+              const guide = [
+                ...day.querySelectorAll<HTMLElement>('.programme-time-guide'),
+              ].find(
+                (guide) =>
+                  guide.style.getPropertyValue('--guide-line') ===
+                  card.style.getPropertyValue('--end-line')
+              );
+              return {
+                text: duration.textContent?.trim(),
+                expected: `${(Date.parse(session.end) - Date.parse(session.start)) / 60_000} ${data.copy.minutes}`,
+                visible: durationBox.width > 0 && durationBox.height > 0,
+                padding: [
+                  style.paddingTop,
+                  style.paddingRight,
+                  style.paddingBottom,
+                  style.paddingLeft,
+                ].map(Number.parseFloat),
+                rootSize: Number.parseFloat(
+                  getComputedStyle(document.documentElement).fontSize
+                ),
+                overflow:
+                  card.scrollWidth > card.clientWidth + 1 ||
+                  card.scrollHeight > card.clientHeight + 1,
+                contained: [titleBox, durationBox].every(
+                  (child) =>
+                    child.left >= box.left &&
+                    child.right <= box.right + 1 &&
+                    child.top >= box.top &&
+                    child.bottom <= box.bottom + 1
+                ),
+                margin: Number.parseFloat(style.marginBottom),
+                topMargin: Number.parseFloat(style.marginTop),
+                roomLayout:
+                  card
+                    .closest('.programme-scroll')
+                    ?.getAttribute('data-room-layout') === 'true',
+                edgeError: guide?.getClientRects().length
+                  ? Math.abs(
+                      box.bottom +
+                        Number.parseFloat(style.marginBottom) -
+                        guide.getBoundingClientRect().top
+                    )
+                  : 0,
+              };
+            });
+        });
+        expect(evidence.length).toBeGreaterThan(0);
+        for (const card of evidence) {
+          expect(card.text).toBe(card.expected);
+          expect(card.visible).toBe(true);
+          expect(card.padding.every((padding) => padding >= card.rootSize)).toBe(true);
+          expect(card.overflow).toBe(false);
+          expect(card.contained).toBe(true);
+          expect(card.margin).toBeCloseTo(
+            card.roomLayout ? card.rootSize * 0.375 : 0,
+            0
+          );
+          expect(card.topMargin).toBeCloseTo(card.margin, 1);
+          expect(card.edgeError).toBeLessThan(1);
+        }
+      }
+    });
+  }
+}

@@ -15,7 +15,7 @@ export function isDeploymentInput(app: App, filename: string) {
   if (/\.(test|spec)\.[cm]?[jt]sx?$/.test(filename)) return false;
   if (/(^|\/)(tests|e2e)(\/|$)/.test(filename)) return false;
   if (/\.(md|mdx)$/.test(filename) && !filename.startsWith(`${app}/src/`) && !filename.startsWith(`${app}/outstatic/`)) return false;
-  if (["package.json", "bun.lock", "mise.toml", ".github/deploy/source.ts"].includes(filename)) return true;
+  if (["package.json", "bun.lock", "mise.toml", ".github/deploy/source.ts", "reconciler/content.ts", ".github/deploy/cache.ts"].includes(filename)) return true;
   if (app === "cms" && filename === ".github/deploy/cms.ts") return true;
   if (app === "cms" && filename === ".github/workflows/deploy-cms.yml") return true;
   if (app === "website" && filename === ".github/deploy/website.ts") return true;

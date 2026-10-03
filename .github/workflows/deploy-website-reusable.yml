@@ -6,6 +6,9 @@ on:
       target:
         required: true
         type: string
+      repair_completion:
+        type: boolean
+        default: false
       force:
         type: boolean
         default: false
@@ -13,6 +16,8 @@ on:
       CLOUDFLARE_API_TOKEN:
         required: true
       PRETALX_API_TOKEN:
+        required: false
+      CLOUDFLARE_CACHE_PURGE_TOKEN:
         required: false
 
 permissions:
@@ -53,6 +58,7 @@ jobs:
         env:
           TARGET: ${{ inputs.target }}
           FORCE: ${{ inputs.force }}
+          GITHUB_TOKEN: ${{ github.token }}
           PRETALX_API_TOKEN: ${{ inputs.target == 'production' && secrets.PRETALX_API_TOKEN || '' }}
         run: |
           args=(prepare "$TARGET")
@@ -156,12 +162,29 @@ jobs:
           BRANCH: ${{ steps.prepare.outputs.branch }}
           SOURCE_SHA: ${{ steps.prepare.outputs.source_sha }}
         run: mise exec -- bun x wrangler pages deploy dist --project-name "$PROJECT" --branch "$BRANCH" --commit-hash "$SOURCE_SHA"
+      - name: Invalidate affected cached pages after upload
+        if: vars.CONTENT_RECONCILIATION_ENABLED == 'true' && (steps.prepare.outputs.changed == 'true' || inputs.repair_completion)
+        # Also retry a previous failed purge without rebuilding identical content.
+        env:
+          TARGET: ${{ inputs.target }}
+          CHANGED: ${{ steps.prepare.outputs.changed }}
+          MANIFEST_PATH: ${{ steps.prepare.outputs.manifest_path }}
+          PREVIOUS_MANIFEST_PATH: ${{ steps.prepare.outputs.previous_manifest_path }}
+          CLOUDFLARE_CACHE_PURGE_TOKEN: ${{ secrets.CLOUDFLARE_CACHE_PURGE_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
+        run: |
+          if [ "$CHANGED" = true ]; then manifest="$MANIFEST_PATH"; else manifest="$PREVIOUS_MANIFEST_PATH"; fi
+          mise exec -- node .github/deploy/cache.ts "$TARGET" "$manifest"
       - name: Verify deployed website
-        if: steps.prepare.outputs.changed == 'true'
+        if: steps.prepare.outputs.changed == 'true' || inputs.repair_completion
         env:
           TARGET: ${{ inputs.target }}
           MANIFEST_PATH: ${{ steps.prepare.outputs.manifest_path }}
-        run: mise exec -- node .github/deploy/website.ts verify "$TARGET" "$MANIFEST_PATH"
+          PREVIOUS_MANIFEST_PATH: ${{ steps.prepare.outputs.previous_manifest_path }}
+          CHANGED: ${{ steps.prepare.outputs.changed }}
+        run: |
+          if [ "$CHANGED" = true ]; then manifest="$MANIFEST_PATH"; else manifest="$PREVIOUS_MANIFEST_PATH"; fi
+          mise exec -- node .github/deploy/website.ts verify "$TARGET" "$manifest"
       - name: Summarize
         env:
           TARGET: ${{ inputs.target }}
