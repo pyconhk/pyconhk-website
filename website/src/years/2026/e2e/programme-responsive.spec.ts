@@ -400,8 +400,16 @@ test('compact room timeline shares boundaries without overlap and keeps speaker 
             card.style.getPropertyValue('--room-column')
       );
       return {
-        startError: Math.abs(box.top - boundary(start)),
-        endError: Math.abs(box.bottom - boundary(end)),
+        startError: Math.abs(
+          box.top -
+            Number.parseFloat(getComputedStyle(card).marginTop) -
+            boundary(start)
+        ),
+        endError: Math.abs(
+          box.bottom +
+            Number.parseFloat(getComputedStyle(card).marginBottom) -
+            boundary(end)
+        ),
         contentFits: card.scrollHeight <= card.clientHeight + 1,
         ordinaryCompact: session.duration !== 30 || box.height < 400,
         noOverlap: sameRoom.every((other) => {
@@ -619,7 +627,7 @@ test('filtering rebuilds the shared time axis and restores its scoped guide styl
 });
 
 for (const theme of ['light', 'dark']) {
-  test(`${theme}: visible card ends coincide exactly with clock guides`, async ({
+  test(`${theme}: logical slot ends remain aligned while cards retain visual spacing`, async ({
     page,
   }) => {
     await page.emulateMedia({ colorScheme: theme as 'light' | 'dark' });
@@ -653,10 +661,15 @@ for (const theme of ['light', 'dark']) {
             ? [
                 {
                   error: Math.abs(
-                    card.getBoundingClientRect().bottom -
+                    card.getBoundingClientRect().bottom +
+                      Number.parseFloat(getComputedStyle(card).marginBottom) -
                       guide.getBoundingClientRect().top
                   ),
-                  margin: getComputedStyle(card).marginBottom,
+                  margin: Number.parseFloat(getComputedStyle(card).marginBottom),
+                  topMargin: Number.parseFloat(getComputedStyle(card).marginTop),
+                  rootSize: Number.parseFloat(
+                    getComputedStyle(document.documentElement).fontSize
+                  ),
                 },
               ]
             : [];
@@ -665,7 +678,8 @@ for (const theme of ['light', 'dark']) {
       expect(edges.length).toBeGreaterThan(0);
       for (const edge of edges) {
         expect(edge.error).toBeLessThan(1);
-        expect(edge.margin).toBe('0px');
+        expect(edge.margin).toBeCloseTo(edge.rootSize * 0.375, 0);
+        expect(edge.topMargin).toBeCloseTo(edge.margin, 1);
       }
     }
     await page.locator('[data-programme-search]').fill('no-matching-endpoint-session');
@@ -684,7 +698,9 @@ for (const theme of ['light', 'dark']) {
           return (
             !guide ||
             Math.abs(
-              card.getBoundingClientRect().bottom - guide.getBoundingClientRect().top
+              card.getBoundingClientRect().bottom +
+                Number.parseFloat(getComputedStyle(card).marginBottom) -
+                guide.getBoundingClientRect().top
             ) < 1
           );
         });
@@ -695,7 +711,7 @@ for (const theme of ['light', 'dark']) {
 
 for (const locale of locales) {
   for (const theme of ['light', 'dark'] as const) {
-    test(`${locale}/${theme}: breaks retain padding, duration and exact boundaries`, async ({
+    test(`${locale}/${theme}: breaks retain padding, duration and correctly spaced slot boundaries`, async ({
       page,
     }) => {
       await page.emulateMedia({ colorScheme: theme });
@@ -775,9 +791,18 @@ for (const locale of locales) {
                     child.top >= box.top &&
                     child.bottom <= box.bottom + 1
                 ),
-                margin: style.marginBottom,
+                margin: Number.parseFloat(style.marginBottom),
+                topMargin: Number.parseFloat(style.marginTop),
+                roomLayout:
+                  card
+                    .closest('.programme-scroll')
+                    ?.getAttribute('data-room-layout') === 'true',
                 edgeError: guide?.getClientRects().length
-                  ? Math.abs(box.bottom - guide.getBoundingClientRect().top)
+                  ? Math.abs(
+                      box.bottom +
+                        Number.parseFloat(style.marginBottom) -
+                        guide.getBoundingClientRect().top
+                    )
                   : 0,
               };
             });
@@ -789,7 +814,11 @@ for (const locale of locales) {
           expect(card.padding.every((padding) => padding >= card.rootSize)).toBe(true);
           expect(card.overflow).toBe(false);
           expect(card.contained).toBe(true);
-          expect(card.margin).toBe('0px');
+          expect(card.margin).toBeCloseTo(
+            card.roomLayout ? card.rootSize * 0.375 : 0,
+            0
+          );
+          expect(card.topMargin).toBeCloseTo(card.margin, 1);
           expect(card.edgeError).toBeLessThan(1);
         }
       }
