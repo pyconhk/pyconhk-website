@@ -378,12 +378,12 @@ for (const width of [390, 1440]) {
   });
 }
 
-test('registration is pending and calendar uses the actual 2026 event dates', async ({
+test('ticket registration is published and calendar uses the actual 2026 event dates', async ({
   page,
 }) => {
   await page.goto('/2026/en/');
-  await expect(page.locator('main [data-registration-pending]').first()).toBeVisible();
-  await expect(page.locator('[data-registration-link]')).toHaveCount(0);
+  await expect(page.locator('main [data-registration-link]').first()).toBeVisible();
+  await expect(page.locator('[data-registration-pending]')).toHaveCount(0);
   const calendar = page.getByRole('link', { name: 'Add to calendar', exact: true });
   const href = new URL((await calendar.getAttribute('href')) ?? '');
   expect(href.hostname).toBe('calendar.google.com');
@@ -434,3 +434,30 @@ test('CFP is closed and uses the current conference theme in every locale', asyn
     ).toBeVisible();
   }
 });
+
+for (const locale of locales) {
+  test(`${locale}: published ticket links work in desktop and mobile navigation`, async ({
+    page,
+  }) => {
+    await page.goto(`/2026/${locale}/`);
+    for (const width of [1440, 320]) {
+      await page.setViewportSize({ width, height: 900 });
+      await expect(page.locator('main [data-registration-link]').first()).toBeVisible();
+      await expect(page.locator('[data-registration-pending]')).toHaveCount(0);
+      const links = page.locator('[data-registration-link]');
+      expect(await links.count()).toBeGreaterThanOrEqual(2);
+      for (const link of await links.all()) {
+        await expect(link).toHaveAttribute(
+          'href',
+          'https://www.eventbrite.hk/e/pycon-hk-2026-tickets-1998483131845'
+        );
+        await expect(link).toHaveAttribute('target', '_blank');
+        await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+        expect((await link.innerText()).trim()).not.toBe('');
+      }
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)
+      ).toBe(false);
+    }
+  });
+}

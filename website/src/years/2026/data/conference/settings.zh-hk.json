@@ -9,9 +9,9 @@
     "endDate": "2026-11-15"
   },
   "tickets": {
-    "status": "draft",
-    "url": "",
-    "label": "",
+    "status": "published",
+    "url": "https://www.eventbrite.hk/e/pycon-hk-2026-tickets-1998483131845",
+    "label": "即刻報名",
     "description": ""
   },
   "venue": {
