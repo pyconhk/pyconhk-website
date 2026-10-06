@@ -16,7 +16,7 @@ const publishedRoutes = [
 ];
 
 for (const locale of locales) {
-  test(`meeting updates expose confirmed content and keep unavailable patron forms inactive in ${locale}`, async ({
+  test(`meeting updates expose confirmed content and the patron donation form in ${locale}`, async ({
     page,
   }) => {
     await page.goto(`/2026/${locale}/supporting-organizations/`);
@@ -54,8 +54,16 @@ for (const locale of locales) {
     }
     await page.goto(`/2026/${locale}/sponsorships/patrons/`);
     await expect(page.locator('[data-conference-content="patrons"] li')).toHaveCount(4);
-    await expect(page.locator('[data-patron-form-pending]')).toBeVisible();
-    await expect(page.locator('[data-patron-application]')).toHaveCount(0);
+    const patronApplication = page.locator('[data-patron-application]');
+    await expect(patronApplication).toBeVisible();
+    await expect(patronApplication).toHaveAttribute(
+      'href',
+      'https://docs.google.com/forms/d/e/1FAIpQLSdInLQs2CDP7X1Vh41A3XlBrDtmFH9QS9fUneghsDj94WQy_g/viewform'
+    );
+    await expect(patronApplication).toHaveAttribute('target', '_blank');
+    await expect(patronApplication).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(patronApplication).not.toHaveText('');
+    await expect(page.locator('[data-patron-form-pending]')).toHaveCount(0);
     await expect(page.locator('main')).not.toContainText('[Name]');
     await page.goto(`/2026/${locale}/sponsorships/`);
     const sponsors = page.locator('[data-conference-content="sponsors"]');
