@@ -1,7 +1,8 @@
 # Content deployment reconciliation
 
-The Worker is disabled by default (`ENABLED=false`). Repository code can roll out
-using existing integrations before new ongoing credentials are approved.
+The intended active state is source-controlled (`ENABLED=true`). Deploy this
+configuration only after the scoped credentials and both repository flags are
+ready. Deploy with `--var ENABLED:false` to suspend the Worker immediately.
 
 One Cloudflare cron (`*/5 * * * *`) checks production and test independently.
 Each environment has its own SQLite Durable Object. The object serializes checks,
@@ -54,14 +55,17 @@ idempotent. Ordinary unchanged deployments do not repeat the previous cache purg
    policy on test). This is necessary because builds check out their target's
    deployment scripts. Do not activate the Worker before both site branches have
    the new content manifest and retry behavior.
-2. With explicit approval, configure an owner-provided GitHub App installation
-   token mechanism or scoped fine-grained token as Worker `GITHUB_TOKEN`:
-   only `pyconhk-news` and `pyconhk-website`, Contents read and Actions read/write.
+2. Create a private, organization-owned GitHub App installed only on
+   `pyconhk-news` and `pyconhk-website`, with Contents read and Actions read/write.
+   Disable its webhook and user OAuth flow. Configure Worker `GITHUB_APP_ID`,
+   `GITHUB_APP_INSTALLATION_ID` and encrypted `GITHUB_APP_PRIVATE_KEY` as described
+   below. The Worker obtains and renews short-lived installation tokens itself.
    Existing News `GITHUB_TOKEN` retains its current Contents/PR/Checks permissions.
    The Worker does not require permission to merge or write repository content.
-3. Configure the **same owner-provided callback secret** as Worker and News
+3. Configure the **same approved callback secret** as Worker and News
    repository `RECONCILER_TOKEN`; set News repository variable `RECONCILER_URL` to
-   the approved deployed HTTPS workers.dev URL. No secret has been generated.
+   the approved deployed HTTPS workers.dev URL. Keep secret values out of Git,
+   command arguments and logs.
    For production expanded public data, provide the already approved scoped
    Pretalx token as Worker `PRETALX_API_TOKEN` if anonymous expansion requires it.
    The existing GitHub Pretalx credential remains unchanged.
@@ -69,16 +73,21 @@ idempotent. Ordinary unchanged deployments do not repeat the previous cache purg
    `pycon.hk` zone, and `CLOUDFLARE_ZONE_ID`. This is separate from the existing
    Pages Edit credential/account and does not grant DNS edits. Preserve existing
    `NEWS_SOURCE=external` and Pages upload configuration.
-5. With approval, upload `reconciler/wrangler.jsonc` and its migration to the
-   existing PyCon Cloudflare account. Set credentials via approved secret tooling,
-   never command arguments or Git. The upload activates the single five-minute
-   cron. Verify test promotion, failed upload repair, and cache invalidation first;
-   then observe production without forcing a build. Finally set Worker `ENABLED=true`
-   and repository `CONTENT_RECONCILIATION_ENABLED=true` in both repositories only
-   after callbacks and scoped cache invalidation are verified. This switches to
-   the single active Worker cron. To roll back scheduling, set Worker `ENABLED=false`
-   and repository `CONTENT_RECONCILIATION_ENABLED=false`; existing GitHub polling
-   resumes without reverting code.
+5. With approval, configure credentials while the deployed Worker remains disabled.
+   Set repository `CONTENT_RECONCILIATION_ENABLED=true` in **both repositories**
+   before deploying the reviewed enabled configuration: News gates the callback
+   and Website gates targeted cache invalidation on those flags. Deploy
+   `reconciler/wrangler.jsonc` and its migration directly with Wrangler to the
+   existing PyCon account (the GitHub upload helper accepts only disabled config),
+   then read back `ENABLED=true` and the single five-minute cron. Verify a real
+   test cron-to-callback deployment, completion repair, cache invalidation and
+   duplicate callback handling; observe production without forcing a build.
+   A green News run alone does not prove its callback succeeded, and an accepted
+   dispatch alone does not prove deployment completion.
+   To roll back scheduling, deploy with `--var ENABLED:false` and set repository
+   `CONTENT_RECONCILIATION_ENABLED=false` in both repositories. Existing GitHub
+   polling resumes. Persist `ENABLED=false` in source before the next ordinary
+   Worker deployment so it preserves the rollback state.
 
 ## Local verification
 
@@ -93,20 +102,34 @@ WRANGLER_LOG_PATH=/tmp/pyconhk-wrangler.log WRANGLER_SEND_METRICS=false node web
 ```
 
 In News: `node --test .github/news-promotion.test.ts`. Dry run bundles locally;
-production activation and end-to-end GitHub/Cloudflare checks remain unperformed.
+record production activation and end-to-end GitHub/Cloudflare results separately.
 
 ### Credential minimization and outage behavior
 
-A dual-repository credential is **not mandatory**. The implementation also accepts
-`NEWS_GITHUB_TOKEN` restricted to News (Contents read, Actions read/write) and
-`WEBSITE_GITHUB_TOKEN` restricted to Website (Actions read/write only). These
-repository-selected credentials take precedence over a common `GITHUB_TOKEN`.
-Use an approved GitHub App with short-lived installation tokens where available;
-its token renewal must be explicitly authorized and supplied by the owner. A
-one-time installation token stored as a secret will expire, so it is not a
-persistent solution. Repo-scoped fine-grained tokens are a simpler owner-managed
-alternative. No organization-wide, Contents-write, PR-write or admin grant is
-needed by the Worker. No grants or renewal service were created here.
+GitHub App authentication uses three bindings:
+
+| Binding | Value |
+| --- | --- |
+| `GITHUB_APP_ID` | The registered App ID or client ID used as the JWT issuer. |
+| `GITHUB_APP_INSTALLATION_ID` | Its installation on the PyCon HK organization. |
+| `GITHUB_APP_PRIVATE_KEY` | Encrypted Worker secret containing the App key in PKCS#8 PEM format. |
+
+Store all three bindings as Worker secrets so an ordinary Wrangler deployment
+preserves them without relying on dashboard-only plaintext variables.
+
+GitHub downloads App keys in PKCS#1 format. Convert the downloaded file locally
+with `openssl pkcs8 -topk8 -nocrypt -in <downloaded-key.pem> -out <worker-key.pem>`.
+Protect temporary key files with mode `0600`; send the converted key to Wrangler
+through stdin, never as a command argument. Delete local temporary copies after
+installation and verification. Keep key values out of source control and logs.
+
+The App key has no automatic expiry and can be revoked in the App settings.
+Installation tokens expire after one hour. The Worker signs a short-lived RS256
+JWT, requests a token restricted to these two repositories and the configured
+Actions/Contents permissions, and refreshes it before expiry. It does not require
+an expiring personal access token or a manually supplied installation token.
+No organization-wide, Contents-write, PR-write or admin grant is needed.
+Missing or incomplete App configuration fails closed.
 
 The shared callback credential grants only the Worker `/deploy` action. It cannot
 change CMS, merge News, access repository contents or alter Cloudflare settings.
