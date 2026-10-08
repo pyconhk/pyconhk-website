@@ -56,6 +56,36 @@ test("failed cache invalidation remains a workflow failure; no changes require n
 	);
 });
 
+test("a failed upload purge is completed before a newer version replaces its path history", async () => {
+	const before = { "/first/": "old-first", "/second/": "old-second" };
+	const uploaded = { "/first/": "new-first", "/second/": "old-second" };
+	const replacement = { "/first/": "new-first", "/second/": "new-second" };
+	const previousManifest = { affectedPaths: affectedPaths(before, uploaded) };
+	const replacementManifest = { affectedPaths: affectedPaths(uploaded, replacement) };
+	const requests: string[][] = [];
+	let rejectPurge = true;
+	const options = {
+		token: "fixture",
+		zone: "a".repeat(32),
+		fetchImpl: async (_url: string | URL | Request, request?: RequestInit) => {
+			const { files } = JSON.parse(String(request?.body));
+			requests.push(files);
+			return Response.json({ success: !rejectPurge }, { status: rejectPurge ? 503 : 200 });
+		},
+	};
+	await assert.rejects(purgePages("test", previousManifest, options), /invalidation failed/);
+	assert.deepEqual(replacementManifest.affectedPaths, ["/second/"], "new output cannot recover the earlier dirty URL");
+	rejectPurge = false;
+	// Changed deployments complete the previous manifest's purge before upload,
+	// then invalidate the newly uploaded version's own changed paths.
+	await purgePages("test", previousManifest, options);
+	await purgePages("test", replacementManifest, options);
+	assert.deepEqual(requests.slice(1), [
+		["https://test.pycon.hk/first/", "https://test.pycon.hk/first"],
+		["https://test.pycon.hk/second/", "https://test.pycon.hk/second"],
+	]);
+});
+
 test("rendered versions cover assets and canonical pages without hashing version metadata", async (t) => {
 	const { mkdtemp, mkdir, writeFile, rm } = await import("node:fs/promises");
 	const { tmpdir } = await import("node:os");
