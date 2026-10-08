@@ -36,6 +36,8 @@ finalization verifies the checkout and hashes the rendered pages/assets. The
 manifest records changed/deleted URL paths. After upload, GitHub invalidates only
 those paths (30 URLs per request, canonical/redirect variants) on the corresponding
 `pycon.hk` or `test.pycon.hk` zone, then verifies hosted manifests/snapshot/homepage.
+File-format HTML includes `.html`, extensionless and trailing-slash URLs; directory
+pages include their `index.html`/`index` aliases. Static assets retain exact paths.
 Pages deployment handles its own pages.dev cache. No purge-everything operation or
 site-wide no-cache rule is introduced. Only version metadata bypasses cache.
 If upload succeeded but invalidation/verification failed, the next reconciliation
