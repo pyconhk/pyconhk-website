@@ -153,6 +153,16 @@ jobs:
         run: |
           latest="$(git ls-remote "https://github.com/${NEWS_REPOSITORY}.git" "$NEWS_REF" | cut -f1)"
           test "$latest" = "$EXPECTED_NEWS_SHA" || { echo 'News branch advanced; the next queued deployment will build it.' >&2; exit 1; }
+      - name: Complete previous cache invalidation before replacing uploaded content
+        if: vars.CONTENT_RECONCILIATION_ENABLED == 'true' && steps.prepare.outputs.changed == 'true'
+        # A previous upload may be visible even though its targeted purge failed.
+        # Clear those paths before a new manifest replaces their repair history.
+        env:
+          TARGET: ${{ inputs.target }}
+          PREVIOUS_MANIFEST_PATH: ${{ steps.prepare.outputs.previous_manifest_path }}
+          CLOUDFLARE_CACHE_PURGE_TOKEN: ${{ secrets.CLOUDFLARE_CACHE_PURGE_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
+        run: mise exec -- node .github/deploy/cache.ts "$TARGET" "$PREVIOUS_MANIFEST_PATH"
       - name: Upload website and Pages Functions
         if: steps.prepare.outputs.changed == 'true'
         working-directory: website

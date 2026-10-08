@@ -26,8 +26,20 @@ type Run = {
   status: string;
   created_at: string;
   conclusion: string | null;
+  event?: string;
   repository?: string;
 };
+
+function forTarget(run: Run, environment: string) {
+  // Scheduled fallback workflows cover both environments, including runs created
+  // before target labels were added. Their completion still belongs to the site.
+  return (
+    run.event === 'schedule' ||
+    run.display_title === 'Fallback website polling' ||
+    run.display_title.includes(`[${environment}]`) ||
+    run.display_title.includes('[all]')
+  );
+}
 interface Env {
   GITHUB_TOKEN?: string;
   NEWS_GITHUB_TOKEN?: string;
@@ -138,7 +150,7 @@ export class ContentReconciliation {
           'pyconhk-website',
           `actions/workflows/deploy-website.yml/runs?status=${status}&per_page=100&page=${page}`
         );
-        if (data.workflow_runs.some((run: Run) => run.display_title.includes(`[${environment}]`))) {
+        if (data.workflow_runs.some((run: Run) => forTarget(run, environment))) {
           state.dirty = true;
           await this.ctx.storage.put('state', state);
           await this.ctx.storage.put(callbackKey, true);
@@ -209,14 +221,12 @@ export class ContentReconciliation {
         }
         return all;
       })());
-    const forTarget = (run: Run) =>
-      run.display_title.includes(`[${name}]`) || run.display_title.includes('[all]');
     await reconcile(state, {
       save: (value) => this.ctx.storage.put('state', value),
       active: async () =>
         (await readRuns()).some(
           (run) =>
-            forTarget(run) &&
+            forTarget(run, name) &&
             (run.status !== 'completed' ||
               (run.repository === 'pyconhk-news' &&
                 run.conclusion === 'success' &&
@@ -224,7 +234,7 @@ export class ContentReconciliation {
         ),
       status: async (id) => {
         const matching = (await readRuns()).filter(
-          (run) => forTarget(run) && run.display_title.includes(id)
+          (run) => forTarget(run, name) && run.display_title.includes(id)
         );
         if (matching.some((run) => run.status !== 'completed')) return 'active';
         const website = matching.filter((run) => run.repository === 'pyconhk-website');
@@ -264,7 +274,7 @@ export class ContentReconciliation {
         const candidates = [
           ...new Map(
             (await readRuns())
-              .filter((run) => forTarget(run) && run.repository === 'pyconhk-website')
+              .filter((run) => forTarget(run, name) && run.repository === 'pyconhk-website')
               .map((run) => [run.id, run])
           ).values(),
         ].sort((a, b) => b.created_at.localeCompare(a.created_at));
