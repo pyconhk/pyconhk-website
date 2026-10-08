@@ -100,6 +100,7 @@ function fixture(t: test.TestContext) {
     display_title: string;
     status: string;
     conclusion: string | null;
+    event?: string;
     verifyConclusion?: string;
     created_at: string;
   }[] = [];
@@ -229,6 +230,54 @@ test('callbacks retain a dirty recheck instead of queueing behind an active site
   assert.equal(f.state().dirty, true);
   await f.check();
   assert.equal(f.dispatches.length, 0);
+});
+
+test('fallback polling builds suppress cron and callback dispatch during activation', async (t) => {
+  const f = fixture(t);
+  f.changeCMS();
+  f.setRuns([
+    {
+      display_title: 'Fallback website polling',
+      status: 'in_progress',
+      conclusion: null,
+      created_at: new Date().toISOString(),
+    },
+  ]);
+  await f.check();
+  await f.callback('activation-overlap');
+  assert.equal(f.dispatches.length, 0);
+  assert.equal(f.state().dirty, true);
+});
+
+test('failed fallback verification is repaired even when hosted content hashes match', async (t) => {
+  const f = fixture(t);
+  f.setRuns([
+    {
+      display_title: 'Fallback website polling',
+      status: 'completed',
+      conclusion: 'failure',
+      created_at: new Date().toISOString(),
+    },
+  ]);
+  await f.check();
+  assert.equal(f.dispatches.length, 1);
+  assert.equal(f.state().repairCompletion, true);
+});
+
+test('legacy scheduled runs without target labels still retain completion repair', async (t) => {
+  const f = fixture(t);
+  f.setRuns([
+    {
+      display_title: 'Deploy Website',
+      event: 'schedule',
+      status: 'completed',
+      conclusion: 'failure',
+      created_at: new Date().toISOString(),
+    },
+  ]);
+  await f.check();
+  assert.equal(f.dispatches.length, 1);
+  assert.equal(f.state().repairCompletion, true);
 });
 
 test('completed failed upload/verification retries even if uploaded metadata matches', async (t) => {

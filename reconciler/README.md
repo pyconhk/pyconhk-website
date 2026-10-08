@@ -40,7 +40,10 @@ Pages deployment handles its own pages.dev cache. No purge-everything operation 
 site-wide no-cache rule is introduced. Only version metadata bypasses cache.
 If upload succeeded but invalidation/verification failed, the next reconciliation
 requests completion repair: retry purge/verification while skipping an unchanged
-build. Ordinary unchanged deployments do not repeat the previous cache purge.
+build. A changed deployment first completes the previous manifest's targeted purge
+before replacing that upload, so a second content change cannot discard URLs still
+cached from an earlier failed purge. Repeating that small previous path set is
+idempotent. Ordinary unchanged deployments do not repeat the previous cache purge.
 
 ## Review and authorized activation steps
 
