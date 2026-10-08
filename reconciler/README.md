@@ -1,7 +1,8 @@
 # Content deployment reconciliation
 
-The Worker is disabled by default (`ENABLED=false`). Repository code can roll out
-using existing integrations before new ongoing credentials are approved.
+The intended active state is source-controlled (`ENABLED=true`). Deploy this
+configuration only after the scoped credentials and both repository flags are
+ready. An explicit `--var ENABLED:false` override suspends the Worker immediately.
 
 One Cloudflare cron (`*/5 * * * *`) checks production and test independently.
 Each environment has its own SQLite Durable Object. The object serializes checks,
@@ -59,9 +60,10 @@ idempotent. Ordinary unchanged deployments do not repeat the previous cache purg
    only `pyconhk-news` and `pyconhk-website`, Contents read and Actions read/write.
    Existing News `GITHUB_TOKEN` retains its current Contents/PR/Checks permissions.
    The Worker does not require permission to merge or write repository content.
-3. Configure the **same owner-provided callback secret** as Worker and News
+3. Configure the **same approved callback secret** as Worker and News
    repository `RECONCILER_TOKEN`; set News repository variable `RECONCILER_URL` to
-   the approved deployed HTTPS workers.dev URL. No secret has been generated.
+   the approved deployed HTTPS workers.dev URL. Keep secret values out of Git,
+   command arguments and logs.
    For production expanded public data, provide the already approved scoped
    Pretalx token as Worker `PRETALX_API_TOKEN` if anonymous expansion requires it.
    The existing GitHub Pretalx credential remains unchanged.
@@ -69,16 +71,20 @@ idempotent. Ordinary unchanged deployments do not repeat the previous cache purg
    `pycon.hk` zone, and `CLOUDFLARE_ZONE_ID`. This is separate from the existing
    Pages Edit credential/account and does not grant DNS edits. Preserve existing
    `NEWS_SOURCE=external` and Pages upload configuration.
-5. With approval, upload `reconciler/wrangler.jsonc` and its migration to the
-   existing PyCon Cloudflare account. Set credentials via approved secret tooling,
-   never command arguments or Git. The upload activates the single five-minute
-   cron. Verify test promotion, failed upload repair, and cache invalidation first;
-   then observe production without forcing a build. Finally set Worker `ENABLED=true`
-   and repository `CONTENT_RECONCILIATION_ENABLED=true` in both repositories only
-   after callbacks and scoped cache invalidation are verified. This switches to
-   the single active Worker cron. To roll back scheduling, set Worker `ENABLED=false`
-   and repository `CONTENT_RECONCILIATION_ENABLED=false`; existing GitHub polling
-   resumes without reverting code.
+5. With approval, configure credentials while the deployed Worker remains disabled.
+   Set repository `CONTENT_RECONCILIATION_ENABLED=true` in **both repositories**
+   before deploying the reviewed enabled configuration: News gates the callback
+   and Website gates targeted cache invalidation on those flags. Deploy
+   `reconciler/wrangler.jsonc` and its migration to the existing PyCon account,
+   then read back `ENABLED=true` and the single five-minute cron. Verify a real
+   test cron-to-callback deployment, completion repair, cache invalidation and
+   duplicate callback handling; observe production without forcing a build.
+   A green News run alone does not prove its callback succeeded, and an accepted
+   dispatch alone does not prove deployment completion.
+   To roll back scheduling, deploy with `--var ENABLED:false` and set repository
+   `CONTENT_RECONCILIATION_ENABLED=false` in both repositories. Existing GitHub
+   polling resumes. Persist `ENABLED=false` in source before the next ordinary
+   Worker deployment so it preserves the rollback state.
 
 ## Local verification
 
@@ -93,7 +99,7 @@ WRANGLER_LOG_PATH=/tmp/pyconhk-wrangler.log WRANGLER_SEND_METRICS=false node web
 ```
 
 In News: `node --test .github/news-promotion.test.ts`. Dry run bundles locally;
-production activation and end-to-end GitHub/Cloudflare checks remain unperformed.
+record production activation and end-to-end GitHub/Cloudflare results separately.
 
 ### Credential minimization and outage behavior
 
@@ -106,7 +112,8 @@ its token renewal must be explicitly authorized and supplied by the owner. A
 one-time installation token stored as a secret will expire, so it is not a
 persistent solution. Repo-scoped fine-grained tokens are a simpler owner-managed
 alternative. No organization-wide, Contents-write, PR-write or admin grant is
-needed by the Worker. No grants or renewal service were created here.
+needed by the Worker. Keep any renewal mechanism within the explicitly approved
+scope and record the credential expiry in the operational handoff.
 
 The shared callback credential grants only the Worker `/deploy` action. It cannot
 change CMS, merge News, access repository contents or alter Cloudflare settings.
