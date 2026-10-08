@@ -46,6 +46,27 @@ export async function pageHashes(directory: string) {
 	return hashes;
 }
 
+function purgePathVariants(url: string): string[] {
+	if (url.endsWith("/index.html")) {
+		return purgePathVariants(url.slice(0, -"index.html".length));
+	}
+	if (url === "/") return [url, "/index.html", "/index", "/index/"];
+	if (url.endsWith("/")) {
+		return [
+			url,
+			url.slice(0, -1),
+			`${url}index.html`,
+			`${url}index`,
+			`${url}index/`,
+		];
+	}
+	if (url.endsWith(".html")) {
+		const canonical = url.slice(0, -".html".length);
+		return [url, canonical, `${canonical}/`];
+	}
+	return [url];
+}
+
 export async function purgePages(
 	environment: string,
 	manifest: { affectedPaths?: string[] },
@@ -67,21 +88,24 @@ export async function purgePages(
 		"Affected-page invalidation requires CLOUDFLARE_CACHE_PURGE_TOKEN and CLOUDFLARE_ZONE_ID",
 	);
 	assert.match(zone, /^[a-f0-9]{32}$/u, "Invalid Cloudflare zone ID");
-	const urls = manifest.affectedPaths.flatMap((url) => {
-		assert.ok(
-			url.startsWith("/") &&
-				!url.startsWith("//") &&
-				!url.includes("?") &&
-				!url.includes("#"),
-			"Invalid purge path",
-		);
-		// Cloudflare can cache both the trailing-slash canonical URL and a redirect.
-		return origins.flatMap((origin) =>
-			url.endsWith("/") && url !== "/"
-				? [`${origin}${url}`, `${origin}${url.slice(0, -1)}`]
-				: [`${origin}${url}`],
-		);
-	});
+	const urls = [
+		...new Set(
+			manifest.affectedPaths.flatMap((url) => {
+				assert.ok(
+					url.startsWith("/") &&
+						!url.startsWith("//") &&
+						!url.includes("?") &&
+						!url.includes("#"),
+					"Invalid purge path",
+				);
+				// Pages serves file-format HTML without .html and serves directory indexes
+				// through several aliases. Purge both body URLs and their cached redirects.
+				return origins.flatMap((origin) =>
+					purgePathVariants(url).map((pathname) => `${origin}${pathname}`),
+				);
+			}),
+		),
+	];
 	for (let offset = 0; offset < urls.length; offset += 30) {
 		const response = await fetchImpl(
 			`https://api.cloudflare.com/client/v4/zones/${zone}/purge_cache`,
