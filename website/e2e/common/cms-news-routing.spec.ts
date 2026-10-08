@@ -166,6 +166,22 @@ test.describe('CMS news routing', () => {
       expect(futureKoreanHtml).toContain('Future-Year CMS Fixture');
       expect(futureKoreanHtml).toContain('datetime="2026-09-29T16:43:00.000Z"');
       expect(futureKoreanHtml).toContain('뉴스로 돌아가기');
+      for (const [locale, dateLabel] of [
+        ['en', 'September 30, 2026'],
+        ['zh-hk', '2026年9月30日'],
+        ['zh-hant', '2026年9月30日'],
+        ['zh-hans', '2026年9月30日'],
+      ]) {
+        for (const route of [
+          `2026/${locale}/news/cms-route-fixture.html`,
+          `2026/${locale}/news.html`,
+        ]) {
+          const html = await readFile(path.join(distRoot, route), 'utf8');
+          expect(html).toContain(
+            `<time datetime="2026-09-29T16:43:00.000Z">${dateLabel}</time>`
+          );
+        }
+      }
       expect(futurePostHtml).not.toContain('Register for your Ticket NOW!');
       await expect(
         readFile(path.join(distRoot, '2026/en/news/incomplete-fixture.html'))

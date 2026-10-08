@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
+import type { ScheduleItem } from '../../../lib/programme/types';
 import { setTheme } from './theme';
 
 const names = ['Paul Everitt', 'Jacky Chan', 'Hon Kwan Shun Quinson', 'Indy Ho'];
@@ -21,30 +22,43 @@ const talks = [
   ],
 ];
 
+async function publicFeaturedSessions(page: Page, locale: string) {
+  await page.goto(`/2026/${locale}/schedule/`);
+  const programme = JSON.parse(
+    (await page.locator('#programme-data').textContent()) ?? '{}'
+  ) as { event: string; sessions: ScheduleItem[] };
+  return programme.event === 'pyconhk2026' ? programme.sessions : [];
+}
+
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
   test(`${locale} featured cards open their own 2026 talk and return to the homepage`, async ({
     page,
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
+    const sessions = await publicFeaturedSessions(page, locale);
     await page.goto(`/2026/${locale}/`);
     for (const [index, [code, slug, title]] of talks.entries()) {
+      const session = sessions.find((session) => session.code === code);
       const card = page.locator('[data-featured-speaker]').nth(index);
       await expect(card).toHaveAttribute('href', `/2026/${locale}/talks/${slug}/`);
       await expect(card).toHaveCSS('cursor', 'pointer');
       await card.focus();
       await page.keyboard.press('Enter');
       await expect(page).toHaveURL(new RegExp(`/2026/${locale}/talks/${slug}/?$`));
-      await expect(page.locator('main h1')).toHaveText(title);
+      await expect(page.locator('main h1')).toHaveText(session?.title ?? title);
       const talk = page.locator(`[data-featured-talk="${code}"]`);
-      await expect(talk.locator('h3')).toHaveText(names[index]);
+      await expect(talk.locator('h3')).toHaveText(session?.speakers ?? [names[index]]);
       expect(
         (await talk.locator('[data-talk-abstract]').innerText()).length
       ).toBeGreaterThan(100);
       expect(
-        (await talk.locator('[data-talk-biography]').innerText()).length
+        (await talk.locator('[data-talk-biography]').allTextContents()).join('').length
       ).toBeGreaterThan(80);
-      await expect(talk.locator('img')).toHaveAttribute('src', /^\/_astro\/.+\.webp$/);
+      await expect(talk.locator('img').first()).toHaveAttribute(
+        'src',
+        /^\/_astro\/.+\.webp$/
+      );
       await expect(page.locator('[data-sample-notice]')).toHaveCount(0);
       await expect(talk.locator('a[href*="pretalx"], a[href*="2025"]')).toHaveCount(0);
       await talk.locator(`a[href="/2026/${locale}/#featured-speakers"]`).click();
@@ -59,10 +73,17 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
+    const sessions = await publicFeaturedSessions(page, locale);
     await page.goto(`/2026/${locale}/`);
     const featured = page.locator('[data-featured-speakers]');
     await featured.scrollIntoViewIfNeeded();
-    await expect(featured.locator('h3')).toHaveText(names);
+    await expect(featured.locator('h3')).toHaveText(
+      talks.map(
+        ([code], index) =>
+          sessions.find((session) => session.code === code)?.speakers.join(', ') ??
+          names[index]
+      )
+    );
     await expect(featured.locator('[data-keynote="true"] h3')).toHaveText(
       'Paul Everitt'
     );
