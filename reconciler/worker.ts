@@ -84,14 +84,15 @@ export async function github(env: Env, repository: string, endpoint: string, bod
       'Content-Type': 'application/json',
     },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    redirect: 'error',
+    // Do not forward installation credentials or dispatches through redirects.
+    redirect: 'manual',
     signal: AbortSignal.timeout(20_000),
   });
   // Do not log responses, URLs supplied by credentials, or token values.
   if (!response.ok) {
     if (response.status === 401) invalidateGitHubToken(env, token);
     throw Object.assign(new Error(`GitHub reconciliation request failed: ${response.status}`), {
-      rejected: response.status >= 400 && response.status < 500,
+      rejected: response.status >= 300 && response.status < 500,
     });
   }
   return response.status === 204 ? null : response.json();
@@ -103,9 +104,7 @@ async function metadata(origin: string, filename: string) {
   const response = await fetch(url, {
     cache: 'no-store',
     signal: AbortSignal.timeout(20_000),
-    // Only machine-readable version metadata bypasses Cloudflare cache.
-    cf: { cacheTtl: 0 },
-  } as RequestInit);
+  });
   if (
     response.status === 404 ||
     (response.ok && !response.headers.get('content-type')?.includes('application/json'))

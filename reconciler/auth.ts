@@ -67,7 +67,9 @@ async function mint(auth: CachedAuth) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ repositories: githubRepositories, permissions }),
-      redirect: 'error',
+      // Workers supports manual redirect handling. Reject any 3xx below without
+      // forwarding an App JWT to the response's Location.
+      redirect: 'manual',
       signal: AbortSignal.timeout(20_000),
     }
   );
