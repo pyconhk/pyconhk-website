@@ -36,7 +36,79 @@ test("targeted invalidation never purges the entire cache and is environment sco
 		),
 	);
 	assert.equal("purge_everything" in requests[0].body, false);
-	assert.equal(requests[0].body.files.length, 3);
+	assert.equal(requests[0].body.files.length, 6);
+});
+
+test("file-format HTML purges served canonical URLs and directory indexes purge their aliases", async () => {
+	const requests: string[][] = [];
+	const changed = affectedPaths(
+		{ "/2026/en/schedule.html": "old", "/2026/en/removed.html": "deleted" },
+		{ "/2026/en/schedule.html": "new" },
+	);
+	await purgePages(
+		"test",
+		{
+			affectedPaths: [
+				...changed,
+				"/2026/en/speakers/speaker/",
+				"/",
+				"/index.html",
+				"/outstatic/images/cover.webp",
+			],
+		},
+		{
+			token: "fixture",
+			zone: "a".repeat(32),
+			fetchImpl: async (_url, options) => {
+				requests.push(JSON.parse(String(options?.body)).files);
+				return Response.json({ success: true });
+			},
+		},
+	);
+	assert.deepEqual(requests.flat(), [
+		"https://test.pycon.hk/2026/en/removed.html",
+		"https://test.pycon.hk/2026/en/removed",
+		"https://test.pycon.hk/2026/en/removed/",
+		"https://test.pycon.hk/2026/en/schedule.html",
+		"https://test.pycon.hk/2026/en/schedule",
+		"https://test.pycon.hk/2026/en/schedule/",
+		"https://test.pycon.hk/2026/en/speakers/speaker/",
+		"https://test.pycon.hk/2026/en/speakers/speaker",
+		"https://test.pycon.hk/2026/en/speakers/speaker/index.html",
+		"https://test.pycon.hk/2026/en/speakers/speaker/index",
+		"https://test.pycon.hk/2026/en/speakers/speaker/index/",
+		"https://test.pycon.hk/",
+		"https://test.pycon.hk/index.html",
+		"https://test.pycon.hk/index",
+		"https://test.pycon.hk/index/",
+		"https://test.pycon.hk/outstatic/images/cover.webp",
+	]);
+});
+
+test("expanded HTML aliases remain bounded to batches of 30 URLs", async () => {
+	const batches: string[][] = [];
+	await purgePages(
+		"production",
+		{
+			affectedPaths: Array.from(
+				{ length: 11 },
+				(_, index) => `/2026/en/page-${index}.html`,
+			),
+		},
+		{
+			token: "fixture",
+			zone: "a".repeat(32),
+			fetchImpl: async (_url, options) => {
+				batches.push(JSON.parse(String(options?.body)).files);
+				return Response.json({ success: true });
+			},
+		},
+	);
+	assert.deepEqual(
+		batches.map((batch) => batch.length),
+		[30, 3],
+	);
+	assert.ok(batches.flat().every((url) => url.startsWith("https://pycon.hk/")));
 });
 
 test("failed cache invalidation remains a workflow failure; no changes require no credential", async () => {
@@ -61,7 +133,9 @@ test("a failed upload purge is completed before a newer version replaces its pat
 	const uploaded = { "/first/": "new-first", "/second/": "old-second" };
 	const replacement = { "/first/": "new-first", "/second/": "new-second" };
 	const previousManifest = { affectedPaths: affectedPaths(before, uploaded) };
-	const replacementManifest = { affectedPaths: affectedPaths(uploaded, replacement) };
+	const replacementManifest = {
+		affectedPaths: affectedPaths(uploaded, replacement),
+	};
 	const requests: string[][] = [];
 	let rejectPurge = true;
 	const options = {
@@ -70,19 +144,41 @@ test("a failed upload purge is completed before a newer version replaces its pat
 		fetchImpl: async (_url: string | URL | Request, request?: RequestInit) => {
 			const { files } = JSON.parse(String(request?.body));
 			requests.push(files);
-			return Response.json({ success: !rejectPurge }, { status: rejectPurge ? 503 : 200 });
+			return Response.json(
+				{ success: !rejectPurge },
+				{ status: rejectPurge ? 503 : 200 },
+			);
 		},
 	};
-	await assert.rejects(purgePages("test", previousManifest, options), /invalidation failed/);
-	assert.deepEqual(replacementManifest.affectedPaths, ["/second/"], "new output cannot recover the earlier dirty URL");
+	await assert.rejects(
+		purgePages("test", previousManifest, options),
+		/invalidation failed/,
+	);
+	assert.deepEqual(
+		replacementManifest.affectedPaths,
+		["/second/"],
+		"new output cannot recover the earlier dirty URL",
+	);
 	rejectPurge = false;
 	// Changed deployments complete the previous manifest's purge before upload,
 	// then invalidate the newly uploaded version's own changed paths.
 	await purgePages("test", previousManifest, options);
 	await purgePages("test", replacementManifest, options);
 	assert.deepEqual(requests.slice(1), [
-		["https://test.pycon.hk/first/", "https://test.pycon.hk/first"],
-		["https://test.pycon.hk/second/", "https://test.pycon.hk/second"],
+		[
+			"https://test.pycon.hk/first/",
+			"https://test.pycon.hk/first",
+			"https://test.pycon.hk/first/index.html",
+			"https://test.pycon.hk/first/index",
+			"https://test.pycon.hk/first/index/",
+		],
+		[
+			"https://test.pycon.hk/second/",
+			"https://test.pycon.hk/second",
+			"https://test.pycon.hk/second/index.html",
+			"https://test.pycon.hk/second/index",
+			"https://test.pycon.hk/second/index/",
+		],
 	]);
 });
 
