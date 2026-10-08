@@ -12,10 +12,12 @@ interface Props { locale: CfpLocale; speaker: FeaturedSpeaker }
 const { locale, speaker } = Astro.props;
 const labels = featuredLabels[locale];
 const copy = scheduleCopy[locale];
-const [abstract, biography] = await Promise.all([
-  renderProgrammeMarkdown(speaker.abstract),
-  renderProgrammeMarkdown(speaker.biography),
-]);
+const paragraphs = [speaker.abstract, speaker.description].filter((value, index, values) => value && values.indexOf(value) === index);
+const abstract = await renderProgrammeMarkdown(paragraphs.join('\n\n'));
+const profiles = await Promise.all(speaker.profiles.map(async (person) => ({
+  ...person,
+  biographyHtml: await renderProgrammeMarkdown(person.biography),
+})));
 ---
 <ContentPageFrame locale={locale} title={speaker.title} titleLang={speaker.language} description={`${speaker.title} — ${speaker.name} | PyCon HK 2026`}>
   <WovenRibbon />
@@ -26,13 +28,15 @@ const [abstract, biography] = await Promise.all([
       <div data-talk-abstract lang={speaker.language} class="programme-richtext prose max-w-none text-conference-body" set:html={abstract} />
     </section>
     <section aria-labelledby="talk-speaker" class="border-t-2 border-dashed border-conference-outline/25 pt-8">
-      <h2 id="talk-speaker" class="mb-6 text-xl font-black text-conference-ink">{copy.aboutSpeaker}</h2>
-      <div class="grid min-w-0 gap-6 sm:grid-cols-[7rem_minmax(0,1fr)]">
-        <Image src={speaker.image} alt={speaker.name} width={224} height={224} format="webp" class="h-28 w-28 rounded-full border-2 border-conference-outline/40 object-cover" />
-        <div class="min-w-0" lang="en">
-          <h3 class="mb-3 text-xl font-black text-conference-ink">{speaker.name}</h3>
-          <div data-talk-biography class="programme-richtext prose max-w-none text-conference-body" set:html={biography} />
-        </div>
+      <h2 id="talk-speaker" class="mb-6 text-xl font-black text-conference-ink">{profiles.length > 1 ? copy.speakers : copy.aboutSpeaker}</h2>
+      <div class="space-y-8">
+        {profiles.map((person) => <div data-featured-speaker-profile class:list={['grid min-w-0 gap-6', person.image && 'sm:grid-cols-[7rem_minmax(0,1fr)]']}>
+          {person.image && <Image {...(typeof person.image === 'string' ? { src: person.image, width: 224, height: 224 } : { src: person.image })} alt={person.name} width={224} height={224} format="webp" class="h-28 w-28 rounded-full border-2 border-conference-outline/40 object-cover" />}
+          <div class="min-w-0" lang="en">
+            <h3 class="mb-3 text-xl font-black text-conference-ink">{person.name}</h3>
+            {person.biographyHtml && <div data-talk-biography class="programme-richtext prose max-w-none text-conference-body" set:html={person.biographyHtml} />}
+          </div>
+        </div>)}
       </div>
     </section>
     <DoodleButton href={`/2026/${locale}/#featured-speakers`} label={labels.back} variant="secondary"><span aria-hidden="true" class="mr-2">←</span>{labels.back}</DoodleButton>

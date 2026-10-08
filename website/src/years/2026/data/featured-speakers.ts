@@ -4,15 +4,16 @@ import paul from '@/years/2026/assets/speakers/paul-everitt.jpg';
 import quinson from '@/years/2026/assets/speakers/quinson-hon.webp';
 import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+import { resolveFeaturedTalk } from '../../../lib/programme/featured';
 import talks from './featured-talks.json';
+import { allScheduleItems, programmeSnapshot } from './schedule';
 
 // Engagement team's selected 2026 slate, independent of the timetable source.
 // Brief: https://docs.google.com/document/d/1KAH42Ml0QMPX3bnxswUIeId9b0JiqzuDLTftU-xwr6Y/edit
 // Portraits: Paul — JetBrains Guide; Jacky / Quinson — their Pretalx uploads;
 // Indy — VTC expert profile. Original photos, bundled by Astro at build time.
-// featured-talks.json contains only the four selected talks' attendee-facing
-// abstracts and speaker biographies (2026 submissions, captured 2026-07-29).
-// Refresh these from the 2026 public feed when that programme is released.
+// featured-talks.json preserves the pre-publication introductions. Linked public
+// programme submissions replace the talk copy and speaker profiles when available.
 export const featuredSpeakers = [
   {
     code: 'NLFQSW',
@@ -50,7 +51,10 @@ export const featuredSpeakers = [
 ].map((speaker) => {
   const talk = talks.find((talk) => talk.code === speaker.code);
   if (!talk) throw new Error(`Missing featured talk: ${speaker.code}`);
-  return { ...speaker, ...talk };
+  return resolveFeaturedTalk(
+    { ...speaker, ...talk },
+    { ...programmeSnapshot, sessions: allScheduleItems }
+  );
 });
 
 export type FeaturedSpeaker = (typeof featuredSpeakers)[number];

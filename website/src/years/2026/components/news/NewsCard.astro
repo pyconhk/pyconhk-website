@@ -34,7 +34,7 @@ const { article, locale } = Astro.props;
       <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-conference-body">{article.excerpt}</p>
     </div>
     <div class="flex flex-wrap items-center justify-between gap-2 border-t border-conference-outline/15 pt-4 text-xs font-bold text-conference-muted">
-      <time datetime={article.publishedAt}>{formatDate(article.publishedAt, locale)}</time>
+      <time datetime={article.publishedAt}>{formatDate(article.publishedAt, locale, 'Asia/Hong_Kong')}</time>
       <span class="text-conference-red">{newsMessages[locale].readArticle} <span aria-hidden="true">→</span></span>
     </div>
   </div>
