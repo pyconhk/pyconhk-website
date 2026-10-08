@@ -2,7 +2,7 @@
 
 The intended active state is source-controlled (`ENABLED=true`). Deploy this
 configuration only after the scoped credentials and both repository flags are
-ready. An explicit `--var ENABLED:false` override suspends the Worker immediately.
+ready. Deploy with `--var ENABLED:false` to suspend the Worker immediately.
 
 One Cloudflare cron (`*/5 * * * *`) checks production and test independently.
 Each environment has its own SQLite Durable Object. The object serializes checks,
@@ -75,7 +75,8 @@ idempotent. Ordinary unchanged deployments do not repeat the previous cache purg
    Set repository `CONTENT_RECONCILIATION_ENABLED=true` in **both repositories**
    before deploying the reviewed enabled configuration: News gates the callback
    and Website gates targeted cache invalidation on those flags. Deploy
-   `reconciler/wrangler.jsonc` and its migration to the existing PyCon account,
+   `reconciler/wrangler.jsonc` and its migration directly with Wrangler to the
+   existing PyCon account (the GitHub upload helper accepts only disabled config),
    then read back `ENABLED=true` and the single five-minute cron. Verify a real
    test cron-to-callback deployment, completion repair, cache invalidation and
    duplicate callback handling; observe production without forcing a build.
