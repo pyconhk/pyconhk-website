@@ -51,7 +51,7 @@ test('App JWT is signed with RS256, short lived, and mint request restricts both
   assert.equal(f.calls[0].url, 'https://api.github.com/app/installations/123/access_tokens');
   const options = f.calls[0].options;
   assert.equal(options?.method, 'POST');
-  assert.equal(options.redirect, 'error');
+  assert.equal(options.redirect, 'manual');
   assert.deepEqual(JSON.parse(String(options.body)), {
     repositories: ['pyconhk-website', 'pyconhk-news'],
     permissions: { actions: 'write', contents: 'read' },
@@ -156,6 +156,23 @@ test('failed issuance clears single-flight state and never caches the response b
   );
   assert.equal(await githubInstallationToken(f.env), 'repaired');
   assert.equal(f.calls.length, 2);
+});
+
+test('App issuance rejects redirects without following them or accepting a token', async (t) => {
+  const f = fixture(t);
+  f.respond(
+    () =>
+      new Response(null, {
+        status: 307,
+        headers: { Location: 'https://untrusted.example/access_tokens' },
+      })
+  );
+  await assert.rejects(githubInstallationToken(f.env), {
+    message: 'GitHub App token request failed: 307',
+  });
+  assert.equal(f.calls.length, 1);
+  assert.equal(f.calls[0].options?.redirect, 'manual');
+  assert.equal(f.calls[0].url, 'https://api.github.com/app/installations/123/access_tokens');
 });
 
 test('unexpected token permissions, repositories, and invalid expiry fail closed', async (t) => {

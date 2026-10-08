@@ -249,6 +249,34 @@ test('Worker compares actual published descriptions and speakers, not only sched
   assert.equal(f.state().dirty, true);
 });
 
+test('metadata probes use unique no-store URLs without conflicting Cloudflare cache overrides', async (t) => {
+  const f = fixture(t);
+  const acceptedFetch = globalThis.fetch;
+  let now = Date.now();
+  t.mock.method(Date, 'now', () => now);
+  const probes: string[] = [];
+  globalThis.fetch = async (url, options) => {
+    const parsed = new URL(String(url));
+    if (
+      parsed.pathname === '/deployment-manifest.json' ||
+      parsed.pathname === '/programme-snapshot.json'
+    ) {
+      assert.equal(options?.cache, 'no-store');
+      assert.equal(Object.hasOwn(options || {}, 'cf'), false);
+      assert.equal(parsed.searchParams.get('reconciliation-check'), String(now));
+      probes.push(parsed.href);
+    }
+    return acceptedFetch(url, options);
+  };
+  assert.equal((await f.check()).status, 200);
+  now += 1000;
+  assert.equal((await f.check()).status, 200);
+  assert.equal(probes.length, 4);
+  assert.notEqual(probes[0], probes[2]);
+  assert.notEqual(probes[1], probes[3]);
+  assert.equal(f.dispatches.length, 0);
+});
+
 test('CMS and Pretalx changes coalesce into promotion followed by one website dispatch', async (t) => {
   const f = fixture(t);
   f.changeCMS();
@@ -448,8 +476,10 @@ test('repository requests use installation tokens and cannot target an unrelated
   const f = fixture(t);
   const acceptedFetch = globalThis.fetch;
   globalThis.fetch = async (url, options) => {
-    if (String(url).includes('/repos/'))
+    if (String(url).includes('/repos/')) {
       assert.equal(new Headers(options?.headers).get('Authorization'), 'Bearer fixture');
+      assert.equal(options?.redirect, 'manual');
+    }
     return acceptedFetch(url, options);
   };
   await github(f.env, 'pyconhk-news', 'git/trees/main?recursive=1');
@@ -457,6 +487,29 @@ test('repository requests use installation tokens and cannot target an unrelated
     github(f.env, 'unrelated-repo', 'git/trees/main'),
     /Invalid reconciliation repository/u
   );
+});
+
+test('redirected website dispatches fail closed and allow the same callback to retry', async (t) => {
+  const f = fixture(t);
+  const acceptedFetch = globalThis.fetch;
+  let redirected = false;
+  globalThis.fetch = async (url, options) => {
+    assert.equal(new URL(String(url)).origin, 'https://api.github.com');
+    if (options?.method === 'POST' && String(url).includes('/repos/') && !redirected) {
+      redirected = true;
+      assert.equal(options.redirect, 'manual');
+      return new Response(null, {
+        status: 307,
+        headers: { Location: 'https://untrusted.example/dispatches' },
+      });
+    }
+    return acceptedFetch(url, options);
+  };
+  assert.equal((await f.callback('redirected-news')).status, 503);
+  assert.equal(f.dispatches.length, 0);
+  assert.equal(f.state().pending?.websiteDispatched, false);
+  assert.equal((await f.callback('redirected-news')).status, 200);
+  assert.equal(f.dispatches.length, 1);
 });
 
 test('repository authentication rejection renews the installation token on the next request', async (t) => {
