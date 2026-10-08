@@ -55,9 +55,11 @@ idempotent. Ordinary unchanged deployments do not repeat the previous cache purg
    policy on test). This is necessary because builds check out their target's
    deployment scripts. Do not activate the Worker before both site branches have
    the new content manifest and retry behavior.
-2. With explicit approval, configure an owner-provided GitHub App installation
-   token mechanism or scoped fine-grained token as Worker `GITHUB_TOKEN`:
-   only `pyconhk-news` and `pyconhk-website`, Contents read and Actions read/write.
+2. Create a private, organization-owned GitHub App installed only on
+   `pyconhk-news` and `pyconhk-website`, with Contents read and Actions read/write.
+   Disable its webhook and user OAuth flow. Configure Worker `GITHUB_APP_ID`,
+   `GITHUB_APP_INSTALLATION_ID` and encrypted `GITHUB_APP_PRIVATE_KEY` as described
+   below. The Worker obtains and renews short-lived installation tokens itself.
    Existing News `GITHUB_TOKEN` retains its current Contents/PR/Checks permissions.
    The Worker does not require permission to merge or write repository content.
 3. Configure the **same approved callback secret** as Worker and News
@@ -104,17 +106,30 @@ record production activation and end-to-end GitHub/Cloudflare results separately
 
 ### Credential minimization and outage behavior
 
-A dual-repository credential is **not mandatory**. The implementation also accepts
-`NEWS_GITHUB_TOKEN` restricted to News (Contents read, Actions read/write) and
-`WEBSITE_GITHUB_TOKEN` restricted to Website (Actions read/write only). These
-repository-selected credentials take precedence over a common `GITHUB_TOKEN`.
-Use an approved GitHub App with short-lived installation tokens where available;
-its token renewal must be explicitly authorized and supplied by the owner. A
-one-time installation token stored as a secret will expire, so it is not a
-persistent solution. Repo-scoped fine-grained tokens are a simpler owner-managed
-alternative. No organization-wide, Contents-write, PR-write or admin grant is
-needed by the Worker. Keep any renewal mechanism within the explicitly approved
-scope and record the credential expiry in the operational handoff.
+GitHub App authentication uses three bindings:
+
+| Binding | Value |
+| --- | --- |
+| `GITHUB_APP_ID` | The registered App ID or client ID used as the JWT issuer. |
+| `GITHUB_APP_INSTALLATION_ID` | Its installation on the PyCon HK organization. |
+| `GITHUB_APP_PRIVATE_KEY` | Encrypted Worker secret containing the App key in PKCS#8 PEM format. |
+
+Store all three bindings as Worker secrets so an ordinary Wrangler deployment
+preserves them without relying on dashboard-only plaintext variables.
+
+GitHub downloads App keys in PKCS#1 format. Convert the downloaded file locally
+with `openssl pkcs8 -topk8 -nocrypt -in <downloaded-key.pem> -out <worker-key.pem>`.
+Protect temporary key files with mode `0600`; send the converted key to Wrangler
+through stdin, never as a command argument. Delete local temporary copies after
+installation and verification. Keep key values out of source control and logs.
+
+The App key has no automatic expiry and can be revoked in the App settings.
+Installation tokens expire after one hour. The Worker signs a short-lived RS256
+JWT, requests a token restricted to these two repositories and the configured
+Actions/Contents permissions, and refreshes it before expiry. It does not require
+an expiring personal access token or a manually supplied installation token.
+No organization-wide, Contents-write, PR-write or admin grant is needed.
+Missing or incomplete App configuration fails closed.
 
 The shared callback credential grants only the Worker `/deploy` action. It cannot
 change CMS, merge News, access repository contents or alter Cloudflare settings.

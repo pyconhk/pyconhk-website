@@ -1,4 +1,10 @@
 import { fetchProgramme, validateSnapshot } from '../website/src/lib/programme/snapshot.ts';
+import {
+  type GitHubAppEnv,
+  githubInstallationToken,
+  githubRepositories,
+  invalidateGitHubToken,
+} from './auth.ts';
 import { newsContentHash } from './content.ts';
 import { reconcile, type State } from './state.ts';
 
@@ -40,10 +46,7 @@ function forTarget(run: Run, environment: string) {
     run.display_title.includes('[all]')
   );
 }
-interface Env {
-  GITHUB_TOKEN?: string;
-  NEWS_GITHUB_TOKEN?: string;
-  WEBSITE_GITHUB_TOKEN?: string;
+interface Env extends GitHubAppEnv {
   PRETALX_API_TOKEN?: string;
   RECONCILER_TOKEN: string;
   ENABLED?: string;
@@ -58,10 +61,19 @@ interface Storage {
 }
 
 export async function github(env: Env, repository: string, endpoint: string, body?: unknown) {
-  const token =
-    (repository === 'pyconhk-news' ? env.NEWS_GITHUB_TOKEN : env.WEBSITE_GITHUB_TOKEN) ||
-    env.GITHUB_TOKEN;
-  if (!token) throw new Error('Scoped GitHub reconciliation credential is not configured');
+  if (!githubRepositories.includes(repository))
+    throw new Error('Invalid reconciliation repository');
+  let token: string;
+  try {
+    token = await githubInstallationToken(env);
+  } catch (error) {
+    // No repository request has been sent. A callback can safely retry after
+    // configuration, signing, or installation-token issuance is repaired.
+    throw Object.assign(
+      error instanceof Error ? error : new Error('GitHub App authentication failed'),
+      { rejected: true }
+    );
+  }
   const response = await fetch(`https://api.github.com/repos/pyconhk/${repository}/${endpoint}`, {
     method: body === undefined ? 'GET' : 'POST',
     headers: {
@@ -72,13 +84,16 @@ export async function github(env: Env, repository: string, endpoint: string, bod
       'Content-Type': 'application/json',
     },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    redirect: 'error',
     signal: AbortSignal.timeout(20_000),
   });
   // Do not log responses, URLs supplied by credentials, or token values.
-  if (!response.ok)
+  if (!response.ok) {
+    if (response.status === 401) invalidateGitHubToken(env, token);
     throw Object.assign(new Error(`GitHub reconciliation request failed: ${response.status}`), {
       rejected: response.status >= 400 && response.status < 500,
     });
+  }
   return response.status === 204 ? null : response.json();
 }
 
@@ -263,8 +278,10 @@ export class ContentReconciliation {
           event: target.event,
           environment: name,
           sourceUrl: target.source,
-          baseline: baseline?.event === target.event && baseline?.environment === name
-            ? validateSnapshot(baseline, target.event, name) : undefined,
+          baseline:
+            baseline?.event === target.event && baseline?.environment === name
+              ? validateSnapshot(baseline, target.event, name)
+              : undefined,
           allowUnpublished: name === 'production',
           ...(name === 'production' && this.env.PRETALX_API_TOKEN
             ? { apiToken: this.env.PRETALX_API_TOKEN }

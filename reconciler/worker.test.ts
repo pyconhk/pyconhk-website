@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict';
+import { generateKeyPairSync } from 'node:crypto';
 import test from 'node:test';
-import worker, { ContentReconciliation } from './worker.ts';
 import { programmeApiExport } from '../website/src/lib/programme/api.ts';
 import { normalizeProgramme } from '../website/src/lib/programme/snapshot.ts';
 import { newsContentHash } from './content.ts';
 import type { State } from './state.ts';
+import worker, { ContentReconciliation, github } from './worker.ts';
+
+const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
+const appKey = privateKey.export({ type: 'pkcs8', format: 'pem' }).toString();
 
 function fixture(t: test.TestContext) {
   const original = globalThis.fetch;
@@ -22,7 +26,9 @@ function fixture(t: test.TestContext) {
     },
   };
   const env = {
-    GITHUB_TOKEN: 'fixture',
+    GITHUB_APP_ID: 'Iv1.fixture',
+    GITHUB_APP_INSTALLATION_ID: '123',
+    GITHUB_APP_PRIVATE_KEY: appKey,
     ENABLED: 'true',
     RECONCILER_TOKEN: 'callback-fixture',
     RECONCILIATION: {
@@ -61,24 +67,54 @@ function fixture(t: test.TestContext) {
     },
   };
   const sourceUrl = 'https://pretalx.com/api/events/pyconhk2026/schedules/latest/';
-  const metadata = { title: '', timezone: 'Asia/Hong_Kong', startDate: '2026-10-04', endDate: '2026-10-04' };
+  const metadata = {
+    title: '',
+    timezone: 'Asia/Hong_Kong',
+    startDate: '2026-10-04',
+    endDate: '2026-10-04',
+  };
   const release = () => ({
-    id: 1, version: payload.schedule.version, published: '2026-10-01T00:00:00Z',
-    slots: payload.schedule.conference.days[0].rooms.Hall.map(item => ({
-      id: item.id, start: item.date,
+    id: 1,
+    version: payload.schedule.version,
+    published: '2026-10-01T00:00:00Z',
+    slots: payload.schedule.conference.days[0].rooms.Hall.map((item) => ({
+      id: item.id,
+      start: item.date,
       end: new Date(Date.parse(item.date) + 60 * 60_000).toISOString(),
-      room: {id: 1, name: 'Hall', hidden: false}, is_visible: true, slot_type: 'talk',
-      submission: { code: item.code, title: item.title, abstract: item.abstract, description: item.description,
-        state: 'confirmed', content_locale: '', track: null, submission_type: {name: ''},
-        speakers: item.persons.map((person, index) => ({ code: `speaker${index}`, name: person.name, biography: person.biography, avatar_url: '' })) },
+      room: { id: 1, name: 'Hall', hidden: false },
+      is_visible: true,
+      slot_type: 'talk',
+      submission: {
+        code: item.code,
+        title: item.title,
+        abstract: item.abstract,
+        description: item.description,
+        state: 'confirmed',
+        content_locale: '',
+        track: null,
+        submission_type: { name: '' },
+        speakers: item.persons.map((person, index) => ({
+          code: `speaker${index}`,
+          name: person.name,
+          biography: person.biography,
+          avatar_url: '',
+        })),
+      },
     })),
   });
-  const publicRelease = () => ({ ...release(), slots: release().slots.map(slot => slot.id) });
-  const baseline = normalizeProgramme(programmeApiExport(release(), {event: 'pyconhk2026', sourceUrl, ...metadata}, publicRelease()), {
-    event: 'pyconhk2026',
-    environment: 'test',
-    sourceUrl,
-  });
+  const publicRelease = () => ({ ...release(), slots: release().slots.map((slot) => slot.id) });
+  const baseline = normalizeProgramme(
+    programmeApiExport(
+      release(),
+      { event: 'pyconhk2026', sourceUrl, ...metadata },
+      publicRelease()
+    ),
+    {
+      event: 'pyconhk2026',
+      environment: 'test',
+      sourceUrl,
+    }
+  );
   const tree = {
     tree: [
       {
@@ -108,6 +144,19 @@ function fixture(t: test.TestContext) {
   const dispatches: { url: string; body: unknown }[] = [];
   globalThis.fetch = async (url, options) => {
     const href = String(url);
+    if (href === 'https://api.github.com/app/installations/123/access_tokens')
+      return Response.json(
+        {
+          token: 'fixture',
+          expires_at: new Date(Date.now() + 3_600_000).toISOString(),
+          permissions: { actions: 'write', contents: 'read', metadata: 'read' },
+          repositories: [
+            { full_name: 'pyconhk/pyconhk-website' },
+            { full_name: 'pyconhk/pyconhk-news' },
+          ],
+        },
+        { status: 201 }
+      );
     if (options?.method === 'POST') {
       assert.ok(persisted.pending, 'dispatch must follow durable reservation');
       dispatches.push({ url: href, body: JSON.parse(String(options.body)) });
@@ -147,8 +196,17 @@ function fixture(t: test.TestContext) {
     if (href.includes('/git/trees/')) return Response.json(tree);
     if (href.includes('/deployment-manifest.json')) return Response.json(deployed);
     if (href.includes('/programme-snapshot.json')) return Response.json(baseline);
-    if (href.includes('/schedules/latest/')) return Response.json(href.includes('expand=') ? release() : publicRelease());
-    if (href.endsWith('/api/events/pyconhk2026/')) return Response.json({slug: 'pyconhk2026', is_public: true, name: '', timezone: metadata.timezone, date_from: metadata.startDate, date_to: metadata.endDate});
+    if (href.includes('/schedules/latest/'))
+      return Response.json(href.includes('expand=') ? release() : publicRelease());
+    if (href.endsWith('/api/events/pyconhk2026/'))
+      return Response.json({
+        slug: 'pyconhk2026',
+        is_public: true,
+        name: '',
+        timezone: metadata.timezone,
+        date_from: metadata.startDate,
+        date_to: metadata.endDate,
+      });
     throw new Error(`Unexpected test request ${href}`);
   };
   const instance = new ContentReconciliation({ storage }, env);
@@ -376,12 +434,62 @@ test('confirmed website dispatch rejection permits the same authenticated callba
   const f = fixture(t);
   const acceptedFetch = globalThis.fetch;
   globalThis.fetch = async (url, options) =>
-    options?.method === 'POST' ? new Response(null, { status: 403 }) : acceptedFetch(url, options);
+    options?.method === 'POST' && String(url).includes('/repos/')
+      ? new Response(null, { status: 403 })
+      : acceptedFetch(url, options);
   assert.equal((await f.callback('news-456')).status, 503);
   assert.equal(f.state().pending?.websiteDispatched, false);
   globalThis.fetch = acceptedFetch;
   assert.equal((await f.callback('news-456')).status, 200);
   assert.equal(f.dispatches.length, 1);
+});
+
+test('repository requests use installation tokens and cannot target an unrelated repository', async (t) => {
+  const f = fixture(t);
+  const acceptedFetch = globalThis.fetch;
+  globalThis.fetch = async (url, options) => {
+    if (String(url).includes('/repos/'))
+      assert.equal(new Headers(options?.headers).get('Authorization'), 'Bearer fixture');
+    return acceptedFetch(url, options);
+  };
+  await github(f.env, 'pyconhk-news', 'git/trees/main?recursive=1');
+  await assert.rejects(
+    github(f.env, 'unrelated-repo', 'git/trees/main'),
+    /Invalid reconciliation repository/u
+  );
+});
+
+test('repository authentication rejection renews the installation token on the next request', async (t) => {
+  const f = fixture(t);
+  const acceptedFetch = globalThis.fetch;
+  let issued = 0;
+  let reject = true;
+  globalThis.fetch = async (url, options) => {
+    const href = String(url);
+    if (href.includes('/access_tokens')) issued++;
+    if (href.includes('/repos/') && reject) {
+      reject = false;
+      return new Response(null, { status: 401 });
+    }
+    return acceptedFetch(url, options);
+  };
+  await assert.rejects(github(f.env, 'pyconhk-news', 'git/trees/main?recursive=1'), /failed: 401/u);
+  await github(f.env, 'pyconhk-news', 'git/trees/main?recursive=1');
+  assert.equal(issued, 2);
+});
+
+test('App issuance failure before dispatch allows an authenticated callback to retry', async (t) => {
+  const f = fixture(t);
+  f.changeCMS();
+  await f.check();
+  const id = f.state().pending?.id;
+  assert.ok(id);
+  f.env.GITHUB_APP_PRIVATE_KEY = 'invalid-key';
+  assert.equal((await f.callback(id)).status, 503);
+  assert.equal(f.dispatches.length, 1);
+  f.env.GITHUB_APP_PRIVATE_KEY = appKey;
+  assert.equal((await f.callback(id)).status, 200);
+  assert.equal(f.dispatches.length, 2);
 });
 
 test('disabled Worker performs no scheduled checks before credentials are approved', async (t) => {
@@ -418,7 +526,6 @@ test('a later no-op workflow cannot acknowledge an earlier failed uploaded versi
   assert.equal(f.dispatches.length, 1);
   assert.equal(f.state().repairCompletion, true);
 });
-
 
 test('test event migration ignores an old sample baseline and dispatches published2026 content', async (t) => {
   const f = fixture(t);
