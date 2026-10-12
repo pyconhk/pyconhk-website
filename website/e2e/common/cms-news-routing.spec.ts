@@ -13,21 +13,32 @@ const siteOrigin = new URL(process.env.PUBLIC_SITE_URL || 'https://pycon.hk').or
 const execFileAsync = promisify(execFile);
 const websiteRoot = fileURLToPath(new URL('../..', import.meta.url));
 
-const fixturePost = `---
-title: Future-Year CMS Fixture
+const fixtureImage = '/2025/landing-pages/open-graph.webp';
+const fixtureVariants = [
+  ['en', '', 'September 30, 2026'],
+  ['zh-hk', '  picture: null\n', '2026年9月30日'],
+  ['zh-hant', '  picture: ""\n', '2026年9月30日'],
+  ['zh-hans', '  picture: "   "\n', '2026年9月30日'],
+  ['ja', `  picture: ${fixtureImage}\n`, '2026年9月30日'],
+  ['ko', `  picture: "  ${fixtureImage}  "\n`, '2026년 9월 30일'],
+] as const;
+
+function fixturePost(locale: string, picture = ''): string {
+  return `---
+title: Future-Year CMS Fixture (${locale})
 slug: cms-route-fixture
 status: published
 publishedAt: 2026-09-30T00:43:00.000+08:00
-description: A synthetic CMS post for year-owned routing coverage.
-coverImage: /2025/landing-pages/open-graph.webp
+description: ${locale === 'zh-hk' ? 'null' : 'A synthetic CMS post for year-owned routing coverage.'}
+coverImage: ${fixtureImage}
 author:
   name: PyCon HK
-tags:
-  - announcement
+${picture}${locale === 'zh-hk' ? 'tags: null' : 'tags:\n  - announcement'}
 ---
 
-This future-year CMS post should build under its own localized year route.
+This future-year CMS post (${locale}) should build under its own localized year route.
 `;
+}
 
 async function copyBuildInput(targetRoot: string): Promise<void> {
   for (const fileName of [
@@ -57,10 +68,14 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
   for (const fileName of ['package.json', 'bun.lock']) {
     await cp(path.join(repositoryRoot, fileName), path.join(fixtureRoot, fileName));
   }
-  await mkdir(path.join(fixtureRoot, 'cms'));
+  await mkdir(path.join(fixtureRoot, 'cms/src/lib'), { recursive: true });
   await cp(
     path.join(repositoryRoot, 'cms/package.json'),
     path.join(fixtureRoot, 'cms/package.json')
+  );
+  await cp(
+    path.join(repositoryRoot, 'cms/src/lib/news-frontmatter.ts'),
+    path.join(fixtureRoot, 'cms/src/lib/news-frontmatter.ts')
   );
   for (const [source, destination] of [
     [path.join(repositoryRoot, 'node_modules'), path.join(fixtureRoot, 'node_modules')],
@@ -103,15 +118,15 @@ async function buildFixtureSite(): Promise<string> {
       '2026-posts'
     );
     await mkdir(futurePostDirectory, { recursive: true });
-    for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
+    for (const [locale, picture] of fixtureVariants) {
       await writeFile(
         path.join(futurePostDirectory, `cms-route-fixture.${locale}.mdx`),
-        fixturePost
+        fixturePost(locale, picture)
       );
     }
     await writeFile(
       path.join(futurePostDirectory, 'incomplete-fixture.en.mdx'),
-      fixturePost.replaceAll('cms-route-fixture', 'incomplete-fixture')
+      fixturePost('en').replaceAll('cms-route-fixture', 'incomplete-fixture')
     );
 
     await execFileAsync('bun', ['run', 'build'], {
@@ -136,21 +151,13 @@ async function buildFixtureSite(): Promise<string> {
 }
 
 test.describe('CMS news routing', () => {
-  test('builds year-owned localized routes and sitemap entries for CMS post years', async () => {
+  test('builds all localized CMS routes with optional avatars and year-owned sitemap entries', async () => {
     test.setTimeout(240_000);
 
     const tempRoot = await buildFixtureSite();
 
     try {
       const distRoot = path.join(tempRoot, 'website', 'dist');
-      const futurePostHtml = await readFile(
-        path.join(distRoot, '2026', 'en', 'news', 'cms-route-fixture.html'),
-        'utf8'
-      );
-      const futureKoreanHtml = await readFile(
-        path.join(distRoot, '2026', 'ko', 'news', 'cms-route-fixture.html'),
-        'utf8'
-      );
       const existingDefaultHtml = await readFile(
         path.join(distRoot, '2025', 'news', 'pre-event-notice.html'),
         'utf8'
@@ -158,45 +165,37 @@ test.describe('CMS news routing', () => {
       const redirects = await readFile(path.join(distRoot, '_redirects'), 'utf8');
       const sitemapXml = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
 
-      expect(futurePostHtml).toContain('Future-Year CMS Fixture');
-      expect(futurePostHtml).toContain('datetime="2026-09-29T16:43:00.000Z"');
-      expect(futurePostHtml).toContain(
-        'This future-year CMS post should build under its own localized year route.'
-      );
-      expect(futureKoreanHtml).toContain('Future-Year CMS Fixture');
-      expect(futureKoreanHtml).toContain('datetime="2026-09-29T16:43:00.000Z"');
-      expect(futureKoreanHtml).toContain('뉴스로 돌아가기');
-      for (const [locale, dateLabel] of [
-        ['en', 'September 30, 2026'],
-        ['zh-hk', '2026年9月30日'],
-        ['zh-hant', '2026年9月30日'],
-        ['zh-hans', '2026年9月30日'],
-      ]) {
+      for (const [locale, , dateLabel] of fixtureVariants) {
         for (const route of [
           `2026/${locale}/news/cms-route-fixture.html`,
           `2026/${locale}/news.html`,
         ]) {
           const html = await readFile(path.join(distRoot, route), 'utf8');
+          expect(html).toContain(`Future-Year CMS Fixture (${locale})`);
           expect(html).toContain(
             `<time datetime="2026-09-29T16:43:00.000Z">${dateLabel}</time>`
           );
+          if (route.endsWith('cms-route-fixture.html')) {
+            expect(html).toContain(
+              `This future-year CMS post (${locale}) should build under its own localized year route.`
+            );
+          } else if (locale === 'zh-hk') {
+            expect(html).toContain('should build under its own localized year route.');
+          }
+          if (locale === 'ko' && route.endsWith('cms-route-fixture.html')) {
+            expect(html).toContain('뉴스로 돌아가기');
+          }
+          expect(html).not.toContain('Register for your Ticket NOW!');
         }
+        await expect(
+          readFile(path.join(distRoot, `2026/${locale}/news/incomplete-fixture.html`))
+        ).rejects.toThrow();
+        expect(sitemapXml).toContain(
+          `<loc>${siteOrigin}/2026/${locale}/news/cms-route-fixture</loc>`
+        );
       }
-      expect(futurePostHtml).not.toContain('Register for your Ticket NOW!');
-      await expect(
-        readFile(path.join(distRoot, '2026/en/news/incomplete-fixture.html'))
-      ).rejects.toThrow();
       expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(redirects).toMatch(/^\/news\/\* \/2025\/news\/:splat 308$/mu);
-      expect(sitemapXml).toContain(
-        `<loc>${siteOrigin}/2026/en/news/cms-route-fixture</loc>`
-      );
-      expect(sitemapXml).toContain(
-        `<loc>${siteOrigin}/2026/zh-hk/news/cms-route-fixture</loc>`
-      );
-      expect(sitemapXml).toContain(
-        `<loc>${siteOrigin}/2026/ko/news/cms-route-fixture</loc>`
-      );
       expect(sitemapXml).not.toContain('incomplete-fixture');
       expect(sitemapXml).not.toContain('/2025/ko/');
       expect(sitemapXml).toContain(
