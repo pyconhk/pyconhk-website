@@ -141,7 +141,7 @@ function createPostCollection(
           }
         : true,
     extension: "mdx",
-    format: "frontmatter",
+    format: "news-frontmatter",
     identifier_field: "slug",
     slug: "{{slug}}",
     summary: "{{title}}",

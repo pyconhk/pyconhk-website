@@ -19,6 +19,7 @@ export function isDeploymentInput(app: App, filename: string) {
   if (app === "cms" && filename === ".github/deploy/cms.ts") return true;
   if (app === "cms" && filename === ".github/workflows/deploy-cms.yml") return true;
   if (app === "website" && filename === ".github/deploy/website.ts") return true;
+  if (app === "website" && filename === "cms/src/lib/news-frontmatter.ts") return true;
   if (app === "website" && filename === ".github/workflows/deploy-website-reusable.yml") return true;
   return filename.startsWith(`${app}/`) && !/^.+\/(biome\.json|playwright\.config\.ts|worker-configuration\.d\.ts)$/.test(filename);
 }

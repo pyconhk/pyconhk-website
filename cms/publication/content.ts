@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
+import { normalizeNewsFrontmatter } from "../src/lib/news-frontmatter.ts";
 
 export const archiveCmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
 export const cmsLocales = [...archiveCmsLocales, "ko"];
@@ -15,33 +16,9 @@ const contentRoot = "website/outstatic/content";
 const newsContentFile = /^website\/outstatic\/content\/(?:2025|2026)-posts\/[^/]+\.mdx$/u;
 const rasterImagePath = /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/iu;
 
-function validateNewsFrontmatterTypes(data) {
-  for (const field of ["title", "slug", "publishedAt", "description", "coverImage"]) {
-    if (field in data && typeof data[field] !== "string") {
-      throw new Error(`${field} must be a string`);
-    }
-  }
-
+function validateNewsCoverImage(data) {
   if (data.coverImage && !rasterImagePath.test(data.coverImage)) {
     throw new Error("coverImage must use a raster image (AVIF, GIF, JPEG, PNG or WebP)");
-  }
-
-  if (
-    "tags" in data &&
-    (!Array.isArray(data.tags) || data.tags.some((tag) => typeof tag !== "string"))
-  ) {
-    throw new Error("tags must be a list of strings");
-  }
-
-  if ("author" in data) {
-    if (!data.author || typeof data.author !== "object" || Array.isArray(data.author)) {
-      throw new Error("author must be an object");
-    }
-    for (const field of ["name", "picture"]) {
-      if (field in data.author && typeof data.author[field] !== "string") {
-        throw new Error(`author.${field} must be a string`);
-      }
-    }
   }
 }
 
@@ -106,17 +83,20 @@ export function collectCmsLocaleProblems(files, readContent) {
       const frontmatter =
         /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/u.exec(raw);
       if (!frontmatter) throw new Error("missing YAML frontmatter");
-      const data = parse(frontmatter[1]);
+      let data = parse(frontmatter[1]);
       if (!data || !["draft", "published"].includes(data.status)) {
         throw new Error("status must be draft or published");
       }
-      validateNewsFrontmatterTypes(data);
       const group = entries.get(entry) || {
         requiredLocales,
         variants: new Map(),
       };
       group.variants.set(locale, data);
       entries.set(entry, group);
+      // A malformed field does not mean the saved translation is missing.
+      data = normalizeNewsFrontmatter(data);
+      validateNewsCoverImage(data);
+      group.variants.set(locale, data);
       if (data.status === "published") {
         if (typeof data.title !== "string" || !data.title.trim()) {
           problems.push(`${file} needs a title before publishing`);

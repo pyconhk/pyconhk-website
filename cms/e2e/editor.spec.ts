@@ -1,4 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { parse } from "yaml";
+import {
+  cmsLocales,
+  collectCmsLocaleProblems,
+} from "../publication/content.ts";
 
 // The bundled Decap test backend stores this scenario in the browser only.
 // Hosted runs exercise read-only Worker endpoints; editing stays local.
@@ -120,6 +125,84 @@ test("direct saves allow partial drafts, block incomplete publication and preser
     page.getByText("Entry saved", { exact: true }).last(),
   ).toBeVisible();
   await expect(page.getByText("Changes saved", { exact: true })).toBeVisible();
+
+  const configResponse = await page.request.get(
+    "/admin/config.yml?backend=test",
+  );
+  expect(configResponse.ok()).toBe(true);
+  const config = parse(await configResponse.text()) as {
+    collections: { name: string; folder: string }[];
+  };
+  const collection = config.collections.find(({ name }) =>
+    ["posts", "posts_test"].includes(name),
+  );
+  if (!collection) throw new Error("The local CMS must configure 2026 News");
+  const savedFiles = await page.evaluate(
+    ({ folder, locales }) =>
+      Object.fromEntries(
+        locales.map((locale) => {
+          const file = `${folder}/e2e-volunteer-announcement.${locale}.mdx`;
+          let stored: unknown = Reflect.get(window, "repoFiles");
+          for (const segment of file.split("/")) {
+            if (!stored || typeof stored !== "object") {
+              throw new Error(`The test backend did not save ${file}`);
+            }
+            stored = Reflect.get(stored, segment);
+          }
+          const raw =
+            stored && typeof stored === "object"
+              ? Reflect.get(stored, "content")
+              : undefined;
+          if (typeof raw !== "string") {
+            throw new Error(`The test backend did not save MDX for ${file}`);
+          }
+          return [file, raw];
+        }),
+      ),
+    { folder: collection.folder, locales: cmsLocales },
+  );
+  expect(
+    collectCmsLocaleProblems(
+      Object.keys(savedFiles),
+      (file) => savedFiles[file],
+    ),
+  ).toEqual([]);
+
+  const publishedData = cmsLocales.map((locale) => {
+    const file = `${collection.folder}/e2e-volunteer-announcement.${locale}.mdx`;
+    const frontmatter =
+      /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/u.exec(
+        savedFiles[file],
+      );
+    if (!frontmatter) throw new Error(`${file} must contain YAML frontmatter`);
+    const data = parse(frontmatter[1]);
+    expect(data).toMatchObject({
+      title:
+        locale === "en"
+          ? "E2E volunteer announcement"
+          : `Announcement ${locale}`,
+      slug: "e2e-volunteer-announcement",
+      status: "published",
+      description: "An E2E announcement for the local test backend.",
+      tags: ["announcement"],
+      author: { name: "PyCon HK" },
+    });
+    expect(data.author).not.toHaveProperty("picture");
+    expect(frontmatter[2].trim()).toBe(
+      locale === "en"
+        ? "This is the English announcement body."
+        : `Announcement body ${locale}.`,
+    );
+    return data;
+  });
+  expect(publishedData[0].publishedAt).toEqual(expect.any(String));
+  expect(Number.isNaN(Date.parse(publishedData[0].publishedAt))).toBe(false);
+  expect(publishedData[0].coverImage).toMatch(/^\/outstatic\/images\/.+/u);
+  for (const data of publishedData) {
+    for (const field of ["slug", "publishedAt", "coverImage"]) {
+      expect(data[field]).toBe(publishedData[0][field]);
+    }
+  }
 
   await page
     .getByRole("link", { name: /Writing in 2026 News collection/ })
