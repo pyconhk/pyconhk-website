@@ -29,6 +29,35 @@ test("an incomplete draft may omit optional fields", () => {
   assert.deepEqual(problems, []);
 });
 
+for (const value of [undefined, null, "", "   "]) {
+  test(`draft optional strings accept ${JSON.stringify(value) ?? "absence"}`, () => {
+    const file = contentFile("en");
+    assert.deepEqual(
+      collectCmsLocaleProblems([file], () =>
+        asMdx({
+          status: "draft",
+          title: value,
+          description: value,
+          publishedAt: value,
+          coverImage: value,
+          author: { name: "PyCon HK", picture: value },
+        }),
+      ),
+      [],
+    );
+  });
+}
+
+for (const tags of [undefined, null, [], ["announcement"]]) {
+  test(`optional tags accept ${JSON.stringify(tags) ?? "absence"}`, () => {
+    const files = cmsLocales.map(contentFile);
+    assert.deepEqual(
+      collectCmsLocaleProblems(files, () => asMdx({ ...validPost, tags })),
+      [],
+    );
+  });
+}
+
 for (const [field, value, expected] of [
   ["title", ["wrong"], /title must be a string/u],
   ["slug", ["wrong"], /slug must be a string/u],
@@ -41,6 +70,9 @@ for (const [field, value, expected] of [
   ["author", "PyCon HK", /author must be an object/u],
   ["author", { name: ["wrong"] }, /author.name must be a string/u],
   ["author", { picture: 42 }, /author.picture must be a string/u],
+  ["slug", null, /slug must be a string/u],
+  ["author", null, /author must be an object/u],
+  ["author", { name: null }, /author.name must be a string/u],
 ]) {
   test(`rejects malformed ${field} before Astro reads a draft`, () => {
     const file = contentFile("en");

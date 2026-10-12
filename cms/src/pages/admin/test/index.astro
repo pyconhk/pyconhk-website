@@ -20,7 +20,9 @@ export const prerender = true;
     <script>
       import CMS from "decap-cms-app";
       import { validateEditorialPublish } from "../../../lib/editor-validation";
+      import { newsFrontmatterFormat } from "../../../lib/news-format";
 
+      CMS.registerCustomFormat("news-frontmatter", "mdx", newsFrontmatterFormat);
       CMS.registerEventListener({ name: "preSave", handler: ({ entry }) => { validateEditorialPublish(entry.toJS()); } });
       CMS.init();
     </script>

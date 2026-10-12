@@ -4,7 +4,13 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { deploymentSourceHash } from "./source.ts";
+import { deploymentSourceHash, isDeploymentInput } from "./source.ts";
+
+test("shared News normalization invalidates both consuming apps", () => {
+  assert.equal(isDeploymentInput("website", "cms/src/lib/news-frontmatter.ts"), true);
+  assert.equal(isDeploymentInput("cms", "cms/src/lib/news-frontmatter.ts"), true);
+  assert.equal(isDeploymentInput("website", "cms/src/lib/news-format.ts"), false);
+});
 
 function cmsFixture(t: { after: (fn: () => void) => void }) {
   const root = mkdtempSync(path.join(tmpdir(), "pycon-cms-hash-"));

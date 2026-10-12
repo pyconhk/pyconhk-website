@@ -16,6 +16,7 @@ import {
   parseLocalizedContentFilename,
 } from '@/lib/localized-content';
 import { defaultPublishedAt, normalizePublishedAt } from '@/lib/news-date';
+import { normalizeNewsFrontmatter } from '../../../cms/src/lib/news-frontmatter';
 
 type PostStatus = 'draft' | 'published';
 
@@ -244,7 +245,20 @@ async function loadVariantsFromDirectory(
       const absolutePath = path.join(directoryPath, entry.name);
       const source = await fs.readFile(absolutePath, 'utf8');
       const parsedSource = matter(source);
-      const frontmatter = parsedSource.data as RawPostFrontmatter;
+      // gray-matter parses unquoted YAML dates as Date objects; the shared
+      // CMS boundary expects their serialized string representation.
+      const data = parsedSource.data;
+      let frontmatter: RawPostFrontmatter;
+      try {
+        frontmatter = normalizeNewsFrontmatter({
+          ...data,
+          ...(data.publishedAt instanceof Date
+            ? { publishedAt: data.publishedAt.toISOString() }
+            : {}),
+        }) as RawPostFrontmatter;
+      } catch (error) {
+        throw new Error(`${absolutePath}: ${(error as Error).message}`);
+      }
       const locale = parsedFilename.locale;
       if (!getLocalesForYear(collectionYear).some(({ code }) => code === locale)) {
         return [];
