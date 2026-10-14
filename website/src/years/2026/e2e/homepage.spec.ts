@@ -113,6 +113,7 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       'home',
       'news',
       'featured-speakers',
+      'supporting-organizations',
       'participate',
     ]);
     const news = page.locator('#news');
