@@ -3,6 +3,7 @@ import { setTheme } from './theme';
 
 const sponsorships = [
   ['databricks', 'Gold', 'Databricks', 'https://www.databricks.com/'],
+  ['redhat', 'Gold', 'Red Hat', 'https://www.redhat.com/en'],
   ['navicat', 'Silver', 'Navicat', 'https://www.navicat.com/'],
   ['calomei-bronze', 'Bronze', 'CaLoMei Studio', 'https://www.calomei.com/'],
   ['jetbrains', 'Prize Sponsor', 'JetBrains', 'https://www.jetbrains.com/'],
