@@ -4,6 +4,7 @@ import HomeHero from '@/years/2026/components/home/HomeHero.astro';
 import JoinUsSection from '@/years/2026/components/home/JoinUsSection.astro';
 import NewsTeaser from '@/years/2026/components/home/NewsTeaser.astro';
 import SponsorsSection from '@/years/2026/components/home/SponsorsSection.astro';
+import SupportingOrganizationsSection from '@/years/2026/components/home/SupportingOrganizationsSection.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -25,5 +26,6 @@ const t = getTranslations(locale);
   <NewsTeaser locale={locale} />
   <SponsorsSection locale={locale} />
   <FeaturedSpeakers locale={locale} />
+  <SupportingOrganizationsSection locale={locale} />
   <JoinUsSection locale={locale} />
 </ConferenceLayout>
