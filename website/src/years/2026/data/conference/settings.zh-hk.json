@@ -53,6 +53,14 @@
         "description": ""
       },
       {
+        "id": "redhat",
+        "name": "Red Hat",
+        "tier": "Gold",
+        "logo": "/2026/sponsors/redhat.svg",
+        "url": "https://www.redhat.com/en",
+        "description": ""
+      },
+      {
         "id": "navicat",
         "name": "Navicat",
         "tier": "Silver",

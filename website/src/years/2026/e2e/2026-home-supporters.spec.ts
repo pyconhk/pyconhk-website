@@ -42,6 +42,7 @@ for (const locale of locales) {
 }
 
 for (const [width, columns] of [
+  [320, 2],
   [390, 2],
   [768, 3],
   [1440, 5],
@@ -59,6 +60,13 @@ for (const [width, columns] of [
         (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length
       );
       expect(columnCount).toBe(columns);
+      const images = section.locator('[data-home-supporter] img');
+      await expect(images).toHaveCount(20);
+      for (const image of await images.all()) {
+        await image.scrollIntoViewIfNeeded();
+        await image.evaluate((element: HTMLImageElement) => element.decode());
+        await expect(image).toHaveCSS('filter', 'none');
+      }
       const logoBounds = await section
         .locator('[data-logo-frame]')
         .evaluateAll((frames) =>
@@ -67,13 +75,16 @@ for (const [width, columns] of [
             if (!plate) throw new Error('Logo plate missing');
             const imageBounds = frame.getBoundingClientRect();
             const plateBounds = plate.getBoundingClientRect();
+            const plateStyle = getComputedStyle(plate);
             return {
               name: plate.getAttribute('aria-label'),
               contained:
                 imageBounds.left >= plateBounds.left &&
-                imageBounds.top >= plateBounds.top &&
+                imageBounds.top >=
+                  plateBounds.top + Number.parseFloat(plateStyle.paddingTop) &&
                 imageBounds.right <= plateBounds.right &&
-                imageBounds.bottom <= plateBounds.bottom,
+                imageBounds.bottom <=
+                  plateBounds.bottom - Number.parseFloat(plateStyle.paddingBottom),
             };
           })
         );
@@ -81,15 +92,6 @@ for (const [width, columns] of [
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
       ).toBe(true);
-      const first = section.locator('[data-home-supporter]').first();
-      await first.locator('img').scrollIntoViewIfNeeded();
-      await first.locator('img').evaluate((image: HTMLImageElement) => image.decode());
-      await expect(first.locator('img')).toHaveCSS('filter', 'none');
-      expect(
-        await first
-          .locator('img')
-          .evaluate((image: HTMLImageElement) => image.naturalWidth)
-      ).toBeGreaterThan(0);
     }
   });
 }
