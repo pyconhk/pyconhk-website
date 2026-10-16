@@ -11,7 +11,7 @@ for (const locale of locales) {
     const section = page.locator('[data-home-supporters]');
     await expect(section).toBeVisible();
     const logos = section.locator('[data-home-supporter]');
-    await expect(logos).toHaveCount(20);
+    await expect(logos).toHaveCount(21);
     const homeItems = await logos.evaluateAll((elements) =>
       elements.map((element) => ({
         href: element.getAttribute('href'),
@@ -61,7 +61,7 @@ for (const [width, columns] of [
       );
       expect(columnCount).toBe(columns);
       const images = section.locator('[data-home-supporter] img');
-      await expect(images).toHaveCount(20);
+      await expect(images).toHaveCount(21);
       for (const image of await images.all()) {
         await image.scrollIntoViewIfNeeded();
         await image.evaluate((element: HTMLImageElement) => element.decode());

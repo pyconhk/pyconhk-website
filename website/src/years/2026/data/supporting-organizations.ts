@@ -413,6 +413,32 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
     },
   },
   {
+    slug: 'pyladies-kuala-lumpur',
+    name: {
+      en: 'PyLadies Kuala Lumpur',
+      'zh-hk': 'PyLadies Kuala Lumpur',
+      'zh-hant': 'PyLadies Kuala Lumpur',
+      'zh-hans': 'PyLadies Kuala Lumpur',
+      ja: 'PyLadies Kuala Lumpur',
+      ko: 'PyLadies Kuala Lumpur',
+    },
+    nameLines: ['PyLadies Kuala Lumpur'],
+    imagePath: '/2026/supporting-organizations/pyladies_kl.svg',
+    logoAlt: 'PyLadies Kuala Lumpur Logo',
+    url: 'https://kl.pyladies.com/',
+    summary: {
+      en: 'Kuala Lumpur chapter of PyLadies connecting female Python developers through meetups, workshops, and collaborative events.',
+      'zh-hk':
+        'PyLadies 吉隆坡分會，透過聚會、工作坊同合作活動，為女性 Python 開發者提供交流同學習平台。',
+      'zh-hant':
+        'PyLadies 吉隆坡分會，透過聚會、工作坊與合作活動，為女性 Python 開發者提供交流與學習平台。',
+      'zh-hans':
+        'PyLadies 吉隆坡分会，通过聚会、工作坊与合作活动，为女性 Python 开发者提供交流与学习平台。',
+      ja: 'マレーシアの女性 Python 開発者を支援し、ミートアップやワークショップを開催する PyLadies クアラルンプール支部。',
+      ko: '밋업과 워크숍을 통해 말레이시아 여성 파이썬 개발자들의 성장과 교류를 돕는 파이레이디스 쿠알라룸푸르 지부.',
+    },
+  },
+  {
     slug: 'pyladies-seoul',
     name: {
       en: 'PyLadies Seoul / Korea',
