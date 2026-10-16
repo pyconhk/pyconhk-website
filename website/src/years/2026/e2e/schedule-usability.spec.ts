@@ -355,9 +355,9 @@ test.describe('touch star controls', () => {
 
 const localizedSessionLanguages: Record<string, Record<string, string>> = {
   en: { en: 'English', 'zh-hant': 'Cantonese' },
-  'zh-hk': { en: '英文', 'zh-hant': '中文' },
-  'zh-hant': { en: '英文', 'zh-hant': '中文' },
-  'zh-hans': { en: '英文', 'zh-hant': '中文' },
+  'zh-hk': { en: '英文', 'zh-hant': '廣東話' },
+  'zh-hant': { en: '英文', 'zh-hant': '粵語' },
+  'zh-hans': { en: '英文', 'zh-hant': '粤语' },
   ja: { en: '英語', 'zh-hant': '広東語' },
   ko: { en: '영어', 'zh-hant': '광둥어' },
 };
