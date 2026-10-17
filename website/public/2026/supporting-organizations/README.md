@@ -25,7 +25,7 @@ Sources refreshed in September 2026:
 | `hku-csa.png` | [2026 organizer-supplied original](https://drive.google.com/file/d/1NpYRPcc2ByNIRC0RoxV42Sk9T5etb8ns/view) | 2400 × 2200, transparent PNG |
 | `cityu-cssc.png` | [2026 chapter-supplied original](https://drive.google.com/file/d/1Q7Sk4IU12_5kcc3M1jJNMtK1MsEt-as5/view) | Original transparent PNG |
 | `psf.webp` | [2026 supplied original](https://drive.google.com/file/d/1-_TKwbFSbxLzL7ZkKTpGuT-ravCfV3Z3/view) | 1000 × 1000, edge-connected white background removed |
-| `pyladies_kl.svg` | Supplied chapter artwork | 800 × 800 |
+| `pyladies_kl.svg` | Supplied chapter artwork | 800 × 800, original opaque red-background composition retained |
 
 HKU CSA's supplied white artwork uses a black display plate in both themes.
 CityU CSSC and the Python Software Foundation use the names, descriptions, and
