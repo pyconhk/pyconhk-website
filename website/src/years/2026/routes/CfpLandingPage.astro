@@ -7,8 +7,8 @@ import {
   contentByLocale,
   editProposalUrl,
   sponsorshipUrl,
+  submitProposalUrl,
 } from '@/years/2026/data/cfp';
-import { contentUi } from '@/years/2026/data/content-ui';
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 
 interface Props {
@@ -18,26 +18,80 @@ interface Props {
 const { locale } = Astro.props;
 const original = contentByLocale[locale];
 const content = getConferenceContent(locale);
-const closedCopy = {
-  en: { title: 'Call for proposals closed', body: 'The call for proposals has closed. Existing submitters can still view their proposals.', view: 'View your proposals', formats: 'Proposal formats' },
-  'zh-hk': { title: '提案徵集已截止', body: '提案徵集已經截止。如果你之前交咗提案，仲可以登入睇返。', view: '睇返已提交嘅提案', formats: '提案形式' },
-  'zh-hant': { title: '提案徵集已截止', body: '提案徵集已截止。已提交提案的講者仍可查看提案。', view: '查看已提交提案', formats: '提案形式' },
-  'zh-hans': { title: '提案征集已截止', body: '提案征集已截止。已提交提案的讲者仍可查看提案。', view: '查看已提交提案', formats: '提案形式' },
-  ja: { title: 'プロポーザル募集は終了しました', body: 'プロポーザルの募集は終了しました。提出済みのプロポーザルは引き続き確認できます。', view: '提出済みのプロポーザルを見る', formats: 'プロポーザルの形式' },
-  ko: { title: '발표 제안 모집 마감', body: '발표 제안 모집이 마감되었습니다. 이미 제출한 제안은 계속 확인할 수 있습니다.', view: '제출한 제안 보기', formats: '제안 형식' },
+const stageCopy = {
+  en: {
+    title: 'Poster & Sprint proposals remain open',
+    body: 'Only Poster and Sprint proposals are still open. Talk (30 min), Short Talk (15 min) and Lightning Talk (5 min) submissions have closed. Existing submitters can still view their proposals.',
+    submit: 'Submit a Poster or Sprint proposal',
+    view: 'View your proposals',
+    formats: 'Open proposal formats',
+    posterDeadline: 'Poster proposal deadline',
+    sprintDeadline: 'Sprint proposal deadline',
+    sprintDay: 'Development Sprint',
+  },
+  'zh-hk': {
+    title: 'Poster 同 Sprint 提案仍然開放',
+    body: '目前只接受 Poster 同 Sprint 提案。Talk（30 分鐘）、Short Talk（15 分鐘）同 Lightning Talk（5 分鐘）已經截止。之前提交咗嘅提案仲可以登入睇返。',
+    submit: '提交 Poster 或 Sprint 提案',
+    view: '睇返已提交嘅提案',
+    formats: '仍然開放嘅提案形式',
+    posterDeadline: 'Poster 提案截止',
+    sprintDeadline: 'Sprint 提案截止',
+    sprintDay: '衝刺開發日',
+  },
+  'zh-hant': {
+    title: 'Poster 與 Sprint 提案仍開放',
+    body: '目前只接受 Poster 與 Sprint 提案。Talk（30 分鐘）、Short Talk（15 分鐘）與 Lightning Talk（5 分鐘）的徵集已截止；已提交的提案仍可登入查看。',
+    submit: '提交 Poster 或 Sprint 提案',
+    view: '查看已提交提案',
+    formats: '仍開放的提案形式',
+    posterDeadline: 'Poster 提案截止',
+    sprintDeadline: 'Sprint 提案截止',
+    sprintDay: '衝刺開發日',
+  },
+  'zh-hans': {
+    title: 'Poster 与 Sprint 提案仍开放',
+    body: '目前仅接受 Poster 与 Sprint 提案。Talk（30 分钟）、Short Talk（15 分钟）与 Lightning Talk（5 分钟）的征集已截止；已提交的提案仍可登录查看。',
+    submit: '提交 Poster 或 Sprint 提案',
+    view: '查看已提交提案',
+    formats: '仍开放的提案形式',
+    posterDeadline: 'Poster 提案截止',
+    sprintDeadline: 'Sprint 提案截止',
+    sprintDay: '冲刺开发日',
+  },
+  ja: {
+    title: 'ポスター・スプリントの提案を募集中',
+    body: 'ポスターとスプリントのプロポーザルのみ引き続き募集しています。トーク（30分）、ショートトーク（15分）、ライトニングトーク（5分）の募集は終了しました。提出済みのプロポーザルは引き続き確認できます。',
+    submit: 'ポスター・スプリントの提案を提出',
+    view: '提出済みのプロポーザルを見る',
+    formats: '募集中のプロポーザル形式',
+    posterDeadline: 'ポスター提案の締切',
+    sprintDeadline: 'スプリント提案の締切',
+    sprintDay: '開発スプリント',
+  },
+  ko: {
+    title: '포스터·스프린트 제안 모집 중',
+    body: '포스터와 스프린트 제안만 계속 모집합니다. 토크(30분), 쇼트 토크(15분), 라이트닝 토크(5분) 모집은 마감되었습니다. 이미 제출한 제안은 계속 확인할 수 있습니다.',
+    submit: '포스터 또는 스프린트 제안 제출',
+    view: '제출한 제안 보기',
+    formats: '모집 중인 제안 형식',
+    posterDeadline: '포스터 제안 마감',
+    sprintDeadline: '스프린트 제안 마감',
+    sprintDay: '개발 스프린트',
+  },
 }[locale];
 const copy = {
   ...original,
-  metadata: { title: `${content.event.title} CFP | ${content.event.theme}`, description: closedCopy.body },
-  hero: { ...original.hero, badge: closedCopy.title, headline: content.event.theme, body: closedCopy.body },
-  cta: { ...original.cta, edit: closedCopy.view },
-  proposals: { ...original.proposals, title: closedCopy.formats },
-  keyDates: { ...original.keyDates, items: [
-    { ...original.keyDates.items[0], status: closedCopy.title, note: '' },
-    { ...original.keyDates.items[1], value: content.event.datesLabel, status: '', note: '' },
-    { ...original.keyDates.items[2], value: content.sprint.status === 'published' ? content.sprint.date : contentUi[locale].comingSoon, status: '', note: '' },
+  metadata: { title: `${content.event.title} CFP | ${content.event.theme}`, description: stageCopy.body },
+  hero: { ...original.hero, badge: stageCopy.title, headline: content.event.theme, body: stageCopy.body },
+  cta: { ...original.cta, submit: stageCopy.submit, edit: stageCopy.view },
+  proposals: { ...original.proposals, title: stageCopy.formats, types: original.proposals.types.slice(3) },
+  keyDates: { ...original.keyDates, timezone: 'Asia/Hong_Kong (HKT, UTC+8)', items: [
+    { label: stageCopy.posterDeadline, value: '2026-11-01\n23:59 HKT', status: '', note: '' },
+    { label: stageCopy.sprintDeadline, value: '2026-11-14\n23:59 HKT', status: '', note: '' },
+    { label: stageCopy.sprintDay, value: '2026-11-15', status: '', note: '' },
   ] },
-  finalCta: { fragments: content.event.theme, title: closedCopy.title, body: closedCopy.body },
+  finalCta: { fragments: content.event.theme, title: stageCopy.title, body: stageCopy.body },
 };
 
 const pagePadding = 'px-5 sm:px-8 lg:px-14 xl:px-16';
@@ -74,6 +128,7 @@ const dateCardClasses = [
     data-pagefind-body
     data-pagefind-filter="year:2026"
     data-pagefind-meta="year:2026"
+    data-cfp-stage="poster-sprint"
   >
 
 
@@ -116,7 +171,7 @@ const dateCardClasses = [
         ]}
       >
         <div class="relative mx-auto w-full max-w-[46rem] min-w-0 xl:max-w-none">
-          <div class="absolute -top-1 -left-2 z-10 inline-flex max-w-[calc(100%-3rem)] items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-2 font-mono text-sm leading-snug font-black text-center whitespace-normal sm:-left-3 lg:-left-4">
+          <div data-cfp-status class="absolute -top-1 -left-2 z-10 inline-flex max-w-[calc(100%-3rem)] items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-2 font-mono text-sm leading-snug font-black text-center whitespace-normal sm:-left-3 lg:-left-4">
             <span class="h-3 w-3 rounded-full border border-conference-outline bg-[#00a887]"></span>
             {copy.hero.badge}
           </div>
@@ -139,7 +194,7 @@ const dateCardClasses = [
               {copy.hero.body}
             </p>
             <div class="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:flex-wrap sm:justify-center xl:justify-start">
-              <span data-cfp-closed class="inline-flex rounded-xl border-2 border-conference-outline bg-conference-yellow px-5 py-3 font-bold">{closedCopy.title}</span>
+              <DoodleButton href={submitProposalUrl} label={copy.cta.submit}>{copy.cta.submit}</DoodleButton>
               <DoodleButton href={editProposalUrl} label={copy.cta.edit} variant="secondary">{copy.cta.edit}</DoodleButton>
               <DoodleButton href={sponsorshipUrl} label={copy.cta.sponsorship} variant="secondary">{copy.cta.sponsorship}</DoodleButton>
             </div>
@@ -205,6 +260,7 @@ const dateCardClasses = [
           {
             copy.keyDates.items.map((item, index) => (
               <article
+                data-cfp-date={['poster-deadline', 'sprint-deadline', 'sprint-day'][index]}
                 class:list={[
                   'min-h-48 rounded-2xl border-[3px] border-conference-outline p-6 shadow-sm lg:min-h-64 xl:p-7',
                   dateCardClasses[index],
@@ -259,9 +315,9 @@ const dateCardClasses = [
           </p>
         </div>
 
-        <div class="mt-12 grid gap-7 md:mt-16 md:grid-cols-3">
+        <div class="mt-12 grid gap-7 md:mx-auto md:mt-16 md:max-w-4xl md:grid-cols-2">
           {
-            copy.proposals.types.slice(0, 3).map((proposal, index) => {
+            copy.proposals.types.map((proposal, index) => {
               const indexColor =
                 proposal.tone === 'white' || proposal.tone === 'sky'
                   ? 'text-conference-blue'
@@ -269,6 +325,7 @@ const dateCardClasses = [
 
               return (
                 <article
+                  data-cfp-format={proposal.index === '04' ? 'poster' : 'sprint'}
                   class:list={[
                     'min-h-48 rounded-2xl border-[3px] border-conference-outline p-6 md:p-7',
                     toneClasses[proposal.tone],
@@ -290,36 +347,6 @@ const dateCardClasses = [
           }
         </div>
 
-        <div class="mt-10 grid gap-7 md:mx-auto md:max-w-4xl md:grid-cols-2">
-          {
-            copy.proposals.types.slice(3).map((proposal, index) => {
-              const indexColor =
-                proposal.tone === 'white' || proposal.tone === 'sky'
-                  ? 'text-conference-blue'
-                  : 'text-conference-red';
-
-              return (
-                <article
-                  class:list={[
-                    'min-h-48 rounded-2xl border-[3px] border-conference-outline p-6 md:p-7',
-                    toneClasses[proposal.tone],
-                    index === 0 ? 'rotate-1' : '-rotate-1',
-                  ]}
-                >
-                  <p class:list={['font-mono text-3xl font-black', indexColor]}>
-                    {proposal.index}
-                  </p>
-                  <h3 class="mt-5 break-words font-mono text-2xl leading-tight font-black">
-                    {proposal.title}
-                  </h3>
-                  <p class="mt-4 break-words text-sm leading-6 text-conference-ink md:text-base">
-                    {proposal.description}
-                  </p>
-                </article>
-              );
-            })
-          }
-        </div>
       </div>
     </section>
 
@@ -390,7 +417,7 @@ const dateCardClasses = [
           </p>
         </div>
         <div class="flex flex-col gap-4 sm:flex-row md:flex-col">
-          <span data-cfp-closed class="inline-flex rounded-xl border-2 border-conference-outline bg-conference-yellow px-5 py-3 font-bold">{closedCopy.title}</span>
+          <DoodleButton href={submitProposalUrl} label={copy.cta.submit}>{copy.cta.submit}</DoodleButton>
           <DoodleButton href={editProposalUrl} label={copy.cta.edit} variant="secondary">{copy.cta.edit}</DoodleButton>
           <DoodleButton href={sponsorshipUrl} label={copy.cta.sponsorship} variant="secondary">{copy.cta.sponsorship}</DoodleButton>
         </div>

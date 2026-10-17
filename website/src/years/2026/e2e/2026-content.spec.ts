@@ -3,9 +3,10 @@ import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
 const locales = ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko'];
-const pendingRoutes = ['sprint', 'sprint/qna'];
 
 const publishedRoutes = [
+  'sprint',
+  'sprint/qna',
   'access-guide',
   'catering-guide',
   'sponsorships',
@@ -325,18 +326,6 @@ test('conference artwork preserves transparency and supplied backgrounds', async
 });
 
 for (const locale of locales) {
-  test(`unpublished conference details show pending content in ${locale}`, async ({
-    page,
-  }) => {
-    for (const route of pendingRoutes) {
-      const response = await page.goto(`/2026/${locale}/${route}/`);
-      expect(response?.status()).toBe(200);
-      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-      await expect(page.locator('[data-content-pending]')).toBeVisible();
-      await expect(page.locator('[data-conference-content]')).toHaveCount(0);
-    }
-  });
-
   test(`complete migrated conference content remains public in ${locale}`, async ({
     page,
   }) => {
@@ -405,9 +394,7 @@ for (const width of [390, 1440]) {
     }
 
     await page.goto('/2026/zh-hk/cfp/');
-    await expect(page.locator('main')).toContainText(
-      '提案徵集已經截止。如果你之前交咗提案，仲可以登入睇返。'
-    );
+    await expect(page.locator('[data-cfp-stage="poster-sprint"]')).toBeVisible();
     await expect(
       page
         .locator('main a[href="https://cfp.pycon.hk/pyconhk2026/me/submissions/"]')
@@ -454,12 +441,13 @@ test('mobile navigation opens a real access guide route', async ({ page }) => {
   ).toBeVisible();
 });
 
-test('CFP is closed and uses the current conference theme in every locale', async ({
+test('CFP keeps Poster and Sprint open with the current theme in every locale', async ({
   page,
 }) => {
   for (const locale of locales) {
     await page.goto(`/2026/${locale}/cfp/`);
-    await expect(page.locator('[data-cfp-closed]').first()).toBeVisible();
+    await expect(page.locator('[data-cfp-stage="poster-sprint"]')).toBeVisible();
+    await expect(page.locator('[data-cfp-status]')).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       (
         {
@@ -474,7 +462,7 @@ test('CFP is closed and uses the current conference theme in every locale', asyn
     );
     await expect(
       page.locator('a[href="https://cfp.pycon.hk/pyconhk2026/cfp"]')
-    ).toHaveCount(0);
+    ).toHaveCount(2);
     await expect(
       page
         .locator('main a[href="https://cfp.pycon.hk/pyconhk2026/me/submissions/"]')

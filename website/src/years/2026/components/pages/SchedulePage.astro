@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
 import { allScheduleItems, formatProgrammeDate, isSampleProgramme, programmeSnapshot, roomColumns } from '../../data/schedule';
 import { scheduleCopy, sessionLanguageLabel } from '../../data/schedule-copy';
 import { sessionProfiles } from '../../data/speakers';
 import { getTranslations } from '../../i18n';
 import ConferenceLayout from '../../layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '../../locales';
+import SpeakerAvatar from '../content/SpeakerAvatar.astro';
 import SaveSessionButton from '../schedule/SaveSessionButton.astro';
 import ScheduleModal from '../schedule/ScheduleModal.astro';
 import SessionDetails from '../schedule/SessionDetails.astro';
@@ -70,7 +70,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
                       <SaveSessionButton sessionId={session.id} label={`${copy.save}: ${session.title}`} compact />
                     </div>
                     {session.speakers.length > 0 && <div class="programme-speakers mt-3 text-sm text-conference-body">
-                      <div class="programme-avatars" aria-hidden="true">{sessionProfiles(session).map((person) => person.avatar && <Image data-card-speaker-avatar src={person.avatar} alt="" width={80} height={80} format="webp" loading="lazy" decoding="async" class="h-8 w-8 rounded-full object-cover" />)}</div>
+                      <div class="programme-avatars" aria-hidden="true">{sessionProfiles(session).map((person) => <SpeakerAvatar name={person.name} src={person.avatar} variant="card" />)}</div>
                       <p><span class="sr-only">{copy.speakers}: </span>{sessionProfiles(session).map((person) => person.name).join(', ')}</p>
                     </div>}
                   </>}
@@ -107,8 +107,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-speakers { display: flex; align-items: center; gap: .5rem; }
   .programme-speakers p { min-width: 0; }
   .programme-avatars { display: flex; flex-shrink: 0; }
-  .programme-avatars img { border: 2px solid var(--conference-surface); }
-  .programme-avatars img + img { margin-left: -.75rem; }
+  .programme-avatars :global([data-speaker-portrait] + [data-speaker-portrait]) { margin-left: -.75rem; }
   .programme-avatars:empty { display: none; }
   .programme-break { padding: 1rem; background: var(--conference-soft); border-color: var(--conference-line); border-radius: .75rem; align-self: start; }
   .programme-room { display: inline-block; border-radius: .5rem; padding: .375rem .5rem; background: #2f559a; color: white; }
@@ -329,9 +328,6 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       const content = Array.from(document.querySelectorAll<HTMLTemplateElement>('[data-session-content]')).find((template) => template.dataset.sessionContent === session.id);
       const details = dialog.querySelector('#modal-details');
       if (details) details.replaceChildren(...(content ? [content.content.cloneNode(true)] : []));
-      dialog.querySelectorAll<HTMLImageElement>('[data-speaker-avatar]').forEach((avatar) => {
-        avatar.addEventListener('error', () => { avatar.hidden = true; }, { once: true });
-      });
       const speakerSection = dialog.querySelector<HTMLElement>('[data-modal-speakers]');
       if (speakerSection) speakerSection.hidden = session.speakers.length === 0;
       const calendar = dialog.querySelector<HTMLAnchorElement>('[data-modal-google-calendar]');
