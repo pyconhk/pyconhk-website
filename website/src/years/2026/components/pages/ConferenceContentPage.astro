@@ -54,7 +54,7 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
         </>
       )}
       {kind === 'qa' && <>
-        {content.qa.items.map((item) => <details id={item.id} data-sprint-question class="rounded-xl border-2 border-conference-outline p-5"><summary class="cursor-pointer font-bold">{item.question}</summary><p class="mt-4 whitespace-pre-line">{item.answer}</p></details>)}
+        {content.qa.items.map((item) => <article id={item.id} data-sprint-question class="rounded-xl border-2 border-conference-outline p-5"><h2 class="font-bold">{item.question}</h2><p class="mt-4 whitespace-pre-line">{item.answer}</p></article>)}
         <nav aria-label={copy.titles.sprint} class="flex flex-col items-start gap-4 border-t border-conference-outline/25 pt-6">
           {content.sprint.registrationUrl && <a data-sprint-registration href={content.sprint.registrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center rounded-full border-2 border-conference-outline bg-[#d71920] px-5 py-3 font-bold text-white">{copy.register}</a>}
           <a data-sprint-proposal href={submitProposalUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.proposeSprint}</a>
