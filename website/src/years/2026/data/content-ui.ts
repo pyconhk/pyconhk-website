@@ -28,6 +28,7 @@ type ContentUi = {
   wifi: string;
   sponsorship: string;
   speakers: string;
+  proposeSprint: string;
 };
 
 export const contentUi: Record<CfpLocale, ContentUi> = {
@@ -54,6 +55,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     wifi: 'Wi-Fi',
     sponsorship: 'Sponsorship enquiries',
     speakers: 'Featured speakers',
+    proposeSprint: 'Submit a Sprint project / become a Sprint Lead',
   },
   'zh-hk': {
     titles: {
@@ -78,6 +80,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     wifi: 'Wi-Fi',
     sponsorship: cantonese.sponsorshipEnquiries,
     speakers: cantonese.featuredSpeakers,
+    proposeSprint: '提交衝刺項目／報名做 Sprint Lead',
   },
   'zh-hant': {
     titles: {
@@ -102,6 +105,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     wifi: 'Wi-Fi',
     sponsorship: written.sponsorshipEnquiries,
     speakers: written.featuredSpeakers,
+    proposeSprint: '提交衝刺專案／報名成為 Sprint Lead',
   },
   'zh-hans': {
     titles: {
@@ -126,6 +130,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     wifi: 'Wi-Fi',
     sponsorship: '咨询赞助合作',
     speakers: '精选讲者',
+    proposeSprint: '提交冲刺项目／报名成为 Sprint Lead',
   },
   ja: {
     titles: {
@@ -150,6 +155,7 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     wifi: 'Wi-Fi',
     sponsorship: '協賛のお問い合わせ',
     speakers: '注目の登壇者',
+    proposeSprint: 'スプリントのプロジェクト・リードに応募する',
   },
   ko: {
     titles: {
@@ -174,5 +180,6 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     wifi: 'Wi-Fi',
     sponsorship: '후원 문의',
     speakers: '주요 연사',
+    proposeSprint: '스프린트 프로젝트 제안 / 리드 신청',
   },
 };

@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "event": "pyconhk2026",
+  "environment": "test",
+  "status": "published",
+  "sourceUrl": "https://example.test/pyconhk2026/schedule/export/schedule.json",
+  "sourceVersion": "avatar-test-fixture",
+  "title": "Test fixture: speakers without avatar URLs",
+  "timezone": "Asia/Hong_Kong",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-15",
+  "days": [
+    {
+      "date": "2026-11-14"
+    },
+    {
+      "date": "2026-11-15"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "avatar-test",
+      "name": "Avatar test room"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "avatar-test-AVATAR-TEST",
+      "code": "AVATAR-TEST",
+      "title": "Test fixture: three speakers without photos",
+      "speakers": ["First Speaker", "Middle Speaker", "Last Speaker"],
+      "speakerProfiles": [
+        {
+          "name": "First Speaker",
+          "biography": "",
+          "avatar": "",
+          "url": ""
+        },
+        {
+          "name": "Middle Speaker",
+          "biography": "",
+          "avatar": "",
+          "url": ""
+        },
+        {
+          "name": "Last Speaker",
+          "biography": "",
+          "avatar": "",
+          "url": ""
+        }
+      ],
+      "room": "Avatar test room",
+      "roomKey": "avatar-test",
+      "track": "",
+      "sessionType": "",
+      "date": "2026-11-14",
+      "start": "2026-11-14T01:00:00.000Z",
+      "end": "2026-11-14T01:30:00.000Z",
+      "startTime": "09:00",
+      "endTime": "09:30",
+      "duration": 30,
+      "abstract": "",
+      "description": "",
+      "language": "",
+      "url": "",
+      "isBreak": false
+    }
+  ],
+  "fetchedAt": "2026-01-01T00:00:00.000Z",
+  "hash": "f08a2711ad2f5f0713b0bf179b5db5e73f77c065e06ebc7fcb8bfea8240988ac"
+}
