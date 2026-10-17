@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
@@ -248,7 +249,7 @@ test('wide supporter logos fill their plates and OSHK stays square', async ({
   }
 });
 
-test('every conference logo and placeholder has a transparent image background', async ({
+test('conference artwork preserves transparency and supplied backgrounds', async ({
   page,
 }) => {
   const sources = new Set<string>([
@@ -267,7 +268,7 @@ test('every conference logo and placeholder has a transparent image background',
       sources.add(src);
   }
   for (const src of sources) {
-    const transparentPixels = await page.evaluate(async (source) => {
+    const rendered = await page.evaluate(async (source) => {
       const image = new Image();
       image.src = source;
       await image.decode();
@@ -278,9 +279,48 @@ test('every conference logo and placeholder has a transparent image background',
         throw new Error('Canvas is unavailable for image transparency checks');
       context.drawImage(image, 0, 0, 64, 64);
       const pixels = context.getImageData(0, 0, 64, 64).data;
-      return pixels.filter((alpha, index) => index % 4 === 3 && alpha === 0).length;
+      let transparentPixels = 0;
+      let opaquePixels = 0;
+      let darkPixels = 0;
+      for (let pixel = 0; pixel < pixels.length; pixel += 4) {
+        if (pixels[pixel + 3] === 0) transparentPixels++;
+        if (pixels[pixel + 3] === 255) opaquePixels++;
+        if (
+          pixels[pixel + 3] === 255 &&
+          Math.max(pixels[pixel], pixels[pixel + 1], pixels[pixel + 2]) < 60
+        )
+          darkPixels++;
+      }
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+        transparentPixels,
+        opaquePixels,
+        darkPixels,
+        corner: Array.from(pixels.slice(0, 4)),
+      };
     }, src);
-    expect(transparentPixels, src).toBeGreaterThan(64 * 64 * 0.1);
+    if (
+      new URL(src, page.url()).pathname ===
+      '/2026/supporting-organizations/pyladies_kl.svg'
+    ) {
+      // KL supplied a complete red-background composition. Keep its original
+      // bytes and verify the rendered artwork instead of cutting out the design.
+      const response = await page.request.get(src);
+      expect(response.ok()).toBe(true);
+      expect(
+        createHash('sha256')
+          .update(await response.body())
+          .digest('hex')
+      ).toBe('52e67df8a5ef3757da6db087a270ff6c5cb2103a78e559bf2237a9cb514efd84');
+      expect([rendered.width, rendered.height]).toEqual([800, 800]);
+      expect(rendered.opaquePixels).toBe(64 * 64);
+      expect(rendered.darkPixels).toBeGreaterThan(64 * 64 * 0.05);
+      for (const [channel, expected] of [174, 16, 39, 255].entries())
+        expect(Math.abs(rendered.corner[channel] - expected)).toBeLessThanOrEqual(3);
+    } else {
+      expect(rendered.transparentPixels, src).toBeGreaterThan(64 * 64 * 0.1);
+    }
   }
 });
 
