@@ -1,5 +1,20 @@
 import { expect, test } from '@playwright/test';
 
+const questionIds = [
+  'what-is-sprint',
+  'what-happens',
+  'sprint-vs-conference',
+  'who-should-attend',
+  'beginners',
+  'preparation',
+  'observe',
+  'join-or-leave',
+  'fee-and-registration',
+  'project-eligibility',
+  'sprint-leads',
+  'project-list',
+];
+
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
   test(`Sprint introduction leads to usable local Q&A in ${locale}`, async ({
     page,
@@ -18,12 +33,18 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       await qaLink.click();
       await expect(page).toHaveURL(new RegExp(`/2026/${locale}/sprint/qna/$`));
       const qa = page.locator('[data-conference-content="qa"]');
-      await expect(qa.locator('[data-sprint-question]')).toHaveCount(12);
+      const questions = qa.locator('article[data-sprint-question]');
+      await expect(questions).toHaveCount(12);
+      expect(
+        await questions.evaluateAll((items) => items.map((item) => item.id))
+      ).toEqual(questionIds);
+      await expect(qa.locator('details, summary')).toHaveCount(0);
       await expect(page.locator('[data-content-pending]')).toHaveCount(0);
-      const firstQuestion = qa.locator('[data-sprint-question]').first();
-      await expect(firstQuestion).not.toHaveAttribute('open');
-      await firstQuestion.locator('summary').click();
-      await expect(firstQuestion.locator('p')).toBeVisible();
+      for (const question of await questions.all()) {
+        await expect(question.getByRole('heading', { level: 2 })).toBeVisible();
+        await expect(question.locator('p')).toBeVisible();
+        await expect(question.locator('p')).not.toHaveText('');
+      }
       for (const [selector, href] of [
         [
           '[data-sprint-registration]',
