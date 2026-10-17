@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  name: string;
+  src?: string;
+  variant?: 'card' | 'profile' | 'page';
+}
+
+const { name, src, variant = 'profile' } = Astro.props;
+const initials = name.trim().split(/\s+/u).slice(0, 2).map((part) => Array.from(part)[0]).join('').toUpperCase() || '?';
+const sizes = {
+  card: 'h-8 w-8 rounded-full border-2 border-conference-surface text-[.65rem]',
+  profile: 'h-20 w-20 rounded-2xl border-2 border-conference-outline text-2xl shadow-conference-card',
+  page: 'aspect-square w-full rounded-2xl border-2 border-conference-outline text-5xl shadow-conference-card',
+};
+---
+
+<span data-speaker-portrait data-avatar-state={src ? 'photo' : 'initials'} role="img" aria-label={name} class:list={['relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-conference-soft font-black text-conference-ink', sizes[variant]]}>
+  <span data-speaker-initials aria-hidden="true">{initials}</span>
+  {src && <Image data-card-speaker-avatar={variant === 'card' ? '' : undefined} data-speaker-avatar={variant !== 'card' ? '' : undefined} src={src} alt="" width={variant === 'card' ? 80 : 400} height={variant === 'card' ? 80 : 400} format="webp" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover" />}
+</span>
+
+<script>
+  function showInitials(image: HTMLImageElement) {
+    const portrait = image.closest<HTMLElement>('[data-speaker-portrait]');
+    if (!portrait) return;
+    image.hidden = true;
+    portrait.dataset.avatarState = 'initials';
+  }
+
+  // Capture errors from both page images and speaker cards cloned into a dialog.
+  document.addEventListener('error', (event) => {
+    if (event.target instanceof HTMLImageElement) showInitials(event.target);
+  }, true);
+  for (const image of document.querySelectorAll<HTMLImageElement>('[data-speaker-portrait] img')) {
+    if (image.complete && image.naturalWidth === 0) showInitials(image);
+  }
+</script>

@@ -4,7 +4,7 @@ import { scheduleCopy } from '../../data/schedule-copy';
 import type { ProgrammeSpeaker } from '../../data/speakers';
 import type { CfpLocale } from '../../locales';
 import ContentPageFrame from '../content/ContentPageFrame.astro';
-import PersonCard from '../content/PersonCard.astro';
+import SpeakerAvatar from '../content/SpeakerAvatar.astro';
 import DoodleButton from '../DoodleButton.astro';
 import { renderProgrammeMarkdown } from '../schedule/programme-content.ts';
 import WovenRibbon from '../ui/WovenRibbon.astro';
@@ -18,7 +18,12 @@ const biography = await renderProgrammeMarkdown(speaker.biography);
   <WovenRibbon />
   {isSampleProgramme && <p data-sample-notice class="rounded-xl border-2 border-conference-outline bg-conference-yellow/25 p-4 text-sm font-bold">{copy.sample}</p>}
   <div data-speaker-page class="speaker-intro grid min-w-0 gap-8 py-4 sm:grid-cols-[11rem_minmax(0,1fr)]">
-    {speaker.avatar ? <PersonCard name={speaker.name} imageSrc={speaker.avatar} /> : <div aria-hidden="true" class="mx-auto flex h-36 w-36 items-center justify-center rounded-2xl border-2 border-conference-outline bg-[#2f559a] text-5xl font-black text-white shadow-conference-card">{Array.from(speaker.name)[0]}</div>}
+    <div data-person-card class="group flex w-full min-w-0 max-w-44 flex-col items-center text-center">
+      <SpeakerAvatar name={speaker.name} src={speaker.avatar} variant="page" />
+      <div class="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+        <h4 class="w-full break-words text-sm sm:text-base font-bold text-conference-ink tracking-tight">{speaker.name}</h4>
+      </div>
+    </div>
     <section class="min-w-0">
       <h2 class="mb-4 text-xs font-black uppercase tracking-widest text-conference-red">{copy.aboutSpeaker}</h2>
       {biography && <div data-speaker-biography class="programme-richtext prose max-w-none text-conference-body" set:html={biography} />}
