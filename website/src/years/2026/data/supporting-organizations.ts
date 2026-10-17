@@ -219,14 +219,14 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
   {
     slug: 'eduhk-math-it',
     name: {
-      en: 'Department of Mathematics and Information Techonology, The EdUHK',
+      en: 'Department of Mathematics and Information Technology, The EdUHK',
       'zh-hk': '香港教育大學數學與資訊科技學系',
       'zh-hant': '香港教育大學數學與資訊科技學系',
       'zh-hans': '香港教育大学数学与资讯科技学系',
       ja: '香港教育大学 数学・情報技術学科',
       ko: '홍콩교육대학교 수학 및 정보기술학과',
     },
-    nameLines: ['Department of Mathematics and', 'Information Techonology, The EdUHK'],
+    nameLines: ['Department of Mathematics and', 'Information Technology, The EdUHK'],
     imagePath: '/2026/supporting-organizations/eduhk_math_it_dept.svg',
     logoAlt: 'EdUHK Math and IT Department Logo',
     url: 'https://www.eduhk.hk/mit/en/',
