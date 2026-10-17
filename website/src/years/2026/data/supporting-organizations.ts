@@ -219,14 +219,14 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
   {
     slug: 'eduhk-math-it',
     name: {
-      en: 'Department of Mathematics and Information Techonology, The EdUHK',
+      en: 'Department of Mathematics and Information Technology, The EdUHK',
       'zh-hk': '香港教育大學數學與資訊科技學系',
       'zh-hant': '香港教育大學數學與資訊科技學系',
       'zh-hans': '香港教育大学数学与资讯科技学系',
       ja: '香港教育大学 数学・情報技術学科',
       ko: '홍콩교육대학교 수학 및 정보기술학과',
     },
-    nameLines: ['Department of Mathematics and', 'Information Techonology, The EdUHK'],
+    nameLines: ['Department of Mathematics and', 'Information Technology, The EdUHK'],
     imagePath: '/2026/supporting-organizations/eduhk_math_it_dept.svg',
     logoAlt: 'EdUHK Math and IT Department Logo',
     url: 'https://www.eduhk.hk/mit/en/',
@@ -410,6 +410,32 @@ export const supportingOrganizations: readonly SupportingOrganization[] = [
       'zh-hans': '鼓励女性参与、带领并在 Python 与开源社区中建立长远连接的社区。',
       ja: '女性エンジニアの Python コミュニティ参加とリーダーシップを支援する団体。',
       ko: '여성 개발자의 파이썬 오픈소스 참여와 리더십을 격려하는 커뮤니티.',
+    },
+  },
+  {
+    slug: 'pyladies-kuala-lumpur',
+    name: {
+      en: 'PyLadies Kuala Lumpur',
+      'zh-hk': 'PyLadies Kuala Lumpur',
+      'zh-hant': 'PyLadies Kuala Lumpur',
+      'zh-hans': 'PyLadies Kuala Lumpur',
+      ja: 'PyLadies Kuala Lumpur',
+      ko: 'PyLadies Kuala Lumpur',
+    },
+    nameLines: ['PyLadies Kuala Lumpur'],
+    imagePath: '/2026/supporting-organizations/pyladies_kl.svg',
+    logoAlt: 'PyLadies Kuala Lumpur Logo',
+    url: 'https://kl.pyladies.com/',
+    summary: {
+      en: 'Kuala Lumpur chapter of PyLadies connecting female Python developers through meetups, workshops, and collaborative events.',
+      'zh-hk':
+        'PyLadies 吉隆坡分會，透過聚會、工作坊同合作活動，為女性 Python 開發者提供交流同學習平台。',
+      'zh-hant':
+        'PyLadies 吉隆坡分會，透過聚會、工作坊與合作活動，為女性 Python 開發者提供交流與學習平台。',
+      'zh-hans':
+        'PyLadies 吉隆坡分会，通过聚会、工作坊与合作活动，为女性 Python 开发者提供交流与学习平台。',
+      ja: 'マレーシアの女性 Python 開発者を支援し、ミートアップやワークショップを開催する PyLadies クアラルンプール支部。',
+      ko: '밋업과 워크숍을 통해 말레이시아 여성 파이썬 개발자들의 성장과 교류를 돕는 파이레이디스 쿠알라룸푸르 지부.',
     },
   },
   {

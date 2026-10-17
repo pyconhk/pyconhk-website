@@ -266,7 +266,7 @@
         "id": "organizations-9"
       },
       {
-        "name": "Department of Mathematics and Information Techonology, The EdUHK",
+        "name": "Department of Mathematics and Information Technology, The EdUHK",
         "logo": "/2026/supporting-organizations/eduhk_math_it_dept.svg",
         "url": "https://www.eduhk.hk/mit/en/",
         "description": "Academic department advancing mathematics, information technology, research, and pedagogy for future educators.",
@@ -336,6 +336,14 @@
         "description": "Community that encourages women to participate, lead, and build lasting connections in Python and open source.",
         "kind": "supporter",
         "id": "organizations-17"
+      },
+      {
+        "name": "PyLadies Kuala Lumpur",
+        "logo": "/2026/supporting-organizations/pyladies_kl.svg",
+        "url": "https://kl.pyladies.com/",
+        "description": "Kuala Lumpur chapter of PyLadies connecting female Python developers through meetups, workshops, and collaborative events.",
+        "kind": "supporter",
+        "id": "pyladies-kuala-lumpur"
       },
       {
         "name": "PyLadies Seoul / Korea",
