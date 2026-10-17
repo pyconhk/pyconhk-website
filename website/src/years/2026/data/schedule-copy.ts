@@ -6,9 +6,9 @@ const cantonese = getChineseTerms('zh-hk');
 
 const sessionLanguageNames: Record<CfpLocale, Record<string, string>> = {
   en: { en: 'English', zh: 'Chinese', yue: 'Cantonese', ja: 'Japanese', ko: 'Korean' },
-  'zh-hk': { en: '英文', zh: '中文', yue: '中文', ja: '日文', ko: '韓文' },
-  'zh-hant': { en: '英文', zh: '中文', yue: '中文', ja: '日文', ko: '韓文' },
-  'zh-hans': { en: '英文', zh: '中文', yue: '中文', ja: '日文', ko: '韩文' },
+  'zh-hk': { en: '英文', zh: '中文', yue: '廣東話', ja: '日文', ko: '韓文' },
+  'zh-hant': { en: '英文', zh: '中文', yue: '粵語', ja: '日文', ko: '韓文' },
+  'zh-hans': { en: '英文', zh: '中文', yue: '粤语', ja: '日文', ko: '韩文' },
   ja: { en: '英語', zh: '中国語', yue: '広東語', ja: '日本語', ko: '韓国語' },
   ko: { en: '영어', zh: '중국어', yue: '광둥어', ja: '일본어', ko: '한국어' },
 };

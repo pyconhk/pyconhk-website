@@ -18,7 +18,7 @@
     "status": "published",
     "title": "HKIIT (Tseung Kwan O, Lee Wai Lee)",
     "address": "3 King Ling Road, Tseung Kwan O, New Territories, Hong Kong",
-    "description": "홍콩 정보기술원(Hong Kong Institute of Information Technology, HKIIT)은 IVE(Lee Wai Lee) 및 홍콩 디자인 인스티튜트(HKDI)와 같은 캠퍼스에 있습니다. 행사 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
+    "description": "Hong Kong Institute of Information Technology (HKIIT)는 IVE(Lee Wai Lee) 및 홍콩 디자인 인스티튜트(HKDI)와 같은 캠퍼스에 있습니다. 행사 출입구와 강의실 안내는 이 페이지에 게시됩니다.",
     "directions": "MTR 티우켕렝(Tiu Keng Leng)역 A2 출구로 나와 King Ling Road를 따라 약 2분 걸으면 캠퍼스에 도착합니다.",
     "wifi": "",
     "mapImage": "",
@@ -150,7 +150,7 @@
       },
       {
         "id": "hkiit",
-        "name": "홍콩정보기술학원(HKIIT)",
+        "name": "Hong Kong Institute of Information Technology (HKIIT)",
         "kind": "organizer",
         "logo": "/2026/organizers-volunteers/organizers/hkiit.svg",
         "url": "https://hkiit.edu.hk/",
