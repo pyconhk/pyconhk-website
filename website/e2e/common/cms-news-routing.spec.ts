@@ -1,6 +1,5 @@
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { constants } from 'node:fs';
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -81,11 +80,13 @@ async function copyBuildInput(targetRoot: string): Promise<void> {
     [path.join(repositoryRoot, 'node_modules'), path.join(fixtureRoot, 'node_modules')],
     [path.join(websiteRoot, 'node_modules'), path.join(targetRoot, 'node_modules')],
   ]) {
-    await cp(source, destination, {
-      recursive: true,
-      verbatimSymlinks: true,
-      mode: constants.COPYFILE_FICLONE,
-    });
+    // Native traversal keeps this large installed graph fast on local APFS and
+    // CI, while preserving internal symlinks and real fixture-owned paths.
+    await execFileAsync('cp', [
+      ...(process.platform === 'darwin' ? ['-cR'] : ['-R', '--reflink=auto']),
+      source,
+      destination,
+    ]);
   }
 }
 
@@ -126,8 +127,27 @@ async function buildFixtureSite(): Promise<string> {
     }
     await writeFile(
       path.join(futurePostDirectory, 'incomplete-fixture.en.mdx'),
-      fixturePost('en').replaceAll('cms-route-fixture', 'incomplete-fixture')
+      fixturePost('en')
+        .replaceAll('cms-route-fixture', 'incomplete-fixture')
+        .replace('2026-09-30T00:43:00.000+08:00', '2099-09-30T00:43:00.000+08:00')
     );
+    await writeFile(
+      path.join(futurePostDirectory, 'incomplete-fixture.zh-hk.mdx'),
+      '---\nslug: incomplete-fixture\nstatus: draft\ntitle: ""\n---\n'
+    );
+    for (const slug of ['translated-fixture', 'withdrawn-translation-fixture']) {
+      for (const locale of ['en', 'ko']) {
+        await writeFile(
+          path.join(futurePostDirectory, `${slug}.${locale}.mdx`),
+          fixturePost(locale)
+            .replaceAll('cms-route-fixture', slug)
+            .replace(
+              'status: published',
+              `status: ${locale === 'ko' && slug === 'withdrawn-translation-fixture' ? 'draft' : 'published'}`
+            )
+        );
+      }
+    }
 
     await execFileAsync('bun', ['run', 'build'], {
       cwd: tempWebsiteRoot,
@@ -151,7 +171,7 @@ async function buildFixtureSite(): Promise<string> {
 }
 
 test.describe('CMS news routing', () => {
-  test('builds all localized CMS routes with optional avatars and year-owned sitemap entries', async () => {
+  test('builds independently published languages with labelled English fallback and exact article links', async () => {
     test.setTimeout(240_000);
 
     const tempRoot = await buildFixtureSite();
@@ -187,16 +207,54 @@ test.describe('CMS news routing', () => {
           }
           expect(html).not.toContain('Register for your Ticket NOW!');
         }
-        await expect(
-          readFile(path.join(distRoot, `2026/${locale}/news/incomplete-fixture.html`))
-        ).rejects.toThrow();
         expect(sitemapXml).toContain(
           `<loc>${siteOrigin}/2026/${locale}/news/cms-route-fixture</loc>`
         );
       }
+
+      // The same build covers English-first, a later published translation,
+      // and a completed translation returned to Draft.
+      for (const [slug, publishedLocales] of [
+        ['incomplete-fixture', ['en']],
+        ['translated-fixture', ['en', 'ko']],
+        ['withdrawn-translation-fixture', ['en']],
+      ] as const) {
+        for (const [locale] of fixtureVariants) {
+          const route = path.join(distRoot, `2026/${locale}/news/${slug}.html`);
+          if (!(publishedLocales as readonly string[]).includes(locale)) {
+            await expect(readFile(route)).rejects.toThrow();
+            expect(sitemapXml).not.toContain(`/2026/${locale}/news/${slug}<`);
+            continue;
+          }
+          const html = await readFile(route, 'utf8');
+          expect(sitemapXml).toContain(
+            `<loc>${siteOrigin}/2026/${locale}/news/${slug}</loc>`
+          );
+          for (const [candidate] of fixtureVariants) {
+            const available = (publishedLocales as readonly string[]).includes(
+              candidate
+            );
+            expect(html.includes(`data-locale-switch="${candidate}"`)).toBe(available);
+            expect(
+              html.includes(`href="${siteOrigin}/2026/${candidate}/news/${slug}"`)
+            ).toBe(available);
+          }
+        }
+      }
+      const englishLabels = ['English', '英文', '英文', '英文', '英語', '영어'];
+      for (const [index, [locale]] of fixtureVariants.entries()) {
+        for (const route of [`2026/${locale}/news.html`, `2026/${locale}.html`]) {
+          const html = await readFile(path.join(distRoot, route), 'utf8');
+          const card = html.match(
+            /<a\s[^>]*href="\/2026\/en\/news\/incomplete-fixture\/"[\s\S]*?<\/a>/u
+          )?.[0];
+          expect(card, `${route} English-first news card`).toBeDefined();
+          expect(card).toContain('lang="en"');
+          if (locale !== 'en') expect(card).toContain(`>${englishLabels[index]}</p>`);
+        }
+      }
       expect(existingDefaultHtml).toContain('PyCon HK 2025 Pre-Event Essentials');
       expect(redirects).toMatch(/^\/news\/\* \/2025\/news\/:splat 308$/mu);
-      expect(sitemapXml).not.toContain('incomplete-fixture');
       expect(sitemapXml).not.toContain('/2025/ko/');
       expect(sitemapXml).toContain(
         `<loc>${siteOrigin}/2025/news/pre-event-notice</loc>`

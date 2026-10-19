@@ -12,6 +12,7 @@ type NewsMessages = {
   readArticle: string;
   backToNews: string;
   allNews: string;
+  englishArticle: string;
 };
 
 export const newsMessages: Record<CfpLocale, NewsMessages> = {
@@ -25,6 +26,7 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     readArticle: 'Read article',
     backToNews: 'Back to News',
     allNews: 'All news',
+    englishArticle: 'English',
   },
   'zh-hk': {
     title: cantonese.news,
@@ -34,6 +36,7 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     readArticle: cantonese.readArticle,
     backToNews: cantonese.backToNews,
     allNews: cantonese.allNews,
+    englishArticle: '英文',
   },
   'zh-hant': {
     title: written.news,
@@ -43,6 +46,7 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     readArticle: written.readArticle,
     backToNews: written.backToNews,
     allNews: written.allNews,
+    englishArticle: '英文',
   },
   'zh-hans': {
     title: '最新消息',
@@ -52,6 +56,7 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     readArticle: '阅读文章',
     backToNews: '返回最新消息',
     allNews: '所有消息',
+    englishArticle: '英文',
   },
   ja: {
     title: 'ニュース',
@@ -63,6 +68,7 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     readArticle: '記事を読む',
     backToNews: 'ニュースに戻る',
     allNews: 'すべてのニュース',
+    englishArticle: '英語',
   },
   ko: {
     title: '뉴스',
@@ -73,5 +79,6 @@ export const newsMessages: Record<CfpLocale, NewsMessages> = {
     readArticle: '기사 읽기',
     backToNews: '뉴스로 돌아가기',
     allNews: '전체 뉴스',
+    englishArticle: '영어',
   },
 };

@@ -22,6 +22,7 @@ interface Props {
   imagePath?: string;
   iconPath?: string;
   robots?: string;
+  availableLocales?: readonly string[];
 }
 
 const {
@@ -32,10 +33,12 @@ const {
   imagePath,
   iconPath = '/favicon.ico',
   robots,
+  availableLocales,
 } = Astro.props;
 const seo = buildSeoMetadata({
   pathname: Astro.url.pathname,
   imagePath,
+  availableLocales,
 });
 const openGraphTitle = title || defaultOpenGraphTitle;
 const openGraphDescription = description || defaultOpenGraphDescription;

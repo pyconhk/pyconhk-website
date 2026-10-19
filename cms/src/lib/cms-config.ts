@@ -17,8 +17,35 @@ type CmsConfigOptions = {
   publishMode?: string;
 };
 
-function createPostFields(): CmsField[] {
+export const cmsEditorLocale = "pycon-en";
+export const websiteVisibilityOptions = [
+  { label: "Draft — do not publish", value: "draft" },
+  { label: "Publish this language after checks", value: "published" },
+];
+
+function createPostFields(year: number): CmsField[] {
   return [
+    {
+      label: "Website visibility",
+      name: "status",
+      widget: year === 2026 ? "website-visibility" : "select",
+      hint:
+        year === 2026
+          ? "Choose visibility for this language, then Save. English can publish first; keep unfinished translations as Draft. Copying another locale also copies its visibility, so review it before saving."
+          : "Choose visibility, then Save. Archived 2025 News requires all five translations to pass checks together before publishing.",
+      options:
+        year === 2026
+          ? websiteVisibilityOptions
+          : [
+              websiteVisibilityOptions[0],
+              {
+                label: "Publish all five translations after checks",
+                value: "published",
+              },
+            ],
+      default: "draft",
+      i18n: year === 2026 ? true : "duplicate",
+    },
     {
       label: "Title",
       name: "title",
@@ -39,15 +66,6 @@ function createPostFields(): CmsField[] {
       name: "publishedAt",
       widget: "datetime",
       required: false,
-      i18n: "duplicate",
-    },
-    {
-      label: "Status",
-      name: "status",
-      widget: "select",
-      hint: "Drafts can be saved unfinished. Published entries go live automatically after all translations pass validation.",
-      options: ["draft", "published"],
-      default: "draft",
       i18n: "duplicate",
     },
     {
@@ -146,7 +164,7 @@ function createPostCollection(
     slug: "{{slug}}",
     summary: "{{title}}",
     editor: { preview: false },
-    fields: createPostFields(),
+    fields: createPostFields(year),
   };
 }
 

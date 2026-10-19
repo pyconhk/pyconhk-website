@@ -156,17 +156,13 @@ function resolveLocalizedVariant(
   group: IndexedNewsGroup,
   locale: SiteLocale
 ): ResolvedNewsVariant | null {
-  // Current articles launch together in every language; never expose a partial
-  // translation through the archive fallback behavior or a direct article URL.
+  // Current translations publish independently. An unpublished translation must
+  // not inherit another locale's content or publication status.
   if (group.collectionYear >= 2026) {
-    const complete = getLocalesForYear(group.collectionYear).every(({ code }) => {
-      const variant = group.variants[code];
-      return variant?.status === 'published' && variant.title && variant.body;
-    });
-
-    if (!complete) {
-      return null;
-    }
+    const variant = getPublishedVariant(group.variants[locale]);
+    return variant?.title && variant.body
+      ? { variant, sourceLocale: locale, isFallback: false }
+      : null;
   }
 
   for (const candidateLocale of getLocaleFallbackChain(locale)) {
@@ -348,7 +344,12 @@ export async function getPublishedPosts(
   const groups = [...(store.groupsByYear.get(year)?.values() ?? [])];
 
   return groups
-    .map((group) => resolveLocalizedVariant(group, locale))
+    .map((group) => {
+      const localized = resolveLocalizedVariant(group, locale);
+      if (localized || year < 2026 || locale === defaultLocale) return localized;
+      const english = resolveLocalizedVariant(group, defaultLocale);
+      return english ? { ...english, isFallback: true } : null;
+    })
     .filter((resolved): resolved is ResolvedNewsVariant => resolved !== null)
     .sort((left, right) =>
       comparePublishedAtDescending(left.variant.publishedAt, right.variant.publishedAt)
@@ -415,13 +416,20 @@ export async function renderNewsMarkdown(
     : html;
 }
 
-export async function getPublishedPostSlugs(year: number): Promise<string[]> {
+export async function getPublishedPostSlugs(
+  year: number,
+  locale?: SiteLocale
+): Promise<string[]> {
   const store = await getIndexedNewsStore();
   const groups = [...(store.groupsByYear.get(year)?.values() ?? [])];
 
   return groups
     .filter((group) =>
-      getLocalesForYear(year).some(({ code }) => resolveLocalizedVariant(group, code))
+      locale
+        ? resolveLocalizedVariant(group, locale)
+        : getLocalesForYear(year).some(({ code }) =>
+            resolveLocalizedVariant(group, code)
+          )
     )
     .sort((left, right) => {
       const leftResolved = resolveLocalizedVariant(left, defaultLocale);
@@ -433,6 +441,20 @@ export async function getPublishedPostSlugs(year: number): Promise<string[]> {
       );
     })
     .map((group) => group.slug);
+}
+
+export async function getPublishedPostLocales(
+  year: number,
+  slug: string
+): Promise<SiteLocale[]> {
+  const store = await getIndexedNewsStore();
+  const group = store.groupsByYear.get(year)?.get(slug);
+
+  return group
+    ? getLocalesForYear(year)
+        .filter(({ code }) => resolveLocalizedVariant(group, code))
+        .map(({ code }) => code)
+    : [];
 }
 
 export async function getAvailablePostYears(): Promise<number[]> {

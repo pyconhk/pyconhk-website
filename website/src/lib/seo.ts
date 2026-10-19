@@ -22,6 +22,7 @@ type AlternateLink = {
 type SeoMetadataInput = {
   pathname: string;
   imagePath?: string;
+  availableLocales?: readonly string[];
 };
 
 type ParsedLocalizedPath = {
@@ -223,11 +224,17 @@ export function toAbsoluteSiteUrl(pathname: string): string {
   return new URL(absolutePathname, siteUrl).toString();
 }
 
-export function buildSeoMetadata({ pathname, imagePath }: SeoMetadataInput) {
+export function buildSeoMetadata({
+  pathname,
+  imagePath,
+  availableLocales,
+}: SeoMetadataInput) {
   const parsedPath = parseLocalizedPath(pathname);
   const canonicalPath = buildCanonicalPath(pathname);
   const seoLocales = parsedPath?.advertiseAlternates
-    ? getSeoLocalesForYear(parsedPath.year)
+    ? getSeoLocalesForYear(parsedPath.year).filter(
+        (locale) => !availableLocales || availableLocales.includes(locale.code)
+      )
     : [];
   const alternates: AlternateLink[] = seoLocales.map((locale) => ({
     href: toAbsoluteSiteUrl(buildLocalizedCanonicalPath(pathname, locale.code)),
@@ -236,7 +243,13 @@ export function buildSeoMetadata({ pathname, imagePath }: SeoMetadataInput) {
   const defaultAlternate =
     seoLocales.length > 0
       ? {
-          href: toAbsoluteSiteUrl(buildLocalizedCanonicalPath(pathname, defaultLocale)),
+          href: toAbsoluteSiteUrl(
+            buildLocalizedCanonicalPath(
+              pathname,
+              seoLocales.find((locale) => locale.code === defaultLocale)?.code ??
+                seoLocales[0].code
+            )
+          ),
           hreflang: 'x-default',
         }
       : null;

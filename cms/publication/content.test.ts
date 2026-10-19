@@ -17,10 +17,36 @@ const validPost = {
 };
 const asMdx = (data) => `---\n${stringify(data)}---\nArticle body\n`;
 
-test("valid published News includes all six locales", () => {
+test("valid published News can include all six locales", () => {
   const files = cmsLocales.map(contentFile);
   const problems = collectCmsLocaleProblems(files, () => asMdx(validPost));
   assert.deepEqual(problems, []);
+});
+
+test("2026 News can publish English while translations remain draft or missing", () => {
+  const files = [contentFile("en"), contentFile("zh-hk")];
+  const problems = collectCmsLocaleProblems(files, (file) =>
+    asMdx(file.endsWith(".en.mdx") ? validPost : { status: "draft" }),
+  );
+  assert.deepEqual(problems, []);
+});
+
+test("published translations keep shared English fields while drafts can be unfinished", () => {
+  const files = [contentFile("en"), contentFile("zh-hk")];
+  const problems = collectCmsLocaleProblems(files, (file) =>
+    asMdx(file.endsWith(".en.mdx") ? validPost : { ...validPost, coverImage: "/different.webp" }),
+  );
+  assert.deepEqual(problems, [
+    "website/outstatic/content/2026-posts/sample coverImage must match English in zh-hk",
+  ]);
+});
+
+test("2025 News still requires all five published translations", () => {
+  const file = contentFile("en").replace("2026-posts", "2025-posts");
+  const problems = collectCmsLocaleProblems([file], () => asMdx(validPost));
+  assert.deepEqual(problems, [
+    "website/outstatic/content/2025-posts/sample is missing published locales: zh-hk, zh-hant, zh-hans, ja",
+  ]);
 });
 
 test("an incomplete draft may omit optional fields", () => {

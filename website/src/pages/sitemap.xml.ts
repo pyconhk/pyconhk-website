@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { currentConferenceYear, type SiteLocale } from '@/config/site';
 import { migratedTopLevelRouteTargets } from '@/legacy/migrated-routes';
 import { canonicalLegacyHighlights } from '@/legacy/year-highlights';
-import { getPublishedPostSlugs } from '@/lib/news';
+import { getPublishedPostLocales, getPublishedPostSlugs } from '@/lib/news';
 import { buildLocalizedCanonicalPath, toAbsoluteSiteUrl } from '@/lib/seo';
 import routeContract2016 from '@/years/2016/data/routes.json';
 import routeContract2017 from '@/years/2017/data/routes.json';
@@ -84,7 +84,11 @@ function buildEntry(
       ...alternates,
       {
         href: toAbsoluteSiteUrl(
-          buildLocalizedCanonicalPath(`/${year}/${locale}/${suffix}`, 'en')
+          buildLocalizedCanonicalPath(
+            `/${year}/${locale}/${suffix}`,
+            sitemapLocales.find((locale) => locale.code === 'en')?.code ??
+              sitemapLocales[0].code
+          )
         ),
         hreflang: 'x-default',
       },
@@ -166,12 +170,27 @@ export const GET: APIRoute = async () => {
       'catering-guide',
       'sprint',
       'sprint/qna',
-      ...currentPostSlugs.map((slug) => `news/${slug}`),
       ...featuredSpeakers.map((speaker) => `talks/${speaker.slug}`),
     ].map((suffix) =>
       buildEntry(currentConferenceYear, locale.code, suffix, currentYearLocales)
     )
   );
+  const currentNewsEntries = (
+    await Promise.all(
+      currentPostSlugs.map(async (slug) => {
+        const publishedLocales = await getPublishedPostLocales(
+          currentConferenceYear,
+          slug
+        );
+        const newsLocales = currentYearLocales.filter(({ code }) =>
+          publishedLocales.includes(code)
+        );
+        return newsLocales.map(({ code }) =>
+          buildEntry(currentConferenceYear, code, `news/${slug}`, newsLocales)
+        );
+      })
+    )
+  ).flat();
   const archiveYearSuffixes = [
     '',
     'news',
@@ -195,6 +214,7 @@ export const GET: APIRoute = async () => {
     migratedTopLevelRouteTargets.map(buildStaticEntry);
   const entries = uniqueEntries([
     ...currentYearEntries,
+    ...currentNewsEntries,
     ...archiveYearEntries,
     ...legacyYearEntries,
     ...legacy2016MicrositeEntries,

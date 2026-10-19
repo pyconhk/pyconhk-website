@@ -5,9 +5,10 @@ import type { CfpLocale } from '@/years/2026/locales';
 interface Props {
   locale: CfpLocale;
   mobile?: boolean;
+  availableLocales?: readonly CfpLocale[];
 }
 
-const { locale, mobile = false } = Astro.props;
+const { locale, mobile = false, availableLocales } = Astro.props;
 
 const supportedLocalesList: Array<{
   code: CfpLocale;
@@ -27,11 +28,13 @@ const pathname = Astro.url.pathname;
 const subpathMatch = pathname.match(/^\/2026\/[^/]+(\/.*)?$/);
 const subpath = subpathMatch?.[1] || '/';
 
-const items = supportedLocalesList.map((item) => ({
-  ...item,
-  href: `/2026/${item.code}${subpath}`,
-  active: item.code === locale,
-}));
+const items = supportedLocalesList
+  .filter((item) => !availableLocales || availableLocales.includes(item.code))
+  .map((item) => ({
+    ...item,
+    href: `/2026/${item.code}${subpath}`,
+    active: item.code === locale,
+  }));
 
 const activeItem = items.find((item) => item.active) ?? items[0];
 ---

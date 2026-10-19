@@ -1,7 +1,7 @@
 ---
 import { getLocaleDefinition } from '@/config/site';
 import { formatDate } from '@/lib/date';
-import { getPostBySlug } from '@/lib/news';
+import { getPostBySlug, getPublishedPostLocales } from '@/lib/news';
 import { newsMessages } from '@/years/2026/i18n/news';
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -13,6 +13,7 @@ interface Props {
 
 const { locale, slug } = Astro.props;
 const article = await getPostBySlug(2026, slug, locale);
+const availableLocales = await getPublishedPostLocales(2026, slug);
 
 if (!article) {
   throw new Error(`Missing published news article for 2026/${locale}/${slug}`);
@@ -22,7 +23,7 @@ const copy = newsMessages[locale];
 const backHref = `/2026/${locale}/news/`;
 ---
 
-<ConferenceLayout title={`${article.title} | PyCon HK 2026`} description={article.excerpt} locale={locale} imagePath={article.coverImage}>
+<ConferenceLayout title={`${article.title} | PyCon HK 2026`} description={article.excerpt} locale={locale} imagePath={article.coverImage} availableLocales={availableLocales}>
   <div class="w-full bg-conference-paper px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
     <article class="mx-auto max-w-4xl overflow-hidden rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10 md:p-14" lang={getLocaleDefinition(article.sourceLocale).htmlLang}>
       <a href={backHref} class="mb-6 inline-flex gap-2 rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-bold text-conference-ink shadow-conference-control hover:bg-conference-soft">

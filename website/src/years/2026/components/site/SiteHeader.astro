@@ -10,9 +10,10 @@ import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props {
   locale: CfpLocale;
+  availableLocales?: readonly CfpLocale[];
 }
 
-const { locale } = Astro.props;
+const { locale, availableLocales } = Astro.props;
 const t = getTranslations(locale);
 const homeHref = `/2026/${locale}/`;
 // Japanese navigation labels need more room alongside the language and ticket controls.
@@ -102,7 +103,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     <div class="ml-auto mr-2 shrink-0"><ThemeSwitcher locale={locale} /></div>
     <!-- Desktop Actions & Switcher (Always shrink-0, perfectly positioned on right) -->
     <div class="hidden md:flex items-center gap-2 min-[1400px]:gap-3 shrink-0 ml-2">
-      <LanguageSwitcher locale={locale} />
+      <LanguageSwitcher locale={locale} availableLocales={availableLocales} />
       
       <RegistrationButton locale={locale} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#d71920] px-3.5 min-[1440px]:px-5 py-2 text-xs min-[1440px]:text-sm font-bold text-white shadow-conference-control border-2 border-conference-outline transition-colors hover:bg-[#c0151c] whitespace-nowrap" />
     </div>
@@ -206,7 +207,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
 
       <div class="pt-2">
         <p class="mb-2 text-xs font-bold uppercase tracking-wider text-conference-muted">Language / 語言</p>
-        <LanguageSwitcher locale={locale} mobile={true} />
+        <LanguageSwitcher locale={locale} availableLocales={availableLocales} mobile={true} />
       </div>
     </div>
   </div>

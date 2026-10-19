@@ -28,7 +28,12 @@ export function validateEditorialPublish(entry: EditorialEntry): void {
       (locale) => localizedData(entry, locale)?.status === "published",
     );
     if (!published) return;
-    const incomplete = locales.filter((locale) => {
+    const publishingLocales = isCurrentNews
+      ? locales.filter(
+          (locale) => localizedData(entry, locale)?.status === "published",
+        )
+      : locales;
+    const incomplete = publishingLocales.filter((locale) => {
       const data = localizedData(entry, locale);
       const description =
         typeof data?.description === "string" ? data.description.trim() : "";
@@ -55,10 +60,10 @@ export function validateEditorialPublish(entry: EditorialEntry): void {
     });
     if (incomplete.length > 0) {
       throw new Error(
-        `Complete title, body, description (up to 240 characters, without an ellipsis), date, cover image and tags in every translation before publishing: ${incomplete.join(", ")}. You can still save an incomplete draft.`,
+        `Complete title, body, description (up to 240 characters, without an ellipsis), date, cover image and tags in ${isCurrentNews ? "each published translation" : "every translation"} before publishing: ${incomplete.join(", ")}. You can still save an incomplete draft.`,
       );
     }
-    for (const locale of locales) {
+    for (const locale of publishingLocales) {
       const data = localizedData(entry, locale);
       if (!data) continue;
       for (const field of ["slug", "publishedAt", "coverImage"] as const) {
