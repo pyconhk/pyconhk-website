@@ -1,15 +1,55 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import { parse } from "yaml";
 import {
   cmsLocales,
   collectCmsLocaleProblems,
 } from "../publication/content.ts";
 
+async function savedTranslations(page: Page): Promise<Record<string, string>> {
+  const configResponse = await page.request.get(
+    "/admin/config.yml?backend=test",
+  );
+  expect(configResponse.ok()).toBe(true);
+  const config = parse(await configResponse.text()) as {
+    collections: { name: string; folder: string }[];
+  };
+  const collection = config.collections.find(({ name }) =>
+    ["posts", "posts_test"].includes(name),
+  );
+  if (!collection) throw new Error("The local CMS must configure 2026 News");
+  return page.evaluate(
+    ({ folder, locales }) =>
+      Object.fromEntries(
+        locales.map((locale) => {
+          const file = `${folder}/e2e-volunteer-announcement.${locale}.mdx`;
+          let stored: unknown = Reflect.get(window, "repoFiles");
+          for (const segment of file.split("/")) {
+            if (!stored || typeof stored !== "object") {
+              throw new Error(`The test backend did not save ${file}`);
+            }
+            stored = Reflect.get(stored, segment);
+          }
+          const raw =
+            stored && typeof stored === "object"
+              ? Reflect.get(stored, "content")
+              : undefined;
+          if (typeof raw !== "string") {
+            throw new Error(`The test backend did not save MDX for ${file}`);
+          }
+          return [locale, raw];
+        }),
+      ),
+    { folder: collection.folder, locales: cmsLocales },
+  );
+}
+
 // The bundled Decap test backend stores this scenario in the browser only.
 // Hosted runs exercise read-only Worker endpoints; editing stays local.
-test("direct saves allow partial drafts, block incomplete publication and preserve all translations", async ({
+test("CMS saves drafts and publishes English before other translations independently", async ({
   page,
 }) => {
+  // Exercise multiple saves plus copy/reopen checks across six locale panels.
+  test.setTimeout(60_000);
   test.skip(
     Boolean(process.env.CMS_BASE_URL),
     "Editing fixtures only run against the local CMS test backend",
@@ -17,6 +57,12 @@ test("direct saves allow partial drafts, block incomplete publication and preser
   await page.goto("/admin/test/");
   await page.getByRole("button", { name: "Login", exact: true }).click();
   await page.getByText("＋ 2026 News", { exact: true }).click();
+  await expect(
+    page.getByText("No unsaved changes", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Saved to CMS", exact: true }),
+  ).toHaveCount(0);
   await page
     .locator('input[id^="title-field"]')
     .first()
@@ -46,33 +92,54 @@ test("direct saves allow partial drafts, block incomplete publication and preser
       .getByRole("button", { name: "Choose different image", exact: true })
       .first(),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Publish", exact: true }).click();
+  await expect(page.getByRole("status").first()).toContainText(
+    "Draft — save unfinished content",
+  );
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+  await expect(
+    page.getByRole("menuitem", { name: "Save and create new", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("menuitem", { name: "Save and duplicate", exact: true }),
+  ).toBeVisible();
   await page
-    .getByRole("menuitem", { name: "Publish now", exact: true })
+    .getByRole("menuitem", { name: "Save changes", exact: true })
     .click();
   await expect(
-    page.getByText("Entry saved", { exact: true }).last(),
+    page.getByText("Entry saved to CMS", { exact: true }).last(),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Saved to CMS", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText("Published", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("button", { name: /^Status:/ })).toHaveCount(0);
   await expect(page.locator('input[id^="title-field"]').first()).toHaveValue(
     "E2E volunteer announcement",
   );
 
+  const visibility = page.getByRole("combobox", {
+    name: "Website visibility",
+    exact: true,
+  });
+  await visibility.first().selectOption("published");
+  await expect(visibility.nth(1)).toHaveValue("draft");
+  await expect(page.getByRole("status").first()).toContainText(
+    "website updates only after checks and deployment succeed",
+  );
+  await page.getByRole("button", { name: "Save", exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Status", exact: true })
-    .first()
-    .fill("published");
-  await page.getByRole("option", { name: "published", exact: true }).click();
-  await page.getByRole("button", { name: "Publish", exact: true }).click();
-  await page
-    .getByRole("menuitem", { name: "Publish now", exact: true })
+    .getByRole("menuitem", { name: "Save changes", exact: true })
     .click();
   await expect(
-    page.getByText(/every translation before publishing:/),
+    page.getByText(/each published translation before publishing: en/),
   ).toBeVisible();
   await expect(page.locator('input[id^="title-field"]').first()).toHaveValue(
     "E2E volunteer announcement",
   );
+  const blocked = await savedTranslations(page);
+  expect(
+    parse(/^---\r?\n([\s\S]*?)\r?\n---/u.exec(blocked.en)?.[1] || "").status,
+  ).toBe("draft");
 
   await page
     .getByRole("textbox", { name: "Description (optional)", exact: true })
@@ -92,7 +159,29 @@ test("direct saves allow partial drafts, block incomplete publication and preser
     .first()
     .fill("This is the English announcement body.");
 
-  page.on("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+  await page
+    .getByRole("menuitem", { name: "Save changes", exact: true })
+    .click();
+  await expect(
+    page.getByText("Entry saved to CMS", { exact: true }).last(),
+  ).toBeVisible();
+  const englishFirst = await savedTranslations(page);
+  for (const locale of cmsLocales) {
+    const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---/u.exec(
+      englishFirst[locale],
+    );
+    if (!frontmatter) throw new Error(`${locale} must contain frontmatter`);
+    expect(parse(frontmatter[1]).status).toBe(
+      locale === "en" ? "published" : "draft",
+    );
+  }
+
+  const copyWarnings: string[] = [];
+  page.on("dialog", (dialog) => {
+    copyWarnings.push(dialog.message());
+    return dialog.accept();
+  });
   let selected = "ZH-HK";
   const locales = ["zh-hk", "zh-hant", "zh-hans", "ja", "ko"];
   for (const locale of locales) {
@@ -108,6 +197,10 @@ test("direct saves allow partial drafts, block incomplete publication and preser
       .nth(1)
       .click();
     await page.getByRole("menuitem", { name: "en", exact: true }).click();
+    await expect(visibility.nth(1)).toHaveValue("published");
+    await visibility
+      .nth(1)
+      .selectOption(locale === "zh-hk" ? "published" : "draft");
     await page
       .locator('input[id^="title-field"]')
       .nth(1)
@@ -117,14 +210,20 @@ test("direct saves allow partial drafts, block incomplete publication and preser
       .nth(1)
       .fill(`Announcement body ${locale}.`);
   }
-  await page.getByRole("button", { name: "Publish", exact: true }).click();
+  expect(copyWarnings).toHaveLength(locales.length);
+  for (const warning of copyWarnings) {
+    expect(warning).toContain("including Website visibility");
+  }
+  await page.getByRole("button", { name: "Save", exact: true }).click();
   await page
-    .getByRole("menuitem", { name: "Publish now", exact: true })
+    .getByRole("menuitem", { name: "Save changes", exact: true })
     .click();
   await expect(
-    page.getByText("Entry saved", { exact: true }).last(),
+    page.getByText("Entry saved to CMS", { exact: true }).last(),
   ).toBeVisible();
-  await expect(page.getByText("Changes saved", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("No unsaved changes", { exact: true }),
+  ).toBeVisible();
 
   const configResponse = await page.request.get(
     "/admin/config.yml?backend=test",
@@ -137,29 +236,12 @@ test("direct saves allow partial drafts, block incomplete publication and preser
     ["posts", "posts_test"].includes(name),
   );
   if (!collection) throw new Error("The local CMS must configure 2026 News");
-  const savedFiles = await page.evaluate(
-    ({ folder, locales }) =>
-      Object.fromEntries(
-        locales.map((locale) => {
-          const file = `${folder}/e2e-volunteer-announcement.${locale}.mdx`;
-          let stored: unknown = Reflect.get(window, "repoFiles");
-          for (const segment of file.split("/")) {
-            if (!stored || typeof stored !== "object") {
-              throw new Error(`The test backend did not save ${file}`);
-            }
-            stored = Reflect.get(stored, segment);
-          }
-          const raw =
-            stored && typeof stored === "object"
-              ? Reflect.get(stored, "content")
-              : undefined;
-          if (typeof raw !== "string") {
-            throw new Error(`The test backend did not save MDX for ${file}`);
-          }
-          return [file, raw];
-        }),
-      ),
-    { folder: collection.folder, locales: cmsLocales },
+  const savedLocales = await savedTranslations(page);
+  const savedFiles = Object.fromEntries(
+    cmsLocales.map((locale) => [
+      `${collection.folder}/e2e-volunteer-announcement.${locale}.mdx`,
+      savedLocales[locale],
+    ]),
   );
   expect(
     collectCmsLocaleProblems(
@@ -182,7 +264,7 @@ test("direct saves allow partial drafts, block incomplete publication and preser
           ? "E2E volunteer announcement"
           : `Announcement ${locale}`,
       slug: "e2e-volunteer-announcement",
-      status: "published",
+      status: ["en", "zh-hk"].includes(locale) ? "published" : "draft",
       description: "An E2E announcement for the local test backend.",
       tags: ["announcement"],
       author: { name: "PyCon HK" },
@@ -224,6 +306,9 @@ test("direct saves allow partial drafts, block incomplete publication and preser
     }
     await expect(page.locator('input[id^="title-field"]').nth(1)).toHaveValue(
       `Announcement ${locale}`,
+    );
+    await expect(visibility.nth(1)).toHaveValue(
+      locale === "zh-hk" ? "published" : "draft",
     );
     await expect(
       page.locator('[contenteditable="true"][role="textbox"]').nth(1),

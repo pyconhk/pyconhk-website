@@ -42,6 +42,7 @@ test("admin loads the published Decap configuration and login screen", async ({
     base_url: baseURL,
   });
   expect(config.publish_mode).toBe("simple");
+  expect(config.locale).toBe("pycon-en");
   expect(config.i18n.locales).toEqual([
     "en",
     "zh-hk",
@@ -71,6 +72,24 @@ test("admin loads the published Decap configuration and login screen", async ({
     config.collections.find((c) => c.name === `posts_2025${collectionSuffix}`)
       .i18n.locales,
   ).toEqual(["en", "zh-hk", "zh-hant", "zh-hans", "ja"]);
+  for (const collection of config.collections) {
+    const visibility = collection.fields.find(
+      (field) => field.name === "status",
+    );
+    expect(visibility.label).toBe("Website visibility");
+    expect(visibility.options).toEqual([
+      { label: "Draft — do not publish", value: "draft" },
+      {
+        label: collection.name.startsWith("posts_2025")
+          ? "Publish all five translations after checks"
+          : "Publish this language after checks",
+        value: "published",
+      },
+    ]);
+    expect(visibility.i18n).toBe(
+      collection.name.startsWith("posts_2025") ? "duplicate" : true,
+    );
+  }
 });
 
 test("deployment manifest identifies the CMS content environment", async ({

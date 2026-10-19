@@ -40,17 +40,34 @@ CMS CNAME is edited manually in the console.
 
 The CMS uses Decap's `multiple_files` i18n structure. The 2026 news collection uses
 `en`, `zh-hk`, `zh-hant`, `zh-hans`, `ja`, and `ko`; 2025 retains its five locales
-without `ko`. Published news requires every locale for its year. The sidebar
-exposes only news collections, currently `2026 News` and `2025 News`. The year is
+without `ko`. Each 2026 translation can publish when it is ready; the other
+translations can stay as drafts or be added later. The 2025 archive retains its
+requirement for all five published translations. The sidebar exposes only news
+collections, currently `2026 News` and `2025 News`. The year is
 determined by the collection, so editors do not enter it as post metadata.
 Conference pages and event settings are maintained in the website source.
 
-Decap uses simple publishing: its **Publish now** button saves directly to the
-CMS branch, with no per-article pull request or review step. The entry's **Status**
-field controls whether the website displays it. Leave it as `draft` to save an
-unfinished translation; select `published` when the article is ready. Before
-saving a published entry, the editor checks all required translations and shared
-fields. CI repeats the content validation before promotion.
+The editor's **Save** button saves directly to the CMS branch, with no
+per-article pull request or review step. For 2026 News, each language has its own
+**Website visibility** choice: **Draft — do not publish** or
+**Publish this language after checks**.
+Select publication only for the translations that are ready. Before saving,
+the editor checks each published translation's title, body, description, date,
+cover image and tags. Published translations share English's slug, date and
+cover image. Draft translations can remain incomplete. The 2025 archive's
+**Website visibility** remains shared across all five translations; its
+**Publish all five translations after checks** option retains the archive's
+existing checks. Copying content from another locale also copies its visibility;
+the editor warns you to review that choice before saving. CI repeats content
+validation before promotion.
+
+When a 2026 translation is not published, its News list and homepage can show
+the published English article with an English-language badge and a link to the
+English article. Draft or missing translations do not get public article URLs,
+language-switcher links or search-engine alternate links. Once a translation
+publishes, its own article replaces the English card in that language.
+
+**Saved to CMS** confirms the save; it does not confirm a website deployment.
 
 Production commits land on `cms` and automatically promote to `main` after
 validation. Test commits land on `cms-test` and promote only to `test`.
@@ -77,7 +94,8 @@ website/outstatic/content/2026-posts/hello-world.ko.mdx
 
 Both News branches must be seeded with this locale-coded shape before editors
 use them. Legacy files such as `hello-world.mdx` are not entries in a
-`multiple_files` collection.
+`multiple_files` collection. Missing 2026 translations do not need placeholder
+files.
 
 ## Local Development
 
