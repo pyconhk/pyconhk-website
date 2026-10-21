@@ -1,10 +1,9 @@
 import { expect, test } from '@playwright/test';
 import type { ProgrammeSnapshot } from '../../../lib/programme/types';
 
-function calendarPath(locale: string, ids: string[], download = false): string {
+function calendarPath(locale: string, ids: string[]): string {
   const query = new URLSearchParams();
   for (const id of ids) query.append('session', id);
-  if (download) query.set('download', '1');
   return `/2026/${locale}/schedule/calendar.ics?${query}`;
 }
 
@@ -20,7 +19,7 @@ function events(content: string): string[] {
 }
 
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
-  test(`calendar app and download links contain selected sessions and locale links for ${locale}`, async ({
+  test(`calendar app links contain selected sessions and locale links for ${locale}`, async ({
     request,
     baseURL,
   }) => {
@@ -59,13 +58,6 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       );
     }
     expect(await (await request.get(path)).text()).toBe(content);
-    const attachment = await request.get(calendarPath(locale, ids, true));
-    expect(attachment.status()).toBe(200);
-    expect(attachment.headers()['content-disposition']).toMatch(/^attachment;.*\.ics/);
-    expect(attachment.headers()['content-type']).toBe(
-      response.headers()['content-type']
-    );
-    expect(await attachment.text()).toBe(content);
     const head = await request.head(path);
     expect(head.status()).toBe(200);
     expect(head.headers()['content-type']).toBe(response.headers()['content-type']);
@@ -73,12 +65,6 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       response.headers()['content-disposition']
     );
     expect(await head.body()).toHaveLength(0);
-    const attachmentHead = await request.head(calendarPath(locale, ids, true));
-    expect(attachmentHead.status()).toBe(200);
-    expect(attachmentHead.headers()['content-disposition']).toBe(
-      attachment.headers()['content-disposition']
-    );
-    expect(await attachmentHead.body()).toHaveLength(0);
   });
 }
 
@@ -134,8 +120,7 @@ test('all published talks fit in one Google Calendar import file', async ({
   const response = await request.get(
     calendarPath(
       'en',
-      selected.map((session) => session.id),
-      true
+      selected.map((session) => session.id)
     )
   );
   expect(response.status()).toBe(200);

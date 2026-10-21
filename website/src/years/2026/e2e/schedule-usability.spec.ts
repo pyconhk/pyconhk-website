@@ -13,7 +13,7 @@ async function openProgramme(page: Page, locale = 'en'): Promise<Programme> {
   );
   await expect(
     page.locator(
-      '[data-subscribe-saved], [data-saved-subscription-url], [data-modal-subscribe], [data-modal-subscription-url], [data-calendar-subscription-hint], a[href^="webcal:"], a[href^="blob:"]'
+      '[data-export-saved], [data-modal-download], [data-subscribe-saved], [data-saved-subscription-url], [data-modal-subscribe], [data-modal-subscription-url], [data-calendar-subscription-hint], a[href^="webcal:"], a[href^="blob:"]'
     )
   ).toHaveCount(0);
   return JSON.parse((await page.locator('#programme-data').textContent()) ?? '{}');
@@ -28,21 +28,12 @@ async function showSession(page: Page, session: ScheduleItem): Promise<Locator> 
   return sessionCard(page, session);
 }
 
-async function calendarUrl(
-  page: Page,
-  trigger: Locator,
-  download = false
-): Promise<URL> {
+async function calendarUrl(page: Page, trigger: Locator): Promise<URL> {
   const url = new URL((await trigger.getAttribute('href')) ?? '');
   expect(url.protocol).toMatch(/^https?:$/);
   expect(url.origin).toBe(new URL(page.url()).origin);
   expect(url.pathname).toMatch(/\/2026\/[^/]+\/schedule\/calendar\.ics$/);
-  expect(url.searchParams.get('download')).toBe(download ? '1' : null);
-  expect(
-    [...url.searchParams.keys()].every(
-      (key) => key === 'session' || (download && key === 'download')
-    )
-  ).toBe(true);
+  expect([...url.searchParams.keys()].every((key) => key === 'session')).toBe(true);
   await expect(trigger).toHaveJSProperty('tagName', 'A');
   await expect(trigger).not.toHaveAttribute('download');
   return url;
@@ -55,24 +46,6 @@ async function calendarImport(page: Page, trigger: Locator): Promise<string> {
   expect(response.status()).toBe(200);
   expect(response.headers()['content-disposition']).toMatch(/^inline;/);
   return (await response.text()).replace(/\r\n[ \t]/g, '');
-}
-
-async function calendarDownload(page: Page, trigger: Locator): Promise<string> {
-  const url = await calendarUrl(page, trigger, true);
-  const downloaded = page.waitForEvent('download');
-  await trigger.click();
-  const download = await downloaded;
-  expect(download.url()).toBe(url.href);
-  expect(download.suggestedFilename()).toMatch(/\.ics$/);
-  expect(await download.failure()).toBeNull();
-  const stream = await download.createReadStream();
-  expect(stream).not.toBeNull();
-  const chunks: Buffer[] = [];
-  for await (const chunk of stream ?? []) chunks.push(Buffer.from(chunk));
-  // Unfold RFC 5545 content lines before checking long names and links.
-  return Buffer.concat(chunks)
-    .toString('utf8')
-    .replace(/\r\n[ \t]/g, '');
 }
 
 function compactUtc(value: string): string {
@@ -107,7 +80,6 @@ async function expectModalActionsFit(page: Page, providersShareRow: boolean) {
     '[data-modal-save]',
     '[data-modal-calendar]',
     '[data-modal-google-calendar]',
-    '[data-modal-download]',
     '[data-modal-source]',
   ];
   await page.locator('[data-modal-source]').scrollIntoViewIfNeeded();
@@ -138,7 +110,7 @@ async function expectModalActionsFit(page: Page, providersShareRow: boolean) {
           control.scrollWidth <= control.clientWidth + 1,
       };
     });
-    const [save, calendar, google, download, source] = controls;
+    const [save, calendar, google, source] = controls;
     return {
       controls,
       noOverlap: controls.every((control, index) =>
@@ -158,9 +130,7 @@ async function expectModalActionsFit(page: Page, providersShareRow: boolean) {
         Math.abs(calendar.top - google.top) < 1 &&
         Math.abs(calendar.bottom - google.bottom) < 1,
       providersBelowSave: Math.min(calendar.top, google.top) >= save.bottom - 1,
-      secondaryBelowPrimary:
-        Math.min(download.top, source.top) >=
-        Math.max(calendar.bottom, google.bottom) - 1,
+      secondaryBelowPrimary: source.top >= Math.max(calendar.bottom, google.bottom) - 1,
     };
   }, selectors);
   expect(geometry.controls.filter((control) => !control.fits)).toEqual([]);
@@ -191,11 +161,8 @@ for (const width of [390, 1440]) {
     if (!second) return;
 
     const addSaved = page.locator('[data-add-saved-calendar]');
-    const exportSaved = page.locator('[data-export-saved]');
-    for (const link of [addSaved, exportSaved]) {
-      await expect(link).toHaveAttribute('aria-disabled', 'true');
-      await expect(link).not.toHaveAttribute('href');
-    }
+    await expect(addSaved).toHaveAttribute('aria-disabled', 'true');
+    await expect(addSaved).not.toHaveAttribute('href');
     const firstCard = await showSession(page, first);
     await expect(firstCard).toHaveAttribute('data-session-kind', 'session');
     const portrait = firstCard.locator('img[data-card-speaker-avatar]').first();
@@ -244,9 +211,6 @@ for (const width of [390, 1440]) {
     );
     const single = await calendarImport(page, calendarApp);
     expectCalendarSessions(single, [first], programme.event);
-    const downloadSingle = page.locator('[data-modal-download]');
-    await expect(downloadSingle).toHaveAccessibleName('Download .ics');
-    expect(await calendarDownload(page, downloadSingle)).toBe(single);
     await expect(page.locator('#session-modal [data-calendar-import-help]')).toHaveText(
       'Your device may download the file instead. Open it with your calendar app if needed.'
     );
@@ -277,18 +241,15 @@ for (const width of [390, 1440]) {
       )
     ).toEqual(expect.arrayContaining([first.id, second.id]));
 
-    // Export keeps selections across days and even when search hides every card.
+    // Adding saved sessions keeps selections across days even when search hides every card.
     await page
       .locator('[data-programme-search]')
       .fill('no-session-matches-this-search');
     await expect(page.locator('[data-session-card]:visible')).toHaveCount(0);
     await expect(addSaved).toHaveAccessibleName('Add saved sessions to calendar');
-    for (const link of [addSaved, exportSaved]) {
-      await expect(link).toHaveAttribute('aria-disabled', 'false');
-    }
+    await expect(addSaved).toHaveAttribute('aria-disabled', 'false');
     const combined = await calendarImport(page, addSaved);
     expectCalendarSessions(combined, [first, second], programme.event);
-    expect(await calendarDownload(page, exportSaved)).toBe(combined);
 
     await page.locator('[data-clear-filters]').click();
     const savedFilter = page.locator('[data-saved-filter]');
@@ -306,11 +267,11 @@ for (const width of [390, 1440]) {
     await expect(page.locator('#session-modal')).not.toBeVisible();
     await expect(savedFilter).toBeFocused();
     await expect(page.locator('[data-saved-count]')).toHaveText('1');
-    for (const link of [addSaved, exportSaved]) {
-      expect(
-        new URL((await link.getAttribute('href')) ?? '').searchParams.getAll('session')
-      ).toEqual([second.id]);
-    }
+    expect(
+      new URL((await addSaved.getAttribute('href')) ?? '').searchParams.getAll(
+        'session'
+      )
+    ).toEqual([second.id]);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
     ).toBe(true);
@@ -354,13 +315,16 @@ test('breaks remain timetable information and stale break bookmarks are removed'
   await expect(page.locator('#session-modal')).not.toBeVisible();
   await page.locator('[data-saved-filter]').click();
   await expect(page.locator('[data-session-kind="break"]:visible')).toHaveCount(0);
-  const calendar = await calendarDownload(page, page.locator('[data-export-saved]'));
+  const calendar = await calendarImport(
+    page,
+    page.locator('[data-add-saved-calendar]')
+  );
   expectCalendarSessions(calendar, [session], programme.event);
   await page.goto(`/2026/en/schedule/?session=${encodeURIComponent(breaks[0].id)}`);
   await expect(page.locator('#session-modal')).not.toBeVisible();
 });
 
-test('mobile calendar export still works when browser storage is blocked', async ({
+test('mobile calendar action still works when browser storage is blocked', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -381,14 +345,18 @@ test('mobile calendar export still works when browser storage is blocked', async
   const card = await showSession(page, session);
   await card.locator('[data-save-session]').click();
   await expect(page.locator('[data-saved-count]')).toHaveText('1');
-  const calendar = await calendarDownload(page, page.locator('[data-export-saved]'));
+  const calendar = await calendarImport(
+    page,
+    page.locator('[data-add-saved-calendar]')
+  );
   expectCalendarSessions(calendar, [session], programme.event);
   await card.locator('[data-save-session]').click();
   await expect(page.locator('[data-saved-count]')).toHaveText('0');
-  for (const selector of ['[data-add-saved-calendar]', '[data-export-saved]']) {
-    await expect(page.locator(selector)).toHaveAttribute('aria-disabled', 'true');
-    await expect(page.locator(selector)).not.toHaveAttribute('href');
-  }
+  await expect(page.locator('[data-add-saved-calendar]')).toHaveAttribute(
+    'aria-disabled',
+    'true'
+  );
+  await expect(page.locator('[data-add-saved-calendar]')).not.toHaveAttribute('href');
   expect(errors).toEqual([]);
 });
 

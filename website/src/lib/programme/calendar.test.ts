@@ -163,7 +163,7 @@ test('Google Calendar uses the documented event editor with Hong Kong start and 
   assert.equal(url.searchParams.get('details'), item.url);
 });
 
-test('calendar app and download links preserve the same locale, selection and origin', () => {
+test('calendar app links preserve the locale, selection and origin', () => {
   const selected = [{ id: 'FIRST' }, { id: 'SECOND' }, { id: 'FIRST' }];
   const inline = new URL(calendarImportUrl(selected, `${baseUrl}?room=lt1#details`));
   assert.equal(inline.origin, 'https://pycon.hk');
@@ -172,14 +172,6 @@ test('calendar app and download links preserve the same locale, selection and or
   assert.equal(inline.searchParams.has('download'), false);
   assert.equal(inline.searchParams.has('room'), false);
   assert.equal(inline.hash, '');
-  const download = new URL(calendarImportUrl(selected, baseUrl, true));
-  assert.equal(download.origin, 'https://pycon.hk');
-  assert.equal(download.pathname, inline.pathname);
-  assert.deepEqual(
-    download.searchParams.getAll('session'),
-    inline.searchParams.getAll('session')
-  );
-  assert.equal(download.searchParams.get('download'), '1');
   assert.equal(
     new URL(calendarImportUrl(selected, 'http://127.0.0.1:8788/2026/en/schedule/'))
       .protocol,
