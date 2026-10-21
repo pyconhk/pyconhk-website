@@ -113,10 +113,15 @@ async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean
       if (!control) throw new Error(`Missing calendar action: ${selector}`);
       const bounds = control.getBoundingClientRect();
       return {
+        selector,
         left: bounds.left,
         right: bounds.right,
         top: bounds.top,
         bottom: bounds.bottom,
+        width: bounds.width,
+        height: bounds.height,
+        scrollWidth: control.scrollWidth,
+        clientWidth: control.clientWidth,
         fits:
           bounds.left >= bodyBounds.left &&
           bounds.right <= bodyBounds.right &&
@@ -127,7 +132,7 @@ async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean
     });
     const [save, calendar, subscribe, subscriptionUrl, google, source] = controls;
     return {
-      controlsFit: controls.every((control) => control.fits),
+      controls,
       noOverlap: controls.every((control, index) =>
         controls
           .slice(index + 1)
@@ -151,7 +156,7 @@ async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean
         Math.max(save.bottom, calendar.bottom, subscribe.bottom) - 1,
     };
   }, selectors);
-  expect(geometry.controlsFit).toBe(true);
+  expect(geometry.controls.filter((control) => !control.fits)).toEqual([]);
   expect(geometry.noOverlap).toBe(true);
   expect(geometry.secondaryBelowPrimary).toBe(true);
   if (primaryActionsShareRow) expect(geometry.primaryAligned).toBe(true);

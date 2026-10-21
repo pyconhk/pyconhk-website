@@ -99,7 +99,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .day-button { min-height: 44px; max-width: 100%; background: var(--conference-surface); color: var(--conference-ink); }
   .day-button[aria-pressed='true'] { background: #d71920; color: white; }
   [data-saved-filter][aria-pressed='true'] { background: #d71920; border-color: #d71920; color: white; }
-  .programme-calendar-link { text-align: center; text-wrap: balance; }
+  .programme-calendar-link { min-width: 44px; text-align: center; text-wrap: balance; }
   .programme-calendar-link[aria-disabled='true'] { cursor: not-allowed; opacity: .5; }
   .programme-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .programme-filters label { min-width: 0; }
