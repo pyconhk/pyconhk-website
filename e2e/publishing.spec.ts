@@ -182,21 +182,31 @@ for (const [label, change, error] of [
   });
 }
 
-test('editorial publication accepts drafts and requires six translations, or five for 2025',async()=>{
+test('2026 publication accepts English first, validates later translations and preserves the 2025 archive rules',async()=>{
   const dir=await fixture();
   try {
     const posts=path.join(dir,'website/outstatic/content/2026-posts');
     await writeFile(path.join(posts,'e2e.en.mdx'),article('draft'));
     expect((await run(dir,'content')).code).toBe(0);
     await writeFile(path.join(posts,'e2e.en.mdx'),article());
-    const incomplete=await run(dir,'content');
-    expect(incomplete.code).not.toBe(0);expect(incomplete.text).toContain('ko');
+    const englishOnly=await run(dir,'content');
+    expect(englishOnly.code,englishOnly.text).toBe(0);
+    await writeFile(path.join(posts,'e2e.zh-hk.mdx'),'---\nslug: e2e-announcement\nstatus: draft\ntitle: null\nbody: null\n---\n');
+    expect((await run(dir,'content')).code).toBe(0);
+    await writeFile(path.join(posts,'e2e.zh-hk.mdx'),article().replace('Public announcement',''));
+    const unfinishedTranslation=await run(dir,'content');
+    expect(unfinishedTranslation.code).not.toBe(0);
+    expect(unfinishedTranslation.text).toContain('e2e.zh-hk.mdx needs a body before publishing');
     for(const locale of locales) await writeFile(path.join(posts,`e2e.${locale}.mdx`),article());
     expect((await run(dir,'content')).code).toBe(0);
     await writeFile(path.join(posts,'e2e.ko.mdx'),article().replace('/e2e.webp','/different.webp'));
     const mismatch=await run(dir,'content');expect(mismatch.code).not.toBe(0);expect(mismatch.text).toContain('coverImage');
     await rm(posts,{recursive:true});
     const archive=path.join(dir,'website/outstatic/content/2025-posts');await mkdir(archive);
+    await writeFile(path.join(archive,'e2e.en.mdx'),article());
+    const incompleteArchive=await run(dir,'content');
+    expect(incompleteArchive.code).not.toBe(0);
+    expect(incompleteArchive.text).toContain('missing published locales');
     for(const locale of locales.slice(0,-1)) await writeFile(path.join(archive,`e2e.${locale}.mdx`),article());
     expect((await run(dir,'content')).code).toBe(0);
     await writeFile(path.join(archive,'e2e.ko.mdx'),article());

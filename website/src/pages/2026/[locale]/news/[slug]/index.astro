@@ -4,16 +4,19 @@ import NewsArticlePage from '@/years/2026/components/pages/NewsArticlePage.astro
 import { resolveCfpLocale, supportedLocales } from '@/years/2026/data/cfp';
 
 export async function getStaticPaths() {
-  const slugs = await getPublishedPostSlugs(2026);
-
-  return supportedLocales.flatMap((locale) =>
-    slugs.map((slug) => ({
-      params: {
-        locale,
-        slug,
-      },
-    }))
+  const paths = await Promise.all(
+    supportedLocales.map(async (locale) => {
+      const slugs = await getPublishedPostSlugs(2026, locale);
+      return slugs.map((slug) => ({
+        params: {
+          locale,
+          slug,
+        },
+      }));
+    })
   );
+
+  return paths.flat();
 }
 
 const locale = resolveCfpLocale(Astro.params.locale);

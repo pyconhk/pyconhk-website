@@ -89,6 +89,7 @@ export function collectCmsLocaleProblems(files, readContent) {
       }
       const group = entries.get(entry) || {
         requiredLocales,
+        isArchive: year === "2025",
         variants: new Map(),
       };
       group.variants.set(locale, data);
@@ -110,24 +111,22 @@ export function collectCmsLocaleProblems(files, readContent) {
     }
   }
 
-  for (const [entry, { requiredLocales, variants }] of entries) {
+  for (const [entry, { isArchive, requiredLocales, variants }] of entries) {
     if (
       ![...variants.values()].some((variant) => variant.status === "published")
     )
       continue;
-    const missing = requiredLocales.filter(
-      (locale) => variants.get(locale)?.status !== "published",
-    );
-
-    if (missing.length > 0) {
-      problems.push(
-        `${entry} is missing published locales: ${missing.join(", ")}`,
+    if (isArchive) {
+      const missing = requiredLocales.filter(
+        (locale) => variants.get(locale)?.status !== "published",
       );
+      if (missing.length > 0) {
+        problems.push(
+          `${entry} is missing published locales: ${missing.join(", ")}`,
+        );
+      }
     }
-    if (
-      requiredLocales.includes("ko") &&
-      variants.get("en")?.status === "published"
-    ) {
+    if (!isArchive && variants.has("en")) {
       const english = variants.get("en");
       for (const [locale, variant] of variants) {
         if (variant.status !== "published") continue;

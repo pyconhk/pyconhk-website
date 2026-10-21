@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { stringify } from "yaml";
 
-import { createCmsConfig } from "../../lib/cms-config";
+import { cmsEditorLocale, createCmsConfig } from "../../lib/cms-config";
 import { getCmsBranch, getCmsRepo, getCmsSiteUrl } from "../../lib/env";
 import { getRuntimeEnvironment } from "../../lib/runtime-env";
 
@@ -28,6 +28,7 @@ export const GET: APIRoute = ({ url }) => {
 
   const config = {
     backend,
+    locale: cmsEditorLocale,
     publish_mode: cmsConfig.publishMode,
     media_folder: cmsConfig.mediaFolder,
     public_folder: cmsConfig.publicFolder,
