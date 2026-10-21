@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test';
 import type { ProgrammeSnapshot } from '../../../lib/programme/types';
 
-function downloadPath(locale: string, ids: string[]): string {
+function calendarPath(locale: string, ids: string[], download = false): string {
   const query = new URLSearchParams();
   for (const id of ids) query.append('session', id);
+  if (download) query.set('download', '1');
   return `/2026/${locale}/schedule/calendar.ics?${query}`;
 }
 
@@ -19,7 +20,7 @@ function events(content: string): string[] {
 }
 
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
-  test(`calendar download contains selected sessions and locale links for ${locale}`, async ({
+  test(`calendar app and download links contain selected sessions and locale links for ${locale}`, async ({
     request,
     baseURL,
   }) => {
@@ -30,16 +31,14 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       .filter((session) => !session.isBreak)
       .slice(0, 2);
     test.skip(selected.length < 2, 'Requires two published sessions.');
-    const path = downloadPath(
-      locale,
-      selected.map((session) => session.id)
-    );
+    const ids = selected.map((session) => session.id);
+    const path = calendarPath(locale, ids);
     const response = await request.get(path);
     expect(response.status()).toBe(200);
     expect(response.headers()['content-type']).toMatch(
       /^text\/calendar;\s*charset=utf-8$/i
     );
-    expect(response.headers()['content-disposition']).toMatch(/^attachment;.*\.ics/);
+    expect(response.headers()['content-disposition']).toMatch(/^inline;.*\.ics/);
     expect(response.headers()['x-content-type-options']).toBe('nosniff');
     const content = await response.text();
     expect(content).not.toMatch(/^METHOD:/m);
@@ -60,10 +59,26 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       );
     }
     expect(await (await request.get(path)).text()).toBe(content);
+    const attachment = await request.get(calendarPath(locale, ids, true));
+    expect(attachment.status()).toBe(200);
+    expect(attachment.headers()['content-disposition']).toMatch(/^attachment;.*\.ics/);
+    expect(attachment.headers()['content-type']).toBe(
+      response.headers()['content-type']
+    );
+    expect(await attachment.text()).toBe(content);
     const head = await request.head(path);
     expect(head.status()).toBe(200);
     expect(head.headers()['content-type']).toBe(response.headers()['content-type']);
+    expect(head.headers()['content-disposition']).toBe(
+      response.headers()['content-disposition']
+    );
     expect(await head.body()).toHaveLength(0);
+    const attachmentHead = await request.head(calendarPath(locale, ids, true));
+    expect(attachmentHead.status()).toBe(200);
+    expect(attachmentHead.headers()['content-disposition']).toBe(
+      attachment.headers()['content-disposition']
+    );
+    expect(await attachmentHead.body()).toHaveLength(0);
   });
 }
 
@@ -83,10 +98,10 @@ test('calendar selection excludes breaks and retired IDs without exporting other
     'retired-session',
     ...(breakItem ? [breakItem.id] : []),
   ];
-  const response = await request.get(downloadPath('en', ids));
+  const response = await request.get(calendarPath('en', ids));
   expect(response.status()).toBe(200);
   expect(events(await response.text())).toHaveLength(1);
-  const retired = await request.get(downloadPath('en', ['retired-session']));
+  const retired = await request.get(calendarPath('en', ['retired-session']));
   expect(retired.status()).toBe(404);
   expect(retired.headers()['content-type']).not.toContain('text/calendar');
   expect(await retired.text()).not.toContain('BEGIN:VCALENDAR');
@@ -96,16 +111,16 @@ test('calendar rejects malformed or oversized selections and unsupported locales
   request,
 }) => {
   for (const path of [
-    downloadPath('en', []),
-    downloadPath('en', ['bad\r\nBEGIN:VEVENT']),
-    downloadPath(
+    calendarPath('en', []),
+    calendarPath('en', ['bad\r\nBEGIN:VEVENT']),
+    calendarPath(
       'en',
       Array.from({ length: 201 }, (_, index) => `selection-${index}`)
     ),
   ]) {
     expect((await request.get(path)).status(), path).toBe(400);
   }
-  expect((await request.get(downloadPath('invalid', ['session']))).status()).toBe(404);
+  expect((await request.get(calendarPath('invalid', ['session']))).status()).toBe(404);
 });
 
 test('all published talks fit in one Google Calendar import file', async ({
@@ -117,9 +132,10 @@ test('all published talks fit in one Google Calendar import file', async ({
   const selected = snapshot.sessions.filter((session) => !session.isBreak);
   test.skip(selected.length === 0, 'Requires published sessions.');
   const response = await request.get(
-    downloadPath(
+    calendarPath(
       'en',
-      selected.map((session) => session.id)
+      selected.map((session) => session.id),
+      true
     )
   );
   expect(response.status()).toBe(200);

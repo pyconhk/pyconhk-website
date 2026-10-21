@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  calendarDownloadUrl,
+  calendarImportUrl,
   isSaveableSession,
   sessionCalendarUrl,
   sessionMatches,
@@ -148,51 +148,66 @@ test('dates without timezone cannot silently inherit the exporting device timezo
   );
 });
 
-test('Google Calendar remains an optional correctly timed alternative', () => {
-  const url = new URL(sessionCalendarUrl(session()));
-  assert.equal(url.searchParams.get('ctz'), 'Asia/Hong_Kong');
+test('Google Calendar uses the documented event editor with Hong Kong start and end time zones', () => {
+  const item = session();
+  const url = new URL(sessionCalendarUrl(item));
+  assert.equal(url.origin, 'https://calendar.google.com');
+  assert.equal(url.pathname, '/calendar/r/eventedit');
+  assert.equal(url.searchParams.get('action'), 'TEMPLATE');
+  assert.equal(url.searchParams.get('stz'), 'Asia/Hong_Kong');
+  assert.equal(url.searchParams.get('etz'), 'Asia/Hong_Kong');
+  assert.equal(url.searchParams.has('ctz'), false);
   assert.equal(url.searchParams.get('dates'), '20261114T020000Z/20261114T023000Z');
+  assert.equal(url.searchParams.get('text'), item.title);
+  assert.equal(url.searchParams.get('location'), item.room);
+  assert.equal(url.searchParams.get('details'), item.url);
 });
 
-test('calendar download links preserve the locale, selection and same origin', () => {
+test('calendar app and download links preserve the same locale, selection and origin', () => {
   const selected = [{ id: 'FIRST' }, { id: 'SECOND' }, { id: 'FIRST' }];
-  const download = new URL(
-    calendarDownloadUrl(selected, `${baseUrl}?room=lt1#details`)
-  );
+  const inline = new URL(calendarImportUrl(selected, `${baseUrl}?room=lt1#details`));
+  assert.equal(inline.origin, 'https://pycon.hk');
+  assert.equal(inline.pathname, '/2026/zh-hk/schedule/calendar.ics');
+  assert.deepEqual(inline.searchParams.getAll('session'), ['FIRST', 'SECOND']);
+  assert.equal(inline.searchParams.has('download'), false);
+  assert.equal(inline.searchParams.has('room'), false);
+  assert.equal(inline.hash, '');
+  const download = new URL(calendarImportUrl(selected, baseUrl, true));
   assert.equal(download.origin, 'https://pycon.hk');
-  assert.equal(download.pathname, '/2026/zh-hk/schedule/calendar.ics');
-  assert.deepEqual(download.searchParams.getAll('session'), ['FIRST', 'SECOND']);
-  assert.equal(download.searchParams.has('download'), false);
-  assert.equal(download.searchParams.has('room'), false);
-  assert.equal(download.hash, '');
+  assert.equal(download.pathname, inline.pathname);
+  assert.deepEqual(
+    download.searchParams.getAll('session'),
+    inline.searchParams.getAll('session')
+  );
+  assert.equal(download.searchParams.get('download'), '1');
   assert.equal(
-    new URL(calendarDownloadUrl(selected, 'http://127.0.0.1:8788/2026/en/schedule/'))
+    new URL(calendarImportUrl(selected, 'http://127.0.0.1:8788/2026/en/schedule/'))
       .protocol,
     'http:'
   );
 });
 
-test('calendar download URLs reject empty or invalid selections and unsupported locations', () => {
-  assert.throws(() => calendarDownloadUrl([], baseUrl), /at least one session/);
+test('calendar import URLs reject empty or invalid selections and unsupported locations', () => {
+  assert.throws(() => calendarImportUrl([], baseUrl), /at least one session/);
   for (const id of ['', '../private', 'FIRST\r\nEND:VEVENT', 'a'.repeat(129)]) {
-    assert.throws(() => calendarDownloadUrl([{ id }], baseUrl));
+    assert.throws(() => calendarImportUrl([{ id }], baseUrl));
   }
   for (const url of [
     'https://pycon.hk/2026/fr/schedule/',
     'https://pycon.hk/2025/en/schedule/',
     'https://user:secret@pycon.hk/2026/en/schedule/',
   ]) {
-    assert.throws(() => calendarDownloadUrl([{ id: 'FIRST' }], url));
+    assert.throws(() => calendarImportUrl([{ id: 'FIRST' }], url));
   }
   assert.throws(() =>
-    calendarDownloadUrl(
+    calendarImportUrl(
       Array.from({ length: 201 }, (_, index) => ({ id: String(index) })),
       baseUrl
     )
   );
   assert.throws(
     () =>
-      calendarDownloadUrl(
+      calendarImportUrl(
         Array.from({ length: 100 }, (_, index) => ({
           id: `${index}-${'a'.repeat(100)}`,
         })),

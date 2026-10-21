@@ -110,9 +110,10 @@ export function sessionsCalendarContent(
   return `${lines.map(foldCalendarLine).join('\r\n')}\r\n`;
 }
 
-export function calendarDownloadUrl(
+export function calendarImportUrl(
   sessions: readonly Pick<ScheduleItem, 'id'>[],
-  baseUrl: string
+  baseUrl: string,
+  download = false
 ): string {
   if (!sessions.length) throw new Error('Select at least one session to download.');
   const url = new URL(baseUrl);
@@ -136,6 +137,7 @@ export function calendarDownloadUrl(
   for (const id of new Set(sessions.map((session) => session.id))) {
     url.searchParams.append('session', id);
   }
+  if (download) url.searchParams.set('download', '1');
   if (url.href.length > 8192) throw new Error('Calendar selection URL is too long.');
   return url.href;
 }
@@ -147,9 +149,10 @@ export function sessionCalendarUrl(
     action: 'TEMPLATE',
     text: session.title,
     dates: `${calendarDate(session.start)}/${calendarDate(session.end)}`,
-    ctz: 'Asia/Hong_Kong',
+    stz: 'Asia/Hong_Kong',
+    etz: 'Asia/Hong_Kong',
     location: session.room,
     details: session.url,
   });
-  return `https://calendar.google.com/calendar/render?${parameters}`;
+  return `https://calendar.google.com/calendar/r/eventedit?${parameters}`;
 }

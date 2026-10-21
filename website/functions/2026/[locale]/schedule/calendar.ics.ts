@@ -1,6 +1,6 @@
 import { validateSnapshot } from '../../../../src/lib/programme/snapshot.ts';
 import {
-  calendarDownloadUrl,
+  calendarImportUrl,
   sessionsCalendarContent,
 } from '../../../../src/years/2026/components/schedule/schedule-interactions.ts';
 
@@ -34,11 +34,16 @@ export async function onRequest({
   const url = new URL(request.url);
   const baseUrl = new URL(`/2026/${locale}/schedule/`, url).href;
   const requested = url.searchParams.getAll('session');
+  const download = url.searchParams.getAll('download');
   try {
-    if (request.url.length > 8192) {
+    if (
+      request.url.length > 8192 ||
+      download.length > 1 ||
+      download.some((value) => value !== '1')
+    ) {
       throw new Error('Invalid calendar request.');
     }
-    calendarDownloadUrl(
+    calendarImportUrl(
       requested.map((id) => ({ id })),
       baseUrl
     );
@@ -89,7 +94,7 @@ export async function onRequest({
     return new Response(head ? null : content, {
       headers: {
         'Content-Type': 'text/calendar; charset=utf-8',
-        'Content-Disposition': `attachment; filename="${event}-schedule.ics"`,
+        'Content-Disposition': `${download.length ? 'attachment' : 'inline'}; filename="${event}-schedule.ics"`,
         'Cache-Control': 'public, max-age=0, must-revalidate',
         'X-Content-Type-Options': 'nosniff',
       },

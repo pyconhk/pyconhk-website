@@ -43,6 +43,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
           <button type="button" data-clear-filters class="px-3 py-2 text-sm font-bold underline">{copy.clear}</button>
         </div>
         <div class="programme-calendar-actions mt-4 flex flex-wrap items-center justify-end gap-3">
+          {/* biome-ignore lint/a11y/useValidAnchor: Disabled until saved sessions provide a calendar URL. */}
+          <a data-add-saved-calendar aria-disabled="true" tabindex="-1" class="programme-calendar-link inline-flex min-h-11 items-center justify-center rounded-xl border border-conference-outline bg-conference-blue px-4 py-2 text-sm font-bold text-white">{copy.addSaved}</a>
           {/* biome-ignore lint/a11y/useValidAnchor: Disabled until saved sessions provide a download URL. */}
           <a data-export-saved aria-disabled="true" tabindex="-1" class="programme-calendar-link inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-conference-outline bg-conference-surface px-4 py-2 text-sm font-bold"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg>{copy.exportSaved}</a>
           <p data-calendar-import-help class="w-full text-sm text-conference-body">{copy.importHelp}</p>
@@ -160,7 +162,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
 <script>
   import type { ScheduleItem } from '../../data/schedule';
   import type { scheduleCopy } from '../../data/schedule-copy';
-  import { calendarDownloadUrl, isSaveableSession, sessionCalendarUrl, sessionMatches } from '../schedule/schedule-interactions';
+  import { calendarImportUrl, isSaveableSession, sessionCalendarUrl, sessionMatches } from '../schedule/schedule-interactions';
   import { programmeTimeline } from '../schedule/timeline';
 
   document.addEventListener('astro:page-load', () => {
@@ -221,12 +223,12 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       if (text) text.textContent = label;
     }
 
-    function updateCalendarLink(link: HTMLAnchorElement | null, sessions: ScheduleItem[]) {
+    function updateCalendarLink(link: HTMLAnchorElement | null, sessions: ScheduleItem[], download = false) {
       if (!link) return;
       const eligible = sessions.filter(isSaveableSession);
       link.setAttribute('aria-disabled', String(eligible.length === 0));
       link.tabIndex = eligible.length ? 0 : -1;
-      if (eligible.length) link.href = calendarDownloadUrl(eligible, location.href);
+      if (eligible.length) link.href = calendarImportUrl(eligible, location.href, download);
       else link.removeAttribute('href');
     }
 
@@ -274,7 +276,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       savedFilter?.setAttribute('aria-pressed', String(filters.savedOnly));
       const savedSessions = data.sessions.filter((session) => saved.has(session.id));
       const exportSaved = document.querySelector<HTMLAnchorElement>('[data-export-saved]');
-      updateCalendarLink(exportSaved, savedSessions);
+      updateCalendarLink(document.querySelector<HTMLAnchorElement>('[data-add-saved-calendar]'), savedSessions);
+      updateCalendarLink(exportSaved, savedSessions, true);
       if (exportSaved) exportSaved.title = saved.size ? data.copy.exportSaved : data.copy.emptySaved;
       if (empty) {
         empty.hidden = visible > 0;
@@ -331,6 +334,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       if (speakerSection) speakerSection.hidden = session.speakers.length === 0;
       const calendar = dialog.querySelector<HTMLAnchorElement>('[data-modal-google-calendar]');
       updateCalendarLink(dialog.querySelector<HTMLAnchorElement>('[data-modal-calendar]'), [session]);
+      updateCalendarLink(dialog.querySelector<HTMLAnchorElement>('[data-modal-download]'), [session], true);
       if (calendar) {
         const sessionUrl = new URL(location.pathname, location.origin);
         sessionUrl.searchParams.set('session', session.id);
