@@ -98,7 +98,10 @@ test('GET serves only selected public sessions from the deployed snapshot with s
     result.response.headers.get('content-type'),
     'text/calendar; charset=utf-8'
   );
-  assert.match(result.response.headers.get('content-disposition') ?? '', /^inline;/);
+  assert.match(
+    result.response.headers.get('content-disposition') ?? '',
+    /^attachment;/
+  );
   assert.equal(result.requests.length, 1);
   assert.equal(result.requests[0].url, 'https://pycon.hk/programme-snapshot.json');
   assert.equal(result.requests[0].method, 'GET');
@@ -109,8 +112,8 @@ test('GET serves only selected public sessions from the deployed snapshot with s
   assert.equal((await feed('?session=room-main-42', value)).content, result.content);
 });
 
-test('download requests use attachment headers and HEAD preserves headers without a body', async () => {
-  const query = '?session=room-main-42&download=1';
+test('download requests always use attachment headers and HEAD preserves headers without a body', async () => {
+  const query = '?session=room-main-42';
   const get = await feed(query);
   const head = await feed(query, snapshot(), { method: 'HEAD' });
   assert.equal(head.response.status, 200);
@@ -123,63 +126,17 @@ test('download requests use attachment headers and HEAD preserves headers withou
   assert.equal(head.requests[0].method, 'GET');
 });
 
-test('fully retired selections never expand to the entire programme', async () => {
-  for (const query of ['?session=retired', '?session=room-old-99']) {
-    const result = await feed(query);
-    assert.equal(result.response.status, 200);
-    assert.doesNotMatch(result.content, /BEGIN:VEVENT/);
-    assert.match(result.content, /BEGIN:VTIMEZONE\r\nTZID:Etc\/UTC/);
+test('retired or excluded selections return 404 without generating an empty download', async () => {
+  const value = snapshot([session(), session('room-main-44', { isBreak: true })]);
+  for (const query of [
+    '?session=retired',
+    '?session=room-old-99',
+    '?session=room-main-44',
+  ]) {
+    const result = await feed(query, value);
+    assert.equal(result.response.status, 404);
+    assert.doesNotMatch(result.content, /BEGIN:VCALENDAR|BEGIN:VEVENT|VTIMEZONE/);
   }
-});
-
-test('a room move refreshes content and detail links while preserving the requested UID', async () => {
-  const moved = session('room-upper-hall-42', {
-    roomKey: 'room-upper-hall',
-    room: 'Upper Hall',
-    start: '2026-11-14T03:00:00.000Z',
-    end: '2026-11-14T03:30:00.000Z',
-    title: 'Updated talk',
-  });
-  const result = await feed(
-    '?session=room-main-42&session=room-upper-hall-42',
-    snapshot([moved])
-  );
-  assert.equal(result.content.match(/BEGIN:VEVENT/g)?.length, 1);
-  assert.match(result.content, /UID:pyconhk2026-room-main-42@pycon.hk/);
-  assert.match(result.content, /LOCATION:Upper Hall/);
-  assert.match(result.content, /SUMMARY:Updated talk/);
-  assert.match(result.content, /DTSTART:20261114T030000Z/);
-  assert.match(
-    result.content.replaceAll(/\r\n[ \t]/g, ''),
-    /URL:https:\/\/pycon.hk\/2026\/en\/schedule\/\?session=room-upper-hall-42/
-  );
-});
-
-test('slot fallback rejects ambiguous slots and legacy numeric talk codes', async () => {
-  const first = session('room-main-42');
-  const second = session('room-upper-42', {
-    roomKey: 'room-upper',
-    room: 'Upper Hall',
-  });
-  assert.doesNotMatch(
-    (await feed('?session=room-retired-42', snapshot([first, second]))).content,
-    /BEGIN:VEVENT/
-  );
-  assert.equal(
-    (await feed('?session=room-main-42', snapshot([first, second]))).content.match(
-      /BEGIN:VEVENT/g
-    )?.length,
-    1
-  );
-  const legacy = {
-    ...snapshot([first]),
-    sourceUrl: 'https://pretalx.com/pyconhk2026/schedule/export/schedule.json',
-  };
-  legacy.hash = snapshotHash(legacy);
-  assert.doesNotMatch(
-    (await feed('?session=room-retired-42', legacy)).content,
-    /BEGIN:VEVENT/
-  );
 });
 
 test('malformed and excessive selections fail before reading snapshot assets', async () => {
@@ -189,8 +146,6 @@ test('malformed and excessive selections fail before reading snapshot assets', a
     '?session=..%2Fprivate',
     '?session=one%0D%0AUID%3Aother',
     `?session=${'a'.repeat(129)}`,
-    '?download=0',
-    '?download=1&download=1',
     `?${Array.from({ length: 201 }, () => 'session=one').join('&')}`,
     `?ignored=${'a'.repeat(8192)}`,
   ]) {

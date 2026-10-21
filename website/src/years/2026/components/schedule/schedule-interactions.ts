@@ -62,7 +62,7 @@ function foldCalendarLine(value: string): string {
 }
 
 export function sessionsCalendarContent(
-  sessions: readonly (ScheduleItem & { calendarId?: string })[],
+  sessions: readonly ScheduleItem[],
   event: string,
   baseUrl: string,
   generatedAt = new Date()
@@ -70,6 +70,9 @@ export function sessionsCalendarContent(
   const uniqueSessions = new Map(
     sessions.filter(isSaveableSession).map((session) => [session.id, session])
   );
+  if (!uniqueSessions.size) {
+    throw new Error('Select at least one public session to download.');
+  }
   const stamp = calendarDate(generatedAt);
   const lines = [
     'BEGIN:VCALENDAR',
@@ -77,19 +80,6 @@ export function sessionsCalendarContent(
     'PRODID:-//PyCon Hong Kong//Conference Schedule//EN',
     'CALSCALE:GREGORIAN',
   ];
-  if (!uniqueSessions.size) {
-    lines.push(
-      'BEGIN:VTIMEZONE',
-      'TZID:Etc/UTC',
-      'BEGIN:STANDARD',
-      'DTSTART:19700101T000000',
-      'TZOFFSETFROM:+0000',
-      'TZOFFSETTO:+0000',
-      'TZNAME:UTC',
-      'END:STANDARD',
-      'END:VTIMEZONE'
-    );
-  }
   for (const session of [...uniqueSessions.values()].sort(
     (a, b) => Date.parse(a.start) - Date.parse(b.start) || a.id.localeCompare(b.id)
   )) {
@@ -105,7 +95,7 @@ export function sessionsCalendarContent(
       .join('\n\n');
     lines.push(
       'BEGIN:VEVENT',
-      `UID:${encodeURIComponent(event)}-${encodeURIComponent(session.calendarId ?? session.id)}@pycon.hk`,
+      `UID:${encodeURIComponent(event)}-${encodeURIComponent(session.id)}@pycon.hk`,
       `DTSTAMP:${stamp}`,
       `DTSTART:${calendarDate(session.start)}`,
       `DTEND:${calendarDate(session.end)}`,
@@ -120,11 +110,11 @@ export function sessionsCalendarContent(
   return `${lines.map(foldCalendarLine).join('\r\n')}\r\n`;
 }
 
-export function calendarFeedUrl(
+export function calendarDownloadUrl(
   sessions: readonly Pick<ScheduleItem, 'id'>[],
-  baseUrl: string,
-  mode: 'download' | 'subscribe'
+  baseUrl: string
 ): string {
+  if (!sessions.length) throw new Error('Select at least one session to download.');
   const url = new URL(baseUrl);
   if (
     !/^\/2026\/(?:en|zh-hk|zh-hant|zh-hans|ja|ko)\/schedule\/?$/.test(url.pathname) ||
@@ -146,9 +136,8 @@ export function calendarFeedUrl(
   for (const id of new Set(sessions.map((session) => session.id))) {
     url.searchParams.append('session', id);
   }
-  if (mode === 'download') url.searchParams.set('download', '1');
   if (url.href.length > 8192) throw new Error('Calendar selection URL is too long.');
-  return mode === 'subscribe' ? url.href.replace(/^https?:/, 'webcal:') : url.href;
+  return url.href;
 }
 
 export function sessionCalendarUrl(
