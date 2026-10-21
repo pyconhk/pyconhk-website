@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  calendarFeedUrl,
   isSaveableSession,
   sessionCalendarUrl,
   sessionMatches,
@@ -57,6 +58,7 @@ test('calendar export uses UTC instants for Hong Kong sessions and local detail 
   );
   assert.ok(content.endsWith('END:VCALENDAR\r\n'));
   assert.equal(content.replaceAll('\r\n', '').includes('\n'), false);
+  assert.doesNotMatch(content, /METHOD:/);
 });
 
 test('saved calendar covers both days once and excludes stage transitions', () => {
@@ -150,4 +152,79 @@ test('Google Calendar remains an optional correctly timed alternative', () => {
   const url = new URL(sessionCalendarUrl(session()));
   assert.equal(url.searchParams.get('ctz'), 'Asia/Hong_Kong');
   assert.equal(url.searchParams.get('dates'), '20261114T020000Z/20261114T023000Z');
+});
+
+test('calendar feed links preserve the locale, selection and same origin without a Blob', () => {
+  const selected = [{ id: 'FIRST' }, { id: 'SECOND' }, { id: 'FIRST' }];
+  const download = new URL(
+    calendarFeedUrl(selected, `${baseUrl}?room=lt1#details`, 'download')
+  );
+  assert.equal(download.origin, 'https://pycon.hk');
+  assert.equal(download.pathname, '/2026/zh-hk/schedule/calendar.ics');
+  assert.deepEqual(download.searchParams.getAll('session'), ['FIRST', 'SECOND']);
+  assert.equal(download.searchParams.get('download'), '1');
+  assert.equal(download.searchParams.has('room'), false);
+  assert.equal(download.hash, '');
+  const subscribe = new URL(calendarFeedUrl(selected, baseUrl, 'subscribe'));
+  assert.equal(subscribe.protocol, 'webcal:');
+  assert.equal(subscribe.host, download.host);
+  assert.equal(subscribe.pathname, download.pathname);
+  assert.deepEqual(subscribe.searchParams.getAll('session'), ['FIRST', 'SECOND']);
+  assert.equal(subscribe.searchParams.has('download'), false);
+  assert.equal(
+    new URL(calendarFeedUrl([], 'http://127.0.0.1:8788/2026/en/schedule/', 'download'))
+      .protocol,
+    'http:'
+  );
+});
+
+test('calendar feed URLs reject invalid IDs, unsupported locations and excessive selections', () => {
+  for (const id of ['', '../private', 'FIRST\r\nEND:VEVENT', 'a'.repeat(129)]) {
+    assert.throws(() => calendarFeedUrl([{ id }], baseUrl, 'download'));
+  }
+  for (const url of [
+    'https://pycon.hk/2026/fr/schedule/',
+    'https://pycon.hk/2025/en/schedule/',
+    'https://user:secret@pycon.hk/2026/en/schedule/',
+  ]) {
+    assert.throws(() => calendarFeedUrl([], url, 'subscribe'));
+  }
+  assert.throws(() =>
+    calendarFeedUrl(
+      Array.from({ length: 201 }, (_, index) => ({ id: String(index) })),
+      baseUrl,
+      'download'
+    )
+  );
+  assert.throws(
+    () =>
+      calendarFeedUrl(
+        Array.from({ length: 100 }, (_, index) => ({
+          id: `${index}-${'a'.repeat(100)}`,
+        })),
+        baseUrl,
+        'download'
+      ),
+    /too long/
+  );
+});
+
+test('a moved session can preserve its subscribed UID while linking to its current details', () => {
+  const content = sessionsCalendarContent(
+    [{ ...session({ id: 'room-new-42' }), calendarId: 'room-old-42' }],
+    'pyconhk2026',
+    baseUrl,
+    generatedAt
+  );
+  assert.match(content, /UID:pyconhk2026-room-old-42@pycon.hk/);
+  assert.match(
+    unfold(content),
+    /URL:https:\/\/pycon.hk\/2026\/zh-hk\/schedule\/\?session=room-new-42/
+  );
+});
+
+test('an empty selection has a valid calendar component without inventing an event', () => {
+  const content = sessionsCalendarContent([], 'pyconhk2026', baseUrl, generatedAt);
+  assert.match(content, /BEGIN:VTIMEZONE\r\nTZID:Etc\/UTC\r\n/);
+  assert.doesNotMatch(content, /BEGIN:VEVENT|METHOD:/);
 });
