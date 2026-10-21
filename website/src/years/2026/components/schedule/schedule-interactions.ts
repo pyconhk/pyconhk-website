@@ -62,7 +62,7 @@ function foldCalendarLine(value: string): string {
 }
 
 export function sessionsCalendarContent(
-  sessions: readonly ScheduleItem[],
+  sessions: readonly (ScheduleItem & { calendarId?: string })[],
   event: string,
   baseUrl: string,
   generatedAt = new Date()
@@ -76,8 +76,20 @@ export function sessionsCalendarContent(
     'VERSION:2.0',
     'PRODID:-//PyCon Hong Kong//Conference Schedule//EN',
     'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
   ];
+  if (!uniqueSessions.size) {
+    lines.push(
+      'BEGIN:VTIMEZONE',
+      'TZID:Etc/UTC',
+      'BEGIN:STANDARD',
+      'DTSTART:19700101T000000',
+      'TZOFFSETFROM:+0000',
+      'TZOFFSETTO:+0000',
+      'TZNAME:UTC',
+      'END:STANDARD',
+      'END:VTIMEZONE'
+    );
+  }
   for (const session of [...uniqueSessions.values()].sort(
     (a, b) => Date.parse(a.start) - Date.parse(b.start) || a.id.localeCompare(b.id)
   )) {
@@ -93,7 +105,7 @@ export function sessionsCalendarContent(
       .join('\n\n');
     lines.push(
       'BEGIN:VEVENT',
-      `UID:${encodeURIComponent(event)}-${encodeURIComponent(session.id)}@pycon.hk`,
+      `UID:${encodeURIComponent(event)}-${encodeURIComponent(session.calendarId ?? session.id)}@pycon.hk`,
       `DTSTAMP:${stamp}`,
       `DTSTART:${calendarDate(session.start)}`,
       `DTEND:${calendarDate(session.end)}`,
@@ -106,6 +118,37 @@ export function sessionsCalendarContent(
   }
   lines.push('END:VCALENDAR');
   return `${lines.map(foldCalendarLine).join('\r\n')}\r\n`;
+}
+
+export function calendarFeedUrl(
+  sessions: readonly Pick<ScheduleItem, 'id'>[],
+  baseUrl: string,
+  mode: 'download' | 'subscribe'
+): string {
+  const url = new URL(baseUrl);
+  if (
+    !/^\/2026\/(?:en|zh-hk|zh-hant|zh-hans|ja|ko)\/schedule\/?$/.test(url.pathname) ||
+    (url.protocol !== 'https:' &&
+      !(
+        url.protocol === 'http:' &&
+        ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)
+      )) ||
+    url.username ||
+    url.password ||
+    sessions.length > 200 ||
+    sessions.some(({ id }) => !/^[A-Za-z0-9_-]{1,128}$/.test(id))
+  ) {
+    throw new Error('Invalid calendar URL or session selection.');
+  }
+  url.pathname = `${url.pathname.replace(/\/$/, '')}/calendar.ics`;
+  url.search = '';
+  url.hash = '';
+  for (const id of new Set(sessions.map((session) => session.id))) {
+    url.searchParams.append('session', id);
+  }
+  if (mode === 'download') url.searchParams.set('download', '1');
+  if (url.href.length > 8192) throw new Error('Calendar selection URL is too long.');
+  return mode === 'subscribe' ? url.href.replace(/^https?:/, 'webcal:') : url.href;
 }
 
 export function sessionCalendarUrl(

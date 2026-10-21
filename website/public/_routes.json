@@ -1,5 +1,17 @@
 {
   "version": 1,
-  "include": ["/", "/2026", "/2026/", "/privacy-policy", "/privacy-policy/"],
+  "include": [
+    "/",
+    "/2026",
+    "/2026/",
+    "/privacy-policy",
+    "/privacy-policy/",
+    "/2026/en/schedule/calendar.ics",
+    "/2026/zh-hk/schedule/calendar.ics",
+    "/2026/zh-hant/schedule/calendar.ics",
+    "/2026/zh-hans/schedule/calendar.ics",
+    "/2026/ja/schedule/calendar.ics",
+    "/2026/ko/schedule/calendar.ics"
+  ],
   "exclude": []
 }
