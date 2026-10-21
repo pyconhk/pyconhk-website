@@ -11,6 +11,11 @@ async function openProgramme(page: Page, locale = 'en'): Promise<Programme> {
       .getAttribute('data-programme-status')) !== 'published',
     'Requires a published public programme.'
   );
+  await expect(
+    page.locator(
+      '[data-subscribe-saved], [data-saved-subscription-url], [data-modal-subscribe], [data-modal-subscription-url], [data-calendar-subscription-hint], a[href^="webcal:"], a[href^="blob:"]'
+    )
+  ).toHaveCount(0);
   return JSON.parse((await page.locator('#programme-data').textContent()) ?? '{}');
 }
 
@@ -25,9 +30,11 @@ async function showSession(page: Page, session: ScheduleItem): Promise<Locator> 
 
 async function calendarDownload(page: Page, trigger: Locator): Promise<string> {
   const url = new URL((await trigger.getAttribute('href')) ?? '');
+  expect(url.protocol).toMatch(/^https?:$/);
   expect(url.origin).toBe(new URL(page.url()).origin);
   expect(url.pathname).toMatch(/\/2026\/[^/]+\/schedule\/calendar\.ics$/);
-  expect(url.searchParams.get('download')).toBe('1');
+  expect(url.searchParams.has('download')).toBe(false);
+  expect([...url.searchParams.keys()].every((key) => key === 'session')).toBe(true);
   await expect(trigger).toHaveJSProperty('tagName', 'A');
   await expect(trigger).not.toHaveAttribute('download');
   const downloaded = page.waitForEvent('download');
@@ -44,26 +51,6 @@ async function calendarDownload(page: Page, trigger: Locator): Promise<string> {
   return Buffer.concat(chunks)
     .toString('utf8')
     .replace(/\r\n[ \t]/g, '');
-}
-
-async function expectSubscription(
-  page: Page,
-  trigger: Locator,
-  sessions: ScheduleItem[],
-  mode: 'webcal' | 'http' = 'webcal'
-): Promise<void> {
-  await expect(trigger).toHaveJSProperty('tagName', 'A');
-  await expect(trigger).toHaveAttribute('aria-disabled', 'false');
-  await expect(trigger).not.toHaveAttribute('download');
-  const url = new URL((await trigger.getAttribute('href')) ?? '');
-  const current = new URL(page.url());
-  expect(url.protocol).toBe(mode === 'webcal' ? 'webcal:' : current.protocol);
-  expect(url.host).toBe(current.host);
-  expect(url.pathname).toBe(`${current.pathname}calendar.ics`);
-  expect(url.searchParams.has('download')).toBe(false);
-  expect(url.searchParams.getAll('session').sort()).toEqual(
-    sessions.map((session) => session.id).sort()
-  );
 }
 
 function compactUtc(value: string): string {
@@ -97,8 +84,6 @@ async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean
   const selectors = [
     '[data-modal-save]',
     '[data-modal-calendar]',
-    '[data-modal-subscribe]',
-    '[data-modal-subscription-url]',
     '[data-modal-google-calendar]',
     '[data-modal-source]',
   ];
@@ -130,7 +115,7 @@ async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean
           control.scrollWidth <= control.clientWidth + 1,
       };
     });
-    const [save, calendar, subscribe, subscriptionUrl, google, source] = controls;
+    const [save, calendar, google, source] = controls;
     return {
       controls,
       noOverlap: controls.every((control, index) =>
@@ -148,12 +133,9 @@ async function expectModalActionsFit(page: Page, primaryActionsShareRow: boolean
       ),
       primaryAligned:
         Math.abs(save.top - calendar.top) < 1 &&
-        Math.abs(save.bottom - calendar.bottom) < 1 &&
-        Math.abs(save.top - subscribe.top) < 1 &&
-        Math.abs(save.bottom - subscribe.bottom) < 1,
+        Math.abs(save.bottom - calendar.bottom) < 1,
       secondaryBelowPrimary:
-        Math.min(subscriptionUrl.top, google.top, source.top) >=
-        Math.max(save.bottom, calendar.bottom, subscribe.bottom) - 1,
+        Math.min(google.top, source.top) >= Math.max(save.bottom, calendar.bottom) - 1,
     };
   }, selectors);
   expect(geometry.controls.filter((control) => !control.fits)).toEqual([]);
@@ -183,12 +165,8 @@ for (const width of [390, 1440]) {
     if (!second) return;
 
     const exportSaved = page.locator('[data-export-saved]');
-    const subscribeSaved = page.locator('[data-subscribe-saved]');
-    const savedSubscriptionUrl = page.locator('[data-saved-subscription-url]');
-    for (const link of [exportSaved, subscribeSaved, savedSubscriptionUrl]) {
-      await expect(link).toHaveAttribute('aria-disabled', 'true');
-      await expect(link).not.toHaveAttribute('href');
-    }
+    await expect(exportSaved).toHaveAttribute('aria-disabled', 'true');
+    await expect(exportSaved).not.toHaveAttribute('href');
     const firstCard = await showSession(page, first);
     await expect(firstCard).toHaveAttribute('data-session-kind', 'session');
     const portrait = firstCard.locator('img[data-card-speaker-avatar]').first();
@@ -232,19 +210,9 @@ for (const width of [390, 1440]) {
     await expectModalActionsFit(page, width >= 640);
     const single = await calendarDownload(page, page.locator('[data-modal-calendar]'));
     expectCalendarSessions(single, [first], programme.event);
-    await expectSubscription(page, page.locator('[data-modal-subscribe]'), [first]);
-    await expectSubscription(
-      page,
-      page.locator('[data-modal-subscription-url]'),
-      [first],
-      'http'
+    await expect(page.locator('#session-modal [data-calendar-import-help]')).toHaveText(
+      'Import the downloaded .ics file into Google Calendar or Apple Calendar.'
     );
-    await expect(
-      page.locator('#session-modal [data-calendar-subscription-hint]')
-    ).toContainText('Read-only');
-    await expect(
-      page.locator('#session-modal [data-calendar-subscription-hint]')
-    ).toContainText('unsubscribe from the old calendar');
     const google = new URL(
       (await page.locator('[data-modal-google-calendar]').getAttribute('href')) ?? ''
     );
@@ -274,8 +242,6 @@ for (const width of [390, 1440]) {
       .fill('no-session-matches-this-search');
     await expect(page.locator('[data-session-card]:visible')).toHaveCount(0);
     await expect(exportSaved).toHaveAttribute('aria-disabled', 'false');
-    await expectSubscription(page, subscribeSaved, [first, second]);
-    await expectSubscription(page, savedSubscriptionUrl, [first, second], 'http');
     const combined = await calendarDownload(page, exportSaved);
     expectCalendarSessions(combined, [first, second], programme.event);
 
@@ -295,8 +261,11 @@ for (const width of [390, 1440]) {
     await expect(page.locator('#session-modal')).not.toBeVisible();
     await expect(savedFilter).toBeFocused();
     await expect(page.locator('[data-saved-count]')).toHaveText('1');
-    await expectSubscription(page, subscribeSaved, [second]);
-    await expectSubscription(page, savedSubscriptionUrl, [second], 'http');
+    expect(
+      new URL((await exportSaved.getAttribute('href')) ?? '').searchParams.getAll(
+        'session'
+      )
+    ).toEqual([second.id]);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
     ).toBe(true);
@@ -371,14 +340,11 @@ test('mobile calendar export still works when browser storage is blocked', async
   expectCalendarSessions(calendar, [session], programme.event);
   await card.locator('[data-save-session]').click();
   await expect(page.locator('[data-saved-count]')).toHaveText('0');
-  for (const selector of [
-    '[data-export-saved]',
-    '[data-subscribe-saved]',
-    '[data-saved-subscription-url]',
-  ]) {
-    await expect(page.locator(selector)).toHaveAttribute('aria-disabled', 'true');
-    await expect(page.locator(selector)).not.toHaveAttribute('href');
-  }
+  await expect(page.locator('[data-export-saved]')).toHaveAttribute(
+    'aria-disabled',
+    'true'
+  );
+  await expect(page.locator('[data-export-saved]')).not.toHaveAttribute('href');
   expect(errors).toEqual([]);
 });
 
@@ -512,13 +478,10 @@ for (const [locale, labels] of Object.entries(localizedSessionLanguages)) {
     const card = await showSession(page, session);
     await card.locator('[data-session-details]').click();
     await expect(page.locator('#session-modal')).toBeVisible();
-    await expectSubscription(page, page.locator('[data-modal-subscribe]'), [session]);
-    await expectSubscription(
-      page,
-      page.locator('[data-modal-subscription-url]'),
-      [session],
-      'http'
-    );
+    const importHelp = page.locator('#session-modal [data-calendar-import-help]');
+    await expect(importHelp).toBeVisible();
+    await expect(importHelp).toContainText('Google');
+    await expect(importHelp).toContainText('Apple');
     await expectModalActionsFit(page, false);
   });
 }

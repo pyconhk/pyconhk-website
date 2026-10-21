@@ -1,10 +1,9 @@
 import { expect, test } from '@playwright/test';
 import type { ProgrammeSnapshot } from '../../../lib/programme/types';
 
-function feedPath(locale: string, ids: string[], download = false): string {
+function downloadPath(locale: string, ids: string[]): string {
   const query = new URLSearchParams();
   for (const id of ids) query.append('session', id);
-  if (download) query.set('download', '1');
   return `/2026/${locale}/schedule/calendar.ics?${query}`;
 }
 
@@ -20,7 +19,7 @@ function events(content: string): string[] {
 }
 
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
-  test(`HTTP calendar serves selected sessions and locale links for ${locale}`, async ({
+  test(`calendar download contains selected sessions and locale links for ${locale}`, async ({
     request,
     baseURL,
   }) => {
@@ -31,7 +30,7 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       .filter((session) => !session.isBreak)
       .slice(0, 2);
     test.skip(selected.length < 2, 'Requires two published sessions.');
-    const path = feedPath(
+    const path = downloadPath(
       locale,
       selected.map((session) => session.id)
     );
@@ -40,7 +39,7 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
     expect(response.headers()['content-type']).toMatch(
       /^text\/calendar;\s*charset=utf-8$/i
     );
-    expect(response.headers()['content-disposition']).toMatch(/^inline;/);
+    expect(response.headers()['content-disposition']).toMatch(/^attachment;.*\.ics/);
     expect(response.headers()['x-content-type-options']).toBe('nosniff');
     const content = await response.text();
     expect(content).not.toMatch(/^METHOD:/m);
@@ -60,16 +59,7 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
         `URL:${baseURL}/2026/${locale}/schedule/?session=${encodeURIComponent(session.id)}\r\n`
       );
     }
-    const attachment = await request.get(
-      feedPath(
-        locale,
-        selected.map((session) => session.id),
-        true
-      )
-    );
-    expect(attachment.status()).toBe(200);
-    expect(attachment.headers()['content-disposition']).toMatch(/^attachment;.*\.ics/);
-    expect(await attachment.text()).toBe(content);
+    expect(await (await request.get(path)).text()).toBe(content);
     const head = await request.head(path);
     expect(head.status()).toBe(200);
     expect(head.headers()['content-type']).toBe(response.headers()['content-type']);
@@ -93,26 +83,47 @@ test('calendar selection excludes breaks and retired IDs without exporting other
     'retired-session',
     ...(breakItem ? [breakItem.id] : []),
   ];
-  const response = await request.get(feedPath('en', ids));
+  const response = await request.get(downloadPath('en', ids));
   expect(response.status()).toBe(200);
   expect(events(await response.text())).toHaveLength(1);
-  const retired = await request.get(feedPath('en', ['retired-session']));
-  expect(retired.status()).toBe(200);
-  expect(events(await retired.text())).toHaveLength(0);
+  const retired = await request.get(downloadPath('en', ['retired-session']));
+  expect(retired.status()).toBe(404);
+  expect(retired.headers()['content-type']).not.toContain('text/calendar');
+  expect(await retired.text()).not.toContain('BEGIN:VCALENDAR');
 });
 
 test('calendar rejects malformed or oversized selections and unsupported locales', async ({
   request,
 }) => {
   for (const path of [
-    feedPath('en', []),
-    feedPath('en', ['bad\r\nBEGIN:VEVENT']),
-    feedPath(
+    downloadPath('en', []),
+    downloadPath('en', ['bad\r\nBEGIN:VEVENT']),
+    downloadPath(
       'en',
       Array.from({ length: 201 }, (_, index) => `selection-${index}`)
     ),
   ]) {
     expect((await request.get(path)).status(), path).toBe(400);
   }
-  expect((await request.get(feedPath('invalid', ['session']))).status()).toBe(404);
+  expect((await request.get(downloadPath('invalid', ['session']))).status()).toBe(404);
+});
+
+test('all published talks fit in one Google Calendar import file', async ({
+  request,
+}) => {
+  const snapshot: ProgrammeSnapshot = await (
+    await request.get('/programme-snapshot.json')
+  ).json();
+  const selected = snapshot.sessions.filter((session) => !session.isBreak);
+  test.skip(selected.length === 0, 'Requires published sessions.');
+  const response = await request.get(
+    downloadPath(
+      'en',
+      selected.map((session) => session.id)
+    )
+  );
+  expect(response.status()).toBe(200);
+  const bytes = await response.body();
+  expect(bytes.length).toBeLessThanOrEqual(1_000_000);
+  expect(events(bytes.toString('utf8'))).toHaveLength(selected.length);
 });

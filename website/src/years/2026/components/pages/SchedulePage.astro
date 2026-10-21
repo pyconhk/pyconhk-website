@@ -43,15 +43,9 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
           <button type="button" data-clear-filters class="px-3 py-2 text-sm font-bold underline">{copy.clear}</button>
         </div>
         <div class="programme-calendar-actions mt-4 flex flex-wrap items-center justify-end gap-3">
-          {/* biome-ignore lint/a11y/useValidAnchor: Disabled until saved sessions provide a feed URL. */}
+          {/* biome-ignore lint/a11y/useValidAnchor: Disabled until saved sessions provide a download URL. */}
           <a data-export-saved aria-disabled="true" tabindex="-1" class="programme-calendar-link inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-conference-outline bg-conference-surface px-4 py-2 text-sm font-bold"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5" /></svg>{copy.exportSaved}</a>
-          {/* biome-ignore lint/a11y/useValidAnchor: Disabled until saved sessions provide a feed URL. */}
-          <a data-subscribe-saved aria-disabled="true" tabindex="-1" class="programme-calendar-link inline-flex min-h-11 items-center justify-center rounded-xl border border-conference-outline bg-conference-surface px-4 py-2 text-sm font-bold">{copy.subscribeSaved}</a>
-          <p data-calendar-subscription-hint class="w-full text-sm text-conference-body">{copy.subscriptionHint}</p>
-          <p class="w-full text-sm text-conference-body">
-            {/* biome-ignore lint/a11y/useValidAnchor: Disabled until saved sessions provide a feed URL. */}
-            <a data-saved-subscription-url aria-disabled="true" tabindex="-1" class="programme-calendar-link inline-flex min-h-11 items-center font-bold underline">{copy.subscriptionUrl}</a> — {copy.subscriptionHelp}
-          </p>
+          <p data-calendar-import-help class="w-full text-sm text-conference-body">{copy.importHelp}</p>
         </div>
         <p data-programme-empty role="status" hidden class="mt-8 rounded-2xl border-2 border-conference-outline bg-conference-surface p-8 text-center">{copy.noResults}</p>
         </div>
@@ -99,7 +93,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .day-button { min-height: 44px; max-width: 100%; background: var(--conference-surface); color: var(--conference-ink); }
   .day-button[aria-pressed='true'] { background: #d71920; color: white; }
   [data-saved-filter][aria-pressed='true'] { background: #d71920; border-color: #d71920; color: white; }
-  .programme-calendar-link { min-width: 44px; text-align: center; text-wrap: balance; }
+  .programme-calendar-link { text-align: center; text-wrap: balance; }
   .programme-calendar-link[aria-disabled='true'] { cursor: not-allowed; opacity: .5; }
   .programme-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .programme-filters label { min-width: 0; }
@@ -166,7 +160,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
 <script>
   import type { ScheduleItem } from '../../data/schedule';
   import type { scheduleCopy } from '../../data/schedule-copy';
-  import { calendarFeedUrl, isSaveableSession, sessionCalendarUrl, sessionMatches } from '../schedule/schedule-interactions';
+  import { calendarDownloadUrl, isSaveableSession, sessionCalendarUrl, sessionMatches } from '../schedule/schedule-interactions';
   import { programmeTimeline } from '../schedule/timeline';
 
   document.addEventListener('astro:page-load', () => {
@@ -227,15 +221,12 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       if (text) text.textContent = label;
     }
 
-    function updateCalendarLink(link: HTMLAnchorElement | null, sessions: ScheduleItem[], mode: 'download' | 'subscribe' | 'subscription-url') {
+    function updateCalendarLink(link: HTMLAnchorElement | null, sessions: ScheduleItem[]) {
       if (!link) return;
       const eligible = sessions.filter(isSaveableSession);
       link.setAttribute('aria-disabled', String(eligible.length === 0));
       link.tabIndex = eligible.length ? 0 : -1;
-      if (eligible.length) {
-        const url = calendarFeedUrl(eligible, location.href, mode === 'download' ? 'download' : 'subscribe');
-        link.href = mode === 'subscription-url' ? url.replace(/^webcal:/, location.protocol) : url;
-      }
+      if (eligible.length) link.href = calendarDownloadUrl(eligible, location.href);
       else link.removeAttribute('href');
     }
 
@@ -283,9 +274,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       savedFilter?.setAttribute('aria-pressed', String(filters.savedOnly));
       const savedSessions = data.sessions.filter((session) => saved.has(session.id));
       const exportSaved = document.querySelector<HTMLAnchorElement>('[data-export-saved]');
-      updateCalendarLink(exportSaved, savedSessions, 'download');
-      updateCalendarLink(document.querySelector<HTMLAnchorElement>('[data-subscribe-saved]'), savedSessions, 'subscribe');
-      updateCalendarLink(document.querySelector<HTMLAnchorElement>('[data-saved-subscription-url]'), savedSessions, 'subscription-url');
+      updateCalendarLink(exportSaved, savedSessions);
       if (exportSaved) exportSaved.title = saved.size ? data.copy.exportSaved : data.copy.emptySaved;
       if (empty) {
         empty.hidden = visible > 0;
@@ -341,9 +330,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       const speakerSection = dialog.querySelector<HTMLElement>('[data-modal-speakers]');
       if (speakerSection) speakerSection.hidden = session.speakers.length === 0;
       const calendar = dialog.querySelector<HTMLAnchorElement>('[data-modal-google-calendar]');
-      updateCalendarLink(dialog.querySelector<HTMLAnchorElement>('[data-modal-calendar]'), [session], 'download');
-      updateCalendarLink(dialog.querySelector<HTMLAnchorElement>('[data-modal-subscribe]'), [session], 'subscribe');
-      updateCalendarLink(dialog.querySelector<HTMLAnchorElement>('[data-modal-subscription-url]'), [session], 'subscription-url');
+      updateCalendarLink(dialog.querySelector<HTMLAnchorElement>('[data-modal-calendar]'), [session]);
       if (calendar) {
         const sessionUrl = new URL(location.pathname, location.origin);
         sessionUrl.searchParams.set('session', session.id);
