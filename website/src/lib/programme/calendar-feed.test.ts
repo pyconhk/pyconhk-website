@@ -98,10 +98,7 @@ test('GET serves only selected public sessions from the deployed snapshot with s
     result.response.headers.get('content-type'),
     'text/calendar; charset=utf-8'
   );
-  assert.match(
-    result.response.headers.get('content-disposition') ?? '',
-    /^attachment;/
-  );
+  assert.match(result.response.headers.get('content-disposition') ?? '', /^inline;/);
   assert.equal(result.requests.length, 1);
   assert.equal(result.requests[0].url, 'https://pycon.hk/programme-snapshot.json');
   assert.equal(result.requests[0].method, 'GET');
@@ -112,18 +109,25 @@ test('GET serves only selected public sessions from the deployed snapshot with s
   assert.equal((await feed('?session=room-main-42', value)).content, result.content);
 });
 
-test('download requests always use attachment headers and HEAD preserves headers without a body', async () => {
-  const query = '?session=room-main-42';
-  const get = await feed(query);
-  const head = await feed(query, snapshot(), { method: 'HEAD' });
-  assert.equal(head.response.status, 200);
-  assert.deepEqual([...head.response.headers], [...get.response.headers]);
+test('direct calendar requests are inline while download requests attach the identical body', async () => {
+  const inline = await feed('?session=room-main-42');
+  const download = await feed('?session=room-main-42&download=1');
+  assert.equal(inline.response.status, 200);
+  assert.equal(download.response.status, 200);
+  assert.match(inline.response.headers.get('content-disposition') ?? '', /^inline;/);
   assert.match(
-    get.response.headers.get('content-disposition') ?? '',
+    download.response.headers.get('content-disposition') ?? '',
     /^attachment; filename="pyconhk2026-schedule.ics"$/
   );
-  assert.equal(head.content, '');
-  assert.equal(head.requests[0].method, 'GET');
+  assert.equal(inline.content, download.content);
+  for (const query of ['?session=room-main-42', '?session=room-main-42&download=1']) {
+    const get = await feed(query);
+    const head = await feed(query, snapshot(), { method: 'HEAD' });
+    assert.equal(head.response.status, 200);
+    assert.deepEqual([...head.response.headers], [...get.response.headers]);
+    assert.equal(head.content, '');
+    assert.equal(head.requests[0].method, 'GET');
+  }
 });
 
 test('retired or excluded selections return 404 without generating an empty download', async () => {
@@ -145,6 +149,10 @@ test('malformed and excessive selections fail before reading snapshot assets', a
     '?session=',
     '?session=..%2Fprivate',
     '?session=one%0D%0AUID%3Aother',
+    '?session=room-main-42&download=',
+    '?session=room-main-42&download=0',
+    '?session=room-main-42&download=true',
+    '?session=room-main-42&download=1&download=1',
     `?session=${'a'.repeat(129)}`,
     `?${Array.from({ length: 201 }, () => 'session=one').join('&')}`,
     `?ignored=${'a'.repeat(8192)}`,
