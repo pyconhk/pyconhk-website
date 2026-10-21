@@ -22,7 +22,7 @@ export async function onRequest({
       headers: { 'Cache-Control': 'no-store', ...headers },
     });
   if (!['GET', 'HEAD'].includes(request.method)) {
-    return error('Use GET or HEAD for calendar downloads.', 405, { Allow: 'GET, HEAD' });
+    return error('Use GET or HEAD for calendar requests.', 405, { Allow: 'GET, HEAD' });
   }
   const locale = params.locale;
   if (
@@ -34,13 +34,8 @@ export async function onRequest({
   const url = new URL(request.url);
   const baseUrl = new URL(`/2026/${locale}/schedule/`, url).href;
   const requested = url.searchParams.getAll('session');
-  const download = url.searchParams.getAll('download');
   try {
-    if (
-      request.url.length > 8192 ||
-      download.length > 1 ||
-      download.some((value) => value !== '1')
-    ) {
+    if (request.url.length > 8192) {
       throw new Error('Invalid calendar request.');
     }
     calendarImportUrl(
@@ -94,7 +89,7 @@ export async function onRequest({
     return new Response(head ? null : content, {
       headers: {
         'Content-Type': 'text/calendar; charset=utf-8',
-        'Content-Disposition': `${download.length ? 'attachment' : 'inline'}; filename="${event}-schedule.ics"`,
+        'Content-Disposition': `inline; filename="${event}-schedule.ics"`,
         'Cache-Control': 'public, max-age=0, must-revalidate',
         'X-Content-Type-Options': 'nosniff',
       },

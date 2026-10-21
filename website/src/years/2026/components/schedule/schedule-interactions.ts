@@ -71,7 +71,7 @@ export function sessionsCalendarContent(
     sessions.filter(isSaveableSession).map((session) => [session.id, session])
   );
   if (!uniqueSessions.size) {
-    throw new Error('Select at least one public session to download.');
+    throw new Error('Select at least one public session to add to your calendar.');
   }
   const stamp = calendarDate(generatedAt);
   const lines = [
@@ -112,10 +112,10 @@ export function sessionsCalendarContent(
 
 export function calendarImportUrl(
   sessions: readonly Pick<ScheduleItem, 'id'>[],
-  baseUrl: string,
-  download = false
+  baseUrl: string
 ): string {
-  if (!sessions.length) throw new Error('Select at least one session to download.');
+  if (!sessions.length)
+    throw new Error('Select at least one session to add to your calendar.');
   const url = new URL(baseUrl);
   if (
     !/^\/2026\/(?:en|zh-hk|zh-hant|zh-hans|ja|ko)\/schedule\/?$/.test(url.pathname) ||
@@ -137,7 +137,6 @@ export function calendarImportUrl(
   for (const id of new Set(sessions.map((session) => session.id))) {
     url.searchParams.append('session', id);
   }
-  if (download) url.searchParams.set('download', '1');
   if (url.href.length > 8192) throw new Error('Calendar selection URL is too long.');
   return url.href;
 }
