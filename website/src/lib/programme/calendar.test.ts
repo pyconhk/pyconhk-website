@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  calendarImportUrl,
   isSaveableSession,
   sessionCalendarUrl,
   sessionMatches,
@@ -57,6 +58,7 @@ test('calendar export uses UTC instants for Hong Kong sessions and local detail 
   );
   assert.ok(content.endsWith('END:VCALENDAR\r\n'));
   assert.equal(content.replaceAll('\r\n', '').includes('\n'), false);
+  assert.doesNotMatch(content, /METHOD:/);
 });
 
 test('saved calendar covers both days once and excludes stage transitions', () => {
@@ -146,8 +148,72 @@ test('dates without timezone cannot silently inherit the exporting device timezo
   );
 });
 
-test('Google Calendar remains an optional correctly timed alternative', () => {
-  const url = new URL(sessionCalendarUrl(session()));
-  assert.equal(url.searchParams.get('ctz'), 'Asia/Hong_Kong');
+test('Google Calendar uses the documented event editor with Hong Kong start and end time zones', () => {
+  const item = session();
+  const url = new URL(sessionCalendarUrl(item));
+  assert.equal(url.origin, 'https://calendar.google.com');
+  assert.equal(url.pathname, '/calendar/r/eventedit');
+  assert.equal(url.searchParams.get('action'), 'TEMPLATE');
+  assert.equal(url.searchParams.get('stz'), 'Asia/Hong_Kong');
+  assert.equal(url.searchParams.get('etz'), 'Asia/Hong_Kong');
+  assert.equal(url.searchParams.has('ctz'), false);
   assert.equal(url.searchParams.get('dates'), '20261114T020000Z/20261114T023000Z');
+  assert.equal(url.searchParams.get('text'), item.title);
+  assert.equal(url.searchParams.get('location'), item.room);
+  assert.equal(url.searchParams.get('details'), item.url);
+});
+
+test('calendar app links preserve the locale, selection and origin', () => {
+  const selected = [{ id: 'FIRST' }, { id: 'SECOND' }, { id: 'FIRST' }];
+  const inline = new URL(calendarImportUrl(selected, `${baseUrl}?room=lt1#details`));
+  assert.equal(inline.origin, 'https://pycon.hk');
+  assert.equal(inline.pathname, '/2026/zh-hk/schedule/calendar.ics');
+  assert.deepEqual(inline.searchParams.getAll('session'), ['FIRST', 'SECOND']);
+  assert.equal(inline.searchParams.has('download'), false);
+  assert.equal(inline.searchParams.has('room'), false);
+  assert.equal(inline.hash, '');
+  assert.equal(
+    new URL(calendarImportUrl(selected, 'http://127.0.0.1:8788/2026/en/schedule/'))
+      .protocol,
+    'http:'
+  );
+});
+
+test('calendar import URLs reject empty or invalid selections and unsupported locations', () => {
+  assert.throws(() => calendarImportUrl([], baseUrl), /at least one session/);
+  for (const id of ['', '../private', 'FIRST\r\nEND:VEVENT', 'a'.repeat(129)]) {
+    assert.throws(() => calendarImportUrl([{ id }], baseUrl));
+  }
+  for (const url of [
+    'https://pycon.hk/2026/fr/schedule/',
+    'https://pycon.hk/2025/en/schedule/',
+    'https://user:secret@pycon.hk/2026/en/schedule/',
+  ]) {
+    assert.throws(() => calendarImportUrl([{ id: 'FIRST' }], url));
+  }
+  assert.throws(() =>
+    calendarImportUrl(
+      Array.from({ length: 201 }, (_, index) => ({ id: String(index) })),
+      baseUrl
+    )
+  );
+  assert.throws(
+    () =>
+      calendarImportUrl(
+        Array.from({ length: 100 }, (_, index) => ({
+          id: `${index}-${'a'.repeat(100)}`,
+        })),
+        baseUrl
+      ),
+    /too long/
+  );
+});
+
+test('calendar serialization rejects an empty selection or only excluded stage transitions', () => {
+  for (const selected of [[], [session({ isBreak: true })]]) {
+    assert.throws(
+      () => sessionsCalendarContent(selected, 'pyconhk2026', baseUrl, generatedAt),
+      /at least one public session/
+    );
+  }
 });

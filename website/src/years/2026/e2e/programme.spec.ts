@@ -90,7 +90,8 @@ test('sample supports real dates, search, filters, bookmarks, keyboard modal and
     (await page.locator('[data-modal-google-calendar]').getAttribute('href')) ?? ''
   );
   expect(calendar.searchParams.get('dates')).toBe('20251011T022500Z/20251011T025500Z');
-  expect(calendar.searchParams.get('ctz')).toBe('Asia/Hong_Kong');
+  expect(calendar.searchParams.get('stz')).toBe('Asia/Hong_Kong');
+  expect(calendar.searchParams.get('etz')).toBe('Asia/Hong_Kong');
   await page.locator('[data-modal-save]').click();
   await expect(page.locator('[data-modal-save]')).toHaveAttribute(
     'aria-pressed',

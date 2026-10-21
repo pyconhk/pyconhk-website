@@ -70,13 +70,15 @@ export function sessionsCalendarContent(
   const uniqueSessions = new Map(
     sessions.filter(isSaveableSession).map((session) => [session.id, session])
   );
+  if (!uniqueSessions.size) {
+    throw new Error('Select at least one public session to add to your calendar.');
+  }
   const stamp = calendarDate(generatedAt);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//PyCon Hong Kong//Conference Schedule//EN',
     'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
   ];
   for (const session of [...uniqueSessions.values()].sort(
     (a, b) => Date.parse(a.start) - Date.parse(b.start) || a.id.localeCompare(b.id)
@@ -108,6 +110,37 @@ export function sessionsCalendarContent(
   return `${lines.map(foldCalendarLine).join('\r\n')}\r\n`;
 }
 
+export function calendarImportUrl(
+  sessions: readonly Pick<ScheduleItem, 'id'>[],
+  baseUrl: string
+): string {
+  if (!sessions.length)
+    throw new Error('Select at least one session to add to your calendar.');
+  const url = new URL(baseUrl);
+  if (
+    !/^\/2026\/(?:en|zh-hk|zh-hant|zh-hans|ja|ko)\/schedule\/?$/.test(url.pathname) ||
+    (url.protocol !== 'https:' &&
+      !(
+        url.protocol === 'http:' &&
+        ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)
+      )) ||
+    url.username ||
+    url.password ||
+    sessions.length > 200 ||
+    sessions.some(({ id }) => !/^[A-Za-z0-9_-]{1,128}$/.test(id))
+  ) {
+    throw new Error('Invalid calendar URL or session selection.');
+  }
+  url.pathname = `${url.pathname.replace(/\/$/, '')}/calendar.ics`;
+  url.search = '';
+  url.hash = '';
+  for (const id of new Set(sessions.map((session) => session.id))) {
+    url.searchParams.append('session', id);
+  }
+  if (url.href.length > 8192) throw new Error('Calendar selection URL is too long.');
+  return url.href;
+}
+
 export function sessionCalendarUrl(
   session: Pick<ScheduleItem, 'title' | 'start' | 'end' | 'room' | 'url'>
 ): string {
@@ -115,9 +148,10 @@ export function sessionCalendarUrl(
     action: 'TEMPLATE',
     text: session.title,
     dates: `${calendarDate(session.start)}/${calendarDate(session.end)}`,
-    ctz: 'Asia/Hong_Kong',
+    stz: 'Asia/Hong_Kong',
+    etz: 'Asia/Hong_Kong',
     location: session.room,
     details: session.url,
   });
-  return `https://calendar.google.com/calendar/render?${parameters}`;
+  return `https://calendar.google.com/calendar/r/eventedit?${parameters}`;
 }
