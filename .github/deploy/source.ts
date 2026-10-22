@@ -18,6 +18,9 @@ export function isDeploymentInput(app: App, filename: string) {
   if (["package.json", "bun.lock", "mise.toml", ".github/deploy/source.ts", "reconciler/content.ts", ".github/deploy/cache.ts"].includes(filename)) return true;
   if (app === "cms" && filename === ".github/deploy/cms.ts") return true;
   if (app === "cms" && filename === ".github/workflows/deploy-cms.yml") return true;
+  // CMS previews compile the website's year-owned article components, styles,
+  // fonts, translations and Markdown helpers (including their transitive imports).
+  if (app === "cms" && filename.startsWith("website/src/")) return true;
   if (app === "website" && filename === ".github/deploy/website.ts") return true;
   if (app === "website" && filename === "cms/src/lib/news-frontmatter.ts") return true;
   if (app === "website" && filename === ".github/workflows/deploy-website-reusable.yml") return true;

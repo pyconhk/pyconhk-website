@@ -1,22 +1,23 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import remarkHtml from 'remark-html';
 import {
   defaultLocale,
   getLocaleFallbackChain,
   getLocalesForYear,
-  getSocialImagePath,
   type SiteLocale,
 } from '@/config/site';
-import { cleanLegacyHtml } from '@/legacy/legacy-html';
 import {
   parseCollectionYearFromDirectoryName,
   parseLocalizedContentFilename,
 } from '@/lib/localized-content';
 import { defaultPublishedAt, normalizePublishedAt } from '@/lib/news-date';
+import { normalizeNewsCoverImage } from '@/lib/news-images';
+import { renderNewsMarkdown } from '@/lib/news-markdown';
+
 import { normalizeNewsFrontmatter } from '../../../cms/src/lib/news-frontmatter';
+
+export { renderNewsMarkdown } from '@/lib/news-markdown';
 
 type PostStatus = 'draft' | 'published';
 
@@ -90,33 +91,6 @@ const contentRoot = path.join(process.cwd(), 'outstatic/content');
 const defaultAuthorName = 'PyCon HK';
 
 let indexedNewsStorePromise: Promise<IndexedNewsStore> | null = null;
-
-function normalizeCoverImage(
-  imagePath: string | undefined,
-  collectionYear: number,
-  locale: SiteLocale
-): string {
-  const fallbackPath =
-    collectionYear === 2026
-      ? getSocialImagePath(locale)
-      : `/${collectionYear}/landing-pages/open-graph.webp`;
-
-  if (!imagePath) {
-    return fallbackPath;
-  }
-
-  if (imagePath.startsWith('/api/outstatic/media/')) {
-    const publicIndex = imagePath.indexOf('/public/');
-
-    if (publicIndex >= 0) {
-      return imagePath.slice(publicIndex + '/public'.length);
-    }
-
-    return fallbackPath;
-  }
-
-  return imagePath;
-}
 
 function createExcerpt(markdown: string): string {
   const clean = markdown
@@ -272,7 +246,7 @@ async function loadVariantsFromDirectory(
           authorPicture: frontmatter.author?.picture?.trim() || undefined,
           body: parsedSource.content.trim(),
           collectionYear,
-          coverImage: normalizeCoverImage(
+          coverImage: normalizeNewsCoverImage(
             frontmatter.coverImage,
             collectionYear,
             locale
@@ -401,19 +375,6 @@ export async function getPostBySlug(
     ...toSummary(resolved),
     html,
   } satisfies NewsPost;
-}
-
-export async function renderNewsMarkdown(
-  markdown: string,
-  collectionYear?: number
-): Promise<string> {
-  const html = String(
-    await remark().use(remarkHtml, { sanitize: true }).process(markdown)
-  );
-
-  return collectionYear
-    ? cleanLegacyHtml(html, { event: String(collectionYear) })
-    : html;
 }
 
 export async function getPublishedPostSlugs(
