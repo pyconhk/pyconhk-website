@@ -21,6 +21,7 @@ The Worker exposes:
 - `/admin/`: GitHub-backed CMS
 - `/admin/test/`: in-memory Decap test backend
 - `/admin/config.yml`: generated Decap configuration
+- `POST /admin/preview/<year>/`: render unsaved article data without persistence
 - `/api/decap/auth` and `/api/decap/callback`: GitHub OAuth
 
 `/admin/test/` is an in-memory browser fixture, not the GitHub-backed test CMS.
@@ -46,6 +47,23 @@ requirement for all five published translations. The sidebar exposes only news
 collections, currently `2026 News` and `2025 News`. The year is
 determined by the collection, so editors do not enter it as post metadata.
 Conference pages and event settings are maintained in the website source.
+
+Use **Toggle i18n** to switch the translation pane to the live article preview.
+The preview follows the left editor's **Writing in** language and includes
+unsaved text and uploaded images. The 2026 preview offers system, light and
+dark appearance; 2025 retains its archive design. Previewing does not save,
+change visibility or request a deployment. Use **Save** separately.
+
+The preview renders the article area using the same year-owned
+`website/src/years/<year>/components/NewsArticle.astro` component as the public
+page, together with shared Markdown sanitization, fonts and website CSS. Site
+navigation and footer are omitted. Preview registration uses the existing
+collection definitions, including test IDs; the renderer discovers article
+components by directory. A future design adds its own article component and
+the normal collection definition without copying the preview controller.
+Rendering runs in the CMS Worker; public year assets resolve through the
+website and CMS media resolves through Decap's `getAsset`, including temporary
+uploads. CMS deployment hashes include these shared website source inputs.
 
 The editor's **Save** button saves directly to the CMS branch, with no
 per-article pull request or review step. For 2026 News, each language has its own

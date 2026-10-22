@@ -60,8 +60,10 @@ const target = `${getCmsRepo(environment)} · ${getCmsBranch(environment)}`;
       import { validateEditorialPublish } from "../../lib/editor-validation";
       import { registerCmsEditorUi } from "../../lib/editor-ui";
       import { newsFrontmatterFormat } from "../../lib/news-format";
+      import { registerArticlePreviews } from "../../lib/article-preview";
 
       registerCmsEditorUi(CMS);
+      registerArticlePreviews(CMS);
       CMS.registerCustomFormat("news-frontmatter", "mdx", newsFrontmatterFormat);
       // Simple publishing commits on save. Validate without returning a value:
       // Decap treats a returned value as replacement entry data.

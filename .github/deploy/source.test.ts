@@ -12,6 +12,19 @@ test("shared News normalization invalidates both consuming apps", () => {
   assert.equal(isDeploymentInput("website", "cms/src/lib/news-format.ts"), false);
 });
 
+test("shared article presentations and styles invalidate CMS previews", (t) => {
+  const { write, hash } = cmsFixture(t);
+  const initial = hash("test");
+  write("website/src/years/2027/components/NewsArticle.astro", "<article>New design</article>");
+  assert.notEqual(hash("test"), initial);
+  const presentationHash = hash("test");
+  write("website/src/styles/global.css", "article { color: red; }");
+  assert.notEqual(hash("test"), presentationHash);
+  const styleHash = hash("test");
+  write("website/src/years/2027/e2e/article.spec.ts", "// Browser fixture");
+  assert.equal(hash("test"), styleHash);
+});
+
 function cmsFixture(t: { after: (fn: () => void) => void }) {
   const root = mkdtempSync(path.join(tmpdir(), "pycon-cms-hash-"));
   t.after(() => rmSync(root, { recursive: true, force: true }));

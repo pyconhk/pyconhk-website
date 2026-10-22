@@ -1,0 +1,104 @@
+---
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template.
+import YearFonts from "@/components/YearFonts.astro";
+import {
+  getLocaleDefinition,
+  getLocalesForYear,
+  type SiteYear,
+} from "@/config/site";
+import { normalizeNewsCoverImage } from "@/lib/news-images";
+import { renderNewsMarkdown } from "@/lib/news-markdown";
+import { postCollectionDefinitions } from "../../../lib/cms-config";
+import "../../../styles/article-preview.css";
+
+export const prerender = false;
+
+// Each year owns its real article presentation. Adding one does not require a
+// second CMS collection/year registry or another Markdown renderer.
+const presentations = import.meta.glob<{ default: AstroComponentFactory }>(
+  "../../../../../website/src/years/*/components/NewsArticle.astro",
+  { eager: true },
+);
+const year = Number(Astro.params.year) as SiteYear;
+const presentation = Object.entries(presentations).find(([path]) =>
+  path.includes(`/years/${year}/`),
+);
+Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
+const reject = (message: string, status: number) =>
+  new Response(message, { status, headers: Astro.response.headers });
+if (!presentation) return reject("Unknown article year", 404);
+if (Astro.request.method !== "POST") {
+  Astro.response.headers.set("Allow", "POST");
+  return reject("Use POST", 405);
+}
+const definition = postCollectionDefinitions.find(
+  (definition) => definition.year === year,
+);
+
+let input: unknown;
+try {
+  input = await Astro.request.json();
+} catch {
+  return reject("Invalid preview data", 400);
+}
+if (
+  !input ||
+  typeof input !== "object" ||
+  !("data" in input) ||
+  !("locale" in input) ||
+  !input.data ||
+  typeof input.data !== "object" ||
+  Array.isArray(input.data)
+) {
+  return reject("Invalid preview data", 400);
+}
+const locale = getLocalesForYear(year).find(
+  ({ code }) => code === input.locale,
+)?.code;
+if (!locale) return reject("Unknown article language", 400);
+const text = (value: unknown) => (typeof value === "string" ? value : "");
+const data = input.data as Record<string, unknown>;
+const author =
+  data.author && typeof data.author === "object" && "name" in data.author
+    ? text(data.author.name)
+    : "";
+const publishedAt = text(data.publishedAt);
+const article = {
+  title: text(data.title),
+  slug: text(data.slug),
+  collectionYear: year,
+  sourceLocale: locale,
+  isFallback: false,
+  excerpt: text(data.description),
+  publishedAt: Number.isNaN(Date.parse(publishedAt)) ? "" : publishedAt,
+  coverImage: normalizeNewsCoverImage(text(data.coverImage), year, locale),
+  authorName: author || "PyCon HK",
+  tags: Array.isArray(data.tags)
+    ? data.tags
+        .map(text)
+        .map((tag: string) => tag.trim())
+        .filter(Boolean)
+    : [],
+  html: await renderNewsMarkdown(text(data.body), year),
+};
+const Article = presentation[1].default;
+const htmlLang = getLocaleDefinition(locale).htmlLang;
+---
+
+<!doctype html>
+<html lang={htmlLang} data-site-year={year}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>{article.title || "Article preview"}</title>
+    <YearFonts year={year} />
+  </head>
+  <body class="min-h-screen overflow-x-clip bg-white font-sans text-slate-700 antialiased">
+    <main data-conference-site={definition?.previewAppearance ? "" : undefined}>
+      <Article article={article} locale={locale} year={year} />
+    </main>
+  </body>
+</html>

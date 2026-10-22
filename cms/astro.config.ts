@@ -24,6 +24,7 @@ export default defineConfig({
   // The CMS uses its own short-lived OAuth cookies, not Astro sessions.
   session: { driver: sessionDrivers.lruCache() },
   vite: {
+    resolve: { alias: { "@": path.resolve(process.cwd(), "../website/src") } },
     define: {
       "import.meta.env.CMS_DEPLOYMENT_SOURCE_HASH": JSON.stringify(
         deploymentSourceHash("cms", path.resolve(process.cwd(), ".."), {
