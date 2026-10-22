@@ -358,15 +358,28 @@ test.describe("live article preview", () => {
     const unsupportedYear = await request.post("/admin/preview/1999/", {
       data: { data, locale: "en" },
     });
-    expect(unsupportedYear.status()).toBe(404);
+    expect(unsupportedYear.status(), await unsupportedYear.text()).toBe(404);
+    expect(unsupportedYear.headers()["content-type"]).toContain("text/plain");
     const unsupportedLocale = await request.post("/admin/preview/2025/", {
       data: { data, locale: "ko" },
     });
-    expect(unsupportedLocale.status()).toBe(400);
+    expect(unsupportedLocale.status(), await unsupportedLocale.text()).toBe(
+      400,
+    );
+    expect(unsupportedLocale.headers()["content-type"]).toContain("text/plain");
     const malformed = await request.post("/admin/preview/2026/", {
       data: "{",
       headers: { "Content-Type": "application/json" },
     });
-    expect(malformed.status()).toBe(400);
+    expect(malformed.status(), await malformed.text()).toBe(400);
+    expect(malformed.headers()["content-type"]).toContain("text/plain");
+    expect(malformed.headers()["cache-control"]).toBe("no-store");
+    const wrongMethod = await request.get("/admin/preview/2026/");
+    expect(wrongMethod.status(), await wrongMethod.text()).toBe(405);
+    expect(wrongMethod.headers()).toMatchObject({
+      allow: "POST",
+      "cache-control": "no-store",
+      "content-type": "text/plain; charset=utf-8",
+    });
   });
 });

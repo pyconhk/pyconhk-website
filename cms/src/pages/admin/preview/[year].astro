@@ -26,8 +26,11 @@ const presentation = Object.entries(presentations).find(([path]) =>
 );
 Astro.response.headers.set("Cache-Control", "no-store");
 Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
-const reject = (message: string, status: number) =>
-  new Response(message, { status, headers: Astro.response.headers });
+const reject = (message: string, status: number) => {
+  const headers = new Headers(Astro.response.headers);
+  headers.set("Content-Type", "text/plain; charset=utf-8");
+  return new Response(message, { status, headers });
+};
 if (!presentation) return reject("Unknown article year", 404);
 if (Astro.request.method !== "POST") {
   Astro.response.headers.set("Allow", "POST");
