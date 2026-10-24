@@ -319,6 +319,21 @@ test('conference artwork preserves transparency and supplied backgrounds', async
       expect(rendered.darkPixels).toBeGreaterThan(64 * 64 * 0.05);
       for (const [channel, expected] of [174, 16, 39, 255].entries())
         expect(Math.abs(rendered.corner[channel] - expected)).toBeLessThanOrEqual(3);
+    } else if (
+      new URL(src, page.url()).pathname ===
+      '/2026/supporting-organizations/pyconMy.svg.webp'
+    ) {
+      // PyCon MY supplied an opaque white-background composition. Preserve it.
+      const response = await page.request.get(src);
+      expect(response.ok()).toBe(true);
+      expect(
+        createHash('sha256')
+          .update(await response.body())
+          .digest('hex')
+      ).toBe('bd47699135b1fbe7330791cb28d120d6ef2c4d8cc7171ddafbdba2333bcf269d');
+      expect([rendered.width, rendered.height]).toEqual([1024, 1024]);
+      expect(rendered.opaquePixels).toBe(64 * 64);
+      expect(rendered.corner).toEqual([255, 255, 255, 255]);
     } else {
       expect(rendered.transparentPixels, src).toBeGreaterThan(64 * 64 * 0.1);
     }
