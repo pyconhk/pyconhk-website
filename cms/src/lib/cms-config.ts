@@ -123,9 +123,14 @@ function createPostFields(year: number): CmsField[] {
   ];
 }
 
-const postCollectionDefinitions = [
-  { name: "posts", label: "2026 News", year: 2026 },
-  { name: "posts_2025", label: "2025 News", year: 2025 },
+export const postCollectionDefinitions = [
+  { name: "posts", label: "2026 News", year: 2026, previewAppearance: true },
+  {
+    name: "posts_2025",
+    label: "2025 News",
+    year: 2025,
+    previewAppearance: false,
+  },
 ] as const;
 
 type CmsConfig = {
@@ -163,7 +168,7 @@ function createPostCollection(
     identifier_field: "slug",
     slug: "{{slug}}",
     summary: "{{title}}",
-    editor: { preview: false },
+    editor: { preview: true },
     fields: createPostFields(year),
   };
 }

@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import YearFonts from '@/components/YearFonts.astro';
 import {
   currentConferenceYear,
   defaultOpenGraphDescription,
@@ -81,16 +82,7 @@ const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironmen
     <meta name="twitter:image" content={seo.imageUrl} />
     <link rel="icon" href={iconPath} />
     <ClientRouter fallback="swap" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href={year === 2025
-        ? 'https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap'
-        : year === 2026
-        ? 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300..900;1,300..900&display=swap'
-        : 'https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,wght@0,700;0,900;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,300..900;1,300..900&display=swap'}
-      rel="stylesheet"
-    />
+    <YearFonts year={year} />
     {
       shouldLoadGoogleAnalytics && (
         <>

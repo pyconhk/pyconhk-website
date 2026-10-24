@@ -22,8 +22,10 @@ export const prerender = true;
       import { validateEditorialPublish } from "../../../lib/editor-validation";
       import { registerCmsEditorUi } from "../../../lib/editor-ui";
       import { newsFrontmatterFormat } from "../../../lib/news-format";
+      import { registerArticlePreviews } from "../../../lib/article-preview";
 
       registerCmsEditorUi(CMS);
+      registerArticlePreviews(CMS);
       CMS.registerCustomFormat("news-frontmatter", "mdx", newsFrontmatterFormat);
       CMS.registerEventListener({ name: "preSave", handler: ({ entry }) => { validateEditorialPublish(entry.toJS()); } });
       CMS.init();
