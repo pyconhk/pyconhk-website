@@ -330,6 +330,14 @@
         "id": "organizations-16"
       },
       {
+        "name": "PyCon MY",
+        "logo": "/2026/supporting-organizations/pyconMy.svg.webp",
+        "url": "https://www.pycon.my/",
+        "description": "Malaysia’s Python conference, bringing the community together to share knowledge, experiences, and skills.",
+        "kind": "supporter",
+        "id": "pycon-my"
+      },
+      {
         "name": "PyLadies Hong Kong",
         "logo": "/2026/supporting-organizations/pyladies_hk.svg",
         "url": "https://linktr.ee/pyladieshk",
@@ -381,7 +389,7 @@
         "name": "Women Techmakers Hong Kong",
         "logo": "/2026/supporting-organizations/WTMHK.webp",
         "url": "https://wtmhk.org/",
-        "description": "Google program providing visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
+        "description": "The Hong Kong chapter of Women Techmakers, a global community run by Technovation, that provides visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-21"
       }
