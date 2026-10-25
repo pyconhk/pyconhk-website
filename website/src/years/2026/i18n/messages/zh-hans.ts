@@ -36,7 +36,7 @@ export const zhHans: HomeMessages = {
     {
       icon: 'mic',
       title: '全球视野',
-      description: '与来自世界各地的 Python 开发者共同探索前沿讲座与工作坊。',
+      description: '参与演讲、主题分享，与世界各地的 Python 开发者交流。',
     },
     {
       icon: 'calendar',
@@ -129,10 +129,9 @@ export const zhHans: HomeMessages = {
   },
   schedule: {
     pageTitle: '大会议程 | PyCon HK 2026',
-    pageDescription:
-      '浏览 PyCon Hong Kong 2026 完整的演讲议程、工作坊、主题演讲与时间表。',
+    pageDescription: '查看 PyCon Hong Kong 2026 的演讲、主题演讲与社区活动时间表。',
     heroTitle: '大会议程',
-    heroSubtitle: '探索为期两天的精彩演讲、技术分轨与实战工作坊。',
+    heroSubtitle: '查看大会日与 Sprint 日的活动安排，规划你的参与行程。',
     day1: '第一天 (11月14日 周六)',
     day2: '第二天 (11月15日 周日)',
     allTracks: '全部分轨',

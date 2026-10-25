@@ -169,7 +169,7 @@
     "intro": "PyCon Hong Kong(PyCon HK)은 홍콩과 아시아의 Python 및 오픈소스 문화를 발전시키기 위해 자원봉사자들이 운영하는 비영리 컨퍼런스입니다. 여러분의 개인 후원금은 다음과 같은 활동에 사용됩니다.",
     "benefits": [
       "누구나 참여할 수 있도록 무료 또는 저렴한 참가비 유지",
-      "우수한 발표자 초청과 홍콩에서의 양질의 워크숍 개최",
+      "우수한 발표자를 초청해 홍콩에서 지식과 경험을 나누는 자리 마련",
       "지역 Python 및 오픈소스 커뮤니티와 생태계 강화",
       "PyCon HK가 매년 성장할 수 있도록 지속적인 운영 지원"
     ],
@@ -504,6 +504,34 @@
         "id": "people-15"
       },
       {
+        "id": "volunteer-ming-tou",
+        "name": "Ming Tou",
+        "image": "/2026/organizers-volunteers/volunteers/ming-tou.webp",
+        "url": "https://www.linkedin.com/in/ming-tou-97b818105/",
+        "role": "프로그램팀 자원봉사자"
+      },
+      {
+        "id": "volunteer-jim-ngoo",
+        "name": "Jim Ngoo",
+        "image": "/2026/organizers-volunteers/volunteers/jim-ngoo.webp",
+        "url": "https://hk.linkedin.com/in/jim-ngoo",
+        "role": "프로그램팀 자원봉사자"
+      },
+      {
+        "id": "volunteer-harry-ho",
+        "name": "Harry Ho",
+        "image": "/2026/organizers-volunteers/volunteers/harry-ho.webp",
+        "url": "",
+        "role": "프로그램팀 자원봉사자"
+      },
+      {
+        "id": "volunteer-luciano-scarpulla",
+        "name": "Luciano Scarpulla",
+        "image": "",
+        "url": "",
+        "role": "프로그램팀 자원봉사자"
+      },
+      {
         "id": "volunteer-jared",
         "name": "Jared",
         "role": "디자이너",
@@ -514,7 +542,7 @@
         "id": "volunteer-rainbow-cheng",
         "name": "Rainbow Cheng",
         "role": "디자이너",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/rainbow-cheng.webp",
         "url": ""
       },
       {
@@ -541,315 +569,315 @@
       {
         "id": "volunteer-amy-li",
         "name": "Amy Li",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/amylly/"
       },
       {
         "id": "volunteer-kingman-leung",
         "name": "Kingman Leung",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-alex-chang",
         "name": "Alex Chang",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/yukhon/"
       },
       {
         "id": "volunteer-peggy-c",
         "name": "Peggy C",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ho-ming-li",
         "name": "Ho Ming Li",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/homingli"
       },
       {
         "id": "volunteer-alan-chu",
         "name": "Alan Chu",
-        "role": "컨퍼런스 자원봉사자",
-        "image": "",
+        "role": "현장 운영 자원봉사자",
+        "image": "/2026/organizers-volunteers/volunteers/alan-chu.webp",
         "url": ""
       },
       {
         "id": "volunteer-kapo-leung",
         "name": "Kapo Leung",
-        "role": "컨퍼런스 자원봉사자",
-        "image": "",
+        "role": "현장 운영 자원봉사자",
+        "image": "/2026/organizers-volunteers/volunteers/kapo-leung.webp",
         "url": ""
       },
       {
         "id": "volunteer-tim-ching",
         "name": "Tim Ching",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://linkedin.com/in/timchingy"
       },
       {
         "id": "volunteer-keto",
         "name": "Keto",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-sam-lau",
         "name": "Sam Lau",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-tim-tan",
         "name": "Tim Tan",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ronald-hamsterthon",
         "name": "Ronald (Hamsterthon)",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ronald-oshk",
         "name": "Ronald (OSHK)",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-brisson-lam",
         "name": "Brisson Lam",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ivan",
         "name": "Ivan",
-        "role": "컨퍼런스 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-nicole",
         "name": "Nicole",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/man-ching-yu-990b46346"
       },
       {
         "id": "volunteer-anna-law",
         "name": "Anna Law",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/anna-law-122b9628a"
       },
       {
         "id": "volunteer-quincy-chan",
         "name": "Quincy Chan",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/quincychan29"
       },
       {
         "id": "volunteer-ken-wong",
         "name": "Ken Wong",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/kenhlwong"
       },
       {
         "id": "volunteer-mitch-chan",
         "name": "Mitch Chan",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": "https://www.linkedin.com/in/wing-ki-chan-235156214/"
       },
       {
         "id": "volunteer-kelly-wong",
         "name": "Kelly Wong",
-        "role": "홍콩시립대학교 자원봉사자",
-        "image": "",
+        "role": "현장 운영 자원봉사자",
+        "image": "/2026/organizers-volunteers/volunteers/kelly-wong.webp",
         "url": "https://www.linkedin.com/in/kellywongyy"
       },
       {
         "id": "volunteer-tina-fung",
         "name": "Tina Fung",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-mimi-kwok",
         "name": "Mimi Kwok",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-starry-chau",
         "name": "Starry Chau",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ricardo",
         "name": "Ricardo",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-tommy",
         "name": "Tommy",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-anthony-wong",
         "name": "Anthony Wong",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-megand-chiu",
         "name": "Megand Chiu",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-sienna-chung",
         "name": "Sienna Chung",
-        "role": "홍콩시립대학교 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-cyrus-wong",
         "name": "Cyrus Wong",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-yao-ka-chun",
         "name": "YAO Ka Chun",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-huang-zhipeng",
         "name": "HUANG Zhipeng",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-wong-wing-ho",
         "name": "WONG Wing Ho",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chan-cheuk-man-jimmy",
         "name": "CHAN Cheuk Man Jimmy",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chan-yin-fung",
         "name": "CHAN Yin Fung",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ho-chun-hin",
         "name": "Ho Chun Hin",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chui-kin-keung-kenny",
         "name": "CHUI Kin Keung Kenny",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-yuen-king-hin",
         "name": "YUEN King Hin",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chan-ka-ming",
         "name": "CHAN Ka Ming",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chen-fengyi",
         "name": "CHEN Fengyi",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-dai-ruiran",
         "name": "DAI RUIRAN",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-he-haoyu",
         "name": "HE HAOYU",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-luo-erjie",
         "name": "LUO ERJIE",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-zhang-junning",
         "name": "ZHANG Junning",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-zhang-xuan",
         "name": "ZHANG Xuan",
-        "role": "HKIIT(정관오·리와이리) 자원봉사자",
+        "role": "현장 운영 자원봉사자",
         "image": "",
         "url": ""
       }

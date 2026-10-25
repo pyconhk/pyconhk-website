@@ -169,7 +169,7 @@
     "intro": "PyCon Hong Kong (PyCon HK) is a volunteer-run, not-for-profit conference committed to advancing Python and open source culture throughout Hong Kong and the wider Asian region. Your personal support as a Patron goes directly towards helping us:",
     "benefits": [
       "Keep ticket prices free or affordable for everyone who wants to attend",
-      "Invite outstanding speakers and host quality workshops here in Hong Kong",
+      "Invite outstanding speakers to share their knowledge here in Hong Kong",
       "Strengthen the Python and open source community and ecosystem locally",
       "Sustain PyCon HK so it can expand with each passing year"
     ],
@@ -504,6 +504,34 @@
         "id": "people-15"
       },
       {
+        "id": "volunteer-ming-tou",
+        "name": "Ming Tou",
+        "image": "/2026/organizers-volunteers/volunteers/ming-tou.webp",
+        "url": "https://www.linkedin.com/in/ming-tou-97b818105/",
+        "role": "Programme Volunteers"
+      },
+      {
+        "id": "volunteer-jim-ngoo",
+        "name": "Jim Ngoo",
+        "image": "/2026/organizers-volunteers/volunteers/jim-ngoo.webp",
+        "url": "https://hk.linkedin.com/in/jim-ngoo",
+        "role": "Programme Volunteers"
+      },
+      {
+        "id": "volunteer-harry-ho",
+        "name": "Harry Ho",
+        "image": "/2026/organizers-volunteers/volunteers/harry-ho.webp",
+        "url": "",
+        "role": "Programme Volunteers"
+      },
+      {
+        "id": "volunteer-luciano-scarpulla",
+        "name": "Luciano Scarpulla",
+        "image": "",
+        "url": "",
+        "role": "Programme Volunteers"
+      },
+      {
         "id": "volunteer-jared",
         "name": "Jared",
         "role": "Designers",
@@ -514,7 +542,7 @@
         "id": "volunteer-rainbow-cheng",
         "name": "Rainbow Cheng",
         "role": "Designers",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/rainbow-cheng.webp",
         "url": ""
       },
       {
@@ -541,315 +569,315 @@
       {
         "id": "volunteer-amy-li",
         "name": "Amy Li",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/amylly/"
       },
       {
         "id": "volunteer-kingman-leung",
         "name": "Kingman Leung",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-alex-chang",
         "name": "Alex Chang",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/yukhon/"
       },
       {
         "id": "volunteer-peggy-c",
         "name": "Peggy C",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ho-ming-li",
         "name": "Ho Ming Li",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/homingli"
       },
       {
         "id": "volunteer-alan-chu",
         "name": "Alan Chu",
-        "role": "Conference Volunteers",
-        "image": "",
+        "role": "On-site Volunteers",
+        "image": "/2026/organizers-volunteers/volunteers/alan-chu.webp",
         "url": ""
       },
       {
         "id": "volunteer-kapo-leung",
         "name": "Kapo Leung",
-        "role": "Conference Volunteers",
-        "image": "",
+        "role": "On-site Volunteers",
+        "image": "/2026/organizers-volunteers/volunteers/kapo-leung.webp",
         "url": ""
       },
       {
         "id": "volunteer-tim-ching",
         "name": "Tim Ching",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://linkedin.com/in/timchingy"
       },
       {
         "id": "volunteer-keto",
         "name": "Keto",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-sam-lau",
         "name": "Sam Lau",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-tim-tan",
         "name": "Tim Tan",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ronald-hamsterthon",
         "name": "Ronald (Hamsterthon)",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ronald-oshk",
         "name": "Ronald (OSHK)",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-brisson-lam",
         "name": "Brisson Lam",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ivan",
         "name": "Ivan",
-        "role": "Conference Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-nicole",
         "name": "Nicole",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/man-ching-yu-990b46346"
       },
       {
         "id": "volunteer-anna-law",
         "name": "Anna Law",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/anna-law-122b9628a"
       },
       {
         "id": "volunteer-quincy-chan",
         "name": "Quincy Chan",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/quincychan29"
       },
       {
         "id": "volunteer-ken-wong",
         "name": "Ken Wong",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/kenhlwong"
       },
       {
         "id": "volunteer-mitch-chan",
         "name": "Mitch Chan",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": "https://www.linkedin.com/in/wing-ki-chan-235156214/"
       },
       {
         "id": "volunteer-kelly-wong",
         "name": "Kelly Wong",
-        "role": "CityU Volunteers",
-        "image": "",
+        "role": "On-site Volunteers",
+        "image": "/2026/organizers-volunteers/volunteers/kelly-wong.webp",
         "url": "https://www.linkedin.com/in/kellywongyy"
       },
       {
         "id": "volunteer-tina-fung",
         "name": "Tina Fung",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-mimi-kwok",
         "name": "Mimi Kwok",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-starry-chau",
         "name": "Starry Chau",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ricardo",
         "name": "Ricardo",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-tommy",
         "name": "Tommy",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-anthony-wong",
         "name": "Anthony Wong",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-megand-chiu",
         "name": "Megand Chiu",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-sienna-chung",
         "name": "Sienna Chung",
-        "role": "CityU Volunteers",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-cyrus-wong",
         "name": "Cyrus Wong",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-yao-ka-chun",
         "name": "YAO Ka Chun",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-huang-zhipeng",
         "name": "HUANG Zhipeng",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-wong-wing-ho",
         "name": "WONG Wing Ho",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chan-cheuk-man-jimmy",
         "name": "CHAN Cheuk Man Jimmy",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chan-yin-fung",
         "name": "CHAN Yin Fung",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-ho-chun-hin",
         "name": "Ho Chun Hin",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chui-kin-keung-kenny",
         "name": "CHUI Kin Keung Kenny",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-yuen-king-hin",
         "name": "YUEN King Hin",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chan-ka-ming",
         "name": "CHAN Ka Ming",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-chen-fengyi",
         "name": "CHEN Fengyi",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-dai-ruiran",
         "name": "DAI RUIRAN",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-he-haoyu",
         "name": "HE HAOYU",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-luo-erjie",
         "name": "LUO ERJIE",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-zhang-junning",
         "name": "ZHANG Junning",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       },
       {
         "id": "volunteer-zhang-xuan",
         "name": "ZHANG Xuan",
-        "role": "HKIIT Volunteers (Tseung Kwan O, Lee Wai Lee)",
+        "role": "On-site Volunteers",
         "image": "",
         "url": ""
       }
