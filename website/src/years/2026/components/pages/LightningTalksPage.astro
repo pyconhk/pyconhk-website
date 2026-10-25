@@ -27,6 +27,19 @@ const relatedLinks = [
       </div>
     </section>
 
+    <section data-lightning-schedule class="space-y-4" aria-labelledby="lightning-schedule">
+      <h2 id="lightning-schedule" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.scheduleTitle}</h2>
+      <p class="text-sm text-conference-muted">{copy.allTimes}</p>
+      <dl class="divide-y divide-conference-outline/20 overflow-hidden rounded-2xl border-2 border-conference-outline/20 bg-conference-paper">
+        {copy.scheduleRows.map((row) => (
+          <div class="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 px-4 py-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:px-6">
+            <dt class="font-bold tabular-nums text-conference-blue">{row.time}</dt>
+            <dd class="min-w-0 text-conference-ink">{row.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
     <section data-lightning-participation class="space-y-4" aria-labelledby="lightning-participation">
       <h2 id="lightning-participation" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.participationTitle}</h2>
       <ol class="space-y-5">
@@ -41,9 +54,13 @@ const relatedLinks = [
         ))}
       </ol>
       <div class="space-y-3 pt-2">
+        <p data-lightning-registration-window class="font-bold text-conference-ink">{copy.registrationWindowNote}</p>
         <a data-lightning-registration href={lightningTalkRegistrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 max-w-full items-center gap-3 rounded-full border-2 border-conference-outline bg-[#d71920] px-5 py-3 font-bold text-white shadow-conference-control transition-colors hover:bg-[#c0151c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"><span>{copy.registrationLink}</span><span aria-hidden="true">↗</span></a>
         <p class="text-sm text-conference-muted">{copy.confirmationNote}</p>
       </div>
+      <ul data-lightning-rules class="list-disc space-y-2 pl-5 text-sm">
+        {copy.rules.map((rule) => <li>{rule}</li>)}
+      </ul>
     </section>
 
     <section data-lightning-preparation class="space-y-6" aria-labelledby="lightning-preparation">
