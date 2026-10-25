@@ -31,7 +31,7 @@
   },
   "sprint": {
     "status": "published",
-    "intro": "11月15日（日）は PyCon HK 2026 の開発スプリントです。Python やオープンソースのプロジェクトに、できる範囲で貢献しながら一緒に取り組みます。知識を共有して学ぶコミュニティの協働イベントであり、講師が順を追って教えるワークショップではありません。\n\nプロジェクトや詳しい進め方は現在調整中です。参加方法や準備については、スプリント Q&A をご覧ください。参加は無料ですが、カンファレンスとは別にスプリントのチケット登録が必要です。",
+    "intro": "11月15日（日）は PyCon HK 2026 の開発スプリントです。Python やオープンソースのプロジェクトに、できる範囲で貢献しながら一緒に取り組みます。知識を共有して学ぶコミュニティの協働イベントであり、講師が順を追って教えるワークショップではありません。\n\nプロジェクトや詳しい進め方は現在調整中です。参加方法や準備については、スプリント Q&A をご覧ください。参加は無料ですが、カンファレンスとは別にスプリントのチケット登録が必要です。\n\n会場受付：2026年11月15日 10:00（香港時間、UTC+8）。",
     "date": "2026-11-15",
     "location": "Hong Kong Institute of Information Technology（HKIIT）、IVE（Lee Wai Lee）キャンパス、将軍澳（Tseung Kwan O）",
     "registrationUrl": "https://www.eventbrite.hk/e/pycon-hk-2026-tickets-1998483131845",
@@ -330,6 +330,14 @@
         "id": "organizations-16"
       },
       {
+        "name": "PyCon MY",
+        "logo": "/2026/supporting-organizations/pyconMy.svg.webp",
+        "url": "https://www.pycon.my/",
+        "description": "Malaysia’s Python conference, bringing the community together to share knowledge, experiences, and skills.",
+        "kind": "supporter",
+        "id": "pycon-my"
+      },
+      {
         "name": "PyLadies Hong Kong",
         "logo": "/2026/supporting-organizations/pyladies_hk.svg",
         "url": "https://linktr.ee/pyladieshk",
@@ -381,7 +389,7 @@
         "name": "Women Techmakers Hong Kong",
         "logo": "/2026/supporting-organizations/WTMHK.webp",
         "url": "https://wtmhk.org/",
-        "description": "Google program providing visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
+        "description": "The Hong Kong chapter of Women Techmakers, a global community run by Technovation, that provides visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-21"
       }
@@ -494,6 +502,27 @@
         "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
         "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
         "id": "people-15"
+      },
+      {
+        "id": "jackson-chan",
+        "name": "Jackson Chan",
+        "url": "https://www.linkedin.com/in/jacksonchanhongkong/",
+        "role": "マーケティング",
+        "image": "/2026/organizers-volunteers/volunteers/jackson-chan.webp"
+      },
+      {
+        "id": "coby-lam",
+        "name": "Coby Lam",
+        "url": "https://www.linkedin.com/in/shun-hang-lam-62097431b",
+        "role": "マーケティング",
+        "image": "/2026/organizers-volunteers/volunteers/coby-lam.webp"
+      },
+      {
+        "id": "sophia-wong",
+        "name": "Sophia Wong",
+        "url": "https://www.linkedin.com/in/sophia-wong-digital/",
+        "role": "マーケティング",
+        "image": "/2026/organizers-volunteers/volunteers/sophia-wong.webp"
       }
     ]
   },

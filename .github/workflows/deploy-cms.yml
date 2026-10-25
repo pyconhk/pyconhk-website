@@ -8,6 +8,7 @@ on:
       - .github/deploy/source.ts
       - .github/workflows/deploy-cms.yml
       - cms/**
+      - website/src/**
       - bun.lock
       - package.json
       - mise.toml

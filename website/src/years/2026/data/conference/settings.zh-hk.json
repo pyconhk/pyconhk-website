@@ -31,7 +31,7 @@
   },
   "sprint": {
     "status": "published",
-    "intro": "11 月 15 日星期日，一齊參加 PyCon HK 2026 衝刺開發日，同社群一齊做 Python 同開源項目。歡迎你按自己嘅經驗出一分力，一齊交流同學習。呢個係協作活動，唔係導師逐步授課嘅工作坊。\n\n我哋仲確認緊項目同詳細安排。想知點樣參與同準備，可以先睇衝刺開發常見問題。免費入場，請同大會日分別登記門票。",
+    "intro": "11 月 15 日星期日，一齊參加 PyCon HK 2026 衝刺開發日，同社群一齊做 Python 同開源項目。歡迎你按自己嘅經驗出一分力，一齊交流同學習。呢個係協作活動，唔係導師逐步授課嘅工作坊。\n\n我哋仲確認緊項目同詳細安排。想知點樣參與同準備，可以先睇衝刺開發常見問題。免費入場，請同大會日分別登記門票。\n\n現場報到時間：2026 年 11 月 15 日上午 10:00（香港時間，UTC+8）。",
     "date": "2026-11-15",
     "location": "香港資訊科技學院（HKIIT），香港專業教育學院（IVE）（李惠利）校園，將軍澳",
     "registrationUrl": "https://www.eventbrite.hk/e/pycon-hk-2026-tickets-1998483131845",
@@ -330,6 +330,14 @@
         "id": "organizations-16"
       },
       {
+        "name": "PyCon MY",
+        "logo": "/2026/supporting-organizations/pyconMy.svg.webp",
+        "url": "https://www.pycon.my/",
+        "description": "Malaysia’s Python conference, bringing the community together to share knowledge, experiences, and skills.",
+        "kind": "supporter",
+        "id": "pycon-my"
+      },
+      {
         "name": "PyLadies Hong Kong",
         "logo": "/2026/supporting-organizations/pyladies_hk.svg",
         "url": "https://linktr.ee/pyladieshk",
@@ -381,7 +389,7 @@
         "name": "Women Techmakers Hong Kong",
         "logo": "/2026/supporting-organizations/WTMHK.webp",
         "url": "https://wtmhk.org/",
-        "description": "Google program providing visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
+        "description": "The Hong Kong chapter of Women Techmakers, a global community run by Technovation, that provides visibility, community, and resources for women in technology to thrive and lead in Hong Kong.",
         "kind": "supporter",
         "id": "organizations-21"
       }
@@ -494,6 +502,27 @@
         "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
         "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
         "id": "people-15"
+      },
+      {
+        "id": "jackson-chan",
+        "name": "Jackson Chan",
+        "url": "https://www.linkedin.com/in/jacksonchanhongkong/",
+        "role": "市場推廣",
+        "image": "/2026/organizers-volunteers/volunteers/jackson-chan.webp"
+      },
+      {
+        "id": "coby-lam",
+        "name": "Coby Lam",
+        "url": "https://www.linkedin.com/in/shun-hang-lam-62097431b",
+        "role": "市場推廣",
+        "image": "/2026/organizers-volunteers/volunteers/coby-lam.webp"
+      },
+      {
+        "id": "sophia-wong",
+        "name": "Sophia Wong",
+        "url": "https://www.linkedin.com/in/sophia-wong-digital/",
+        "role": "市場推廣",
+        "image": "/2026/organizers-volunteers/volunteers/sophia-wong.webp"
       }
     ]
   },
