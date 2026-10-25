@@ -13,16 +13,25 @@ const sessionLanguageNames: Record<CfpLocale, Record<string, string>> = {
   ko: { en: '영어', zh: '중국어', yue: '광둥어', ja: '일본어', ko: '한국어' },
 };
 
-export function sessionLanguageLabel(language: string, locale: CfpLocale): string {
+export function normalizeSessionLanguage(language: string): string {
   // This programme publishes Cantonese sessions as zh-hant. Keep source/filter
   // values intact and apply the conference's display names in the page locale.
   const aliases: Record<string, string> = {
     'zh-hant': 'yue',
     'zh-hk': 'yue',
+    'zh-hant-hk': 'yue',
     'zh-hans': 'zh',
+    cantonese: 'yue',
+    english: 'en',
   };
-  const code = language.toLowerCase();
-  return sessionLanguageNames[locale][aliases[code] ?? code] ?? language;
+  const code = language.trim().toLowerCase().replaceAll('_', '-');
+  if (code.startsWith('en-')) return 'en';
+  if (code.startsWith('yue-')) return 'yue';
+  return aliases[code] ?? code;
+}
+
+export function sessionLanguageLabel(language: string, locale: CfpLocale): string {
+  return sessionLanguageNames[locale][normalizeSessionLanguage(language)] ?? language;
 }
 
 const en = {

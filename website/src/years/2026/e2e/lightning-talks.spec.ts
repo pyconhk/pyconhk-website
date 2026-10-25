@@ -23,6 +23,20 @@ for (const [locale, title] of Object.entries(localeTitles)) {
     await expect(content.locator('[data-lightning-duration]')).toContainText('5');
     await expect(content.locator('#lightning-preparation')).toBeVisible();
     await expect(content.locator('ol li')).toHaveCount(3);
+    const schedule = content.locator('[data-lightning-schedule]');
+    await expect(schedule.locator('dt')).toHaveText([
+      '09:00',
+      '13:00',
+      '14:30',
+      '15:00',
+      '16:30',
+      '16:50–17:15',
+    ]);
+    await expect(schedule).toContainText('2026');
+    await expect(schedule).toContainText('UTC+8');
+    await expect(content.locator('[data-lightning-registration-window]')).toContainText(
+      /09:00[–〜~]13:00/
+    );
     const signup = content.locator('[data-lightning-registration]');
     await expect(signup).toBeVisible();
     await expect(signup).toHaveAttribute(

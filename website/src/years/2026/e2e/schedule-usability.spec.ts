@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page, test } from '@playwright/test';
 import type { ScheduleItem } from '../../../lib/programme/types';
+import { setTheme } from './theme';
 
 type Programme = { sessions: ScheduleItem[]; event: string };
 
@@ -405,6 +406,65 @@ const localizedSessionLanguages: Record<string, Record<string, string>> = {
   ja: { en: '英語', 'zh-hant': '広東語' },
   ko: { en: '영어', 'zh-hant': '광둥어' },
 };
+
+for (const theme of ['light', 'dark']) {
+  test(`${theme}: English and Cantonese badges have distinct readable colours on cards and in details`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    const programme = await openProgramme(page);
+    const english = programme.sessions.find(
+      (session) => !session.isBreak && session.language === 'en'
+    );
+    const cantonese = programme.sessions.find(
+      (session) => !session.isBreak && session.language === 'zh-hant'
+    );
+    test.skip(!english || !cantonese, 'Requires English and Cantonese sessions.');
+    if (!english || !cantonese) return;
+    await setTheme(page, theme);
+    const backgrounds: string[] = [];
+    for (const [session, label, colour] of [
+      [english, 'English', 'english'],
+      [cantonese, 'Cantonese', 'cantonese'],
+    ] as const) {
+      const card = await showSession(page, session);
+      const badge = card.locator('[data-session-language]');
+      await expect(badge).toHaveText(label);
+      await expect(badge).toHaveAttribute('data-language-colour', colour);
+      const appearance = await badge.evaluate((element) => {
+        const style = getComputedStyle(element);
+        function luminance(value: string): number {
+          const components = (value.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+          const channels = components.map((channel) => {
+            const value = channel / 255;
+            return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+          });
+          return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+        }
+        const values = [luminance(style.color), luminance(style.backgroundColor)];
+        return {
+          colour: style.color,
+          background: style.backgroundColor,
+          contrast: (Math.max(...values) + 0.05) / (Math.min(...values) + 0.05),
+        };
+      });
+      expect(appearance.contrast).toBeGreaterThanOrEqual(4.5);
+      backgrounds.push(appearance.background);
+      await card.locator('[data-session-details]').click();
+      const modalBadge = page.locator('#session-modal [data-session-language]');
+      await expect(modalBadge).toBeVisible();
+      await expect(modalBadge).toHaveText(label);
+      await expect(modalBadge).toHaveAttribute(
+        'data-session-language',
+        session.language
+      );
+      await expect(modalBadge).toHaveCSS('color', appearance.colour);
+      await expect(modalBadge).toHaveCSS('background-color', appearance.background);
+      await page.locator('[data-modal-close]').click();
+    }
+    expect(backgrounds[0]).not.toBe(backgrounds[1]);
+  });
+}
 
 for (const [locale, labels] of Object.entries(localizedSessionLanguages)) {
   test(`${locale}: session language badges and filters use the page locale without changing source codes`, async ({

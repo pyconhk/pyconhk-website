@@ -3,9 +3,45 @@ import type { CfpLocale } from '@/years/2026/locales';
 // The 2026 CFP confirms the five-minute format:
 // https://cfp.pycon.hk/pyconhk2026/cfp
 // Signup uses the separate 2026 Lightning Talk form owned by the programme team.
-// Do not carry forward deadlines or on-site arrangements from other events.
+// The email-confirmation flow draws on PyCon Taiwan's example; the times below
+// are the HK organizer's confirmed 14 November plan, with HK's five-minute limit.
 export const lightningTalkRegistrationUrl =
   'https://docs.google.com/forms/d/e/1FAIpQLSfTCfYW5DNVUXV1_v_lv3cUJmJ1krlKZZ4EPMqbgd2avzmIFA/viewform';
+
+export const lightningTalkSchedule = {
+  date: '2026-11-14',
+  timeZone: 'Asia/Hong_Kong',
+  registrationOpen: '09:00',
+  registrationClose: '13:00',
+  notificationTime: '14:30',
+  replyDeadline: '15:00',
+  checkInTime: '16:30',
+  talkStart: '16:50',
+  talkEnd: '17:15',
+} as const;
+
+const {
+  registrationOpen,
+  registrationClose,
+  notificationTime,
+  replyDeadline,
+  checkInTime,
+  talkStart,
+  talkEnd,
+} = lightningTalkSchedule;
+
+const scheduleTimes = [
+  registrationOpen,
+  registrationClose,
+  notificationTime,
+  replyDeadline,
+  checkInTime,
+  `${talkStart}–${talkEnd}`,
+] as const;
+
+function scheduleRows(labels: [string, string, string, string, string, string]) {
+  return scheduleTimes.map((time, index) => ({ time, label: labels[index] }));
+}
 
 type LightningTalkCopy = {
   title: string;
@@ -14,6 +50,11 @@ type LightningTalkCopy = {
   duration: string;
   formatTitle: string;
   formatBody: string;
+  scheduleTitle: string;
+  allTimes: string;
+  registrationWindowNote: string;
+  scheduleRows: { time: string; label: string }[];
+  rules: string[];
   participationTitle: string;
   participation: { title: string; body: string }[];
   registrationLink: string;
@@ -35,19 +76,35 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
     formatTitle: 'A short talk with a clear takeaway',
     formatBody:
       'A Lightning Talk is a short presentation built around one focused idea. Keep it simple so the audience leaves with something they can remember or try.',
+    scheduleTitle: 'On the day',
+    allTimes: '14 November 2026 · All times are Hong Kong time (UTC+8).',
+    registrationWindowNote: `Registration is open only on 14 November 2026, ${registrationOpen}–${registrationClose} Hong Kong time (UTC+8).`,
+    scheduleRows: scheduleRows([
+      'Registration opens',
+      'Registration closes',
+      'Selected speakers notified by email',
+      'Deadline to reply by email and confirm',
+      'Speaker check-in',
+      'Lightning Talks',
+    ]),
+    rules: [
+      'Each talk has a strict five-minute limit.',
+      'All talks must follow the conference Code of Conduct.',
+      `If selected, reply to the notification email by ${replyDeadline} to confirm your participation.`,
+    ],
     participationTitle: 'How to take part',
     participation: [
       {
-        title: 'Send us your idea',
-        body: 'Fill in the Lightning Talk signup form with your proposed topic and contact details.',
+        title: 'Sign up on the day',
+        body: `On 14 November, fill in the form between ${registrationOpen} and ${registrationClose} with your proposed topic and contact details.`,
       },
       {
-        title: 'Wait for confirmation',
-        body: 'The programme team will review your proposal and contact you about the result and next steps.',
+        title: 'Check your email and confirm',
+        body: `The programme team will email selected speakers at ${notificationTime}. Reply to that email by ${replyDeadline} to confirm that you will present.`,
       },
       {
-        title: 'Get ready to present',
-        body: 'Prepare and practise your five-minute talk.',
+        title: 'Check in and get ready',
+        body: `Check in at ${checkInTime} and be ready to give your five-minute talk during the ${talkStart}–${talkEnd} session.`,
       },
     ],
     registrationLink: 'Sign up for a Lightning Talk',
@@ -80,19 +137,35 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
     formatTitle: '篇幅短，重點清楚',
     formatBody:
       '閃電演講係圍繞一個重點嘅短講。內容簡單直接，等大家聽完可以記住一個諗法，或者試吓一個新方法。',
+    scheduleTitle: '當日流程',
+    allTimes: '2026 年 11 月 14 日 · 以下全部係香港時間（UTC+8）。',
+    registrationWindowNote: `報名只喺 2026 年 11 月 14 日 ${registrationOpen}–${registrationClose} 開放（香港時間，UTC+8）。`,
+    scheduleRows: scheduleRows([
+      '開始報名',
+      '截止報名',
+      '用電郵通知獲選講者',
+      '回覆電郵確認參加嘅截止時間',
+      '講者報到',
+      '閃電演講',
+    ]),
+    rules: [
+      '每個演講嚴格限時五分鐘。',
+      '所有演講都要遵守大會行為準則。',
+      `如果獲選，請喺 ${replyDeadline} 前回覆通知電郵，確認你會上台分享。`,
+    ],
     participationTitle: '點樣參加',
     participation: [
       {
-        title: '提交你嘅諗法',
-        body: '填寫閃電演講報名表，提供你想分享嘅題目同聯絡資料。',
+        title: '當日填表報名',
+        body: `喺 11 月 14 日 ${registrationOpen} 至 ${registrationClose} 填寫報名表，提供你想分享嘅題目同聯絡資料。`,
       },
       {
-        title: '等候確認',
-        body: '議程團隊會審閱你嘅提案，再聯絡你通知結果同之後嘅安排。',
+        title: '睇電郵，回覆確認',
+        body: `議程團隊會喺 ${notificationTime} 用電郵通知獲選講者。收到通知後，請喺 ${replyDeadline} 前回覆嗰封電郵，確認你會上台分享。`,
       },
       {
-        title: '準備上台分享',
-        body: '準備好五分鐘嘅分享，並計住時間練習。',
+        title: '報到，準備上台',
+        body: `請喺 ${checkInTime} 報到，準備喺 ${talkStart}–${talkEnd} 嘅閃電演講時段做五分鐘分享。`,
       },
     ],
     registrationLink: '報名做閃電演講',
@@ -125,19 +198,35 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
     formatTitle: '篇幅精簡，重點清楚',
     formatBody:
       '閃電演講是圍繞一個核心想法的短講。讓內容簡單明確，使聽眾帶走一個值得記住或嘗試的重點。',
+    scheduleTitle: '當日流程',
+    allTimes: '2026 年 11 月 14 日 · 以下均為香港時間（UTC+8）。',
+    registrationWindowNote: `報名僅於 2026 年 11 月 14 日 ${registrationOpen}–${registrationClose} 開放（香港時間，UTC+8）。`,
+    scheduleRows: scheduleRows([
+      '開始報名',
+      '截止報名',
+      '以電郵通知獲選講者',
+      '回覆電郵確認參加的截止時間',
+      '講者報到',
+      '閃電演講',
+    ]),
+    rules: [
+      '每場演講嚴格限時五分鐘。',
+      '所有演講均須遵守大會行為準則。',
+      `獲選講者請於 ${replyDeadline} 前回覆通知電郵，確認參加演講。`,
+    ],
     participationTitle: '如何參加',
     participation: [
       {
-        title: '提交您的想法',
-        body: '填寫閃電演講報名表，提供擬分享的題目及聯絡資料。',
+        title: '當日填表報名',
+        body: `請於 11 月 14 日 ${registrationOpen} 至 ${registrationClose} 填寫報名表，提供擬分享的題目及聯絡資料。`,
       },
       {
-        title: '等候確認',
-        body: '議程團隊將審閱您的提案，並聯絡您告知結果及後續安排。',
+        title: '查看電郵並回覆確認',
+        body: `議程團隊將於 ${notificationTime} 以電郵通知獲選講者。請於 ${replyDeadline} 前回覆該封電郵，確認參加演講。`,
       },
       {
-        title: '準備上台分享',
-        body: '準備好五分鐘的分享，並進行計時練習。',
+        title: '報到並準備上台',
+        body: `請於 ${checkInTime} 報到，準備在 ${talkStart}–${talkEnd} 的閃電演講時段進行五分鐘分享。`,
       },
     ],
     registrationLink: '報名閃電演講',
@@ -170,19 +259,35 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
     formatTitle: '篇幅精简，重点清楚',
     formatBody:
       '闪电演讲是围绕一个核心想法的短讲。让内容简单明确，使听众带走一个值得记住或尝试的重点。',
+    scheduleTitle: '当日流程',
+    allTimes: '2026 年 11 月 14 日 · 以下均为香港时间（UTC+8）。',
+    registrationWindowNote: `报名仅于 2026 年 11 月 14 日 ${registrationOpen}–${registrationClose} 开放（香港时间，UTC+8）。`,
+    scheduleRows: scheduleRows([
+      '开始报名',
+      '截止报名',
+      '通过电子邮件通知入选讲者',
+      '回复邮件确认参加的截止时间',
+      '讲者签到',
+      '闪电演讲',
+    ]),
+    rules: [
+      '每场演讲严格限时五分钟。',
+      '所有演讲均须遵守大会行为准则。',
+      `入选讲者请于 ${replyDeadline} 前回复通知邮件，确认参加演讲。`,
+    ],
     participationTitle: '如何参加',
     participation: [
       {
-        title: '提交您的想法',
-        body: '填写闪电演讲报名表，提供拟分享的题目及联系信息。',
+        title: '当天填表报名',
+        body: `请于 11 月 14 日 ${registrationOpen} 至 ${registrationClose} 填写报名表，提供拟分享的题目及联系信息。`,
       },
       {
-        title: '等候确认',
-        body: '议程团队将审阅您的提案，并联系您告知结果及后续安排。',
+        title: '查看邮件并回复确认',
+        body: `议程团队将于 ${notificationTime} 通过电子邮件通知入选讲者。请于 ${replyDeadline} 前回复该邮件，确认参加演讲。`,
       },
       {
-        title: '准备上台分享',
-        body: '准备好五分钟的分享，并进行计时练习。',
+        title: '签到并准备上台',
+        body: `请于 ${checkInTime} 签到，准备在 ${talkStart}–${talkEnd} 的闪电演讲时段进行五分钟分享。`,
       },
     ],
     registrationLink: '报名闪电演讲',
@@ -215,19 +320,35 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
     formatTitle: '短く、伝えたいことを明確に',
     formatBody:
       'ライトニングトークは、ひとつのテーマに絞った短い発表です。聞いた人が覚えたり試したりできるよう、内容をシンプルにまとめましょう。',
+    scheduleTitle: '当日の流れ',
+    allTimes: '2026年11月14日 · 時刻はすべて香港時間（UTC+8）です。',
+    registrationWindowNote: `申込受付は2026年11月14日 ${registrationOpen}〜${registrationClose}（香港時間、UTC+8）のみです。`,
+    scheduleRows: scheduleRows([
+      '申込受付開始',
+      '申込受付終了',
+      '採用された方へメールで通知',
+      '登壇確認メールの返信締切',
+      '登壇者受付',
+      'ライトニングトーク',
+    ]),
+    rules: [
+      '発表は1件につき5分です。制限時間を守ってください。',
+      'すべての発表でカンファレンスの行動規範を守ってください。',
+      `採用された方は${replyDeadline}までに通知メールへ返信し、登壇する旨をお知らせください。`,
+    ],
     participationTitle: '参加方法',
     participation: [
       {
-        title: 'アイデアを送る',
-        body: 'ライトニングトークの申込フォームに、発表したいテーマと連絡先を記入してください。',
+        title: '当日に申し込む',
+        body: `11月14日 ${registrationOpen}〜${registrationClose}に申込フォームから、発表したいテーマと連絡先をお送りください。`,
       },
       {
-        title: '連絡を待つ',
-        body: 'プログラムチームが提案を確認し、結果と今後の手順をご連絡します。',
+        title: 'メールを確認して返信する',
+        body: `採用された方には、プログラムチームから${notificationTime}にメールでご連絡します。${replyDeadline}までにそのメールへ返信し、登壇する旨をお知らせください。`,
       },
       {
-        title: '発表に備える',
-        body: '5分間の発表を準備し、時間を計って練習しましょう。',
+        title: '受付を済ませ、発表に備える',
+        body: `${checkInTime}に登壇者受付へお越しください。${talkStart}〜${talkEnd}のライトニングトーク枠で、5分間の発表を行います。`,
       },
     ],
     registrationLink: 'ライトニングトークに申し込む',
@@ -260,19 +381,35 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
     formatTitle: '짧게, 핵심을 분명하게',
     formatBody:
       '라이트닝 토크는 하나의 주제에 집중하는 짧은 발표입니다. 청중이 기억하거나 직접 시도해 볼 수 있도록 내용을 간결하게 정리해 주세요.',
+    scheduleTitle: '당일 진행 일정',
+    allTimes: '2026년 11월 14일 · 모든 시각은 홍콩 시간(UTC+8) 기준입니다.',
+    registrationWindowNote: `신청은 2026년 11월 14일 ${registrationOpen}~${registrationClose}(홍콩 시간, UTC+8)에만 받습니다.`,
+    scheduleRows: scheduleRows([
+      '신청 시작',
+      '신청 마감',
+      '선정된 발표자에게 이메일 안내',
+      '발표 확정 이메일 회신 마감',
+      '발표자 체크인',
+      '라이트닝 토크',
+    ]),
+    rules: [
+      '각 발표는 5분 이내로 마쳐야 합니다.',
+      '모든 발표는 컨퍼런스 행동 강령을 따라야 합니다.',
+      `선정된 분은 ${replyDeadline}까지 안내 이메일에 회신하여 발표 참여를 확정해 주세요.`,
+    ],
     participationTitle: '참여 방법',
     participation: [
       {
-        title: '아이디어 제출하기',
-        body: '라이트닝 토크 신청 양식에 발표하고 싶은 주제와 연락처를 작성해 주세요.',
+        title: '당일 신청하기',
+        body: `11월 14일 ${registrationOpen}~${registrationClose}에 신청 양식으로 발표하고 싶은 주제와 연락처를 제출해 주세요.`,
       },
       {
-        title: '안내 기다리기',
-        body: '프로그램 팀이 제안을 검토한 후 결과와 다음 절차를 안내해 드립니다.',
+        title: '이메일 확인 후 회신하기',
+        body: `프로그램 팀이 ${notificationTime}에 선정된 발표자에게 이메일을 보냅니다. ${replyDeadline}까지 해당 이메일에 회신하여 발표 참여를 확정해 주세요.`,
       },
       {
-        title: '발표 준비하기',
-        body: '5분 발표를 준비하고 시간을 재며 연습해 주세요.',
+        title: '체크인 후 발표 준비하기',
+        body: `${checkInTime}에 발표자 체크인을 해 주세요. ${talkStart}~${talkEnd} 라이트닝 토크 시간에 5분 발표를 진행합니다.`,
       },
     ],
     registrationLink: '라이트닝 토크 신청하기',

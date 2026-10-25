@@ -9,6 +9,7 @@ import SpeakerAvatar from '../content/SpeakerAvatar.astro';
 import SaveSessionButton from '../schedule/SaveSessionButton.astro';
 import ScheduleModal from '../schedule/ScheduleModal.astro';
 import SessionDetails from '../schedule/SessionDetails.astro';
+import SessionLanguageBadge from '../schedule/SessionLanguageBadge.astro';
 import { programmeTimeline } from '../schedule/timeline';
 import WovenRibbon from '../ui/WovenRibbon.astro';
 
@@ -64,7 +65,7 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
                   <p class="programme-room text-xs font-bold text-conference-ink">{session.room}</p>
                   <div class="programme-session-meta mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
                     <p class="text-xs font-medium text-conference-body"><span class="programme-time-range">{session.startTime}–{session.endTime} · </span><span data-session-duration>{(Date.parse(session.end) - Date.parse(session.start)) / 60_000} {copy.minutes}</span></p>
-                    {!session.isBreak && session.language && <span class="programme-language" data-session-language={session.language}>{sessionLanguageLabel(session.language, locale)}</span>}
+                    {!session.isBreak && session.language && <SessionLanguageBadge language={session.language} locale={locale} />}
                   </div>
                   {session.isBreak ? <h3 class="mt-2 text-sm font-bold leading-snug text-conference-body">{session.title}</h3> : <>
                     <div class="mt-2 flex items-start gap-1">
@@ -115,7 +116,6 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
   .programme-avatars:empty { display: none; }
   .programme-break { padding: 1rem; background: var(--conference-soft); border-color: var(--conference-line); border-radius: .75rem; align-self: start; }
   .programme-room { display: inline-block; border-radius: .5rem; padding: .375rem .5rem; background: #2f559a; color: white; }
-  .programme-language { display: inline-flex; align-items: center; border-radius: .5rem; padding: .25rem .625rem; background: #2f559a; color: white; font-size: .75rem; font-weight: 800; line-height: 1.5; }
   .session-open::after { content: ''; position: absolute; inset: 0; border-radius: 1rem; cursor: pointer; }
   .programme-card:has(.session-open:focus-visible) { outline: 3px solid var(--conference-blue); outline-offset: 5px; }
   .session-open:focus-visible { outline: none; }

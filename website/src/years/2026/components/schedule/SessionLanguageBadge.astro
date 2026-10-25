@@ -1,0 +1,19 @@
+---
+import { normalizeSessionLanguage, sessionLanguageLabel } from '../../data/schedule-copy';
+import type { CfpLocale } from '../../locales';
+
+interface Props { language: string; locale: CfpLocale; }
+const { language, locale } = Astro.props;
+const normalized = normalizeSessionLanguage(language);
+const colour = normalized === 'en' ? 'english' : normalized === 'yue' ? 'cantonese' : 'other';
+---
+
+<span class="programme-language" data-session-language={language} data-language-colour={colour}>{sessionLanguageLabel(language, locale)}</span>
+
+<style>
+  .programme-language { display: inline-flex; align-items: center; border: 1px solid var(--conference-outline); border-radius: .5rem; padding: .1875rem .5625rem; background: var(--conference-soft); color: var(--conference-ink); font-size: .75rem; font-weight: 800; line-height: 1.5; }
+  .programme-language[data-language-colour='english'] { background: #e7efff; color: #24467f; border-color: #2f559a; }
+  .programme-language[data-language-colour='cantonese'] { background: #ffe8e9; color: #9f1521; border-color: #b81d27; }
+  :global(html[data-conference-theme='dark']) .programme-language[data-language-colour='english'] { background: #243f67; color: #c6dcff; border-color: #91baff; }
+  :global(html[data-conference-theme='dark']) .programme-language[data-language-colour='cantonese'] { background: #532830; color: #ffd1d6; border-color: #ff9299; }
+</style>

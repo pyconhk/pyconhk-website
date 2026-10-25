@@ -5,6 +5,7 @@ import { sessionProfiles, speakerPath } from '../../data/speakers';
 import type { CfpLocale } from '../../locales';
 import SpeakerAvatar from '../content/SpeakerAvatar.astro';
 import { renderProgrammeMarkdown } from './programme-content.ts';
+import SessionLanguageBadge from './SessionLanguageBadge.astro';
 
 interface Props { session: ScheduleItem; locale: CfpLocale }
 const { session, locale } = Astro.props;
@@ -15,6 +16,7 @@ const profiles = await Promise.all(sessionProfiles(session)
   .map(async (person) => ({ ...person, bioHtml: await renderProgrammeMarkdown(person.biography) })));
 ---
 <div class="space-y-6">
+  {session.language && <SessionLanguageBadge language={session.language} locale={locale} />}
   {profiles.length > 0 && <section data-speaker-profiles>
     <h3 class="font-sans mb-4 text-xl font-black text-conference-ink">{copy.speakers}</h3>
     <div class="space-y-4">
