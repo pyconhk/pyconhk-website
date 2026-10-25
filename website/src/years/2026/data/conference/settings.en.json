@@ -403,14 +403,16 @@
         "role": "Conference Chair",
         "image": "/2026/organizers-volunteers/volunteers/calvin-tsang-compressed.webp",
         "url": "https://www.linkedin.com/in/calvin-tyl/",
-        "id": "people-1"
+        "id": "people-1",
+        "additionalRoles": ["Proposal Reviewers"]
       },
       {
         "name": "Mr. Alex Au",
         "role": "Conference Co-Chairs",
         "image": "/2026/organizers-volunteers/volunteers/alex-au-compressed.webp",
         "url": "https://www.linkedin.com/in/alex-au-606901206/",
-        "id": "people-2"
+        "id": "people-2",
+        "additionalRoles": ["Programme Team", "Proposal Reviewers"]
       },
       {
         "name": "Ms. Daisy Maris Fung",
@@ -424,7 +426,8 @@
         "role": "Organizing Committee Members",
         "image": "/2026/organizers-volunteers/volunteers/adrian-tam-compressed.webp",
         "url": "https://www.linkedin.com/in/adrian-tam-0666b08/",
-        "id": "people-4"
+        "id": "people-4",
+        "additionalRoles": ["Programme Team", "Proposal Reviewers"]
       },
       {
         "name": "Ms. Cathy Hui",
@@ -438,7 +441,8 @@
         "role": "Organizing Committee Members",
         "image": "/2026/organizers-volunteers/volunteers/cintia-ching.webp",
         "url": "https://www.linkedin.com/in/cintiaching",
-        "id": "people-6"
+        "id": "people-6",
+        "additionalRoles": ["Programme Team", "Proposal Reviewers"]
       },
       {
         "name": "Mr. Henry Law",
@@ -480,7 +484,8 @@
         "role": "Organizing Committee Members",
         "image": "/2026/organizers-volunteers/volunteers/scotty-kwok-compressed.webp",
         "url": "https://www.linkedin.com/in/scottykwok/",
-        "id": "people-12"
+        "id": "people-12",
+        "additionalRoles": ["Programme Team", "Proposal Reviewers"]
       },
       {
         "name": "Mr. Sky Ng",
@@ -501,35 +506,159 @@
         "role": "Organizing Committee Members",
         "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
         "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
-        "id": "people-15"
+        "id": "people-15",
+        "additionalRoles": ["Programme Team", "Proposal Reviewers"]
       },
       {
         "id": "volunteer-ming-tou",
         "name": "Ming Tou",
         "image": "/2026/organizers-volunteers/volunteers/ming-tou.webp",
         "url": "https://www.linkedin.com/in/ming-tou-97b818105/",
-        "role": "Programme Volunteers"
+        "role": "Programme Team",
+        "additionalRoles": ["Proposal Reviewers"]
       },
       {
         "id": "volunteer-jim-ngoo",
         "name": "Jim Ngoo",
         "image": "/2026/organizers-volunteers/volunteers/jim-ngoo.webp",
         "url": "https://hk.linkedin.com/in/jim-ngoo",
-        "role": "Programme Volunteers"
+        "role": "Programme Team",
+        "additionalRoles": ["Proposal Reviewers"]
       },
       {
         "id": "volunteer-harry-ho",
         "name": "Harry Ho",
         "image": "/2026/organizers-volunteers/volunteers/harry-ho.webp",
         "url": "",
-        "role": "Programme Volunteers"
+        "role": "Programme Team",
+        "additionalRoles": ["Proposal Reviewers"]
       },
       {
         "id": "volunteer-luciano-scarpulla",
         "name": "Luciano Scarpulla",
         "image": "",
         "url": "",
-        "role": "Programme Volunteers"
+        "role": "Programme Team",
+        "additionalRoles": ["Proposal Reviewers"]
+      },
+      {
+        "id": "volunteer-kanin-kearpimy",
+        "name": "(James) Kanin Kearpimy",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/kanin-kearpimy.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-allen-wyma",
+        "name": "Allen Wyma",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-amanda-so",
+        "name": "Amanda So",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-anastasia-yip",
+        "name": "Anastasia Yip",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-calpa",
+        "name": "Calpa",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/calpa.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-cheuk-ting-ho",
+        "name": "Cheuk Ting Ho",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/cheuk-ting-ho.webp",
+        "url": "https://www.linkedin.com/in/cheukting-ho/"
+      },
+      {
+        "id": "volunteer-claire-chung",
+        "name": "Claire Chung",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-henry-wai-yin-wong",
+        "name": "Henry, Wai Yin Wong",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/henry-wai-yin-wong.webp",
+        "url": "https://www.linkedin.com/in/wyhwong/"
+      },
+      {
+        "id": "volunteer-ho-wa-wong",
+        "name": "Ho Wa Wong",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ismail-sunni",
+        "name": "Ismail Sunni",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/ismail-sunni.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kirill-pavlov",
+        "name": "Kirill Pavlov",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/kirill-pavlov.webp",
+        "url": "https://www.linkedin.com/in/pavlov99/"
+      },
+      {
+        "id": "volunteer-kit-yeung",
+        "name": "Kit Yeung",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-matthew-yuen",
+        "name": "Matthew Yuen",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/matthew-yuen.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-paul-kuok",
+        "name": "Paul Kuok",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-sammy-fung",
+        "name": "Sammy Fung",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/sammy-fung.webp",
+        "url": "https://sammy.hk"
+      },
+      {
+        "id": "volunteer-winnie-yeung",
+        "name": "Winnie Yeung",
+        "role": "Proposal Reviewers",
+        "image": "/2026/organizers-volunteers/volunteers/winnie-yeung.webp",
+        "url": "https://www.linkedin.com/in/winnieyeung/"
+      },
+      {
+        "id": "volunteer-wright-c",
+        "name": "Wright C",
+        "role": "Proposal Reviewers",
+        "image": "",
+        "url": ""
       },
       {
         "id": "volunteer-jared",

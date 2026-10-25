@@ -10,7 +10,10 @@ interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
 const { people } = getConferenceContent(locale);
 const copy = pageCopyByLocale[locale];
-const roles = [...new Set(people.items.map((person) => person.role))];
+const roles = [...new Set([
+  ...people.items.map((person) => person.role),
+  ...people.items.flatMap((person) => person.additionalRoles),
+])];
 const committeeRoles = new Set([copy.chairHeading, copy.coChairsHeading, copy.membersHeading]);
 ---
 <CommunityPageFrame locale={locale} title={copy.title} subtitle={copy.subtitle} intro={copy.intro}>
@@ -18,7 +21,7 @@ const committeeRoles = new Set([copy.chairHeading, copy.coChairsHeading, copy.me
     <div data-conference-content="people" class="space-y-12">
       <h2 class="border-t-2 border-conference-outline/15 pt-8 text-center font-sans text-2xl font-black uppercase text-conference-ink sm:text-3xl">{copy.committeeHeading}</h2>
       {roles.map((role) => {
-        const members = people.items.filter((person) => person.role === role);
+        const members = people.items.filter((person) => person.role === role || person.additionalRoles.includes(role));
         const Heading = committeeRoles.has(role) ? 'h3' : 'h2';
         const withPortraits = members.filter((person) => person.image && !person.image.endsWith('/placeholder.webp'));
         const withoutPortraits = members.filter((person) => !person.image || person.image.endsWith('/placeholder.webp'));

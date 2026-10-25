@@ -20,13 +20,112 @@ const onSiteHeadings = {
 };
 
 const programmeHeadings = {
-  en: 'Programme Volunteers',
-  'zh-hk': '議程團隊義工',
-  'zh-hant': '議程團隊義工',
-  'zh-hans': '议程团队志愿者',
-  ja: 'プログラムチームのボランティア',
-  ko: '프로그램팀 자원봉사자',
+  en: 'Programme Team',
+  'zh-hk': '議程團隊',
+  'zh-hant': '議程團隊',
+  'zh-hans': '议程团队',
+  ja: 'プログラムチーム',
+  ko: '프로그램팀',
 };
+
+const reviewerHeadings = {
+  en: 'Proposal Reviewers',
+  'zh-hk': '投稿審稿人',
+  'zh-hant': '投稿審稿人',
+  'zh-hans': '投稿审稿人',
+  ja: '発表提案のレビュアー',
+  ko: '발표 제안 심사위원',
+};
+
+const programmeNames = [
+  'Mr. Alex Au',
+  'Mr. Adrian Tam',
+  'Ms. Cintia Ching',
+  'Mr. Scotty Kwok',
+  'Mr. Tommy Han',
+  'Ming Tou',
+  'Jim Ngoo',
+  'Harry Ho',
+  'Luciano Scarpulla',
+];
+
+const reviewerNames = [
+  '(James) Kanin Kearpimy',
+  'Alex Au',
+  'Allen Wyma',
+  'Amanda So',
+  'Anastasia Yip',
+  'Calpa',
+  'Calvin Tsang',
+  'Cheuk Ting Ho',
+  'Cintia Ching',
+  'Claire Chung',
+  'Adrian Tam',
+  'Harry Ho',
+  'Henry, Wai Yin Wong',
+  'Ho Wa Wong',
+  'Ismail Sunni',
+  'Jim Ngoo',
+  'Kirill Pavlov',
+  'Kit Yeung',
+  'Luciano Scarpulla',
+  'Matthew Yuen',
+  'Ming Tou',
+  'Paul Kuok',
+  'Sammy Fung',
+  'Scotty Kwok',
+  'Tommy Han',
+  'Winnie Yeung',
+  'Wright C',
+];
+
+const onSiteNames = [
+  'Amy Li',
+  'Kingman Leung',
+  'Alex Chang',
+  'Peggy C',
+  'Ho Ming Li',
+  'Alan Chu',
+  'Kapo Leung',
+  'Tim Ching',
+  'Keto',
+  'Sam Lau',
+  'Tim Tan',
+  'Ronald (Hamsterthon)',
+  'Ronald (OSHK)',
+  'Brisson Lam',
+  'Ivan',
+  'Nicole',
+  'Anna Law',
+  'Quincy Chan',
+  'Ken Wong',
+  'Mitch Chan',
+  'Kelly Wong',
+  'Tina Fung',
+  'Mimi Kwok',
+  'Starry Chau',
+  'Ricardo',
+  'Tommy',
+  'Anthony Wong',
+  'Megand Chiu',
+  'Sienna Chung',
+  'Cyrus Wong',
+  'YAO Ka Chun',
+  'HUANG Zhipeng',
+  'WONG Wing Ho',
+  'CHAN Cheuk Man Jimmy',
+  'CHAN Yin Fung',
+  'Ho Chun Hin',
+  'CHUI Kin Keung Kenny',
+  'YUEN King Hin',
+  'CHAN Ka Ming',
+  'CHEN Fengyi',
+  'DAI RUIRAN',
+  'HE HAOYU',
+  'LUO ERJIE',
+  'ZHANG Junning',
+  'ZHANG Xuan',
+];
 
 const profiles = [
   ['Jackson Chan', 'https://www.linkedin.com/in/jacksonchanhongkong/'],
@@ -80,19 +179,36 @@ for (const locale of Object.keys(
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(`/2026/${locale}/volunteers/`);
     const roster = page.locator('[data-conference-content="people"]');
-    await expect(roster.locator('[data-person-card]')).toHaveCount(69);
+    await expect(roster.locator('[data-person-card]')).toHaveCount(101);
     const nameOnlyCards = roster.locator('[data-person-card][data-portrait="false"]');
-    await expect(nameOnlyCards).toHaveCount(45);
     await expect(nameOnlyCards.locator('img')).toHaveCount(0);
+    await expect(roster.locator('img[src*="placeholder"]')).toHaveCount(0);
     const onsite = roster.locator('[data-volunteer-group]').filter({
       has: page.getByRole('heading', { name: onSiteHeadings[locale], exact: true }),
     });
     await expect(onsite).toHaveCount(1);
     await expect(onsite.locator('[data-person-card]')).toHaveCount(45);
+    expect(
+      (await onsite.locator('[data-person-card] h4').allTextContents()).sort()
+    ).toEqual([...onSiteNames].sort());
     const programme = roster.locator('[data-volunteer-group]').filter({
       has: page.getByRole('heading', { name: programmeHeadings[locale], exact: true }),
     });
-    await expect(programme.locator('[data-person-card]')).toHaveCount(4);
+    await expect(programme).toHaveCount(1);
+    await expect(programme.locator('[data-person-card]')).toHaveCount(9);
+    expect(
+      (await programme.locator('[data-person-card] h4').allTextContents()).sort()
+    ).toEqual([...programmeNames].sort());
+    const reviewers = roster.locator('[data-volunteer-group]').filter({
+      has: page.getByRole('heading', { name: reviewerHeadings[locale], exact: true }),
+    });
+    await expect(reviewers).toHaveCount(1);
+    await expect(reviewers.locator('[data-person-card]')).toHaveCount(27);
+    expect(
+      (await reviewers.locator('[data-person-card] h4').allTextContents())
+        .map((name) => name.replace(/^(?:Mr|Ms)\.\s+/, ''))
+        .sort()
+    ).toEqual([...reviewerNames].sort());
     await expect(
       roster.getByRole('heading', { name: /CityU|HKIIT|城大|香港城市|홍콩시립/ })
     ).toHaveCount(0);
@@ -104,8 +220,17 @@ for (const locale of Object.keys(
       'Harry Ho',
       'Jim Ngoo',
       'Ming Tou',
+      '(James) Kanin Kearpimy',
+      'Calpa',
+      'Ismail Sunni',
+      'Matthew Yuen',
+      'Cheuk Ting Ho',
+      'Kirill Pavlov',
+      'Winnie Yeung',
+      'Henry, Wai Yin Wong',
+      'Sammy Fung',
     ]) {
-      const portrait = roster.getByRole('img', { name, exact: true });
+      const portrait = roster.getByRole('img', { name, exact: true }).first();
       await portrait.scrollIntoViewIfNeeded();
       await portrait.evaluate((image: HTMLImageElement) => image.decode());
       await expect(portrait).toBeVisible();
@@ -123,7 +248,9 @@ for (const locale of Object.keys(
       'Cyrus Wong',
       'CHEN Fengyi',
     ]) {
-      await expect(roster.getByRole('heading', { name, exact: true })).toHaveCount(1);
+      await expect(
+        roster.getByRole('heading', { name, exact: true }).first()
+      ).toBeVisible();
     }
     for (const name of ['Clara Chan', 'Katrina', 'Magnus Law']) {
       await expect(roster.getByRole('heading', { name, exact: true })).toHaveCount(0);

@@ -168,7 +168,18 @@ export const conferenceContentSchema = z
       .object({
         status,
         items: z
-          .array(z.object({ id, name: text, role: text, image, url }).strict())
+          .array(
+            z
+              .object({
+                id,
+                name: text,
+                role: text,
+                additionalRoles: strings,
+                image,
+                url,
+              })
+              .strict()
+          )
           .default([]),
       })
       .strict(),
