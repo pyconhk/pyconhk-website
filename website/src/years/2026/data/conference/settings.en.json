@@ -31,7 +31,7 @@
   },
   "sprint": {
     "status": "published",
-    "intro": "Join the PyCon HK 2026 Development Sprint on Sunday, 15 November: a day of community collaboration on Python and open-source projects. Come ready to contribute, share ideas and learn together; this is not a taught workshop.\n\nWe are finalizing the projects and detailed arrangements. Read the Sprint Q&A to learn what to expect and how to prepare. Admission is free; register for Sprint Day separately from Conference Day.",
+    "intro": "Join the PyCon HK 2026 Development Sprint on Sunday, 15 November: a day of community collaboration on Python and open-source projects. Come ready to contribute, share ideas and learn together; this is not a taught workshop.\n\nWe are finalizing the projects and detailed arrangements. Read the Sprint Q&A to learn what to expect and how to prepare. Admission is free; register for Sprint Day separately from Conference Day.\n\nOn-site registration: 15 November 2026 at 10:00 Hong Kong time (UTC+8).",
     "date": "2026-11-15",
     "location": "Hong Kong Institute of Information Technology (HKIIT), IVE (Lee Wai Lee), Tseung Kwan O",
     "registrationUrl": "https://www.eventbrite.hk/e/pycon-hk-2026-tickets-1998483131845",
@@ -502,6 +502,27 @@
         "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
         "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
         "id": "people-15"
+      },
+      {
+        "id": "jackson-chan",
+        "name": "Jackson Chan",
+        "url": "https://www.linkedin.com/in/jacksonchanhongkong/",
+        "role": "Marketing",
+        "image": "/2026/organizers-volunteers/volunteers/jackson-chan.webp"
+      },
+      {
+        "id": "coby-lam",
+        "name": "Coby Lam",
+        "url": "https://www.linkedin.com/in/shun-hang-lam-62097431b",
+        "role": "Marketing",
+        "image": "/2026/organizers-volunteers/volunteers/coby-lam.webp"
+      },
+      {
+        "id": "sophia-wong",
+        "name": "Sophia Wong",
+        "url": "https://www.linkedin.com/in/sophia-wong-digital/",
+        "role": "Marketing",
+        "image": "/2026/organizers-volunteers/volunteers/sophia-wong.webp"
       }
     ]
   },

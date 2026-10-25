@@ -26,6 +26,8 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       const sprint = page.locator('[data-conference-content="sprint"]');
       await expect(sprint).toBeVisible();
       await expect(sprint.locator('time')).toHaveAttribute('datetime', '2026-11-15');
+      await expect(sprint).toContainText('10:00');
+      await expect(sprint).toContainText('UTC+8');
       await expect(sprint).toContainText('HKIIT');
       await expect(sprint.locator('ul')).toHaveCount(0);
       const qaLink = sprint.locator('[data-sprint-qa-link]');
