@@ -36,7 +36,7 @@ export const en: HomeMessages = {
     {
       icon: 'mic',
       title: 'Global voices',
-      description: 'Talks, workshops, and conversations with the Python community.',
+      description: 'Talks, keynotes, and conversations with the Python community.',
     },
     {
       icon: 'calendar',
@@ -134,10 +134,9 @@ export const en: HomeMessages = {
   schedule: {
     pageTitle: 'Conference Schedule | PyCon HK 2026',
     pageDescription:
-      'Explore the complete PyCon Hong Kong 2026 conference schedule, sessions, workshops, and keynotes.',
+      'Explore the PyCon Hong Kong 2026 schedule for talks, keynotes, and community activities.',
     heroTitle: 'Conference Schedule',
-    heroSubtitle:
-      'Explore keynote talks, technical tracks, and workshops across two full days.',
+    heroSubtitle: 'Plan your visit with the Conference Day and Sprint Day schedules.',
     day1: 'Day 1 (Nov 14, Sat)',
     day2: 'Day 2 (Nov 15, Sun)',
     allTracks: 'All Tracks',
