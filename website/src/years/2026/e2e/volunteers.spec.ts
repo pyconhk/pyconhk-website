@@ -52,3 +52,35 @@ for (const [locale, heading] of Object.entries(marketingHeadings)) {
     }
   });
 }
+
+for (const locale of Object.keys(marketingHeadings)) {
+  test(`Active volunteer roster is complete without invented portraits in ${locale}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`/2026/${locale}/volunteers/`);
+    const roster = page.locator('[data-conference-content="people"]');
+    await expect(roster.locator('[data-person-card]')).toHaveCount(65);
+    const nameOnlyCards = roster.locator('[data-person-card][data-portrait="false"]');
+    await expect(nameOnlyCards).toHaveCount(48);
+    await expect(nameOnlyCards.locator('img')).toHaveCount(0);
+    for (const name of [
+      'Ronald (Hamsterthon)',
+      'Ronald (OSHK)',
+      'Brisson Lam',
+      'Tim Tan',
+      'Jared',
+      'Rainbow Cheng',
+      'Cyrus Wong',
+      'CHEN Fengyi',
+    ]) {
+      await expect(roster.getByRole('heading', { name, exact: true })).toHaveCount(1);
+    }
+    for (const name of ['Clara Chan', 'Katrina', 'Magnus Law']) {
+      await expect(roster.getByRole('heading', { name, exact: true })).toHaveCount(0);
+    }
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+    ).toBe(true);
+  });
+}

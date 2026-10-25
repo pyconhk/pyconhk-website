@@ -45,7 +45,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
           const hasWordmark = isNavicat || isJetBrains || item.logo === '/2026/sponsors/databricks.svg' || item.logo === '/2026/sponsors/redhat.svg';
           return <li id={`sponsor-${item.id}`} class:list={[
             'min-w-0 w-full scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
-            group.items.length === 1 && descriptions && item.description ? 'max-w-prose' : group.widthClass,
+            descriptions && item.description ? 'max-w-prose' : group.widthClass,
           ]}>
             <Link href={href || undefined} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}
               aria-label={item.name}
@@ -66,7 +66,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
                 {item.name}
               </NameHeading>
             </Link>
-            {descriptions && item.description && <p class="mx-auto mt-6 max-w-prose whitespace-pre-line text-base leading-relaxed text-conference-body">{item.description}</p>}
+            {descriptions && item.description && <p data-sponsor-description class="mx-auto mt-6 max-w-prose whitespace-pre-line text-left text-base leading-relaxed text-conference-body">{item.description}</p>}
           </li>;
         })}
       </ul>

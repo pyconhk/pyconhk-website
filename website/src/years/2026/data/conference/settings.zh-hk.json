@@ -111,7 +111,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/databricks.svg",
         "url": "https://www.databricks.com/",
-        "description": ""
+        "description": "Databricks 用開放式湖倉一體架構，將數據、分析同人工智能整合喺同一個平台。公司同開源社群有深厚淵源，當中包括 Apache Spark、Delta Lake 同 MLflow 等項目。"
       },
       {
         "id": "redhat",
@@ -119,7 +119,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
         "url": "https://www.redhat.com/en",
-        "description": ""
+        "description": "Red Hat 開發適合混合雲環境使用嘅開源技術。產品包括 Linux、應用程式平台、自動化同人工智能，幫機構喺數據中心以至邊緣環境建立同運行應用程式。"
       },
       {
         "id": "navicat",
@@ -127,7 +127,7 @@
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
         "url": "https://www.navicat.com/",
-        "description": ""
+        "description": "Navicat 提供資料庫開發同管理工具。用 Navicat Premium，你可以喺同一個應用程式連接多種資料庫，做查詢、數據建模、遷移同視覺化，喺 Windows、macOS 同 Linux 都用到。"
       },
       {
         "id": "calomei-bronze",
@@ -135,7 +135,7 @@
         "tier": "Bronze",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": ""
+        "description": "CaLoMei Studio 提供飲食同卡路里記錄應用程式 CaLoMei，用人工智能分析食物相片，估算營養資料。應用程式支援香港菜式，仲可以記錄每日飲食同追蹤進度。"
       },
       {
         "id": "jetbrains",
@@ -143,7 +143,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
         "url": "https://www.jetbrains.com/",
-        "description": ""
+        "description": "JetBrains 提供一系列軟件開發工具，包括專為 Python 而設嘅 PyCharm。PyCharm 將寫程式、除錯、測試同資料庫工具放埋一齊，方便開發者做網頁開發、數據科學同機器學習。"
       },
       {
         "id": "calomei-prize",
@@ -151,7 +151,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": ""
+        "description": "CaLoMei Studio 提供飲食同卡路里記錄應用程式 CaLoMei，用人工智能分析食物相片，估算營養資料。應用程式支援香港菜式，仲可以記錄每日飲食同追蹤進度。"
       },
       {
         "id": "lihkg",
@@ -159,7 +159,7 @@
         "tier": "Media Sponsor",
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
-        "description": ""
+        "description": "LIHKG 連登討論區係一個網上討論社群，大家會傾時事、娛樂、創意同日常生活等話題。會員可以用網站或者手機應用程式睇帖、分享諗法同追蹤討論。"
       }
     ]
   },
@@ -429,7 +429,7 @@
       {
         "name": "Ms. Cathy Hui",
         "role": "籌委會成員",
-        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "image": "",
         "url": "",
         "id": "people-5"
       },
@@ -504,6 +504,20 @@
         "id": "people-15"
       },
       {
+        "id": "volunteer-jared",
+        "name": "Jared",
+        "role": "設計團隊",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-rainbow-cheng",
+        "name": "Rainbow Cheng",
+        "role": "設計團隊",
+        "image": "",
+        "url": ""
+      },
+      {
         "id": "jackson-chan",
         "name": "Jackson Chan",
         "url": "https://www.linkedin.com/in/jacksonchanhongkong/",
@@ -523,6 +537,321 @@
         "url": "https://www.linkedin.com/in/sophia-wong-digital/",
         "role": "市場推廣",
         "image": "/2026/organizers-volunteers/volunteers/sophia-wong.webp"
+      },
+      {
+        "id": "volunteer-amy-li",
+        "name": "Amy Li",
+        "role": "大會義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/amylly/"
+      },
+      {
+        "id": "volunteer-kingman-leung",
+        "name": "Kingman Leung",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-alex-chang",
+        "name": "Alex Chang",
+        "role": "大會義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/yukhon/"
+      },
+      {
+        "id": "volunteer-peggy-c",
+        "name": "Peggy C",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ho-ming-li",
+        "name": "Ho Ming Li",
+        "role": "大會義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/homingli"
+      },
+      {
+        "id": "volunteer-alan-chu",
+        "name": "Alan Chu",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kapo-leung",
+        "name": "Kapo Leung",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-tim-ching",
+        "name": "Tim Ching",
+        "role": "大會義工",
+        "image": "",
+        "url": "https://linkedin.com/in/timchingy"
+      },
+      {
+        "id": "volunteer-keto",
+        "name": "Keto",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-sam-lau",
+        "name": "Sam Lau",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-tim-tan",
+        "name": "Tim Tan",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ronald-hamsterthon",
+        "name": "Ronald (Hamsterthon)",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ronald-oshk",
+        "name": "Ronald (OSHK)",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-brisson-lam",
+        "name": "Brisson Lam",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ivan",
+        "name": "Ivan",
+        "role": "大會義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-nicole",
+        "name": "Nicole",
+        "role": "城大義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/man-ching-yu-990b46346"
+      },
+      {
+        "id": "volunteer-anna-law",
+        "name": "Anna Law",
+        "role": "城大義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/anna-law-122b9628a"
+      },
+      {
+        "id": "volunteer-quincy-chan",
+        "name": "Quincy Chan",
+        "role": "城大義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/quincychan29"
+      },
+      {
+        "id": "volunteer-ken-wong",
+        "name": "Ken Wong",
+        "role": "城大義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/kenhlwong"
+      },
+      {
+        "id": "volunteer-mitch-chan",
+        "name": "Mitch Chan",
+        "role": "城大義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/wing-ki-chan-235156214/"
+      },
+      {
+        "id": "volunteer-kelly-wong",
+        "name": "Kelly Wong",
+        "role": "城大義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/kellywongyy"
+      },
+      {
+        "id": "volunteer-tina-fung",
+        "name": "Tina Fung",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mimi-kwok",
+        "name": "Mimi Kwok",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-starry-chau",
+        "name": "Starry Chau",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ricardo",
+        "name": "Ricardo",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-tommy",
+        "name": "Tommy",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-anthony-wong",
+        "name": "Anthony Wong",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-megand-chiu",
+        "name": "Megand Chiu",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-sienna-chung",
+        "name": "Sienna Chung",
+        "role": "城大義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-cyrus-wong",
+        "name": "Cyrus Wong",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-yao-ka-chun",
+        "name": "YAO Ka Chun",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-huang-zhipeng",
+        "name": "HUANG Zhipeng",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-wong-wing-ho",
+        "name": "WONG Wing Ho",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chan-cheuk-man-jimmy",
+        "name": "CHAN Cheuk Man Jimmy",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chan-yin-fung",
+        "name": "CHAN Yin Fung",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ho-chun-hin",
+        "name": "Ho Chun Hin",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chui-kin-keung-kenny",
+        "name": "CHUI Kin Keung Kenny",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-yuen-king-hin",
+        "name": "YUEN King Hin",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chan-ka-ming",
+        "name": "CHAN Ka Ming",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chen-fengyi",
+        "name": "CHEN Fengyi",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-dai-ruiran",
+        "name": "DAI RUIRAN",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-he-haoyu",
+        "name": "HE HAOYU",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-luo-erjie",
+        "name": "LUO ERJIE",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-zhang-junning",
+        "name": "ZHANG Junning",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-zhang-xuan",
+        "name": "ZHANG Xuan",
+        "role": "HKIIT 義工（將軍澳李惠利）",
+        "image": "",
+        "url": ""
       }
     ]
   },
