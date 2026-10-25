@@ -37,6 +37,9 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
         surface === 'overview'
           ? page.locator('[data-sponsor-overview] [data-sponsor-wall]')
           : page.locator('[data-sponsor-wall]');
+      await expect(wall.locator('[data-sponsor-description]')).toHaveCount(
+        surface === 'overview' ? 0 : sponsorships.length
+      );
 
       for (const theme of ['light', 'dark']) {
         await setTheme(page, theme);
@@ -69,6 +72,11 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           } else {
             await expect(link).toHaveAttribute('target', '_blank');
             await expect(wall.locator(`li#sponsor-${id}`)).toContainText(name);
+            const description = wall.locator(
+              `li#sponsor-${id} [data-sponsor-description]`
+            );
+            await expect(description).toBeVisible();
+            await expect(description).not.toHaveText('');
           }
           await expect(link).toHaveCSS('cursor', 'pointer');
           const image = link.locator('img');
@@ -185,6 +193,34 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
       }
     }
     expect(errors).toEqual([]);
+  });
+}
+
+for (const [locale, language] of [
+  ['en', /[a-z]{3}/i],
+  ['zh-hk', /\p{Script=Han}/u],
+  ['zh-hant', /\p{Script=Han}/u],
+  ['zh-hans', /\p{Script=Han}/u],
+  ['ja', /\p{Script=Hiragana}/u],
+  ['ko', /\p{Script=Hangul}/u],
+] as const) {
+  test(`every sponsor has a readable ${locale} introduction`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/2026/${locale}/sponsorships/`);
+    const descriptions = page.locator('[data-sponsor-description]');
+    await expect(descriptions).toHaveCount(sponsorships.length);
+    for (const description of await descriptions.all()) {
+      await description.scrollIntoViewIfNeeded();
+      await expect(description).toBeVisible();
+      await expect(description).toContainText(language);
+      const bounds = await description.boundingBox();
+      if (!bounds) throw new Error('Sponsor description has no visible bounds');
+      // Smaller sponsorship logos must not squeeze the introduction into a
+      // narrow column on mobile.
+      expect(bounds.width).toBeGreaterThanOrEqual(280);
+      expect(bounds.x).toBeGreaterThanOrEqual(0);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
+    }
   });
 }
 

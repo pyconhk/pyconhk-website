@@ -105,7 +105,7 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     title: 'Volunteers',
     subtitle: 'Heart & Soul of PyCon HK 2026',
     intro:
-      'Volunteers are the heart of PyCon Hong Kong 2026. We sincerely thank them for their months of tireless effort, making this conference a reality. Below is a list of our committed volunteers.',
+      'Volunteers are the heart of PyCon Hong Kong 2026. Thank you to everyone helping organize, design, promote, and run the conference. Meet the team below.',
     committeeHeading: 'Executive Committee',
     chairHeading: 'Conference Chair',
     coChairsHeading: 'Conference Co-Chairs',
@@ -115,7 +115,7 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     title: cantonese.volunteers,
     subtitle: 'PyCon HK 2026 嘅核心力量',
     intro:
-      '義工係 PyCon Hong Kong 2026 嘅核心力量。多謝大家過去幾個月默默付出，一齊籌備呢場大會。以下係今年大會嘅義工名單。',
+      '義工係 PyCon Hong Kong 2026 嘅核心力量。多謝大家喺籌備、設計、推廣同現場工作上嘅付出。以下係今年大會嘅團隊名單。',
     committeeHeading: '執行委員會',
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
@@ -125,7 +125,7 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     title: written.volunteers,
     subtitle: 'PyCon HK 2026 的核心力量',
     intro:
-      '義工是 PyCon Hong Kong 2026 的核心力量。感謝大家在過去數月默默付出，共同籌備這場大會。以下是本屆大會的義工名單。',
+      '義工是 PyCon Hong Kong 2026 的核心力量。感謝大家在籌備、設計、推廣及現場工作上的貢獻。以下是本屆大會的團隊名單。',
     committeeHeading: '執行委員會',
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
@@ -135,7 +135,7 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     title: '志愿者团队',
     subtitle: 'PyCon HK 2026 的核心力量',
     intro:
-      '志愿者是 PyCon Hong Kong 2026 的核心力量。感谢他们在过去数月默默付出，让这场会议得以成形。以下是本届大会的志愿者名单。',
+      '志愿者是 PyCon Hong Kong 2026 的核心力量。感谢大家在筹备、设计、推广及现场工作中的贡献。以下是本届大会的团队名单。',
     committeeHeading: '执行委员会',
     chairHeading: '大会主席',
     coChairsHeading: '大会副主席',
@@ -145,17 +145,17 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     title: 'ボランティア',
     subtitle: 'PyCon HK 2026 を支える力',
     intro:
-      'PyCon Hong Kong 2026 を支えているのは、ボランティアの皆さんです。ここ数か月にわたる尽力に心から感謝します。以下に、本大会を支えるメンバーをご紹介します。',
+      'PyCon Hong Kong 2026 を支えているのは、ボランティアの皆さんです。企画、デザイン、広報、当日の運営に携わる皆さんに心から感謝します。本大会を支えるメンバーをご紹介します。',
     committeeHeading: '実行委員会',
     chairHeading: '実行委員長',
     coChairsHeading: '共同実行委員長',
-    membersHeading: '実行委員',
+    membersHeading: '運営委員',
   },
   ko: {
     title: '자원봉사자',
     subtitle: 'PyCon HK 2026의 원동력',
     intro:
-      '자원봉사자는 PyCon Hong Kong 2026의 핵심 원동력입니다. 수개월 동안 아낌없이 헌신해 주신 자원봉사자분들께 진심으로 감사드리며, 아래는 이번 행사를 이끄는 봉사자 명단입니다.',
+      '자원봉사자는 PyCon Hong Kong 2026의 원동력입니다. 기획, 디자인, 홍보, 현장 운영에 힘써 주시는 모든 분께 감사드립니다. 이번 행사를 함께 만드는 팀을 소개합니다.',
     committeeHeading: '집행위원회',
     chairHeading: '컨퍼런스 의장',
     coChairsHeading: '컨퍼런스 공동 의장',

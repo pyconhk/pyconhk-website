@@ -1,0 +1,12 @@
+---
+import LightningTalksPage from '@/years/2026/components/pages/LightningTalksPage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/locales';
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+
+<LightningTalksPage locale={locale} />
