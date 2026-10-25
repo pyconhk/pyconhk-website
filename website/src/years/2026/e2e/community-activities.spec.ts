@@ -23,9 +23,9 @@ for (const [locale, activityTitles] of Object.entries(titles)) {
       );
       const content = page.locator(`[data-community-activity="${activity}"]`);
       await expect(content).toBeVisible();
-      await expect(content.locator('[data-activity-location]')).not.toContainText(
-        'LW659'
-      );
+      await expect(
+        content.locator('[data-activity-day], [data-activity-location]')
+      ).toHaveCount(0);
       await expect(content.locator('[data-activity-instructions] > li')).toHaveCount(
         activity === 'pyshare' ? 4 : 2
       );
