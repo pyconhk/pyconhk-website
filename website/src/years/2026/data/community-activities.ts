@@ -2,17 +2,15 @@ import type { CfpLocale } from '@/years/2026/locales';
 
 // Event directory and activity instructions supplied by the design team:
 // https://www.canva.com/design/DAHXzgYDJmc/Eu0c-ona5vej7wLay24GFg/edit
-// Both activities are listed for Day 1. Room bookings are still being confirmed;
-// no opening hours, Job Board posting process, prize items or collection point
-// are confirmed here. PyShare's optional prize process is on page 17.
+// Public copy omits date and venue metadata. Opening hours, the Job Board
+// posting process, prize items and collection point are not confirmed here.
+// PyShare's optional prize process is on page 17.
 export type CommunityActivity = 'job-board' | 'pyshare';
 
 type ActivityCopy = {
   title: string;
   navLabel: string;
   intro: string;
-  day: string;
-  location: string;
   participationTitle: string;
   sections: { title: string; body: string }[];
   numbered: boolean;
@@ -32,13 +30,11 @@ export const communityActivityCopy: Record<
       navLabel: 'Job Board',
       intro:
         'Meet your next teammate, or discover a job or internship through the Python community.',
-      day: 'Day 1',
-      location: 'Ask an on-site volunteer for the location',
       participationTitle: 'Find your next connection',
       sections: [
         {
           title: 'Hiring for your team?',
-          body: 'Share your job and internship opportunities with conference participants. Ask an on-site volunteer how to post on the board.',
+          body: 'Share your job and internship opportunities with conference participants.',
         },
         {
           title: 'Looking for an opportunity?',
@@ -46,7 +42,7 @@ export const communityActivityCopy: Record<
         },
       ],
       numbered: false,
-      note: 'PyCon HK provides the space for these connections; a job or internship match is not guaranteed. On-site volunteers can help with participation details.',
+      note: 'PyCon HK provides the space for these connections; a job or internship match is not guaranteed.',
       linksTitle: 'At the conference',
       scheduleLink: 'Conference schedule',
       conductLink: 'Code of Conduct',
@@ -55,13 +51,11 @@ export const communityActivityCopy: Record<
       title: '工作／實習配對板',
       navLabel: 'Job Board 工作配對板',
       intro: '想搵新隊友，定係下一份工作或實習？嚟同 Python 社群認識吓、交流吓。',
-      day: '第一日',
-      location: '地點可以問現場義工',
       participationTitle: '搵到下一個機會',
       sections: [
         {
           title: '想為團隊招人？',
-          body: '同參加者分享你哋嘅工作同實習機會。想喺配對板貼招聘資訊，可以先搵現場義工了解做法。',
+          body: '同參加者分享你哋嘅工作同實習機會。',
         },
         {
           title: '想搵工作或實習？',
@@ -69,7 +63,7 @@ export const communityActivityCopy: Record<
         },
       ],
       numbered: false,
-      note: 'PyCon HK 提供交流空間，但唔保證配對成功。參與詳情可以問現場義工。',
+      note: 'PyCon HK 提供交流空間，但唔保證配對成功。',
       linksTitle: '大會資訊',
       scheduleLink: '大會議程',
       conductLink: '行為準則',
@@ -78,13 +72,11 @@ export const communityActivityCopy: Record<
       title: '工作／實習配對板',
       navLabel: 'Job Board 工作配對板',
       intro: '透過 Python 社群認識新隊友，或尋找下一份工作與實習機會。',
-      day: '第一天',
-      location: '地點請向現場義工查詢',
       participationTitle: '建立新的連繫',
       sections: [
         {
           title: '為團隊招募人才',
-          body: '向大會參加者分享工作及實習機會。如需在配對板張貼招聘資訊，請向現場義工了解安排。',
+          body: '向大會參加者分享工作及實習機會。',
         },
         {
           title: '尋找工作或實習',
@@ -92,7 +84,7 @@ export const communityActivityCopy: Record<
         },
       ],
       numbered: false,
-      note: 'PyCon HK 提供交流空間，但不保證配對成功。參與詳情請向現場義工查詢。',
+      note: 'PyCon HK 提供交流空間，但不保證配對成功。',
       linksTitle: '大會資訊',
       scheduleLink: '大會議程',
       conductLink: '行為準則',
@@ -101,13 +93,11 @@ export const communityActivityCopy: Record<
       title: '工作／实习对接板',
       navLabel: 'Job Board 工作对接板',
       intro: '通过 Python 社区认识新队友，或寻找下一份工作与实习机会。',
-      day: '第一天',
-      location: '地点请咨询现场志愿者',
       participationTitle: '建立新的联系',
       sections: [
         {
           title: '为团队招募人才',
-          body: '向大会参加者分享工作及实习机会。如需在对接板张贴招聘信息，请向现场志愿者了解安排。',
+          body: '向大会参加者分享工作及实习机会。',
         },
         {
           title: '寻找工作或实习',
@@ -115,7 +105,7 @@ export const communityActivityCopy: Record<
         },
       ],
       numbered: false,
-      note: 'PyCon HK 提供交流空间，但不保证对接成功。参与详情请咨询现场志愿者。',
+      note: 'PyCon HK 提供交流空间，但不保证对接成功。',
       linksTitle: '大会信息',
       scheduleLink: '大会议程',
       conductLink: '行为准则',
@@ -125,13 +115,11 @@ export const communityActivityCopy: Record<
       navLabel: '求人掲示板',
       intro:
         'Python コミュニティで、新しい仲間や仕事、インターンシップの機会を見つけましょう。',
-      day: '1日目',
-      location: '場所は会場のボランティアにお尋ねください',
       participationTitle: '次の出会いを見つける',
       sections: [
         {
           title: '採用をお考えの方へ',
-          body: '参加者に求人やインターンシップの情報を紹介できます。掲示方法は会場のボランティアにお尋ねください。',
+          body: '参加者に求人やインターンシップの情報を紹介できます。',
         },
         {
           title: '仕事やインターンシップをお探しの方へ',
@@ -139,7 +127,7 @@ export const communityActivityCopy: Record<
         },
       ],
       numbered: false,
-      note: 'PyCon HK は交流の場を提供しますが、採用やマッチングを保証するものではありません。参加方法の詳細は会場のボランティアにお尋ねください。',
+      note: 'PyCon HK は交流の場を提供しますが、採用やマッチングを保証するものではありません。',
       linksTitle: 'カンファレンスのご案内',
       scheduleLink: 'スケジュール',
       conductLink: '行動規範',
@@ -149,13 +137,11 @@ export const communityActivityCopy: Record<
       navLabel: '채용 게시판',
       intro:
         'Python 커뮤니티에서 새로운 동료를 만나거나 일자리와 인턴십 기회를 찾아보세요.',
-      day: '1일 차',
-      location: '장소는 현장 자원봉사자에게 문의해 주세요',
       participationTitle: '새로운 기회 만나기',
       sections: [
         {
           title: '팀원을 찾고 계신가요?',
-          body: '참가자들에게 채용 및 인턴십 기회를 소개해 보세요. 게시 방법은 현장 자원봉사자에게 문의해 주세요.',
+          body: '참가자들에게 채용 및 인턴십 기회를 소개해 보세요.',
         },
         {
           title: '일자리나 인턴십을 찾고 계신가요?',
@@ -163,7 +149,7 @@ export const communityActivityCopy: Record<
         },
       ],
       numbered: false,
-      note: 'PyCon HK는 만남의 공간을 제공하며, 채용이나 매칭을 보장하지 않습니다. 자세한 참여 방법은 현장 자원봉사자에게 문의해 주세요.',
+      note: 'PyCon HK는 만남의 공간을 제공하며, 채용이나 매칭을 보장하지 않습니다.',
       linksTitle: '행사 안내',
       scheduleLink: '컨퍼런스 일정',
       conductLink: '행동 강령',
@@ -175,8 +161,6 @@ export const communityActivityCopy: Record<
       navLabel: 'PyShare',
       intro:
         'Leave a thought, share a dream, and discover what resonates with others in the community.',
-      day: 'Day 1',
-      location: 'Ask an on-site volunteer for the location',
       participationTitle: 'How to take part',
       sections: [
         {
@@ -193,7 +177,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: 'Join the prize selection (optional)',
-          body: 'To enter your message, get a numbered slip from a volunteer, keep it, and write the same number on your card. The two messages with the most votes and their winning numbers will be announced at the closing. Follow the on-site volunteers’ instructions to collect your prize.',
+          body: 'To enter your message, get a numbered slip from a volunteer, keep it, and write the same number on your card. The two messages with the most votes and their winning numbers will be announced at the closing.',
         },
       ],
       numbered: true,
@@ -206,8 +190,6 @@ export const communityActivityCopy: Record<
       title: 'PyShare 心事台',
       navLabel: 'PyShare 心事台',
       intro: '留低一個諗法，分享一個夢想，睇吓社群入面有邊啲聲音令你有共鳴。',
-      day: '第一日',
-      location: '地點可以問現場義工',
       participationTitle: '點樣參加',
       sections: [
         {
@@ -224,7 +206,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '參加有獎投票（自願）',
-          body: '如果想用你嘅留言參加有獎投票，向義工攞張號碼紙，自己保管好，再喺卡上寫低同一個號碼。閉幕環節會公布最高票嘅兩則留言同得獎號碼，領獎安排請跟返現場義工指示。',
+          body: '如果想用你嘅留言參加有獎投票，向義工攞張號碼紙，自己保管好，再喺卡上寫低同一個號碼。閉幕環節會公布最高票嘅兩則留言同得獎號碼。',
         },
       ],
       numbered: true,
@@ -237,8 +219,6 @@ export const communityActivityCopy: Record<
       title: 'PyShare 心事台',
       navLabel: 'PyShare 心事台',
       intro: '留下一個想法，分享一個夢想，尋找社群中引起共鳴的聲音。',
-      day: '第一天',
-      location: '地點請向現場義工查詢',
       participationTitle: '參與方式',
       sections: [
         {
@@ -255,7 +235,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '參加有獎投票（自願）',
-          body: '如希望以你的留言參加有獎投票，請向義工領取並保管好號碼紙，再於卡片上寫下相同號碼。閉幕環節將公布得票最高的兩則留言及得獎號碼，領獎安排請依照現場義工指示。',
+          body: '如希望以你的留言參加有獎投票，請向義工領取並保管好號碼紙，再於卡片上寫下相同號碼。閉幕環節將公布得票最高的兩則留言及得獎號碼。',
         },
       ],
       numbered: true,
@@ -268,8 +248,6 @@ export const communityActivityCopy: Record<
       title: 'PyShare 心事台',
       navLabel: 'PyShare 心事台',
       intro: '留下一个想法，分享一个梦想，寻找社区中引起共鸣的声音。',
-      day: '第一天',
-      location: '地点请咨询现场志愿者',
       participationTitle: '参与方式',
       sections: [
         {
@@ -286,7 +264,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '参加有奖投票（自愿）',
-          body: '如希望以你的留言参加有奖投票，请向志愿者领取并保管好号码纸，再在卡片上写下相同号码。闭幕环节将公布得票最高的两则留言及获奖号码，领奖安排请按照现场志愿者的指示。',
+          body: '如希望以你的留言参加有奖投票，请向志愿者领取并保管好号码纸，再在卡片上写下相同号码。闭幕环节将公布得票最高的两则留言及获奖号码。',
         },
       ],
       numbered: true,
@@ -299,8 +277,6 @@ export const communityActivityCopy: Record<
       title: 'PyShare',
       navLabel: 'PyShare',
       intro: '思いや夢を書き残し、コミュニティの中で共感できる声を見つけましょう。',
-      day: '1日目',
-      location: '場所は会場のボランティアにお尋ねください',
       participationTitle: '参加方法',
       sections: [
         {
@@ -317,7 +293,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '賞品付きの投票に参加する（任意）',
-          body: '自分のメッセージを賞品選考の対象にしたい方は、ボランティアから番号票を受け取り、同じ番号をカードに書いてください。番号票は保管しておきましょう。クロージングで得票数上位2件のメッセージと当選番号を発表します。賞品の受け取りは会場のボランティアの案内に従ってください。',
+          body: '自分のメッセージを賞品選考の対象にしたい方は、ボランティアから番号票を受け取り、同じ番号をカードに書いてください。番号票は保管しておきましょう。クロージングで得票数上位2件のメッセージと当選番号を発表します。',
         },
       ],
       numbered: true,
@@ -330,8 +306,6 @@ export const communityActivityCopy: Record<
       title: 'PyShare 이야기 게시판',
       navLabel: 'PyShare 이야기 게시판',
       intro: '생각이나 꿈을 남기고, 커뮤니티의 어떤 이야기에 공감하는지 찾아보세요.',
-      day: '1일 차',
-      location: '장소는 현장 자원봉사자에게 문의해 주세요',
       participationTitle: '참여 방법',
       sections: [
         {
@@ -348,7 +322,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '경품 선정에 참여하기 (선택)',
-          body: '내 메시지로 경품 선정에 참여하려면 자원봉사자에게 번호표를 받아 보관하고, 카드에도 같은 번호를 적어 주세요. 폐회 때 가장 많은 표를 받은 메시지 2개와 당첨 번호를 발표합니다. 경품 수령은 현장 자원봉사자의 안내를 따라 주세요.',
+          body: '내 메시지로 경품 선정에 참여하려면 자원봉사자에게 번호표를 받아 보관하고, 카드에도 같은 번호를 적어 주세요. 폐회 때 가장 많은 표를 받은 메시지 2개와 당첨 번호를 발표합니다.',
         },
       ],
       numbered: true,

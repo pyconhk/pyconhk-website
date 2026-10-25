@@ -432,7 +432,7 @@
       {
         "name": "Ms. Cathy Hui",
         "role": "筹委会成员",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/cathy-hui.webp",
         "url": "",
         "id": "people-5"
       },
@@ -536,8 +536,8 @@
       {
         "id": "volunteer-luciano-scarpulla",
         "name": "Luciano Scarpulla",
-        "image": "",
-        "url": "",
+        "image": "/2026/organizers-volunteers/volunteers/luciano-scarpulla.webp",
+        "url": "https://github.com/lucianosrp",
         "role": "议程团队",
         "additionalRoles": ["投稿审稿人"]
       },
@@ -552,14 +552,14 @@
         "id": "volunteer-allen-wyma",
         "name": "Allen Wyma",
         "role": "投稿审稿人",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/allen-wyma.webp",
         "url": ""
       },
       {
         "id": "volunteer-amanda-so",
         "name": "Amanda So",
         "role": "投稿审稿人",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/amanda-so.webp",
         "url": ""
       },
       {
@@ -587,7 +587,7 @@
         "id": "volunteer-claire-chung",
         "name": "Claire Chung",
         "role": "投稿审稿人",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/claire-chung.webp",
         "url": ""
       },
       {
@@ -601,7 +601,7 @@
         "id": "volunteer-ho-wa-wong",
         "name": "Ho Wa Wong",
         "role": "投稿审稿人",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/ho-wa-wong.webp",
         "url": ""
       },
       {
@@ -622,8 +622,8 @@
         "id": "volunteer-kit-yeung",
         "name": "Kit Yeung",
         "role": "投稿审稿人",
-        "image": "",
-        "url": ""
+        "image": "/2026/organizers-volunteers/volunteers/kit-yeung.webp",
+        "url": "https://ckyeungac.github.io/"
       },
       {
         "id": "volunteer-matthew-yuen",
@@ -657,15 +657,15 @@
         "id": "volunteer-wright-c",
         "name": "Wright C",
         "role": "投稿审稿人",
-        "image": "",
-        "url": ""
+        "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
+        "url": "https://www.wrightccc.com/"
       },
       {
         "id": "volunteer-jared",
         "name": "Jared",
         "role": "设计团队",
-        "image": "",
-        "url": ""
+        "image": "/2026/organizers-volunteers/volunteers/jared-yeung.webp",
+        "url": "https://jaredyeung.com"
       },
       {
         "id": "volunteer-rainbow-cheng",
@@ -699,7 +699,7 @@
         "id": "volunteer-amy-li",
         "name": "Amy Li",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/amy-li.webp",
         "url": "https://www.linkedin.com/in/amylly/"
       },
       {
@@ -713,7 +713,7 @@
         "id": "volunteer-alex-chang",
         "name": "Alex Chang",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/alex-chang.webp",
         "url": "https://www.linkedin.com/in/yukhon/"
       },
       {
@@ -727,7 +727,7 @@
         "id": "volunteer-ho-ming-li",
         "name": "Ho Ming Li",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/ho-ming-li.webp",
         "url": "https://www.linkedin.com/in/homingli"
       },
       {
@@ -748,7 +748,7 @@
         "id": "volunteer-tim-ching",
         "name": "Tim Ching",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/tim-ching.webp",
         "url": "https://linkedin.com/in/timchingy"
       },
       {
@@ -804,28 +804,28 @@
         "id": "volunteer-nicole",
         "name": "Nicole",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/nicole.webp",
         "url": "https://www.linkedin.com/in/man-ching-yu-990b46346"
       },
       {
         "id": "volunteer-anna-law",
         "name": "Anna Law",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/anna-law.webp",
         "url": "https://www.linkedin.com/in/anna-law-122b9628a"
       },
       {
         "id": "volunteer-quincy-chan",
         "name": "Quincy Chan",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/quincy-chan.webp",
         "url": "https://www.linkedin.com/in/quincychan29"
       },
       {
         "id": "volunteer-ken-wong",
         "name": "Ken Wong",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/ken-wong.webp",
         "url": "https://www.linkedin.com/in/kenhlwong"
       },
       {
@@ -902,7 +902,7 @@
         "id": "volunteer-cyrus-wong",
         "name": "Cyrus Wong",
         "role": "大会现场志愿者",
-        "image": "",
+        "image": "/2026/organizers-volunteers/volunteers/cyrus-wong.webp",
         "url": ""
       },
       {

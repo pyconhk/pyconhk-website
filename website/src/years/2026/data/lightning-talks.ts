@@ -47,7 +47,7 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       },
       {
         title: 'Get ready to present',
-        body: 'Prepare your five-minute talk and follow the organizer instructions for check-in and presenting on the day.',
+        body: 'Prepare and practise your five-minute talk.',
       },
     ],
     registrationLink: 'Sign up for a Lightning Talk',
@@ -88,11 +88,11 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       },
       {
         title: '等候確認',
-        body: '節目團隊會審閱你嘅提案，再聯絡你通知結果同之後嘅安排。',
+        body: '議程團隊會審閱你嘅提案，再聯絡你通知結果同之後嘅安排。',
       },
       {
         title: '準備上台分享',
-        body: '準備好五分鐘嘅分享，並按照籌辦團隊嘅指示喺當日報到同演講。',
+        body: '準備好五分鐘嘅分享，並計住時間練習。',
       },
     ],
     registrationLink: '報名做閃電演講',
@@ -133,11 +133,11 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       },
       {
         title: '等候確認',
-        body: '節目團隊將審閱您的提案，並聯絡您告知結果及後續安排。',
+        body: '議程團隊將審閱您的提案，並聯絡您告知結果及後續安排。',
       },
       {
         title: '準備上台分享',
-        body: '準備好五分鐘的分享，並依照籌辦團隊的指示於當日報到及演講。',
+        body: '準備好五分鐘的分享，並進行計時練習。',
       },
     ],
     registrationLink: '報名閃電演講',
@@ -178,11 +178,11 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       },
       {
         title: '等候确认',
-        body: '节目团队将审阅您的提案，并联系您告知结果及后续安排。',
+        body: '议程团队将审阅您的提案，并联系您告知结果及后续安排。',
       },
       {
         title: '准备上台分享',
-        body: '准备好五分钟的分享，并按照筹办团队的指示于当天报到及演讲。',
+        body: '准备好五分钟的分享，并进行计时练习。',
       },
     ],
     registrationLink: '报名闪电演讲',
@@ -227,7 +227,7 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       },
       {
         title: '発表に備える',
-        body: '5分間の発表を準備し、当日の受付や登壇については運営チームの案内に従ってください。',
+        body: '5分間の発表を準備し、時間を計って練習しましょう。',
       },
     ],
     registrationLink: 'ライトニングトークに申し込む',
@@ -272,7 +272,7 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       },
       {
         title: '발표 준비하기',
-        body: '5분 발표를 준비하고 행사 당일 체크인과 발표에 관한 운영진의 안내를 따라 주세요.',
+        body: '5분 발표를 준비하고 시간을 재며 연습해 주세요.',
       },
     ],
     registrationLink: '라이트닝 토크 신청하기',
