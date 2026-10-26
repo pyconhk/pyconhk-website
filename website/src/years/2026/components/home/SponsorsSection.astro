@@ -16,7 +16,7 @@ const detailsHref = `/2026/${locale}/sponsorships/`;
     <h2 id="sponsors-title" class="text-3xl font-extrabold leading-tight text-conference-ink sm:text-4xl">{copy.titles.sponsors}</h2>
     <div aria-hidden="true" class="mx-auto mt-5 flex h-1 w-24"><span class="flex-1 bg-[#d71920]" /><span class="flex-1 bg-white" /><span class="flex-1 bg-[#2f559a]" /></div>
     <div data-published-sponsors data-sponsor-overview>
-      <SponsorWall items={sponsors.items} detailsHref={detailsHref} />
+      <SponsorWall items={sponsors.items} locale={locale} />
     </div>
     <a href={detailsHref} data-sponsors-details class="inline-flex min-h-11 cursor-pointer items-center gap-2 py-2 text-base font-bold text-conference-blue underline-offset-4 hover:underline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
       {copy.viewSponsors}

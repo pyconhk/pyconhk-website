@@ -111,7 +111,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/databricks.svg",
         "url": "https://www.databricks.com/",
-        "description": "Databricks は、オープンなレイクハウスアーキテクチャを基盤に、データ、分析、AI を一つのプラットフォームに統合しています。Apache Spark、Delta Lake、MLflow などのオープンソースプロジェクトにルーツを持つ企業です。"
+        "description": "Databricks は、データと AI の企業です。その Data Intelligence Platform は、オープンなレイクハウスを基盤としてデータ、分析、AI を統合し、組織がデータからインサイトを得て、安全なアプリケーションを構築できるよう支援します。\n\nApache Spark™️、Delta Lake、MLflow、Unity Catalog を生み出した開発者たちによって設立された Databricks は、データと AI をシンプルにし、誰もが活用できるようにすることを使命としています。企業が世界の最も困難な課題を解決できるよう支援しています。"
       },
       {
         "id": "redhat",
@@ -119,7 +119,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
         "url": "https://www.redhat.com/en",
-        "description": "Red Hat は、ハイブリッドクラウド向けのオープンソース技術を開発しています。Linux、アプリケーションプラットフォーム、自動化、AI などを通じて、データセンターからエッジまでのアプリケーション開発・運用を支援しています。"
+        "description": "Red Hat は、オープンハイブリッドクラウド技術をリードする企業として、革新的な IT と AI アプリケーションのための、信頼性と一貫性を備えた包括的な基盤を提供しています。クラウド、開発者向けツール、AI、Linux、自動化、アプリケーションプラットフォームからなる技術ポートフォリオにより、データセンターからエッジまで、あらゆる場所であらゆるアプリケーションを実行できます。エンタープライズ向けオープンソースソフトウェアソリューションの世界的なリーディングプロバイダーとして、Red Hat はオープンなエコシステムとコミュニティに投資し、未来の IT 課題の解決に取り組んでいます。パートナーやお客様と協力し、コンサルティングサービスと受賞歴のあるトレーニング・認定プログラムを通じて、IT 環境の構築、接続、自動化、セキュリティ確保、管理を支援しています。"
       },
       {
         "id": "navicat",
@@ -127,7 +127,7 @@
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
         "url": "https://www.navicat.com/",
-        "description": "Navicat は、データベースの開発・管理ツールを提供しています。Navicat Premium は複数のデータベースを一つのアプリケーションで扱い、クエリ、データモデリング、移行、可視化を支援します。Windows、macOS、Linux に対応しています。"
+        "description": ""
       },
       {
         "id": "calomei-bronze",
@@ -135,7 +135,7 @@
         "tier": "Bronze",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": "CaLoMei Studio は、AI を活用した食事・カロリー記録アプリ CaLoMei を提供しています。食事の写真から栄養情報を推定し、香港の料理にも対応。日々の記録や経過の確認に役立つ機能を備えています。"
+        "description": ""
       },
       {
         "id": "jetbrains",
@@ -143,7 +143,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
         "url": "https://www.jetbrains.com/",
-        "description": "JetBrains は、Python 向けの PyCharm をはじめとするソフトウェア開発ツールを提供しています。PyCharm はコーディング、デバッグ、テスト、データベースの機能を統合し、Web 開発、データサイエンス、機械学習を支援します。"
+        "description": ""
       },
       {
         "id": "calomei-prize",
@@ -151,7 +151,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": "CaLoMei Studio は、AI を活用した食事・カロリー記録アプリ CaLoMei を提供しています。食事の写真から栄養情報を推定し、香港の料理にも対応。日々の記録や経過の確認に役立つ機能を備えています。"
+        "description": ""
       },
       {
         "id": "lihkg",
@@ -159,7 +159,7 @@
         "tier": "Media Sponsor",
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
-        "description": "LIHKG は、時事、エンターテインメント、創作、日常生活などを話題にするオンラインコミュニティです。ウェブサイトとモバイルアプリで、話題の閲覧、意見の共有、気になる議論のフォローができます。"
+        "description": ""
       }
     ]
   },

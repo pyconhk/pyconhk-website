@@ -62,7 +62,7 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
         </nav>
       </>}
       {kind === 'sponsors' && (
-        <SponsorWall items={content.sponsors.items} headingLevel="h2" descriptions />
+        <SponsorWall items={content.sponsors.items} locale={locale} headingLevel="h2" />
       )}
       {kind === 'patrons' && <>
         <section class="space-y-4"><h2 class="text-2xl font-bold text-conference-blue">{content.patrons.whyTitle}</h2><p>{content.patrons.intro}</p><ul class="list-disc space-y-3 pl-6">{content.patrons.benefits.map((benefit) => <li>{benefit}</li>)}</ul></section>

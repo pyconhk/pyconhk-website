@@ -111,7 +111,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/databricks.svg",
         "url": "https://www.databricks.com/",
-        "description": "Databricks brings data, analytics and AI together on a platform built around an open lakehouse architecture. Its roots include open-source projects such as Apache Spark, Delta Lake and MLflow."
+        "description": "Databricks is the data and AI company. Its Data Intelligence Platform brings together data, analytics, and AI on an open lakehouse foundation, helping organizations turn data into insights and build secure applications.\n\nFounded by the original creators of Apache Spark™️, Delta Lake, MLflow, and Unity Catalog, Databricks is on a mission to simplify and democratize data and AI—helping businesses solve the world’s toughest problems."
       },
       {
         "id": "redhat",
@@ -119,7 +119,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
         "url": "https://www.redhat.com/en",
-        "description": "Red Hat develops open-source technology for hybrid cloud environments. Its portfolio includes Linux, application platforms, automation and AI, helping organizations build and run applications from data centers to the edge."
+        "description": "Red Hat is the open hybrid cloud technology leader, delivering a trusted, consistent and comprehensive foundation for transformative IT innovation and AI applications. Its portfolio of cloud, developer, AI, Linux, automation and application platform technologies enables any application, anywhere—from the datacenter to the edge. As the world's leading provider of enterprise open source software solutions, Red Hat invests in open ecosystems and communities to solve tomorrow's IT challenges. Collaborating with partners and customers, Red Hat helps them build, connect, automate, secure and manage their IT environments, supported by consulting services and award-winning training and certification offerings."
       },
       {
         "id": "navicat",
@@ -127,7 +127,7 @@
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
         "url": "https://www.navicat.com/",
-        "description": "Navicat creates tools for database development and management. Navicat Premium brings multiple database systems into one application, with tools for queries, data modeling, migration and visualization on Windows, macOS and Linux."
+        "description": ""
       },
       {
         "id": "calomei-bronze",
@@ -135,7 +135,7 @@
         "tier": "Bronze",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": "CaLoMei Studio offers CaLoMei, an AI-powered food and calorie tracking app. It estimates nutrition from food photos and combines support for Hong Kong dishes with daily logs and progress tracking."
+        "description": ""
       },
       {
         "id": "jetbrains",
@@ -143,7 +143,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
         "url": "https://www.jetbrains.com/",
-        "description": "JetBrains builds tools for software developers, including PyCharm for Python. PyCharm brings coding, debugging, testing and database tools together for web development, data science and machine learning."
+        "description": ""
       },
       {
         "id": "calomei-prize",
@@ -151,7 +151,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": "CaLoMei Studio offers CaLoMei, an AI-powered food and calorie tracking app. It estimates nutrition from food photos and combines support for Hong Kong dishes with daily logs and progress tracking."
+        "description": ""
       },
       {
         "id": "lihkg",
@@ -159,7 +159,7 @@
         "tier": "Media Sponsor",
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
-        "description": "LIHKG is an online discussion community covering current affairs, entertainment, creativity and everyday life. Its website and mobile app let members browse topics, share ideas and follow discussions."
+        "description": ""
       }
     ]
   },
