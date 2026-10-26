@@ -23,6 +23,7 @@ const tierWidths: Record<string, string> = {
   bronze: compactTierWidth,
   prize: compactTierWidth,
   media: compactTierWidth,
+  foundation: compactTierWidth,
 };
 // Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
 const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
@@ -36,7 +37,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
   {groups.map((group) => (
     <section data-sponsor-tier={group.tier} class="min-w-0 px-3 py-8 text-center sm:px-6 sm:py-10">
       <TierHeading class="mb-6 text-2xl font-extrabold leading-tight tracking-tight text-conference-ink sm:mb-8 sm:text-3xl">
-        {group.tier}
+        {normalizeTier(group.tier) === 'foundation' ? copy.foundationSponsor : group.tier}
       </TierHeading>
       <ul class="flex flex-col items-center justify-center gap-6 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-8">
         {group.items.map((item) => {
@@ -45,6 +46,8 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
           const dialogId = `sponsor-dialog-${item.id}`;
           const isNavicat = item.logo === '/2026/sponsors/navicat.svg';
           const isJetBrains = item.logo === '/2026/sponsors/jetbrains.svg';
+          // PSF's wide mark is centered in a square transparent canvas.
+          const cropTransparentMargins = item.logo === '/2026/supporting-organizations/psf.webp';
           const hasWordmark = isNavicat || isJetBrains || item.logo === '/2026/sponsors/databricks.svg' || item.logo === '/2026/sponsors/redhat.svg';
           return <li id={`sponsor-${item.id}`} class:list={[
             'min-w-0 w-full scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
@@ -67,7 +70,10 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
               ]}>
               {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] bg-white inset-ring-1 inset-ring-[#e0dbd2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
                 <img src={item.logo} alt="" width="320" height="180" loading="lazy"
-                  class="absolute left-[7%] top-[7%] block h-[86%] w-[86%] object-contain" />
+                  class:list={[
+                    'absolute left-[7%] top-[7%] block h-[86%] w-[86%]',
+                    cropTransparentMargins ? 'object-cover' : 'object-contain',
+                  ]} />
               </span>}
               <span class:list={[
                 'text-base font-bold leading-snug underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-[1.0625rem]',
@@ -76,6 +82,12 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
                 {item.name}
               </span>
             </Card>
+            {item.recognition && <p data-sponsor-recognition={item.recognition.kind}
+              class="mt-3 text-sm font-semibold leading-relaxed text-conference-body">
+              {item.recognition.kind === 'consecutive'
+                ? copy.consecutiveSupport(item.recognition.years)
+                : copy.cumulativeSupport(item.recognition.years)}
+            </p>}
             {hasIntroduction && <dialog id={dialogId} data-sponsor-dialog={item.id}
               aria-labelledby={`${dialogId}-title`}
               class="m-auto w-[calc(100%_-_2rem)] max-w-3xl rounded-3xl border-2 border-conference-outline bg-conference-surface p-0 text-left text-conference-ink shadow-conference-panel backdrop:bg-slate-950/70">

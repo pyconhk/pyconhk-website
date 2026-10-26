@@ -98,6 +98,13 @@ export const conferenceContentSchema = z
                 logo: image,
                 url,
                 description: text,
+                recognition: z
+                  .object({
+                    years: z.number().int().positive(),
+                    kind: z.enum(['consecutive', 'cumulative']),
+                  })
+                  .strict()
+                  .optional(),
               })
               .strict()
           )
@@ -399,7 +406,17 @@ function sharedSectionValues(
         ...(section === 'organizations' && record.kind === 'supporter'
           ? [['description', record.description]]
           : []),
-        ...['id', 'url', 'logo', 'image', 'kind', 'tier', 'fee', 'maxSlots']
+        ...[
+          'id',
+          'url',
+          'logo',
+          'image',
+          'kind',
+          'tier',
+          'recognition',
+          'fee',
+          'maxSlots',
+        ]
           .filter((field) => field in record)
           .map((field) => [field, record[field]]),
         ...('features' in record

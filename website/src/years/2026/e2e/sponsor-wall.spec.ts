@@ -2,6 +2,12 @@ import { expect, test } from '@playwright/test';
 import { setTheme } from './theme';
 
 const sponsorships = [
+  [
+    'open-home-foundation',
+    'Platinum',
+    'Open Home Foundation',
+    'https://www.openhomefoundation.org/',
+  ],
   ['databricks', 'Gold', 'Databricks', 'https://www.databricks.com/'],
   ['redhat', 'Gold', 'Red Hat', 'https://www.redhat.com/en'],
   ['navicat', 'Silver', 'Navicat', 'https://www.navicat.com/'],
@@ -9,7 +15,14 @@ const sponsorships = [
   ['jetbrains', 'Prize Sponsor', 'JetBrains', 'https://www.jetbrains.com/'],
   ['calomei-prize', 'Prize Sponsor', 'CaLoMei Studio', 'https://www.calomei.com/'],
   ['lihkg', 'Media Sponsor', 'LIHKG', 'https://lihkg.com/'],
+  [
+    'python-software-foundation',
+    'Foundation Sponsor',
+    'Python Software Foundation',
+    'https://www.python.org/psf-landing/',
+  ],
 ];
+const introductionTiers = new Set(['Gold', 'Platinum', 'Diamond']);
 
 for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
   test(`sponsor tiers and original logos remain usable at ${width}px`, async ({
@@ -45,27 +58,35 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
         await expect(wall.locator('[data-sponsor-card]')).toHaveCount(
           sponsorships.length
         );
-        await expect(wall.locator('[data-sponsor-trigger]')).toHaveCount(2);
-        await expect(wall.locator('[data-sponsor-link]')).toHaveCount(5);
+        await expect(wall.locator('[data-sponsor-trigger]')).toHaveCount(3);
+        await expect(wall.locator('[data-sponsor-link]')).toHaveCount(6);
         expect(
           await wall
             .locator('[data-sponsor-tier]')
             .evaluateAll((tiers) =>
               tiers.map((tier) => tier.getAttribute('data-sponsor-tier'))
             )
-        ).toEqual(['Gold', 'Silver', 'Bronze', 'Prize Sponsor', 'Media Sponsor']);
+        ).toEqual([
+          'Platinum',
+          'Gold',
+          'Silver',
+          'Bronze',
+          'Prize Sponsor',
+          'Media Sponsor',
+          'Foundation Sponsor',
+        ]);
         const logoSizes: Record<
           string,
           { width: number; height: number; artworkWidth: number; artworkHeight: number }
         > = {};
         for (const [id, tier, name, url] of sponsorships) {
-          const isGold = tier === 'Gold';
+          const hasIntroduction = introductionTiers.has(tier);
           const control = wall
             .locator(`[data-sponsor-tier="${tier}"]`)
-            .getByRole(isGold ? 'button' : 'link', { name, exact: true });
+            .getByRole(hasIntroduction ? 'button' : 'link', { name, exact: true });
           await control.scrollIntoViewIfNeeded();
           await expect(control).toBeVisible();
-          if (isGold) {
+          if (hasIntroduction) {
             await expect(control).toHaveAttribute('data-sponsor-trigger', id);
             await expect(control).toHaveAttribute('aria-haspopup', 'dialog');
             await expect(control).not.toHaveAttribute('href');
@@ -77,7 +98,12 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           }
           await expect(control).toHaveCSS('cursor', 'pointer');
           const image = control.locator('img');
-          await expect(image).toHaveAttribute('src', /^\/2026\/sponsors\/.+\.svg$/);
+          await expect(image).toHaveAttribute(
+            'src',
+            id === 'python-software-foundation'
+              ? '/2026/supporting-organizations/psf.webp'
+              : `/2026/sponsors/${id.replace('calomei-bronze', 'calomei').replace('calomei-prize', 'calomei')}.svg`
+          );
           await expect
             .poll(() =>
               image.evaluate(
@@ -86,7 +112,10 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
             )
             .toBe(true);
           await expect(image).toHaveCSS('filter', 'none');
-          await expect(image).toHaveCSS('object-fit', 'contain');
+          await expect(image).toHaveCSS(
+            'object-fit',
+            id === 'python-software-foundation' ? 'cover' : 'contain'
+          );
           await expect(image).toHaveCSS('object-position', '50% 50%');
           const box = await control.boundingBox();
           expect(box?.x).toBeGreaterThanOrEqual(0);
@@ -151,7 +180,12 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           expect(
             logoSizes.navicat[dimension] / logoSizes['calomei-bronze'][dimension]
           ).toBeCloseTo(1.5, 2);
-          for (const id of ['jetbrains', 'calomei-prize', 'lihkg'])
+          for (const id of [
+            'jetbrains',
+            'calomei-prize',
+            'lihkg',
+            'python-software-foundation',
+          ])
             expect(logoSizes[id][dimension]).toBeCloseTo(
               logoSizes['calomei-bronze'][dimension],
               0
@@ -201,7 +235,7 @@ for (const [locale, language] of [
   ['ja', /\p{Script=Hiragana}/u],
   ['ko', /\p{Script=Hangul}/u],
 ] as const) {
-  test(`Gold introductions open in dialogs on both ${locale} sponsor surfaces`, async ({
+  test(`Gold and Platinum introductions open in dialogs on both ${locale} sponsor surfaces`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
@@ -210,10 +244,10 @@ for (const [locale, language] of [
       `/2026/${locale}/sponsorships/`,
     ]) {
       await page.goto(route);
-      await expect(page.locator('[data-sponsor-dialog]')).toHaveCount(2);
+      await expect(page.locator('[data-sponsor-dialog]')).toHaveCount(3);
       await expect(page.locator('[data-sponsor-description]:visible')).toHaveCount(0);
-      for (const [id, , name, url] of sponsorships.filter(
-        ([, tier]) => tier === 'Gold'
+      for (const [id, , name, url] of sponsorships.filter(([, tier]) =>
+        introductionTiers.has(tier)
       )) {
         const trigger = page.locator(`[data-sponsor-trigger="${id}"]`);
         await trigger.click();
@@ -244,6 +278,66 @@ for (const [locale, language] of [
         await expect(trigger).toBeFocused();
       }
     }
+  });
+}
+
+for (const [locale, foundation, fourYears, twoYears, sevenYears] of [
+  [
+    'en',
+    'Foundation Sponsor',
+    '4 consecutive years of support',
+    '2 consecutive years of support',
+    '7 years of support in total',
+  ],
+  ['zh-hk', '基金會贊助', '連續支持咗 4 年', '連續支持咗 2 年', '累計支持咗 7 年'],
+  ['zh-hant', '基金會贊助', '連續支持 4 年', '連續支持 2 年', '累計支持 7 年'],
+  ['zh-hans', '基金会赞助', '连续支持 4 年', '连续支持 2 年', '累计支持 7 年'],
+  ['ja', '財団スポンサー', '4年連続のご支援', '2年連続のご支援', '通算7年のご支援'],
+  ['ko', '재단 후원', '4년 연속 후원', '2년 연속 후원', '총 7년 후원'],
+] as const) {
+  test(`${locale}: sponsor recognition distinguishes consecutive and cumulative support`, async ({
+    page,
+  }) => {
+    for (const route of [
+      `/2026/${locale}/#sponsors`,
+      `/2026/${locale}/sponsorships/`,
+    ]) {
+      await page.goto(route);
+      await expect(page.locator('[data-sponsor-recognition]')).toHaveCount(4);
+      for (const [id, label, kind] of [
+        ['redhat', fourYears, 'consecutive'],
+        ['navicat', twoYears, 'consecutive'],
+        ['jetbrains', fourYears, 'consecutive'],
+        ['python-software-foundation', sevenYears, 'cumulative'],
+      ]) {
+        const recognition = page.locator(`#sponsor-${id} [data-sponsor-recognition]`);
+        await expect(recognition).toHaveText(label);
+        await expect(recognition).toHaveAttribute('data-sponsor-recognition', kind);
+      }
+      const psf = page.locator('[data-sponsor-tier="Foundation Sponsor"]');
+      await expect(
+        psf.getByRole('heading', { name: foundation, exact: true })
+      ).toBeVisible();
+      await expect(
+        psf.getByRole('link', { name: 'Python Software Foundation', exact: true })
+      ).toHaveAttribute('href', 'https://www.python.org/psf-landing/');
+      await expect(psf.locator('[data-sponsor-trigger]')).toHaveCount(0);
+    }
+    // Its new sponsor category does not remove the existing community credit.
+    await page.goto(`/2026/${locale}/supporting-organizations/`);
+    const communityCredit = page
+      .locator('[data-conference-content="supporters"] article')
+      .filter({
+        has: page.getByRole('heading', {
+          name: 'Python Software Foundation',
+          exact: true,
+        }),
+      });
+    await expect(communityCredit).toHaveCount(1);
+    await expect(communityCredit.getByRole('link').first()).toHaveAttribute(
+      'href',
+      'https://www.python.org/psf-landing/'
+    );
   });
 }
 
