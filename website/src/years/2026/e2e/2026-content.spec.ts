@@ -69,11 +69,31 @@ for (const locale of locales) {
     await expect(page.locator('main')).not.toContainText('[Name]');
     await page.goto(`/2026/${locale}/sponsorships/`);
     const sponsors = page.locator('[data-conference-content="sponsors"]');
-    for (const name of ['Navicat', 'JetBrains', 'LIHKG'])
-      await expect(sponsors.getByRole('heading', { name, exact: true })).toBeVisible();
-    await expect(
-      sponsors.getByRole('heading', { name: 'CaLoMei Studio', exact: true })
-    ).toHaveCount(2);
+    for (const name of ['Databricks', 'Red Hat']) {
+      const introduction = sponsors.getByRole('button', { name, exact: true });
+      await expect(introduction).toBeVisible();
+      await expect(introduction).toHaveAttribute('aria-haspopup', 'dialog');
+    }
+    for (const [name, href] of [
+      ['Navicat', 'https://www.navicat.com/'],
+      ['JetBrains', 'https://www.jetbrains.com/'],
+      ['LIHKG', 'https://lihkg.com/'],
+    ]) {
+      const website = sponsors.getByRole('link', { name, exact: true });
+      await expect(website).toBeVisible();
+      await expect(website).toHaveAttribute('href', href);
+      await expect(website).toHaveAttribute('target', '_blank');
+    }
+    const calomeiLinks = sponsors.getByRole('link', {
+      name: 'CaLoMei Studio',
+      exact: true,
+    });
+    await expect(calomeiLinks).toHaveCount(2);
+    for (const website of await calomeiLinks.all()) {
+      await expect(website).toBeVisible();
+      await expect(website).toHaveAttribute('href', 'https://www.calomei.com/');
+      await expect(website).toHaveAttribute('target', '_blank');
+    }
     await expect(sponsors).not.toContainText('Apify');
     await page.goto(`/2026/${locale}/access-guide/`);
     await expect(page.locator('[data-conference-content="venue"]')).toContainText(

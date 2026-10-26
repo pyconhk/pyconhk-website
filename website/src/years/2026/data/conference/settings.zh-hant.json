@@ -111,7 +111,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/databricks.svg",
         "url": "https://www.databricks.com/",
-        "description": "Databricks 以開放式湖倉一體架構，將資料、分析及人工智慧整合於同一平台。公司源於開源社群，與 Apache Spark、Delta Lake 及 MLflow 等專案淵源深厚。"
+        "description": "Databricks 是一家數據與 AI 公司。其 Data Intelligence Platform 以開放式湖倉架構為基礎，整合數據、分析與 AI，協助機構從數據獲取洞見，並建立安全的應用程式。\n\nDatabricks 由 Apache Spark™️、Delta Lake、MLflow 和 Unity Catalog 的原創團隊創立，致力簡化數據與 AI 技術，讓更多人能夠使用，協助企業解決全球最棘手的問題。"
       },
       {
         "id": "redhat",
@@ -119,7 +119,7 @@
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
         "url": "https://www.redhat.com/en",
-        "description": "Red Hat 開發適用於混合雲環境的開源技術，產品涵蓋 Linux、應用程式平台、自動化及人工智慧，協助組織在資料中心乃至邊緣環境建置及執行應用程式。"
+        "description": "Red Hat 是開放混合雲技術的領導者，為推動變革的 IT 創新與 AI 應用提供可靠、一致且全面的基礎。其雲端、開發工具、AI、Linux、自動化與應用程式平台技術，讓各種應用程式都能在數據中心以至邊緣環境運行。作為全球領先的企業開源軟件解決方案供應商，Red Hat 持續投資開放生態系統與社群，應對未來的 IT 挑戰。Red Hat 與合作夥伴及客戶攜手，協助他們建立、連接、自動化、保護及管理 IT 環境，並提供顧問服務，以及屢獲殊榮的培訓與認證課程。"
       },
       {
         "id": "navicat",
@@ -127,7 +127,7 @@
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
         "url": "https://www.navicat.com/",
-        "description": "Navicat 提供資料庫開發及管理工具。Navicat Premium 將多種資料庫系統整合於同一應用程式，支援查詢、資料建模、遷移及視覺化，適用於 Windows、macOS 及 Linux。"
+        "description": ""
       },
       {
         "id": "calomei-bronze",
@@ -135,7 +135,7 @@
         "tier": "Bronze",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": "CaLoMei Studio 提供以人工智慧輔助的飲食及熱量記錄應用程式 CaLoMei。應用程式透過食物照片估算營養資訊，支援香港料理，並提供每日記錄及進度追蹤功能。"
+        "description": ""
       },
       {
         "id": "jetbrains",
@@ -143,7 +143,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
         "url": "https://www.jetbrains.com/",
-        "description": "JetBrains 開發軟體開發工具，包括專為 Python 設計的 PyCharm。PyCharm 整合程式碼編寫、除錯、測試及資料庫工具，支援網頁開發、資料科學及機器學習。"
+        "description": ""
       },
       {
         "id": "calomei-prize",
@@ -151,7 +151,7 @@
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/calomei.svg",
         "url": "https://www.calomei.com/",
-        "description": "CaLoMei Studio 提供以人工智慧輔助的飲食及熱量記錄應用程式 CaLoMei。應用程式透過食物照片估算營養資訊，支援香港料理，並提供每日記錄及進度追蹤功能。"
+        "description": ""
       },
       {
         "id": "lihkg",
@@ -159,7 +159,7 @@
         "tier": "Media Sponsor",
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
-        "description": "LIHKG 連登討論區是一個線上討論社群，話題涵蓋時事、娛樂、創意及日常生活。會員可以透過網站及行動應用程式瀏覽話題、分享想法及追蹤討論。"
+        "description": ""
       }
     ]
   },

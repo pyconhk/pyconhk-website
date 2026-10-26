@@ -37,14 +37,16 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
         surface === 'overview'
           ? page.locator('[data-sponsor-overview] [data-sponsor-wall]')
           : page.locator('[data-sponsor-wall]');
-      await expect(wall.locator('[data-sponsor-description]')).toHaveCount(
-        surface === 'overview' ? 0 : sponsorships.length
-      );
+      await expect(wall.locator('[data-sponsor-description]:visible')).toHaveCount(0);
 
       for (const theme of ['light', 'dark']) {
         await setTheme(page, theme);
         await expect(wall).toBeVisible();
-        await expect(wall.locator('a')).toHaveCount(sponsorships.length);
+        await expect(wall.locator('[data-sponsor-card]')).toHaveCount(
+          sponsorships.length
+        );
+        await expect(wall.locator('[data-sponsor-trigger]')).toHaveCount(2);
+        await expect(wall.locator('[data-sponsor-link]')).toHaveCount(5);
         expect(
           await wall
             .locator('[data-sponsor-tier]')
@@ -57,29 +59,24 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           { width: number; height: number; artworkWidth: number; artworkHeight: number }
         > = {};
         for (const [id, tier, name, url] of sponsorships) {
-          const link = wall
+          const isGold = tier === 'Gold';
+          const control = wall
             .locator(`[data-sponsor-tier="${tier}"]`)
-            .getByRole('link', { name, exact: true });
-          await link.scrollIntoViewIfNeeded();
-          await expect(link).toBeVisible();
-          await expect(link).toHaveAttribute('data-sponsor-link', id);
-          await expect(link).toHaveAttribute(
-            'href',
-            surface === 'overview' ? `/2026/zh-hk/sponsorships/#sponsor-${id}` : url
-          );
-          if (surface === 'overview') {
-            await expect(link).not.toHaveAttribute('target', '_blank');
+            .getByRole(isGold ? 'button' : 'link', { name, exact: true });
+          await control.scrollIntoViewIfNeeded();
+          await expect(control).toBeVisible();
+          if (isGold) {
+            await expect(control).toHaveAttribute('data-sponsor-trigger', id);
+            await expect(control).toHaveAttribute('aria-haspopup', 'dialog');
+            await expect(control).not.toHaveAttribute('href');
           } else {
-            await expect(link).toHaveAttribute('target', '_blank');
-            await expect(wall.locator(`li#sponsor-${id}`)).toContainText(name);
-            const description = wall.locator(
-              `li#sponsor-${id} [data-sponsor-description]`
-            );
-            await expect(description).toBeVisible();
-            await expect(description).not.toHaveText('');
+            await expect(control).toHaveAttribute('data-sponsor-link', id);
+            await expect(control).toHaveAttribute('href', url);
+            await expect(control).toHaveAttribute('target', '_blank');
+            await expect(wall.locator(`[data-sponsor-dialog="${id}"]`)).toHaveCount(0);
           }
-          await expect(link).toHaveCSS('cursor', 'pointer');
-          const image = link.locator('img');
+          await expect(control).toHaveCSS('cursor', 'pointer');
+          const image = control.locator('img');
           await expect(image).toHaveAttribute('src', /^\/2026\/sponsors\/.+\.svg$/);
           await expect
             .poll(() =>
@@ -91,11 +88,11 @@ for (const width of [320, 390, 640, 768, 1024, 1440, 1920]) {
           await expect(image).toHaveCSS('filter', 'none');
           await expect(image).toHaveCSS('object-fit', 'contain');
           await expect(image).toHaveCSS('object-position', '50% 50%');
-          const box = await link.boundingBox();
+          const box = await control.boundingBox();
           expect(box?.x).toBeGreaterThanOrEqual(0);
           expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(width);
           expect(box?.height).toBeGreaterThanOrEqual(44);
-          const plate = await link.locator('[data-sponsor-plate]').boundingBox();
+          const plate = await control.locator('[data-sponsor-plate]').boundingBox();
           expect(plate).not.toBeNull();
           if (!plate) throw new Error(`${name} has no visible logo plate`);
           expect(plate.width / plate.height).toBeGreaterThanOrEqual(1.85);
@@ -204,50 +201,108 @@ for (const [locale, language] of [
   ['ja', /\p{Script=Hiragana}/u],
   ['ko', /\p{Script=Hangul}/u],
 ] as const) {
-  test(`every sponsor has a readable ${locale} introduction`, async ({ page }) => {
+  test(`Gold introductions open in dialogs on both ${locale} sponsor surfaces`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`/2026/${locale}/sponsorships/`);
-    const descriptions = page.locator('[data-sponsor-description]');
-    await expect(descriptions).toHaveCount(sponsorships.length);
-    for (const description of await descriptions.all()) {
-      await description.scrollIntoViewIfNeeded();
-      await expect(description).toBeVisible();
-      await expect(description).toContainText(language);
-      const bounds = await description.boundingBox();
-      if (!bounds) throw new Error('Sponsor description has no visible bounds');
-      // Smaller sponsorship logos must not squeeze the introduction into a
-      // narrow column on mobile.
-      expect(bounds.width).toBeGreaterThanOrEqual(280);
-      expect(bounds.x).toBeGreaterThanOrEqual(0);
-      expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
+    for (const route of [
+      `/2026/${locale}/#sponsors`,
+      `/2026/${locale}/sponsorships/`,
+    ]) {
+      await page.goto(route);
+      await expect(page.locator('[data-sponsor-dialog]')).toHaveCount(2);
+      await expect(page.locator('[data-sponsor-description]:visible')).toHaveCount(0);
+      for (const [id, , name, url] of sponsorships.filter(
+        ([, tier]) => tier === 'Gold'
+      )) {
+        const trigger = page.locator(`[data-sponsor-trigger="${id}"]`);
+        await trigger.click();
+        const dialog = page.getByRole('dialog', { name, exact: true });
+        await expect(dialog).toBeVisible();
+        await expect(dialog).toHaveAttribute('data-sponsor-dialog', id);
+        await expect(dialog.getByRole('heading', { name, exact: true })).toBeVisible();
+        // The adjacent heading names the brand; the duplicate logo is decorative.
+        await expect(dialog.locator('img')).toHaveAttribute(
+          'src',
+          `/2026/sponsors/${id}.svg`
+        );
+        const description = dialog.locator('[data-sponsor-description]');
+        await expect(description).toBeVisible();
+        await expect(description).toContainText(language);
+        await expect(description.locator('p').first()).not.toBeEmpty();
+        await expect(dialog.locator('[data-sponsor-website]')).toHaveAttribute(
+          'href',
+          url
+        );
+        const bounds = await description.boundingBox();
+        if (!bounds) throw new Error('Sponsor description has no visible bounds');
+        expect(bounds.width).toBeGreaterThanOrEqual(280);
+        expect(bounds.x).toBeGreaterThanOrEqual(0);
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
+        await dialog.locator('[data-sponsor-close]').click();
+        await expect(dialog).not.toBeVisible();
+        await expect(trigger).toBeFocused();
+      }
     }
   });
 }
 
-test('a homepage sponsor logo opens its own details before opening the vendor with the keyboard', async ({
-  page,
-  context,
-}) => {
-  // Isolate the outbound navigation from the vendor's network availability.
-  await context.route('https://www.databricks.com/**', (route) =>
-    route.fulfill({ body: '<title>Databricks</title>' })
-  );
-  await page.goto('/2026/en/#sponsors');
-  const overviewLink = page
-    .locator('[data-sponsor-overview]')
-    .getByRole('link', { name: 'Databricks', exact: true });
-  await overviewLink.focus();
-  await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/2026\/en\/sponsorships\/#sponsor-databricks$/);
-  const sponsor = page.locator('li#sponsor-databricks');
-  await expect(sponsor).toBeInViewport();
-  const link = sponsor.getByRole('link', { name: 'Databricks', exact: true });
-  await link.focus();
-  await expect(link).toBeFocused();
-  const popupPromise = page.waitForEvent('popup');
-  await page.keyboard.press('Enter');
-  const popup = await popupPromise;
-  await expect(popup).toHaveURL('https://www.databricks.com/');
-  await expect(page).toHaveURL(/\/2026\/en\/sponsorships\/#sponsor-databricks$/);
-  await popup.close();
-});
+for (const route of ['/2026/en/#sponsors', '/2026/en/sponsorships/']) {
+  test(`${route}: Gold dialogs support keyboard close, focus return and official website navigation`, async ({
+    page,
+    context,
+  }) => {
+    // Isolate outbound navigation from the vendors' network availability.
+    await context.route(/^https:\/\/www\.(databricks|redhat)\.com\//, (route) =>
+      route.fulfill({ body: '<title>Sponsor website</title>' })
+    );
+    await page.goto(route);
+    const pageUrl = page.url();
+    for (const [id, , name, url] of sponsorships.filter(
+      ([, tier]) => tier === 'Gold'
+    )) {
+      const trigger = page.getByRole('button', { name, exact: true });
+      await trigger.focus();
+      await page.keyboard.press('Enter');
+      const dialog = page.locator(`[data-sponsor-dialog="${id}"]`);
+      await expect(dialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(dialog).not.toBeVisible();
+      await expect(trigger).toBeFocused();
+      await page.keyboard.press('Enter');
+      await expect(dialog).toBeVisible();
+      const website = dialog.locator('[data-sponsor-website]');
+      await expect(website).toHaveAttribute('target', '_blank');
+      await expect(website).toHaveAttribute('rel', /noopener/);
+      await website.focus();
+      const popupPromise = page.waitForEvent('popup');
+      await page.keyboard.press('Enter');
+      const popup = await popupPromise;
+      await expect(popup).toHaveURL(url);
+      await popup.close();
+      await expect(page).toHaveURL(pageUrl);
+      await expect(dialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(trigger).toBeFocused();
+    }
+  });
+
+  test(`${route}: lower-tier logos open their official websites directly`, async ({
+    page,
+    context,
+  }) => {
+    await context.route('https://www.navicat.com/**', (route) =>
+      route.fulfill({ body: '<title>Navicat</title>' })
+    );
+    await page.goto(route);
+    const pageUrl = page.url();
+    const link = page.getByRole('link', { name: 'Navicat', exact: true });
+    const popupPromise = page.waitForEvent('popup');
+    await link.click();
+    const popup = await popupPromise;
+    await expect(popup).toHaveURL('https://www.navicat.com/');
+    await expect(page.locator('[data-sponsor-dialog]:visible')).toHaveCount(0);
+    await expect(page).toHaveURL(pageUrl);
+    await popup.close();
+  });
+}

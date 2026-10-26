@@ -1,14 +1,17 @@
 ---
 import type { ConferenceContent } from '@/lib/conference-schema';
+import { contentUi } from '@/years/2026/data/content-ui';
+import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props {
   items: ConferenceContent['sponsors']['items'];
+  locale: CfpLocale;
   headingLevel?: 'h2' | 'h3';
-  descriptions?: boolean;
-  detailsHref?: string;
 }
-const { items, headingLevel: TierHeading = 'h3', descriptions = false, detailsHref } = Astro.props;
-const NameHeading = TierHeading === 'h2' ? 'h3' : 'h4';
+const { items, locale, headingLevel: TierHeading = 'h3' } = Astro.props;
+const copy = contentUi[locale];
+const normalizeTier = (tier: string) => tier.trim().toLowerCase().replace(/\s+sponsors?$/, '');
+const introductionTiers = new Set(['gold', 'platinum', 'diamond']);
 // Follow the website-logo hierarchy in the sponsorship packages.
 // Prize and media sponsors use the same compact size as bronze.
 const compactTierWidth = 'max-w-40 sm:max-w-64';
@@ -24,7 +27,7 @@ const tierWidths: Record<string, string> = {
 // Keep the CMS order, grouping entries that share a tier without losing dual sponsorships.
 const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
   tier,
-  widthClass: tierWidths[tier.trim().toLowerCase().replace(/\s+sponsors?$/, '')] ?? tierWidths.bronze,
+  widthClass: tierWidths[normalizeTier(tier)] ?? tierWidths.bronze,
   items: items.filter((item) => item.tier === tier),
 }));
 ---
@@ -37,39 +40,103 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
       </TierHeading>
       <ul class="flex flex-col items-center justify-center gap-6 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-8">
         {group.items.map((item) => {
-          const href = detailsHref ? `${detailsHref}#sponsor-${item.id}` : item.url;
-          const external = !detailsHref && Boolean(item.url);
-          const Link = href ? 'a' : 'div';
+          const hasIntroduction = introductionTiers.has(normalizeTier(item.tier)) && Boolean(item.description.trim());
+          const Card = hasIntroduction ? 'button' : item.url ? 'a' : 'div';
+          const dialogId = `sponsor-dialog-${item.id}`;
           const isNavicat = item.logo === '/2026/sponsors/navicat.svg';
           const isJetBrains = item.logo === '/2026/sponsors/jetbrains.svg';
           const hasWordmark = isNavicat || isJetBrains || item.logo === '/2026/sponsors/databricks.svg' || item.logo === '/2026/sponsors/redhat.svg';
           return <li id={`sponsor-${item.id}`} class:list={[
             'min-w-0 w-full scroll-mt-[calc(var(--conference-header-height)+1.5rem)] text-center',
-            descriptions && item.description ? 'max-w-prose' : group.widthClass,
+            group.widthClass,
           ]}>
-            <Link href={href || undefined} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}
+            <Card href={!hasIntroduction && item.url ? item.url : undefined}
+              type={hasIntroduction ? 'button' : undefined}
+              target={!hasIntroduction && item.url ? '_blank' : undefined}
+              rel={!hasIntroduction && item.url ? 'noopener noreferrer' : undefined}
               aria-label={item.name}
-              data-sponsor-link={href ? item.id : undefined}
+              aria-haspopup={hasIntroduction ? 'dialog' : undefined}
+              aria-controls={hasIntroduction ? dialogId : undefined}
+              data-sponsor-card={item.id}
+              data-sponsor-trigger={hasIntroduction ? item.id : undefined}
+              data-sponsor-link={!hasIntroduction && item.url ? item.id : undefined}
               class:list={[
                 'group mx-auto flex w-full flex-col items-center gap-3 rounded-[10px] text-conference-ink outline-offset-4 focus-visible:outline-3 focus-visible:outline-conference-blue',
                 group.widthClass,
-                href && 'cursor-pointer',
+                (hasIntroduction || item.url) && 'cursor-pointer',
               ]}>
               {item.logo && <span data-sponsor-plate class="relative block aspect-[1.9] w-full rounded-[10px] bg-white inset-ring-1 inset-ring-[#e0dbd2] motion-safe:transition-transform motion-safe:duration-150 motion-safe:group-hover:-translate-y-0.75">
                 <img src={item.logo} alt="" width="320" height="180" loading="lazy"
                   class="absolute left-[7%] top-[7%] block h-[86%] w-[86%] object-contain" />
               </span>}
-              <NameHeading class:list={[
+              <span class:list={[
                 'text-base font-bold leading-snug underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-[1.0625rem]',
                 hasWordmark && 'sr-only',
               ]}>
                 {item.name}
-              </NameHeading>
-            </Link>
-            {descriptions && item.description && <p data-sponsor-description class="mx-auto mt-6 max-w-prose whitespace-pre-line text-left text-base leading-relaxed text-conference-body">{item.description}</p>}
+              </span>
+            </Card>
+            {hasIntroduction && <dialog id={dialogId} data-sponsor-dialog={item.id}
+              aria-labelledby={`${dialogId}-title`}
+              class="m-auto w-[calc(100%_-_2rem)] max-w-3xl rounded-3xl border-2 border-conference-outline bg-conference-surface p-0 text-left text-conference-ink shadow-conference-panel backdrop:bg-slate-950/70">
+              <header class="flex shrink-0 items-start justify-between gap-4 border-b border-conference-line bg-conference-paper px-5 py-4 sm:px-8 sm:py-5">
+                <div class="min-w-0">
+                  <p class="text-xs font-black uppercase tracking-widest text-conference-red">{item.tier}</p>
+                  <h2 id={`${dialogId}-title`} class="mt-1 text-2xl font-black leading-tight sm:text-3xl">{item.name}</h2>
+                </div>
+                <form method="dialog" class="shrink-0">
+                  <button type="submit" data-sponsor-close aria-label={copy.close} title={copy.close} autofocus
+                    class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-conference-outline bg-conference-surface text-conference-ink hover:bg-conference-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-conference-blue">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-6 w-6"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                  </button>
+                </form>
+              </header>
+              <div class="sponsor-dialog-body space-y-6 px-5 py-6 sm:px-8 sm:py-8">
+                {item.logo && <div class="mx-auto flex aspect-[1.9] w-full max-w-sm items-center justify-center rounded-xl bg-white p-[7%] inset-ring-1 inset-ring-[#e0dbd2]">
+                  <img src={item.logo} alt="" width="320" height="180" loading="lazy" class="h-full w-full object-contain" />
+                </div>}
+                <div data-sponsor-description class="space-y-4 text-base leading-relaxed text-conference-body">
+                  {item.description.trim().split(/\n\s*\n/).map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}
+                </div>
+              </div>
+              {item.url && <footer class="shrink-0 border-t border-conference-line bg-conference-paper px-5 py-4 sm:px-8 sm:py-5">
+                <a data-sponsor-website href={item.url} target="_blank" rel="noopener noreferrer"
+                  class="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border-2 border-conference-outline bg-[#2f559a] px-5 py-3 text-center text-base font-bold text-white hover:bg-[#24467f] focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue sm:w-auto">
+                  <span>{copy.visitWebsite}</span>
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 shrink-0"><path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7" /></svg>
+                </a>
+              </footer>}
+            </dialog>}
           </li>;
         })}
       </ul>
     </section>
   ))}
 </div>
+
+<style>
+  dialog { max-height: calc(100dvh - 2rem); overflow: hidden; overflow-wrap: anywhere; }
+  dialog[open] { display: flex; flex-direction: column; }
+  .sponsor-dialog-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  :global(html:has([data-sponsor-dialog][open])) { overflow: hidden; scrollbar-gutter: stable; }
+</style>
+
+<script>
+  function initializeSponsorDialogs() {
+    for (const trigger of document.querySelectorAll<HTMLButtonElement>('[data-sponsor-trigger]')) {
+      if (trigger.dataset.sponsorInitialized) continue;
+      const dialog = document.getElementById(trigger.getAttribute('aria-controls') ?? '');
+      if (!(dialog instanceof HTMLDialogElement)) continue;
+      trigger.dataset.sponsorInitialized = 'true';
+      trigger.addEventListener('click', () => dialog.showModal());
+      dialog.addEventListener('close', () => trigger.focus({ preventScroll: true }));
+      dialog.addEventListener('click', (event) => {
+        if (event.target !== dialog) return;
+        const bounds = dialog.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+      });
+    }
+  }
+  initializeSponsorDialogs();
+  document.addEventListener('astro:page-load', initializeSponsorDialogs);
+</script>
