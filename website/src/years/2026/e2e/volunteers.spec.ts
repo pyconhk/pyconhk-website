@@ -132,6 +132,14 @@ const profiles = [
   ['Coby Lam', 'https://www.linkedin.com/in/shun-hang-lam-62097431b'],
   ['Sophia Wong', 'https://www.linkedin.com/in/sophia-wong-digital/'],
 ];
+const profileLabels: Record<string, [string, string]> = {
+  en: ['LinkedIn profile of {name}', 'Personal website of {name}'],
+  'zh-hk': ['{name} 嘅 LinkedIn 個人檔案', '{name} 嘅個人網站'],
+  'zh-hant': ['{name} 的 LinkedIn 個人檔案', '{name} 的個人網站'],
+  'zh-hans': ['{name} 的 LinkedIn 个人资料', '{name} 的个人网站'],
+  ja: ['{name} の LinkedIn プロフィール', '{name} の個人ウェブサイト'],
+  ko: ['{name}의 LinkedIn 프로필', '{name}의 개인 웹사이트'],
+};
 
 for (const [locale, heading] of Object.entries(marketingHeadings)) {
   test(`Marketing volunteers have their supplied photos and links in ${locale}`, async ({
@@ -157,11 +165,26 @@ for (const [locale, heading] of Object.entries(marketingHeadings)) {
           await image.scrollIntoViewIfNeeded();
           await image.evaluate((element: HTMLImageElement) => element.decode());
           await expect(image).toBeVisible();
-          const link = card.getByRole('link', { name: `LinkedIn profile of ${name}` });
+          const label = profileLabels[locale][0].replace('{name}', name);
+          const link = card.getByRole('link', { name: label, exact: true });
           await expect(link).toHaveAttribute('href', url);
           await expect(link).toHaveAttribute('target', '_blank');
           await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+          await expect(link).toHaveAttribute('title', label);
         }
+        const websiteLabel = profileLabels[locale][1].replace(
+          '{name}',
+          'Ms. Daisy Maris Fung'
+        );
+        const personalWebsite = page.getByRole('link', {
+          name: websiteLabel,
+          exact: true,
+        });
+        await expect(personalWebsite).toHaveAttribute(
+          'href',
+          'https://www.daisymarisfung.com/'
+        );
+        await expect(personalWebsite).toHaveAttribute('title', websiteLabel);
         expect(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
         ).toBe(true);

@@ -28,6 +28,74 @@ test('mobile menu backdrop covers the viewport before and after scrolling', asyn
   }
 });
 
+test('mobile menu keeps keyboard focus inside and restores the trigger on dismissal', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/2026/en/');
+  const trigger = page.locator('[data-mobile-nav-trigger]');
+  const drawer = page.locator('[data-mobile-nav-drawer]');
+  const close = page.locator('[data-mobile-nav-panel] [data-mobile-nav-close]');
+  const lastLink = page.locator('[data-mobile-nav-panel] [data-locale-switch="ko"]');
+
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  await expect(drawer).toBeVisible();
+  await expect(close).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(lastLink).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(close).toBeFocused();
+
+  // Even an explicit focus attempt cannot reach controls behind a modal drawer.
+  await page
+    .locator('[data-theme-toggle]')
+    .evaluate((element: HTMLButtonElement) => element.focus());
+  await expect(close).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(drawer).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('html')).not.toHaveClass(/overflow-hidden/);
+
+  await trigger.click();
+  await close.click();
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await page.locator('[data-mobile-nav-backdrop]').click({
+    position: { x: 10, y: 800 },
+  });
+  await expect(drawer).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
+test('desktop dropdown Escape closes the menu without reopening it on restored focus', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 900 });
+  await page.goto('/2026/en/');
+  const group = page.locator('[data-nav-dropdown-group]').first();
+  const trigger = group.locator('[data-nav-dropdown-trigger]');
+  const firstLink = group.getByRole('link').first();
+  await trigger.focus();
+  await expect(firstLink).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(firstLink).not.toBeVisible();
+  await page.keyboard.press('Enter');
+  await expect(firstLink).toBeVisible();
+  await firstLink.focus();
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+  await expect(firstLink).not.toBeVisible();
+
+  // Dismissal must not leave the existing pointer/hover navigation disabled.
+  await page.mouse.move(0, 0);
+  await trigger.hover();
+  await expect(firstLink).toBeVisible();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+});
+
 for (const locale of ['ja', 'ko']) {
   test(`${locale} navigation and ticket controls stay within the viewport`, async ({
     page,
