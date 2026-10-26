@@ -30,6 +30,9 @@ type ContentUi = {
   sponsorship: string;
   speakers: string;
   proposeSprint: string;
+  foundationSponsor: string;
+  consecutiveSupport: (years: number) => string;
+  cumulativeSupport: (years: number) => string;
 };
 
 export const contentUi: Record<CfpLocale, ContentUi> = {
@@ -58,6 +61,9 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     sponsorship: 'Sponsorship enquiries',
     speakers: 'Featured speakers',
     proposeSprint: 'Submit a Sprint project / become a Sprint Lead',
+    foundationSponsor: 'Foundation Sponsor',
+    consecutiveSupport: (years) => `${years} consecutive years of support`,
+    cumulativeSupport: (years) => `${years} years of support in total`,
   },
   'zh-hk': {
     titles: {
@@ -84,6 +90,9 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     sponsorship: cantonese.sponsorshipEnquiries,
     speakers: cantonese.featuredSpeakers,
     proposeSprint: '提交衝刺項目／報名做 Sprint Lead',
+    foundationSponsor: '基金會贊助',
+    consecutiveSupport: (years) => `連續支持咗 ${years} 年`,
+    cumulativeSupport: (years) => `累計支持咗 ${years} 年`,
   },
   'zh-hant': {
     titles: {
@@ -110,6 +119,9 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     sponsorship: written.sponsorshipEnquiries,
     speakers: written.featuredSpeakers,
     proposeSprint: '提交衝刺專案／報名成為 Sprint Lead',
+    foundationSponsor: '基金會贊助',
+    consecutiveSupport: (years) => `連續支持 ${years} 年`,
+    cumulativeSupport: (years) => `累計支持 ${years} 年`,
   },
   'zh-hans': {
     titles: {
@@ -136,6 +148,9 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     sponsorship: '咨询赞助合作',
     speakers: '精选讲者',
     proposeSprint: '提交冲刺项目／报名成为 Sprint Lead',
+    foundationSponsor: '基金会赞助',
+    consecutiveSupport: (years) => `连续支持 ${years} 年`,
+    cumulativeSupport: (years) => `累计支持 ${years} 年`,
   },
   ja: {
     titles: {
@@ -162,6 +177,9 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     sponsorship: '協賛のお問い合わせ',
     speakers: '注目の登壇者',
     proposeSprint: 'スプリントのプロジェクト・リードに応募する',
+    foundationSponsor: '財団スポンサー',
+    consecutiveSupport: (years) => `${years}年連続のご支援`,
+    cumulativeSupport: (years) => `通算${years}年のご支援`,
   },
   ko: {
     titles: {
@@ -188,5 +206,8 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     sponsorship: '후원 문의',
     speakers: '주요 연사',
     proposeSprint: '스프린트 프로젝트 제안 / 리드 신청',
+    foundationSponsor: '재단 후원',
+    consecutiveSupport: (years) => `${years}년 연속 후원`,
+    cumulativeSupport: (years) => `총 ${years}년 후원`,
   },
 };

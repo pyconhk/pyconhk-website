@@ -106,6 +106,14 @@
     "status": "published",
     "items": [
       {
+        "id": "open-home-foundation",
+        "name": "Open Home Foundation",
+        "tier": "Platinum",
+        "logo": "/2026/sponsors/open-home-foundation.svg",
+        "url": "https://www.openhomefoundation.org/",
+        "description": "スマートホームは、誰もが自分らしく過ごせるプライベートな空間であるべきです。個人情報の収益化を目指す巨大テック企業のデータ収集源であってはなりません。Open Home Foundation は、プライバシー、選択の自由、持続可能性を大切にするスマートホームを、すべての人に届けるという選択肢を示しています。\n\n2024 年に設立された同財団は、免税資格を持つスイスの非営利団体です。ホームオートメーションプラットフォームの Home Assistant をはじめ、250 を超えるオープンソースプロジェクトを所有・運営しています。資金は商業パートナーの Nabu Casa と Apollo Automation、および独立した寄付によって支えられています。この仕組みにより、中核となるプロジェクトが売却されることはなく、広告主や株主ではなく、ユーザーコミュニティに役立つオープンな標準やツールの開発・普及に資源を投入しています。\n\nこうした活動に加え、財団は業界全体におけるスマートホーム技術の倫理的な利用を提唱し、企業や一般の人々に、オープンな標準の価値と Open Home のビジョンを伝えています。"
+      },
+      {
         "id": "databricks",
         "name": "Databricks",
         "tier": "Gold",
@@ -115,6 +123,10 @@
       },
       {
         "id": "redhat",
+        "recognition": {
+          "years": 4,
+          "kind": "consecutive"
+        },
         "name": "Red Hat",
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
@@ -123,6 +135,10 @@
       },
       {
         "id": "navicat",
+        "recognition": {
+          "years": 2,
+          "kind": "consecutive"
+        },
         "name": "Navicat",
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
@@ -139,6 +155,10 @@
       },
       {
         "id": "jetbrains",
+        "recognition": {
+          "years": 4,
+          "kind": "consecutive"
+        },
         "name": "JetBrains",
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
@@ -160,6 +180,18 @@
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
         "description": ""
+      },
+      {
+        "id": "python-software-foundation",
+        "name": "Python Software Foundation",
+        "tier": "Foundation Sponsor",
+        "logo": "/2026/supporting-organizations/psf.webp",
+        "url": "https://www.python.org/psf-landing/",
+        "description": "",
+        "recognition": {
+          "years": 7,
+          "kind": "cumulative"
+        }
       }
     ]
   },

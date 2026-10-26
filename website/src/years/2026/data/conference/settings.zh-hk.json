@@ -106,6 +106,14 @@
     "status": "published",
     "items": [
       {
+        "id": "open-home-foundation",
+        "name": "Open Home Foundation",
+        "tier": "Platinum",
+        "logo": "/2026/sponsors/open-home-foundation.svg",
+        "url": "https://www.openhomefoundation.org/",
+        "description": "智能家居應該係一個讓人自在做返自己嘅私人空間，而唔係大型科技公司攞嚟將個人資料變現嘅數據來源。Open Home Foundation 提供另一個選擇：為每個人建立以私隱、自由選擇同可持續發展為本嘅智能家居。\n\n基金會喺 2024 年成立，係一間獲免稅資格嘅瑞士非牟利機構，擁有同管理超過 250 個開源項目，包括 Home Assistant 家居自動化平台。資金來自商業合作夥伴 Nabu Casa、Apollo Automation 同獨立捐款。呢個架構確保旗下核心項目永遠唔會被出售，資源會用嚟開發同推廣開放標準同工具，服務用戶社群，而唔係廣告商或者股東。\n\n除此之外，基金會亦喺整個行業推動以合乎倫理嘅方式使用智能家居技術，同企業及公眾交流開放標準嘅價值，以及 Open Home 嘅願景。"
+      },
+      {
         "id": "databricks",
         "name": "Databricks",
         "tier": "Gold",
@@ -115,6 +123,10 @@
       },
       {
         "id": "redhat",
+        "recognition": {
+          "years": 4,
+          "kind": "consecutive"
+        },
         "name": "Red Hat",
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
@@ -123,6 +135,10 @@
       },
       {
         "id": "navicat",
+        "recognition": {
+          "years": 2,
+          "kind": "consecutive"
+        },
         "name": "Navicat",
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
@@ -139,6 +155,10 @@
       },
       {
         "id": "jetbrains",
+        "recognition": {
+          "years": 4,
+          "kind": "consecutive"
+        },
         "name": "JetBrains",
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
@@ -160,6 +180,18 @@
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
         "description": ""
+      },
+      {
+        "id": "python-software-foundation",
+        "name": "Python Software Foundation",
+        "tier": "Foundation Sponsor",
+        "logo": "/2026/supporting-organizations/psf.webp",
+        "url": "https://www.python.org/psf-landing/",
+        "description": "",
+        "recognition": {
+          "years": 7,
+          "kind": "cumulative"
+        }
       }
     ]
   },
