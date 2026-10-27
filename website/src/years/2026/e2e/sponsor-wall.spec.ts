@@ -303,11 +303,12 @@ for (const [locale, foundation, fourYears, twoYears, sevenYears] of [
       `/2026/${locale}/sponsorships/`,
     ]) {
       await page.goto(route);
-      await expect(page.locator('[data-sponsor-recognition]')).toHaveCount(4);
+      await expect(page.locator('[data-sponsor-recognition]')).toHaveCount(5);
       for (const [id, label, kind] of [
         ['redhat', fourYears, 'consecutive'],
         ['navicat', twoYears, 'consecutive'],
         ['jetbrains', fourYears, 'consecutive'],
+        ['lihkg', twoYears, 'consecutive'],
         ['python-software-foundation', sevenYears, 'cumulative'],
       ]) {
         const recognition = page.locator(`#sponsor-${id} [data-sponsor-recognition]`);

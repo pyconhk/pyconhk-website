@@ -22,6 +22,6 @@ The editorial summaries previously added for every tier in PR #322 have been rem
 
 ## Sponsorship recognition
 
-Calvin's request in the Main – OC WhatsApp group on 26 October 2026 at 19:01 HKT records Red Hat and JetBrains as four consecutive years, Navicat as two consecutive years, and the Python Software Foundation as seven years in total. The PSF count is cumulative, not a claim of seven consecutive years.
+Calvin's request in the Main – OC WhatsApp group on 26 October 2026 at 19:01 HKT records Red Hat and JetBrains as four consecutive years, Navicat as two consecutive years, and the Python Software Foundation as seven years in total. The PSF count is cumulative, not a claim of seven consecutive years. Alex confirmed LIHKG as two consecutive years on 27 October 2026.
 
 PSF is listed separately as a Foundation Sponsor using its existing supplied artwork (`/2026/supporting-organizations/psf.webp`) and official website link. Its supporting-organization entry is retained.
