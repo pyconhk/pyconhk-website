@@ -83,7 +83,7 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
               </span>
             </Card>
             {item.recognition && <p data-sponsor-recognition={item.recognition.kind}
-              class="mt-3 text-lg font-bold leading-snug text-conference-ink sm:text-xl">
+              class="mt-3 text-base font-normal italic leading-relaxed">
               {item.recognition.kind === 'consecutive'
                 ? copy.consecutiveSupport(item.recognition.years)
                 : copy.cumulativeSupport(item.recognition.years)}
@@ -127,6 +127,8 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
 </div>
 
 <style>
+  [data-sponsor-recognition] { color: #607085; }
+  :global(html[data-conference-theme="dark"]) [data-sponsor-recognition] { color: var(--conference-muted); }
   dialog { max-height: calc(100dvh - 2rem); overflow: hidden; overflow-wrap: anywhere; }
   dialog[open] { display: flex; flex-direction: column; }
   .sponsor-dialog-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
