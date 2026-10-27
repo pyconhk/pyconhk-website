@@ -88,11 +88,18 @@ test('mixed-language session titles keep Latin words intact in the Korean UI', a
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 900 });
-  await page.goto('/2026/ko/speakers/dr-adrian-tam/');
+  await page.goto('/2026/ko/schedule/');
+  const session = page
+    .locator('[data-session-card] [data-session-details]')
+    .filter({ hasText: 'Python' })
+    .first();
+  const sessionTitle = await session.innerText();
+  await session.click();
+  await page.locator('#session-modal [data-speaker-link]').first().click();
   await page.evaluate(() => document.fonts.ready);
   const title = page
     .locator('[data-speaker-session]')
-    .filter({ hasText: 'How AI Tools Changed' });
+    .filter({ hasText: sessionTitle });
   await expect(title).toBeVisible();
   const lines = await title.evaluate((element) => {
     const node = element.firstChild;

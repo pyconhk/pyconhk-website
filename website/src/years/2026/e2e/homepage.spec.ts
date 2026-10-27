@@ -153,6 +153,69 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
   });
 }
 
+test('News cards use responsive previews while articles and share images retain the original upload', async ({
+  page,
+}) => {
+  await page.goto('/2026/en/');
+  const cards = page.locator('#news [data-news-articles] > a');
+  test.skip((await cards.count()) === 0, 'Requires published 2026 News.');
+
+  for (const card of await cards.all()) {
+    const preview = card.locator('img');
+    await preview.scrollIntoViewIfNeeded();
+    await expect(preview).toHaveAttribute('loading', 'lazy');
+    await expect(preview).toHaveAttribute('decoding', 'async');
+    await expect(preview).toHaveCSS('object-fit', 'contain');
+    await expect
+      .poll(() =>
+        preview.evaluate(
+          (image: HTMLImageElement) => image.complete && image.naturalWidth > 0
+        )
+      )
+      .toBe(true);
+
+    const href = await card.getAttribute('href');
+    if (!href) throw new Error('News card has no article link');
+    const response = await page.request.get(href);
+    expect(response.status()).toBe(200);
+    const article = await page.evaluate(
+      (html) => {
+        const document = new DOMParser().parseFromString(html, 'text/html');
+        return {
+          cover: document.querySelector('main article > img')?.getAttribute('src'),
+          openGraph: document
+            .querySelector('meta[property="og:image"]')
+            ?.getAttribute('content'),
+          twitter: document
+            .querySelector('meta[name="twitter:image"]')
+            ?.getAttribute('content'),
+        };
+      },
+      await response.text()
+    );
+    if (!article.cover || !article.openGraph || !article.twitter)
+      throw new Error('News article is missing its original cover/share image');
+    const original = new URL(article.cover, page.url());
+    expect(new URL(article.openGraph).pathname).toBe(original.pathname);
+    expect(new URL(article.twitter).pathname).toBe(original.pathname);
+
+    if (/^\/outstatic\/images\/[^/]+\.(png|jpe?g|webp|avif)$/.test(article.cover)) {
+      await expect(preview).toHaveAttribute('src', /^\/_astro\/.+\.webp$/);
+      await expect(preview).toHaveAttribute('srcset', /\s\d+w/);
+      await expect(preview).toHaveAttribute('sizes', /90vw/);
+      const selected = await preview.evaluate(
+        (image: HTMLImageElement) => image.currentSrc
+      );
+      const thumbnail = await page.request.get(selected);
+      expect(thumbnail.status()).toBe(200);
+      expect(thumbnail.headers()['content-type']).toContain('image/webp');
+    } else {
+      // Default artwork and external covers retain their existing URL.
+      await expect(preview).toHaveAttribute('src', article.cover);
+    }
+  }
+});
+
 for (const width of [320, 1920]) {
   test(`featured talk details remain usable at ${width}px in both themes`, async ({
     page,

@@ -39,7 +39,7 @@ export const zhHk: HomeMessages = {
     {
       icon: 'mic',
       title: '世界各地嘅分享',
-      description: '透過演講同工作坊，同世界各地嘅 Python 開發者交流。',
+      description: '聽演講同主題分享，同世界各地嘅 Python 開發者交流。',
     },
     {
       icon: 'calendar',
@@ -131,9 +131,9 @@ export const zhHk: HomeMessages = {
   },
   schedule: {
     pageTitle: '大會議程 | PyCon HK 2026',
-    pageDescription: '睇吓 PyCon Hong Kong 2026 嘅演講、工作坊、主題演講同時間表。',
+    pageDescription: '睇吓 PyCon Hong Kong 2026 嘅演講、主題演講同社群活動時間表。',
     heroTitle: terms.programme,
-    heroSubtitle: '睇吓兩日有咩活動，安排你嘅行程。',
+    heroSubtitle: '睇吓大會日同 Sprint 日有咩活動，安排你嘅行程。',
     day1: '第一日（11 月 14 日，星期六）',
     day2: '第二日（11 月 15 日，星期日）',
     allTracks: '所有分軌',

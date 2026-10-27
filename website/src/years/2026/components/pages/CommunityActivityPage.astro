@@ -1,0 +1,45 @@
+---
+import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
+import { type CommunityActivity, communityActivityCopy } from '@/years/2026/data/community-activities';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; activity: CommunityActivity; }
+const { locale, activity } = Astro.props;
+const copy = communityActivityCopy[activity][locale];
+const relatedLinks = [
+  { label: copy.scheduleLink, href: `/2026/${locale}/schedule/` },
+  { label: copy.conductLink, href: `/2026/${locale}/code-of-conduct/` },
+];
+const List = copy.numbered ? 'ol' : 'ul';
+---
+
+<ContentPageFrame locale={locale} title={copy.title} description={copy.intro}>
+  <div data-community-activity={activity} class="space-y-8 text-sm leading-relaxed text-conference-body sm:space-y-10 sm:text-base">
+    <div class="mx-auto max-w-2xl space-y-5 text-center">
+      <p class="text-base sm:text-lg">{copy.intro}</p>
+    </div>
+
+    <section aria-labelledby="activity-participation" class="space-y-6 border-y-2 border-conference-outline/15 py-8">
+      <h2 id="activity-participation" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.participationTitle}</h2>
+      <List data-activity-instructions class:list={[copy.numbered ? 'space-y-6' : 'grid gap-6 sm:grid-cols-2 sm:gap-8']}>
+        {copy.sections.map((section, index) => (
+          <li class:list={[copy.numbered ? 'flex items-start gap-4' : 'border-l-2 border-conference-outline/20 pl-5']}>
+            {copy.numbered && <span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-paper font-black text-conference-blue">{index + 1}</span>}
+            <div class="min-w-0 space-y-2">
+              <h3 class="font-bold text-conference-ink">{section.title}</h3>
+              <p>{section.body}</p>
+            </div>
+          </li>
+        ))}
+      </List>
+      <p class="text-sm text-conference-muted">{copy.note}</p>
+    </section>
+
+    <nav aria-label={copy.linksTitle}>
+      <h2 class="mb-3 text-xl font-black text-conference-ink sm:text-2xl">{copy.linksTitle}</h2>
+      <ul class="flex flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+        {relatedLinks.map((link) => <li><a href={link.href} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4">{link.label}<span aria-hidden="true">→</span></a></li>)}
+      </ul>
+    </nav>
+  </div>
+</ContentPageFrame>
