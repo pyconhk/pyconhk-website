@@ -49,7 +49,10 @@ const isTestEnvironment =
   process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true';
 const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironment);
 const shouldLoadCloudflareAnalytics =
-  import.meta.env.PROD && !isTestEnvironment && Astro.url.pathname.startsWith('/2026/');
+  import.meta.env.PROD &&
+  !isTestEnvironment &&
+  process.env.PROGRAMME_ENVIRONMENT === 'production' &&
+  Astro.url.pathname.startsWith('/2026/');
 ---
 
 <!doctype html>
