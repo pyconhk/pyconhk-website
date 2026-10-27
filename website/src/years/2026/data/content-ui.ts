@@ -23,12 +23,16 @@ type ContentUi = {
   register: string;
   viewMap: string;
   visitWebsite: string;
+  close: string;
   viewSponsors: string;
   directions: string;
   wifi: string;
   sponsorship: string;
   speakers: string;
   proposeSprint: string;
+  foundationSponsor: string;
+  consecutiveSupport: (years: number) => string;
+  cumulativeSupport: (years: number) => string;
 };
 
 export const contentUi: Record<CfpLocale, ContentUi> = {
@@ -50,12 +54,16 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: 'Register now',
     viewMap: 'View map',
     visitWebsite: 'Visit website',
+    close: 'Close',
     viewSponsors: 'View all sponsors',
     directions: 'Getting here',
     wifi: 'Wi-Fi',
     sponsorship: 'Sponsorship enquiries',
     speakers: 'Featured speakers',
     proposeSprint: 'Submit a Sprint project / become a Sprint Lead',
+    foundationSponsor: 'Foundation Sponsor',
+    consecutiveSupport: (years) => `${years} consecutive years of support`,
+    cumulativeSupport: (years) => `${years} years of support in total`,
   },
   'zh-hk': {
     titles: {
@@ -75,12 +83,16 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: cantonese.register,
     viewMap: cantonese.viewMap,
     visitWebsite: cantonese.visitWebsite,
+    close: '關閉',
     viewSponsors: cantonese.viewSponsors,
     directions: cantonese.directions,
     wifi: 'Wi-Fi',
     sponsorship: cantonese.sponsorshipEnquiries,
     speakers: cantonese.featuredSpeakers,
     proposeSprint: '提交衝刺項目／報名做 Sprint Lead',
+    foundationSponsor: '基金會贊助',
+    consecutiveSupport: (years) => `連續支持咗 ${years} 年`,
+    cumulativeSupport: (years) => `累計支持咗 ${years} 年`,
   },
   'zh-hant': {
     titles: {
@@ -100,12 +112,16 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: written.register,
     viewMap: written.viewMap,
     visitWebsite: written.visitWebsite,
+    close: '關閉',
     viewSponsors: written.viewSponsors,
     directions: written.directions,
     wifi: 'Wi-Fi',
     sponsorship: written.sponsorshipEnquiries,
     speakers: written.featuredSpeakers,
     proposeSprint: '提交衝刺專案／報名成為 Sprint Lead',
+    foundationSponsor: '基金會贊助',
+    consecutiveSupport: (years) => `連續支持 ${years} 年`,
+    cumulativeSupport: (years) => `累計支持 ${years} 年`,
   },
   'zh-hans': {
     titles: {
@@ -125,12 +141,16 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '立即报名',
     viewMap: '查看地图',
     visitWebsite: '浏览网站',
+    close: '关闭',
     viewSponsors: '查看所有赞助伙伴',
     directions: '前往会场',
     wifi: 'Wi-Fi',
     sponsorship: '咨询赞助合作',
     speakers: '精选讲者',
     proposeSprint: '提交冲刺项目／报名成为 Sprint Lead',
+    foundationSponsor: '基金会赞助',
+    consecutiveSupport: (years) => `连续支持 ${years} 年`,
+    cumulativeSupport: (years) => `累计支持 ${years} 年`,
   },
   ja: {
     titles: {
@@ -150,12 +170,16 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '参加登録',
     viewMap: '地図を見る',
     visitWebsite: 'ウェブサイトを見る',
+    close: '閉じる',
     viewSponsors: 'すべてのスポンサーを見る',
     directions: '会場へのアクセス',
     wifi: 'Wi-Fi',
     sponsorship: '協賛のお問い合わせ',
     speakers: '注目の登壇者',
     proposeSprint: 'スプリントのプロジェクト・リードに応募する',
+    foundationSponsor: '財団スポンサー',
+    consecutiveSupport: (years) => `${years}年連続のご支援`,
+    cumulativeSupport: (years) => `通算${years}年のご支援`,
   },
   ko: {
     titles: {
@@ -175,11 +199,15 @@ export const contentUi: Record<CfpLocale, ContentUi> = {
     register: '참가 등록',
     viewMap: '지도 보기',
     visitWebsite: '웹사이트 방문',
+    close: '닫기',
     viewSponsors: '모든 후원사 보기',
     directions: '오시는 길',
     wifi: 'Wi-Fi',
     sponsorship: '후원 문의',
     speakers: '주요 연사',
     proposeSprint: '스프린트 프로젝트 제안 / 리드 신청',
+    foundationSponsor: '재단 후원',
+    consecutiveSupport: (years) => `${years}년 연속 후원`,
+    cumulativeSupport: (years) => `총 ${years}년 후원`,
   },
 };

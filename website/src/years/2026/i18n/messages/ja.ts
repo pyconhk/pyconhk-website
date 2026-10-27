@@ -37,7 +37,7 @@ export const ja: HomeMessages = {
       icon: 'mic',
       title: 'グローバルな視点',
       description:
-        '世界中の Python コミュニティと交流し、最新のトークやワークショップに参加。',
+        'トークや基調講演に参加し、世界中の Python コミュニティと交流しましょう。',
     },
     {
       icon: 'calendar',
@@ -132,10 +132,10 @@ export const ja: HomeMessages = {
   schedule: {
     pageTitle: 'スケジュール | PyCon HK 2026',
     pageDescription:
-      'PyCon Hong Kong 2026 のセッション、ワークショップ、基調講演のスケジュールです。',
+      'PyCon Hong Kong 2026 のトーク、基調講演、コミュニティ活動のスケジュールです。',
     heroTitle: 'カンファレンススケジュール',
     heroSubtitle:
-      '2日間にわたる基調講演、テクニカルトラック、実践ワークショップをご覧ください。',
+      'カンファレンスデーとスプリントデーの予定を確認し、参加計画を立てましょう。',
     day1: '1日目 (11月14日 土)',
     day2: '2日目 (11月15日 日)',
     allTracks: 'すべてのトラック',

@@ -48,6 +48,11 @@ const isTestEnvironment =
   process.env.PUBLIC_IS_TEST_ENV === 'true' ||
   process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true';
 const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironment);
+const shouldLoadCloudflareAnalytics =
+  import.meta.env.PROD &&
+  !isTestEnvironment &&
+  process.env.PROGRAMME_ENVIRONMENT === 'production' &&
+  Astro.url.pathname.startsWith('/2026/');
 ---
 
 <!doctype html>
@@ -103,5 +108,13 @@ const shouldLoadGoogleAnalytics = Boolean(googleAnalyticsId && !isTestEnvironmen
     <div class="min-h-screen overflow-x-clip">
       <slot />
     </div>
+    {shouldLoadCloudflareAnalytics && (
+      <script
+        is:inline
+        type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"d558306e55ce47d7910c7333fc4abf8c"}'
+      />
+    )}
   </body>
 </html>

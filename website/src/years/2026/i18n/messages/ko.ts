@@ -36,7 +36,7 @@ export const ko: HomeMessages = {
     {
       icon: 'mic',
       title: '글로벌 보이스',
-      description: '전 세계 Python 커뮤니티와 함께하는 수준 높은 발표와 워크숍.',
+      description: '발표와 키노트를 듣고 전 세계 Python 커뮤니티와 교류해 보세요.',
     },
     {
       icon: 'calendar',
@@ -132,9 +132,10 @@ export const ko: HomeMessages = {
   schedule: {
     pageTitle: '컨퍼런스 일정 | PyCon HK 2026',
     pageDescription:
-      'PyCon Hong Kong 2026의 전체 세션, 워크숍, 키노트 일정을 확인하세요.',
+      'PyCon Hong Kong 2026의 발표, 키노트, 커뮤니티 활동 일정을 확인하세요.',
     heroTitle: '컨퍼런스 일정',
-    heroSubtitle: '이틀 동안 진행되는 기조연설, 기술 트랙, 실습 워크숍을 살펴보세요.',
+    heroSubtitle:
+      '컨퍼런스 데이와 스프린트 데이의 일정을 확인하고 참여 계획을 세워 보세요.',
     day1: '1일차 (11월 14일 토)',
     day2: '2일차 (11월 15일 일)',
     allTracks: '전체 트랙',

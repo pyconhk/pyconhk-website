@@ -1,5 +1,7 @@
 import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+import { communityActivityCopy } from './community-activities';
+import { lightningTalkCopy } from './lightning-talks';
 
 const written = getChineseTerms('zh-hant');
 const cantonese = getChineseTerms('zh-hk');
@@ -58,6 +60,28 @@ export const headerNavigation: NavigationItem[] = [
         },
         href: (locale) => `/2026/${locale}/schedule/`,
       },
+      {
+        label: {
+          en: lightningTalkCopy.en.title,
+          'zh-hk': lightningTalkCopy['zh-hk'].title,
+          'zh-hant': lightningTalkCopy['zh-hant'].title,
+          'zh-hans': lightningTalkCopy['zh-hans'].title,
+          ja: lightningTalkCopy.ja.title,
+          ko: lightningTalkCopy.ko.title,
+        },
+        href: (locale) => `/2026/${locale}/lightning-talks/`,
+      },
+      ...(['job-board', 'pyshare'] as const).map((activity) => ({
+        label: {
+          en: communityActivityCopy[activity].en.navLabel,
+          'zh-hk': communityActivityCopy[activity]['zh-hk'].navLabel,
+          'zh-hant': communityActivityCopy[activity]['zh-hant'].navLabel,
+          'zh-hans': communityActivityCopy[activity]['zh-hans'].navLabel,
+          ja: communityActivityCopy[activity].ja.navLabel,
+          ko: communityActivityCopy[activity].ko.navLabel,
+        },
+        href: (locale: CfpLocale) => `/2026/${locale}/${activity}/`,
+      })),
       {
         label: {
           en: 'Access Guide',

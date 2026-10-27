@@ -106,23 +106,39 @@
     "status": "published",
     "items": [
       {
+        "id": "open-home-foundation",
+        "name": "Open Home Foundation",
+        "tier": "Platinum",
+        "logo": "/2026/sponsors/open-home-foundation.svg",
+        "url": "https://www.openhomefoundation.org/",
+        "description": "智能家居應是讓人自在生活的私人空間，而非大型科技公司藉以將個人資料變現的數據來源。Open Home Foundation 提供另一種選擇：為每個人建立以私隱、自由選擇及可持續發展為本的智能家居。\n\n基金會於 2024 年成立，是獲免稅資格的瑞士非牟利機構，擁有並管理超過 250 個開源項目，包括 Home Assistant 家居自動化平台。資金來自商業合作夥伴 Nabu Casa、Apollo Automation 及獨立捐款。這種架構確保旗下核心項目永遠不會被出售，並將資源投入開發及推廣開放標準與工具，服務用戶社群，而非廣告商或股東。\n\n此外，基金會亦在整個行業倡議以合乎倫理的方式使用智能家居技術，與企業及公眾交流開放標準的價值，以及 Open Home 的願景。"
+      },
+      {
         "id": "databricks",
         "name": "Databricks",
         "tier": "Gold",
         "logo": "/2026/sponsors/databricks.svg",
         "url": "https://www.databricks.com/",
-        "description": ""
+        "description": "Databricks 是一家數據與 AI 公司。其 Data Intelligence Platform 以開放式湖倉架構為基礎，整合數據、分析與 AI，協助機構從數據獲取洞見，並建立安全的應用程式。\n\nDatabricks 由 Apache Spark™️、Delta Lake、MLflow 和 Unity Catalog 的原創團隊創立，致力簡化數據與 AI 技術，讓更多人能夠使用，協助企業解決全球最棘手的問題。"
       },
       {
         "id": "redhat",
+        "recognition": {
+          "years": 4,
+          "kind": "consecutive"
+        },
         "name": "Red Hat",
         "tier": "Gold",
         "logo": "/2026/sponsors/redhat.svg",
         "url": "https://www.redhat.com/en",
-        "description": ""
+        "description": "Red Hat 是開放混合雲技術的領導者，為推動變革的 IT 創新與 AI 應用提供可靠、一致且全面的基礎。其雲端、開發工具、AI、Linux、自動化與應用程式平台技術，讓各種應用程式都能在數據中心以至邊緣環境運行。作為全球領先的企業開源軟件解決方案供應商，Red Hat 持續投資開放生態系統與社群，應對未來的 IT 挑戰。Red Hat 與合作夥伴及客戶攜手，協助他們建立、連接、自動化、保護及管理 IT 環境，並提供顧問服務，以及屢獲殊榮的培訓與認證課程。"
       },
       {
         "id": "navicat",
+        "recognition": {
+          "years": 2,
+          "kind": "consecutive"
+        },
         "name": "Navicat",
         "tier": "Silver",
         "logo": "/2026/sponsors/navicat.svg",
@@ -139,6 +155,10 @@
       },
       {
         "id": "jetbrains",
+        "recognition": {
+          "years": 4,
+          "kind": "consecutive"
+        },
         "name": "JetBrains",
         "tier": "Prize Sponsor",
         "logo": "/2026/sponsors/jetbrains.svg",
@@ -159,7 +179,23 @@
         "tier": "Media Sponsor",
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
-        "description": ""
+        "description": "",
+        "recognition": {
+          "years": 2,
+          "kind": "consecutive"
+        }
+      },
+      {
+        "id": "python-software-foundation",
+        "name": "Python Software Foundation",
+        "tier": "Foundation Sponsor",
+        "logo": "/2026/supporting-organizations/psf.webp",
+        "url": "https://www.python.org/psf-landing/",
+        "description": "",
+        "recognition": {
+          "years": 7,
+          "kind": "cumulative"
+        }
       }
     ]
   },
@@ -169,7 +205,7 @@
     "intro": "PyCon Hong Kong (PyCon HK) 是由義工籌辦的非牟利大會，致力推動香港及亞洲地區的 Python 與開源文化。您的個人贊助將直接幫助我們：",
     "benefits": [
       "維持免費或可負擔的票價，讓更多人參與",
-      "邀請優秀講者，在香港舉辦優質工作坊",
+      "邀請優秀講者，在香港分享知識與經驗",
       "鞏固本地 Python 與開源社群及生態",
       "支持 PyCon HK 持續發展"
     ],
@@ -403,14 +439,16 @@
         "role": "大會主席",
         "image": "/2026/organizers-volunteers/volunteers/calvin-tsang-compressed.webp",
         "url": "https://www.linkedin.com/in/calvin-tyl/",
-        "id": "people-1"
+        "id": "people-1",
+        "additionalRoles": ["投稿審稿人"]
       },
       {
         "name": "Mr. Alex Au",
         "role": "大會副主席",
         "image": "/2026/organizers-volunteers/volunteers/alex-au-compressed.webp",
         "url": "https://www.linkedin.com/in/alex-au-606901206/",
-        "id": "people-2"
+        "id": "people-2",
+        "additionalRoles": ["議程團隊", "投稿審稿人"]
       },
       {
         "name": "Ms. Daisy Maris Fung",
@@ -424,12 +462,13 @@
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/adrian-tam-compressed.webp",
         "url": "https://www.linkedin.com/in/adrian-tam-0666b08/",
-        "id": "people-4"
+        "id": "people-4",
+        "additionalRoles": ["議程團隊", "投稿審稿人"]
       },
       {
         "name": "Ms. Cathy Hui",
         "role": "籌委會成員",
-        "image": "/2026/organizers-volunteers/volunteers/placeholder.webp",
+        "image": "/2026/organizers-volunteers/volunteers/cathy-hui.webp",
         "url": "",
         "id": "people-5"
       },
@@ -438,7 +477,8 @@
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/cintia-ching.webp",
         "url": "https://www.linkedin.com/in/cintiaching",
-        "id": "people-6"
+        "id": "people-6",
+        "additionalRoles": ["議程團隊", "投稿審稿人"]
       },
       {
         "name": "Mr. Henry Law",
@@ -480,7 +520,8 @@
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/scotty-kwok-compressed.webp",
         "url": "https://www.linkedin.com/in/scottykwok/",
-        "id": "people-12"
+        "id": "people-12",
+        "additionalRoles": ["議程團隊", "投稿審稿人"]
       },
       {
         "name": "Mr. Sky Ng",
@@ -501,7 +542,173 @@
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/tommy-han-compressed.webp",
         "url": "https://www.linkedin.com/in/tommy-han-236a85144/",
-        "id": "people-15"
+        "id": "people-15",
+        "additionalRoles": ["議程團隊", "投稿審稿人"]
+      },
+      {
+        "id": "volunteer-ming-tou",
+        "name": "Ming Tou",
+        "image": "/2026/organizers-volunteers/volunteers/ming-tou.webp",
+        "url": "https://www.linkedin.com/in/ming-tou-97b818105/",
+        "role": "議程團隊",
+        "additionalRoles": ["投稿審稿人"]
+      },
+      {
+        "id": "volunteer-jim-ngoo",
+        "name": "Jim Ngoo",
+        "image": "/2026/organizers-volunteers/volunteers/jim-ngoo.webp",
+        "url": "https://hk.linkedin.com/in/jim-ngoo",
+        "role": "議程團隊",
+        "additionalRoles": ["投稿審稿人"]
+      },
+      {
+        "id": "volunteer-harry-ho",
+        "name": "Harry Ho",
+        "image": "/2026/organizers-volunteers/volunteers/harry-ho.webp",
+        "url": "",
+        "role": "議程團隊",
+        "additionalRoles": ["投稿審稿人"]
+      },
+      {
+        "id": "volunteer-luciano-scarpulla",
+        "name": "Luciano Scarpulla",
+        "image": "/2026/organizers-volunteers/volunteers/luciano-scarpulla.webp",
+        "url": "https://github.com/lucianosrp",
+        "role": "議程團隊",
+        "additionalRoles": ["投稿審稿人"]
+      },
+      {
+        "id": "volunteer-kanin-kearpimy",
+        "name": "(James) Kanin Kearpimy",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/kanin-kearpimy.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-allen-wyma",
+        "name": "Allen Wyma",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/allen-wyma.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-amanda-so",
+        "name": "Amanda So",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/amanda-so.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-anastasia-yip",
+        "name": "Anastasia Yip",
+        "role": "投稿審稿人",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-calpa",
+        "name": "Calpa",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/calpa.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-cheuk-ting-ho",
+        "name": "Cheuk Ting Ho",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/cheuk-ting-ho.webp",
+        "url": "https://www.linkedin.com/in/cheukting-ho/"
+      },
+      {
+        "id": "volunteer-claire-chung",
+        "name": "Claire Chung",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/claire-chung.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-henry-wai-yin-wong",
+        "name": "Henry, Wai Yin Wong",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/henry-wai-yin-wong.webp",
+        "url": "https://www.linkedin.com/in/wyhwong/"
+      },
+      {
+        "id": "volunteer-ho-wa-wong",
+        "name": "Ho Wa Wong",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/ho-wa-wong.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ismail-sunni",
+        "name": "Ismail Sunni",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/ismail-sunni.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kirill-pavlov",
+        "name": "Kirill Pavlov",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/kirill-pavlov.webp",
+        "url": "https://www.linkedin.com/in/pavlov99/"
+      },
+      {
+        "id": "volunteer-kit-yeung",
+        "name": "Kit Yeung",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/kit-yeung.webp",
+        "url": "https://ckyeungac.github.io/"
+      },
+      {
+        "id": "volunteer-matthew-yuen",
+        "name": "Matthew Yuen",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/matthew-yuen.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-paul-kuok",
+        "name": "Paul Kuok",
+        "role": "投稿審稿人",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-sammy-fung",
+        "name": "Sammy Fung",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/sammy-fung.webp",
+        "url": "https://sammy.hk"
+      },
+      {
+        "id": "volunteer-winnie-yeung",
+        "name": "Winnie Yeung",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/winnie-yeung.webp",
+        "url": "https://www.linkedin.com/in/winnieyeung/"
+      },
+      {
+        "id": "volunteer-wright-c",
+        "name": "Wright C",
+        "role": "投稿審稿人",
+        "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
+        "url": "https://www.wrightccc.com/"
+      },
+      {
+        "id": "volunteer-jared",
+        "name": "Jared",
+        "role": "設計團隊",
+        "image": "/2026/organizers-volunteers/volunteers/jared-yeung.webp",
+        "url": "https://jaredyeung.com"
+      },
+      {
+        "id": "volunteer-rainbow-cheng",
+        "name": "Rainbow Cheng",
+        "role": "設計團隊",
+        "image": "/2026/organizers-volunteers/volunteers/rainbow-cheng.webp",
+        "url": ""
       },
       {
         "id": "jackson-chan",
@@ -523,6 +730,321 @@
         "url": "https://www.linkedin.com/in/sophia-wong-digital/",
         "role": "市場推廣",
         "image": "/2026/organizers-volunteers/volunteers/sophia-wong.webp"
+      },
+      {
+        "id": "volunteer-amy-li",
+        "name": "Amy Li",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/amy-li.webp",
+        "url": "https://www.linkedin.com/in/amylly/"
+      },
+      {
+        "id": "volunteer-kingman-leung",
+        "name": "Kingman Leung",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-alex-chang",
+        "name": "Alex Chang",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/alex-chang.webp",
+        "url": "https://www.linkedin.com/in/yukhon/"
+      },
+      {
+        "id": "volunteer-peggy-c",
+        "name": "Peggy C",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ho-ming-li",
+        "name": "Ho Ming Li",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/ho-ming-li.webp",
+        "url": "https://www.linkedin.com/in/homingli"
+      },
+      {
+        "id": "volunteer-alan-chu",
+        "name": "Alan Chu",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/alan-chu.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kapo-leung",
+        "name": "Kapo Leung",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/kapo-leung.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-tim-ching",
+        "name": "Tim Ching",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/tim-ching.webp",
+        "url": "https://linkedin.com/in/timchingy"
+      },
+      {
+        "id": "volunteer-keto",
+        "name": "Keto",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-sam-lau",
+        "name": "Sam Lau",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-tim-tan",
+        "name": "Tim Tan",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ronald-hamsterthon",
+        "name": "Ronald (Hamsterthon)",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ronald-oshk",
+        "name": "Ronald (OSHK)",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-brisson-lam",
+        "name": "Brisson Lam",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ivan",
+        "name": "Ivan",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-nicole",
+        "name": "Nicole",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/nicole.webp",
+        "url": "https://www.linkedin.com/in/man-ching-yu-990b46346"
+      },
+      {
+        "id": "volunteer-anna-law",
+        "name": "Anna Law",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/anna-law.webp",
+        "url": "https://www.linkedin.com/in/anna-law-122b9628a"
+      },
+      {
+        "id": "volunteer-quincy-chan",
+        "name": "Quincy Chan",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/quincy-chan.webp",
+        "url": "https://www.linkedin.com/in/quincychan29"
+      },
+      {
+        "id": "volunteer-ken-wong",
+        "name": "Ken Wong",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/ken-wong.webp",
+        "url": "https://www.linkedin.com/in/kenhlwong"
+      },
+      {
+        "id": "volunteer-mitch-chan",
+        "name": "Mitch Chan",
+        "role": "大會現場義工",
+        "image": "",
+        "url": "https://www.linkedin.com/in/wing-ki-chan-235156214/"
+      },
+      {
+        "id": "volunteer-kelly-wong",
+        "name": "Kelly Wong",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/kelly-wong.webp",
+        "url": "https://www.linkedin.com/in/kellywongyy"
+      },
+      {
+        "id": "volunteer-tina-fung",
+        "name": "Tina Fung",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mimi-kwok",
+        "name": "Mimi Kwok",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-starry-chau",
+        "name": "Starry Chau",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ricardo",
+        "name": "Ricardo",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-tommy",
+        "name": "Tommy",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-anthony-wong",
+        "name": "Anthony Wong",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-megand-chiu",
+        "name": "Megand Chiu",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-sienna-chung",
+        "name": "Sienna Chung",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-cyrus-wong",
+        "name": "Cyrus Wong",
+        "role": "大會現場義工",
+        "image": "/2026/organizers-volunteers/volunteers/cyrus-wong.webp",
+        "url": ""
+      },
+      {
+        "id": "volunteer-yao-ka-chun",
+        "name": "YAO Ka Chun",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-huang-zhipeng",
+        "name": "HUANG Zhipeng",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-wong-wing-ho",
+        "name": "WONG Wing Ho",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chan-cheuk-man-jimmy",
+        "name": "CHAN Cheuk Man Jimmy",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chan-yin-fung",
+        "name": "CHAN Yin Fung",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ho-chun-hin",
+        "name": "Ho Chun Hin",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chui-kin-keung-kenny",
+        "name": "CHUI Kin Keung Kenny",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-yuen-king-hin",
+        "name": "YUEN King Hin",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chan-ka-ming",
+        "name": "CHAN Ka Ming",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-chen-fengyi",
+        "name": "CHEN Fengyi",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-dai-ruiran",
+        "name": "DAI RUIRAN",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-he-haoyu",
+        "name": "HE HAOYU",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-luo-erjie",
+        "name": "LUO ERJIE",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-zhang-junning",
+        "name": "ZHANG Junning",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-zhang-xuan",
+        "name": "ZHANG Xuan",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
       }
     ]
   },

@@ -1,0 +1,85 @@
+---
+import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
+import { lightningTalkCopy, lightningTalkRegistrationUrl } from '@/years/2026/data/lightning-talks';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const copy = lightningTalkCopy[locale];
+const relatedLinks = [
+  { label: copy.scheduleLink, href: `/2026/${locale}/schedule/` },
+  { label: copy.conductLink, href: `/2026/${locale}/code-of-conduct/` },
+  { label: copy.contactLink, href: 'mailto:pycon@pycon.hk' },
+];
+---
+
+<ContentPageFrame locale={locale} title={copy.title} description={copy.intro}>
+  <div data-lightning-talks class="space-y-10 text-sm leading-relaxed text-conference-body sm:text-base">
+    <div class="mx-auto max-w-2xl space-y-3 text-center">
+      <p class="text-lg font-bold text-conference-blue sm:text-xl">{copy.subtitle}</p>
+      <p>{copy.intro}</p>
+    </div>
+    <section class="flex flex-col gap-5 border-y-2 border-conference-outline/15 py-8 sm:flex-row sm:items-center sm:gap-8" aria-labelledby="lightning-format">
+      <p data-lightning-duration class="shrink-0 font-sans text-3xl font-black text-conference-red sm:text-4xl">{copy.duration}</p>
+      <div class="space-y-2">
+        <h2 id="lightning-format" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.formatTitle}</h2>
+        <p>{copy.formatBody}</p>
+      </div>
+    </section>
+
+    <section data-lightning-schedule class="space-y-4" aria-labelledby="lightning-schedule">
+      <h2 id="lightning-schedule" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.scheduleTitle}</h2>
+      <p class="text-sm text-conference-muted">{copy.allTimes}</p>
+      <dl class="divide-y divide-conference-outline/20 overflow-hidden rounded-2xl border-2 border-conference-outline/20 bg-conference-paper">
+        {copy.scheduleRows.map((row) => (
+          <div class="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-3 px-4 py-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:px-6">
+            <dt class="font-bold tabular-nums text-conference-blue">{row.time}</dt>
+            <dd class="min-w-0 text-conference-ink">{row.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section data-lightning-participation class="space-y-4" aria-labelledby="lightning-participation">
+      <h2 id="lightning-participation" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.participationTitle}</h2>
+      <ol class="space-y-5">
+        {copy.participation.map((step, index) => (
+          <li class="flex items-start gap-4">
+            <span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-paper font-black text-conference-blue">{index + 1}</span>
+            <div class="min-w-0 space-y-1">
+              <h3 class="font-bold text-conference-ink">{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="space-y-3 pt-2">
+        <p data-lightning-registration-window class="font-bold text-conference-ink">{copy.registrationWindowNote}</p>
+        <a data-lightning-registration href={lightningTalkRegistrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 max-w-full items-center gap-3 rounded-full border-2 border-conference-outline bg-[#d71920] px-5 py-3 font-bold text-white shadow-conference-control transition-colors hover:bg-[#c0151c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"><span>{copy.registrationLink}</span><span aria-hidden="true">↗</span></a>
+        <p class="text-sm text-conference-muted">{copy.confirmationNote}</p>
+      </div>
+      <ul data-lightning-rules class="list-disc space-y-2 pl-5 text-sm">
+        {copy.rules.map((rule) => <li>{rule}</li>)}
+      </ul>
+    </section>
+
+    <section data-lightning-preparation class="space-y-6" aria-labelledby="lightning-preparation">
+      <h2 id="lightning-preparation" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.preparationTitle}</h2>
+      <ul class="space-y-5">
+        {copy.preparation.map((step) => (
+          <li class="space-y-1 border-l-2 border-conference-outline/20 pl-5">
+            <h3 class="font-bold text-conference-ink">{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <nav aria-label={copy.linksTitle} class="border-t-2 border-conference-outline/15 pt-8">
+      <h2 class="mb-4 text-xl font-black text-conference-ink sm:text-2xl">{copy.linksTitle}</h2>
+      <ul class="flex flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+        {relatedLinks.map((link) => <li><a href={link.href} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4">{link.label}<span aria-hidden="true">→</span></a></li>)}
+      </ul>
+    </nav>
+  </div>
+</ContentPageFrame>

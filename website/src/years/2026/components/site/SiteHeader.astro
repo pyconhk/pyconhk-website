@@ -21,7 +21,7 @@ const desktopNavClass = locale === 'ja' ? 'min-[1700px]:flex' : 'min-[1440px]:fl
 const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:hidden';
 ---
 
-<header class="sticky top-0 z-50 w-full bg-conference-paper/95 backdrop-blur-md transition-colors border-b border-conference-outline/10" data-site-header>
+<header class="sticky top-0 z-50 w-full bg-conference-paper/95 backdrop-blur-md border-b border-conference-outline/10" data-site-header>
   <!-- Top Authentic Red-White-Blue Woven Ribbon -->
   <WovenRibbon heightClass="h-[var(--conference-ribbon-height)]" />
 
@@ -68,6 +68,8 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
               type="button"
               class="group/btn relative flex items-center gap-0.5 py-1 px-1 text-left transition-colors hover:text-conference-red focus:outline-none whitespace-nowrap"
               aria-haspopup="true"
+              aria-expanded="false"
+              data-nav-dropdown-trigger
             >
               <span>{item.label[locale] ?? item.label.en}</span>
               <svg class="h-3 w-3 shrink-0 duration-200" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -77,7 +79,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
             </button>
 
             {/* Dropdown Menu Box (Seamless hover bridge, continuous hit area) */}
-            <div class="invisible absolute left-1/2 top-full z-50 pt-2 -translate-x-1/2 opacity-0 transition-colors duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
+            <div data-nav-dropdown-panel class="invisible absolute left-1/2 top-full z-50 pt-2 -translate-x-1/2 opacity-0 transition-colors duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
               <div class="w-60 rounded-2xl border-2 border-conference-outline bg-conference-surface p-2 shadow-conference-card relative before:absolute before:-top-3 before:left-0 before:right-0 before:h-4 before:content-['']">
                 <div class="flex flex-col space-y-1">
                   {item.children.map((child) => (
@@ -126,9 +128,8 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
 </header>
 
 <!-- Keep the drawer outside the backdrop-filtered header so its backdrop covers the viewport. -->
-<div
-  class="pointer-events-none fixed inset-0 z-[60] opacity-0 transition-opacity duration-200"
-  role="dialog"
+<dialog
+  class="pointer-events-none fixed inset-0 z-[60] m-0 h-dvh w-full max-h-none max-w-none border-0 bg-transparent p-0 opacity-0 transition-opacity duration-200"
   aria-modal="true"
   aria-label={t.nav.menuLabel}
   aria-hidden="true"
@@ -139,6 +140,7 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     type="button"
     class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-200"
     aria-label={t.nav.closeMenu}
+    tabindex="-1"
     data-mobile-nav-close
     data-mobile-nav-backdrop
   ></button>
@@ -211,7 +213,16 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
       </div>
     </div>
   </div>
-</div>
+</dialog>
+
+<style>
+  [data-mobile-nav-drawer]::backdrop { background: transparent; }
+  [data-nav-dropdown-group][data-nav-dismissed] > [data-nav-dropdown-panel] {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
 
 <script is:inline data-astro-rerun>
   for (const header of document.querySelectorAll('[data-site-header]')) {
@@ -220,9 +231,49 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
     }
     header.dataset.mobileNavReady = 'true';
 
+    const dropdowns = [];
+    for (const group of header.querySelectorAll('[data-nav-dropdown-group]')) {
+      const button = group.querySelector('[data-nav-dropdown-trigger]');
+      const menu = group.querySelector('[data-nav-dropdown-panel]');
+      if (!(button instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) continue;
+      const reveal = () => {
+        group.removeAttribute('data-nav-dismissed');
+        button.setAttribute('aria-expanded', 'true');
+        menu.removeAttribute('aria-hidden');
+        menu.removeAttribute('inert');
+      };
+      const dismiss = () => {
+        group.setAttribute('data-nav-dismissed', '');
+        button.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        menu.setAttribute('inert', '');
+      };
+      group.addEventListener('pointerenter', reveal);
+      group.addEventListener('pointerleave', () => {
+        if (!group.contains(document.activeElement)) dismiss();
+      });
+      group.addEventListener('focusin', reveal);
+      group.addEventListener('focusout', (event) => {
+        if (!group.contains(event.relatedTarget)) dismiss();
+      });
+      button.addEventListener('click', reveal);
+      dropdowns.push({ group, button, dismiss });
+    }
+    const dismissDropdowns = (event) => {
+      if (event.key !== 'Escape' || !header.isConnected || document.querySelector('dialog[open]')) return;
+      const expanded = dropdowns.filter(({ button }) => button.getAttribute('aria-expanded') === 'true');
+      if (!expanded.length) return;
+      event.preventDefault();
+      const focused = expanded.find(({ group }) => group.contains(document.activeElement)) ?? expanded.at(-1);
+      focused.button.focus({ preventScroll: true });
+      for (const { dismiss } of expanded) dismiss();
+    };
+    document.addEventListener('keydown', dismissDropdowns);
+    document.addEventListener('astro:before-swap', () => document.removeEventListener('keydown', dismissDropdowns), { once: true });
+
     const trigger = header.querySelector('[data-mobile-nav-trigger]');
     const drawer = header.nextElementSibling;
-    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLElement)) {
+    if (!(trigger instanceof HTMLButtonElement) || !(drawer instanceof HTMLDialogElement)) {
       continue;
     }
 
@@ -235,7 +286,15 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
       continue;
     }
 
-    const setOpen = (isOpen) => {
+    const setOpen = (isOpen, restoreFocus = true) => {
+      if (!header.isConnected || (!isOpen && !drawer.open)) return;
+      if (isOpen) {
+        drawer.removeAttribute('inert');
+        drawer.setAttribute('aria-hidden', 'false');
+        drawer.showModal();
+      } else {
+        drawer.close();
+      }
       trigger.setAttribute('aria-expanded', String(isOpen));
       drawer.classList.toggle('pointer-events-none', !isOpen);
       drawer.classList.toggle('pointer-events-auto', isOpen);
@@ -256,13 +315,34 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
         backdrop.classList.toggle('opacity-100', isOpen);
       }
       document.documentElement.classList.toggle('overflow-hidden', isOpen);
+      if (isOpen) {
+        panel.querySelector('[data-mobile-nav-close]')?.focus({ preventScroll: true });
+      } else if (restoreFocus) {
+        trigger.focus({ preventScroll: true });
+      }
     };
 
     trigger.addEventListener('click', () => setOpen(true));
     for (const btn of closeButtons) btn.addEventListener('click', () => setOpen(false));
-    for (const link of links) link.addEventListener('click', () => setOpen(false));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') setOpen(false);
+    for (const link of links) link.addEventListener('click', () => setOpen(false, false));
+    drawer.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab' || event.altKey || event.ctrlKey || event.metaKey) return;
+      const controls = [...panel.querySelectorAll('a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')]
+        .filter((element) => element instanceof HTMLElement && element.getClientRects().length > 0);
+      const first = controls[0];
+      const last = controls.at(-1);
+      // Native modal inertness still allows Tab into browser chrome at either edge.
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    });
+    drawer.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      setOpen(false);
     });
   }
 </script>
