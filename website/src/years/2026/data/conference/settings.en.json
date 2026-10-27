@@ -179,7 +179,11 @@
         "tier": "Media Sponsor",
         "logo": "/2026/sponsors/lihkg.svg",
         "url": "https://lihkg.com/",
-        "description": ""
+        "description": "",
+        "recognition": {
+          "years": 2,
+          "kind": "consecutive"
+        }
       },
       {
         "id": "python-software-foundation",
