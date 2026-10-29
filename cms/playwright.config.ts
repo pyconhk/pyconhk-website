@@ -24,9 +24,11 @@ export default defineConfig({
   webServer: origin
     ? undefined
     : {
-        command: `${process.env.PLAYWRIGHT_SKIP_BUILD === "1" ? "" : `CMS_BUILD_PROFILE=${profile} bun run build && `}bunx wrangler dev --port ${port} --ip 127.0.0.1 --var CMS_GITHUB_CLIENT_ID:e2e-local-client --var CMS_GITHUB_CLIENT_SECRET:e2e-local-secret`,
+        // Serve the built Worker without Wrangler dev replacing it mid-POST.
+        command: `${process.env.PLAYWRIGHT_SKIP_BUILD === "1" ? "" : "bun run build && "}bun run preview --host 127.0.0.1 --port ${port}`,
         url: `http://127.0.0.1:${port}/admin/`,
         env: {
+          CMS_BUILD_PROFILE: profile,
           CMS_GITHUB_CLIENT_ID: "e2e-local-client",
           CMS_GITHUB_CLIENT_SECRET: "e2e-local-secret",
         },
