@@ -1,0 +1,57 @@
+---
+import type { ConferenceContent } from '@/lib/conference-content';
+
+interface Props {
+  patrons: ConferenceContent['patrons'];
+}
+
+const { patrons } = Astro.props;
+---
+
+<div class="mx-auto max-w-5xl">
+  {patrons.items.length > 0 && (
+    <section aria-labelledby="patron-thanks-heading" class="border-b border-conference-line pb-12 text-center sm:pb-16">
+      <h2 id="patron-thanks-heading" class="sr-only">{patrons.thanksTitle}</h2>
+      <p class="mx-auto max-w-2xl text-base leading-relaxed text-conference-body sm:text-lg" data-balanced-copy>{patrons.thanks}</p>
+      <ul class="mx-auto mt-8 grid max-w-4xl sm:mt-12 sm:grid-cols-2">
+        {patrons.items.map((item, index) => (
+          <li
+            data-patron={item.id}
+            class:list={[
+              'min-w-0 px-4 py-7 text-[clamp(2.25rem,5vw,4rem)] font-extrabold leading-tight tracking-tight text-conference-ink sm:px-8 sm:py-8',
+              index > 0 && 'border-t border-conference-line sm:border-t-0',
+              index % 2 === 1 && 'sm:border-l',
+              index % 2 === 0 && index === patrons.items.length - 1 && 'sm:col-span-2',
+            ]}
+          >{item.name}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <div class:list={['grid gap-y-10 lg:grid-cols-2', patrons.items.length > 0 && 'pt-10 sm:pt-14']}>
+    <section aria-labelledby="patron-purpose-heading" class="space-y-5 lg:pr-10">
+      <h2 id="patron-purpose-heading" class="text-2xl font-bold leading-tight text-conference-ink">{patrons.whyTitle}</h2>
+      <p>{patrons.intro}</p>
+      <ul data-patron-benefits class="list-disc space-y-3 pl-5 marker:text-conference-blue">
+        {patrons.benefits.map((benefit) => <li>{benefit}</li>)}
+      </ul>
+    </section>
+
+    <section aria-labelledby="patron-joining-heading" class="space-y-5 border-t border-conference-line pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+      <h2 id="patron-joining-heading" class="text-2xl font-bold leading-tight text-conference-ink">{patrons.joiningTitle}</h2>
+      <p>{patrons.joining}</p>
+      {patrons.registrationUrl ? (
+        <a
+          data-patron-application
+          href={patrons.registrationUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 w-full items-center justify-center rounded-full border-2 border-conference-outline bg-[#d71920] px-6 py-3 text-base font-bold text-white transition-colors hover:bg-[#ba151b] sm:w-auto"
+        >{patrons.buttonLabel}</a>
+      ) : (
+        <p data-patron-form-pending class="text-conference-muted">{patrons.pendingMessage}</p>
+      )}
+    </section>
+  </div>
+</div>
