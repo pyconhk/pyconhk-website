@@ -1,6 +1,7 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
+import PatronContent from '@/years/2026/components/content/PatronContent.astro';
 import SponsorWall from '@/years/2026/components/content/SponsorWall.astro';
 import VenueDirections from '@/years/2026/components/content/VenueDirections.astro';
 import { submitProposalUrl } from '@/years/2026/data/cfp';
@@ -18,7 +19,7 @@ const organizations = content.organizations.items.filter((item) => item.kind ===
 const published = section.status === 'published' && ((kind !== 'organizers' && kind !== 'supporters') || organizations.length > 0);
 ---
 
-<ContentPageFrame locale={locale} title={copy.titles[kind]} open={kind === 'sponsors'}>
+<ContentPageFrame locale={locale} title={copy.titles[kind]} open={kind === 'sponsors' || kind === 'patrons'}>
   {!published ? <p data-content-pending>{copy.comingSoon}</p> : (
     <div data-conference-content={kind} class="space-y-6">
       {kind === 'about' && content.about.paragraphs.map((paragraph) => <p class="whitespace-pre-line">{paragraph}</p>)}
@@ -64,11 +65,7 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
       {kind === 'sponsors' && (
         <SponsorWall items={content.sponsors.items} locale={locale} headingLevel="h2" />
       )}
-      {kind === 'patrons' && <>
-        <section class="space-y-4"><h2 class="text-2xl font-bold text-conference-blue">{content.patrons.whyTitle}</h2><p>{content.patrons.intro}</p><ul data-patron-benefits class="list-disc space-y-3 pl-6">{content.patrons.benefits.map((benefit) => <li>{benefit}</li>)}</ul></section>
-        <section class="space-y-4"><h2 class="text-2xl font-bold text-conference-blue">{content.patrons.joiningTitle}</h2><p>{content.patrons.joining}</p>{content.patrons.registrationUrl ? <a data-patron-application href={content.patrons.registrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center rounded-full border-2 border-conference-outline bg-conference-red px-5 py-3 font-bold text-white">{content.patrons.buttonLabel}</a> : <p data-patron-form-pending class="rounded-xl border border-conference-outline/30 bg-conference-paper p-4">{content.patrons.pendingMessage}</p>}</section>
-        {content.patrons.items.length > 0 && <section class="space-y-4"><h2 class="text-2xl font-bold text-conference-blue">{content.patrons.thanksTitle}</h2><p>{content.patrons.thanks}</p><ul class="grid gap-4 sm:grid-cols-2">{content.patrons.items.map((item) => <li data-patron={item.id} class="rounded-xl border-2 border-conference-outline p-4 font-bold">{item.name}</li>)}</ul></section>}
-      </>}
+      {kind === 'patrons' && <PatronContent patrons={content.patrons} />}
       {(kind === 'organizers' || kind === 'supporters') && (
         <div class="grid gap-6 sm:grid-cols-2">
           {organizations.map((item) => <article class="space-y-4 rounded-2xl border-2 border-conference-outline p-6">{item.logo && <img src={item.logo} alt={item.name} width="320" height="180" class="h-36 w-full rounded-lg bg-white object-contain p-4" loading="lazy" />}<h2 class="text-xl font-bold">{item.name}</h2><p class="whitespace-pre-line">{item.description}</p>{item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.visitWebsite}</a>}</article>)}
