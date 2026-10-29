@@ -1,0 +1,95 @@
+---
+import type { ConferenceContent } from '@/lib/conference-content';
+import WovenCardCorners from '@/years/2026/components/content/WovenCardCorners.astro';
+
+interface Props {
+  patrons: ConferenceContent['patrons'];
+}
+
+const { patrons } = Astro.props;
+---
+
+<div class="mx-auto max-w-5xl">
+  {patrons.items.length > 0 && (
+    <section aria-labelledby="patron-thanks-heading" class="patron-sheet relative isolate overflow-hidden rounded-2xl border border-conference-outline/20 bg-conference-surface px-7 pb-14 pt-12 sm:px-10 lg:px-12">
+      <WovenCardCorners />
+      <div class="patron-sheet-content">
+        <div class="patron-sheet-intro">
+          <h2 id="patron-thanks-heading" class="text-xl font-bold leading-tight text-conference-ink sm:text-2xl">{patrons.thanksTitle}</h2>
+          <p class="mt-4 text-sm leading-relaxed text-conference-body sm:text-base">{patrons.thanks}</p>
+          <img src="/2026/logos/horse-mark.svg" alt="" aria-hidden="true" width="608" height="215" class="mt-6 h-auto w-32 sm:w-36" />
+        </div>
+        <ul data-patron-roster class="patron-roster">
+          {patrons.items.map((item) => (
+            <li data-patron={item.id} class="min-w-0 text-lg font-semibold leading-relaxed text-conference-ink sm:text-xl">{item.name}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <div class:list={['grid gap-y-10 lg:grid-cols-2', patrons.items.length > 0 && 'pt-10 sm:pt-14']}>
+    <section aria-labelledby="patron-purpose-heading" class="space-y-5 lg:pr-10">
+      <h2 id="patron-purpose-heading" class="text-2xl font-bold leading-tight text-conference-ink">{patrons.whyTitle}</h2>
+      <p>{patrons.intro}</p>
+      <ul data-patron-benefits class="list-disc space-y-3 pl-5 marker:text-conference-blue">
+        {patrons.benefits.map((benefit) => <li>{benefit}</li>)}
+      </ul>
+    </section>
+
+    <section aria-labelledby="patron-joining-heading" class="space-y-5 border-t border-conference-line pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+      <h2 id="patron-joining-heading" class="text-2xl font-bold leading-tight text-conference-ink">{patrons.joiningTitle}</h2>
+      <p>{patrons.joining}</p>
+      {patrons.registrationUrl ? (
+        <a
+          data-patron-application
+          href={patrons.registrationUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 w-full items-center justify-center rounded-full border-2 border-conference-outline bg-[#d71920] px-6 py-3 text-base font-bold text-white transition-colors hover:bg-[#ba151b] sm:w-auto"
+        >{patrons.buttonLabel}</a>
+      ) : (
+        <p data-patron-form-pending class="text-conference-muted">{patrons.pendingMessage}</p>
+      )}
+    </section>
+  </div>
+</div>
+
+<style>
+  .patron-sheet-content {
+    display: grid;
+    gap: 2rem;
+  }
+  .patron-sheet-intro {
+    max-width: 24rem;
+  }
+  .patron-roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+    align-content: center;
+    column-gap: 1.5rem;
+    row-gap: 1.25rem;
+    border-top: 1px solid var(--conference-line);
+    padding-top: 1.75rem;
+  }
+  .patron-roster > li {
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 640px) {
+    .patron-roster {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .patron-sheet-content {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+    .patron-roster {
+      border-top: 0;
+      border-left: 1px solid var(--conference-line);
+      padding-top: .125rem;
+      padding-left: 2.5rem;
+    }
+  }
+</style>

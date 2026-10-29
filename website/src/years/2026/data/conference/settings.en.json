@@ -216,7 +216,10 @@
     "thanksTitle": "Our Patrons",
     "thanks": "Our heartfelt thanks go to the patrons listed below, whose generosity makes PyCon HK 2026 possible.",
     "registrationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdInLQs2CDP7X1Vh41A3XlBrDtmFH9QS9fUneghsDj94WQy_g/viewform",
-    "items": []
+    "items": [
+      { "id": "dhk-dao", "name": "DHK dao" },
+      { "id": "cheuk", "name": "Cheuk" }
+    ]
   },
   "organizations": {
     "status": "published",
