@@ -1,5 +1,6 @@
 ---
 import type { ConferenceContent } from '@/lib/conference-content';
+import WovenCardCorners from '@/years/2026/components/content/WovenCardCorners.astro';
 
 interface Props {
   patrons: ConferenceContent['patrons'];
@@ -10,22 +11,20 @@ const { patrons } = Astro.props;
 
 <div class="mx-auto max-w-5xl">
   {patrons.items.length > 0 && (
-    <section aria-labelledby="patron-thanks-heading" class="border-b border-conference-line pb-12 text-center sm:pb-16">
-      <h2 id="patron-thanks-heading" class="sr-only">{patrons.thanksTitle}</h2>
-      <p class="mx-auto max-w-2xl text-base leading-relaxed text-conference-body sm:text-lg" data-balanced-copy>{patrons.thanks}</p>
-      <ul class="mx-auto mt-8 grid max-w-4xl sm:mt-12 sm:grid-cols-2">
-        {patrons.items.map((item, index) => (
-          <li
-            data-patron={item.id}
-            class:list={[
-              'min-w-0 px-4 py-7 text-[clamp(2.25rem,5vw,4rem)] font-extrabold leading-tight tracking-tight text-conference-ink sm:px-8 sm:py-8',
-              index > 0 && 'border-t border-conference-line sm:border-t-0',
-              index % 2 === 1 && 'sm:border-l',
-              index % 2 === 0 && index === patrons.items.length - 1 && 'sm:col-span-2',
-            ]}
-          >{item.name}</li>
-        ))}
-      </ul>
+    <section aria-labelledby="patron-thanks-heading" class="patron-sheet relative isolate overflow-hidden rounded-2xl border border-conference-outline/20 bg-conference-surface px-7 pb-14 pt-12 sm:px-10 lg:px-12">
+      <WovenCardCorners />
+      <div class="patron-sheet-content">
+        <div class="patron-sheet-intro">
+          <h2 id="patron-thanks-heading" class="text-xl font-bold leading-tight text-conference-ink sm:text-2xl">{patrons.thanksTitle}</h2>
+          <p class="mt-4 text-sm leading-relaxed text-conference-body sm:text-base">{patrons.thanks}</p>
+          <img src="/2026/logos/horse-mark.svg" alt="" aria-hidden="true" width="608" height="215" class="mt-6 h-auto w-32 sm:w-36" />
+        </div>
+        <ul data-patron-roster class="patron-roster">
+          {patrons.items.map((item) => (
+            <li data-patron={item.id} class="min-w-0 text-lg font-semibold leading-relaxed text-conference-ink sm:text-xl">{item.name}</li>
+          ))}
+        </ul>
+      </div>
     </section>
   )}
 
@@ -55,3 +54,42 @@ const { patrons } = Astro.props;
     </section>
   </div>
 </div>
+
+<style>
+  .patron-sheet-content {
+    display: grid;
+    gap: 2rem;
+  }
+  .patron-sheet-intro {
+    max-width: 24rem;
+  }
+  .patron-roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+    align-content: center;
+    column-gap: 1.5rem;
+    row-gap: 1.25rem;
+    border-top: 1px solid var(--conference-line);
+    padding-top: 1.75rem;
+  }
+  .patron-roster > li {
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 640px) {
+    .patron-roster {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .patron-sheet-content {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+    .patron-roster {
+      border-top: 0;
+      border-left: 1px solid var(--conference-line);
+      padding-top: .125rem;
+      padding-left: 2.5rem;
+    }
+  }
+</style>
