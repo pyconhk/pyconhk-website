@@ -55,7 +55,8 @@ for (const locale of locales) {
       expect(await supporters.locator(`a[href="${href}"]`).count()).toBeGreaterThan(0);
     }
     await page.goto(`/2026/${locale}/sponsorships/patrons/`);
-    await expect(page.locator('[data-conference-content="patrons"] li')).toHaveCount(4);
+    await expect(page.locator('[data-patron-benefits] > li')).toHaveCount(4);
+    await expect(page.locator('[data-patron]')).toHaveText(['DHK dao', 'Cheuk']);
     const patronApplication = page.locator('[data-patron-application]');
     await expect(patronApplication).toBeVisible();
     await expect(patronApplication).toHaveAttribute(

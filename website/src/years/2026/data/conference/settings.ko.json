@@ -216,7 +216,10 @@
     "thanksTitle": "개인 후원자",
     "thanks": "PyCon HK 2026을 함께 만들어 주시는 아래 개인 후원자 여러분께 진심으로 감사드립니다.",
     "registrationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdInLQs2CDP7X1Vh41A3XlBrDtmFH9QS9fUneghsDj94WQy_g/viewform",
-    "items": []
+    "items": [
+      { "id": "dhk-dao", "name": "DHK dao" },
+      { "id": "cheuk", "name": "Cheuk" }
+    ]
   },
   "organizations": {
     "status": "published",
