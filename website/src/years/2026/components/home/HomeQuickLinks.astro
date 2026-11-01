@@ -1,0 +1,55 @@
+---
+import { communityActivityCopy } from '@/years/2026/data/community-activities';
+import { contentUi } from '@/years/2026/data/content-ui';
+import { floorPlanCopy } from '@/years/2026/data/floor-plans';
+import { lightningTalkCopy } from '@/years/2026/data/lightning-talks';
+import { getTranslations } from '@/years/2026/i18n';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const copy = contentUi[locale];
+const titles: Record<CfpLocale, string> = {
+  en: 'On the day',
+  'zh-hk': '大會當日資訊',
+  'zh-hant': '大會當日資訊',
+  'zh-hans': '大会当天信息',
+  ja: '当日のご案内',
+  ko: '행사 당일 안내',
+};
+const mainLinks = [
+  { href: `/2026/${locale}/schedule/`, label: t.schedule.heroTitle },
+  { href: `/2026/${locale}/access-guide/#floor-plans`, label: floorPlanCopy[locale].title },
+  { href: `/2026/${locale}/access-guide/`, label: copy.titles.venue },
+  { href: `/2026/${locale}/catering-guide/`, label: copy.titles.catering },
+];
+const activityLinks = [
+  { href: `/2026/${locale}/lightning-talks/`, label: lightningTalkCopy[locale].title },
+  { href: `/2026/${locale}/job-board/`, label: communityActivityCopy['job-board'][locale].navLabel },
+  { href: `/2026/${locale}/pyshare/`, label: communityActivityCopy.pyshare[locale].navLabel },
+  { href: `/2026/${locale}/sprint/`, label: copy.titles.sprint },
+];
+---
+
+<nav aria-labelledby="event-day-title" data-home-quick-links class="mb-8 w-full max-w-4xl text-left">
+  <p id="event-day-title" class="mb-3 text-sm font-black text-conference-ink">{titles[locale]}</p>
+  <ul class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    {mainLinks.map((link) => (
+      <li class="min-w-0">
+        <a href={link.href} class="flex min-h-14 h-full items-center justify-between gap-3 rounded-xl border-2 border-conference-outline bg-conference-surface px-4 py-3 font-bold text-conference-blue hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+          <span class="min-w-0 break-words">{link.label}</span><span aria-hidden="true" class="shrink-0">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-1 border-t border-conference-outline/25 pt-2">
+    {activityLinks.map((link) => (
+      <li class="min-w-0 max-w-full">
+        <a href={link.href} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+          <span class="min-w-0 break-words">{link.label}</span><span aria-hidden="true" class="shrink-0">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

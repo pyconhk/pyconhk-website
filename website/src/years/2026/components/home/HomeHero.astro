@@ -1,5 +1,6 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
+import HomeQuickLinks from '@/years/2026/components/home/HomeQuickLinks.astro';
 import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -15,6 +16,8 @@ const content = getConferenceContent(locale);
 
 <section id="home" aria-labelledby="home-title" class="relative flex min-h-[calc(100dvh-var(--conference-header-height))] flex-col justify-center overflow-hidden py-[clamp(2rem,6dvh,6rem)]">
   <div class="relative z-10 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+    <HomeQuickLinks locale={locale} />
+
     <!-- 1. Top Pill Badge (Fade Entrance Step 1) -->
     <div class="hero-badge inline-flex items-center gap-2 rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-1.5 text-xs font-black uppercase tracking-wider text-conference-ink shadow-conference-card mb-8">
       <span class="inline-block h-2 w-2 rounded-full bg-[#d71920]" />
