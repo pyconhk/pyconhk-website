@@ -1,0 +1,29 @@
+---
+import { floorPlanCopy } from '@/years/2026/data/floor-plans';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const copy = floorPlanCopy[locale];
+const floors = [
+  { id: 'ground-floor', image: '/2026/floor-plans/ground-floor.png', ...copy.groundFloor },
+  { id: 'sixth-floor', image: '/2026/floor-plans/sixth-floor.png', ...copy.sixthFloor },
+];
+---
+
+<section id="floor-plans" aria-labelledby="floor-plans-heading" class="scroll-mt-[calc(var(--conference-header-height)+1.5rem)] space-y-6">
+  <h2 id="floor-plans-heading" class="text-xl font-bold text-conference-ink">{copy.title}</h2>
+  <p>{copy.intro}</p>
+  {floors.map((floor) => (
+    <figure class="space-y-4" data-floor-plan={floor.id}>
+      <figcaption class="space-y-2">
+        <h3 class="text-lg font-bold">{floor.title}</h3>
+        <p>{floor.description}</p>
+      </figcaption>
+      <a href={floor.image} target="_blank" rel="noopener noreferrer" aria-label={`${floor.title}: ${copy.openImage}`} class="block overflow-hidden rounded-xl border-2 border-conference-outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+        <img src={floor.image} alt={floor.alt} width="5082" height="3056" loading="lazy" decoding="async" class="h-auto w-full bg-white" />
+        <span class="flex min-h-11 items-center justify-between gap-3 bg-conference-paper px-4 py-3 font-bold text-conference-blue underline underline-offset-4"><span>{copy.openImage}</span><span aria-hidden="true">↗</span></span>
+      </a>
+    </figure>
+  ))}
+</section>

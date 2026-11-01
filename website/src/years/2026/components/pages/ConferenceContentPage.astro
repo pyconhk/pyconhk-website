@@ -4,8 +4,10 @@ import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.a
 import PatronContent from '@/years/2026/components/content/PatronContent.astro';
 import SponsorWall from '@/years/2026/components/content/SponsorWall.astro';
 import VenueDirections from '@/years/2026/components/content/VenueDirections.astro';
+import VenueFloorPlans from '@/years/2026/components/content/VenueFloorPlans.astro';
 import { submitProposalUrl } from '@/years/2026/data/cfp';
 import { type ContentPageKind, contentUi } from '@/years/2026/data/content-ui';
+import { floorPlanCopy } from '@/years/2026/data/floor-plans';
 import { diningDestinations, visitorGuide } from '@/years/2026/data/visitor-guide';
 import type { CfpLocale } from '@/years/2026/locales';
 
@@ -29,8 +31,12 @@ const published = section.status === 'published' && ((kind !== 'organizers' && k
           {content.venue.address && <p class="font-bold">{content.venue.address}</p>}
           {content.venue.description && <p class="whitespace-pre-line">{content.venue.description}</p>}
           {content.venue.mapImage && <img src={content.venue.mapImage} alt={content.venue.title || copy.titles.venue} width="1200" height="800" class="h-auto w-full rounded-2xl" />}
-          {content.venue.mapUrl && <a href={content.venue.mapUrl} target="_blank" rel="noopener noreferrer" class="font-bold text-conference-blue underline">{copy.viewMap}</a>}
+          <div class="flex flex-wrap gap-x-6 gap-y-2">
+            {content.venue.mapUrl && <a href={content.venue.mapUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.viewMap}</a>}
+            <a href="#floor-plans" class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{floorPlanCopy[locale].jumpLink}</a>
+          </div>
           {content.venue.directions && <VenueDirections locale={locale} directions={content.venue.directions} />}
+          <VenueFloorPlans locale={locale} />
           {content.venue.wifi && <section><h2 class="mb-3 text-xl font-bold">{copy.wifi}</h2><p class="whitespace-pre-line">{content.venue.wifi}</p></section>}
         </>
       )}
