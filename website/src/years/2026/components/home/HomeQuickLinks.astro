@@ -1,41 +1,12 @@
 ---
-import { communityActivityCopy } from '@/years/2026/data/community-activities';
-import { contentUi } from '@/years/2026/data/content-ui';
-import { floorPlanCopy } from '@/years/2026/data/floor-plans';
-import { lightningTalkCopy } from '@/years/2026/data/lightning-talks';
+import { explorationCopy } from '@/years/2026/data/exploration';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
-const copy = contentUi[locale];
-const titles: Record<CfpLocale, string> = {
-  en: 'On the day',
-  'zh-hk': '大會當日資訊',
-  'zh-hant': '大會當日資訊',
-  'zh-hans': '大会当天信息',
-  ja: '当日のご案内',
-  ko: '행사 당일 안내',
-};
-const links = [
-  { href: `/2026/${locale}/access-guide/#floor-plans`, label: floorPlanCopy[locale].title },
-  { href: `/2026/${locale}/access-guide/`, label: copy.titles.venue },
-  { href: `/2026/${locale}/catering-guide/`, label: copy.titles.catering },
-  { href: `/2026/${locale}/lightning-talks/`, label: lightningTalkCopy[locale].title },
-  { href: `/2026/${locale}/job-board/`, label: communityActivityCopy['job-board'][locale].navLabel },
-  { href: `/2026/${locale}/pyshare/`, label: communityActivityCopy.pyshare[locale].navLabel },
-  { href: `/2026/${locale}/sprint/`, label: copy.titles.sprint },
-];
+const copy = explorationCopy[locale];
 ---
 
-<nav aria-labelledby="event-day-title" data-home-quick-links class="mt-4 w-full max-w-3xl">
-  <p id="event-day-title" class="sr-only">{titles[locale]}</p>
-  <ul class="flex flex-wrap justify-center gap-3">
-    {links.map((link) => (
-      <li class="min-w-0 max-w-full">
-        <a href={link.href} class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-surface px-4 py-2 text-sm font-bold text-conference-ink transition-colors hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
-          <span class="min-w-0 break-words">{link.label}</span>
-        </a>
-      </li>
-    ))}
-  </ul>
+<nav aria-label={copy.navLabel} data-home-quick-links class="mt-4 w-full max-w-3xl">
+  <a href={`/2026/${locale}/exploration/`} lang="en" class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-surface px-5 py-3 font-bold text-conference-ink transition-colors hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{copy.navLabel}</a>
 </nav>

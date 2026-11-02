@@ -22,13 +22,14 @@ for (const [locale, title] of Object.entries(localeTitles)) {
     await expect(content).toBeVisible();
     await expect(content.locator('[data-lightning-duration]')).toContainText('5');
     await expect(content.locator('#lightning-preparation')).toBeVisible();
-    await expect(content.locator('ol li')).toHaveCount(3);
+    await expect(content.locator('ol li')).toHaveCount(4);
     const schedule = content.locator('[data-lightning-schedule]');
     await expect(schedule.locator('dt')).toHaveText([
       '09:00',
       '13:00',
       '14:30',
       '15:00',
+      '16:00',
       '16:30',
       '16:50–17:15',
     ]);

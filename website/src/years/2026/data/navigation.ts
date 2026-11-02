@@ -1,6 +1,7 @@
 import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 import { communityActivityCopy } from './community-activities';
+import { explorationCopy } from './exploration';
 import { lightningTalkCopy } from './lightning-talks';
 
 const written = getChineseTerms('zh-hant');
@@ -59,6 +60,17 @@ export const headerNavigation: NavigationItem[] = [
           ko: '컨퍼런스 일정',
         },
         href: (locale) => `/2026/${locale}/schedule/`,
+      },
+      {
+        label: {
+          en: explorationCopy.en.navLabel,
+          'zh-hk': explorationCopy['zh-hk'].navLabel,
+          'zh-hant': explorationCopy['zh-hant'].navLabel,
+          'zh-hans': explorationCopy['zh-hans'].navLabel,
+          ja: explorationCopy.ja.navLabel,
+          ko: explorationCopy.ko.navLabel,
+        },
+        href: (locale) => `/2026/${locale}/exploration/`,
       },
       {
         label: {

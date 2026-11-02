@@ -1,11 +1,13 @@
 ---
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
-import { lightningTalkCopy, lightningTalkRegistrationUrl } from '@/years/2026/data/lightning-talks';
+import { lightningTalkLogistics } from '@/years/2026/data/lightning-talk-logistics';
+import { lightningTalkCopy, lightningTalkMaterialsUrl, lightningTalkRegistrationUrl } from '@/years/2026/data/lightning-talks';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
 const copy = lightningTalkCopy[locale];
+const logistics = lightningTalkLogistics[locale];
 const relatedLinks = [
   { label: copy.scheduleLink, href: `/2026/${locale}/schedule/` },
   { label: copy.conductLink, href: `/2026/${locale}/code-of-conduct/` },
@@ -63,6 +65,14 @@ const relatedLinks = [
       </ul>
     </section>
 
+    <section data-lightning-materials class="space-y-4 rounded-2xl border-2 border-conference-outline bg-conference-paper p-5 sm:p-6" aria-labelledby="lightning-materials">
+      <h2 id="lightning-materials" class="text-xl font-black text-conference-ink sm:text-2xl">{logistics.materialsTitle}</h2>
+      <p class="font-bold text-conference-ink">{logistics.materialsBody}</p>
+      <p>{logistics.materialsComputer}</p>
+      <a data-lightning-materials-link href={lightningTalkMaterialsUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 max-w-full items-center gap-3 rounded-full border-2 border-conference-outline bg-conference-surface px-5 py-3 font-bold text-conference-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"><span>{logistics.materialsLink}</span><span aria-hidden="true">↗</span></a>
+      <p class="text-sm text-conference-muted">{logistics.materialsAccess}</p>
+    </section>
+
     <section data-lightning-preparation class="space-y-6" aria-labelledby="lightning-preparation">
       <h2 id="lightning-preparation" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.preparationTitle}</h2>
       <ul class="space-y-5">
@@ -73,6 +83,18 @@ const relatedLinks = [
           </li>
         ))}
       </ul>
+    </section>
+
+    <section data-lightning-faq class="space-y-4" aria-labelledby="lightning-faq">
+      <h2 id="lightning-faq" class="text-xl font-black text-conference-ink sm:text-2xl">{logistics.faqTitle}</h2>
+      <div class="divide-y divide-conference-outline/20 border-y border-conference-outline/20">
+        {logistics.faqs.map((item) => (
+          <details class="group">
+            <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 font-bold text-conference-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue"><span>{item.question}</span><span aria-hidden="true" class="shrink-0 text-xl transition-transform group-open:rotate-45">+</span></summary>
+            <p class="pb-5">{item.answer}</p>
+          </details>
+        ))}
+      </div>
     </section>
 
     <nav aria-label={copy.linksTitle} class="border-t-2 border-conference-outline/15 pt-8">

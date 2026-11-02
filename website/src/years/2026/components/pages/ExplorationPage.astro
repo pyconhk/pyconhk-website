@@ -1,0 +1,51 @@
+---
+import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
+import { communityActivityCopy } from '@/years/2026/data/community-activities';
+import { contentUi } from '@/years/2026/data/content-ui';
+import { type ExplorationDestination, explorationCopy } from '@/years/2026/data/exploration';
+import { floorPlanCopy } from '@/years/2026/data/floor-plans';
+import { lightningTalkCopy } from '@/years/2026/data/lightning-talks';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const copy = explorationCopy[locale];
+const content = contentUi[locale];
+const destinations: Record<ExplorationDestination, { label: string; href: string }> = {
+  'floor-plans': { label: floorPlanCopy[locale].title, href: `/2026/${locale}/access-guide/#floor-plans` },
+  'access-guide': { label: content.titles.venue, href: `/2026/${locale}/access-guide/` },
+  'catering-guide': { label: content.titles.catering, href: `/2026/${locale}/catering-guide/` },
+  'lightning-talks': { label: lightningTalkCopy[locale].title, href: `/2026/${locale}/lightning-talks/` },
+  'job-board': { label: communityActivityCopy['job-board'][locale].navLabel, href: `/2026/${locale}/job-board/` },
+  pyshare: { label: communityActivityCopy.pyshare[locale].navLabel, href: `/2026/${locale}/pyshare/` },
+  sprint: { label: content.titles.sprint, href: `/2026/${locale}/sprint/` },
+};
+const groups: { id: string; title: string; items: ExplorationDestination[] }[] = [
+  { id: 'plan-your-visit', title: copy.planTitle, items: ['floor-plans', 'access-guide', 'catering-guide'] },
+  { id: 'join-in', title: copy.joinTitle, items: ['lightning-talks', 'job-board', 'pyshare', 'sprint'] },
+];
+---
+
+<ContentPageFrame locale={locale} title={copy.title} titleLang="en" description={copy.intro}>
+  <div data-exploration class="space-y-8">
+    <div class="space-y-3">
+      <p>{copy.intro}</p>
+      <a href={`/2026/${locale}/schedule/`} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{copy.scheduleLink}<span aria-hidden="true">→</span></a>
+    </div>
+    {groups.map((group) => (
+      <section aria-labelledby={group.id} class="space-y-4">
+        <p id={group.id} class="text-xl font-black text-conference-ink">{group.title}</p>
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {group.items.map((id) => (
+            <li class="min-w-0">
+              <a href={destinations[id].href} data-exploration-destination={id} class="flex min-h-11 h-full flex-col gap-3 rounded-xl border-2 border-conference-outline bg-conference-paper p-5 hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
+                <h2 class="flex min-w-0 items-start justify-between gap-4 text-lg font-bold text-conference-blue"><span class="min-w-0 break-words">{destinations[id].label}</span><span aria-hidden="true" class="shrink-0">→</span></h2>
+                <p>{copy.descriptions[id]}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</ContentPageFrame>
