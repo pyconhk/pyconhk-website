@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
+import { boothStampJourneyCopy } from '@/years/2026/data/booth-stamp-journey';
 import { communityActivityCopy } from '@/years/2026/data/community-activities';
 import { contentUi } from '@/years/2026/data/content-ui';
 import { type ExplorationDestination, explorationCopy } from '@/years/2026/data/exploration';
@@ -19,6 +20,7 @@ const destinations: Record<ExplorationDestination, { label: string; href: string
   'floor-plans': { label: floorPlanCopy[locale].title, href: `/2026/${locale}/access-guide/#floor-plans`, icon: 'fa6-solid:map-location-dot' },
   'access-guide': { label: content.titles.venue, href: `/2026/${locale}/access-guide/`, icon: 'fa6-solid:train-subway' },
   'catering-guide': { label: content.titles.catering, href: `/2026/${locale}/catering-guide/`, icon: 'fa6-solid:utensils' },
+  'booth-stamp-journey': { label: boothStampJourneyCopy[locale].navLabel, href: `/2026/${locale}/booth-stamp-journey/`, icon: 'fa6-solid:map-location-dot' },
   'lightning-talks': { label: lightningTalkCopy[locale].title, href: `/2026/${locale}/lightning-talks/`, icon: 'fa6-solid:bolt' },
   'job-board': { label: communityActivityCopy['job-board'][locale].navLabel, href: `/2026/${locale}/job-board/`, icon: 'fa6-solid:briefcase' },
   pyshare: { label: communityActivityCopy.pyshare[locale].navLabel, href: `/2026/${locale}/pyshare/`, icon: 'fa6-solid:comments' },
@@ -26,7 +28,7 @@ const destinations: Record<ExplorationDestination, { label: string; href: string
 };
 const groups: { id: string; title: string; items: ExplorationDestination[] }[] = [
   { id: 'plan-your-visit', title: copy.planTitle, items: ['schedule', 'floor-plans', 'access-guide', 'catering-guide'] },
-  { id: 'join-in', title: copy.joinTitle, items: ['lightning-talks', 'job-board', 'pyshare', 'sprint'] },
+  { id: 'join-in', title: copy.joinTitle, items: ['booth-stamp-journey', 'lightning-talks', 'job-board', 'pyshare', 'sprint'] },
 ];
 ---
 

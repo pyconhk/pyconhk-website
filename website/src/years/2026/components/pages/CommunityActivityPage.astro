@@ -1,11 +1,13 @@
 ---
+import { Icon } from 'astro-icon/components';
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
-import { type CommunityActivity, communityActivityCopy } from '@/years/2026/data/community-activities';
+import { type CommunityActivity, communityActivityCopy, communityActivityVenueCopy } from '@/years/2026/data/community-activities';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; activity: CommunityActivity; }
 const { locale, activity } = Astro.props;
 const copy = communityActivityCopy[activity][locale];
+const venue = communityActivityVenueCopy[locale];
 const relatedLinks = [
   { label: copy.scheduleLink, href: `/2026/${locale}/schedule/` },
   { label: copy.conductLink, href: `/2026/${locale}/code-of-conduct/` },
@@ -19,6 +21,17 @@ const List = copy.numbered ? 'ol' : 'ul';
       <p class="text-base sm:text-lg">{copy.intro}</p>
     </div>
 
+    <div data-activity-location class="flex flex-col gap-4 rounded-xl border-2 border-conference-outline bg-conference-paper p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-3">
+        <Icon name="fa6-solid:map-location-dot" class="size-6 shrink-0 text-conference-blue" aria-hidden="true" focusable="false" />
+        <div>
+          <p class="text-sm font-bold text-conference-muted">{venue.locationLabel}</p>
+          <p class="font-bold text-conference-ink">{venue.location}</p>
+        </div>
+      </div>
+      <a href={`/2026/${locale}/access-guide/#floor-plans`} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4">{venue.floorPlanLink}<span aria-hidden="true">→</span></a>
+    </div>
+
     <section aria-labelledby="activity-participation" class="space-y-6 border-y-2 border-conference-outline/15 py-8">
       <h2 id="activity-participation" class="text-xl font-black text-conference-ink sm:text-2xl">{copy.participationTitle}</h2>
       <List data-activity-instructions class:list={[copy.numbered ? 'space-y-6' : 'grid gap-6 sm:grid-cols-2 sm:gap-8']}>
@@ -28,6 +41,7 @@ const List = copy.numbered ? 'ol' : 'ul';
             <div class="min-w-0 space-y-2">
               <h3 class="font-bold text-conference-ink">{section.title}</h3>
               <p>{section.body}</p>
+              {section.items && <ul data-activity-prompts class="list-disc space-y-2 pl-5 marker:text-conference-blue">{section.items.map((item) => <li>{item}</li>)}</ul>}
             </div>
           </li>
         ))}

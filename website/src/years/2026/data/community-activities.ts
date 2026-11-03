@@ -2,17 +2,59 @@ import type { CfpLocale } from '@/years/2026/locales';
 
 // Event directory and activity instructions supplied by the design team:
 // https://www.canva.com/design/DAHXzgYDJmc/Eu0c-ona5vej7wLay24GFg/edit
-// Public copy omits date and venue metadata. Opening hours, the Job Board
-// posting process, prize items and collection point are not confirmed here.
+// Venue and sharing prompts confirmed by the 2026 signage checklist, rows 25–34:
+// https://docs.google.com/spreadsheets/d/1kYjsaWxZTzokO_kimsnCOAPQ90rb1qR_EhEChlhX-9o/edit#gid=1191441747&range=A25:H34
+// The public floor plan also places both activities in HKIIT 6/F LW659:
+// website/public/2026/floor-plans/sixth-floor.png
+// The 2026 printing PDF confirms PyShare prize collection at reception after closing:
+// https://drive.google.com/file/d/1mI76negkIP5shrfeUOtBBzDyALbzMPzo/view
+// Activity dates and opening hours, the Job Board posting process and prize items
+// are not confirmed here.
 // PyShare's optional prize process is on page 17.
 export type CommunityActivity = 'job-board' | 'pyshare';
+
+export const communityActivityVenueCopy: Record<
+  CfpLocale,
+  { locationLabel: string; location: string; floorPlanLink: string }
+> = {
+  en: {
+    locationLabel: 'Location',
+    location: 'HKIIT · 6/F · LW659',
+    floorPlanLink: 'View floor plans',
+  },
+  'zh-hk': {
+    locationLabel: '地點',
+    location: 'HKIIT 六樓（6/F）LW659',
+    floorPlanLink: '睇會場平面圖',
+  },
+  'zh-hant': {
+    locationLabel: '地點',
+    location: 'HKIIT 六樓（6/F）LW659',
+    floorPlanLink: '查看會場平面圖',
+  },
+  'zh-hans': {
+    locationLabel: '地点',
+    location: 'HKIIT 六楼（6/F）LW659',
+    floorPlanLink: '查看会场平面图',
+  },
+  ja: {
+    locationLabel: '場所',
+    location: 'HKIIT 6階（6/F）LW659',
+    floorPlanLink: 'フロアマップを見る',
+  },
+  ko: {
+    locationLabel: '장소',
+    location: 'HKIIT 6층(6/F) LW659',
+    floorPlanLink: '층별 안내도 보기',
+  },
+};
 
 type ActivityCopy = {
   title: string;
   navLabel: string;
   intro: string;
   participationTitle: string;
-  sections: { title: string; body: string }[];
+  sections: { title: string; body: string; items?: string[] }[];
   numbered: boolean;
   note: string;
   linksTitle: string;
@@ -165,7 +207,13 @@ export const communityActivityCopy: Record<
       sections: [
         {
           title: 'Pick up a card',
-          body: 'Ask a volunteer for a card. Write about a challenge you are facing, how Python has enriched your life, a long-held dream, or anything else you would like to share. You can answer more than one question.',
+          body: 'Ask a volunteer for a card and write a response to the prompts below. You can answer more than one question.',
+          items: [
+            'What do you most struggle with at this moment?',
+            'How has Python enriched your life?',
+            "Is there something you've dreamed of doing for a long time?",
+            'Anything else you would like to share.',
+          ],
         },
         {
           title: 'Add your thought to the board',
@@ -177,7 +225,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: 'Join the prize selection (optional)',
-          body: 'To enter your message, get a numbered slip from a volunteer, keep it, and write the same number on your card. The two messages with the most votes and their winning numbers will be announced at the closing.',
+          body: 'To enter your message, get a numbered slip from a volunteer, keep it, and write the same number on your card. The MC will announce the two messages with the most votes and their winning numbers at the closing session. Winners can collect their prizes at reception after the session ends.',
         },
       ],
       numbered: true,
@@ -194,7 +242,13 @@ export const communityActivityCopy: Record<
       sections: [
         {
           title: '攞張卡，寫低你想分享嘅嘢',
-          body: '向義工攞張卡，可以寫最近遇到嘅難題、Python 點樣令你嘅生活更豐富、一直想實現嘅夢想，或者其他心聲。想答多過一條問題都可以。',
+          body: '向義工攞張卡，寫低你對下面問題嘅回應。想答多過一條問題都可以。',
+          items: [
+            '你而家最難應付嘅係啲乜？',
+            'Python 點樣令你嘅生活更豐富？',
+            '有冇啲嘢你一直都好想做？',
+            '其他想分享嘅心聲。',
+          ],
         },
         {
           title: '將卡貼上白板',
@@ -206,7 +260,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '參加有獎投票（自願）',
-          body: '如果想用你嘅留言參加有獎投票，向義工攞張號碼紙，自己保管好，再喺卡上寫低同一個號碼。閉幕環節會公布最高票嘅兩則留言同得獎號碼。',
+          body: '如果想用你嘅留言參加有獎投票，向義工攞張號碼紙，自己保管好，再喺卡上寫低同一個號碼。司儀會喺閉幕環節公布最高票嘅兩則留言同得獎號碼。得獎者可以喺閉幕環節完結後去接待處領獎。',
         },
       ],
       numbered: true,
@@ -223,7 +277,13 @@ export const communityActivityCopy: Record<
       sections: [
         {
           title: '領取卡片，寫下心聲',
-          body: '向義工領取卡片，寫下目前遇到的挑戰、Python 如何豐富你的生活、一直希望實現的夢想，或其他想分享的心聲。你可以回答多於一條問題。',
+          body: '向義工領取卡片，寫下你對以下問題的回應。你可以回答多於一條問題。',
+          items: [
+            '你目前最難應付的是甚麼？',
+            'Python 如何豐富了你的生活？',
+            '有沒有一件事是你一直夢想去做的？',
+            '其他想分享的心聲。',
+          ],
         },
         {
           title: '將卡片貼上白板',
@@ -235,7 +295,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '參加有獎投票（自願）',
-          body: '如希望以你的留言參加有獎投票，請向義工領取並保管好號碼紙，再於卡片上寫下相同號碼。閉幕環節將公布得票最高的兩則留言及得獎號碼。',
+          body: '如希望以你的留言參加有獎投票，請向義工領取並保管好號碼紙，再於卡片上寫下相同號碼。司儀將於閉幕環節公布得票最高的兩則留言及得獎號碼。得獎者請於閉幕環節結束後到接待處領獎。',
         },
       ],
       numbered: true,
@@ -252,7 +312,13 @@ export const communityActivityCopy: Record<
       sections: [
         {
           title: '领取卡片，写下心声',
-          body: '向志愿者领取卡片，写下目前遇到的挑战、Python 如何丰富你的生活、一直希望实现的梦想，或其他想分享的心声。你可以回答多个问题。',
+          body: '向志愿者领取卡片，写下你对以下问题的回应。你可以回答多个问题。',
+          items: [
+            '你目前最大的困扰是什么？',
+            'Python 如何丰富了你的生活？',
+            '有什么事情是你一直梦想去做的？',
+            '其他想分享的心声。',
+          ],
         },
         {
           title: '将卡片贴上白板',
@@ -264,7 +330,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '参加有奖投票（自愿）',
-          body: '如希望以你的留言参加有奖投票，请向志愿者领取并保管好号码纸，再在卡片上写下相同号码。闭幕环节将公布得票最高的两则留言及获奖号码。',
+          body: '如希望以你的留言参加有奖投票，请向志愿者领取并保管好号码纸，再在卡片上写下相同号码。主持人将在闭幕环节公布得票最高的两则留言及获奖号码。获奖者请在闭幕环节结束后到接待处领奖。',
         },
       ],
       numbered: true,
@@ -281,7 +347,13 @@ export const communityActivityCopy: Record<
       sections: [
         {
           title: 'カードを受け取って書く',
-          body: 'ボランティアからカードを受け取りましょう。今困っていること、Python が暮らしにもたらした変化、長年の夢など、共有したいことを書いてください。複数の問いに答えてもかまいません。',
+          body: 'ボランティアからカードを受け取り、以下の問いへの答えを書いてください。複数の問いに答えてもかまいません。',
+          items: [
+            '今いちばん困っていることは何ですか？',
+            'Python はあなたの生活をどのように豊かにしましたか？',
+            '長い間、やってみたいと夢見ていることはありますか？',
+            'そのほか、共有したいこと。',
+          ],
         },
         {
           title: 'ホワイトボードに貼る',
@@ -293,7 +365,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '賞品付きの投票に参加する（任意）',
-          body: '自分のメッセージを賞品選考の対象にしたい方は、ボランティアから番号票を受け取り、同じ番号をカードに書いてください。番号票は保管しておきましょう。クロージングで得票数上位2件のメッセージと当選番号を発表します。',
+          body: '自分のメッセージを賞品選考の対象にしたい方は、ボランティアから番号票を受け取り、同じ番号をカードに書いてください。番号票は保管しておきましょう。クロージングで司会者が得票数上位2件のメッセージと当選番号を発表します。当選した方は、クロージング終了後に受付で賞品を受け取ってください。',
         },
       ],
       numbered: true,
@@ -310,7 +382,13 @@ export const communityActivityCopy: Record<
       sections: [
         {
           title: '카드를 받아 이야기 적기',
-          body: '자원봉사자에게 카드를 받아 지금 겪는 어려움, Python이 삶을 풍요롭게 만든 경험, 오래 품어 온 꿈 등 나누고 싶은 이야기를 적어 주세요. 여러 질문에 답해도 괜찮습니다.',
+          body: '자원봉사자에게 카드를 받아 아래 질문에 대한 답을 적어 주세요. 여러 질문에 답해도 괜찮습니다.',
+          items: [
+            '지금 가장 어려움을 겪고 있는 것은 무엇인가요?',
+            'Python은 삶을 어떻게 풍요롭게 했나요?',
+            '오랫동안 해 보고 싶었던 일이 있나요?',
+            '그 밖에 나누고 싶은 이야기.',
+          ],
         },
         {
           title: '화이트보드에 카드 붙이기',
@@ -322,7 +400,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '경품 선정에 참여하기 (선택)',
-          body: '내 메시지로 경품 선정에 참여하려면 자원봉사자에게 번호표를 받아 보관하고, 카드에도 같은 번호를 적어 주세요. 폐회 때 가장 많은 표를 받은 메시지 2개와 당첨 번호를 발표합니다.',
+          body: '내 메시지로 경품 선정에 참여하려면 자원봉사자에게 번호표를 받아 보관하고, 카드에도 같은 번호를 적어 주세요. 폐회 때 사회자가 가장 많은 표를 받은 메시지 2개와 당첨 번호를 발표합니다. 당첨자는 폐회 후 접수처에서 경품을 받아 주세요.',
         },
       ],
       numbered: true,

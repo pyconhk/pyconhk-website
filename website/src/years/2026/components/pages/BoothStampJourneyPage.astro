@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components';
+import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
+import { boothStampJourneyCopy } from '@/years/2026/data/booth-stamp-journey';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const copy = boothStampJourneyCopy[locale];
+const links = [
+  { label: copy.floorPlanLink, href: `/2026/${locale}/access-guide/#floor-plans` },
+  { label: copy.scheduleLink, href: `/2026/${locale}/schedule/` },
+];
+---
+
+<ContentPageFrame locale={locale} title={copy.title} description={copy.intro}>
+  <div data-booth-stamp-journey class="space-y-8">
+    <div class="flex items-start gap-3">
+      <Icon name="fa6-solid:map-location-dot" class="mt-1 size-6 shrink-0 text-conference-blue" aria-hidden="true" focusable="false" />
+      <p>{copy.intro}</p>
+    </div>
+    <section aria-labelledby="stamp-journey-steps" class="space-y-5">
+      <h2 id="stamp-journey-steps" class="text-xl font-black text-conference-ink">{copy.stepsTitle}</h2>
+      <ol class="space-y-5">
+        {copy.steps.map((step, index) => (
+          <li class="flex items-start gap-4">
+            <span aria-hidden="true" class="flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-paper font-black text-conference-blue">{index + 1}</span>
+            <div class="min-w-0 space-y-1"><h3 class="font-bold text-conference-ink">{step.title}</h3><p>{step.body}</p></div>
+          </li>
+        ))}
+      </ol>
+    </section>
+    <section data-stamp-redemption class="space-y-3 rounded-xl border-2 border-conference-outline bg-conference-paper p-5" aria-labelledby="stamp-redemption-title">
+      <h2 id="stamp-redemption-title" class="text-xl font-black text-conference-ink">{copy.redemptionTitle}</h2>
+      <p class="font-bold text-conference-blue">{copy.redemptionLocation}</p>
+      <p>{copy.note}</p>
+    </section>
+    <nav aria-label={copy.linksTitle} class="border-t border-conference-outline/25 pt-5">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        {links.map((link) => <li><a href={link.href} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{link.label}<span aria-hidden="true">→</span></a></li>)}
+      </ul>
+    </nav>
+  </div>
+</ContentPageFrame>
