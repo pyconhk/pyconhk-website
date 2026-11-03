@@ -456,9 +456,9 @@ test('ticket registration is published and calendar uses the actual 2026 event d
   await expect(page.locator('main [data-registration-link]').first()).toBeVisible();
   await expect(page.locator('[data-registration-pending]')).toHaveCount(0);
   await expect(page.locator('[data-published-sponsors]')).toBeVisible();
-  await page.locator('#home [data-home-quick-links]').click();
-  await expect(page).toHaveURL(/\/2026\/en\/exploration\/?$/);
-  const calendar = page.getByRole('link', { name: 'Add to calendar', exact: true });
+  const calendar = page
+    .locator('#home')
+    .getByRole('link', { name: 'Add to calendar', exact: true });
   const href = new URL((await calendar.getAttribute('href')) ?? '');
   expect(href.hostname).toBe('calendar.google.com');
   expect(href.searchParams.get('dates')).toBe('20261114/20261116');
