@@ -1,27 +1,31 @@
 ---
+import { Icon } from 'astro-icon/components';
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
 import { communityActivityCopy } from '@/years/2026/data/community-activities';
 import { contentUi } from '@/years/2026/data/content-ui';
 import { type ExplorationDestination, explorationCopy } from '@/years/2026/data/exploration';
 import { floorPlanCopy } from '@/years/2026/data/floor-plans';
 import { lightningTalkCopy } from '@/years/2026/data/lightning-talks';
+import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
 
 interface Props { locale: CfpLocale; }
 const { locale } = Astro.props;
 const copy = explorationCopy[locale];
 const content = contentUi[locale];
-const destinations: Record<ExplorationDestination, { label: string; href: string }> = {
-  'floor-plans': { label: floorPlanCopy[locale].title, href: `/2026/${locale}/access-guide/#floor-plans` },
-  'access-guide': { label: content.titles.venue, href: `/2026/${locale}/access-guide/` },
-  'catering-guide': { label: content.titles.catering, href: `/2026/${locale}/catering-guide/` },
-  'lightning-talks': { label: lightningTalkCopy[locale].title, href: `/2026/${locale}/lightning-talks/` },
-  'job-board': { label: communityActivityCopy['job-board'][locale].navLabel, href: `/2026/${locale}/job-board/` },
-  pyshare: { label: communityActivityCopy.pyshare[locale].navLabel, href: `/2026/${locale}/pyshare/` },
-  sprint: { label: content.titles.sprint, href: `/2026/${locale}/sprint/` },
+const t = getTranslations(locale);
+const destinations: Record<ExplorationDestination, { label: string; href: string; icon: string }> = {
+  schedule: { label: t.schedule.heroTitle, href: `/2026/${locale}/schedule/`, icon: 'fa6-solid:calendar-days' },
+  'floor-plans': { label: floorPlanCopy[locale].title, href: `/2026/${locale}/access-guide/#floor-plans`, icon: 'fa6-solid:map-location-dot' },
+  'access-guide': { label: content.titles.venue, href: `/2026/${locale}/access-guide/`, icon: 'fa6-solid:train-subway' },
+  'catering-guide': { label: content.titles.catering, href: `/2026/${locale}/catering-guide/`, icon: 'fa6-solid:utensils' },
+  'lightning-talks': { label: lightningTalkCopy[locale].title, href: `/2026/${locale}/lightning-talks/`, icon: 'fa6-solid:bolt' },
+  'job-board': { label: communityActivityCopy['job-board'][locale].navLabel, href: `/2026/${locale}/job-board/`, icon: 'fa6-solid:briefcase' },
+  pyshare: { label: communityActivityCopy.pyshare[locale].navLabel, href: `/2026/${locale}/pyshare/`, icon: 'fa6-solid:comments' },
+  sprint: { label: content.titles.sprint, href: `/2026/${locale}/sprint/`, icon: 'fa6-solid:code' },
 };
 const groups: { id: string; title: string; items: ExplorationDestination[] }[] = [
-  { id: 'plan-your-visit', title: copy.planTitle, items: ['floor-plans', 'access-guide', 'catering-guide'] },
+  { id: 'plan-your-visit', title: copy.planTitle, items: ['schedule', 'floor-plans', 'access-guide', 'catering-guide'] },
   { id: 'join-in', title: copy.joinTitle, items: ['lightning-talks', 'job-board', 'pyshare', 'sprint'] },
 ];
 ---
@@ -30,7 +34,7 @@ const groups: { id: string; title: string; items: ExplorationDestination[] }[] =
   <div data-exploration class="space-y-8">
     <div class="space-y-3">
       <p>{copy.intro}</p>
-      <a href={`/2026/${locale}/schedule/`} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{copy.scheduleLink}<span aria-hidden="true">→</span></a>
+      <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{t.hero.calendarCta}<span aria-hidden="true">↗</span></a>
     </div>
     {groups.map((group) => (
       <section aria-labelledby={group.id} class="space-y-4">
@@ -39,7 +43,7 @@ const groups: { id: string; title: string; items: ExplorationDestination[] }[] =
           {group.items.map((id) => (
             <li class="min-w-0">
               <a href={destinations[id].href} data-exploration-destination={id} class="flex min-h-11 h-full flex-col gap-3 rounded-xl border-2 border-conference-outline bg-conference-paper p-5 hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">
-                <h2 class="flex min-w-0 items-start justify-between gap-4 text-lg font-bold text-conference-blue"><span class="min-w-0 break-words">{destinations[id].label}</span><span aria-hidden="true" class="shrink-0">→</span></h2>
+                <h2 class="flex min-w-0 items-start justify-between gap-4 text-lg font-bold text-conference-blue"><span class="flex min-w-0 items-start gap-3"><Icon name={destinations[id].icon} class="size-6 shrink-0 text-conference-blue" aria-hidden="true" focusable="false" /><span class="min-w-0 break-words">{destinations[id].label}</span></span><span aria-hidden="true" class="shrink-0">→</span></h2>
                 <p>{copy.descriptions[id]}</p>
               </a>
             </li>

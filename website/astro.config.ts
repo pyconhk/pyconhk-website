@@ -93,7 +93,12 @@ export default defineConfig({
           'youtube',
         ],
         'fa6-solid': [
+          'bolt',
+          'briefcase',
+          'calendar-days',
           'champagne-glasses',
+          'code',
+          'comments',
           'map-location-dot',
           'store',
           'train-subway',

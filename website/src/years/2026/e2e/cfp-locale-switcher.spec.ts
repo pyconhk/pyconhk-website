@@ -79,9 +79,9 @@ test.describe('2026 conference locale switcher', () => {
         );
         await expect(page.locator('#home-title')).toHaveText('編程・連結・前行');
         await expect(page.locator('#home')).toContainText('HKIIT（將軍澳李惠利）');
-        await expect(page.locator('#home a[aria-label]')).toHaveAttribute(
-          'aria-label',
-          cantonese ? '加入日曆' : '加入行事曆'
+        await expect(page.locator('#home .hero-actions a')).toHaveCount(2);
+        await expect(page.locator('#home [data-home-quick-links]')).toHaveText(
+          'Conference Exploration'
         );
         await expect(page.locator('[data-sponsors-details]')).toHaveText(
           cantonese ? '睇晒贊助夥伴' : '查看所有贊助夥伴'

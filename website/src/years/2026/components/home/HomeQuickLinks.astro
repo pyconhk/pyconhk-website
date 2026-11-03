@@ -7,6 +7,4 @@ const { locale } = Astro.props;
 const copy = explorationCopy[locale];
 ---
 
-<nav aria-label={copy.navLabel} data-home-quick-links class="mt-4 w-full max-w-3xl">
-  <a href={`/2026/${locale}/exploration/`} lang="en" class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-surface px-5 py-3 font-bold text-conference-ink transition-colors hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{copy.navLabel}</a>
-</nav>
+<a data-home-quick-links href={`/2026/${locale}/exploration/`} lang="en" class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-conference-outline bg-conference-surface px-5 py-3 font-bold text-conference-ink transition-colors hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{copy.navLabel}</a>
