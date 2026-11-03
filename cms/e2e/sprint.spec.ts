@@ -4,11 +4,21 @@ import { parse } from "yaml";
 import {
   parseSprintContent,
   type SprintContent,
+  type SprintLocale,
   sprintLocales,
   validateSprintTranslations,
 } from "../../website/src/lib/sprint-content.ts";
 
-function fixture(locale: string): SprintContent {
+const projectGoals: Record<SprintLocale, string> = {
+  en: "Document a beginner-friendly counter example.",
+  "zh-hk": "寫一個適合新手嘅計數器範例說明。",
+  "zh-hant": "為適合初學者的計數器範例撰寫說明。",
+  "zh-hans": "为适合初学者的计数器示例编写说明。",
+  ja: "初心者向けのカウンターサンプルの説明を書く。",
+  ko: "초보자를 위한 카운터 예제의 설명을 작성합니다.",
+};
+
+function fixture(locale: SprintLocale): SprintContent {
   const source = JSON.parse(
     readFileSync(
       new URL(
@@ -36,10 +46,12 @@ function fixture(locale: string): SprintContent {
         title: `Draft project ${locale}`,
         description: "",
         lead: "",
+        level: "all-levels",
         repositoryUrl: "",
         setupUrl: "",
+        discordUrl: "https://discord.gg/e2e-project",
         skills: [],
-        contributions: [],
+        contributions: [projectGoals[locale]],
       },
     ],
   };
@@ -107,6 +119,13 @@ test("Sprint preview renders unsaved structured content through the public compo
     const html = await response.text();
     expect(html).toContain("data-sprint-content");
     expect(html).toContain('data-sprint-project="e2e-project"');
+    expect(html).toContain('data-sprint-level="all-levels"');
+    expect(html).toContain('href="https://discord.gg/e2e-project"');
+    expect(html).toContain(projectGoals[locale]);
+    const linksPosition = html.indexOf("data-sprint-project-links");
+    const goalsPosition = html.indexOf("data-sprint-project-goals");
+    expect(linksPosition).toBeGreaterThan(-1);
+    expect(goalsPosition).toBeGreaterThan(linksPosition);
     expect(html).toContain(`Unsaved introduction ${locale}`);
     expect(html).toContain(`Saved question ${locale}`);
     expect(html).toContain(`Saved answer ${locale}`);
@@ -208,6 +227,14 @@ test("Sprint singleton edits, previews, saves and reopens six JSON translations 
     .getByRole("textbox", { name: "Project title (optional)", exact: true })
     .first()
     .fill("Unsaved project title");
+  const level = page
+    .getByRole("combobox", {
+      name: "Participant level (optional)",
+      exact: true,
+    })
+    .first();
+  await level.focus();
+  await level.press("Delete");
   await page
     .getByText("Saved question en", { exact: true })
     .locator("..")
@@ -231,6 +258,22 @@ test("Sprint singleton edits, previews, saves and reopens six JSON translations 
   await expect(sprint.locator("[data-sprint-content]")).toContainText("10:30");
   await expect(sprint.locator("[data-sprint-project] h3")).toHaveText(
     "Unsaved project title",
+  );
+  await expect(sprint.locator("[data-sprint-level]")).toHaveCount(0);
+  await page
+    .getByText("Unsaved project title · draft", { exact: true })
+    .locator("..")
+    .getByRole("button")
+    .first()
+    .click();
+  await level.click();
+  await page.getByText("All levels", { exact: true }).click();
+  await expect(
+    sprint.locator('[data-sprint-level="all-levels"]'),
+  ).toBeVisible();
+  await expect(sprint.locator("[data-sprint-project-goals]")).toBeVisible();
+  await expect(sprint.locator("[data-sprint-project-goals]")).toContainText(
+    projectGoals.en,
   );
   await expect(sprint.locator("[data-sprint-question] h2")).toHaveText(
     "Unsaved preparation question",
@@ -257,6 +300,9 @@ test("Sprint singleton edits, previews, saves and reopens six JSON translations 
   await expect(sprint.locator("[data-sprint-content]")).toContainText(
     "Saved introduction zh-hk",
   );
+  await expect(sprint.locator("[data-sprint-project-goals]")).toContainText(
+    projectGoals["zh-hk"],
+  );
   await expect(sprint.locator('time[datetime="2026-11-16"]')).toBeVisible();
   await expect(sprint.locator("[data-sprint-content]")).toContainText("10:30");
   await expect(sprint.locator("html")).toHaveAttribute("lang", "zh-Hant-HK");
@@ -281,6 +327,10 @@ test("Sprint singleton edits, previews, saves and reopens six JSON translations 
     intro: "Unsaved Sprint introduction",
   });
   expect(savedDraft.en.projects[0].title).toBe("Unsaved project title");
+  expect(savedDraft.en.projects[0]).toMatchObject({
+    level: "all-levels",
+    discordUrl: "https://discord.gg/e2e-project",
+  });
   expect(savedDraft.en.qa[0].question).toBe("Unsaved preparation question");
   for (const locale of sprintLocales) {
     expect(savedDraft[locale]).toMatchObject({

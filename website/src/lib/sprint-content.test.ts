@@ -34,8 +34,10 @@ const project = () => ({
   title: 'Python tools',
   description: 'Work on useful tools together.',
   lead: 'Project lead',
+  level: '' as const,
   repositoryUrl: 'https://github.com/example/tools',
   setupUrl: 'https://example.com/setup',
+  discordUrl: '',
   skills: ['Python'],
   contributions: ['Documentation'],
 });
@@ -79,6 +81,54 @@ test('preview accepts an unfinished published edit without weakening publication
     parseSprintContent(input, 'en', { preview: true }).projects[0].title,
     ''
   );
+});
+
+test('existing projects without level or Discord remain valid with empty defaults', () => {
+  const legacy: Partial<ReturnType<typeof project>> = { ...project() };
+  delete legacy.level;
+  delete legacy.discordUrl;
+  const content = parseSprintContent({ ...seed(), projects: [legacy] }, 'en');
+  assert.equal(content.projects[0].level, '');
+  assert.equal(content.projects[0].discordUrl, '');
+  assert.equal(
+    parseSprintContent({ ...seed(), projects: [{ ...project(), level: null }] }, 'en')
+      .projects[0].level,
+    ''
+  );
+  for (const level of ['', 'all-levels', 'intermediate']) {
+    assert.equal(
+      parseSprintContent({ ...seed(), projects: [{ ...project(), level }] }, 'en')
+        .projects[0].level,
+      level
+    );
+  }
+});
+
+test('project levels and Discord links reject invalid values before saving', () => {
+  for (const level of [false, 1, {}, [], 'beginner', 'ALL Levels']) {
+    assert.throws(
+      () =>
+        parseSprintContent({ ...seed(), projects: [{ ...project(), level }] }, 'en'),
+      /projects\.0\.level/
+    );
+  }
+  for (const discordUrl of [
+    null,
+    false,
+    'http://discord.gg/example',
+    'javascript:alert(1)',
+    'https://user:secret@discord.gg/example',
+    'https://discord.gg/not valid',
+  ]) {
+    assert.throws(
+      () =>
+        parseSprintContent(
+          { ...seed(), projects: [{ ...project(), discordUrl }] },
+          'en'
+        ),
+      /projects\.0\.discordUrl/
+    );
+  }
 });
 
 test('Sprint facts accept only real dates, unambiguous times and safe HTTPS links', () => {
@@ -136,4 +186,23 @@ test('unpublished projects do not prevent saving a draft alongside complete tran
     () => validateSprintTranslations(contents),
     /requires published translations: ko/
   );
+});
+
+test('published project levels and Discord links match across all six languages', () => {
+  const contents = translations();
+  for (const content of Object.values(contents)) {
+    content.projects = [
+      {
+        ...project(),
+        level: 'all-levels',
+        discordUrl: 'https://discord.gg/example',
+      },
+    ];
+  }
+  validateSprintTranslations(contents);
+  contents.ko.projects[0].level = 'intermediate';
+  assert.throws(() => validateSprintTranslations(contents), /match English in ko/);
+  contents.ko.projects[0].level = 'all-levels';
+  contents.ja.projects[0].discordUrl = 'https://discord.gg/different';
+  assert.throws(() => validateSprintTranslations(contents), /match English in ja/);
 });
