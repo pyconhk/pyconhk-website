@@ -54,17 +54,6 @@ export const headerNavigation: NavigationItem[] = [
     children: [
       {
         label: {
-          en: 'Conference Schedule',
-          'zh-hk': cantonese.programme,
-          'zh-hant': written.programme,
-          'zh-hans': '大会议程',
-          ja: 'スケジュール',
-          ko: '컨퍼런스 일정',
-        },
-        href: (locale) => `/2026/${locale}/schedule/`,
-      },
-      {
-        label: {
           en: explorationCopy.en.navLabel,
           'zh-hk': explorationCopy['zh-hk'].navLabel,
           'zh-hant': explorationCopy['zh-hant'].navLabel,
@@ -73,6 +62,17 @@ export const headerNavigation: NavigationItem[] = [
           ko: explorationCopy.ko.navLabel,
         },
         href: (locale) => `/2026/${locale}/exploration/`,
+      },
+      {
+        label: {
+          en: 'Conference Schedule',
+          'zh-hk': cantonese.programme,
+          'zh-hant': written.programme,
+          'zh-hans': '大会议程',
+          ja: 'スケジュール',
+          ko: '컨퍼런스 일정',
+        },
+        href: (locale) => `/2026/${locale}/schedule/`,
       },
       {
         label: {
