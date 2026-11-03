@@ -66,6 +66,14 @@ lead and repository link completed. Preview includes draft projects so editors
 can check work in progress. Draft content is still saved in the public content
 repository; visibility controls the website, not repository access.
 
+Project cards follow the earlier Sprint format with a participant-level badge,
+introduction, repository/Discord links and goals. **Participant level** and
+**Discord URL** are optional; leave them unspecified until confirmed. Published
+projects must use the same level and repository/setup/Discord links in all six
+languages. **Goals and contribution tasks** stores the project's goals as the
+existing `contributions` list. Older project JSON needs no migration: missing
+level and Discord values default to empty strings.
+
 Use **Toggle i18n** to switch the translation pane to the live article preview.
 The preview follows the left editor's **Writing in** language and includes
 unsaved text and uploaded News images. The 2026 previews offer system, light and

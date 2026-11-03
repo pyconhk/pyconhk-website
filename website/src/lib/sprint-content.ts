@@ -8,8 +8,10 @@ export type SprintProject = {
   title: string;
   description: string;
   lead: string;
+  level: '' | 'all-levels' | 'intermediate';
   repositoryUrl: string;
   setupUrl: string;
+  discordUrl: string;
   skills: string[];
   contributions: string[];
 };
@@ -51,8 +53,10 @@ const projectFields = [
   'title',
   'description',
   'lead',
+  'level',
   'repositoryUrl',
   'setupUrl',
+  'discordUrl',
   'skills',
   'contributions',
 ];
@@ -85,6 +89,13 @@ export function parseSprintContent(
     if (value === undefined) return 'draft';
     if (value !== 'draft' && value !== 'published')
       return fail(field, 'must be draft or published');
+    return value;
+  };
+  const projectLevel = (value: unknown, field: string): SprintProject['level'] => {
+    // Decap's optional single-select emits null when its selection is cleared.
+    if (value == null) return '';
+    if (value !== '' && value !== 'all-levels' && value !== 'intermediate')
+      return fail(field, 'must be empty, all-levels or intermediate');
     return value;
   };
   const list = (value: unknown, field: string): unknown[] => {
@@ -163,8 +174,10 @@ export function parseSprintContent(
         title: text(item.title, `projects.${index}.title`),
         description: text(item.description, `projects.${index}.description`),
         lead: text(item.lead, `projects.${index}.lead`),
+        level: projectLevel(item.level, `projects.${index}.level`),
         repositoryUrl: url(item.repositoryUrl, `projects.${index}.repositoryUrl`),
         setupUrl: url(item.setupUrl, `projects.${index}.setupUrl`),
+        discordUrl: url(item.discordUrl, `projects.${index}.discordUrl`),
         skills: strings(item.skills, `projects.${index}.skills`),
         contributions: strings(item.contributions, `projects.${index}.contributions`),
       };
@@ -238,8 +251,10 @@ export function validateSprintTranslations(
       .map((project) => ({
         id: project.id,
         lead: project.lead,
+        level: project.level,
         repositoryUrl: project.repositoryUrl,
         setupUrl: project.setupUrl,
+        discordUrl: project.discordUrl,
       })),
   });
   const english = contents.en;

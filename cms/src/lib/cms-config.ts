@@ -261,7 +261,7 @@ function createSprintFields(): CmsField[] {
       default: [],
       i18n: true,
       summary: "{{fields.title}} · {{fields.status}}",
-      hint: "Draft projects may be unfinished and stay off the public website. Published project IDs, order, lead names and repository/setup links must match across all six languages.",
+      hint: "Draft projects may be unfinished and stay off the public website. Published project IDs, order, lead names, levels and repository/setup/Discord links must match across all six languages.",
       fields: [
         {
           label: "Project ID",
@@ -294,6 +294,19 @@ function createSprintFields(): CmsField[] {
           required: false,
         },
         {
+          label: "Participant level",
+          name: "level",
+          widget: "select",
+          required: false,
+          default: "",
+          options: [
+            { label: "Not specified", value: "" },
+            { label: "All levels", value: "all-levels" },
+            { label: "Intermediate", value: "intermediate" },
+          ],
+          hint: "Use the confirmed participant level. Keep the same value across translations.",
+        },
+        {
           label: "Repository URL",
           name: "repositoryUrl",
           widget: "string",
@@ -307,8 +320,16 @@ function createSprintFields(): CmsField[] {
           required: false,
           hint: "HTTPS link. Keep the same link across translations.",
         },
+        {
+          label: "Discord URL",
+          name: "discordUrl",
+          widget: "string",
+          required: false,
+          default: "",
+          hint: "Optional. Use only a confirmed HTTPS invite or channel link for this project. Keep the same link across translations.",
+        },
         textList("Useful skills", "skills"),
-        textList("Ways to contribute", "contributions"),
+        textList("Goals and contribution tasks", "contributions"),
       ],
     },
   ];
