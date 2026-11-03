@@ -1,5 +1,6 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
+import HomeQuickLinks from '@/years/2026/components/home/HomeQuickLinks.astro';
 import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -94,20 +95,12 @@ const content = getConferenceContent(locale);
     <!-- 4. Hero Action Buttons (Fade Entrance Step 4) -->
     <div class="hero-actions mt-8 flex flex-wrap items-center justify-center gap-4">
       <RegistrationButton locale={locale} />
-
-      <a
-        href={`/2026/${locale}/schedule/`}
-        class="inline-flex rounded-full border-2 border-conference-outline bg-conference-surface px-5 py-3 font-bold text-conference-ink transition-colors hover:bg-conference-soft"
-        data-astro-prefetch="viewport"
-      >
-        {t.schedule.heroTitle}
-      </a>
-
+      <HomeQuickLinks locale={locale} />
       <a
         href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong"
         target="_blank"
         rel="noopener noreferrer"
-        class="group flex h-13 w-13 items-center justify-center rounded-full bg-conference-surface  text-conference-ink  border-2 border-conference-outline  transition-colors hover:bg-conference-soft"
+        class="group flex h-13 w-13 items-center justify-center rounded-full bg-conference-surface text-conference-ink border-2 border-conference-outline transition-colors hover:bg-conference-soft"
         aria-label={t.hero.calendarCta}
         title={t.hero.calendarCta}
       >
