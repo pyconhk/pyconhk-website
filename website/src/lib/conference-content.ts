@@ -11,6 +11,7 @@ import {
   parseConferenceContent,
   validateConferenceTranslations,
 } from './conference-schema';
+import { getSprintContent } from './sprint-content-source';
 
 export type {
   ConferenceContent,
@@ -20,10 +21,27 @@ export type {
 
 const sources = { en, 'zh-hk': zhHk, 'zh-hant': zhHant, 'zh-hans': zhHans, ja, ko };
 const contentByLocale = Object.fromEntries(
-  conferenceLocales.map((locale) => [
-    locale,
-    parseConferenceContent(sources[locale], locale),
-  ])
+  conferenceLocales.map((locale) => {
+    const sprint = getSprintContent(locale);
+    return [
+      locale,
+      parseConferenceContent(
+        {
+          ...sources[locale],
+          sprint: {
+            status: sprint.status,
+            intro: sprint.intro,
+            date: sprint.date,
+            location: sprint.location,
+            registrationUrl: sprint.registrationUrl,
+            items: sprint.items,
+          },
+          qa: { status: sprint.status, items: sprint.qa },
+        },
+        locale
+      ),
+    ];
+  })
 ) as Record<ConferenceLocale, ConferenceContent>;
 
 validateConferenceTranslations(contentByLocale);

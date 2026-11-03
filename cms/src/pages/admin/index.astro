@@ -12,7 +12,7 @@ const stageLabel =
     : stage === "production"
       ? "PRODUCTION"
       : "TRANSITION";
-const title = `PyCon HK News CMS · ${stageLabel}`;
+const title = `PyCon HK CMS · ${stageLabel}`;
 const target = `${getCmsRepo(environment)} · ${getCmsBranch(environment)}`;
 ---
 
@@ -28,7 +28,7 @@ const target = `${getCmsRepo(environment)} · ${getCmsBranch(environment)}`;
   </head>
   <body>
     <aside class:list={["cms-environment", `cms-environment--${stage}`]} aria-label="CMS environment">
-      <strong>{stageLabel} NEWS CMS</strong>
+      <strong>{stageLabel} CMS</strong>
       <span>{target}</span>
     </aside>
     <style>
@@ -60,10 +60,11 @@ const target = `${getCmsRepo(environment)} · ${getCmsBranch(environment)}`;
       import { validateEditorialPublish } from "../../lib/editor-validation";
       import { registerCmsEditorUi } from "../../lib/editor-ui";
       import { newsFrontmatterFormat } from "../../lib/news-format";
-      import { registerArticlePreviews } from "../../lib/article-preview";
+      import { registerArticlePreviews, registerSprintPreviews } from "../../lib/article-preview";
 
       registerCmsEditorUi(CMS);
       registerArticlePreviews(CMS);
+      registerSprintPreviews(CMS);
       CMS.registerCustomFormat("news-frontmatter", "mdx", newsFrontmatterFormat);
       // Simple publishing commits on save. Validate without returning a value:
       // Decap treats a returned value as replacement entry data.

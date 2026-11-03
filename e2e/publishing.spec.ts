@@ -18,6 +18,8 @@ async function fixture() {
   for(const name of ['content.ts','editorial.ts']) await cp(path.join(root,'cms/publication',name),path.join(dir,'cms/publication',name));
   await mkdir(path.join(dir,'cms/src/lib'),{recursive:true});
   await cp(path.join(root,'cms/src/lib/news-frontmatter.ts'),path.join(dir,'cms/src/lib/news-frontmatter.ts'));
+  await mkdir(path.join(dir,'website/src/lib'),{recursive:true});
+  await cp(path.join(root,'website/src/lib/sprint-content.ts'),path.join(dir,'website/src/lib/sprint-content.ts'));
   await writeFile(path.join(dir,'package.json'),'{"type":"module"}');
   await symlink(path.join(root,'node_modules'),path.join(dir,'node_modules'),'dir');
   await mkdir(path.join(dir,'website/outstatic/content/2026-posts'),{recursive:true});
@@ -27,6 +29,119 @@ async function run(dir:string,script:string,env={}) {
   return exec(process.execPath,[`cms/publication/${script}.ts`],{cwd:dir,env:{...process.env,...env}}).then(r=>({code:0,text:r.stdout+r.stderr}),e=>({code:e.code,text:e.stdout+e.stderr}));
 }
 function article(status='published') {return `---\ntitle: E2E announcement\nslug: e2e-announcement\nstatus: ${status}\npublishedAt: 2026-09-08T00:00:00.000Z\ncoverImage: /outstatic/images/e2e.webp\n---\nPublic announcement\n`;}
+
+function sprintSettings(locale: string) {
+  return {
+    slug: 'settings', status: 'published', intro: `Sprint ${locale}`,
+    date: '2026-11-15', startTime: '10:00', endTime: '', location: `Venue ${locale}`,
+    registrationUrl: 'https://example.invalid/register', proposalUrl: '', proposalDeadline: '',
+    items: [], qa: [{ id: 'prepare', question: `Question ${locale}`, answer: `Answer ${locale}` }],
+    projects: [],
+  };
+}
+
+test('Sprint publication validates working saves and immutable refs without rewriting content', async () => {
+  const dir = await fixture();
+  const git = (...args: string[]) => exec('git', args, { cwd: dir });
+  try {
+    const directory = path.join(dir, 'website/outstatic/content/2026-sprint');
+    await mkdir(directory);
+    for (const locale of locales) await writeFile(path.join(directory, `settings.${locale}.json`), JSON.stringify(sprintSettings(locale)));
+    const valid = await run(dir, 'content');
+    expect(valid.code, valid.text).toBe(0);
+    await git('init', '-q');
+    await git('config', 'user.name', 'E2E');
+    await git('config', 'user.email', 'e2e@example.invalid');
+    await git('add', 'website/outstatic/content');
+    await git('commit', '-qm', 'Valid Sprint snapshot');
+    const ref = (await git('rev-parse', 'HEAD')).stdout.trim();
+    const japanese = path.join(directory, 'settings.ja.json');
+    await writeFile(japanese, '{');
+    const invalid = await run(dir, 'content');
+    expect(invalid.code).not.toBe(0);
+    expect(invalid.text).toContain('settings.ja.json');
+    expect(await readFile(japanese, 'utf8')).toBe('{');
+    const immutable = await run(dir, 'content', { CMS_CONTENT_REF: ref });
+    expect(immutable.code, immutable.text).toBe(0);
+    await writeFile(japanese, JSON.stringify(sprintSettings('ja')));
+    await rm(path.join(directory, 'settings.ko.json'));
+    const incomplete = await run(dir, 'content');
+    expect(incomplete.code).not.toBe(0);
+    expect(incomplete.text).toContain('all six locale files; missing: ko');
+    const stillImmutable = await run(dir, 'content', { CMS_CONTENT_REF: ref });
+    expect(stillImmutable.code, stillImmutable.text).toBe(0);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('editorial boundary permits only canonical six-locale Sprint settings beside News', async () => {
+  const dir = await fixture();
+  const git = (...args: string[]) => exec('git', args, { cwd: dir });
+  try {
+    await git('init', '-q');
+    await git('config', 'user.name', 'E2E');
+    await git('config', 'user.email', 'e2e@example.invalid');
+    await git('add', 'cms/publication', 'package.json', 'website/src');
+    await git('commit', '-qm', 'Base');
+    const base = (await git('rev-parse', 'HEAD')).stdout.trim();
+    const directory = path.join(dir, 'website/outstatic/content/2026-sprint');
+    await mkdir(directory);
+    for (const locale of locales) await writeFile(path.join(directory, `settings.${locale}.json`), JSON.stringify(sprintSettings(locale)));
+    await git('add', 'website/outstatic/content');
+    await git('commit', '-qm', 'Localized Sprint settings');
+    const environment = {
+      CMS_PR_HEAD: 'cms-editorial/sprint/settings', CMS_PR_HEAD_REPO: 'pyconhk/pyconhk-website',
+      CMS_PR_BASE_REPO: 'pyconhk/pyconhk-website', CMS_PR_BASE_SHA: base,
+    };
+    const check = async () => run(dir, 'editorial', { ...environment, CMS_PR_HEAD_SHA: (await git('rev-parse', 'HEAD')).stdout.trim() });
+    const canonical = await check();
+    expect(canonical.code, canonical.text).toBe(0);
+    for (const file of ['settings.fr.json', 'other.en.json', 'settings.en.json.js', 'nested/settings.en.json']) {
+      const absolute = path.join(directory, file);
+      await mkdir(path.dirname(absolute), { recursive: true });
+      await writeFile(absolute, '{}');
+      await git('add', 'website');
+      await git('commit', '-qm', 'Unsupported Sprint path');
+      expect((await check()).code, file).not.toBe(0);
+      await rm(absolute);
+      await git('add', 'website');
+      await git('commit', '-qm', 'Remove unsupported path');
+    }
+    const restored = await check();
+    expect(restored.code, restored.text).toBe(0);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('promotion rejects deleting the entire Sprint singleton even though pre-bootstrap absence is valid', async () => {
+  const dir = await fixture();
+  const git = (...args: string[]) => exec('git', args, { cwd: dir });
+  try {
+    const directory = path.join(dir, 'website/outstatic/content/2026-sprint');
+    await mkdir(directory);
+    for (const locale of locales) await writeFile(path.join(directory, `settings.${locale}.json`), JSON.stringify(sprintSettings(locale)));
+    await writeFile(path.join(dir, 'website/outstatic/content/2026-posts/e2e.en.mdx'), article());
+    await git('init', '-q');
+    await git('config', 'user.name', 'E2E');
+    await git('config', 'user.email', 'e2e@example.invalid');
+    await git('add', 'website', 'cms/publication', 'package.json');
+    await git('commit', '-qm', 'Published Sprint singleton');
+    const base = (await git('rev-parse', 'HEAD')).stdout.trim();
+    const check = async (head: string) => exec(process.execPath,
+      ['cms/publication/editorial.ts', '--check-sprint-deletions'],
+      { cwd: dir, env: { ...process.env, CMS_PR_BASE_SHA: base, CMS_PR_HEAD_SHA: head } })
+      .then(result => ({ code: 0, text: result.stdout + result.stderr }), error => ({ code: error.code, text: error.stdout + error.stderr }));
+    const unchanged = await check(base);
+    expect(unchanged.code, unchanged.text).toBe(0);
+    await rm(directory, { recursive: true });
+    await git('add', 'website/outstatic/content');
+    await git('commit', '-qm', 'Attempt to delete all Sprint settings');
+    const legacyAbsence = await run(dir, 'content');
+    expect(legacyAbsence.code, legacyAbsence.text).toBe(0);
+    const removed = await check((await git('rev-parse', 'HEAD')).stdout.trim());
+    expect(removed.code).not.toBe(0);
+    expect(removed.text).toContain('Canonical Sprint settings cannot be deleted');
+    for (const locale of locales) expect(removed.text).toContain(`settings.${locale}.json`);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
 
 function localizedArticle(locale: string, fields = '') {
   return article()
@@ -219,7 +334,7 @@ test('editorial PR command permits content commits and rejects code, forks and d
   const git=(...args:string[])=>exec('git',args,{cwd:dir});
   try {
     await git('init','-q');await git('config','user.name','E2E');await git('config','user.email','e2e@example.invalid');
-    await mkdir(path.join(dir,'website/src'));
+    await mkdir(path.join(dir,'website/src'),{recursive:true});
     await writeFile(path.join(dir,'website/src/developer-owned.md'),article('draft'));
     await git('add','cms/publication','package.json','website/src');await git('commit','-qm','Base');
     const base=(await git('rev-parse','HEAD')).stdout.trim();
@@ -248,7 +363,7 @@ test('editorial PR command permits content commits and rejects code, forks and d
     await git('add','website');await git('commit','-qm','Conference settings change');
     const conferenceChange=(await run(dir,'editorial',{...env,CMS_PR_HEAD_SHA:(await git('rev-parse','HEAD')).stdout.trim()}));
     expect(conferenceChange.code).not.toBe(0);
-    expect(conferenceChange.text).toContain('only news and media paths');
+    expect(conferenceChange.text).toContain('only news, localized Sprint settings and media paths');
     await rm(path.join(dir,'website/outstatic/content/2026-conference/settings.en.json'));
     await git('add','website');await git('commit','-qm','Remove conference settings change');
     await mkdir(path.join(dir,'website/outstatic/content/2026-posts/nested'));

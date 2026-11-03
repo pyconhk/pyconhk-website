@@ -24,7 +24,7 @@ test("admin loads the published Decap configuration and login screen", async ({
   expect(root.headers().location).toBe("/admin/");
   await page.goto("/admin/");
   await expect(page).toHaveTitle(
-    `PyCon HK News CMS · ${profile === "legacy" ? "TRANSITION" : profile.toUpperCase()}`,
+    `PyCon HK CMS · ${profile === "legacy" ? "TRANSITION" : profile.toUpperCase()}`,
   );
   await expect(page.getByLabel("CMS environment")).toContainText(
     expectedBackend.branch,
@@ -56,10 +56,12 @@ test("admin loads the published Decap configuration and login screen", async ({
   expect(config.collections.map((collection) => collection.name)).toEqual([
     `posts${collectionSuffix}`,
     `posts_2025${collectionSuffix}`,
+    `sprint_2026${collectionSuffix}`,
   ]);
   expect(config.collections.map((collection) => collection.label)).toEqual([
     "2026 News",
     "2025 News",
+    "2026 Sprint",
   ]);
   for (const collection of config.collections) {
     if (collection.folder)
@@ -80,16 +82,34 @@ test("admin loads the published Decap configuration and login screen", async ({
     expect(visibility.options).toEqual([
       { label: "Draft — do not publish", value: "draft" },
       {
-        label: collection.name.startsWith("posts_2025")
-          ? "Publish all five translations after checks"
-          : "Publish this language after checks",
+        label: collection.name.startsWith("sprint_2026")
+          ? "Publish all six translations after checks"
+          : collection.name.startsWith("posts_2025")
+            ? "Publish all five translations after checks"
+            : "Publish this language after checks",
         value: "published",
       },
     ]);
     expect(visibility.i18n).toBe(
-      collection.name.startsWith("posts_2025") ? "duplicate" : true,
+      collection.name.startsWith("posts_2025") ||
+        collection.name.startsWith("sprint_2026")
+        ? "duplicate"
+        : true,
     );
   }
+  const sprint = config.collections.find(
+    (collection) => collection.name === `sprint_2026${collectionSuffix}`,
+  );
+  expect(sprint).toMatchObject({
+    folder: "website/outstatic/content/2026-sprint",
+    create: false,
+    delete: false,
+    i18n: true,
+    format: "json",
+    extension: "json",
+    filter: { field: "slug", value: "settings" },
+    editor: { preview: true },
+  });
 });
 
 test("deployment manifest identifies the CMS content environment", async ({
