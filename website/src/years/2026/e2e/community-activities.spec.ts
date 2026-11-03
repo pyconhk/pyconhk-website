@@ -23,14 +23,17 @@ for (const [locale, activityTitles] of Object.entries(titles)) {
       );
       const content = page.locator(`[data-community-activity="${activity}"]`);
       await expect(content).toBeVisible();
+      await expect(content.locator('[data-activity-day]')).toHaveCount(0);
+      await expect(content.locator('[data-activity-location]')).toContainText('LW659');
       await expect(
-        content.locator('[data-activity-day], [data-activity-location]')
-      ).toHaveCount(0);
+        content.locator(`a[href="/2026/${locale}/access-guide/#floor-plans"]`)
+      ).toBeVisible();
       await expect(content.locator('[data-activity-instructions] > li')).toHaveCount(
         activity === 'pyshare' ? 4 : 2
       );
       if (activity === 'pyshare') {
         await expect(content.locator('ol')).toContainText('Blu Tack');
+        await expect(content.locator('[data-activity-prompts] > li')).toHaveCount(4);
       }
       for (const route of ['schedule', 'code-of-conduct']) {
         await expect(

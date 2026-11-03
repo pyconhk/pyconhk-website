@@ -8,6 +8,9 @@ import type { CfpLocale } from '@/years/2026/locales';
 export const lightningTalkRegistrationUrl =
   'https://docs.google.com/forms/d/e/1FAIpQLSfTCfYW5DNVUXV1_v_lv3cUJmJ1krlKZZ4EPMqbgd2avzmIFA/viewform';
 
+export const lightningTalkMaterialsUrl =
+  'https://drive.google.com/drive/folders/1yLAmW4dQ-MxxiXf-9mT3tucWFeAmCwhf';
+
 export const lightningTalkSchedule = {
   date: '2026-11-14',
   timeZone: 'Asia/Hong_Kong',
@@ -15,6 +18,7 @@ export const lightningTalkSchedule = {
   registrationClose: '13:00',
   notificationTime: '14:30',
   replyDeadline: '15:00',
+  materialsDeadline: '16:00',
   checkInTime: '16:30',
   talkStart: '16:50',
   talkEnd: '17:15',
@@ -25,6 +29,7 @@ const {
   registrationClose,
   notificationTime,
   replyDeadline,
+  materialsDeadline,
   checkInTime,
   talkStart,
   talkEnd,
@@ -35,11 +40,14 @@ const scheduleTimes = [
   registrationClose,
   notificationTime,
   replyDeadline,
+  materialsDeadline,
   checkInTime,
   `${talkStart}–${talkEnd}`,
 ] as const;
 
-function scheduleRows(labels: [string, string, string, string, string, string]) {
+function scheduleRows(
+  labels: [string, string, string, string, string, string, string]
+) {
   return scheduleTimes.map((time, index) => ({ time, label: labels[index] }));
 }
 
@@ -84,11 +92,12 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       'Registration closes',
       'Selected speakers notified by email',
       'Deadline to reply by email and confirm',
+      'Deadline to submit presentation materials or links',
       'Speaker check-in',
       'Lightning Talks',
     ]),
     rules: [
-      'Each talk has a strict five-minute limit.',
+      'Each talk has a strict five-minute limit. A gong will sound at five minutes; please finish your talk then.',
       'All talks must follow the conference Code of Conduct.',
       `If selected, reply to the notification email by ${replyDeadline} to confirm your participation.`,
     ],
@@ -101,6 +110,10 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       {
         title: 'Check your email and confirm',
         body: `The programme team will email selected speakers at ${notificationTime}. Reply to that email by ${replyDeadline} to confirm that you will present.`,
+      },
+      {
+        title: 'Submit your materials',
+        body: `By ${materialsDeadline}, put your presentation materials or a link in the designated Google Drive folder. If you will not use slides, state that in your submission.`,
       },
       {
         title: 'Check in and get ready',
@@ -145,11 +158,12 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       '截止報名',
       '用電郵通知獲選講者',
       '回覆電郵確認參加嘅截止時間',
+      '提交演講素材或連結嘅截止時間',
       '講者報到',
       '閃電演講',
     ]),
     rules: [
-      '每個演講嚴格限時五分鐘。',
+      '每個演講嚴格限時五分鐘。五分鐘到會敲鑼，請喺鑼聲響起時結束分享。',
       '所有演講都要遵守大會行為準則。',
       `如果獲選，請喺 ${replyDeadline} 前回覆通知電郵，確認你會上台分享。`,
     ],
@@ -162,6 +176,10 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       {
         title: '睇電郵，回覆確認',
         body: `議程團隊會喺 ${notificationTime} 用電郵通知獲選講者。收到通知後，請喺 ${replyDeadline} 前回覆嗰封電郵，確認你會上台分享。`,
+      },
+      {
+        title: '提交演講素材',
+        body: `請喺 ${materialsDeadline} 前將演講素材或者連結放入指定嘅 Google Drive 文件夾。如果唔用投影片，請喺提交資料註明。`,
       },
       {
         title: '報到，準備上台',
@@ -206,11 +224,12 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       '截止報名',
       '以電郵通知獲選講者',
       '回覆電郵確認參加的截止時間',
+      '提交演講素材或連結的截止時間',
       '講者報到',
       '閃電演講',
     ]),
     rules: [
-      '每場演講嚴格限時五分鐘。',
+      '每場演講嚴格限時五分鐘。五分鐘到時會敲鑼，請於鑼聲響起時結束分享。',
       '所有演講均須遵守大會行為準則。',
       `獲選講者請於 ${replyDeadline} 前回覆通知電郵，確認參加演講。`,
     ],
@@ -223,6 +242,10 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       {
         title: '查看電郵並回覆確認',
         body: `議程團隊將於 ${notificationTime} 以電郵通知獲選講者。請於 ${replyDeadline} 前回覆該封電郵，確認參加演講。`,
+      },
+      {
+        title: '提交演講素材',
+        body: `請於 ${materialsDeadline} 前將演講素材或連結放入指定的 Google Drive 資料夾。若不使用投影片，請於提交資料中註明。`,
       },
       {
         title: '報到並準備上台',
@@ -267,11 +290,12 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       '截止报名',
       '通过电子邮件通知入选讲者',
       '回复邮件确认参加的截止时间',
+      '提交演讲素材或链接的截止时间',
       '讲者签到',
       '闪电演讲',
     ]),
     rules: [
-      '每场演讲严格限时五分钟。',
+      '每场演讲严格限时五分钟。五分钟到时会敲锣，请在锣声响起时结束分享。',
       '所有演讲均须遵守大会行为准则。',
       `入选讲者请于 ${replyDeadline} 前回复通知邮件，确认参加演讲。`,
     ],
@@ -284,6 +308,10 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       {
         title: '查看邮件并回复确认',
         body: `议程团队将于 ${notificationTime} 通过电子邮件通知入选讲者。请于 ${replyDeadline} 前回复该邮件，确认参加演讲。`,
+      },
+      {
+        title: '提交演讲素材',
+        body: `请于 ${materialsDeadline} 前将演讲素材或链接放入指定的 Google Drive 文件夹。如不使用幻灯片，请在提交资料中注明。`,
       },
       {
         title: '签到并准备上台',
@@ -328,11 +356,12 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       '申込受付終了',
       '採用された方へメールで通知',
       '登壇確認メールの返信締切',
+      '発表資料・リンクの提出締切',
       '登壇者受付',
       'ライトニングトーク',
     ]),
     rules: [
-      '発表は1件につき5分です。制限時間を守ってください。',
+      '発表は1件につき5分です。5分になったら銅鑼が鳴りますので、発表を終了してください。',
       'すべての発表でカンファレンスの行動規範を守ってください。',
       `採用された方は${replyDeadline}までに通知メールへ返信し、登壇する旨をお知らせください。`,
     ],
@@ -345,6 +374,10 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       {
         title: 'メールを確認して返信する',
         body: `採用された方には、プログラムチームから${notificationTime}にメールでご連絡します。${replyDeadline}までにそのメールへ返信し、登壇する旨をお知らせください。`,
+      },
+      {
+        title: '発表資料を提出する',
+        body: `${materialsDeadline}までに発表資料やリンクを指定の Google Drive フォルダへ提出してください。スライドを使わない場合は、その旨を記載してください。`,
       },
       {
         title: '受付を済ませ、発表に備える',
@@ -389,11 +422,12 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       '신청 마감',
       '선정된 발표자에게 이메일 안내',
       '발표 확정 이메일 회신 마감',
+      '발표 자료 또는 링크 제출 마감',
       '발표자 체크인',
       '라이트닝 토크',
     ]),
     rules: [
-      '각 발표는 5분 이내로 마쳐야 합니다.',
+      '각 발표는 5분 이내로 마쳐야 합니다. 5분이 되면 징이 울리므로 발표를 마무리해 주세요.',
       '모든 발표는 컨퍼런스 행동 강령을 따라야 합니다.',
       `선정된 분은 ${replyDeadline}까지 안내 이메일에 회신하여 발표 참여를 확정해 주세요.`,
     ],
@@ -406,6 +440,10 @@ export const lightningTalkCopy: Record<CfpLocale, LightningTalkCopy> = {
       {
         title: '이메일 확인 후 회신하기',
         body: `프로그램 팀이 ${notificationTime}에 선정된 발표자에게 이메일을 보냅니다. ${replyDeadline}까지 해당 이메일에 회신하여 발표 참여를 확정해 주세요.`,
+      },
+      {
+        title: '발표 자료 제출하기',
+        body: `${materialsDeadline}까지 발표 자료나 링크를 지정된 Google Drive 폴더에 제출해 주세요. 슬라이드를 사용하지 않는 경우에는 제출 내용에 그 사실을 적어 주세요.`,
       },
       {
         title: '체크인 후 발표 준비하기',

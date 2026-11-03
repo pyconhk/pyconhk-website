@@ -1,0 +1,10 @@
+---
+import ExplorationPage from '@/years/2026/components/pages/ExplorationPage.astro';
+import { resolveCfpLocale, supportedLocales } from '@/years/2026/locales';
+
+export function getStaticPaths() {
+  return supportedLocales.map((locale) => ({ params: { locale } }));
+}
+const locale = resolveCfpLocale(Astro.params.locale);
+---
+<ExplorationPage locale={locale} />
