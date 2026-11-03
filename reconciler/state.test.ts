@@ -138,3 +138,18 @@ test('News version hashes all published posts and images, ignoring maintenance a
   assert.notEqual(newsContentHash({ tree: tree.slice(0, 2) }), version);
   assert.throws(() => newsContentHash({ tree, truncated: true }), /truncated/);
 });
+
+test('published Sprint saves and deletions change the content version without admitting unrelated JSON', () => {
+  const item = (path: string, sha: string) => ({ path, sha, mode: '100644', type: 'blob' });
+  const sprint = item('website/outstatic/content/2026-sprint/settings.en.json', 'sprint');
+  const unrelated = [
+    item('website/outstatic/content/2026-conference/settings.en.json', 'conference'),
+    item('website/outstatic/content/2026-sprint/nested/settings.en.json', 'nested'),
+    item('website/outstatic/content/2026-sprint/settings.fr.json', 'unsupported'),
+  ];
+  const version = newsContentHash({ tree: [sprint, ...unrelated] });
+  assert.equal(newsContentHash({ tree: [sprint] }), version);
+  assert.notEqual(newsContentHash({ tree: [item(sprint.path, 'updated'), ...unrelated] }), version);
+  assert.notEqual(newsContentHash({ tree: unrelated }), version);
+  assert.equal(newsContentHash({ tree: [sprint, ...unrelated.map((entry) => ({ ...entry, sha: 'changed' }))] }), version);
+});

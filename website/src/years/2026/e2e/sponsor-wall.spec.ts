@@ -382,6 +382,39 @@ for (const route of ['/2026/en/#sponsors', '/2026/en/sponsorships/']) {
     }
   });
 
+  test(`${route}: closing a sponsor dialog preserves focus moved to another sponsor`, async ({
+    page,
+  }) => {
+    await page.goto(route);
+    const databricks = page.locator('[data-sponsor-dialog="databricks"]');
+    const redhat = page.locator('[data-sponsor-dialog="redhat"]');
+    const nextTrigger = page.getByRole('button', { name: 'Red Hat', exact: true });
+    await page.getByRole('button', { name: 'Databricks', exact: true }).click();
+    await expect(databricks).toBeVisible();
+
+    await databricks.evaluate(async (dialog) => {
+      if (!(dialog instanceof HTMLDialogElement))
+        throw new Error('Sponsor dialog is not a native dialog');
+      const next = document.querySelector<HTMLButtonElement>(
+        '[data-sponsor-trigger="redhat"]'
+      );
+      if (!next) throw new Error('Red Hat sponsor trigger is missing');
+      const closed = new Promise<void>((resolve) => {
+        dialog.addEventListener('close', () => resolve(), { once: true });
+      });
+      // Focus may move before the browser dispatches the queued close event.
+      dialog.close();
+      next.focus();
+      await closed;
+    });
+
+    await expect(databricks).not.toBeVisible();
+    await expect(nextTrigger).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(redhat).toBeVisible();
+    await expect(page.locator('[data-sponsor-dialog]:visible')).toHaveCount(1);
+  });
+
   test(`${route}: lower-tier logos open their official websites directly`, async ({
     page,
     context,

@@ -344,7 +344,9 @@ test.describe("live article preview", () => {
         expect(html).toContain("October 21, 2026");
       }
     }
-    for (const collection of config.collections) {
+    for (const collection of config.collections.filter((collection) =>
+      /-posts$/u.test(collection.folder),
+    )) {
       const year = /\/(\d+)-posts$/u.exec(collection.folder)?.[1];
       expect(year).toBeTruthy();
       const locales = collection.i18n.locales || config.i18n.locales;

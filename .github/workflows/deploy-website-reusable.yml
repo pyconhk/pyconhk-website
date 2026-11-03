@@ -81,7 +81,7 @@ jobs:
           ref: ${{ steps.prepare.outputs.news_sha }}
           path: news-source
           persist-credentials: false
-      - name: Stage only News and uploaded media
+      - name: Stage only approved editorial content and uploaded media
         if: steps.prepare.outputs.changed == 'true' && steps.prepare.outputs.news_sha != ''
         env:
           EXPECTED_NEWS_SHA: ${{ steps.prepare.outputs.news_sha }}
@@ -92,6 +92,7 @@ jobs:
           while IFS= read -r -d '' file; do
             if [[ "$file" =~ ^website/outstatic/content/2025-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja)\.mdx$ ]] ||
                [[ "$file" =~ ^website/outstatic/content/2026-posts/[^/]+\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.mdx$ ]] ||
+               [[ "$file" =~ ^website/outstatic/content/2026-sprint/settings\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.json$ ]] ||
                [[ "$file" =~ ^website/public/outstatic/images/[^/]+\.(png|jpe?g|webp|avif|gif)$ ]]; then
               continue
             fi
@@ -108,6 +109,14 @@ jobs:
               cp -R "news-source/website/outstatic/content/${year}-posts" "website/outstatic/content/${year}-posts"
             fi
           done
+          # The checked-in six-language seed keeps the first code rollout usable
+          # before the new CMS collection is initialized. Once present, the
+          # pinned content repository owns all Sprint data; singleton deletion
+          # is rejected by the content promotion boundary.
+          if [ -d news-source/website/outstatic/content/2026-sprint ]; then
+            rm -rf website/outstatic/content/2026-sprint
+            cp -R news-source/website/outstatic/content/2026-sprint website/outstatic/content/2026-sprint
+          fi
           rm -rf website/public/outstatic/images
           if [ -d news-source/website/public/outstatic/images ]; then
             cp -R news-source/website/public/outstatic/images website/public/outstatic/images

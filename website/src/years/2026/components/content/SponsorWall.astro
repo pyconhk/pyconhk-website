@@ -146,7 +146,6 @@ const groups = [...new Set(items.map((item) => item.tier))].map((tier) => ({
       if (!(dialog instanceof HTMLDialogElement)) continue;
       trigger.dataset.sponsorInitialized = 'true';
       trigger.addEventListener('click', () => dialog.showModal());
-      dialog.addEventListener('close', () => trigger.focus({ preventScroll: true }));
       dialog.addEventListener('click', (event) => {
         if (event.target !== dialog) return;
         const bounds = dialog.getBoundingClientRect();

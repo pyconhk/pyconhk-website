@@ -4,6 +4,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 import { normalizeNewsFrontmatter } from "../src/lib/news-frontmatter.ts";
+import {
+  parseSprintContent,
+  sprintLocales,
+  type SprintContent,
+  type SprintLocale,
+  validateSprintTranslations,
+} from "../../website/src/lib/sprint-content.ts";
 
 export const archiveCmsLocales = ["en", "zh-hk", "zh-hant", "zh-hans", "ja"];
 export const cmsLocales = [...archiveCmsLocales, "ko"];
@@ -14,7 +21,13 @@ export const cmsRepoRoot = path.resolve(
 
 const contentRoot = "website/outstatic/content";
 const newsContentFile = /^website\/outstatic\/content\/(?:2025|2026)-posts\/[^/]+\.mdx$/u;
+const sprintContentRoot = `${contentRoot}/2026-sprint/`;
+const sprintContentFile = /^website\/outstatic\/content\/2026-sprint\/settings\.(en|zh-hk|zh-hant|zh-hans|ja|ko)\.json$/u;
 const rasterImagePath = /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/iu;
+
+function isCmsContentFile(file: string) {
+  return newsContentFile.test(file) || file.startsWith(sprintContentRoot);
+}
 
 function validateNewsCoverImage(data) {
   if (data.coverImage && !rasterImagePath.test(data.coverImage)) {
@@ -42,12 +55,46 @@ export function listCmsContentFiles(ref) {
       { cwd: cmsRepoRoot, encoding: "utf8" },
     )
       .split("\n")
-      .filter((file) => newsContentFile.test(file));
+      .filter(isCmsContentFile);
   }
 
   return listWorkingTreeFiles(path.join(cmsRepoRoot, contentRoot)).filter(
-    (file) => newsContentFile.test(file),
+    isCmsContentFile,
   );
+}
+
+export function collectSprintLocaleProblems(files, readContent) {
+  const candidates = files.filter((file) => file.startsWith(sprintContentRoot));
+  if (!candidates.length) return [];
+  const variants: Partial<Record<SprintLocale, SprintContent>> = {};
+  const present = new Set<string>();
+  const problems = [];
+  for (const file of candidates) {
+    const match = sprintContentFile.exec(file);
+    if (!match) {
+      problems.push(`${file} is not a canonical localized Sprint settings file`);
+      continue;
+    }
+    const locale = match[1] as SprintLocale;
+    present.add(locale);
+    try {
+      variants[locale] = parseSprintContent(JSON.parse(readContent(file)), locale);
+    } catch (error) {
+      problems.push(`${file}: ${error.message}`);
+    }
+  }
+  const missing = sprintLocales.filter((locale) => !present.has(locale));
+  if (missing.length) {
+    problems.push(`Sprint settings must contain all six locale files; missing: ${missing.join(", ")}`);
+  }
+  if (!problems.length) {
+    try {
+      validateSprintTranslations(variants);
+    } catch (error) {
+      problems.push(error.message);
+    }
+  }
+  return problems;
 }
 
 export function collectCmsLocaleProblems(files, readContent) {
@@ -57,10 +104,12 @@ export function collectCmsLocaleProblems(files, readContent) {
     "u",
   );
   const entries = new Map();
-  const problems = [];
+  const problems = collectSprintLocaleProblems(files, readContent);
 
   if (mdxFiles.length === 0) {
-    return ["CMS content must contain at least one localized MDX file"];
+    return files.some((file) => file.startsWith(sprintContentRoot))
+      ? problems
+      : ["CMS content must contain at least one localized MDX file"];
   }
 
   for (const file of mdxFiles) {

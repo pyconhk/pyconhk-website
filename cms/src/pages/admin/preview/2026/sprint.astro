@@ -1,0 +1,78 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template.
+import YearFonts from "@/components/YearFonts.astro";
+import { getLocaleDefinition } from "@/config/site";
+import { parseSprintContent, sprintLocales } from "@/lib/sprint-content";
+// biome-ignore lint/correctness/noUnusedImports: Used by the Astro template.
+import SprintContent from "@/years/2026/components/content/SprintContent.astro";
+import { contentUi } from "@/years/2026/data/content-ui";
+import "../../../../styles/article-preview.css";
+
+export const prerender = false;
+
+Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
+const reject = (message: string, status: number) => {
+  const headers = new Headers(Astro.response.headers);
+  headers.set("Content-Type", "text/plain; charset=utf-8");
+  return new Response(message, { status, headers });
+};
+if (Astro.request.method !== "POST") {
+  Astro.response.headers.set("Allow", "POST");
+  return reject("Use POST", 405);
+}
+
+let input: unknown;
+try {
+  input = await Astro.request.json();
+} catch {
+  return reject("Invalid Sprint preview data", 400);
+}
+if (
+  !input ||
+  typeof input !== "object" ||
+  !("data" in input) ||
+  !("locale" in input) ||
+  !input.data ||
+  typeof input.data !== "object" ||
+  Array.isArray(input.data)
+) {
+  return reject("Invalid Sprint preview data", 400);
+}
+const locale = sprintLocales.find((value) => value === input.locale);
+if (!locale) return reject("Unknown Sprint language", 400);
+const data = input.data as Record<string, unknown>;
+// Preview unfinished edits without requesting publication or persisting changes.
+// Strict field types and safe links still use the same parser as publication.
+const previewData = { ...data, slug: data.slug ?? "settings" };
+let content: ReturnType<typeof parseSprintContent>;
+try {
+  content = parseSprintContent(previewData, locale, { preview: true });
+} catch (error) {
+  return reject(
+    error instanceof Error ? error.message : "Invalid Sprint preview data",
+    400,
+  );
+}
+const title = contentUi[locale].titles.sprint;
+const htmlLang = getLocaleDefinition(locale).htmlLang;
+---
+
+<!doctype html>
+<html lang={htmlLang} data-site-year="2026">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>{title} | Sprint preview</title>
+    <YearFonts year={2026} />
+  </head>
+  <body class="min-h-screen overflow-x-clip bg-white font-sans antialiased">
+    <main data-conference-site class="min-h-screen bg-conference-paper px-4 py-8 text-conference-body sm:px-6">
+      <div class="mx-auto max-w-5xl space-y-6 rounded-3xl border-3 border-conference-outline bg-conference-surface p-6 shadow-conference-panel sm:p-10">
+        <h1 class="text-center text-3xl font-black text-conference-ink">{title}</h1>
+        <SprintContent locale={locale} content={content} mode="preview" />
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 # PyCon HK Website CMS
 
 Astro 7 and Decap CMS run as Cloudflare Workers with static assets. The CMS
-edits News only. `wrangler.jsonc` is the transitional Worker targeting the
+edits News and 2026 Sprint information. `wrangler.jsonc` is the transitional Worker targeting the
 website repository's `cms` branch. The new test and production configs target
 separate branches in `pyconhk/pyconhk-news`, a public content repository.
 
@@ -22,6 +22,7 @@ The Worker exposes:
 - `/admin/test/`: in-memory Decap test backend
 - `/admin/config.yml`: generated Decap configuration
 - `POST /admin/preview/<year>/`: render unsaved article data without persistence
+- `POST /admin/preview/2026/sprint/`: render unsaved Sprint information, projects and FAQs without persistence
 - `/api/decap/auth` and `/api/decap/callback`: GitHub OAuth
 
 `/admin/test/` is an in-memory browser fixture, not the GitHub-backed test CMS.
@@ -43,14 +44,31 @@ The CMS uses Decap's `multiple_files` i18n structure. The 2026 news collection u
 `en`, `zh-hk`, `zh-hant`, `zh-hans`, `ja`, and `ko`; 2025 retains its five locales
 without `ko`. Each 2026 translation can publish when it is ready; the other
 translations can stay as drafts or be added later. The 2025 archive retains its
-requirement for all five published translations. The sidebar exposes only news
-collections, currently `2026 News` and `2025 News`. The year is
+requirement for all five published translations. The sidebar exposes `2026 News`,
+`2025 News` and `2026 Sprint`. The year is
 determined by the collection, so editors do not enter it as post metadata.
-Conference pages and event settings are maintained in the website source.
+Other conference pages and event settings remain in the website source.
+
+`2026 Sprint` contains one existing **Sprint settings** entry. Editors can update
+the introduction, date, Hong Kong start/end times, location, registration and
+proposal links, proposal deadline, additional information, FAQs and project list.
+Creation and deletion are disabled for this collection.
+Sprint keeps its existing publication rule: **all six translations publish
+together**. Complete them before selecting **Publish all six translations after
+checks**. Date/time and registration/proposal fields are shared from English;
+FAQ IDs/order and published project IDs/order, lead names and repository/setup
+links must also match across languages. Copying another locale replaces that
+translation, so review the text before saving.
+
+Each project has its own visibility. Draft projects can remain unfinished and
+stay off the public website; published projects need their title, description,
+lead and repository link completed. Preview includes draft projects so editors
+can check work in progress. Draft content is still saved in the public content
+repository; visibility controls the website, not repository access.
 
 Use **Toggle i18n** to switch the translation pane to the live article preview.
 The preview follows the left editor's **Writing in** language and includes
-unsaved text and uploaded images. The 2026 preview offers system, light and
+unsaved text and uploaded News images. The 2026 previews offer system, light and
 dark appearance; 2025 retains its archive design. Previewing does not save,
 change visibility or request a deployment. Use **Save** separately.
 
@@ -64,6 +82,9 @@ the normal collection definition without copying the preview controller.
 Rendering runs in the CMS Worker; public year assets resolve through the
 website and CMS media resolves through Decap's `getAsset`, including temporary
 uploads. CMS deployment hashes include these shared website source inputs.
+Sprint preview renders the same `SprintContent.astro` component as the public
+Sprint and Q&A pages, including unsaved project and FAQ edits. It allows
+incomplete fields for preview while retaining field-type and HTTPS-link checks.
 
 The editor's **Save** button saves directly to the CMS branch, with no
 per-article pull request or review step. For 2026 News, each language has its own
@@ -79,7 +100,7 @@ existing checks. Copying content from another locale also copies its visibility;
 the editor warns you to review that choice before saving. CI repeats content
 validation before promotion.
 
-When a 2026 translation is not published, its News list and homepage can show
+When a 2026 News translation is not published, its News list and homepage can show
 the published English article with an English-language badge and a link to the
 English article. Draft or missing translations do not get public article URLs,
 language-switcher links or search-engine alternate links. Once a translation
@@ -94,8 +115,8 @@ News branch and builds and uploads changed content to Cloudflare. Cloudflare
 does not build the website. The schedule checks every five minutes; GitHub can
 delay scheduled runs. Failed validation leaves the last published site intact.
 
-The test collections keep IDs `posts_test` and `posts_2025_test`, while production
-uses `posts` and `posts_2025`. Existing `cms-editorial/<collection>/<slug>` drafts
+The test collections keep IDs `posts_test`, `posts_2025_test` and `sprint_2026_test`, while production
+uses `posts`, `posts_2025` and `sprint_2026`. Existing `cms-editorial/<collection>/<slug>` drafts
 are legacy pending changes and must be recovered before removing those branches;
 new saves do not create them.
 
@@ -114,6 +135,23 @@ Both News branches must be seeded with this locale-coded shape before editors
 use them. Legacy files such as `hello-world.mdx` are not entries in a
 `multiple_files` collection. Missing 2026 translations do not need placeholder
 files.
+
+The Sprint singleton uses JSON rather than News frontmatter:
+
+```text
+website/outstatic/content/2026-sprint/settings.en.json
+website/outstatic/content/2026-sprint/settings.zh-hk.json
+website/outstatic/content/2026-sprint/settings.zh-hant.json
+website/outstatic/content/2026-sprint/settings.zh-hans.json
+website/outstatic/content/2026-sprint/settings.ja.json
+website/outstatic/content/2026-sprint/settings.ko.json
+```
+
+Seed these six files on the selected CMS branch before opening the Sprint
+collection. It uses a folder collection with creation/deletion disabled because
+[Decap's file collections support only single-file i18n](https://decapcms.org/docs/i18n/). The shared Sprint parser
+validates both editor saves and publication; layout and interactions remain in
+the website source.
 
 ## Local Development
 
