@@ -29,7 +29,6 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       await expect(sprint).toContainText('10:00');
       await expect(sprint).toContainText('UTC+8');
       await expect(sprint).toContainText('HKIIT');
-      await expect(sprint.locator('ul')).toHaveCount(0);
       const qaLink = sprint.locator('[data-sprint-qa-link]');
       await expect(qaLink).toHaveAttribute('href', `/2026/${locale}/sprint/qna/`);
       await qaLink.click();
@@ -81,7 +80,6 @@ test('Sprint explains collaboration rather than a taught workshop', async ({
   await expect(qa.locator('#beginners')).toContainText('vary by project');
   await expect(qa.locator('#fee-and-registration')).toContainText('separate tickets');
   await expect(qa.locator('#preparation')).toContainText('laptop');
-  await expect(qa.locator('#project-list')).toContainText('finalizing');
   await expect(qa.locator('#project-eligibility')).toContainText(
     '14 November 2026 at 23:59 Hong Kong time (UTC+8)'
   );

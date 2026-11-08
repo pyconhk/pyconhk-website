@@ -10,7 +10,8 @@ export function newsContentHash(tree: {
     .filter((entry) =>
       /^website\/(?:outstatic\/content\/(?:2025|2026)-posts\/|public\/outstatic\/images\/)/u.test(
         entry.path
-      )
+      ) ||
+      /^website\/outstatic\/content\/2026-sprint\/settings\.(?:en|zh-hk|zh-hant|zh-hans|ja|ko)\.json$/u.test(entry.path)
     )
     .map(({ path, mode, sha }) => ({ path, mode, sha }))
     .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));

@@ -1,0 +1,132 @@
+---
+import type { SprintProject } from '@/lib/sprint-content';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  project: SprintProject;
+  locale: CfpLocale;
+  index: number;
+  preview?: boolean;
+}
+
+const { project, locale, index, preview = false } = Astro.props;
+const copy = {
+  en: {
+    allLevels: 'All levels', intermediate: 'Intermediate', badge: 'Sprint Project',
+    lead: 'Sprint lead', repository: 'Repository', github: 'GitHub', discord: 'Discord', joinDiscord: 'Join the project channel',
+    setup: 'Setup instructions', goals: 'Goals', skills: 'Useful skills',
+    profile: 'Public profile',
+    untitled: 'Untitled project', draft: 'Draft project',
+  },
+  'zh-hk': {
+    allLevels: '適合所有程度', intermediate: '中階', badge: 'Sprint 項目',
+    lead: 'Sprint Lead', repository: '程式碼', github: 'GitHub', discord: 'Discord', joinDiscord: '加入項目頻道',
+    setup: '環境設定指引', goals: '目標', skills: '適用技能',
+    profile: '公開個人檔案',
+    untitled: '未命名項目', draft: '項目草稿',
+  },
+  'zh-hant': {
+    allLevels: '適合所有程度', intermediate: '中階', badge: 'Sprint 專案',
+    lead: 'Sprint Lead', repository: '程式碼', github: 'GitHub', discord: 'Discord', joinDiscord: '加入專案頻道',
+    setup: '環境設定指引', goals: '目標', skills: '適用技能',
+    profile: '公開個人檔案',
+    untitled: '未命名專案', draft: '專案草稿',
+  },
+  'zh-hans': {
+    allLevels: '适合所有程度', intermediate: '中阶', badge: 'Sprint 项目',
+    lead: 'Sprint Lead', repository: '代码', github: 'GitHub', discord: 'Discord', joinDiscord: '加入项目频道',
+    setup: '环境配置指南', goals: '目标', skills: '适用技能',
+    profile: '公开个人资料',
+    untitled: '未命名项目', draft: '项目草稿',
+  },
+  ja: {
+    allLevels: 'すべてのレベル向け', intermediate: '中級', badge: 'Sprint プロジェクト',
+    lead: 'Sprint リード', repository: 'リポジトリ', github: 'GitHub', discord: 'Discord', joinDiscord: 'プロジェクトのチャンネルに参加',
+    setup: '環境構築ガイド', goals: '目標', skills: '役立つスキル',
+    profile: '公開プロフィール',
+    untitled: '名称未設定のプロジェクト', draft: '下書きのプロジェクト',
+  },
+  ko: {
+    allLevels: '모든 수준', intermediate: '중급', badge: 'Sprint 프로젝트',
+    lead: 'Sprint 리드', repository: '저장소', github: 'GitHub', discord: 'Discord', joinDiscord: '프로젝트 채널 참여',
+    setup: '환경 설정 안내', goals: '목표', skills: '도움이 되는 기술',
+    profile: '공개 프로필',
+    untitled: '제목 없는 프로젝트', draft: '프로젝트 초안',
+  },
+}[locale];
+const projectId = 'sprint-project-' + (project.id || index);
+const paragraphs = project.description.split(/\n\s*\n/u).filter(Boolean);
+const profileHost = project.leadProfileUrl ? new URL(project.leadProfileUrl).hostname : '';
+const isLinkedIn = /(^|\.)linkedin\.com$/u.test(profileHost);
+const profileLabel = `${project.lead} · ${isLinkedIn ? 'LinkedIn' : copy.profile}`;
+const links = [
+  project.repositoryUrl && { label: project.repositoryUrl.startsWith('https://github.com/') ? copy.github : copy.repository, text: project.repositoryUrl.replace(/^https:\/\//u, '').replace(/\/$/u, ''), href: project.repositoryUrl },
+  project.discordUrl && { label: copy.discord, text: copy.joinDiscord, href: project.discordUrl },
+  project.setupUrl && { label: copy.setup, text: copy.setup, href: project.setupUrl },
+].filter((link): link is { label: string; text: string; href: string } => Boolean(link));
+---
+
+<article id={projectId} aria-labelledby={projectId + '-title'} data-sprint-project={project.id}
+  class="scroll-mt-32 rounded-2xl border border-conference-outline/50 bg-conference-paper p-5 sm:p-6">
+  <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+    <div class="min-w-0">
+      <div class="flex flex-wrap items-center gap-2">
+        {project.level && <span data-sprint-level={project.level} class:list={[
+          'rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide',
+          project.level === 'all-levels'
+            ? 'bg-conference-blue/10 text-conference-blue'
+            : 'bg-amber-100 text-amber-800',
+        ]}>{project.level === 'all-levels' ? copy.allLevels : copy.intermediate}</span>}
+        <span class="rounded-full bg-conference-surface px-3 py-1 text-xs font-bold uppercase tracking-wide text-conference-muted">{copy.badge}</span>
+        {preview && project.status === 'draft' && <span class="text-sm text-conference-muted">{copy.draft}</span>}
+      </div>
+      <h3 id={projectId + '-title'} class="mt-4 text-lg font-bold text-conference-blue md:text-xl">{project.title || copy.untitled}</h3>
+    </div>
+    {project.lead && <div class="flex w-fit max-w-full items-center gap-2 md:max-w-[50%]">
+      <p class="min-w-0 break-words rounded-full bg-conference-surface px-4 py-2 text-sm text-conference-muted ring-1 ring-conference-outline/30">
+        <span class="font-semibold">{copy.lead}:</span> {project.lead}
+      </p>
+      {project.leadProfileUrl && <a
+        href={project.leadProfileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={profileLabel}
+        title={profileLabel}
+        data-sprint-lead-profile
+        class:list={[
+          'inline-flex size-11 shrink-0 items-center justify-center rounded-lg focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-conference-blue',
+          isLinkedIn ? 'bg-[#0A66C2] text-white' : 'bg-conference-surface text-conference-blue ring-1 ring-conference-outline/30',
+        ]}
+      >
+        {isLinkedIn ? (
+          <svg aria-hidden="true" class="size-5 fill-current" viewBox="0 0 24 24">
+            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.9 0-1.63.73-1.63 1.63s.73 1.63 1.63 1.63c.9 0 1.63-.73 1.63-1.63c-.01-.9-.74-1.63-1.63-1.63Z" />
+          </svg>
+        ) : <span aria-hidden="true">↗</span>}
+      </a>}
+    </div>}
+  </div>
+
+  {paragraphs.length > 0 && <div class="mt-5 space-y-4 text-base leading-relaxed">
+    {paragraphs.map(paragraph => <p class="whitespace-pre-line">{paragraph}</p>)}
+  </div>}
+  {project.skills.length > 0 && <p class="mt-4 text-sm leading-relaxed text-conference-muted">
+    <span class="font-semibold">{copy.skills}:</span> {project.skills.join(' · ')}
+  </p>}
+
+  {links.length > 0 && <div data-sprint-project-links class:list={['mt-6 grid gap-4', links.length > 1 && 'sm:grid-cols-2']}>
+    {links.map(link => <div class="min-w-0 rounded-xl bg-conference-surface p-4 ring-1 ring-conference-outline/30">
+      <h4 class="text-xs font-bold uppercase tracking-wide text-conference-muted">{link.label}</h4>
+      <a href={link.href} target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex min-h-11 items-center break-all font-semibold text-conference-blue underline-offset-4 hover:underline">
+        <span>{link.text}</span><span aria-hidden="true" class="ml-2 shrink-0">↗</span>
+      </a>
+    </div>)}
+  </div>}
+
+  {project.contributions.length > 0 && <div data-sprint-project-goals class="mt-4 rounded-xl bg-conference-blue/5 p-5 ring-1 ring-conference-blue/20">
+    <h4 class="text-xs font-bold uppercase tracking-wide text-conference-blue">{copy.goals}</h4>
+    <ul class="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed">
+      {project.contributions.map(goal => <li>{goal}</li>)}
+    </ul>
+  </div>}
+</article>

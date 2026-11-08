@@ -1,7 +1,9 @@
 import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
+import { boothStampJourneyCopy } from './booth-stamp-journey';
 import { communityActivityCopy } from './community-activities';
 import { explorationCopy } from './exploration';
+import { floorPlanCopy } from './floor-plans';
 import { lightningTalkCopy } from './lightning-talks';
 
 const written = getChineseTerms('zh-hant');
@@ -52,6 +54,17 @@ export const headerNavigation: NavigationItem[] = [
     children: [
       {
         label: {
+          en: explorationCopy.en.navLabel,
+          'zh-hk': explorationCopy['zh-hk'].navLabel,
+          'zh-hant': explorationCopy['zh-hant'].navLabel,
+          'zh-hans': explorationCopy['zh-hans'].navLabel,
+          ja: explorationCopy.ja.navLabel,
+          ko: explorationCopy.ko.navLabel,
+        },
+        href: (locale) => `/2026/${locale}/exploration/`,
+      },
+      {
+        label: {
           en: 'Conference Schedule',
           'zh-hk': cantonese.programme,
           'zh-hant': written.programme,
@@ -63,14 +76,14 @@ export const headerNavigation: NavigationItem[] = [
       },
       {
         label: {
-          en: explorationCopy.en.navLabel,
-          'zh-hk': explorationCopy['zh-hk'].navLabel,
-          'zh-hant': explorationCopy['zh-hant'].navLabel,
-          'zh-hans': explorationCopy['zh-hans'].navLabel,
-          ja: explorationCopy.ja.navLabel,
-          ko: explorationCopy.ko.navLabel,
+          en: boothStampJourneyCopy.en.navLabel,
+          'zh-hk': boothStampJourneyCopy['zh-hk'].navLabel,
+          'zh-hant': boothStampJourneyCopy['zh-hant'].navLabel,
+          'zh-hans': boothStampJourneyCopy['zh-hans'].navLabel,
+          ja: boothStampJourneyCopy.ja.navLabel,
+          ko: boothStampJourneyCopy.ko.navLabel,
         },
-        href: (locale) => `/2026/${locale}/exploration/`,
+        href: (locale) => `/2026/${locale}/booth-stamp-journey/`,
       },
       {
         label: {
@@ -104,6 +117,17 @@ export const headerNavigation: NavigationItem[] = [
           ko: '오시는 길',
         },
         href: (locale) => `/2026/${locale}/access-guide/`,
+      },
+      {
+        label: {
+          en: floorPlanCopy.en.title,
+          'zh-hk': floorPlanCopy['zh-hk'].title,
+          'zh-hant': floorPlanCopy['zh-hant'].title,
+          'zh-hans': floorPlanCopy['zh-hans'].title,
+          ja: floorPlanCopy.ja.title,
+          ko: floorPlanCopy.ko.title,
+        },
+        href: (locale) => `/2026/${locale}/access-guide/#floor-plans`,
       },
       {
         label: {

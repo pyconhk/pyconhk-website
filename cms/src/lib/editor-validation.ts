@@ -1,3 +1,7 @@
+import {
+  parseSprintContent,
+  validateSprintTranslations,
+} from "../../../website/src/lib/sprint-content.ts";
 import { supportedCmsLocales } from "./env";
 
 type EntryData = Record<string, unknown>;
@@ -15,6 +19,34 @@ function localizedData(
 }
 
 export function validateEditorialPublish(entry: EditorialEntry): void {
+  if (
+    entry.collection === "sprint_2026" ||
+    entry.collection === "sprint_2026_test"
+  ) {
+    const sharedFields = [
+      "slug",
+      "status",
+      "date",
+      "startTime",
+      "endTime",
+      "registrationUrl",
+      "proposalUrl",
+      "proposalDeadline",
+    ];
+    const translations = Object.fromEntries(
+      supportedCmsLocales.map((locale) => {
+        const data = { ...localizedData(entry, locale) };
+        for (const field of sharedFields) {
+          if (data[field] === undefined && entry.data?.[field] !== undefined) {
+            data[field] = entry.data[field];
+          }
+        }
+        return [locale, parseSprintContent(data, locale)];
+      }),
+    );
+    validateSprintTranslations(translations);
+    return;
+  }
   const isCurrentNews =
     entry.collection === "posts" || entry.collection === "posts_test";
   const isArchivedNews =

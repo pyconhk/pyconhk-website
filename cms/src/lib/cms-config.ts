@@ -133,6 +133,240 @@ export const postCollectionDefinitions = [
   },
 ] as const;
 
+export const sprintCollectionDefinition = {
+  name: "sprint_2026",
+  label: "2026 Sprint",
+  year: 2026,
+} as const;
+
+function createSprintFields(): CmsField[] {
+  const shared = (label: string, name: string, hint?: string): CmsField => ({
+    label,
+    name,
+    widget: "string",
+    required: false,
+    i18n: "duplicate",
+    ...(hint ? { hint } : {}),
+  });
+  const localizedText = (label: string, name: string): CmsField => ({
+    label,
+    name,
+    widget: "text",
+    required: false,
+    i18n: true,
+  });
+  const textList = (label: string, name: string): CmsField => ({
+    label,
+    name,
+    widget: "list",
+    required: false,
+    default: [],
+    i18n: true,
+    field: { label: "Item", name: "item", widget: "string" },
+  });
+
+  return [
+    { name: "slug", widget: "hidden", default: "settings", i18n: "duplicate" },
+    {
+      label: "Website visibility",
+      name: "status",
+      widget: "select",
+      options: [
+        { label: "Draft — do not publish", value: "draft" },
+        {
+          label: "Publish all six translations after checks",
+          value: "published",
+        },
+      ],
+      default: "draft",
+      i18n: "duplicate",
+      hint: "Sprint publishes all six languages together. Complete every translation before choosing Publish. Save stores your changes in CMS; the website changes only after checks and deployment succeed.",
+    },
+    localizedText("Introduction", "intro"),
+    {
+      label: "Sprint date",
+      name: "date",
+      widget: "datetime",
+      date_format: "YYYY-MM-DD",
+      time_format: false,
+      format: "YYYY-MM-DD",
+      picker_utc: true,
+      required: false,
+      i18n: "duplicate",
+    },
+    shared(
+      "Start time (Hong Kong)",
+      "startTime",
+      "Optional. Use 24-hour time, for example 10:00.",
+    ),
+    shared(
+      "End time (Hong Kong)",
+      "endTime",
+      "Optional. Use 24-hour time, for example 17:00.",
+    ),
+    {
+      label: "Location",
+      name: "location",
+      widget: "string",
+      required: false,
+      i18n: true,
+    },
+    shared(
+      "Registration URL",
+      "registrationUrl",
+      "Use an HTTPS link for Sprint registration.",
+    ),
+    shared(
+      "Project proposal URL",
+      "proposalUrl",
+      "Use an HTTPS link for project and Sprint Lead proposals.",
+    ),
+    shared(
+      "Project proposal deadline",
+      "proposalDeadline",
+      "Optional. Include the time zone, for example 2026-11-14T23:59:00+08:00 for Hong Kong time.",
+    ),
+    textList("Additional information", "items"),
+    {
+      label: "Questions and answers",
+      name: "qa",
+      widget: "list",
+      required: false,
+      default: [],
+      i18n: true,
+      summary: "{{fields.question}}",
+      hint: "Use the same stable question IDs and order in all six languages.",
+      fields: [
+        {
+          label: "Question ID",
+          name: "id",
+          widget: "string",
+          required: false,
+          hint: "Keep this ID unchanged across translations, for example preparation.",
+        },
+        {
+          label: "Question",
+          name: "question",
+          widget: "string",
+          required: false,
+        },
+        localizedText("Answer", "answer"),
+      ],
+    },
+    {
+      label: "Projects",
+      name: "projects",
+      widget: "list",
+      required: false,
+      default: [],
+      i18n: true,
+      summary: "{{fields.title}} · {{fields.status}}",
+      hint: "Draft projects may be unfinished and stay off the public website. Published project IDs, order, lead names, levels and links must match across all six languages.",
+      fields: [
+        {
+          label: "Project ID",
+          name: "id",
+          widget: "string",
+          required: false,
+          hint: "Keep this ID unchanged across translations, for example python-docs.",
+        },
+        {
+          label: "Project visibility",
+          name: "status",
+          widget: "select",
+          options: [
+            { label: "Draft — hide from website", value: "draft" },
+            { label: "Published — include on Sprint page", value: "published" },
+          ],
+          default: "draft",
+        },
+        {
+          label: "Project title",
+          name: "title",
+          widget: "string",
+          required: false,
+        },
+        localizedText("Description", "description"),
+        {
+          label: "Sprint Lead",
+          name: "lead",
+          widget: "string",
+          required: false,
+        },
+        {
+          label: "Sprint Lead profile URL",
+          name: "leadProfileUrl",
+          widget: "string",
+          required: false,
+          hint: "Optional. Use a confirmed public HTTPS profile link. Keep the same link across translations.",
+        },
+        {
+          label: "Participant level",
+          name: "level",
+          widget: "select",
+          required: false,
+          default: "",
+          options: [
+            { label: "Not specified", value: "" },
+            { label: "All levels", value: "all-levels" },
+            { label: "Intermediate", value: "intermediate" },
+          ],
+          hint: "Use the confirmed participant level. Keep the same value across translations.",
+        },
+        {
+          label: "Repository URL",
+          name: "repositoryUrl",
+          widget: "string",
+          required: false,
+          hint: "HTTPS link. Keep the same link across translations.",
+        },
+        {
+          label: "Setup instructions URL",
+          name: "setupUrl",
+          widget: "string",
+          required: false,
+          hint: "HTTPS link. Keep the same link across translations.",
+        },
+        {
+          label: "Discord URL",
+          name: "discordUrl",
+          widget: "string",
+          required: false,
+          default: "",
+          hint: "Optional. Use only a confirmed HTTPS invite or channel link for this project. Keep the same link across translations.",
+        },
+        textList("Useful skills", "skills"),
+        textList("Goals and contribution tasks", "contributions"),
+      ],
+    },
+  ];
+}
+
+function createSprintCollection(
+  contentRoot: string,
+  stage: ReturnType<typeof getCmsStage>,
+): CmsCollection {
+  return {
+    name:
+      stage === "test"
+        ? `${sprintCollectionDefinition.name}_test`
+        : sprintCollectionDefinition.name,
+    label: sprintCollectionDefinition.label,
+    folder: `${contentRoot}/2026-sprint`,
+    create: false,
+    delete: false,
+    i18n: true,
+    extension: "json",
+    format: "json",
+    identifier_field: "slug",
+    slug: "settings",
+    filter: { field: "slug", value: "settings" },
+    summary: "Sprint settings",
+    editor: { preview: true },
+    fields: createSprintFields(),
+  };
+}
+
 type CmsConfig = {
   i18nStructure: string;
   publishMode: string;
@@ -188,8 +422,11 @@ export function createCmsConfig(
     publicFolder: options.publicFolder || getCmsPublicFolder(environment),
     locales,
     defaultLocale: getCmsDefaultLocale(environment, locales),
-    collections: postCollectionDefinitions.map((definition) =>
-      createPostCollection(contentRoot, definition, stage),
-    ),
+    collections: [
+      ...postCollectionDefinitions.map((definition) =>
+        createPostCollection(contentRoot, definition, stage),
+      ),
+      createSprintCollection(contentRoot, stage),
+    ],
   };
 }

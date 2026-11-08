@@ -4,7 +4,34 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { deploymentSourceHash, isDeploymentInput } from "./source.ts";
+import { deploymentSourceHash, isDeploymentInput, isExternalNewsInput } from "./source.ts";
+
+test("only the six canonical Sprint settings files are external CMS inputs", () => {
+  for (const locale of ["en", "zh-hk", "zh-hant", "zh-hans", "ja", "ko"]) {
+    assert.equal(isExternalNewsInput(`website/outstatic/content/2026-sprint/settings.${locale}.json`), true);
+  }
+  for (const file of [
+    "website/outstatic/content/2026-sprint/settings.fr.json",
+    "website/outstatic/content/2026-sprint/other.en.json",
+    "website/outstatic/content/2026-sprint/nested/settings.en.json",
+    "website/outstatic/content/2026-sprint/settings.en.json.js",
+    "website/outstatic/content/2026-conference/settings.en.json",
+    "website/src/lib/sprint-content.ts",
+  ]) assert.equal(isExternalNewsInput(file), false, file);
+});
+
+test("external Sprint replaces local seed data while the shared parser remains a website input", (t) => {
+  const { root, write } = cmsFixture(t);
+  write("website/outstatic/content/2026-sprint/settings.en.json", '{"intro":"seed"}');
+  write("website/src/lib/sprint-content.ts", "export const version = 1;");
+  const localBefore = deploymentSourceHash("website", root);
+  const externalBefore = deploymentSourceHash("website", root, { externalNews: true });
+  write("website/outstatic/content/2026-sprint/settings.en.json", '{"intro":"edited"}');
+  assert.notEqual(deploymentSourceHash("website", root), localBefore);
+  assert.equal(deploymentSourceHash("website", root, { externalNews: true }), externalBefore);
+  write("website/src/lib/sprint-content.ts", "export const version = 2;");
+  assert.notEqual(deploymentSourceHash("website", root, { externalNews: true }), externalBefore);
+});
 
 test("shared News normalization invalidates both consuming apps", () => {
   assert.equal(isDeploymentInput("website", "cms/src/lib/news-frontmatter.ts"), true);

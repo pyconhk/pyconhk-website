@@ -1,10 +1,15 @@
 import type { CMS, PreviewTemplateComponentProps } from "decap-cms-core";
 import { type ChangeEvent, Component, createElement, createRef } from "react";
-import { postCollectionDefinitions } from "./cms-config";
+import {
+  postCollectionDefinitions,
+  sprintCollectionDefinition,
+} from "./cms-config";
 
 type PreviewProps = PreviewTemplateComponentProps & {
   year: number;
   appearanceEnabled: boolean;
+  previewEndpoint?: string;
+  previewLabel?: string;
   // Decap supplies this at runtime but omits it from its published type.
   locale?: string;
 };
@@ -29,6 +34,7 @@ class ArticlePreview extends Component<
   componentDidUpdate(previous: PreviewProps) {
     if (
       previous.entry.get("data") !== this.props.entry.get("data") ||
+      previous.previewEndpoint !== this.props.previewEndpoint ||
       previous.locale !== this.props.locale ||
       previous.getAsset !== this.props.getAsset ||
       previous.isLoadingAsset !== this.props.isLoadingAsset
@@ -61,22 +67,25 @@ class ArticlePreview extends Component<
   scheduleRender() {
     clearTimeout(this.timer);
     this.request?.abort();
-    this.timer = setTimeout(() => void this.renderArticle(), 200);
+    this.timer = setTimeout(() => void this.renderContent(), 200);
   }
 
-  async renderArticle() {
+  async renderContent() {
     const controller = new AbortController();
     this.request = controller;
     try {
-      const response = await fetch(`/admin/preview/${this.props.year}/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: this.props.entry.get("data").toJS(),
-          locale: this.props.locale || "en",
-        }),
-        signal: controller.signal,
-      });
+      const response = await fetch(
+        this.props.previewEndpoint || `/admin/preview/${this.props.year}/`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            data: this.props.entry.get("data").toJS(),
+            locale: this.props.locale || "en",
+          }),
+          signal: controller.signal,
+        },
+      );
       if (!response.ok) throw new Error(`Preview failed (${response.status})`);
       const document = new DOMParser().parseFromString(
         await response.text(),
@@ -138,7 +147,7 @@ class ArticlePreview extends Component<
         createElement(
           "span",
           {},
-          `Article preview · ${(this.props.locale || "en").toUpperCase()}`,
+          `${this.props.previewLabel || "Article preview"} · ${(this.props.locale || "en").toUpperCase()}`,
         ),
         this.props.appearanceEnabled &&
           createElement(
@@ -170,10 +179,16 @@ class ArticlePreview extends Component<
         ),
       !this.state.html &&
         !this.state.error &&
-        createElement("p", { role: "status" }, "Rendering article…"),
+        createElement(
+          "p",
+          { role: "status" },
+          this.props.previewLabel
+            ? `Rendering ${this.props.previewLabel.toLowerCase()}…`
+            : "Rendering article…",
+        ),
       createElement("iframe", {
         ref: this.frame,
-        title: "Article preview",
+        title: this.props.previewLabel || "Article preview",
         sandbox: "allow-same-origin",
         srcDoc: this.state.html,
         style: {
@@ -194,6 +209,21 @@ class ArticlePreview extends Component<
             },
           );
         },
+      }),
+    );
+  }
+}
+
+export function registerSprintPreviews(cms: CMS): void {
+  const { name, year } = sprintCollectionDefinition;
+  for (const collection of [name, `${name}_test`]) {
+    cms.registerPreviewTemplate(collection, (props) =>
+      createElement(ArticlePreview, {
+        ...props,
+        year,
+        appearanceEnabled: true,
+        previewEndpoint: "/admin/preview/2026/sprint/",
+        previewLabel: "Sprint preview",
       }),
     );
   }

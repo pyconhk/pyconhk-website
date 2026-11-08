@@ -1,0 +1,48 @@
+---
+import type { SprintContent as SprintData } from '@/lib/sprint-content';
+import { contentUi } from '@/years/2026/data/content-ui';
+import type { CfpLocale } from '@/years/2026/locales';
+import SprintProjectCard from './SprintProjectCard.astro';
+
+interface Props { locale: CfpLocale; content: SprintData; mode?: 'sprint' | 'qa' | 'preview'; }
+const { locale, content, mode = 'sprint' } = Astro.props;
+const copy = contentUi[locale];
+const labels = {
+  en: { ends: 'Ends at', projects: 'Sprint projects', deadline: 'Project submission deadline', time: 'Hong Kong time (UTC+8)' },
+  'zh-hk': { ends: '完結時間', projects: 'Sprint 項目', deadline: '項目提交截止時間', time: '香港時間（UTC+8）' },
+  'zh-hant': { ends: '結束時間', projects: 'Sprint 專案', deadline: '專案提交截止時間', time: '香港時間（UTC+8）' },
+  'zh-hans': { ends: '结束时间', projects: 'Sprint 项目', deadline: '项目提交截止时间', time: '香港时间（UTC+8）' },
+  ja: { ends: '終了時間', projects: 'Sprint プロジェクト', deadline: 'プロジェクト提出締切', time: '香港時間（UTC+8）' },
+  ko: { ends: '종료 시간', projects: 'Sprint 프로젝트', deadline: '프로젝트 제출 마감', time: '홍콩 시간(UTC+8)' },
+}[locale];
+const projects = content.projects.filter(project => mode === 'preview' || project.status === 'published');
+const dateLabel = content.date ? new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeZone: 'Asia/Hong_Kong' }).format(new Date(`${content.date}T12:00:00+08:00`)) : '';
+const deadlineLabel = content.proposalDeadline ? new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Hong_Kong' }).format(new Date(content.proposalDeadline)) : '';
+---
+
+<div data-sprint-content class="space-y-6">
+  {(mode === 'sprint' || mode === 'preview') && <>
+    <p class="whitespace-pre-line">{content.intro}</p>
+    {dateLabel && <p class="font-bold"><time datetime={content.date}>{dateLabel}</time></p>}
+    {(content.startTime || content.endTime) && <p>{content.startTime ? `${content.startTime}${content.endTime ? `–${content.endTime}` : ''}` : `${labels.ends} ${content.endTime}`} · {labels.time}</p>}
+    {content.location && <p>{content.location}</p>}
+    {content.items.length > 0 && <ul class="list-disc space-y-3 pl-6">{content.items.map(item => <li class="whitespace-pre-line">{item}</li>)}</ul>}
+    {projects.length > 0 && <section aria-labelledby="sprint-projects-heading" class="space-y-5">
+      <h2 id="sprint-projects-heading" class="text-xl font-bold text-conference-ink">{labels.projects}</h2>
+      {projects.map((project, index) => <SprintProjectCard project={project} locale={locale} index={index} preview={mode === 'preview'} />)}
+    </section>}
+  </>}
+
+  {(mode === 'qa' || mode === 'preview') && <>
+    {mode === 'preview' && <h2 class="text-xl font-bold text-conference-ink">{copy.titles.qa}</h2>}
+    {content.qa.map(item => <article id={item.id} data-sprint-question class="rounded-xl border-2 border-conference-outline p-5"><h2 class="font-bold">{item.question}</h2><p class="mt-4 whitespace-pre-line">{item.answer}</p></article>)}
+  </>}
+
+  {deadlineLabel && <p><span class="font-bold">{labels.deadline}: </span><time datetime={content.proposalDeadline}>{deadlineLabel}</time> · {labels.time}</p>}
+  <nav aria-label={copy.titles.sprint} class="flex flex-col items-start gap-4 border-t border-conference-outline/25 pt-6">
+    {content.registrationUrl && <a data-sprint-registration href={content.registrationUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center rounded-full border-2 border-conference-outline bg-[#d71920] px-5 py-3 font-bold text-white">{copy.register}</a>}
+    {content.proposalUrl && <a data-sprint-proposal href={content.proposalUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.proposeSprint}</a>}
+    {mode === 'sprint' && <a data-sprint-qa-link href={`/2026/${locale}/sprint/qna/`} class="inline-flex min-h-11 items-center gap-3 rounded-xl border-2 border-conference-blue px-5 py-3 font-bold text-conference-blue underline underline-offset-4">{copy.titles.qa}<span aria-hidden="true">→</span></a>}
+    {mode === 'qa' && <a href={`/2026/${locale}/sprint/`} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4"><span aria-hidden="true">←</span>{copy.titles.sprint}</a>}
+  </nav>
+</div>

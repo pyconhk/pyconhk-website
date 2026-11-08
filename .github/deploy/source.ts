@@ -7,6 +7,7 @@ export type App = "website" | "cms";
 
 export function isExternalNewsInput(filename: string) {
   return /^website\/outstatic\/content\/(?:2025|2026)-posts\//.test(filename)
+    || /^website\/outstatic\/content\/2026-sprint\/settings\.(?:en|zh-hk|zh-hant|zh-hans|ja|ko)\.json$/u.test(filename)
     || filename.startsWith("website/outstatic/media/")
     || filename.startsWith("website/public/outstatic/images/");
 }
