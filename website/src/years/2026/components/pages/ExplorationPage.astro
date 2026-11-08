@@ -4,7 +4,7 @@ import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.a
 import { boothStampJourneyCopy } from '@/years/2026/data/booth-stamp-journey';
 import { communityActivityCopy } from '@/years/2026/data/community-activities';
 import { contentUi } from '@/years/2026/data/content-ui';
-import { type ExplorationDestination, explorationCopy } from '@/years/2026/data/exploration';
+import { type ExplorationDestination, explorationCopy, speakerSlidesUrl } from '@/years/2026/data/exploration';
 import { floorPlanCopy } from '@/years/2026/data/floor-plans';
 import { lightningTalkCopy } from '@/years/2026/data/lightning-talks';
 import { getTranslations } from '@/years/2026/i18n';
@@ -17,6 +17,7 @@ const content = contentUi[locale];
 const t = getTranslations(locale);
 const destinations: Record<ExplorationDestination, { label: string; href: string; icon: string }> = {
   schedule: { label: t.schedule.heroTitle, href: `/2026/${locale}/schedule/`, icon: 'fa6-solid:calendar-days' },
+  'speaker-slides': { label: copy.speakerSlidesTitle, href: speakerSlidesUrl, icon: 'fa6-solid:file-lines' },
   'floor-plans': { label: floorPlanCopy[locale].title, href: `/2026/${locale}/access-guide/#floor-plans`, icon: 'fa6-solid:map-location-dot' },
   'access-guide': { label: content.titles.venue, href: `/2026/${locale}/access-guide/`, icon: 'fa6-solid:train-subway' },
   'catering-guide': { label: content.titles.catering, href: `/2026/${locale}/catering-guide/`, icon: 'fa6-solid:utensils' },
@@ -27,7 +28,7 @@ const destinations: Record<ExplorationDestination, { label: string; href: string
   sprint: { label: content.titles.sprint, href: `/2026/${locale}/sprint/`, icon: 'fa6-solid:code' },
 };
 const groups: { id: string; title: string; items: ExplorationDestination[] }[] = [
-  { id: 'plan-your-visit', title: copy.planTitle, items: ['schedule', 'floor-plans', 'access-guide', 'catering-guide'] },
+  { id: 'plan-your-visit', title: copy.planTitle, items: ['schedule', 'speaker-slides', 'floor-plans', 'access-guide', 'catering-guide'] },
   { id: 'join-in', title: copy.joinTitle, items: ['booth-stamp-journey', 'lightning-talks', 'job-board', 'pyshare', 'sprint'] },
 ];
 ---

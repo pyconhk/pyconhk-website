@@ -99,6 +99,7 @@ export default defineConfig({
           'champagne-glasses',
           'code',
           'comments',
+          'file-lines',
           'map-location-dot',
           'store',
           'train-subway',
