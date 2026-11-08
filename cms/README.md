@@ -68,9 +68,10 @@ repository; visibility controls the website, not repository access.
 
 Project cards follow the earlier Sprint format with a participant-level badge,
 introduction, repository/Discord links and goals. **Participant level** and
-**Discord URL** are optional; leave them unspecified until confirmed. Published
-projects must use the same level and repository/setup/Discord links in all six
-languages. **Goals and contribution tasks** stores the project's goals as the
+**Discord URL** are optional. **Sprint Lead profile URL** adds an icon beside the
+lead's name when a confirmed public profile is available. Published projects
+must use the same level and links in all six languages.
+**Goals and contribution tasks** stores the project's goals as the
 existing `contributions` list. Older project JSON needs no migration: missing
 level and Discord values default to empty strings.
 

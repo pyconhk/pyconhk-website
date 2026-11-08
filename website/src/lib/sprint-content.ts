@@ -8,6 +8,7 @@ export type SprintProject = {
   title: string;
   description: string;
   lead: string;
+  leadProfileUrl: string;
   level: '' | 'all-levels' | 'intermediate';
   repositoryUrl: string;
   setupUrl: string;
@@ -53,6 +54,7 @@ const projectFields = [
   'title',
   'description',
   'lead',
+  'leadProfileUrl',
   'level',
   'repositoryUrl',
   'setupUrl',
@@ -174,6 +176,7 @@ export function parseSprintContent(
         title: text(item.title, `projects.${index}.title`),
         description: text(item.description, `projects.${index}.description`),
         lead: text(item.lead, `projects.${index}.lead`),
+        leadProfileUrl: url(item.leadProfileUrl, `projects.${index}.leadProfileUrl`),
         level: projectLevel(item.level, `projects.${index}.level`),
         repositoryUrl: url(item.repositoryUrl, `projects.${index}.repositoryUrl`),
         setupUrl: url(item.setupUrl, `projects.${index}.setupUrl`),
@@ -251,6 +254,7 @@ export function validateSprintTranslations(
       .map((project) => ({
         id: project.id,
         lead: project.lead,
+        leadProfileUrl: project.leadProfileUrl,
         level: project.level,
         repositoryUrl: project.repositoryUrl,
         setupUrl: project.setupUrl,

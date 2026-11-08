@@ -34,6 +34,7 @@ const project = () => ({
   title: 'Python tools',
   description: 'Work on useful tools together.',
   lead: 'Project lead',
+  leadProfileUrl: '',
   level: '' as const,
   repositoryUrl: 'https://github.com/example/tools',
   setupUrl: 'https://example.com/setup',
@@ -83,11 +84,13 @@ test('preview accepts an unfinished published edit without weakening publication
   );
 });
 
-test('existing projects without level or Discord remain valid with empty defaults', () => {
+test('existing projects without optional profile, level or Discord fields remain valid', () => {
   const legacy: Partial<ReturnType<typeof project>> = { ...project() };
+  delete legacy.leadProfileUrl;
   delete legacy.level;
   delete legacy.discordUrl;
   const content = parseSprintContent({ ...seed(), projects: [legacy] }, 'en');
+  assert.equal(content.projects[0].leadProfileUrl, '');
   assert.equal(content.projects[0].level, '');
   assert.equal(content.projects[0].discordUrl, '');
   assert.equal(
@@ -100,6 +103,22 @@ test('existing projects without level or Discord remain valid with empty default
       parseSprintContent({ ...seed(), projects: [{ ...project(), level }] }, 'en')
         .projects[0].level,
       level
+    );
+  }
+});
+
+test('a lead profile URL must use HTTPS without credentials', () => {
+  for (const leadProfileUrl of [
+    'javascript:alert(1)',
+    'https://user@linkedin.com/in/example',
+  ]) {
+    assert.throws(
+      () =>
+        parseSprintContent(
+          { ...seed(), projects: [{ ...project(), leadProfileUrl }] },
+          'en'
+        ),
+      /projects\.0\.leadProfileUrl/
     );
   }
 });
@@ -188,13 +207,14 @@ test('unpublished projects do not prevent saving a draft alongside complete tran
   );
 });
 
-test('published project levels and Discord links match across all six languages', () => {
+test('published project levels, profile and Discord links match across all six languages', () => {
   const contents = translations();
   for (const content of Object.values(contents)) {
     content.projects = [
       {
         ...project(),
         level: 'all-levels',
+        leadProfileUrl: 'https://www.linkedin.com/in/example',
         discordUrl: 'https://discord.gg/example',
       },
     ];
@@ -203,6 +223,9 @@ test('published project levels and Discord links match across all six languages'
   contents.ko.projects[0].level = 'intermediate';
   assert.throws(() => validateSprintTranslations(contents), /match English in ko/);
   contents.ko.projects[0].level = 'all-levels';
+  contents.ko.projects[0].leadProfileUrl = '';
+  assert.throws(() => validateSprintTranslations(contents), /match English in ko/);
+  contents.ko.projects[0].leadProfileUrl = 'https://www.linkedin.com/in/example';
   contents.ja.projects[0].discordUrl = 'https://discord.gg/different';
   assert.throws(() => validateSprintTranslations(contents), /match English in ja/);
 });

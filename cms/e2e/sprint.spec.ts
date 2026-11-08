@@ -45,7 +45,8 @@ function fixture(locale: SprintLocale): SprintContent {
         status: "draft",
         title: `Draft project ${locale}`,
         description: "",
-        lead: "",
+        lead: "Example lead",
+        leadProfileUrl: "https://www.linkedin.com/in/example",
         level: "all-levels",
         repositoryUrl: "",
         setupUrl: "",
@@ -120,6 +121,9 @@ test("Sprint preview renders unsaved structured content through the public compo
     expect(html).toContain("data-sprint-content");
     expect(html).toContain('data-sprint-project="e2e-project"');
     expect(html).toContain('data-sprint-level="all-levels"');
+    expect(html).toContain("data-sprint-lead-profile");
+    expect(html).toContain('href="https://www.linkedin.com/in/example"');
+    expect(html).toContain('aria-label="Example lead · LinkedIn"');
     expect(html).toContain('href="https://discord.gg/e2e-project"');
     expect(html).toContain(projectGoals[locale]);
     const linksPosition = html.indexOf("data-sprint-project-links");
