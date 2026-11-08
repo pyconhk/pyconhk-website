@@ -460,7 +460,11 @@
         "image": "/2026/organizers-volunteers/volunteers/scotty-kwok-compressed.webp",
         "url": "https://www.linkedin.com/in/scottykwok/",
         "id": "people-12",
-        "additionalRoles": ["プログラムチーム", "発表提案のレビュアー"]
+        "additionalRoles": [
+          "プログラムチーム",
+          "発表提案のレビュアー",
+          "セッション司会"
+        ]
       },
       {
         "name": "Mr. Sky Ng",
@@ -570,7 +574,8 @@
         "name": "Henry, Wai Yin Wong",
         "role": "発表提案のレビュアー",
         "image": "/2026/organizers-volunteers/volunteers/henry-wai-yin-wong.webp",
-        "url": "https://www.linkedin.com/in/wyhwong/"
+        "url": "https://www.linkedin.com/in/wyhwong/",
+        "additionalRoles": ["セッション司会"]
       },
       {
         "id": "volunteer-ho-wa-wong",
@@ -633,7 +638,8 @@
         "name": "Wright C",
         "role": "発表提案のレビュアー",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
-        "url": "https://www.wrightccc.com/"
+        "url": "https://www.wrightccc.com/",
+        "additionalRoles": ["セッション司会"]
       },
       {
         "id": "volunteer-jared",
@@ -675,7 +681,8 @@
         "name": "Amy Li",
         "role": "当日運営ボランティア",
         "image": "/2026/organizers-volunteers/volunteers/amy-li.webp",
-        "url": "https://www.linkedin.com/in/amylly/"
+        "url": "https://www.linkedin.com/in/amylly/",
+        "additionalRoles": ["司会者"]
       },
       {
         "id": "volunteer-kingman-leung",
@@ -984,6 +991,34 @@
         "role": "当日運営ボランティア",
         "image": "",
         "url": ""
+      },
+      {
+        "id": "volunteer-charles-paul",
+        "name": "Charles Paul",
+        "role": "司会者",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mickey-wong",
+        "name": "Mickey Wong",
+        "role": "司会者",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-brian-sio",
+        "name": "Brian Sio",
+        "role": "司会者",
+        "image": "",
+        "url": "https://www.linkedin.com/in/brianclsio/"
+      },
+      {
+        "id": "volunteer-ethan-lee",
+        "name": "Ethan Lee",
+        "role": "セッション司会",
+        "image": "/2026/organizers-volunteers/volunteers/ethan-lee-compressed.webp",
+        "url": "https://www.linkedin.com/in/ethan-lee-4335251b1/"
       }
     ]
   },
