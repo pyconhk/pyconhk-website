@@ -54,12 +54,12 @@ export const headerNavigation: NavigationItem[] = [
     children: [
       {
         label: {
-          en: explorationCopy.en.navLabel,
-          'zh-hk': explorationCopy['zh-hk'].navLabel,
-          'zh-hant': explorationCopy['zh-hant'].navLabel,
-          'zh-hans': explorationCopy['zh-hans'].navLabel,
-          ja: explorationCopy.ja.navLabel,
-          ko: explorationCopy.ko.navLabel,
+          en: explorationCopy.en.title,
+          'zh-hk': explorationCopy['zh-hk'].title,
+          'zh-hant': explorationCopy['zh-hant'].title,
+          'zh-hans': explorationCopy['zh-hans'].title,
+          ja: explorationCopy.ja.title,
+          ko: explorationCopy.ko.title,
         },
         href: (locale) => `/2026/${locale}/exploration/`,
       },
