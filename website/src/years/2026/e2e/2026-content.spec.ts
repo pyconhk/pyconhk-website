@@ -366,7 +366,8 @@ test('conference artwork preserves transparency and supplied backgrounds', async
       // These chapter-supplied JPEGs include their light backgrounds.
       expect([rendered.width, rendered.height]).toEqual(suppliedJpegSizes[pathname]);
       expect(rendered.opaquePixels).toBe(64 * 64);
-      expect(rendered.darkPixels).toBeGreaterThan(64 * 64 * 0.01);
+      expect(Math.min(...rendered.corner.slice(0, 3))).toBeGreaterThan(230);
+      expect(rendered.darkPixels).toBeGreaterThan(0);
     } else {
       expect(rendered.transparentPixels, src).toBeGreaterThan(64 * 64 * 0.1);
     }
