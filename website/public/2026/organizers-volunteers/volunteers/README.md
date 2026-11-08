@@ -20,3 +20,6 @@ Sharp auto-orients and crops the supplied photos from the top to a square, up to
 800 pixels without upscaling, then encodes WebP at quality 90. The photographs are
 not retouched or generated. No biography or honorific was supplied for these three
 volunteers.
+
+Brian Sio’s portrait is a head-and-shoulders crop of his
+[LinkedIn profile photo](https://www.linkedin.com/in/brianclsio/).

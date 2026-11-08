@@ -225,7 +225,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: 'Join the prize selection (optional)',
-          body: 'To enter your message, get a numbered slip from a volunteer, keep it, and write the same number on your card. The MC will announce the two messages with the most votes and their winning numbers at the closing session. Winners can collect their prizes at reception after the session ends.',
+          body: 'To enter your message, get a numbered slip from a volunteer, keep it, and write the same number on your card. The MC will announce the two messages with the most votes and their winning numbers at the closing session. After the closing session, winners must show their numbered slip at reception to claim their prize.',
         },
       ],
       numbered: true,
@@ -260,7 +260,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '參加有獎投票（自願）',
-          body: '如果想用你嘅留言參加有獎投票，向義工攞張號碼紙，自己保管好，再喺卡上寫低同一個號碼。司儀會喺閉幕環節公布最高票嘅兩則留言同得獎號碼。得獎者可以喺閉幕環節完結後去接待處領獎。',
+          body: '如果想用你嘅留言參加有獎投票，向義工攞張號碼紙，自己保管好，再喺卡上寫低同一個號碼。司儀會喺閉幕環節公布最高票嘅兩則留言同得獎號碼。得獎者請喺閉幕環節完結後去接待處，憑號碼紙換領獎品。',
         },
       ],
       numbered: true,
@@ -295,7 +295,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '參加有獎投票（自願）',
-          body: '如希望以你的留言參加有獎投票，請向義工領取並保管好號碼紙，再於卡片上寫下相同號碼。司儀將於閉幕環節公布得票最高的兩則留言及得獎號碼。得獎者請於閉幕環節結束後到接待處領獎。',
+          body: '如希望以你的留言參加有獎投票，請向義工領取並保管好號碼紙，再於卡片上寫下相同號碼。司儀將於閉幕環節公布得票最高的兩則留言及得獎號碼。得獎者請於閉幕環節結束後到接待處，憑號碼紙換領獎品。',
         },
       ],
       numbered: true,
@@ -330,7 +330,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '参加有奖投票（自愿）',
-          body: '如希望以你的留言参加有奖投票，请向志愿者领取并保管好号码纸，再在卡片上写下相同号码。主持人将在闭幕环节公布得票最高的两则留言及获奖号码。获奖者请在闭幕环节结束后到接待处领奖。',
+          body: '如希望以你的留言参加有奖投票，请向志愿者领取并保管好号码纸，再在卡片上写下相同号码。主持人将在闭幕环节公布得票最高的两则留言及获奖号码。获奖者请在闭幕环节结束后到接待处，凭号码纸领取奖品。',
         },
       ],
       numbered: true,
@@ -365,7 +365,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '賞品付きの投票に参加する（任意）',
-          body: '自分のメッセージを賞品選考の対象にしたい方は、ボランティアから番号票を受け取り、同じ番号をカードに書いてください。番号票は保管しておきましょう。クロージングで司会者が得票数上位2件のメッセージと当選番号を発表します。当選した方は、クロージング終了後に受付で賞品を受け取ってください。',
+          body: '自分のメッセージを賞品選考の対象にしたい方は、ボランティアから番号票を受け取り、同じ番号をカードに書いてください。番号票は保管しておきましょう。クロージングで司会者が得票数上位2件のメッセージと当選番号を発表します。当選した方は、クロージング終了後に受付で番号票を提示し、賞品を受け取ってください。',
         },
       ],
       numbered: true,
@@ -400,7 +400,7 @@ export const communityActivityCopy: Record<
         },
         {
           title: '경품 선정에 참여하기 (선택)',
-          body: '내 메시지로 경품 선정에 참여하려면 자원봉사자에게 번호표를 받아 보관하고, 카드에도 같은 번호를 적어 주세요. 폐회 때 사회자가 가장 많은 표를 받은 메시지 2개와 당첨 번호를 발표합니다. 당첨자는 폐회 후 접수처에서 경품을 받아 주세요.',
+          body: '내 메시지로 경품 선정에 참여하려면 자원봉사자에게 번호표를 받아 보관하고, 카드에도 같은 번호를 적어 주세요. 폐회 때 사회자가 가장 많은 표를 받은 메시지 2개와 당첨 번호를 발표합니다. 당첨자는 폐회 후 접수처에서 번호표를 제시하고 경품을 받아 주세요.',
         },
       ],
       numbered: true,

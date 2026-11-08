@@ -145,7 +145,8 @@
     "registrationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdInLQs2CDP7X1Vh41A3XlBrDtmFH9QS9fUneghsDj94WQy_g/viewform",
     "items": [
       { "id": "dhk-dao", "name": "DHK dao" },
-      { "id": "cheuk", "name": "Cheuk" }
+      { "id": "cheuk", "name": "Cheuk" },
+      { "id": "dao-ban-tony", "name": "道版東尼" }
     ]
   },
   "organizations": {
@@ -200,6 +201,14 @@
         "id": "organizations-5"
       },
       {
+        "name": "AWS AI User Group Hong Kong",
+        "logo": "/2026/supporting-organizations/aws-ai-user-group-hong-kong.jpg",
+        "url": "https://www.meetup.com/aws-ai-user-group-hong-kong/",
+        "description": "Hong Kong community for people exploring AI, machine learning, and agents on AWS.",
+        "kind": "supporter",
+        "id": "aws-ai-user-group-hong-kong"
+      },
+      {
         "name": "Dim Sum Labs",
         "logo": "/2026/supporting-organizations/DimSumLab.webp",
         "url": "https://www.dimsumlabs.com/",
@@ -241,7 +250,7 @@
       },
       {
         "name": "Google Developer Group Cloud Hong Kong",
-        "logo": "/2026/supporting-organizations/gdg_cloud_hk.webp",
+        "logo": "/2026/supporting-organizations/gdg-cloud-hong-kong-2026.jpg",
         "url": "https://gdg.community.dev/gdg-cloud-hong-kong/",
         "description": "Community for developers exploring Google Cloud topics from machine learning to serverless and containers.",
         "kind": "supporter",
@@ -451,7 +460,11 @@
         "image": "/2026/organizers-volunteers/volunteers/scotty-kwok-compressed.webp",
         "url": "https://www.linkedin.com/in/scottykwok/",
         "id": "people-12",
-        "additionalRoles": ["プログラムチーム", "発表提案のレビュアー"]
+        "additionalRoles": [
+          "プログラムチーム",
+          "発表提案のレビュアー",
+          "セッション司会"
+        ]
       },
       {
         "name": "Mr. Sky Ng",
@@ -561,7 +574,8 @@
         "name": "Henry, Wai Yin Wong",
         "role": "発表提案のレビュアー",
         "image": "/2026/organizers-volunteers/volunteers/henry-wai-yin-wong.webp",
-        "url": "https://www.linkedin.com/in/wyhwong/"
+        "url": "https://www.linkedin.com/in/wyhwong/",
+        "additionalRoles": ["セッション司会"]
       },
       {
         "id": "volunteer-ho-wa-wong",
@@ -624,7 +638,8 @@
         "name": "Wright C",
         "role": "発表提案のレビュアー",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
-        "url": "https://www.wrightccc.com/"
+        "url": "https://www.wrightccc.com/",
+        "additionalRoles": ["セッション司会"]
       },
       {
         "id": "volunteer-jared",
@@ -666,7 +681,8 @@
         "name": "Amy Li",
         "role": "当日運営ボランティア",
         "image": "/2026/organizers-volunteers/volunteers/amy-li.webp",
-        "url": "https://www.linkedin.com/in/amylly/"
+        "url": "https://www.linkedin.com/in/amylly/",
+        "additionalRoles": ["司会者"]
       },
       {
         "id": "volunteer-kingman-leung",
@@ -975,6 +991,34 @@
         "role": "当日運営ボランティア",
         "image": "",
         "url": ""
+      },
+      {
+        "id": "volunteer-charles-paul",
+        "name": "Charles Paul",
+        "role": "司会者",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mickey-wong",
+        "name": "Mickey Wong",
+        "role": "司会者",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-brian-sio",
+        "name": "Brian Sio",
+        "role": "司会者",
+        "image": "/2026/organizers-volunteers/volunteers/brian-sio.webp",
+        "url": "https://www.linkedin.com/in/brianclsio/"
+      },
+      {
+        "id": "volunteer-ethan-lee",
+        "name": "Ethan Lee",
+        "role": "セッション司会",
+        "image": "/2026/organizers-volunteers/volunteers/ethan-lee-compressed.webp",
+        "url": "https://www.linkedin.com/in/ethan-lee-4335251b1/"
       }
     ]
   },
