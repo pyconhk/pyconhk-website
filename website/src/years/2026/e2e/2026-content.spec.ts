@@ -28,6 +28,10 @@ for (const locale of locales) {
     ).toBeVisible();
     for (const [name, href] of [
       [
+        'AWS AI User Group Hong Kong',
+        'https://www.meetup.com/aws-ai-user-group-hong-kong/',
+      ],
+      [
         'City University of Hong Kong Computer Science Student Chapter',
         'https://www.instagram.com/cssc.cityu',
       ],
@@ -56,7 +60,11 @@ for (const locale of locales) {
     }
     await page.goto(`/2026/${locale}/sponsorships/patrons/`);
     await expect(page.locator('[data-patron-benefits] > li')).toHaveCount(4);
-    await expect(page.locator('[data-patron]')).toHaveText(['DHK dao', 'Cheuk']);
+    await expect(page.locator('[data-patron]')).toHaveText([
+      'DHK dao',
+      'Cheuk',
+      '道版東尼',
+    ]);
     const patronApplication = page.locator('[data-patron-application]');
     await expect(patronApplication).toBeVisible();
     await expect(patronApplication).toHaveAttribute(
@@ -274,6 +282,10 @@ test('wide supporter logos fill their plates and OSHK stays square', async ({
 test('conference artwork preserves transparency and supplied backgrounds', async ({
   page,
 }) => {
+  const suppliedJpegSizes: Record<string, [number, number]> = {
+    '/2026/supporting-organizations/aws-ai-user-group-hong-kong.jpg': [905, 973],
+    '/2026/supporting-organizations/gdg-cloud-hong-kong-2026.jpg': [665, 665],
+  };
   const sources = new Set<string>([
     '/2026/logos/pyconlogo.png',
     '/2026/logos/pyconlogo.svg',
@@ -322,10 +334,8 @@ test('conference artwork preserves transparency and supplied backgrounds', async
         corner: Array.from(pixels.slice(0, 4)),
       };
     }, src);
-    if (
-      new URL(src, page.url()).pathname ===
-      '/2026/supporting-organizations/pyladies_kl.svg'
-    ) {
+    const pathname = new URL(src, page.url()).pathname;
+    if (pathname === '/2026/supporting-organizations/pyladies_kl.svg') {
       // KL supplied a complete red-background composition. Keep its original
       // bytes and verify the rendered artwork instead of cutting out the design.
       const response = await page.request.get(src);
@@ -340,10 +350,7 @@ test('conference artwork preserves transparency and supplied backgrounds', async
       expect(rendered.darkPixels).toBeGreaterThan(64 * 64 * 0.05);
       for (const [channel, expected] of [174, 16, 39, 255].entries())
         expect(Math.abs(rendered.corner[channel] - expected)).toBeLessThanOrEqual(3);
-    } else if (
-      new URL(src, page.url()).pathname ===
-      '/2026/supporting-organizations/pyconMy.svg.webp'
-    ) {
+    } else if (pathname === '/2026/supporting-organizations/pyconMy.svg.webp') {
       // PyCon MY supplied an opaque white-background composition. Preserve it.
       const response = await page.request.get(src);
       expect(response.ok()).toBe(true);
@@ -355,6 +362,12 @@ test('conference artwork preserves transparency and supplied backgrounds', async
       expect([rendered.width, rendered.height]).toEqual([1024, 1024]);
       expect(rendered.opaquePixels).toBe(64 * 64);
       expect(rendered.corner).toEqual([255, 255, 255, 255]);
+    } else if (suppliedJpegSizes[pathname]) {
+      // These chapter-supplied JPEGs include their light backgrounds.
+      expect([rendered.width, rendered.height]).toEqual(suppliedJpegSizes[pathname]);
+      expect(rendered.opaquePixels).toBe(64 * 64);
+      expect(Math.min(...rendered.corner.slice(0, 3))).toBeGreaterThan(230);
+      expect(rendered.darkPixels).toBeGreaterThan(0);
     } else {
       expect(rendered.transparentPixels, src).toBeGreaterThan(64 * 64 * 0.1);
     }

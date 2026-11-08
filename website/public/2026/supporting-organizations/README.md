@@ -38,9 +38,16 @@ background (all RGB channels at least 250) is made transparent, then saved lossl
 The previous WebPs remain available for existing image URLs. All six CMS
 locales and the fallback data use the new originals.
 
-The following transparent rasters remain only 320 × 320: Agile HK, Codeaholics,
-GDG Cloud Hong Kong and GDG Hong Kong. They still need better original artwork for sharp rendering at high pixel
-densities. Do not substitute a parent organization's logo or AI-redraw the mark.
+The following transparent rasters remain only 320 × 320: Agile HK, Codeaholics
+and GDG Hong Kong. Use original chapter artwork when a higher resolution is
+available.
+
+The November 2026 updates use artwork supplied to the Web Team:
+
+| Asset | Original source | Resolution |
+| --- | --- | --- |
+| `gdg-cloud-hong-kong-2026.jpg` | GDG Cloud Hong Kong stacked logo supplied on 6 November | 665 × 665, JPEG |
+| `aws-ai-user-group-hong-kong.jpg` | AWS AI User Group Hong Kong shield supplied on 7 November | 905 × 973, JPEG |
 
 The 2025 Drive includes a 1400 × 700 GDG Cloud PNG with an opaque white background.
 Its GDG HK SVG contains an embedded raster and a white background; the SVG
