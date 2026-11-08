@@ -17,7 +17,6 @@ export type ExplorationDestination =
 
 type ExplorationCopy = {
   title: string;
-  navLabel: string;
   intro: string;
   planTitle: string;
   joinTitle: string;
@@ -28,7 +27,6 @@ type ExplorationCopy = {
 export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
   en: {
     title: 'Conference Exploration',
-    navLabel: 'Conference Exploration',
     intro: 'Find your way around PyCon HK and discover ways to take part.',
     planTitle: 'Plan your visit',
     joinTitle: 'Join in',
@@ -53,8 +51,7 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     },
   },
   'zh-hk': {
-    title: 'Conference Exploration',
-    navLabel: 'Conference Exploration',
+    title: '大會攻略',
     intro: '搵齊 PyCon HK 會場資訊，再睇吓有咩活動可以一齊參加。',
     planTitle: '準備嚟會場',
     joinTitle: '一齊參與',
@@ -73,8 +70,7 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     },
   },
   'zh-hant': {
-    title: 'Conference Exploration',
-    navLabel: 'Conference Exploration',
+    title: '大會指南',
     intro: '查閱 PyCon HK 會場資訊，探索不同的參與方式。',
     planTitle: '規劃行程',
     joinTitle: '參與活動',
@@ -94,8 +90,7 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     },
   },
   'zh-hans': {
-    title: 'Conference Exploration',
-    navLabel: 'Conference Exploration',
+    title: '大会指南',
     intro: '查阅 PyCon HK 会场信息，探索不同的参与方式。',
     planTitle: '规划行程',
     joinTitle: '参与活动',
@@ -115,8 +110,7 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     },
   },
   ja: {
-    title: 'Conference Exploration',
-    navLabel: 'Conference Exploration',
+    title: 'カンファレンスガイド',
     intro: 'PyCon HK の会場情報や、参加できるアクティビティをご紹介します。',
     planTitle: '来場の準備',
     joinTitle: '参加しよう',
@@ -140,8 +134,7 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     },
   },
   ko: {
-    title: 'Conference Exploration',
-    navLabel: 'Conference Exploration',
+    title: '컨퍼런스 안내',
     intro: 'PyCon HK 행사장 정보와 함께 참여할 수 있는 활동을 살펴보세요.',
     planTitle: '방문 준비',
     joinTitle: '함께 참여하기',

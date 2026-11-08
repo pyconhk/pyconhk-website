@@ -54,6 +54,40 @@ async function preferredLocaleCookie(context: BrowserContext) {
 }
 
 test.describe('2026 conference locale switcher', () => {
+  test('Conference Exploration uses localized labels and links to Speaker Slides', async ({
+    page,
+  }) => {
+    const copyByLocale = {
+      en: ['Conference Exploration', 'Speaker Slides'],
+      'zh-hk': ['大會攻略', '講者投影片'],
+      'zh-hant': ['大會指南', '講者投影片'],
+      'zh-hans': ['大会指南', '演讲幻灯片'],
+      ja: ['カンファレンスガイド', '発表スライド'],
+      ko: ['컨퍼런스 안내', '발표 슬라이드'],
+    };
+
+    for (const [locale, [title, slidesTitle]] of Object.entries(copyByLocale)) {
+      const home = `/2026/${locale}/`;
+      const exploration = `${home}exploration/`;
+      await page.goto(home);
+      const quickLink = page.locator('[data-home-quick-links]');
+      await expect(quickLink).toHaveText(title);
+      await expect(
+        page.locator(`[data-site-header] a[href="${exploration}"]`)
+      ).toHaveText([title, title]);
+      await quickLink.click();
+      await expect(page).toHaveURL(exploration);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+      await expect(page).toHaveTitle(`${title} | PyCon HK 2026`);
+      const slides = page.locator('[data-exploration-destination="speaker-slides"]');
+      await expect(slides.getByRole('heading')).toHaveText(slidesTitle);
+      await expect(slides).toHaveAttribute(
+        'href',
+        'https://drive.google.com/drive/folders/1zhlmPlFz52MlUrsJypr_G8H1DDd0XQdB'
+      );
+    }
+  });
+
   for (const width of [390, 1440]) {
     test(`written Chinese and Cantonese stay distinct when switching at ${width}px`, async ({
       page,
@@ -81,7 +115,7 @@ test.describe('2026 conference locale switcher', () => {
         await expect(page.locator('#home')).toContainText('HKIIT（將軍澳李惠利）');
         await expect(page.locator('#home .hero-actions a')).toHaveCount(3);
         await expect(page.locator('#home [data-home-quick-links]')).toHaveText(
-          'Conference Exploration'
+          cantonese ? '大會攻略' : '大會指南'
         );
         await expect(page.locator('#home a[aria-label]')).toHaveAttribute(
           'aria-label',
