@@ -37,6 +37,20 @@ const reviewerHeadings = {
   ko: '발표 제안 심사위원',
 };
 
+const stageHeadings = {
+  en: ['MCs', 'Session Hosts'],
+  'zh-hk': ['司儀', '場次主持'],
+  'zh-hant': ['司儀', '場次主持人'],
+  'zh-hans': ['司仪', '场次主持人'],
+  ja: ['司会者', 'セッション司会'],
+  ko: ['사회자', '세션 진행자'],
+};
+
+const stageNames = [
+  ['Amy Li', 'Charles Paul', 'Mickey Wong', 'Brian Sio'],
+  ['Mr. Scotty Kwok', 'Wright C', 'Ethan Lee', 'Henry, Wai Yin Wong'],
+];
+
 const programmeNames = [
   'Mr. Alex Au',
   'Mr. Adrian Tam',
@@ -202,7 +216,7 @@ for (const locale of Object.keys(
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(`/2026/${locale}/volunteers/`);
     const roster = page.locator('[data-conference-content="people"]');
-    await expect(roster.locator('[data-person-card]')).toHaveCount(101);
+    await expect(roster.locator('[data-person-card]')).toHaveCount(109);
     const nameOnlyCards = roster.locator('[data-person-card][data-portrait="false"]');
     await expect(nameOnlyCards.locator('img')).toHaveCount(0);
     await expect(roster.locator('img[src*="placeholder"]')).toHaveCount(0);
@@ -232,6 +246,19 @@ for (const locale of Object.keys(
         .map((name) => name.replace(/^(?:Mr|Ms)\.\s+/, ''))
         .sort()
     ).toEqual([...reviewerNames].sort());
+    for (const [index, heading] of stageHeadings[locale].entries()) {
+      const group = roster.locator('[data-volunteer-group]').filter({
+        has: page.getByRole('heading', { name: heading, exact: true }),
+      });
+      await expect(group).toHaveCount(1);
+      expect(
+        (await group.locator('[data-person-card] h4').allTextContents()).sort()
+      ).toEqual([...stageNames[index]].sort());
+    }
+    const brianProfileLabel = profileLabels[locale][0].replace('{name}', 'Brian Sio');
+    await expect(
+      roster.getByRole('link', { name: brianProfileLabel, exact: true })
+    ).toHaveAttribute('href', 'https://www.linkedin.com/in/brianclsio/');
     await expect(
       roster.getByRole('heading', { name: /CityU|HKIIT|城大|香港城市|홍콩시립/ })
     ).toHaveCount(0);
