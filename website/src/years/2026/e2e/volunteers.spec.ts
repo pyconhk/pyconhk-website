@@ -259,6 +259,9 @@ for (const locale of Object.keys(
     await expect(
       roster.getByRole('link', { name: brianProfileLabel, exact: true })
     ).toHaveAttribute('href', 'https://www.linkedin.com/in/brianclsio/');
+    const brianPortrait = roster.getByRole('img', { name: 'Brian Sio', exact: true });
+    await brianPortrait.scrollIntoViewIfNeeded();
+    await brianPortrait.evaluate((image: HTMLImageElement) => image.decode());
     await expect(
       roster.getByRole('heading', { name: /CityU|HKIIT|城大|香港城市|홍콩시립/ })
     ).toHaveCount(0);
