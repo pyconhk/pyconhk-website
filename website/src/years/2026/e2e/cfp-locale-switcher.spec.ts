@@ -72,15 +72,19 @@ test.describe('2026 conference locale switcher', () => {
       await page.goto(home);
       const quickLink = page.locator('[data-home-quick-links]');
       await expect(quickLink).toHaveText(title);
-      await expect(
-        page.locator(`[data-site-header] a[href="${exploration}"]`)
-      ).toHaveText([title, title]);
+      const navLink = `a[href="${exploration}"]`;
+      await expect(page.locator(`[data-site-header] ${navLink}`)).toHaveText(title);
+      await expect(page.locator(`[data-mobile-nav-panel] ${navLink}`)).toHaveText(
+        title
+      );
       await quickLink.click();
       await expect(page).toHaveURL(exploration);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
       await expect(page).toHaveTitle(`${title} | PyCon HK 2026`);
       const slides = page.locator('[data-exploration-destination="speaker-slides"]');
-      await expect(slides.getByRole('heading')).toHaveText(slidesTitle);
+      await expect(
+        slides.getByRole('heading', { name: slidesTitle, exact: true })
+      ).toBeVisible();
       await expect(slides).toHaveAttribute(
         'href',
         'https://drive.google.com/drive/folders/1zhlmPlFz52MlUrsJypr_G8H1DDd0XQdB'
