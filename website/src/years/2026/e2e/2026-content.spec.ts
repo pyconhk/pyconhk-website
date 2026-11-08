@@ -28,6 +28,10 @@ for (const locale of locales) {
     ).toBeVisible();
     for (const [name, href] of [
       [
+        'AWS AI User Group Hong Kong',
+        'https://www.meetup.com/aws-ai-user-group-hong-kong/',
+      ],
+      [
         'City University of Hong Kong Computer Science Student Chapter',
         'https://www.instagram.com/cssc.cityu',
       ],
@@ -56,7 +60,11 @@ for (const locale of locales) {
     }
     await page.goto(`/2026/${locale}/sponsorships/patrons/`);
     await expect(page.locator('[data-patron-benefits] > li')).toHaveCount(4);
-    await expect(page.locator('[data-patron]')).toHaveText(['DHK dao', 'Cheuk']);
+    await expect(page.locator('[data-patron]')).toHaveText([
+      'DHK dao',
+      'Cheuk',
+      '道版東尼',
+    ]);
     const patronApplication = page.locator('[data-patron-application]');
     await expect(patronApplication).toBeVisible();
     await expect(patronApplication).toHaveAttribute(
