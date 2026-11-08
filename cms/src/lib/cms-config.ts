@@ -261,7 +261,7 @@ function createSprintFields(): CmsField[] {
       default: [],
       i18n: true,
       summary: "{{fields.title}} · {{fields.status}}",
-      hint: "Draft projects may be unfinished and stay off the public website. Published project IDs, order, lead names, levels and repository/setup/Discord links must match across all six languages.",
+      hint: "Draft projects may be unfinished and stay off the public website. Published project IDs, order, lead names, levels and links must match across all six languages.",
       fields: [
         {
           label: "Project ID",
@@ -292,6 +292,13 @@ function createSprintFields(): CmsField[] {
           name: "lead",
           widget: "string",
           required: false,
+        },
+        {
+          label: "Sprint Lead profile URL",
+          name: "leadProfileUrl",
+          widget: "string",
+          required: false,
+          hint: "Optional. Use a confirmed public HTTPS profile link. Keep the same link across translations.",
         },
         {
           label: "Participant level",
