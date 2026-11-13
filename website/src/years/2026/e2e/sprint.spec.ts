@@ -25,7 +25,16 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       expect(response?.status()).toBe(200);
       const sprint = page.locator('[data-conference-content="sprint"]');
       await expect(sprint).toBeVisible();
-      await expect(sprint.locator('time')).toHaveAttribute('datetime', '2026-11-15');
+      await expect(sprint.locator('time[datetime="2026-11-15"]')).toBeVisible();
+      const challenge = sprint.locator('#sprint-ticket-challenge');
+      await expect(challenge.locator('time')).toHaveAttribute(
+        'datetime',
+        '2026-11-14T23:59:00+08:00'
+      );
+      await expect(challenge.getByRole('link')).toHaveAttribute(
+        'href',
+        'https://github.com/pyconhk/pyconhk-2026-sprint-challenge'
+      );
       await expect(sprint).toContainText('10:00');
       await expect(sprint).toContainText('UTC+8');
       await expect(sprint).toContainText('HKIIT');
