@@ -3,6 +3,8 @@ import type { SprintContent as SprintData } from '@/lib/sprint-content';
 import { contentUi } from '@/years/2026/data/content-ui';
 import type { CfpLocale } from '@/years/2026/locales';
 import SprintProjectCard from './SprintProjectCard.astro';
+import SprintTicketChallenge from './SprintTicketChallenge.astro';
+import SprintTimetable from './SprintTimetable.astro';
 
 interface Props { locale: CfpLocale; content: SprintData; mode?: 'sprint' | 'qa' | 'preview'; }
 const { locale, content, mode = 'sprint' } = Astro.props;
@@ -26,6 +28,10 @@ const deadlineLabel = content.proposalDeadline ? new Intl.DateTimeFormat(locale,
     {dateLabel && <p class="font-bold"><time datetime={content.date}>{dateLabel}</time></p>}
     {(content.startTime || content.endTime) && <p>{content.startTime ? `${content.startTime}${content.endTime ? `–${content.endTime}` : ''}` : `${labels.ends} ${content.endTime}`} · {labels.time}</p>}
     {content.location && <p>{content.location}</p>}
+    {mode === 'sprint' && <>
+      <SprintTicketChallenge locale={locale} />
+      <SprintTimetable locale={locale} />
+    </>}
     {content.items.length > 0 && <ul class="list-disc space-y-3 pl-6">{content.items.map(item => <li class="whitespace-pre-line">{item}</li>)}</ul>}
     {projects.length > 0 && <section aria-labelledby="sprint-projects-heading" class="space-y-5">
       <h2 id="sprint-projects-heading" class="text-xl font-bold text-conference-ink">{labels.projects}</h2>

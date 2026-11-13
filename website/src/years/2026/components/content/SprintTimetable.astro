@@ -1,0 +1,56 @@
+---
+import { diningDestinations, visitorGuide } from '@/years/2026/data/visitor-guide';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale }
+const { locale } = Astro.props;
+
+const times = [
+  '10:00–10:15',
+  '10:15–10:30',
+  '10:30–13:00',
+  '13:00–15:00',
+  '15:00–15:10',
+  '15:10–17:45',
+  '17:45–18:00',
+  '18:00+',
+];
+
+const labels = {
+  en: { title: 'Day 2 · Development Sprint timetable', time: 'Hong Kong time (UTC+8)', dining: 'Nearby lunch options', guide: 'Catering guide', dinnerLink: 'Choi Ming Market food stalls', dinnerTip: ' in Phase 1, Level 1 have casual dinner options. Choose what suits your budget.', activities: ['On-site registration', 'Welcome and project introductions', 'Morning sprint', 'Lunch break', 'Project progress updates', 'Afternoon sprint', 'Closing', 'Optional dinner at Choi Ming Shopping Centre (self-funded)'] },
+  'zh-hk': { title: '第二日 · 衝刺開發日時間表', time: '香港時間（UTC+8）', dining: '附近午飯選擇', guide: '餐飲指南', dinnerLink: '彩明街市小食街', dinnerTip: '喺一期一樓，有簡餐同小食，可以按自己預算揀。', activities: ['現場報到', '開場同項目介紹', '上午開發時段', '午飯時間', '各組分享進度', '下午開發時段', '閉幕', '自由參加晚飯 · 彩明商場（自費）'] },
+  'zh-hant': { title: '第二天 · 開發衝刺日程', time: '香港時間（UTC+8）', dining: '鄰近午餐選擇', guide: '餐飲指南', dinnerLink: '彩明街市小食街', dinnerTip: '位於一期一樓，提供簡餐和小食，可依預算選擇。', activities: ['現場報到', '開場與專案介紹', '上午開發時段', '午餐休息', '各組進度分享', '下午開發時段', '閉幕', '晚餐聚會 · 彩明商場（自由參加，費用自理）'] },
+  'zh-hans': { title: '第二天 · 开发冲刺日程', time: '香港时间（UTC+8）', dining: '附近午餐选择', guide: '餐饮指南', dinnerLink: '彩明街市小吃街', dinnerTip: '位于一期一楼，提供简餐和小吃，可按预算选择。', activities: ['现场签到', '开场与项目介绍', '上午开发时段', '午餐休息', '各组进度分享', '下午开发时段', '闭幕', '晚餐聚会 · 彩明商场（自愿参加，费用自理）'] },
+  ja: { title: '2日目 · 開発スプリントの予定', time: '香港時間（UTC+8）', dining: '近隣のランチスポット', guide: '飲食ガイド', dinnerLink: '彩明街市の飲食店', dinnerTip: '（第1期・1階）では、予算に合わせて軽食などを選べます。', activities: ['現地受付', '開会・プロジェクト紹介', '午前のスプリント', '昼休憩', '進捗共有', '午後のスプリント', '閉会', '有志で夕食 · 彩明ショッピングセンター（各自負担）'] },
+  ko: { title: '2일차 · 개발 스프린트 일정', time: '홍콩 시간(UTC+8)', dining: '인근 점심 식사 장소', guide: '식사 안내', dinnerLink: '초이밍 시장 먹거리 골목', dinnerTip: '(1기 1층)에서 예산에 맞춰 간단한 식사나 간식을 고를 수 있습니다.', activities: ['현장 등록', '개회 및 프로젝트 소개', '오전 스프린트', '점심시간', '팀별 진행 상황 공유', '오후 스프린트', '폐회', '자율 저녁 식사 · 초이밍 쇼핑센터(개인 부담)'] },
+}[locale];
+---
+
+<section id="sprint-timetable" aria-labelledby="sprint-timetable-heading" class="space-y-4 rounded-2xl border border-conference-outline bg-conference-surface p-4 sm:p-6">
+  <div>
+    <h2 id="sprint-timetable-heading" class="text-xl font-bold text-conference-ink">{labels.title}</h2>
+    <p class="mt-1 text-sm text-conference-body">{labels.time}</p>
+  </div>
+  <dl class="divide-y divide-conference-outline/25">
+    {times.map((time, index) => (
+      <div class="grid gap-x-5 py-2 sm:grid-cols-[8rem_minmax(0,1fr)]">
+        <dt class="font-bold tabular-nums text-conference-ink">{time}</dt>
+        <dd>
+          {labels.activities[index]}
+          {index === times.length - 1 && (
+            <p class="mt-1 text-sm text-conference-body"><a href="https://info.hkmarket.com.hk/zh-hant/markets/choi-ming-market/" class="font-semibold text-conference-blue underline underline-offset-4">{labels.dinnerLink}</a>{labels.dinnerTip}</p>
+          )}
+        </dd>
+      </div>
+    ))}
+  </dl>
+  <div class="border-t border-conference-outline/25 pt-4">
+    <h3 class="font-bold text-conference-ink">{labels.dining}</h3>
+    <ul class="mt-1 flex flex-wrap gap-x-5">
+      {diningDestinations.map(({ id, url }) => (
+        <li><a href={url} class="inline-flex min-h-11 items-center font-semibold text-conference-blue underline underline-offset-4">{visitorGuide[locale].diningLinks[id]}</a></li>
+      ))}
+      <li><a href={`/2026/${locale}/catering-guide/`} class="inline-flex min-h-11 items-center font-semibold text-conference-blue underline underline-offset-4">{labels.guide}</a></li>
+    </ul>
+  </div>
+</section>

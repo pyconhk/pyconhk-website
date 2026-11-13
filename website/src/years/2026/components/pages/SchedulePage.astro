@@ -6,6 +6,7 @@ import { getTranslations } from '../../i18n';
 import ConferenceLayout from '../../layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '../../locales';
 import SpeakerAvatar from '../content/SpeakerAvatar.astro';
+import SprintTimetable from '../content/SprintTimetable.astro';
 import SaveSessionButton from '../schedule/SaveSessionButton.astro';
 import ScheduleModal from '../schedule/ScheduleModal.astro';
 import SessionDetails from '../schedule/SessionDetails.astro';
@@ -20,6 +21,9 @@ const copy = scheduleCopy[locale];
 const description = programmeSnapshot.status === 'unpublished' ? copy.comingSoon : isSampleProgramme ? copy.sample : t.schedule.pageDescription;
 const languages = [...new Set(allScheduleItems.map((session) => session.language).filter(Boolean))].sort();
 const initialDay = programmeSnapshot.days[0]?.date ?? '';
+const sprintDay = !isSampleProgramme && programmeSnapshot.days.some(({ date }) => date === '2026-11-15')
+  ? '2026-11-15'
+  : '';
 const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSnapshot.event, initialDay, copy }).replaceAll('<', '\\u003c');
 ---
 <ConferenceLayout title={t.schedule.pageTitle} description={description} locale={locale}>
@@ -36,6 +40,9 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
           <legend class="sr-only">{copy.time}</legend>
           {programmeSnapshot.days.map((day) => <button type="button" class="day-button rounded-xl border-2 border-conference-outline px-4 py-2 text-sm font-black shadow-conference-control" data-day={day.date} aria-pressed={day.date === initialDay ? 'true' : 'false'}>{formatProgrammeDate(day.date, locale)}</button>)}
         </fieldset>
+        {sprintDay && <div class="mt-6" data-sprint-day={sprintDay} hidden={sprintDay !== initialDay}>
+          <SprintTimetable locale={locale} />
+        </div>}
         <div class="programme-filters mt-5 grid gap-3 rounded-2xl border-2 border-conference-outline bg-conference-surface p-4">
           <label><span class="sr-only">{copy.search}</span><input type="search" data-programme-search placeholder={copy.search} class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm" /></label>
           <label><span class="sr-only">{copy.allRooms}</span><select data-room-filter class="w-full rounded-lg border border-slate-400 px-3 py-2 text-sm"><option value="">{copy.allRooms}</option>{roomColumns.map((room) => <option value={room.id}>{room.name}</option>)}</select></label>
@@ -184,6 +191,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-session-card]'));
     const dialog = document.querySelector<HTMLDialogElement>('#session-modal');
     const empty = document.querySelector<HTMLElement>('[data-programme-empty]');
+    const sprintPanel = document.querySelector<HTMLElement>('[data-sprint-day]');
+    const talkControls = document.querySelectorAll<HTMLElement>('.programme-filters, .programme-calendar-actions');
     const programme = document.querySelector<HTMLElement>('.programme-scroll');
     const siteHeader = document.querySelector<HTMLElement>('[data-site-header]');
     const trackHeadings = programme?.querySelector<HTMLElement>('.programme-room-headings');
@@ -231,6 +240,10 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     }
 
     function refresh() {
+      const showSprint = sprintPanel?.dataset.sprintDay === filters.date;
+      const hasTalks = data.sessions.some((session) => session.date === filters.date);
+      if (sprintPanel) sprintPanel.hidden = !showSprint;
+      for (const control of talkControls) control.hidden = showSprint && !hasTalks;
       let visible = 0;
       for (const card of cards) {
         const session = byId.get(card.dataset.sessionCard ?? '');
@@ -277,8 +290,8 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       updateCalendarLink(addSaved, savedSessions);
       if (addSaved) addSaved.title = saved.size ? data.copy.addSaved : data.copy.emptySaved;
       if (empty) {
-        empty.hidden = visible > 0;
-        empty.textContent = data.sessions.some((session) => session.date === filters.date) ? data.copy.noResults : data.copy.emptyDay;
+        empty.hidden = visible > 0 || (showSprint && !hasTalks);
+        empty.textContent = hasTalks ? data.copy.noResults : data.copy.emptyDay;
       }
       if (programme) programme.hidden = visible === 0;
       updateLayout();
@@ -353,8 +366,12 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
       target?.focus();
     });
     dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    const params = new URLSearchParams(location.search);
+    if (sprintPanel && params.get('day') === sprintPanel.dataset.sprintDay) {
+      filters.date = sprintPanel.dataset.sprintDay ?? data.initialDay;
+    }
     refresh();
-    const linkedSession = byId.get(new URLSearchParams(location.search).get('session') ?? '');
+    const linkedSession = byId.get(params.get('session') ?? '');
     if (linkedSession) {
       filters.date = linkedSession.date;
       refresh();
