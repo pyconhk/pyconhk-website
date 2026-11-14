@@ -15,7 +15,7 @@ export const lightningTalkSchedule = {
   date: '2026-11-14',
   timeZone: 'Asia/Hong_Kong',
   registrationOpen: '09:00',
-  registrationClose: '13:00',
+  registrationClose: '13:30',
   notificationTime: '14:30',
   replyDeadline: '15:00',
   materialsDeadline: '16:00',
