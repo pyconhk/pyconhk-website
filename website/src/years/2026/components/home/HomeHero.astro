@@ -1,6 +1,7 @@
 ---
 import { getConferenceContent } from '@/lib/conference-content';
 import HomeQuickLinks from '@/years/2026/components/home/HomeQuickLinks.astro';
+import LiveTranslationButton from '@/years/2026/components/ui/LiveTranslationButton.astro';
 import RegistrationButton from '@/years/2026/components/ui/RegistrationButton.astro';
 import { getTranslations } from '@/years/2026/i18n';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -110,6 +111,7 @@ const content = getConferenceContent(locale);
         </svg>
       </a>
     </div>
+    <LiveTranslationButton locale={locale} className="mt-4" />
 
     <!-- 5. At a Glance 3-Column Info Strip (Fade Entrance Step 5) -->
     <div class="hero-info mt-10 sm:mt-14 w-full max-w-3xl rounded-2xl border-2 border-conference-outline bg-conference-surface p-5 sm:p-6 shadow-conference-panel">
