@@ -26,7 +26,7 @@ for (const [locale, title] of Object.entries(localeTitles)) {
     const schedule = content.locator('[data-lightning-schedule]');
     await expect(schedule.locator('dt')).toHaveText([
       '09:00',
-      '13:00',
+      '13:30',
       '14:30',
       '15:00',
       '16:00',
@@ -36,7 +36,7 @@ for (const [locale, title] of Object.entries(localeTitles)) {
     await expect(schedule).toContainText('2026');
     await expect(schedule).toContainText('UTC+8');
     await expect(content.locator('[data-lightning-registration-window]')).toContainText(
-      /09:00[–〜~]13:00/
+      /09:00[–〜~]13:30/
     );
     const signup = content.locator('[data-lightning-registration]');
     await expect(signup).toBeVisible();
