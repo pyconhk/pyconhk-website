@@ -19,6 +19,9 @@ export type VolunteersPageCopy = {
   chairHeading: string;
   coChairsHeading: string;
   membersHeading: string;
+  specialThanksHeading: string;
+  liveTranslationThanks: string;
+  liveTranslationLink: string;
 };
 
 export const conferenceChair: VolunteerProfile = {
@@ -110,6 +113,10 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     chairHeading: 'Conference Chair',
     coChairsHeading: 'Conference Co-Chairs',
     membersHeading: 'Organizing Committee Members',
+    specialThanksHeading: 'Special Thanks',
+    liveTranslationThanks:
+      'Thank you to Iulian Arcus for building the live translation tool for PyCon HK 2026.',
+    liveTranslationLink: 'Open the live translation tool',
   },
   'zh-hk': {
     title: cantonese.volunteers,
@@ -120,6 +127,9 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
     membersHeading: '籌委會成員',
+    specialThanksHeading: '特別鳴謝',
+    liveTranslationThanks: '多謝 Iulian Arcus 為 PyCon HK 2026 開發即時翻譯工具。',
+    liveTranslationLink: '開啟即時翻譯工具',
   },
   'zh-hant': {
     title: written.volunteers,
@@ -130,6 +140,9 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     chairHeading: '大會主席',
     coChairsHeading: '大會副主席',
     membersHeading: '籌委會成員',
+    specialThanksHeading: '特別鳴謝',
+    liveTranslationThanks: '感謝 Iulian Arcus 為 PyCon HK 2026 開發即時翻譯工具。',
+    liveTranslationLink: '開啟即時翻譯工具',
   },
   'zh-hans': {
     title: '志愿者团队',
@@ -140,6 +153,9 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     chairHeading: '大会主席',
     coChairsHeading: '大会副主席',
     membersHeading: '筹委会成员',
+    specialThanksHeading: '特别鸣谢',
+    liveTranslationThanks: '感谢 Iulian Arcus 为 PyCon HK 2026 开发实时翻译工具。',
+    liveTranslationLink: '打开实时翻译工具',
   },
   ja: {
     title: 'ボランティア',
@@ -150,6 +166,10 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     chairHeading: '実行委員長',
     coChairsHeading: '共同実行委員長',
     membersHeading: '運営委員',
+    specialThanksHeading: '特別協力',
+    liveTranslationThanks:
+      'PyCon HK 2026 のリアルタイム翻訳ツールを開発してくださった Iulian Arcus さんに感謝します。',
+    liveTranslationLink: 'リアルタイム翻訳ツールを開く',
   },
   ko: {
     title: '자원봉사자',
@@ -160,5 +180,9 @@ export const pageCopyByLocale: Record<CfpLocale, VolunteersPageCopy> = {
     chairHeading: '컨퍼런스 의장',
     coChairsHeading: '컨퍼런스 공동 의장',
     membersHeading: '조직위원회 위원',
+    specialThanksHeading: '특별 감사',
+    liveTranslationThanks:
+      'PyCon HK 2026의 실시간 번역 도구를 개발해 주신 Iulian Arcus 님께 감사드립니다.',
+    liveTranslationLink: '실시간 번역 도구 열기',
   },
 };
