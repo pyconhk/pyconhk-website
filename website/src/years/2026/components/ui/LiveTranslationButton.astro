@@ -1,0 +1,52 @@
+---
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props {
+  locale: CfpLocale;
+  className?: string;
+}
+
+const { locale, className } = Astro.props;
+const labels: Record<CfpLocale, string> = {
+  en: 'Live Translation',
+  'zh-hk': '即時翻譯',
+  'zh-hant': '即時翻譯',
+  'zh-hans': '实时翻译',
+  ko: '실시간 번역',
+  ja: 'リアルタイム翻訳',
+};
+---
+
+<a
+  href="https://nugpu.com/live-translate/"
+  target="_blank"
+  rel="noopener noreferrer"
+  hidden
+  data-live-translation
+  data-pagefind-ignore
+  class:list={['inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-conference-outline bg-[#2f559a] px-5 py-3 font-bold text-white shadow-conference-control transition-colors hover:bg-[#24467e] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue', className]}
+>
+  {labels[locale]}
+  <svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5h6v6m0-6-8 8m5 0v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h5" />
+  </svg>
+</a>
+
+<script>
+  const start = Date.parse('2026-11-14T00:00:00+08:00');
+  const end = Date.parse('2026-11-15T00:00:00+08:00');
+  let expiry: number | undefined;
+
+  // Check Hong Kong's Conference Day at runtime because these pages are static.
+  document.addEventListener('astro:page-load', () => {
+    window.clearTimeout(expiry);
+    const link = document.querySelector<HTMLAnchorElement>('[data-live-translation]');
+    if (link) {
+      const now = Date.now();
+      link.hidden = now < start || now >= end;
+      if (!link.hidden) {
+        expiry = window.setTimeout(() => { link.hidden = true; }, end - now);
+      }
+    }
+  });
+</script>
