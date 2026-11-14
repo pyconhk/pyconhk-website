@@ -17,6 +17,11 @@ const roles = [...new Set([
 const committeeRoles = new Set([copy.chairHeading, copy.coChairsHeading, copy.membersHeading]);
 ---
 <CommunityPageFrame locale={locale} title={copy.title} subtitle={copy.subtitle} intro={copy.intro}>
+  <section aria-labelledby="special-thanks" class="space-y-3 border-t-2 border-conference-outline/15 pt-8 text-center">
+    <h2 id="special-thanks" class="font-sans text-2xl font-black uppercase text-conference-ink sm:text-3xl">{copy.specialThanksHeading}</h2>
+    <p class="text-sm font-medium leading-relaxed text-conference-body sm:text-base">{copy.liveTranslationThanks}</p>
+    <a href="https://nugpu.com/live-translate/" class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{copy.liveTranslationLink}</a>
+  </section>
   {people.status !== 'published' ? <p data-content-pending>{contentUi[locale].comingSoon}</p> : (
     <div data-conference-content="people" class="space-y-12">
       <h2 class="border-t-2 border-conference-outline/15 pt-8 text-center font-sans text-2xl font-black uppercase text-conference-ink sm:text-3xl">{copy.committeeHeading}</h2>
