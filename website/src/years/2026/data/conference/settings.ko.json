@@ -635,7 +635,7 @@
         "role": "발표 제안 심사위원",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
         "url": "https://www.wrightccc.com/",
-        "additionalRoles": ["세션 진행자"]
+        "additionalRoles": ["사회자"]
       },
       {
         "id": "volunteer-jared",
@@ -989,6 +989,62 @@
         "url": ""
       },
       {
+        "id": "volunteer-clara-chan",
+        "name": "Clara Chan",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-louie",
+        "name": "Louie",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-taine-ho",
+        "name": "Taine Ho",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mark-leung",
+        "name": "Mark Leung",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-harry-li",
+        "name": "Harry Li",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kitson-cheung",
+        "name": "Kitson Cheung",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-james-chan-kiu-lap",
+        "name": "James Chan (Kiu Lap)",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ka-ka-leung",
+        "name": "Ka Ka Leung (Elka)",
+        "role": "현장 운영 자원봉사자",
+        "image": "",
+        "url": ""
+      },
+      {
         "id": "volunteer-charles-paul",
         "name": "Charles Paul",
         "role": "사회자",
@@ -998,7 +1054,7 @@
       {
         "id": "volunteer-mickey-wong",
         "name": "Mickey Wong",
-        "role": "사회자",
+        "role": "세션 진행자",
         "image": "",
         "url": ""
       },

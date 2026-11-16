@@ -2,7 +2,11 @@ import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 import { boothStampJourneyCopy } from './booth-stamp-journey';
 import { communityActivityCopy } from './community-activities';
-import { explorationCopy } from './exploration';
+import {
+  conferencePhotosLabel,
+  explorationCopy,
+  speakerSlidesUrl,
+} from './exploration';
 import { floorPlanCopy } from './floor-plans';
 import { lightningTalkCopy } from './lightning-talks';
 
@@ -73,6 +77,22 @@ export const headerNavigation: NavigationItem[] = [
           ko: '컨퍼런스 일정',
         },
         href: (locale) => `/2026/${locale}/schedule/`,
+      },
+      {
+        label: conferencePhotosLabel,
+        href: (locale) => `/2026/${locale}/exploration/#conference-resources`,
+      },
+      {
+        label: {
+          en: explorationCopy.en.speakerSlidesTitle,
+          'zh-hk': explorationCopy['zh-hk'].speakerSlidesTitle,
+          'zh-hant': explorationCopy['zh-hant'].speakerSlidesTitle,
+          'zh-hans': explorationCopy['zh-hans'].speakerSlidesTitle,
+          ja: explorationCopy.ja.speakerSlidesTitle,
+          ko: explorationCopy.ko.speakerSlidesTitle,
+        },
+        href: () => speakerSlidesUrl,
+        isExternal: true,
       },
       {
         label: {

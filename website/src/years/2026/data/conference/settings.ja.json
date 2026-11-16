@@ -639,7 +639,7 @@
         "role": "発表提案のレビュアー",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
         "url": "https://www.wrightccc.com/",
-        "additionalRoles": ["セッション司会"]
+        "additionalRoles": ["司会者"]
       },
       {
         "id": "volunteer-jared",
@@ -993,6 +993,62 @@
         "url": ""
       },
       {
+        "id": "volunteer-clara-chan",
+        "name": "Clara Chan",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-louie",
+        "name": "Louie",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-taine-ho",
+        "name": "Taine Ho",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mark-leung",
+        "name": "Mark Leung",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-harry-li",
+        "name": "Harry Li",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kitson-cheung",
+        "name": "Kitson Cheung",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-james-chan-kiu-lap",
+        "name": "James Chan (Kiu Lap)",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ka-ka-leung",
+        "name": "Ka Ka Leung (Elka)",
+        "role": "当日運営ボランティア",
+        "image": "",
+        "url": ""
+      },
+      {
         "id": "volunteer-charles-paul",
         "name": "Charles Paul",
         "role": "司会者",
@@ -1002,7 +1058,7 @@
       {
         "id": "volunteer-mickey-wong",
         "name": "Mickey Wong",
-        "role": "司会者",
+        "role": "セッション司会",
         "image": "",
         "url": ""
       },

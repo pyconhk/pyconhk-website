@@ -96,6 +96,7 @@ export default defineConfig({
           'bolt',
           'briefcase',
           'calendar-days',
+          'camera',
           'champagne-glasses',
           'code',
           'comments',

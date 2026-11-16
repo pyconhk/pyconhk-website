@@ -635,7 +635,7 @@
         "role": "Proposal Reviewers",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
         "url": "https://www.wrightccc.com/",
-        "additionalRoles": ["Session Hosts"]
+        "additionalRoles": ["MCs"]
       },
       {
         "id": "volunteer-jared",
@@ -989,6 +989,62 @@
         "url": ""
       },
       {
+        "id": "volunteer-clara-chan",
+        "name": "Clara Chan",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-louie",
+        "name": "Louie",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-taine-ho",
+        "name": "Taine Ho",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mark-leung",
+        "name": "Mark Leung",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-harry-li",
+        "name": "Harry Li",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kitson-cheung",
+        "name": "Kitson Cheung",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-james-chan-kiu-lap",
+        "name": "James Chan (Kiu Lap)",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ka-ka-leung",
+        "name": "Ka Ka Leung (Elka)",
+        "role": "On-site Volunteers",
+        "image": "",
+        "url": ""
+      },
+      {
         "id": "volunteer-charles-paul",
         "name": "Charles Paul",
         "role": "MCs",
@@ -998,7 +1054,7 @@
       {
         "id": "volunteer-mickey-wong",
         "name": "Mickey Wong",
-        "role": "MCs",
+        "role": "Session Hosts",
         "image": "",
         "url": ""
       },

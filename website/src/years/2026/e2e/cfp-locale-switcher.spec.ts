@@ -54,7 +54,7 @@ async function preferredLocaleCookie(context: BrowserContext) {
 }
 
 test.describe('2026 conference locale switcher', () => {
-  test('Conference Exploration uses localized labels and links to Speaker Slides', async ({
+  test('Conference resources link to the localized programme, slides and photo albums', async ({
     page,
   }) => {
     const copyByLocale = {
@@ -70,6 +70,16 @@ test.describe('2026 conference locale switcher', () => {
       const home = `/2026/${locale}/`;
       const exploration = `${home}exploration/`;
       await page.goto(home);
+      const resources = page.locator('[aria-labelledby="home-resources-title"]');
+      await expect(resources.locator(`a[href="${home}schedule/"]`)).toBeVisible();
+      await expect(
+        resources.locator(`a[href="${home}sponsorships/patrons/"]`)
+      ).toBeVisible();
+      await expect(resources.locator(`a[href="${home}volunteers/"]`)).toBeVisible();
+      await expect(resources.getByRole('link', { name: slidesTitle })).toHaveAttribute(
+        'href',
+        'https://drive.google.com/drive/folders/1zhlmPlFz52MlUrsJypr_G8H1DDd0XQdB'
+      );
       const quickLink = page.locator('[data-home-quick-links]');
       await expect(quickLink).toHaveText(title);
       const navLink = `a[href="${exploration}"]`;
@@ -77,8 +87,8 @@ test.describe('2026 conference locale switcher', () => {
       await expect(page.locator(`[data-mobile-nav-panel] ${navLink}`)).toHaveText(
         title
       );
-      await quickLink.click();
-      await expect(page).toHaveURL(exploration);
+      await resources.locator(`a[href="${exploration}#conference-resources"]`).click();
+      await expect(page).toHaveURL(`${exploration}#conference-resources`);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
       await expect(page).toHaveTitle(`${title} | PyCon HK 2026`);
       const slides = page.locator('[data-exploration-destination="speaker-slides"]');
@@ -88,6 +98,18 @@ test.describe('2026 conference locale switcher', () => {
       await expect(slides).toHaveAttribute(
         'href',
         'https://drive.google.com/drive/folders/1zhlmPlFz52MlUrsJypr_G8H1DDd0XQdB'
+      );
+      await expect(
+        page.locator('[data-exploration-destination="conference-day-photos"]')
+      ).toHaveAttribute(
+        'href',
+        'https://drive.google.com/drive/folders/1fQZVeDvbeCYsnBzJwiFlO_t_0Q9OJOB4'
+      );
+      await expect(
+        page.locator('[data-exploration-destination="sprint-day-photos"]')
+      ).toHaveAttribute(
+        'href',
+        'https://drive.google.com/drive/folders/1g92foubYq3uUiLlJSd_TWEwsd6UDU4Rg'
       );
     }
   });
