@@ -104,30 +104,44 @@ const albumLabels = {
   ja: 'アルバム',
   ko: '앨범',
 };
+const albumUrls = [
+  'https://drive.google.com/drive/folders/1fQZVeDvbeCYsnBzJwiFlO_t_0Q9OJOB4',
+  'https://drive.google.com/drive/folders/1g92foubYq3uUiLlJSd_TWEwsd6UDU4Rg',
+  'https://drive.google.com/drive/folders/1Y4tFYPZj2Ue0hvwmQjEenstGxQcomyZ-',
+];
 
 for (const [locale, label] of Object.entries(albumLabels)) {
-  test(`${locale} lists Album last in desktop and mobile navigation`, async ({
-    page,
-  }) => {
+  test(`${locale} opens the Album dropdown on desktop and mobile`, async ({ page }) => {
     await page.setViewportSize({ width: locale === 'ja' ? 1700 : 1440, height: 900 });
     await page.goto(`/2026/${locale}/`);
-    const destination = `/2026/${locale}/exploration/#conference-resources`;
     const nav = page.getByRole('navigation', { name: 'Main Navigation', exact: true });
-    const album = nav.locator(':scope > a').last();
-    await expect(album).toBeInViewport({ ratio: 1 });
-    await expect(album).toHaveText(label);
-    await expect(album).toHaveAttribute('href', destination);
-    expect(await nav.locator(`a[href="${destination}"]`).count()).toBe(1);
+    const album = nav.locator(':scope > :last-child');
+    const trigger = album.getByRole('button', { name: label, exact: true });
+    const panel = album.locator('[data-nav-dropdown-panel]');
+    await expect(trigger).toBeInViewport({ ratio: 1 });
+    await trigger.hover();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(panel).toBeInViewport({ ratio: 1 });
+    const desktopLinks = album.getByRole('link');
+    await expect(desktopLinks).toHaveCount(albumUrls.length);
+    for (const [index, url] of albumUrls.entries()) {
+      await expect(desktopLinks.nth(index)).toHaveAttribute('href', url);
+    }
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator('[data-mobile-nav-trigger]').click();
-    const mobileAlbum = page.locator('[data-mobile-nav-panel] > nav > a').last();
-    await expect(mobileAlbum).toHaveText(label);
-    await expect(mobileAlbum).toHaveAttribute('href', destination);
-    await mobileAlbum.click();
-    await expect(page).toHaveURL(destination);
-    await expect(page.locator('[data-mobile-nav-drawer]')).not.toBeVisible();
-    await expect(page.locator('#conference-resources-title')).toBeInViewport();
+    const mobileAlbum = page.locator(
+      '[data-mobile-nav-panel] > nav > details:last-child'
+    );
+    const summary = mobileAlbum.locator('summary');
+    await expect(summary).toHaveText(label);
+    await summary.click();
+    const mobileLinks = mobileAlbum.getByRole('link');
+    await expect(mobileLinks).toHaveCount(albumUrls.length);
+    for (const [index, url] of albumUrls.entries()) {
+      await expect(mobileLinks.nth(index)).toBeVisible();
+      await expect(mobileLinks.nth(index)).toHaveAttribute('href', url);
+    }
   });
 }
 
