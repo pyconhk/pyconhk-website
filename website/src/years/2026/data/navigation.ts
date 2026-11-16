@@ -2,11 +2,7 @@ import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 import { boothStampJourneyCopy } from './booth-stamp-journey';
 import { communityActivityCopy } from './community-activities';
-import {
-  conferencePhotosLabel,
-  explorationCopy,
-  speakerSlidesUrl,
-} from './exploration';
+import { explorationCopy, speakerSlidesUrl } from './exploration';
 import { floorPlanCopy } from './floor-plans';
 import { lightningTalkCopy } from './lightning-talks';
 
@@ -77,10 +73,6 @@ export const headerNavigation: NavigationItem[] = [
           ko: '컨퍼런스 일정',
         },
         href: (locale) => `/2026/${locale}/schedule/`,
-      },
-      {
-        label: conferencePhotosLabel,
-        href: (locale) => `/2026/${locale}/exploration/#conference-resources`,
       },
       {
         label: {
@@ -360,5 +352,17 @@ export const headerNavigation: NavigationItem[] = [
     },
     href: (_locale) => 'mailto:pycon@pycon.hk?cc=calvin@opensource.hk',
     isExternal: true,
+  },
+  {
+    kind: 'link',
+    label: {
+      en: 'Album',
+      'zh-hk': '相簿',
+      'zh-hant': '相簿',
+      'zh-hans': '相册',
+      ja: 'アルバム',
+      ko: '앨범',
+    },
+    href: (locale) => `/2026/${locale}/exploration/#conference-resources`,
   },
 ];
