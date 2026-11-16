@@ -123,6 +123,12 @@ test.describe('2026 conference locale switcher', () => {
         'href',
         'https://drive.google.com/drive/folders/1g92foubYq3uUiLlJSd_TWEwsd6UDU4Rg'
       );
+      await expect(
+        page.locator('[data-exploration-destination="speaker-dinner-photos"]')
+      ).toHaveAttribute(
+        'href',
+        'https://drive.google.com/drive/folders/1Y4tFYPZj2Ue0hvwmQjEenstGxQcomyZ-'
+      );
     }
   });
 

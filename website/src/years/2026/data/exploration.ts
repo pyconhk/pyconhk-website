@@ -2,10 +2,39 @@ import type { CfpLocale } from '@/years/2026/locales';
 
 export const speakerSlidesUrl =
   'https://drive.google.com/drive/folders/1zhlmPlFz52MlUrsJypr_G8H1DDd0XQdB';
-export const conferenceDayPhotosUrl =
-  'https://drive.google.com/drive/folders/1fQZVeDvbeCYsnBzJwiFlO_t_0Q9OJOB4';
-export const sprintDayPhotosUrl =
-  'https://drive.google.com/drive/folders/1g92foubYq3uUiLlJSd_TWEwsd6UDU4Rg';
+export const conferenceDayPhotos = {
+  url: 'https://drive.google.com/drive/folders/1fQZVeDvbeCYsnBzJwiFlO_t_0Q9OJOB4',
+  label: {
+    en: 'Conference Day photos',
+    'zh-hk': '大會日相簿',
+    'zh-hant': '大會日相簿',
+    'zh-hans': '大会日相册',
+    ja: 'カンファレンス当日の写真',
+    ko: '컨퍼런스 첫날 사진',
+  },
+};
+export const sprintDayPhotos = {
+  url: 'https://drive.google.com/drive/folders/1g92foubYq3uUiLlJSd_TWEwsd6UDU4Rg',
+  label: {
+    en: 'Sprint Day photos',
+    'zh-hk': 'Sprint Day 相簿',
+    'zh-hant': '衝刺開發日相簿',
+    'zh-hans': '冲刺开发日相册',
+    ja: 'スプリントデーの写真',
+    ko: '스프린트 데이 사진',
+  },
+};
+export const speakerDinnerPhotos = {
+  url: 'https://drive.google.com/drive/folders/1Y4tFYPZj2Ue0hvwmQjEenstGxQcomyZ-',
+  label: {
+    en: 'Speaker Dinner photos',
+    'zh-hk': '講者晚宴相簿',
+    'zh-hant': '講者晚宴相簿',
+    'zh-hans': '讲者晚宴相册',
+    ja: '登壇者ディナーの写真',
+    ko: '발표자 만찬 사진',
+  },
+};
 
 export const conferencePhotosLabel: Record<CfpLocale, string> = {
   en: 'Conference Photos',
@@ -21,6 +50,7 @@ export type ExplorationDestination =
   | 'speaker-slides'
   | 'conference-day-photos'
   | 'sprint-day-photos'
+  | 'speaker-dinner-photos'
   | 'floor-plans'
   | 'access-guide'
   | 'catering-guide'
@@ -37,8 +67,6 @@ type ExplorationCopy = {
   joinTitle: string;
   resourcesTitle: string;
   speakerSlidesTitle: string;
-  conferenceDayPhotosTitle: string;
-  sprintDayPhotosTitle: string;
   descriptions: Record<ExplorationDestination, string>;
 };
 
@@ -50,14 +78,13 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     joinTitle: 'Join in',
     resourcesTitle: 'Conference resources',
     speakerSlidesTitle: 'Speaker Slides',
-    conferenceDayPhotosTitle: 'Conference Day photos',
-    sprintDayPhotosTitle: 'Sprint Day photos',
     descriptions: {
       schedule:
         'Browse the talks, session times and rooms to plan your conference day.',
       'speaker-slides': 'Browse presentation slides shared by PyCon HK speakers.',
       'conference-day-photos': 'Photos from Saturday, 14 November.',
       'sprint-day-photos': 'Photos from Sunday, 15 November.',
+      'speaker-dinner-photos': 'Photos from the Speaker Dinner on Friday, 13 November.',
       'floor-plans': 'Find rooms and facilities on the ground floor and sixth floor.',
       'access-guide': 'Plan your journey with MTR, bus and taxi directions.',
       'catering-guide': 'Browse nearby dining options and food information.',
@@ -80,13 +107,12 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     joinTitle: '一齊參與',
     resourcesTitle: '會後資料',
     speakerSlidesTitle: '講者投影片',
-    conferenceDayPhotosTitle: '大會日相簿',
-    sprintDayPhotosTitle: 'Sprint Day 相簿',
     descriptions: {
       schedule: '睇演講、時段同課室，安排你嘅大會行程。',
       'speaker-slides': '睇吓 PyCon HK 講者分享嘅演講投影片。',
       'conference-day-photos': '11 月 14 日星期六嘅活動相片。',
       'sprint-day-photos': '11 月 15 日星期日嘅活動相片。',
+      'speaker-dinner-photos': '11 月 13 日星期五嘅講者晚宴相片。',
       'floor-plans': '睇地下同六樓平面圖，搵課室同會場設施。',
       'access-guide': '睇港鐵、巴士同的士交通資訊，計劃點樣嚟。',
       'catering-guide': '睇附近有咩食，同埋相關餐飲資訊。',
@@ -104,13 +130,12 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     joinTitle: '參與活動',
     resourcesTitle: '會後資源',
     speakerSlidesTitle: '講者投影片',
-    conferenceDayPhotosTitle: '大會日相簿',
-    sprintDayPhotosTitle: '衝刺開發日相簿',
     descriptions: {
       schedule: '瀏覽演講、時段及課室資訊，規劃您的大會行程。',
       'speaker-slides': '瀏覽 PyCon HK 講者分享的演講投影片。',
       'conference-day-photos': '11 月 14 日（星期六）的活動照片。',
       'sprint-day-photos': '11 月 15 日（星期日）的活動照片。',
+      'speaker-dinner-photos': '11 月 13 日（星期五）的講者晚宴照片。',
       'floor-plans': '查看地下及六樓平面圖，尋找課室與會場設施。',
       'access-guide': '查閱港鐵、巴士及的士交通資訊，規劃前往會場的路線。',
       'catering-guide': '瀏覽附近用餐選擇及餐飲資訊。',
@@ -129,13 +154,12 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     joinTitle: '参与活动',
     resourcesTitle: '会后资源',
     speakerSlidesTitle: '演讲幻灯片',
-    conferenceDayPhotosTitle: '大会日相册',
-    sprintDayPhotosTitle: '冲刺开发日相册',
     descriptions: {
       schedule: '浏览演讲、时段及教室信息，规划您的大会行程。',
       'speaker-slides': '浏览 PyCon HK 讲者分享的演讲幻灯片。',
       'conference-day-photos': '11 月 14 日（星期六）的活动照片。',
       'sprint-day-photos': '11 月 15 日（星期日）的活动照片。',
+      'speaker-dinner-photos': '11 月 13 日（星期五）的讲者晚宴照片。',
       'floor-plans': '查看地面层及六楼平面图，寻找教室与会场设施。',
       'access-guide': '查阅港铁、巴士及出租车交通信息，规划前往会场的路线。',
       'catering-guide': '浏览附近用餐选择及餐饮信息。',
@@ -154,13 +178,12 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     joinTitle: '参加しよう',
     resourcesTitle: 'カンファレンス資料',
     speakerSlidesTitle: '発表スライド',
-    conferenceDayPhotosTitle: 'カンファレンス当日の写真',
-    sprintDayPhotosTitle: 'スプリントデーの写真',
     descriptions: {
       schedule: 'トーク、時間、会場を確認して、当日の参加予定を立てましょう。',
       'speaker-slides': 'PyCon HK の登壇者が共有した発表スライドをご覧いただけます。',
       'conference-day-photos': '11月14日（土）のイベント写真です。',
       'sprint-day-photos': '11月15日（日）のイベント写真です。',
+      'speaker-dinner-photos': '11月13日（金）の登壇者ディナーの写真です。',
       'floor-plans': '地上階と6階のマップで教室や設備の場所を確認できます。',
       'access-guide': 'MTR、バス、タクシーでの会場への行き方をご案内します。',
       'catering-guide': '会場周辺の飲食店や食事に関する情報を確認できます。',
@@ -183,13 +206,12 @@ export const explorationCopy: Record<CfpLocale, ExplorationCopy> = {
     joinTitle: '함께 참여하기',
     resourcesTitle: '컨퍼런스 자료',
     speakerSlidesTitle: '발표 슬라이드',
-    conferenceDayPhotosTitle: '컨퍼런스 첫날 사진',
-    sprintDayPhotosTitle: '스프린트 데이 사진',
     descriptions: {
       schedule: '발표, 시간, 강의실을 확인하고 컨퍼런스 일정을 계획하세요.',
       'speaker-slides': 'PyCon HK 발표자들이 공유한 슬라이드를 확인하세요.',
       'conference-day-photos': '11월 14일 토요일 행사 사진입니다.',
       'sprint-day-photos': '11월 15일 일요일 행사 사진입니다.',
+      'speaker-dinner-photos': '11월 13일 금요일 발표자 만찬 사진입니다.',
       'floor-plans': '지상층과 6층 안내도에서 강의실과 시설의 위치를 확인하세요.',
       'access-guide': 'MTR, 버스, 택시로 행사장에 오는 방법을 확인하세요.',
       'catering-guide': '행사장 주변 식당과 식사 정보를 살펴보세요.',

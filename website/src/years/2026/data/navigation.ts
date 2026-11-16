@@ -2,7 +2,13 @@ import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 import { boothStampJourneyCopy } from './booth-stamp-journey';
 import { communityActivityCopy } from './community-activities';
-import { explorationCopy, speakerSlidesUrl } from './exploration';
+import {
+  conferenceDayPhotos,
+  explorationCopy,
+  speakerDinnerPhotos,
+  speakerSlidesUrl,
+  sprintDayPhotos,
+} from './exploration';
 import { floorPlanCopy } from './floor-plans';
 import { lightningTalkCopy } from './lightning-talks';
 
@@ -354,7 +360,7 @@ export const headerNavigation: NavigationItem[] = [
     isExternal: true,
   },
   {
-    kind: 'link',
+    kind: 'group',
     label: {
       en: 'Album',
       'zh-hk': '相簿',
@@ -363,6 +369,8 @@ export const headerNavigation: NavigationItem[] = [
       ja: 'アルバム',
       ko: '앨범',
     },
-    href: (locale) => `/2026/${locale}/exploration/#conference-resources`,
+    children: [conferenceDayPhotos, sprintDayPhotos, speakerDinnerPhotos].map(
+      ({ label, url }) => ({ label, href: () => url, isExternal: true })
+    ),
   },
 ];
