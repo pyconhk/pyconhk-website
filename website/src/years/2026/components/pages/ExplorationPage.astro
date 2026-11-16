@@ -43,7 +43,7 @@ const groups: { id: string; title: string; items: ExplorationDestination[] }[] =
       <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=PyCon%20HK%202026&amp;dates=20261114/20261116&amp;ctz=Asia%2FHong_Kong" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{t.hero.calendarCta}<span aria-hidden="true">↗</span></a>
     </div>
     {groups.map((group) => (
-      <section id={group.id} aria-labelledby={`${group.id}-title`} class="scroll-mt-24 space-y-4">
+      <section id={group.id} aria-labelledby={`${group.id}-title`} class="scroll-mt-32 space-y-4">
         <p id={`${group.id}-title`} class="text-xl font-black text-conference-ink">{group.title}</p>
         <ul class="grid gap-4 sm:grid-cols-2">
           {group.items.map((id) => (
