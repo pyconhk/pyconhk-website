@@ -96,6 +96,41 @@ test('desktop dropdown Escape closes the menu without reopening it on restored f
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
 });
 
+const albumLabels = {
+  en: 'Album',
+  'zh-hk': '相簿',
+  'zh-hant': '相簿',
+  'zh-hans': '相册',
+  ja: 'アルバム',
+  ko: '앨범',
+};
+
+for (const [locale, label] of Object.entries(albumLabels)) {
+  test(`${locale} lists Album last in desktop and mobile navigation`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: locale === 'ja' ? 1700 : 1440, height: 900 });
+    await page.goto(`/2026/${locale}/`);
+    const destination = `/2026/${locale}/exploration/#conference-resources`;
+    const nav = page.getByRole('navigation', { name: 'Main Navigation', exact: true });
+    const album = nav.locator(':scope > a').last();
+    await expect(album).toBeInViewport({ ratio: 1 });
+    await expect(album).toHaveText(label);
+    await expect(album).toHaveAttribute('href', destination);
+    expect(await nav.locator(`a[href="${destination}"]`).count()).toBe(1);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('[data-mobile-nav-trigger]').click();
+    const mobileAlbum = page.locator('[data-mobile-nav-panel] > nav > a').last();
+    await expect(mobileAlbum).toHaveText(label);
+    await expect(mobileAlbum).toHaveAttribute('href', destination);
+    await mobileAlbum.click();
+    await expect(page).toHaveURL(destination);
+    await expect(page.locator('[data-mobile-nav-drawer]')).not.toBeVisible();
+    await expect(page.locator('#conference-resources-title')).toBeInViewport();
+  });
+}
+
 for (const locale of ['ja', 'ko']) {
   test(`${locale} navigation and ticket controls stay within the viewport`, async ({
     page,
