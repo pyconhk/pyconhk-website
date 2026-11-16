@@ -64,6 +64,7 @@ for (const locale of locales) {
       'DHK dao',
       'Cheuk',
       '道版東尼',
+      'gisc',
     ]);
     const patronApplication = page.locator('[data-patron-application]');
     await expect(patronApplication).toBeVisible();

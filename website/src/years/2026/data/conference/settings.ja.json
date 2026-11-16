@@ -146,7 +146,8 @@
     "items": [
       { "id": "dhk-dao", "name": "DHK dao" },
       { "id": "cheuk", "name": "Cheuk" },
-      { "id": "dao-ban-tony", "name": "道版東尼" }
+      { "id": "dao-ban-tony", "name": "道版東尼" },
+      { "id": "gisc", "name": "gisc" }
     ]
   },
   "organizations": {
