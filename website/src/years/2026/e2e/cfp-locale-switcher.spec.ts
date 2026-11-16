@@ -57,6 +57,7 @@ test.describe('2026 conference locale switcher', () => {
   test('Conference resources link to the localized programme, slides and photo albums', async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
     const copyByLocale = {
       en: ['Conference Exploration', 'Speaker Slides'],
       'zh-hk': ['大會攻略', '講者投影片'],
@@ -89,6 +90,17 @@ test.describe('2026 conference locale switcher', () => {
       );
       await resources.locator(`a[href="${exploration}#conference-resources"]`).click();
       await expect(page).toHaveURL(`${exploration}#conference-resources`);
+      await expect
+        .poll(() =>
+          page.locator('#conference-resources-title').evaluate((heading) => {
+            const header = document.querySelector('[data-site-header]');
+            return (
+              heading.getBoundingClientRect().top -
+              (header?.getBoundingClientRect().bottom ?? 0)
+            );
+          })
+        )
+        .toBeGreaterThanOrEqual(0);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
       await expect(page).toHaveTitle(`${title} | PyCon HK 2026`);
       const slides = page.locator('[data-exploration-destination="speaker-slides"]');
