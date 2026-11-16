@@ -47,8 +47,8 @@ const stageHeadings = {
 };
 
 const stageNames = [
-  ['Amy Li', 'Charles Paul', 'Mickey Wong', 'Brian Sio'],
-  ['Mr. Scotty Kwok', 'Wright C', 'Ethan Lee', 'Henry, Wai Yin Wong'],
+  ['Amy Li', 'Charles Paul', 'Wright C', 'Brian Sio'],
+  ['Mr. Scotty Kwok', 'Mickey Wong', 'Ethan Lee', 'Henry, Wai Yin Wong'],
 ];
 
 const programmeNames = [
@@ -139,6 +139,14 @@ const onSiteNames = [
   'LUO ERJIE',
   'ZHANG Junning',
   'ZHANG Xuan',
+  'Clara Chan',
+  'Louie',
+  'Taine Ho',
+  'Mark Leung',
+  'Harry Li',
+  'Kitson Cheung',
+  'James Chan (Kiu Lap)',
+  'Ka Ka Leung (Elka)',
 ];
 
 const profiles = [
@@ -216,7 +224,7 @@ for (const locale of Object.keys(
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(`/2026/${locale}/volunteers/`);
     const roster = page.locator('[data-conference-content="people"]');
-    await expect(roster.locator('[data-person-card]')).toHaveCount(109);
+    await expect(roster.locator('[data-person-card]')).toHaveCount(117);
     const nameOnlyCards = roster.locator('[data-person-card][data-portrait="false"]');
     await expect(nameOnlyCards.locator('img')).toHaveCount(0);
     await expect(roster.locator('img[src*="placeholder"]')).toHaveCount(0);
@@ -224,7 +232,7 @@ for (const locale of Object.keys(
       has: page.getByRole('heading', { name: onSiteHeadings[locale], exact: true }),
     });
     await expect(onsite).toHaveCount(1);
-    await expect(onsite.locator('[data-person-card]')).toHaveCount(45);
+    await expect(onsite.locator('[data-person-card]')).toHaveCount(onSiteNames.length);
     expect(
       (await onsite.locator('[data-person-card] h4').allTextContents()).sort()
     ).toEqual([...onSiteNames].sort());
@@ -323,7 +331,7 @@ for (const locale of Object.keys(
         roster.getByRole('heading', { name, exact: true }).first()
       ).toBeVisible();
     }
-    for (const name of ['Clara Chan', 'Katrina', 'Magnus Law']) {
+    for (const name of ['Katrina', 'Magnus Law']) {
       await expect(roster.getByRole('heading', { name, exact: true })).toHaveCount(0);
     }
     expect(

@@ -192,6 +192,8 @@ const compactNavClass = locale === 'ja' ? 'min-[1700px]:hidden' : 'min-[1440px]:
                 <a
                   data-astro-prefetch="viewport"
                   href={child.href(locale)}
+                  target={child.isExternal ? '_blank' : undefined}
+                  rel={child.isExternal ? 'noopener noreferrer' : undefined}
                   class="block rounded-lg px-3 py-2 text-xs text-conference-body hover:bg-conference-surface hover:text-conference-red"
                   data-mobile-nav-link
                 >

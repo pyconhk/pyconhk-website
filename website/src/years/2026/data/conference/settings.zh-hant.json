@@ -146,7 +146,8 @@
     "items": [
       { "id": "dhk-dao", "name": "DHK dao" },
       { "id": "cheuk", "name": "Cheuk" },
-      { "id": "dao-ban-tony", "name": "道版東尼" }
+      { "id": "dao-ban-tony", "name": "道版東尼" },
+      { "id": "gisc", "name": "gisc" }
     ]
   },
   "organizations": {
@@ -635,7 +636,7 @@
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
         "url": "https://www.wrightccc.com/",
-        "additionalRoles": ["場次主持人"]
+        "additionalRoles": ["司儀"]
       },
       {
         "id": "volunteer-jared",
@@ -989,6 +990,62 @@
         "url": ""
       },
       {
+        "id": "volunteer-clara-chan",
+        "name": "Clara Chan",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-louie",
+        "name": "Louie",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-taine-ho",
+        "name": "Taine Ho",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-mark-leung",
+        "name": "Mark Leung",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-harry-li",
+        "name": "Harry Li",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-kitson-cheung",
+        "name": "Kitson Cheung",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-james-chan-kiu-lap",
+        "name": "James Chan (Kiu Lap)",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
+        "id": "volunteer-ka-ka-leung",
+        "name": "Ka Ka Leung (Elka)",
+        "role": "大會現場義工",
+        "image": "",
+        "url": ""
+      },
+      {
         "id": "volunteer-charles-paul",
         "name": "Charles Paul",
         "role": "司儀",
@@ -998,7 +1055,7 @@
       {
         "id": "volunteer-mickey-wong",
         "name": "Mickey Wong",
-        "role": "司儀",
+        "role": "場次主持人",
         "image": "",
         "url": ""
       },
