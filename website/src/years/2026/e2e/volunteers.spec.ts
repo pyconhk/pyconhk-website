@@ -194,11 +194,16 @@ for (const [locale, heading] of Object.entries(marketingHeadings)) {
           await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
           await expect(link).toHaveAttribute('title', label);
         }
-        const websiteLabel = profileLabels[locale][1].replace(
-          '{name}',
-          'Ms. Daisy Maris Fung'
-        );
-        const personalWebsite = page.getByRole('link', {
+        const daisyName = 'Ms. Daisy Maris Fung';
+        const daisyCard = page.locator('[data-person-card]').filter({
+          has: page.getByRole('heading', { name: daisyName, exact: true }),
+        });
+        const linkedinLabel = profileLabels[locale][0].replace('{name}', daisyName);
+        await expect(
+          daisyCard.getByRole('link', { name: linkedinLabel, exact: true })
+        ).toHaveAttribute('href', 'https://www.linkedin.com/in/daisymarisfung/');
+        const websiteLabel = profileLabels[locale][1].replace('{name}', daisyName);
+        const personalWebsite = daisyCard.getByRole('link', {
           name: websiteLabel,
           exact: true,
         });
@@ -244,6 +249,10 @@ for (const locale of Object.keys(
     expect(
       (await programme.locator('[data-person-card] h4').allTextContents()).sort()
     ).toEqual([...programmeNames].sort());
+    const harryProfileLabel = profileLabels[locale][0].replace('{name}', 'Harry Ho');
+    await expect(
+      programme.getByRole('link', { name: harryProfileLabel, exact: true })
+    ).toHaveAttribute('href', 'https://www.linkedin.com/in/harry-ho-484a3410b/');
     const reviewers = roster.locator('[data-volunteer-group]').filter({
       has: page.getByRole('heading', { name: reviewerHeadings[locale], exact: true }),
     });
