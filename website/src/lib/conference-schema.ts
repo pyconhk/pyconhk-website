@@ -184,6 +184,7 @@ export const conferenceContentSchema = z
                 additionalRoles: strings,
                 image,
                 url,
+                linkedinUrl: url,
               })
               .strict()
           )
@@ -409,6 +410,7 @@ function sharedSectionValues(
         ...[
           'id',
           'url',
+          'linkedinUrl',
           'logo',
           'image',
           'kind',

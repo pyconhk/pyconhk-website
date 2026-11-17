@@ -386,7 +386,7 @@
         "name": "Mr. Alex Au",
         "role": "大會副主席",
         "image": "/2026/organizers-volunteers/volunteers/alex-au-compressed.webp",
-        "url": "https://www.linkedin.com/in/alex-au-606901206/",
+        "url": "https://www.linkedin.com/in/alex-au-cloudeng/",
         "id": "people-2",
         "additionalRoles": ["議程團隊", "投稿審稿人"]
       },
@@ -394,6 +394,7 @@
         "name": "Ms. Daisy Maris Fung",
         "role": "大會副主席",
         "image": "/2026/organizers-volunteers/volunteers/daisy-maris-fung-compressed.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/daisymarisfung/",
         "url": "https://www.daisymarisfung.com/",
         "id": "people-3"
       },
@@ -409,6 +410,7 @@
         "name": "Ms. Cathy Hui",
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/cathy-hui.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/cathy-hui-24611b48/",
         "url": "",
         "id": "people-5"
       },
@@ -431,6 +433,7 @@
         "name": "Ms. Janny Leung",
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/janny-leung.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/jyleung/",
         "url": "",
         "id": "people-8"
       },
@@ -445,7 +448,7 @@
         "name": "Ms. Maya Yan",
         "role": "籌委會成員",
         "image": "/2026/organizers-volunteers/volunteers/maya-yan-compressed.webp",
-        "url": "https://www.linkedin.com/in/yantungmaya/",
+        "url": "https://www.linkedin.com/in/mayayt/",
         "id": "people-10"
       },
       {
@@ -505,6 +508,7 @@
         "id": "volunteer-harry-ho",
         "name": "Harry Ho",
         "image": "/2026/organizers-volunteers/volunteers/harry-ho.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/harry-ho-484a3410b/",
         "url": "",
         "role": "議程團隊",
         "additionalRoles": ["投稿審稿人"]
@@ -513,6 +517,7 @@
         "id": "volunteer-luciano-scarpulla",
         "name": "Luciano Scarpulla",
         "image": "/2026/organizers-volunteers/volunteers/luciano-scarpulla.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/luciano-scarpulla/",
         "url": "https://github.com/lucianosrp",
         "role": "議程團隊",
         "additionalRoles": ["投稿審稿人"]
@@ -522,6 +527,7 @@
         "name": "(James) Kanin Kearpimy",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/kanin-kearpimy.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/kanin-kearpimy-48a2b2165/",
         "url": ""
       },
       {
@@ -529,6 +535,7 @@
         "name": "Allen Wyma",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/allen-wyma.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/allenwyma/",
         "url": ""
       },
       {
@@ -536,6 +543,7 @@
         "name": "Amanda So",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/amanda-so.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/styamanda/",
         "url": ""
       },
       {
@@ -550,6 +558,7 @@
         "name": "Calpa",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/calpa.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/calpaliu/",
         "url": ""
       },
       {
@@ -564,6 +573,7 @@
         "name": "Claire Chung",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/claire-chung.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/claire-chung/",
         "url": ""
       },
       {
@@ -579,6 +589,7 @@
         "name": "Ho Wa Wong",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/ho-wa-wong.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/howawong/",
         "url": ""
       },
       {
@@ -586,6 +597,7 @@
         "name": "Ismail Sunni",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/ismail-sunni.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/ismailsunni/",
         "url": ""
       },
       {
@@ -600,6 +612,7 @@
         "name": "Kit Yeung",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/kit-yeung.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/ckyeungac/",
         "url": "https://ckyeungac.github.io/"
       },
       {
@@ -607,6 +620,7 @@
         "name": "Matthew Yuen",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/matthew-yuen.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/m4tty/",
         "url": ""
       },
       {
@@ -621,6 +635,7 @@
         "name": "Sammy Fung",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/sammy-fung.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/sammyfung/",
         "url": "https://sammy.hk"
       },
       {
@@ -635,6 +650,7 @@
         "name": "Wright C",
         "role": "投稿審稿人",
         "image": "/2026/organizers-volunteers/volunteers/wright-c.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/wright-c/",
         "url": "https://www.wrightccc.com/",
         "additionalRoles": ["司儀"]
       },
@@ -643,6 +659,7 @@
         "name": "Jared",
         "role": "設計團隊",
         "image": "/2026/organizers-volunteers/volunteers/jared-yeung.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/jychk/",
         "url": "https://jaredyeung.com"
       },
       {
@@ -882,6 +899,7 @@
         "name": "Cyrus Wong",
         "role": "大會現場義工",
         "image": "/2026/organizers-volunteers/volunteers/cyrus-wong.webp",
+        "linkedinUrl": "https://www.linkedin.com/in/cyruswong/",
         "url": ""
       },
       {
