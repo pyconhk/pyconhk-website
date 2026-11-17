@@ -1,0 +1,106 @@
+---
+import { sprintDayPhotos } from '@/years/2026/data/exploration';
+import type { CfpLocale } from '@/years/2026/locales';
+
+interface Props { locale: CfpLocale; }
+const { locale } = Astro.props;
+const copy = {
+  en: {
+    heading: 'Sprint Day outcomes',
+    slides: 'Sprint slides',
+    recap: 'Sprint recap slides',
+    pullRequests: 'Merged Sprint pull requests',
+    videoTagging: 'Video tagging with decision models',
+    annotationStudio: 'Annotation Studio source code',
+  },
+  'zh-hk': {
+    heading: 'Sprint Day 成果',
+    slides: 'Sprint 簡報',
+    recap: 'Sprint 回顧簡報',
+    pullRequests: '已合併嘅 Sprint PR',
+    videoTagging: '用決策模型標註影片',
+    annotationStudio: 'Annotation Studio 原始碼',
+  },
+  'zh-hant': {
+    heading: '衝刺開發日成果',
+    slides: '衝刺開發簡報',
+    recap: '衝刺開發回顧簡報',
+    pullRequests: '已合併的衝刺開發 PR',
+    videoTagging: '使用決策模型標註影片',
+    annotationStudio: 'Annotation Studio 原始碼',
+  },
+  'zh-hans': {
+    heading: '冲刺开发日成果',
+    slides: '冲刺开发幻灯片',
+    recap: '冲刺开发回顾幻灯片',
+    pullRequests: '已合并的冲刺开发 PR',
+    videoTagging: '使用决策模型标注视频',
+    annotationStudio: 'Annotation Studio 源代码',
+  },
+  ja: {
+    heading: 'スプリントデーの成果',
+    slides: 'スプリントのスライド',
+    recap: 'スプリントの振り返りスライド',
+    pullRequests: 'マージされたスプリントのプルリクエスト',
+    videoTagging: '意思決定モデルによる動画タグ付け',
+    annotationStudio: 'Annotation Studio のソースコード',
+  },
+  ko: {
+    heading: '스프린트 데이 성과',
+    slides: '스프린트 발표 자료',
+    recap: '스프린트 회고 발표 자료',
+    pullRequests: '병합된 스프린트 풀 리퀘스트',
+    videoTagging: '의사결정 모델을 활용한 동영상 태깅',
+    annotationStudio: 'Annotation Studio 소스 코드',
+  },
+}[locale];
+
+const projects = [
+  {
+    name: 'nsh-py',
+    links: [
+      { label: copy.slides, href: 'https://drive.google.com/file/d/1VNg6nnTYm7WSm5XWWA3hZLDqKuyYhmau/view' },
+      { label: copy.pullRequests, href: 'https://github.com/lucianosrp/nsh-py/pulls?q=is%3Apr+is%3Amerged+label%3Apycon-hk-26' },
+    ],
+  },
+  {
+    name: 'MiniMind',
+    links: [{ label: copy.slides, href: 'https://drive.google.com/file/d/1I9auW_lJHE9LMgpmeCDUNdNrYq1HugGy/view' }],
+  },
+  {
+    name: 'Django',
+    links: [{ label: copy.recap, href: 'https://docs.google.com/presentation/d/17z8ocS76H6CQkF7daQOVdXD3ytAfM3Hw/view' }],
+  },
+  {
+    name: copy.videoTagging,
+    links: [
+      { label: copy.slides, href: 'https://drive.google.com/file/d/1R_FulVe5KEfg1KlPfNcikqBosnEEBcAu/view' },
+      { label: copy.annotationStudio, href: 'https://github.com/dev1virtuoso/Event/commit/c20fe9dcd668375b5d96d294c182258067529851' },
+    ],
+  },
+];
+const linkClasses = 'inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue';
+---
+
+<section id="sprint-outcomes" aria-labelledby="sprint-outcomes-heading" class="scroll-mt-32 space-y-3">
+  <h2 id="sprint-outcomes-heading" class="text-xl font-bold text-conference-ink">{copy.heading}</h2>
+  <a href={sprintDayPhotos.url} target="_blank" rel="noopener noreferrer" class={linkClasses}>
+    {sprintDayPhotos.label[locale]} <span aria-hidden="true">↗</span>
+  </a>
+  <ul class="grid gap-4 sm:grid-cols-2">
+    {projects.map((project) => (
+      <li class="min-w-0 rounded-xl border border-conference-outline/50 bg-conference-paper p-4 sm:p-5">
+        <h3 class="font-bold text-conference-ink">{project.name}</h3>
+        <ul>
+          {project.links.map((link) => (
+            <li>
+              <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${project.name} · ${link.label}`} class={linkClasses}>
+                <span>{link.label}</span> <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</section>

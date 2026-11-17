@@ -15,6 +15,16 @@ const questionIds = [
   'project-list',
 ];
 
+const outcomeLinks = [
+  'https://drive.google.com/drive/folders/1g92foubYq3uUiLlJSd_TWEwsd6UDU4Rg',
+  'https://drive.google.com/file/d/1VNg6nnTYm7WSm5XWWA3hZLDqKuyYhmau/view',
+  'https://github.com/lucianosrp/nsh-py/pulls?q=is%3Apr+is%3Amerged+label%3Apycon-hk-26',
+  'https://drive.google.com/file/d/1I9auW_lJHE9LMgpmeCDUNdNrYq1HugGy/view',
+  'https://docs.google.com/presentation/d/17z8ocS76H6CQkF7daQOVdXD3ytAfM3Hw/view',
+  'https://drive.google.com/file/d/1R_FulVe5KEfg1KlPfNcikqBosnEEBcAu/view',
+  'https://github.com/dev1virtuoso/Event/commit/c20fe9dcd668375b5d96d294c182258067529851',
+];
+
 for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
   test(`Sprint introduction leads to usable local Q&A in ${locale}`, async ({
     page,
@@ -25,6 +35,19 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       expect(response?.status()).toBe(200);
       const sprint = page.locator('[data-conference-content="sprint"]');
       await expect(sprint).toBeVisible();
+      const outcomes = sprint.locator('#sprint-outcomes');
+      await expect(outcomes.getByRole('heading', { level: 2 })).toBeVisible();
+      await expect(outcomes.getByRole('heading', { level: 3 })).toHaveCount(4);
+      const links = outcomes.getByRole('link');
+      await expect(links).toHaveCount(outcomeLinks.length);
+      for (const [index, href] of outcomeLinks.entries()) {
+        await expect(links.nth(index)).toBeVisible();
+        await expect(links.nth(index)).toHaveAttribute('href', href);
+        await expect(links.nth(index)).toHaveAccessibleName(/\S/);
+      }
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+      ).toBe(true);
       await expect(sprint.locator('time[datetime="2026-11-15"]')).toBeVisible();
       const challenge = sprint.locator('#sprint-ticket-challenge');
       await expect(challenge.locator('time')).toHaveAttribute(
@@ -43,6 +66,7 @@ for (const locale of ['en', 'zh-hk', 'zh-hant', 'zh-hans', 'ja', 'ko']) {
       await qaLink.click();
       await expect(page).toHaveURL(new RegExp(`/2026/${locale}/sprint/qna/$`));
       const qa = page.locator('[data-conference-content="qa"]');
+      await expect(qa.locator('#sprint-outcomes')).toHaveCount(0);
       const questions = qa.locator('article[data-sprint-question]');
       await expect(questions).toHaveCount(12);
       expect(

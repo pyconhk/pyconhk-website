@@ -1,5 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { resolveLocalizedPostEntry } from '@/lib/news';
 import ContentPageFrame from '@/years/2026/components/content/ContentPageFrame.astro';
 import { type CommunityActivity, communityActivityCopy, communityActivityVenueCopy } from '@/years/2026/data/community-activities';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -8,6 +9,8 @@ interface Props { locale: CfpLocale; activity: CommunityActivity; }
 const { locale, activity } = Astro.props;
 const copy = communityActivityCopy[activity][locale];
 const venue = communityActivityVenueCopy[locale];
+const recapSlug = 'pycon-hk-2026-recap';
+const recap = await resolveLocalizedPostEntry(2026, recapSlug, locale);
 const relatedLinks = [
   { label: copy.scheduleLink, href: `/2026/${locale}/schedule/` },
   { label: copy.conductLink, href: `/2026/${locale}/code-of-conduct/` },
@@ -19,6 +22,7 @@ const List = copy.numbered ? 'ol' : 'ul';
   <div data-community-activity={activity} class="space-y-8 text-sm leading-relaxed text-conference-body sm:space-y-10 sm:text-base">
     <div class="mx-auto max-w-2xl space-y-5 text-center">
       <p class="text-base sm:text-lg">{copy.intro}</p>
+      {recap && <a href={`/2026/${locale}/news/${recapSlug}/`} class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-conference-blue">{recap.variant.title}<span aria-hidden="true">→</span></a>}
     </div>
 
     <div data-activity-location class="flex flex-col gap-4 rounded-xl border-2 border-conference-outline bg-conference-paper p-5 sm:flex-row sm:items-center sm:justify-between">
