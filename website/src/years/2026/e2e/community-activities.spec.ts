@@ -12,8 +12,11 @@ const titles = {
 for (const [locale, activityTitles] of Object.entries(titles)) {
   test(`Community activity guidance is available and fits mobile in ${locale}`, async ({
     page,
+    request,
   }) => {
     await page.setViewportSize({ width: 320, height: 900 });
+    const recapPath = `/2026/${locale}/news/pycon-hk-2026-recap/`;
+    const recap = await request.get(recapPath, { maxRedirects: 0 });
     for (const [index, activity] of ['job-board', 'pyshare'].entries()) {
       const response = await page.goto(`/2026/${locale}/${activity}/`);
       expect(response?.status()).toBe(200);
@@ -23,6 +26,13 @@ for (const [locale, activityTitles] of Object.entries(titles)) {
       );
       const content = page.locator(`[data-community-activity="${activity}"]`);
       await expect(content).toBeVisible();
+      const recapLink = content.locator(`a[href="${recapPath}"]`);
+      if (recap.ok()) {
+        await expect(recapLink).toBeVisible();
+        await expect(recapLink).toHaveAccessibleName(/\S/);
+      } else {
+        await expect(recapLink).toHaveCount(0);
+      }
       await expect(content.locator('[data-activity-day]')).toHaveCount(0);
       await expect(content.locator('[data-activity-location]')).toContainText('LW659');
       await expect(
