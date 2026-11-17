@@ -5,6 +5,9 @@ import JoinUsSection from '@/years/2026/components/home/JoinUsSection.astro';
 import NewsTeaser from '@/years/2026/components/home/NewsTeaser.astro';
 import SponsorsSection from '@/years/2026/components/home/SponsorsSection.astro';
 import SupportingOrganizationsSection from '@/years/2026/components/home/SupportingOrganizationsSection.astro';
+import { contentUi } from '@/years/2026/data/content-ui';
+import { conferencePhotosLabel, explorationCopy, speakerSlidesUrl } from '@/years/2026/data/exploration';
+import { pageCopyByLocale } from '@/years/2026/data/volunteers';
 import { getTranslations } from '@/years/2026/i18n';
 import ConferenceLayout from '@/years/2026/layouts/ConferenceLayout.astro';
 import type { CfpLocale } from '@/years/2026/locales';
@@ -15,6 +18,15 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getTranslations(locale);
+const resources = explorationCopy[locale];
+const yearRoot = `/2026/${locale}`;
+const resourceLinks = [
+  { label: t.schedule.heroTitle, href: `${yearRoot}/schedule/` },
+  { label: conferencePhotosLabel[locale], href: `${yearRoot}/exploration/#conference-resources` },
+  { label: resources.speakerSlidesTitle, href: speakerSlidesUrl, external: true },
+  { label: pageCopyByLocale[locale].title, href: `${yearRoot}/volunteers/` },
+  { label: contentUi[locale].titles.patrons, href: `${yearRoot}/sponsorships/patrons/` },
+];
 ---
 
 <ConferenceLayout
@@ -23,6 +35,20 @@ const t = getTranslations(locale);
   locale={locale}
 >
   <HomeHero locale={locale} />
+  <section aria-labelledby="home-resources-title" class="bg-conference-surface px-4 py-9 sm:px-6">
+    <div class="mx-auto max-w-6xl text-center">
+      <h2 id="home-resources-title" class="font-sans text-2xl font-black text-conference-ink sm:text-3xl">{resources.resourcesTitle}</h2>
+      <ul class="mt-4 flex flex-wrap justify-center gap-x-2 gap-y-1 sm:gap-x-4">
+        {resourceLinks.map(({ label, href, external }) => (
+          <li>
+            <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} class="inline-flex min-h-11 items-center gap-2 rounded-lg px-3 font-bold text-conference-blue underline underline-offset-4 hover:bg-conference-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-blue">
+              {label}{external && <span aria-hidden="true">↗</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
   <NewsTeaser locale={locale} />
   <SponsorsSection locale={locale} />
   <FeaturedSpeakers locale={locale} />

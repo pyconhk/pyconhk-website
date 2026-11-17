@@ -1,4 +1,5 @@
 ---
+import { conferencePhotosLabel, explorationCopy, speakerSlidesUrl } from '../../data/exploration';
 import { allScheduleItems, formatProgrammeDate, isSampleProgramme, programmeSnapshot, roomColumns } from '../../data/schedule';
 import { scheduleCopy, sessionLanguageLabel } from '../../data/schedule-copy';
 import { sessionProfiles } from '../../data/speakers';
@@ -32,7 +33,11 @@ const payload = JSON.stringify({ sessions: allScheduleItems, event: programmeSna
     <div>
       <div class="programme-intro">
       <h1 class="text-center text-3xl font-black tracking-tight text-conference-ink sm:text-5xl">{t.schedule.heroTitle}</h1>
-      <div class="text-center"><LiveTranslationButton locale={locale} className="mt-5" /></div>
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <LiveTranslationButton locale={locale} />
+        <a href={`/2026/${locale}/exploration/#conference-resources`} class="inline-flex min-h-11 items-center font-bold text-conference-blue underline underline-offset-4">{conferencePhotosLabel[locale]}</a>
+        <a href={speakerSlidesUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 font-bold text-conference-blue underline underline-offset-4">{explorationCopy[locale].speakerSlidesTitle}<span aria-hidden="true">↗</span></a>
+      </div>
       {isSampleProgramme && <p class="mt-5 rounded-2xl border-2 border-amber-600 bg-amber-50 p-4 font-bold text-amber-950" data-sample-notice>{copy.sample}</p>}
       </div>
       {programmeSnapshot.status === 'unpublished' ? <p class="mt-8 rounded-2xl border-2 border-conference-outline bg-conference-surface p-8 text-lg" data-programme-coming-soon>{copy.comingSoon}</p> : <>

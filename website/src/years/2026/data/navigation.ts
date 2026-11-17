@@ -2,7 +2,13 @@ import { getChineseTerms } from '@/years/2026/i18n/chinese-terms';
 import type { CfpLocale } from '@/years/2026/locales';
 import { boothStampJourneyCopy } from './booth-stamp-journey';
 import { communityActivityCopy } from './community-activities';
-import { explorationCopy } from './exploration';
+import {
+  conferenceDayPhotos,
+  explorationCopy,
+  speakerDinnerPhotos,
+  speakerSlidesUrl,
+  sprintDayPhotos,
+} from './exploration';
 import { floorPlanCopy } from './floor-plans';
 import { lightningTalkCopy } from './lightning-talks';
 
@@ -73,6 +79,18 @@ export const headerNavigation: NavigationItem[] = [
           ko: '컨퍼런스 일정',
         },
         href: (locale) => `/2026/${locale}/schedule/`,
+      },
+      {
+        label: {
+          en: explorationCopy.en.speakerSlidesTitle,
+          'zh-hk': explorationCopy['zh-hk'].speakerSlidesTitle,
+          'zh-hant': explorationCopy['zh-hant'].speakerSlidesTitle,
+          'zh-hans': explorationCopy['zh-hans'].speakerSlidesTitle,
+          ja: explorationCopy.ja.speakerSlidesTitle,
+          ko: explorationCopy.ko.speakerSlidesTitle,
+        },
+        href: () => speakerSlidesUrl,
+        isExternal: true,
       },
       {
         label: {
@@ -340,5 +358,19 @@ export const headerNavigation: NavigationItem[] = [
     },
     href: (_locale) => 'mailto:pycon@pycon.hk?cc=calvin@opensource.hk',
     isExternal: true,
+  },
+  {
+    kind: 'group',
+    label: {
+      en: 'Album',
+      'zh-hk': '相簿',
+      'zh-hant': '相簿',
+      'zh-hans': '相册',
+      ja: 'アルバム',
+      ko: '앨범',
+    },
+    children: [conferenceDayPhotos, sprintDayPhotos, speakerDinnerPhotos].map(
+      ({ label, url }) => ({ label, href: () => url, isExternal: true })
+    ),
   },
 ];
